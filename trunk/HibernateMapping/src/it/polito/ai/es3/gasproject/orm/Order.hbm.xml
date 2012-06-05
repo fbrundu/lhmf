@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 5-giu-2012 16.52.00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="it.polito.ai.es3.gasproject.orm.Order" table="order" catalog="malnati_project">
+        <id name="idOrder" type="int">
+            <column name="idOrder" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="supplier" class="it.polito.ai.es3.gasproject.orm.Supplier" fetch="select">
+            <column name="idMember_supplier" not-null="true" />
+        </many-to-one>
+        <many-to-one name="member" class="it.polito.ai.es3.gasproject.orm.Member" fetch="select">
+            <column name="idMember_resp" not-null="true" />
+        </many-to-one>
+        <property name="dateOpen" type="date">
+            <column name="date_open" length="10" not-null="true" />
+        </property>
+        <property name="dateClose" type="date">
+            <column name="date_close" length="10" not-null="true" />
+        </property>
+        <property name="dateDelivery" type="date">
+            <column name="date_delivery" length="10" />
+        </property>
+        <set name="purchases" table="purchase" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idOrder" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Purchase" />
+        </set>
+        <set name="products" table="order_product" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="idOrder" not-null="true" />
+            </key>
+            <many-to-many entity-name="it.polito.ai.es3.gasproject.orm.Product">
+                <column name="idProduct" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

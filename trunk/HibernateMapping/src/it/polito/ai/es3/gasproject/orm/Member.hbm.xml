@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 5-giu-2012 16.52.00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="it.polito.ai.es3.gasproject.orm.Member" table="member" catalog="malnati_project">
+        <id name="idMember" type="java.lang.Integer">
+            <column name="idMember" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="memberType" class="it.polito.ai.es3.gasproject.orm.MemberType" fetch="select">
+            <column name="member_type" not-null="true" />
+        </many-to-one>
+        <many-to-one name="memberStatus" class="it.polito.ai.es3.gasproject.orm.MemberStatus" fetch="select">
+            <column name="status" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" />
+        </property>
+        <property name="surname" type="string">
+            <column name="surname" length="45" not-null="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="username" length="45" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="32" not-null="true" />
+        </property>
+        <property name="regCode" type="string">
+            <column name="reg_code" length="64" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="45" not-null="true" />
+        </property>
+        <property name="city" type="string">
+            <column name="city" length="45" not-null="true" />
+        </property>
+        <property name="state" type="string">
+            <column name="state" length="45" not-null="true" />
+        </property>
+        <property name="cap" type="int">
+            <column name="cap" not-null="true" />
+        </property>
+        <property name="tel" type="string">
+            <column name="tel" length="45" />
+        </property>
+        <set name="messagesForIdReceiver" table="message" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_receiver" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Message" />
+        </set>
+        <set name="messagesForIdSender" table="message" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="id_sender" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Message" />
+        </set>
+        <set name="suppliers" table="supplier" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMember_resp" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Supplier" />
+        </set>
+        <set name="notifies" table="notify" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMember" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Notify" />
+        </set>
+        <set name="logs" table="log" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMember" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Log" />
+        </set>
+        <set name="orders" table="order" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMember_resp" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Order" />
+        </set>
+        <set name="purchases" table="purchase" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMember" not-null="true" />
+            </key>
+            <one-to-many class="it.polito.ai.es3.gasproject.orm.Purchase" />
+        </set>
+    </class>
+</hibernate-mapping>
