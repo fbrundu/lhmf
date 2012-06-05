@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 5-giu-2012 16.52.00 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="it.polito.ai.es3.gasproject.orm.Log" table="log" catalog="malnati_project">
+        <id name="idLog" type="java.lang.Integer">
+            <column name="idLog" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="member" class="it.polito.ai.es3.gasproject.orm.Member" fetch="select">
+            <column name="idMember" not-null="true" />
+        </many-to-one>
+        <property name="logtext" type="string">
+            <column name="logtext" length="300" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
