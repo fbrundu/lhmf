@@ -23,19 +23,16 @@ public class IndexController
 			int member_type = (int) session.getAttribute("member_type");
 			switch(member_type) {
 				case 0:
-					return new ModelAndView("user_normal");
+					return new ModelAndView("index_normal");
 				case 1:
-					return new ModelAndView("user_resp");
+					return new ModelAndView("index_resp");
 				case 2:
-					return new ModelAndView("user_supplier");
+					return new ModelAndView("index_supplier");
 				case 3:
-					return new ModelAndView("user_admin");
+					return new ModelAndView("index_admin");
 				default:
 					return new ModelAndView("error");
-			
 			}
 		}
-			
-			
 	}
 }
