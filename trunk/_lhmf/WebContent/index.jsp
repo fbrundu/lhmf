@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+  <a href="./hello">Hello Spring Test</a>
 </body>
 </html>
