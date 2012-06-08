@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="malnati_project" match-name="log"/>
+  <table-filter match-catalog="malnati_project" match-name="member"/>
+  <table-filter match-catalog="malnati_project" match-name="member_status"/>
+  <table-filter match-catalog="malnati_project" match-name="member_type"/>
+  <table-filter match-catalog="malnati_project" match-name="message"/>
+  <table-filter match-catalog="malnati_project" match-name="notify"/>
+  <table-filter match-catalog="malnati_project" match-name="order"/>
+  <table-filter match-catalog="malnati_project" match-name="order_product"/>
+  <table-filter match-catalog="malnati_project" match-name="product"/>
+  <table-filter match-catalog="malnati_project" match-name="product_category"/>
+  <table-filter match-catalog="malnati_project" match-name="purchase"/>
+  <table-filter match-catalog="malnati_project" match-name="purchase_product"/>
+  <table-filter match-catalog="malnati_project" match-name="supplier"/>
+</hibernate-reverse-engineering>
