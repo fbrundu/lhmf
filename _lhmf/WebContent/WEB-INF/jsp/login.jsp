@@ -4,12 +4,12 @@
 
 <t:index>
     <jsp:attribute name="header">
-      <h1>Welcome to the login page</h1>
+      <h1>Title example (login)</h1>
     </jsp:attribute>
     <jsp:attribute name="footer">
-      <p id="copyright">Copyright 1927, Future Bits When There Be Bits Inc.</p>
+      <p id="copyright">Footer example</p>
     </jsp:attribute>
     <jsp:body>
-        <p>Please login</p>
+        <p>Body example</p>
     </jsp:body>
 </t:index>
