@@ -1,6 +1,6 @@
-package it.polito.ai.gasproject.orm;
+package it.polito.ai.lhmf.orm;
 
-// Generated 7-giu-2012 22.56.48 by Hibernate Tools 3.4.0.CR1
+// Generated 8-giu-2012 18.52.32 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
