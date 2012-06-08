@@ -1,0 +1,30 @@
+Applicazioni Internet - Gas
+
+# STATUS UTENTE
+
+Registrato con mail non attivata
+Registrato con mail attivata ma non approvato
+Registrato approvato
+ 
+# TASK
+ 
+Matteo: 
+  - login(login.jsp)
+  - registrazione (sempre in login.jsp?)
+  - template (index.tag)
+Hassan: 
+  - utente normale (index_normal.jsp) :
+    {Crea nuova scheda, Visualizza schede passate, Visualizza schede attive}
+  - responsabile (index_resp.jsp) : 
+    {Crea nuovo ordine, Visualizza ordini passati, Visualizza ordini attivi}
+Luca: 
+  - utente amministratore (index_admin.jsp)
+    {Creazione utenti, Approvazione utenti, Eliminazione utenti, 
+    Visualizzazione log}
+Francesco: 
+  - utente fornitore (index_supplier.jsp)
+    {Crea o modifica listino, Visualizza prodotti}
+
+# TODO
+
++ redirect verso login.jsp se non loggato (IndexController.java)
