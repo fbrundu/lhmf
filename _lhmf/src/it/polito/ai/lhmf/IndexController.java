@@ -12,7 +12,9 @@ public class IndexController
 	public ModelAndView helloSpring(Model model)
 	{
 		// TODO : test if user is logged in, otherwise
-		// redirect to login
+		// redirect to login; if user is logged in test role
+		// and return its view (i.e. for role "supplier" return
+		// ModelAndView("supplier")
 		return new ModelAndView("index");
 	}
 }
