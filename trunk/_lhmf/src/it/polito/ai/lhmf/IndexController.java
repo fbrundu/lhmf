@@ -17,9 +17,25 @@ public class IndexController
 		// redirect to login; if user is logged in test role
 		// and return its view (i.e. for role "supplier" return
 		// ModelAndView("supplier")
-		if (session.getAttribute("username") != null)
-			return new ModelAndView("index");
-		else
+		if (session.getAttribute("member_type") == null)
 			return new ModelAndView("login");
+		else {
+			int member_type = (int) session.getAttribute("member_type");
+			switch(member_type) {
+				case 0:
+					return new ModelAndView("user_normal");
+				case 1:
+					return new ModelAndView("user_resp");
+				case 2:
+					return new ModelAndView("user_supplier");
+				case 3:
+					return new ModelAndView("user_admin");
+				default:
+					return new ModelAndView("error");
+			
+			}
+		}
+			
+			
 	}
 }
