@@ -11,6 +11,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PurchaseProductId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idPurchase;
 	private int idProduct;
 

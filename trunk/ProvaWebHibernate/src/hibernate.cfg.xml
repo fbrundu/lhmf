@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+ <session-factory>
+  <property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost/malnati_project</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.default_schema">malnati_project</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+  <property name="hibernate.show_sql">true</property>
+  <mapping class="it.polito.ai.lhmf.orm.MemberStatus"/>
+  <mapping class="it.polito.ai.lhmf.orm.Member"/>
+  <mapping class="it.polito.ai.lhmf.orm.MemberType"/>
+  <mapping class="it.polito.ai.lhmf.orm.Message"/>
+  <mapping class="it.polito.ai.lhmf.orm.Notify"/>
+  <mapping class="it.polito.ai.lhmf.orm.Order"/>
+  <mapping class="it.polito.ai.lhmf.orm.Product"/>
+  <mapping class="it.polito.ai.lhmf.orm.ProductCategory"/>
+  <mapping class="it.polito.ai.lhmf.orm.Purchase"/>
+  <mapping class="it.polito.ai.lhmf.orm.PurchaseProduct"/>
+  <mapping class="it.polito.ai.lhmf.orm.PurchaseProductId"/>
+  <mapping class="it.polito.ai.lhmf.orm.Supplier"/>
+  <mapping class="it.polito.ai.lhmf.orm.Log"/>
+ </session-factory>
+</hibernate-configuration>
