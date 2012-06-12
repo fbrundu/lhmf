@@ -1,0 +1,58 @@
+/*************************************************************/
+/*   Design:   Multiflex-3 Update-2 / Layout-2               */
+/*   File:     Global layout structure                       */
+/*-----------------------------------------------------------*/
+/*   Author:   G. Wolfgang                                   */
+/*   Date:     November 29, 2006                             */
+/*   Homepage: wwww.1-2-3-4.info                             */
+/*-----------------------------------------------------------*/
+/*   License:  Fully open source without restrictions.       */
+/*             Please keep footer credits with a link to     */
+/*             G. Wolfgang (www.1-2-3-4.info). Thank you!    */
+/*************************************************************/
+
+/************/
+/*  GLOBAL  */
+/************/
+
+*{padding:0; margin:0;}
+ body {font-size:70%; background-color:rgb(255,255,255); font-family:verdana,arial,sans-serif;} /*Font-size: 1.0em = 10px when browser default size is 16px*/
+.contenitore-pagina {width:900px; margin:0px auto; margin-top:10px; margin-bottom:10px; border:solid 1px rgb(150,150,150); font-size:1.0em;}
+.main {clear:both; width:900px; padding-bottom:30px; background:transparent url(../img/bg_main_withnav.jpg) top left repeat-y;}
+.navigazione {display:inline /*inline con contenuto*/; float:left; width:200px; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
+.contenuto {display:inline; /*inline con navigazione*/; float:left; width:640px; margin:0 0 0 30px; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
+.footer {clear:both; width:900px; height:3.7em; padding:1.1em 0 0; background:rgb(225,225,225) url(../img/bg_foot.jpg) no-repeat; font-size:1.0em; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
+
+/* HEADER */
+.header {width:900px; font-family:"trebuchet ms",arial,sans-serif;}
+.header-middle {width:900px; height:150px; background:rgb(230,230,230) url(../img/bg_head_polito.jpg); overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
+.header-percorso {clear:both; width:900px; padding:1.0em 0 1.5em 0; background:rgb(100,100,100) url(../img/bg_head_breadcrumbs.jpg) repeat-y;}
+
+.header-percorso ul {float:left; width:560px; list-style:none; padding:0 0 0 15px; font-family:verdana,arial,sans-serif;}
+.header-percorso ul li {display:inline; padding:0 0 0 10px; background:transparent url(../img/bg_bullet_arrow.gif) no-repeat 0 50%; font-weight:bold; color:rgb(125,125,125); font-size:100%;}
+.header-percorso ul a {color:rgb(70,122,167); text-decoration:none;}
+.header-percorso ul a:hover {color:rgb(42,90,138); text-decoration:underline;}
+
+/******************/
+/*  MAIN SECTION  */
+/******************/
+
+/* MAIN NAVIGATION */
+.navigazione .round-border-topright {width:10px; height:10px; position:absolute; z-index:100; margin:0 0 0 190px; background:url(../img/bg_corner_topright.gif) no-repeat;}
+
+/* MAIN CONTENT */
+.centrale {width:640px; margin-bottom:10px !important /*Non-IE6*/; margin-bottom:5px /*IE6*/;}
+
+/********************/
+/*  FOOTER SECTION  */
+/********************/
+.footer p {line-height:1.3em; text-align:center; color:rgb(125,125,125); font-weight:bold; font-size:110%;}
+.footer p.credits {font-weight:normal;}
+.footer a {text-decoration:underline; color:rgb(125,125,125);}
+.footer a:hover {text-decoration:none; color:rgb(0,0,0);}
+.footer a:visited {color:rgb(0,0,0);}
+
+/******************/
+/*  CLEAR FLOATS  */
+/******************/
+.contenitore-pagina:after, .header:after, .header-percorso:after, .main:after, .navigazione:after, .contenuto:after {content:"."; display:block; height:0; clear:both; visibility:hidden;}
