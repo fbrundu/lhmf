@@ -3,7 +3,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
 <t:index>
-	<jsp:attribute name="header">
+	<jsp:attribute name="userMenu">
       <p id="copyright">Menu Utente</p>
     </jsp:attribute>
 	<jsp:attribute name="bodyTitle">

@@ -9,9 +9,9 @@ Registrato approvato
 # TASK
  
 Matteo: 
-  - login(login.jsp)
-  - registrazione (sempre in login.jsp?)
-  - template (index.tag)
+  - login (login.jsp)
+  - registrazione (register.jsp - RegisterController.java)
+  - template + javascript (index.tag)
 Hassan: 
   - utente normale (index_normal.jsp) :
     {Crea nuova scheda, Visualizza schede passate, Visualizza schede attive}
@@ -23,9 +23,9 @@ Luca:
     Visualizzazione log}
 Francesco: 
   - utente fornitore (index_supplier.jsp)
-    {Crea o modifica listino, Visualizza prodotti}
+    {Crea o modifica listino, Crea, Visualizza, Modifica, Elimina prodotti}
 
 # TODO
 
 + redirect verso login.jsp se non loggato (IndexController.java)
-+ (loginFormSubmitted.java)
+- (loginFormSubmitted.java)
