@@ -20,8 +20,9 @@ public class LoginFormSubmittedController {
 		// and return its view (i.e. for role "supplier" return
 		// ModelAndView("supplier")
 		
-		if(username == "" || username == null || password == "" || password == null)
+		if(username.equals("") || password.equals(""))
 		{
+			
 			return new ModelAndView("error");
 		}
 		
