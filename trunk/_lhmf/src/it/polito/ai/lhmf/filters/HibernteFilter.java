@@ -53,7 +53,8 @@ public class HibernteFilter implements Filter {
 	    		tx.rollback();
 	    	throw new ServletException(ex);
 	    } finally {
-	    	hibernateSession.close();
+	    	if(hibernateSession != null && hibernateSession.isOpen())
+	    		hibernateSession.close();
 	    }
 
 	}
