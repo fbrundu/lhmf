@@ -4,7 +4,7 @@
 
 <t:index>
     <jsp:attribute name="header">
-      <h1>Title example</h1>
+      <h1>Supplier dashboard</h1>
     </jsp:attribute>
     <jsp:attribute name="footer">
       <p>Footer example</p>
