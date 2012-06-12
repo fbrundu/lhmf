@@ -20,7 +20,7 @@ public class IndexController
 		if (session.getAttribute("member_type") == null)
 			return new ModelAndView("login");
 		else {
-			int member_type = (int) session.getAttribute("member_type");
+			int member_type = (Integer) session.getAttribute("member_type");
 			switch(member_type) {
 				case 0:
 					return new ModelAndView("index_normal");
