@@ -1,0 +1,72 @@
+/*************************************************************/
+/*   Design:   Multiflex-3 Update-2 / Layout-2               */
+/*   File:     Text formats                                  */
+/*-----------------------------------------------------------*/
+/*   Author:   G. Wolfgang                                   */
+/*   Date:     November 29, 2006                             */
+/*   Homepage: wwww.1-2-3-4.info                             */
+/*-----------------------------------------------------------*/
+/*   License:  Fully open source without restrictions.       */
+/*             Please keep footer credits with a link to     */
+/*             G. Wolfgang (www.1-2-3-4.info). Thank you!    */
+/*************************************************************/
+
+/******************/
+/*  MAIN SECTION  */
+/******************/
+
+/* MAIN NAVIGATION */
+.menu-navigazione {width:199px; border-bottom:solid 1px rgb(200,200,200);}
+.menu-navigazione dt a, .menu-navigazione dt a:visited {display:block; min-height:2.0em /*Non-IE6*/; height:auto; line-height:2.0em; padding:0px 10px 0px 20px;  border-top: solid 1px rgb(200,200,200); text-decoration:none; color:rgb(70,122,167); font-weight:bold; font-size:120%;}
+.menu-navigazione dd a, .menu-navigazione dd a:visited {display:block; min-height:1.7em /*Non-IE6*/; height:auto; line-height:1.7em; padding:0px 10px 0px 40px; border:none; font-weight:normal; text-decoration:none; color:rgb(70,122,167); font-size:120%;}
+.menu-navigazione dt a:hover, .menu-navigazione dd a:hover {background-color:rgb(225,225,225); color:rgb(42,90,138); text-decoration:none;}
+
+.navigazione .loginform {width:160px; margin:-10px 20px 0 20px;}
+.navigazione .loginform p {clear:both; margin:0; padding:0;}
+.navigazione .loginform fieldset {width:160px; border:none;}
+.navigazione .loginform label.top {float:left; width:125px; margin:0 0 2px 0; font-size:110%;}
+.navigazione .loginform input.field {width:158px; margin:0 0 5px 0; padding:0.1em 0 0.2em 0; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%;}
+.navigazione .loginform input.button {float:left; width:5.0em; margin:10px 0 5px 0; padding:1px; background:rgb(230,230,230); border:solid 1px rgb(150,150,150); text-align:center; font-family:verdana,arial,sans-serif; color:rgb(150,150,150); font-size:110%;}
+.navigazione .loginform input.button:hover {cursor:pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+
+.navigazione h1.first {clear:both; margin:0px; padding:4px 20px 3px 20px; background-color:rgb(190,190,190); font-family:"trebuchet ms",arial,sans-serif; color:rgb(255,255,255); font-weight:bold; font-size:150%;}
+.navigazione h1 {clear:both; margin:30px 0 20px 0; padding:4px 20px 3px 20px; background:rgb(190,190,190); font-family:"trebuchet ms",arial,sans-serif; color:rgb(255,255,255); font-weight:bold; font-size:150%;}
+
+.navigazione p {clear:both; margin:0 10px 10px 20px; color:rgb(80,80,80); line-height:1.3em; font-size:110%;}
+.navigazione p.center {text-align:center;}
+.navigazione p.right {text-align:right;}
+
+
+/* MAIN CONTENT */
+.contenuto h1.titolo {margin:0 0 0.4em 0; padding:0 0 2px 0; border-bottom:solid 7px rgb(225,225,225); font-family:"trebuchet ms",arial,sans-serif; color:rgb(100,100,100); font-weight:bold; font-size:220%;}
+.contenuto h1.block {clear:both; margin:1.0em 0 0em 0; padding:2px 0 2px 2px; background:rgb(190,190,190); font-family:"trebuchet ms",arial,sans-serif; color:rgb(255,255,255); font-weight:bold; font-size:220%;}
+.contenuto h1 {clear:both; margin:1.0em 0 0.5em 0; font-family:"trebuchet ms",arial,sans-serif; color:rgb(80,80,80); font-weight:normal; font-size:210%;}
+.contenuto p {margin:0 0 1.0em 0; line-height:1.5em; font-size:120%;}
+.contenuto p.center {text-align:center;}
+.contenuto p.right {text-align:right;}
+
+.contenuto table {clear:both; width:600px; margin:2.0em 0 0.2em 20px; table-layout: fixed; border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
+.contenuto table th.top {height:3.5em; padding:0 7px 0 7px; empty-cells:show; background-color:rgb(175,175,175); text-align:left; color:rgb(255,255,255); font-weight:bold; font-size:110%;}
+.contenuto table th {height:3.0em; padding:2px 20px 2px 7px; border-left:solid 2px rgb(255,255,255); border-right:solid 2px rgb(255,255,255); border-top:solid 2px rgb(255,255,255); border-bottom:solid 2px rgb(255,255,255); background-color:rgb(225,225,225); text-align:left; color:rgb(80,80,80); font-weight:bold; font-size:110%;}
+.contenuto table td {height:3.0em; padding:2px 7px 2px 7px; border-left:solid 2px rgb(255,255,255); border-right:solid 2px rgb(255,255,255); border-top:solid 2px rgb(255,255,255); border-bottom:solid 2px rgb(255,255,255); background-color:rgb(225,225,225); text-align:left; font-weight:normal; color:rgb(80,80,80); font-size:110%;}
+
+.registrazioneform {width:418px; margin:2.0em 0 0 100px; padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
+.registrazioneform fieldset {padding:20px 0 0 0; margin:0 0 20px 0; border:solid 1px rgb(220,220,220);}
+.registrazioneform fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
+.registrazioneform label.left {float:left; width:100px; margin:0 0 0 10px; padding:2px; font-size:110%;}
+.registrazioneform input.field {width:275px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%;}
+.registrazioneform input.field_valid {width:275px; padding:2px; border:solid 1px rgb(0,255,0); font-family:verdana,arial,sans-serif; font-size:110%;}
+.registrazioneform input.field_notvalid {width:275px; padding:2px; border:solid 1px rgb(255,0,0); font-family:verdana,arial,sans-serif; font-size:110%;}
+.registrazioneform textarea {width:400px; text-align:center; color:#666; padding:2px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240); font-family:verdana,arial,sans-serif; font-size:110%;}
+.registrazioneform input.button {float:right; width:9.0em; margin-right:20px; padding:1px; background:rgb(230,230,230); border:solid 1px rgb(150,150,150); text-align:center; font-family:verdana,arial,sans-serif; color:rgb(150,150,150); font-size:110%;}
+.registrazioneform input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+
+/********************/
+/*  COMMON CLASSES  */
+/********************/
+/*.main img {clear:both; float:inherit; margin:3px 10px 7px 0; padding:1px; border:1px solid rgb(150,150,150);}
+.main img.clear {padding:1px;}*/
+
+.main a {color:rgb(70,122,167); font-weight:bold; text-decoration:none;}
+.main a:hover {color:rgb(42,90,138); text-decoration:underline;}
+.main a:visited {color:rgb(42,90,138);}

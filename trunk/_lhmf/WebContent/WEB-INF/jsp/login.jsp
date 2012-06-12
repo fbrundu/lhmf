@@ -3,13 +3,13 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 
 <t:index>
-    <jsp:attribute name="header">
+	<jsp:attribute name="userMenu">
+      <p id="copyright">Menu Utente</p>
+    </jsp:attribute>
+    <jsp:attribute name="bodyTitle">
       <h1>Title example (login)</h1>
     </jsp:attribute>
-    <jsp:attribute name="footer">
-      <p id="copyright">Footer example</p>
-    </jsp:attribute>
     <jsp:body>
-        <p>Body example</p>
+        <p>Body Login</p>
     </jsp:body>
 </t:index>

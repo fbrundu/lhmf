@@ -10,7 +10,7 @@ import org.springframework.web.servlet.*;
 @Controller
 public class IndexController
 {
-	@RequestMapping("/")
+	@RequestMapping(value={"/","/login"})
 	public ModelAndView helloSpring(Model model, HttpSession session)
 	{
 		// TODO : test if user is logged in, otherwise
@@ -21,6 +21,7 @@ public class IndexController
 			return new ModelAndView("login");
 		else {
 			int member_type = (Integer) session.getAttribute("member_type");
+			session.setAttribute("lol", member_type);
 			switch(member_type) {
 				case 0:
 					return new ModelAndView("index_normal");
