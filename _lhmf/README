@@ -1,5 +1,11 @@
 Applicazioni Internet - Gas
 
+# TODO
+
++ redirect verso login.jsp se non loggato (IndexController.java)
+- (loginFormSubmitted.java)
+- mettere tutti i controller in un solo file?
+
 # STATUS UTENTE
 
 Registrato con mail non attivata
@@ -24,8 +30,3 @@ Luca:
 Francesco: 
   - utente fornitore (index_supplier.jsp)
     {Crea o modifica listino, Crea, Visualizza, Modifica, Elimina prodotti}
-
-# TODO
-
-+ redirect verso login.jsp se non loggato (IndexController.java)
-- (loginFormSubmitted.java)

@@ -11,17 +11,17 @@ import org.springframework.web.servlet.*;
 public class IndexController
 {
 	@RequestMapping(value={"/","/login"})
-	public ModelAndView helloSpring(Model model, HttpSession session)
+	public ModelAndView index(Model model, HttpSession session)
 	{
-		// TODO : test if user is logged in, otherwise
-		// redirect to login; if user is logged in test role
-		// and return its view (i.e. for role "supplier" return
-		// ModelAndView("supplier")
+		// if user is not logged in, redirect to view 'login'
 		if (session.getAttribute("member_type") == null)
 			return new ModelAndView("login");
 		else {
+			// gets member type
 			int member_type = (Integer) session.getAttribute("member_type");
+			// FIXME: è una prova?
 			session.setAttribute("lol", member_type);
+			// redirects to appropriate view or error
 			switch(member_type) {
 				case 0:
 					return new ModelAndView("index_normal");
