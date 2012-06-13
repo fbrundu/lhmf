@@ -7,9 +7,9 @@
       <p id="copyright">Menu Utente</p>
     </jsp:attribute>
   <jsp:attribute name="bodyTitle">
-      <h1>Title example (Utente Normale)</h1>
+      <h1>Utente Normale</h1>
     </jsp:attribute>
   <jsp:body>
-        <p>Body Utente Normale</p>
+        <p>Body Utente Normale / Hassan</p>
     </jsp:body>
 </t:index>
