@@ -4,7 +4,7 @@
 
 <t:index>
 	<jsp:attribute name="userMenu">
-      <p id="copyright">Menu Utente</p>
+      <p>Menu Utente</p>
     </jsp:attribute>
 	<jsp:attribute name="bodyTitle">
       <h1>Title example (login)</h1>
