@@ -65,7 +65,6 @@ public class HibernateFilter implements Filter
 			if (hibernateSession != null && hibernateSession.isOpen())
 				hibernateSession.close();
 		}
-
 	}
 
 	/**
