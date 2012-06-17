@@ -8,6 +8,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,26 +46,37 @@ public class HibernateFilter implements Filter
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException
 	{
-		Session hibernateSession = sf.getCurrentSession();
-		request.setAttribute("hibernate_session", hibernateSession);
-		Transaction tx = null;
-		try
-		{
-			tx = hibernateSession.beginTransaction();
+		if(requiresHibernateSession((HttpServletRequest)request)){
+			Session hibernateSession = sf.getCurrentSession();
+			request.setAttribute("hibernate_session", hibernateSession);
+			Transaction tx = null;
+			try
+			{
+				tx = hibernateSession.beginTransaction();
+				chain.doFilter(request, response);
+				tx.commit();
+			}
+			catch (Throwable ex)
+			{
+				if (tx != null)
+					tx.rollback();
+				throw new ServletException(ex);
+			}
+			finally
+			{
+				if (hibernateSession != null && hibernateSession.isOpen())
+					hibernateSession.close();
+			}
+		}
+		else
 			chain.doFilter(request, response);
-			tx.commit();
-		}
-		catch (Throwable ex)
-		{
-			if (tx != null)
-				tx.rollback();
-			throw new ServletException(ex);
-		}
-		finally
-		{
-			if (hibernateSession != null && hibernateSession.isOpen())
-				hibernateSession.close();
-		}
+	}
+
+	private static boolean requiresHibernateSession(HttpServletRequest request) {
+		String path = request.getServletPath();
+		if(path.matches("/css/.*|/img/.*"))
+			return false;
+		return true;
 	}
 
 	/**
