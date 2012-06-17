@@ -1,6 +1,8 @@
 package it.polito.ai.lhmf.filters;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -17,6 +19,16 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginFilter implements Filter
 {
+	private ArrayList<String> pathsIgnoredList = new ArrayList<String>();
+
+	@Override
+	public void init(FilterConfig arg0) throws ServletException
+	{
+		this.pathsIgnoredList.add("/login");
+		this.pathsIgnoredList.add("/css/.*");
+		this.pathsIgnoredList.add("/img/.*");
+	}
+
 	public void destroy()
 	{
 	}
@@ -27,7 +39,7 @@ public class LoginFilter implements Filter
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		// if user is not going to login and he is not authenticated
 		// redirects him to login
-		if (!((HttpServletRequest) request).getServletPath().equals("/login")
+		if (!pathToIgnore(((HttpServletRequest) request).getServletPath())
 				&& (session == null || session.getAttribute("member_type") == null))
 			((HttpServletResponse) response)
 					.sendRedirect(((HttpServletRequest) request)
@@ -37,8 +49,14 @@ public class LoginFilter implements Filter
 			chain.doFilter(request, response);
 	}
 
-	@Override
-	public void init(FilterConfig arg0) throws ServletException
+	private boolean pathToIgnore(String path)
 	{
+		Iterator<String> pathsIterator = this.pathsIgnoredList.iterator();
+
+		while (pathsIterator.hasNext())
+			if (path.matches(pathsIterator.next()))
+				return true;
+
+		return false;
 	}
 }
