@@ -14,7 +14,7 @@ public class IndexController
 	public ModelAndView index(Model model, HttpSession session)
 	{
 		// redirects to appropriate view or error
-		switch ((int) session.getAttribute("member_type"))
+		switch ((Integer) session.getAttribute("member_type"))
 		{
 		case 0:
 			return new ModelAndView("index_normal");
