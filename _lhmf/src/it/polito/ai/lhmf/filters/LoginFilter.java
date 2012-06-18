@@ -35,8 +35,6 @@ public class LoginFilter implements Filter
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		// if user is not going to login and he is not authenticated
 		// redirects him to login
-		System.out.println(((HttpServletRequest) request).getServletPath()
-				.matches(pathsIgnored) + " " + pathsIgnored);
 		if (!((HttpServletRequest) request).getServletPath().matches(
 				pathsIgnored)
 				&& (session == null || session.getAttribute("member_type") == null))
