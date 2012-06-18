@@ -15,7 +15,9 @@
     <servlet-name>lhmf</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
   <!-- FILTERS -->
+  
   <filter>
       <filter-name>HibernateFilter</filter-name>
       <filter-class>it.polito.ai.lhmf.filters.HibernateFilter</filter-class>
@@ -32,4 +34,5 @@
       <filter-name>LoginFilter</filter-name>
       <url-pattern>/*</url-pattern>
   </filter-mapping>
+
 </web-app>
