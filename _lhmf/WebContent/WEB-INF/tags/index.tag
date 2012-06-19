@@ -1,24 +1,28 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
+
+<!-- Insert fragments name below -->
 <%@attribute name="header" fragment="true"%>
 <%@attribute name="footer" fragment="true"%>
 <%@attribute name="userMenu" fragment="true"%>
 <%@attribute name="bodyTitle" fragment="true"%>
+<!-- End fragments declaration -->
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
 <meta name="copyright" content="Politecnico di Torino 2012" />
-<meta name="description" content="Applicazioni Internet." />
-<link rel="stylesheet" type="text/css" href="./css/setup.css" />
-<link rel="stylesheet" type="text/css" href="./css/text.css" />
+<meta name="description" content="Applicazioni Internet" />
+<link rel="stylesheet" href="./css/setup.css" />
+<link rel="stylesheet" href="./css/text.css" />
 <title>Applicazioni Internet - GAS</title>
 </head>
 <body>
 	<div class="contenitore-pagina">
-		<div class="header">
+		<header class="header">
 			<div class="header-middle"></div>
-		</div>
+		</header>
 		<div class="main">
 			<div class="navigazione">
 				<div class="round-border-topright"></div>
@@ -40,7 +44,7 @@
 				<div class="centrale"><jsp:doBody /></div>
 			</div>
 		</div>
-		<div class="footer">
+		<footer class="footer">
 			<p>Politecnico di Torino &copy; 2012</p>
 			<p class="credits">
 				Powered by <a href="http://validator.w3.org/check?uri=referer"
@@ -48,7 +52,7 @@
 					href="http://jigsaw.w3.org/css-validator/"
 					title="Validate CSS code">W3C CSS 2.0</a>
 			</p>
-		</div>
+		</footer>
 	</div>
 </body>
 </html>
