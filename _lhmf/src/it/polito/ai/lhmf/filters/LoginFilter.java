@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 public class LoginFilter implements Filter
 {
 	// paths must be joined by '|' with no spaces
-	private static final String pathsIgnored = "/login|/css/.*|/img/.*";
+	private static final String pathsIgnored = "/login|/css/.*|/img/.*|/js/.*";
 
 	@Override
 	public void init(FilterConfig arg0) throws ServletException

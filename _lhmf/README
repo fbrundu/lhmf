@@ -2,8 +2,12 @@ Applicazioni Internet - Gas
 
 # TODO
 
-- (loginFormSubmitted.java)
+- login (loginFormSubmitted.java)
 - mettere tutti i controller in un solo file?
+- usare ajax per scaricare i dati (ex. i prodotti) solo una volta, salvarli nel
+  session storage e modificarli con server side events se vengono modificati
+  da altri
+- usare il cache manifest per le immagini? (clientsidestorage)
 
 # STATUS UTENTE
 

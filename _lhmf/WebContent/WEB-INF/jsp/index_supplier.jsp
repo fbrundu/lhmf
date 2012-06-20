@@ -1,19 +1,34 @@
-<%@page import="it.polito.ai.lhmf.HibernateInterface"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 
-<jsp:useBean id="gasModelBean"
-	class="it.polito.ai.lhmf.HibernateInterface" />
 <t:index>
+
 	<jsp:attribute name="userMenu">
-      <p>Menu Utente</p>
+      <p>Menu Utente (Supplier) </p>
     </jsp:attribute>
+
+	<jsp:attribute name="scripts">
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    </jsp:attribute>
+
 	<jsp:attribute name="bodyTitle">
       <h1>Title example (supplier)</h1>
     </jsp:attribute>
+
 	<jsp:body>
         <p>Body example</p>
-        ${ productList }
+        <!-- ${ productList } -->
+        <script type="text/javascript">
+									$(function()
+									{
+										$.getJSON("ajax/getproducts", function(
+												productList)
+										{
+											console.debug(productList);
+										});
+									});
+								</script>
     </jsp:body>
+
 </t:index>
