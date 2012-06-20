@@ -1,8 +1,7 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 
 <!-- Insert fragments name below -->
-<%@attribute name="header" fragment="true"%>
-<%@attribute name="footer" fragment="true"%>
+<%@attribute name="scripts" fragment="true"%>
 <%@attribute name="userMenu" fragment="true"%>
 <%@attribute name="bodyTitle" fragment="true"%>
 <!-- End fragments declaration -->
@@ -16,6 +15,9 @@
 <meta name="description" content="Applicazioni Internet" />
 <link rel="stylesheet" href="./css/setup.css" />
 <link rel="stylesheet" href="./css/text.css" />
+
+<jsp:invoke fragment="scripts" />
+
 <title>Applicazioni Internet - GAS</title>
 </head>
 <body>
