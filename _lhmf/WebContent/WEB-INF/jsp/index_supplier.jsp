@@ -10,6 +10,7 @@
 
 	<jsp:attribute name="scripts">
     <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/lib.js"></script>
     </jsp:attribute>
 
 	<jsp:attribute name="bodyTitle">
@@ -22,11 +23,38 @@
         <script type="text/javascript">
 									$(function()
 									{
-										$.getJSON("ajax/getproducts", function(
-												productList)
-										{
-											console.debug(productList);
-										});
+										var productCategory = new Object();
+										productCategory.idProductCategory = "1";
+										productCategory.description = "Descrizione2";
+										$
+												.postJSON(
+														"ajax/newproductcategory",
+														productCategory,
+														function(
+																idProductCategory)
+														{
+															console
+																	.debug(idProductCategory);
+														});
+										$
+												.getJSON(
+														"ajax/getproductcategories",
+														function(
+																productCategoriesList)
+														{
+															console
+																	.debug(productCategoriesList);
+														});
+										$
+												.postJSON(
+														"ajax/deleteproductcategory",
+														productCategory.idProductCategory,
+														function(
+																idProductCategory)
+														{
+															console
+																	.debug(idProductCategory);
+														});
 									});
 								</script>
     </jsp:body>
