@@ -13,8 +13,12 @@
 <meta charset="utf-8" />
 <meta name="copyright" content="Politecnico di Torino 2012" />
 <meta name="description" content="Applicazioni Internet" />
+<link rel="stylesheet" href="./css/jquery-ui-1.8.21.custom.css" />
 <link rel="stylesheet" href="./css/setup.css" />
 <link rel="stylesheet" href="./css/text.css" />
+<script type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./js/jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="./js/lib.js"></script>
 
 <jsp:invoke fragment="scripts" />
 
