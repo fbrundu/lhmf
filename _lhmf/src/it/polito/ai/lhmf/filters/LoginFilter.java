@@ -29,21 +29,38 @@ public class LoginFilter implements Filter
 	{
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException
-	{
+	public void doFilter(	ServletRequest request, 
+							ServletResponse response,
+							FilterChain chain) throws IOException, ServletException {
+		
+		//Mi ricavo l'azione e la sessione
+		String refererPage = ((HttpServletRequest) request).getServletPath();
+		//Mi ricavo la sessione
 		HttpSession session = ((HttpServletRequest) request).getSession();
-		// if user is not going to login and he is not authenticated
-		// redirects him to login
-		if (!((HttpServletRequest) request).getServletPath().matches(
-				pathsIgnored)
-				&& (session == null || session.getAttribute("member_type") == null))
+		
+		session.setAttribute("member_type", "nothing");
+		
+		String prova = (String) session.getAttribute("member_type");
+		
+		if (refererPage.equals("/AuthRequest")) {
+			// Controllo campi form del Login
+			
+			
 			((HttpServletResponse) response)
-					.sendRedirect(((HttpServletRequest) request)
-							.getContextPath() + "/login");
-		// else does nothing
-		else
-			chain.doFilter(request, response);
+			.sendRedirect(((HttpServletRequest) request)
+				.getContextPath() + "/");
+		}
+		
+		if(!refererPage.matches(pathsIgnored) || 
+				(session == null || session.getAttribute("member_type") == null) ) {
+			((HttpServletResponse) response)
+				.sendRedirect(((HttpServletRequest) request)
+						.getContextPath() + "/login");
+			
+		} else {
+			chain.doFilter(request, response);		
+		}
+		
 	}
 
 }
