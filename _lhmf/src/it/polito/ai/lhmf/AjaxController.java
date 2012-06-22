@@ -87,6 +87,25 @@ public class AjaxController
 		return productCategoriesList;
 	}
 
+	@RequestMapping(value = "/updateproductcategory", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer updateProductCategory(HttpServletRequest request,
+			@RequestBody ProductCategory productCategory)
+	{
+		Integer rowsAffected = -1;
+		try
+		{
+			rowsAffected = HibernateInterface
+					.updateProductCategory((org.hibernate.Session) request
+							.getAttribute("hibernate_session"), productCategory);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rowsAffected;
+	}
+
 	@RequestMapping(value = "/deleteproductcategory", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer deleteProductCategory(HttpServletRequest request,

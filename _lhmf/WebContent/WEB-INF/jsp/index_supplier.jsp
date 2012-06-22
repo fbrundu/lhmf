@@ -17,7 +17,6 @@
 
 	<jsp:body>
     <p>Body example</p>
-    <!-- ${ productList } -->
     <script type="text/javascript">
           $(function()
           {
@@ -29,15 +28,21 @@
             {
               console.debug(idProductCategory);
             });
+            productCategory.description = "Descrizione1";
+            $.postJSON("ajax/updateproductcategory", productCategory, function(
+                rowsAffected)
+            {
+              console.debug(rowsAffected);
+            });
             $.getJSON("ajax/getproductcategories", function(
                 productCategoriesList)
             {
               console.debug(productCategoriesList);
             });
             $.postJSON("ajax/deleteproductcategory",
-                productCategory.idProductCategory, function(idProductCategory)
+                productCategory.idProductCategory, function(rowsAffected)
                 {
-                  console.debug(idProductCategory);
+                  console.debug(rowsAffected);
                 });
           });
         </script>
