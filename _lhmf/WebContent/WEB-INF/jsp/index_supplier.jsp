@@ -16,45 +16,31 @@
     </jsp:attribute>
 
 	<jsp:body>
-        <p>Body example</p>
-        <!-- ${ productList } -->
-        <script type="text/javascript">
-									$(function()
-									{
-										var productCategory = new Object();
-										productCategory.idProductCategory = "1";
-										productCategory.description = "Descrizione2";
-										$
-												.postJSON(
-														"ajax/newproductcategory",
-														productCategory,
-														function(
-																idProductCategory)
-														{
-															console
-																	.debug(idProductCategory);
-														});
-										$
-												.getJSON(
-														"ajax/getproductcategories",
-														function(
-																productCategoriesList)
-														{
-															console
-																	.debug(productCategoriesList);
-														});
-										$
-												.postJSON(
-														"ajax/deleteproductcategory",
-														productCategory.idProductCategory,
-														function(
-																idProductCategory)
-														{
-															console
-																	.debug(idProductCategory);
-														});
-									});
-								</script>
+    <p>Body example</p>
+    <!-- ${ productList } -->
+    <script type="text/javascript">
+          $(function()
+          {
+            var productCategory = new Object();
+            productCategory.idProductCategory = "1";
+            productCategory.description = "Descrizione2";
+            $.postJSON("ajax/newproductcategory", productCategory, function(
+                idProductCategory)
+            {
+              console.debug(idProductCategory);
+            });
+            $.getJSON("ajax/getproductcategories", function(
+                productCategoriesList)
+            {
+              console.debug(productCategoriesList);
+            });
+            $.postJSON("ajax/deleteproductcategory",
+                productCategory.idProductCategory, function(idProductCategory)
+                {
+                  console.debug(idProductCategory);
+                });
+          });
+        </script>
     </jsp:body>
 
 </t:index>
