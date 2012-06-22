@@ -29,6 +29,16 @@
 		<header class="header">
 			<div class="header-middle"></div>
 		</header>
+		<nav class="header-percorso">
+		<ul>
+          <li><a href="/notifiche">Notifiche</a></li>
+          <li>NN</li>
+        </ul>
+        <ul>
+          <li><a href="/messaggi">Messaggi</a></li>
+          <li>NN</li>
+        </ul>
+		</nav>
 		<div class="main">
 			<div class="navigazione">
 				<div class="round-border-topright"></div>
