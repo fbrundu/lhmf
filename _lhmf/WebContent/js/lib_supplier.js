@@ -46,8 +46,8 @@ function getCategories()
 {
   $.getJSON("ajax/getproductcategories", function(productCategoriesList)
   {
-    window.localStorage.setItem('productCategoriesList', productCategoriesList);
-    //console.debug(productCategoriesList);
+    window.localStorage.setItem('productCategoriesList', JSON.stringify(productCategoriesList));
+    console.debug("productCategoriesList saved in localstorage");
   });
 }
 
