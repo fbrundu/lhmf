@@ -74,7 +74,7 @@ public class HibernateFilter implements Filter
 
 	private static boolean requiresHibernateSession(HttpServletRequest request) {
 		String path = request.getServletPath();
-		if(path.matches("/css/.*|/img/.*"))
+		if(path.matches("/css/.*|/img/.*|/js/.*"))
 			return false;
 		return true;
 	}
