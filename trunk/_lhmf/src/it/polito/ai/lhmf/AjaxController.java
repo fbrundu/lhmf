@@ -1,19 +1,45 @@
 package it.polito.ai.lhmf;
 
+import it.polito.ai.lhmf.model.HibernateInterface;
+import it.polito.ai.lhmf.orm.Log;
+import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.ProductCategory;
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import it.polito.ai.lhmf.model.*;
-import it.polito.ai.lhmf.orm.*;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/ajax")
 public class AjaxController
 {
+	@RequestMapping(value = "/getlogs", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Log> getLogs(HttpServletRequest request,
+			@RequestParam(value = "start") long start,
+			@RequestParam(value = "end") long end)
+	{
+		List<Log> logs = null;
+		try
+		{
+			logs = HibernateInterface.getLogs(
+					(org.hibernate.Session) request
+							.getAttribute("hibernate_session"), start, end);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return logs;
+	}
+	
 	@RequestMapping(value = "/newproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newProduct(HttpServletRequest request, @RequestBody Product product)
