@@ -1,5 +1,6 @@
 package it.polito.ai.lhmf.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -92,5 +93,18 @@ public abstract class HibernateInterface
 		query.setString("idProductCategory", idProductCategory.toString());
 
 		return (Integer) query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static List<Log> getLogs(Session hibernateSession, long start, long end) throws NoHibernateSessionException {
+		if (hibernateSession == null)
+			throw new NoHibernateSessionException();
+
+		Query query = hibernateSession
+				.createQuery("from Log where logTimestamp >= :startDate and logTimeStamp <= :endDate");
+		query.setDate("startDate", new Date(start));
+		query.setDate("endDate", new Date(end));
+		
+		return (List<Log>) query.list();
 	}
 }
