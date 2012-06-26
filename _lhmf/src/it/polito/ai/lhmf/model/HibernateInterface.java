@@ -1,14 +1,16 @@
 package it.polito.ai.lhmf.model;
 
-import java.util.Date;
+import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
+import it.polito.ai.lhmf.orm.Log;
+import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.ProductCategory;
+
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-
-import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
-import it.polito.ai.lhmf.orm.*;
 
 public abstract class HibernateInterface
 {
@@ -101,10 +103,11 @@ public abstract class HibernateInterface
 			throw new NoHibernateSessionException();
 
 		Query query = hibernateSession
-				.createQuery("from Log where logTimestamp >= :startDate and logTimeStamp <= :endDate");
-		query.setDate("startDate", new Date(start));
-		query.setDate("endDate", new Date(end));
-		
-		return (List<Log>) query.list();
+				.createQuery("from Log where logTimestamp between :startDate and :endDate");
+		Timestamp startDate = new Timestamp(start);
+		Timestamp endDate = new Timestamp(end);
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+		return query.list();
 	}
 }

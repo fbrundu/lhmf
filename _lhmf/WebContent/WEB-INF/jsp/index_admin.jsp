@@ -36,7 +36,11 @@
 					else{
 						$.getJSON("ajax/getlogs", {start: startDate.getTime(), end: endDate.getTime()}, function(logList){
 								console.log("Ricevuti log");
-								console.log(logList);
+								for(var i = 0; i < logList.length; i++){
+									var log = logList[i];
+									console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
+											", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
+								}
 							});
 						console.log("Date selezionate: " + JSON.stringify(startDate) + ", " + JSON.stringify(endDate) + ", (timestamps):" + startDate.getTime() + ", " + endDate.getTime());
 					}
@@ -47,11 +51,11 @@
 				$.datepicker.setDefaults({
 					dateFormat: 'dd/mm/yy'
 					});
-				window.addEventListener("popstate", function(event){
-					window.alert("Ricevuto popstate event: ");
-					if(!!event.state)
-						console.log("Ricevuto popstate event: " + event.state.richiesta);
-				}, false);
+				//window.addEventListener("popstate", function(event){
+				//	window.alert("Ricevuto popstate event: ");
+				//	if(!!event.state)
+				//		console.log("Ricevuto popstate event: " + event.state.richiesta);
+				//}, false);
 			});
 		</script>
     </jsp:attribute>
