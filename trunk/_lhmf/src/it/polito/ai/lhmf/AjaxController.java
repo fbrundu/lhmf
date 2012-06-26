@@ -27,15 +27,18 @@ public class AjaxController
 			@RequestParam(value = "end") long end)
 	{
 		List<Log> logs = null;
-		try
-		{
-			logs = HibernateInterface.getLogs(
-					(org.hibernate.Session) request
-							.getAttribute("hibernate_session"), start, end);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+		/* solo se è amministratore */
+		if((Integer)request.getSession().getAttribute("member_type") == 3){
+			try
+			{
+				logs = HibernateInterface.getLogs(
+						(org.hibernate.Session) request
+								.getAttribute("hibernate_session"), start, end);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 		return logs;
 	}
