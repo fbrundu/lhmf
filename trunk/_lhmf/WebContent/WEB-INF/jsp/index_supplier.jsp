@@ -9,6 +9,7 @@
     </jsp:attribute>
 
 	<jsp:attribute name="scripts">
+	<script type="text/javascript" src="./js/lib_supplier.js"></script>
     </jsp:attribute>
 
 	<jsp:attribute name="bodyTitle">
@@ -18,33 +19,8 @@
 	<jsp:body>
     <p>Body example</p>
     <script type="text/javascript">
-          $(function()
-          {
-            var productCategory = new Object();
-            productCategory.idProductCategory = "1";
-            productCategory.description = "Descrizione2";
-            $.postJSON("ajax/newproductcategory", productCategory, function(
-                idProductCategory)
-            {
-              console.debug(idProductCategory);
-            });
-            productCategory.description = "Descrizione1";
-            $.postJSON("ajax/updateproductcategory", productCategory, function(
-                rowsAffected)
-            {
-              console.debug(rowsAffected);
-            });
-            $.getJSON("ajax/getproductcategories", function(
-                productCategoriesList)
-            {
-              console.debug(productCategoriesList);
-            });
-            $.postJSON("ajax/deleteproductcategory",
-                productCategory.idProductCategory, function(rowsAffected)
-                {
-                  console.debug(rowsAffected);
-                });
-          });
+          HelloCategory();
+          prList = window.localStorage.getItem('productCategoriesList');
         </script>
     </jsp:body>
 

@@ -2,40 +2,15 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
-import it.polito.ai.lhmf.orm.Log;
-import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-public abstract class HibernateInterface
+public abstract class ProductCategoryInterface
 {
-	public static Integer newProduct(Session hibernateSession, Product product)
-			throws NoHibernateSessionException, InvalidParametersException
-	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		if (product == null)
-			throw new InvalidParametersException();
-
-		return (Integer) hibernateSession.save(product);
-	}
-
-	@SuppressWarnings("unchecked")
-	public static List<Product> getProducts(Session hibernateSession)
-			throws NoHibernateSessionException
-	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		return hibernateSession.createQuery("from Product").list();
-	}
-
 	public static Integer newProductCategory(Session hibernateSession,
 			ProductCategory productCategory)
 			throws NoHibernateSessionException, InvalidParametersException
@@ -95,19 +70,5 @@ public abstract class HibernateInterface
 		query.setString("idProductCategory", idProductCategory.toString());
 
 		return (Integer) query.executeUpdate();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static List<Log> getLogs(Session hibernateSession, long start, long end) throws NoHibernateSessionException {
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		Query query = hibernateSession
-				.createQuery("from Log where logTimestamp between :startDate and :endDate");
-		Timestamp startDate = new Timestamp(start);
-		Timestamp endDate = new Timestamp(end);
-		query.setTimestamp("startDate", startDate);
-		query.setTimestamp("endDate", endDate);
-		return query.list();
 	}
 }

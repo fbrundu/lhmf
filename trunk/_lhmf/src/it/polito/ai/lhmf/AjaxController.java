@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf;
 
-import it.polito.ai.lhmf.model.HibernateInterface;
+import it.polito.ai.lhmf.model.*;
 import it.polito.ai.lhmf.orm.Log;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
@@ -27,13 +27,13 @@ public class AjaxController
 			@RequestParam(value = "end") long end)
 	{
 		List<Log> logs = null;
-		/* solo se è amministratore */
-		if((Integer)request.getSession().getAttribute("member_type") == 3){
+		/* solo se ï¿½ amministratore */
+		if ((Integer) request.getSession().getAttribute("member_type") == 3)
+		{
 			try
 			{
-				logs = HibernateInterface.getLogs(
-						(org.hibernate.Session) request
-								.getAttribute("hibernate_session"), start, end);
+				logs = LogInterface.getLogs((org.hibernate.Session) request
+						.getAttribute("hibernate_session"), start, end);
 			}
 			catch (Exception e)
 			{
@@ -42,7 +42,7 @@ public class AjaxController
 		}
 		return logs;
 	}
-	
+
 	@RequestMapping(value = "/newproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newProduct(HttpServletRequest request, @RequestBody Product product)
@@ -50,7 +50,7 @@ public class AjaxController
 		Integer idProduct = -1;
 		try
 		{
-			idProduct = HibernateInterface.newProduct(
+			idProduct = ProductInterface.newProduct(
 					(org.hibernate.Session) request
 							.getAttribute("hibernate_session"), product);
 		}
@@ -68,7 +68,7 @@ public class AjaxController
 		List<Product> productsList = null;
 		try
 		{
-			productsList = HibernateInterface
+			productsList = ProductInterface
 					.getProducts((org.hibernate.Session) request
 							.getAttribute("hibernate_session"));
 		}
@@ -87,7 +87,7 @@ public class AjaxController
 		Integer idProductCategory = -1;
 		try
 		{
-			idProductCategory = HibernateInterface
+			idProductCategory = ProductCategoryInterface
 					.newProductCategory((org.hibernate.Session) request
 							.getAttribute("hibernate_session"), productCategory);
 		}
@@ -105,7 +105,7 @@ public class AjaxController
 		List<ProductCategory> productCategoriesList = null;
 		try
 		{
-			productCategoriesList = HibernateInterface
+			productCategoriesList = ProductCategoryInterface
 					.getProductCategories((org.hibernate.Session) request
 							.getAttribute("hibernate_session"));
 		}
@@ -124,7 +124,7 @@ public class AjaxController
 		Integer rowsAffected = -1;
 		try
 		{
-			rowsAffected = HibernateInterface
+			rowsAffected = ProductCategoryInterface
 					.updateProductCategory((org.hibernate.Session) request
 							.getAttribute("hibernate_session"), productCategory);
 		}
@@ -143,7 +143,7 @@ public class AjaxController
 		Integer rowsAffected = -1;
 		try
 		{
-			rowsAffected = HibernateInterface.deleteProductCategory(
+			rowsAffected = ProductCategoryInterface.deleteProductCategory(
 					(org.hibernate.Session) request
 							.getAttribute("hibernate_session"),
 					idProductCategory);
