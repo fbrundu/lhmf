@@ -2,14 +2,10 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
-import it.polito.ai.lhmf.orm.Log;
 import it.polito.ai.lhmf.orm.Product;
-import it.polito.ai.lhmf.orm.ProductCategory;
 
-import java.sql.Timestamp;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 public abstract class ProductInterface

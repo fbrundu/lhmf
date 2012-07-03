@@ -11,6 +11,8 @@ $(function(){
 	}
 	
 	History.Adapter.bind(window, 'statechange', historyStateChanged);
+	
+	firstPageCallback();
 });
 
 function historyStateChanged(){
@@ -31,6 +33,7 @@ function historyStateChanged(){
 						$('#end').datepicker("setDate", Date.now());
 					}
 					break;
+		case 'null': break;
 		default: writeIndexPage();
 	}
 }
@@ -42,7 +45,7 @@ function logClicked(event){
 	if(!! stateData && !! stateData.action && stateData.action == 'log')
 		return;
 	
-	writeLogPage();
+	//writeLogPage();
 	History.pushState({action:'log'}, null, './log');
 }
 
@@ -55,8 +58,8 @@ function showLogs(startTime, endTime){
 		for(var i = 0; i < logList.length; i++){
 			var log = logList[i];
 			$("#logs").append("<tr><td>" + log.idLog +"<td>" + log.member.name + " " + log.member.surname + "<td>" + log.logtext + "<td>" + new Date(log.logTimestamp) + "</tr>");
-			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
-					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
+//			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
+//					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
 		}
 	});
 }

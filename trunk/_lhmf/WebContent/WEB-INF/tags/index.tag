@@ -19,7 +19,7 @@
 <script type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="./js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript" src="./js/jquery.history.js"></script>
-<script type="text/javascript" src="./js/modernizer-2.5.3.js"></script>
+<script type="text/javascript" src="./js/modernizr-2.5.3.js"></script>
 <script type="text/javascript" src="./js/lib.js"></script>
 
 <jsp:invoke fragment="scripts" />

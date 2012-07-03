@@ -27,7 +27,7 @@ public class AjaxController
 			@RequestParam(value = "end") long end)
 	{
 		List<Log> logs = null;
-		/* solo se � amministratore */
+		/* solo se e' amministratore */
 		if ((Integer) request.getSession().getAttribute("member_type") == 3)
 		{
 			try
