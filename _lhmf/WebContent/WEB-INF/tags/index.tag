@@ -1,10 +1,10 @@
 <%@tag description="Overall Page template" pageEncoding="UTF-8"%>
 
-<!-- Insert fragments name below -->
+<%-- Insert fragments name below --%>
 <%@attribute name="scripts" fragment="true"%>
 <%@attribute name="userMenu" fragment="true"%>
 <%@attribute name="bodyTitle" fragment="true"%>
-<!-- End fragments declaration -->
+<%-- End fragments declaration --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!doctype html>
@@ -31,20 +31,20 @@
 		</header>
 		<nav class="header-percorso">
 		<ul>
-          <li><a href="/notifiche">Notifiche</a></li>
-          <li>NN</li>
-        </ul>
-        <ul>
-          <li><a href="/messaggi">Messaggi</a></li>
-          <li>NN</li>
-        </ul>
+      <li><a href="/notifiche">Notifiche</a></li>
+      <li>NN</li>
+    </ul>
+    <ul>
+      <li><a href="/messaggi">Messaggi</a></li>
+      <li>NN</li>
+    </ul>
 		</nav>
 		<div class="main">
 			<div class="navigazione">
 				<div class="round-border-topright"></div>
 				<h1 class="first">Menu</h1>
 				<dl class="menu-navigazione">
-					<dt><a href="index.php">Home</a></dt>
+					<dt><a href="./">Home</a></dt>
 					<dt><a href="relazione.php">Relazione</a></dt>
 					<dd><a href="presentazione.php">Struttura Web</a></dd>
 					<dd><a href="db.php">Il DataBase</a></dd>
