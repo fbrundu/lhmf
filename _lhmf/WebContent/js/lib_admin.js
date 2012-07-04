@@ -1,4 +1,6 @@
 $(function(){
+	$("#logLink").click(logClicked)
+	
 	$.datepicker.setDefaults({
 		dateFormat: 'dd/mm/yy'
 		});
@@ -11,14 +13,6 @@ $(function(){
 	History.Adapter.bind(window, 'statechange', historyStateChanged);
 	
 	firstPageCallback();
-//	History = window.History;
-//	if(!History.enabled){
-//		Console.log("History API is disabled!!!");
-//	}
-//	
-//	History.Adapter.bind(window, 'statechange', historyStateChanged);
-//	
-//	firstPageCallback();
 });
 
 //(function(window,undefined){
@@ -57,12 +51,13 @@ function historyStateChanged(){
 }
 
 function logClicked(event){
-	if(!!event.preventDefault){ 
-		event.preventDefault(); 
-	}
-	else{
-		event.returnValue = false;
-	}
+//	if(!!event.preventDefault){ 
+//		event.preventDefault(); 
+//	}
+//	else{
+//		event.returnValue = false;
+//	}
+	event.preventDefault();
 	var History = window.History;
 	var state = History.getState();
 	var stateData = state.data;
@@ -70,7 +65,7 @@ function logClicked(event){
 		return;
 	
 	//writeLogPage();
-	History.pushState({action:'log'}, null, './log');
+	History.pushState({action:'log'}, null, 'log');
 }
 
 function showLogs(startTime, endTime){
