@@ -53,14 +53,20 @@ function showLogs(startTime, endTime){
 	$.getJSON("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
 		console.log("Ricevuti log");
 		$("#logs").html("");
-		if(logList.length > 0)
+        $("#logs").hide();
+		//$("#logs").fadeOut(500, function() {
+	        
+	    //});
+		if(logList.length > 0){
 			$("#logs").append("<tr><th>ID Log<th>Membro<th>Testo<th>Timestamp</tr>");
-		for(var i = 0; i < logList.length; i++){
-			var log = logList[i];
-			$("#logs").append("<tr><td>" + log.idLog +"<td>" + log.member.name + " " + log.member.surname + "<td>" + log.logtext + "<td>" + new Date(log.logTimestamp) + "</tr>");
-//			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
-//					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
+			for(var i = 0; i < logList.length; i++){
+				var log = logList[i];
+				$("#logs").append("<tr><td>" + log.idLog +"<td>" + log.member.name + " " + log.member.surname + "<td>" + log.logtext + "<td>" + new Date(log.logTimestamp) + "</tr>");
+	//			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
+	//					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
+			}
 		}
+		$("#logs").fadeIn(500);
 	});
 }
 
