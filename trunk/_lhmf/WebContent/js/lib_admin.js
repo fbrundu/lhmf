@@ -1,11 +1,9 @@
-var History;
-
 $(function(){
 	$.datepicker.setDefaults({
 		dateFormat: 'dd/mm/yy'
 		});
 	
-	History = window.History;
+	var History = window.History;
 	if(!History.enabled){
 		Console.log("History API is disabled!!!");
 	}
@@ -13,9 +11,29 @@ $(function(){
 	History.Adapter.bind(window, 'statechange', historyStateChanged);
 	
 	firstPageCallback();
+//	History = window.History;
+//	if(!History.enabled){
+//		Console.log("History API is disabled!!!");
+//	}
+//	
+//	History.Adapter.bind(window, 'statechange', historyStateChanged);
+//	
+//	firstPageCallback();
 });
 
+//(function(window,undefined){
+//	var History = window.History;
+//	if(!History.enabled){
+//		Console.log("History API is disabled!!!");
+//	}
+//	
+//	History.Adapter.bind(window, 'statechange', historyStateChanged);
+//	
+//	firstPageCallback();
+//})(window);
+
 function historyStateChanged(){
+	var History = window.History;
 	var state = History.getState();
 	var stateData = state.data;
 	if(!stateData)
@@ -39,7 +57,13 @@ function historyStateChanged(){
 }
 
 function logClicked(event){
-	event.preventDefault();
+	if(!!event.preventDefault){ 
+		event.preventDefault(); 
+	}
+	else{
+		event.returnValue = false;
+	}
+	var History = window.History;
 	var state = History.getState();
 	var stateData = state.data;
 	if(!! stateData && !! stateData.action && stateData.action == 'log')
@@ -97,6 +121,7 @@ function writeLogPage(){
 			endDate.setMilliseconds(999);
 		
 			//showLogs(startDate.getTime(), endDate.getTime());
+			var History = window.History;
 			History.pushState({action: 'log', min: startDate.getTime(), max: endDate.getTime()}, null, "./log?min=" + startDate.getTime() + "&max=" + endDate.getTime());
 			console.log("Date selezionate: " + JSON.stringify(startDate) + ", " + JSON.stringify(endDate) + ", (timestamps):" + startDate.getTime() + ", " + endDate.getTime());
 		}

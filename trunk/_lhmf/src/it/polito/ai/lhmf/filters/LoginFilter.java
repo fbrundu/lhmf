@@ -38,9 +38,9 @@ public class LoginFilter implements Filter
 		//Mi ricavo la sessione
 		HttpSession session = ((HttpServletRequest) request).getSession();
 		
-		session.setAttribute("member_type", "nothing");
+		session.setAttribute("member_type", /*"nothing"*/3);
 		
-		String prova = (String) session.getAttribute("member_type");
+		//String prova = (String) session.getAttribute("member_type");
 		
 		if (refererPage.equals("/AuthRequest")) {
 			// Controllo campi form del Login
@@ -51,7 +51,7 @@ public class LoginFilter implements Filter
 				.getContextPath() + "/");
 		}
 		
-		if(!refererPage.matches(pathsIgnored) || 
+		if(!refererPage.matches(pathsIgnored) && 
 				(session == null || session.getAttribute("member_type") == null) ) {
 			((HttpServletResponse) response)
 				.sendRedirect(((HttpServletRequest) request)
