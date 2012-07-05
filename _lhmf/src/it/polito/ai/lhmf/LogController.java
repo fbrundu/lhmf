@@ -17,7 +17,7 @@ public class LogController {
 	public ModelAndView logPage(Model model, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value="min", required=false) Long minTs, @RequestParam(value="max", required=false) Long maxTs)
 	{
-		/* se non e' admin, ritorna UNAUTHORIZED */
+		/* se non e' admin, ritorna UNAUTHORIZED */ //TODO è giusto mandare gli errori così???
 		if ((Integer) request.getSession().getAttribute("member_type") != 3)
 			try {
 				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
@@ -30,7 +30,7 @@ public class LogController {
 				model.addAttribute("minLog", minTs);
 				model.addAttribute("maxLog", maxTs);
 			}
-			return new ModelAndView("index_admin");
+			return new ModelAndView("log_admin");
 		}
 		return null;
 	}
