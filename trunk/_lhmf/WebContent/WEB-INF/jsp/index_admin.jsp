@@ -51,13 +51,14 @@
 			</c:choose>
 	</jsp:attribute>
 	
-	<jsp:attribute name="userMenu">
+	<jsp:include page="admin_static.jsp"></jsp:include>
+	<!--<jsp:attribute name="userMenu">
     	<p>Menù di amministrazione</p>
     	<p>Gestione utenti</p>
     	<p><a href="log" id="logLink">Consultazione log</a></p>
     </jsp:attribute>
     
-    <jsp:attribute name="bodyTitle">Interfaccia di amministrazione</jsp:attribute>
+    <jsp:attribute name="bodyTitle">Interfaccia di amministrazione</jsp:attribute>-->
     
     <jsp:body>
     </jsp:body>
