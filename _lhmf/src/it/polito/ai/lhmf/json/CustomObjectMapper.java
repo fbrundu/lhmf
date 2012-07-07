@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.json;
 
-import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.*;
 
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -19,6 +19,9 @@ public class CustomObjectMapper extends ObjectMapper {
 	public CustomObjectMapper() {
 		SimpleModule serializers = new SimpleModule("CustomSerializers", new Version(1, 0, 0, null));
 		serializers.addSerializer(Member.class, new MemberSerializer());
+		serializers.addSerializer(Product.class, new ProductSerializer());
+		serializers.addSerializer(ProductCategory.class, new ProductCategorySerializer());
+		serializers.addDeserializer(Product.class, new ProductDeserializer());
 		registerModule(serializers);
 	}
 }

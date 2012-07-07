@@ -16,19 +16,19 @@ public class IndexController
 			HttpServletRequest request)
 	{
 		// redirects to appropriate view or error
-		switch ((Integer) session.getAttribute("member_type"))
-		{
+//		switch ((Integer) session.getAttribute("member_type"))
+//		{
 		// FIXME: use enum instead of numeric values for member_type
-		case 0:
-			return new ModelAndView("index_normal");
-		case 1:
-			return new ModelAndView("index_resp");
-		case 2:
+//		case 0:
+//			return new ModelAndView("index_normal");
+//		case 1:
+//			return new ModelAndView("index_resp");
+//		case 2:
 			return new ModelAndView("index_supplier");
-		case 3:
-			return new ModelAndView("index_admin");
-		default:
-			return new ModelAndView("error");
-		}
+//		case 3:
+//			return new ModelAndView("index_admin");
+//		default:
+//			return new ModelAndView("error");
+//		}
 	}
 }
