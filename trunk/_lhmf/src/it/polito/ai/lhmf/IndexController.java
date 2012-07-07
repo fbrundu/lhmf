@@ -3,10 +3,11 @@ package it.polito.ai.lhmf;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController
@@ -15,7 +16,9 @@ public class IndexController
 	public ModelAndView index(Model model, HttpSession session,
 			HttpServletRequest request)
 	{
-		// redirects to appropriate view or error
+		String user = SecurityContextHolder.getContext().getAuthentication().getName();
+		model.addAttribute("user", user);
+		
 //		switch ((Integer) session.getAttribute("member_type"))
 //		{
 		// FIXME: use enum instead of numeric values for member_type
