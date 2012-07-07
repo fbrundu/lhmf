@@ -19,9 +19,11 @@
 	<jsp:body>
     <p>Body example</p>
     <script type="text/javascript">
-          HelloCategory();
-          prList = window.localStorage.getItem('productCategoriesList');
-        </script>
+      $(function(){
+        HelloProduct();
+        //prList = window.localStorage.getItem('productList');
+      });
+          </script>
     </jsp:body>
 
 </t:index>
