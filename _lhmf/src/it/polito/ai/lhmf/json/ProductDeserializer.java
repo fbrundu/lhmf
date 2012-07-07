@@ -47,10 +47,10 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 			newProduct.setUnitBlock(node.get("unitBlock").getIntValue());
 			newProduct.setAvailability(node.get("availability")
 					.getBooleanValue());
-			newProduct.setTransportCost((Float) node.get(
-					"transportCost").getNumberValue());
-			newProduct.setUnitCost((Float) node.get("unitCost")
-					.getNumberValue());
+			newProduct.setTransportCost(node.get(
+					"transportCost").getNumberValue().floatValue());
+			newProduct.setUnitCost(node.get("unitCost")
+					.getNumberValue().floatValue());
 			newProduct.setMinBuy(node.get("minBuy").getIntValue());
 			newProduct.setMaxBuy(node.get("maxBuy").getIntValue());
 
