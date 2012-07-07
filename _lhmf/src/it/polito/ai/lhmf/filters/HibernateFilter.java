@@ -46,29 +46,29 @@ public class HibernateFilter implements Filter
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException
 	{
-		if(requiresHibernateSession((HttpServletRequest)request)){
-			Session hibernateSession = sf.getCurrentSession();
-			request.setAttribute("hibernate_session", hibernateSession);
-			Transaction tx = null;
-			try
-			{
-				tx = hibernateSession.beginTransaction();
-				chain.doFilter(request, response);
-				tx.commit();
-			}
-			catch (Throwable ex)
-			{
-				if (tx != null)
-					tx.rollback();
-				throw new ServletException(ex);
-			}
-			finally
-			{
-				if (hibernateSession != null && hibernateSession.isOpen())
-					hibernateSession.close();
-			}
-		}
-		else
+//		if(requiresHibernateSession((HttpServletRequest)request)){
+//			Session hibernateSession = sf.getCurrentSession();
+//			request.setAttribute("hibernate_session", hibernateSession);
+//			Transaction tx = null;
+//			try
+//			{
+//				tx = hibernateSession.beginTransaction();
+//				chain.doFilter(request, response);
+//				tx.commit();
+//			}
+//			catch (Throwable ex)
+//			{
+//				if (tx != null)
+//					tx.rollback();
+//				throw new ServletException(ex);
+//			}
+//			finally
+//			{
+//				if (hibernateSession != null && hibernateSession.isOpen())
+//					hibernateSession.close();
+//			}
+//		}
+//		else
 			chain.doFilter(request, response);
 	}
 
@@ -84,20 +84,20 @@ public class HibernateFilter implements Filter
 	 */
 	public void init(FilterConfig fConfig) throws ServletException
 	{
-		try
-		{
-			Configuration configuration = new Configuration();
-			configuration.configure();
-			ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
-					.applySettings(configuration.getProperties())
-					.buildServiceRegistry();
-			sf = configuration.buildSessionFactory(serviceRegistry);
-		}
-		catch (Throwable ex)
-		{
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
-		}
+//		try
+//		{
+//			Configuration configuration = new Configuration();
+//			configuration.configure();
+//			ServiceRegistry serviceRegistry = new ServiceRegistryBuilder()
+//					.applySettings(configuration.getProperties())
+//					.buildServiceRegistry();
+//			sf = configuration.buildSessionFactory(serviceRegistry);
+//		}
+//		catch (Throwable ex)
+//		{
+//			System.err.println("Failed to create sessionFactory object." + ex);
+//			throw new ExceptionInInitializerError(ex);
+//		}
 	}
 
 }

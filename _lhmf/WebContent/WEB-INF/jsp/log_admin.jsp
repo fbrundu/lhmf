@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <t:index>
 	<jsp:attribute name="scripts">
-		<script type="text/javascript" src="./js/lib_admin.js"></script>
+		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_admin.js"/>'></script>
 		<script type="text/javascript">
 			function drawPageCallback(){
 				if(History.enabled){
@@ -29,7 +30,7 @@
 	<jsp:attribute name="userMenu">
     	<p>Menù di amministrazione</p>
     	<p>Gestione utenti</p>
-    	<p><a href="log" id="logLink">Consultazione log</a></p>
+    	<p><a href='<spring:url htmlEscape="true" value="/log"/>' id="logLink">Consultazione log</a></p>
 	</jsp:attribute>
 	
 	<jsp:attribute name="bodyTitle">Interfaccia di amministrazione</jsp:attribute>

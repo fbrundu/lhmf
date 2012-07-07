@@ -7,20 +7,23 @@
 <%-- End fragments declaration --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!doctype html>
 <html class="no-js">
 <head>
 <meta charset="utf-8" />
 <meta name="copyright" content="Politecnico di Torino 2012" />
 <meta name="description" content="Applicazioni Internet" />
-<link rel="stylesheet" href="./css/jquery-ui-1.8.21.custom.css" />
-<link rel="stylesheet" href="./css/setup.css" />
-<link rel="stylesheet" href="./css/text.css" />
-<script type="text/javascript" src="./js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="./js/jquery-ui-1.8.21.custom.min.js"></script>
-<script type="text/javascript" src="./js/jquery.history.js"></script>
-<script type="text/javascript" src="./js/modernizr-2.5.3.js"></script>
-<script type="text/javascript" src="./js/lib.js"></script>
+<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/jquery-ui-1.8.21.custom.css"/>'/>
+<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/setup.css"/>'/>
+<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/text.css"/>'/>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/jquery-1.7.2.min.js"/>'></script>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/jquery-ui-1.8.21.custom.min.js"/>'></script>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/jquery.history.js"/>'></script>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/modernizr-2.5.3.js"/>'></script>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib.js"/>'></script>
 
 <jsp:invoke fragment="scripts" />
 
@@ -33,20 +36,23 @@
 		</header>
 		<nav class="header-percorso">
 		<ul>
-      <li><a href="/notifiche">Notifiche</a></li>
-      <li>NN</li>
-    </ul>
-    <ul>
-      <li><a href="/messaggi">Messaggi</a></li>
-      <li>NN</li>
-    </ul>
+	    	<li>Ciao ${user} | <a href='<spring:url htmlEscape="true" value="/logout"/>'>Logout</a>
+	    </ul>
+		<ul>
+	      <li><a href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
+	      <li>NN</li>
+	    </ul>
+	    <ul>
+	      <li><a href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
+	      <li>NN</li>
+	    </ul>
 		</nav>
 		<div class="main">
 			<div class="navigazione">
 				<div class="round-border-topright"></div>
 				<h1 class="first">Menu</h1>
 				<dl class="menu-navigazione">
-					<dt><a href="./">Home</a></dt>
+					<dt><a href='<spring:url htmlEscape="true" value="/"/>'>Home</a></dt>
 					<dt><a href="relazione.php">Relazione</a></dt>
 					<dd><a href="presentazione.php">Struttura Web</a></dd>
 					<dd><a href="db.php">Il DataBase</a></dd>
