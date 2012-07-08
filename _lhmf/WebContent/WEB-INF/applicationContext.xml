@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    					http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+    
+    <!-- Integrazione di Hibernate 4 con Spring -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="org.gjt.mm.mysql.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost/malnati_project"/>
+		<property name="username" value="root"/>
+<!-- 		<property name="password" value=""/> -->
+    </bean>
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="it.polito.ai.lhmf.orm"/>
+        <property name="hibernateProperties">
+            <props>
+<!--                 <prop key="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</prop> -->
+<!--   				<prop key="hibernate.connection.url">jdbc:mysql://localhost/malnati_project</prop> -->
+<!-- 			  	<prop key="hibernate.connection.username">root</prop> -->
+			  	<prop key="hibernate.default_schema">malnati_project</prop>
+			  	<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+			  	<prop key="hibernate.show_sql">true</prop>
+<!-- 			  	<prop key="hibernate.current_session_context_class">thread</prop> -->
+            </props>
+<!--             <list> -->
+<!--                 <value>hibernate.connection.driver_class=org.gjt.mm.mysql.Driver</value> -->
+<!--                 <value>hibernate.connection.url=jdbc:mysql://localhost/malnati_project</value> -->
+<!--                 <value>hibernate.connection.username=root</value> -->
+<!--                 <value>hibernate.default_schema=malnati_project</value> -->
+<!--                 <value>hibernate.dialect=org.hibernate.dialect.MySQLInnoDBDialect</value> -->
+<!--                 <value>hibernate.show_sql=true</value> -->
+<!--                 <value>hibernate.current_session_context_class=thread</value> -->
+<!--             </list> -->
+        </property>
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- Dichiarazione dei DAO -->
+    <bean id="logDao" class="it.polito.ai.lhmf.model.LogInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="productCategoryDao" class="it.polito.ai.lhmf.model.ProductCategoryInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="productDao" class="it.polito.ai.lhmf.model.ProductInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+</beans>

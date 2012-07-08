@@ -21,9 +21,9 @@
 
 	<http use-expressions="true">
         <intercept-url pattern="/**" access="isAuthenticated()"/>
-        <form-login />
+        <form-login authentication-success-handler-ref="loginSuccessfull"/>
         <logout logout-url="/logout" logout-success-url="/" delete-cookies="JSESSIONID"/>
-        <remember-me />
+        <remember-me user-service-ref="myUserDetailsService" authentication-success-handler-ref="loginSuccessfull"/>
 <!--
     Uncomment to enable X509 client authentication support
         <x509 />
@@ -35,11 +35,17 @@
 
     </http>
     
+	<beans:bean id="loginSuccessfull" class="it.polito.ai.lhmf.security.LoginSuccessfullHandler"/>
+    
 	<authentication-manager>
-	    <authentication-provider user-service-ref="myUserDetailsService"></authentication-provider>
+	    <authentication-provider user-service-ref="myUserDetailsService">
+	        <password-encoder hash="md5"/>
+	    </authentication-provider>
 	</authentication-manager>
 	
-	<beans:bean id="myUserDetailsService" class="it.polito.ai.lhmf.security.MyUserDetailsService"></beans:bean>
+	<beans:bean id="myUserDetailsService" class="it.polito.ai.lhmf.security.MyUserDetailsService">
+	    <beans:property name="sessionFactory" ref="sessionFactory"/>
+	</beans:bean>
 
     <!--
     Usernames/Passwords are
@@ -61,15 +67,15 @@
 <!--             </user-service> -->
 <!--         </authentication-provider> -->
 <!--     </authentication-manager> -->
-	<authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="rod" password="koala" authorities="supervisor, user, teller" />
-                <user name="dianne" password="emu" authorities="user,teller" />
-                <user name="scott" password="wombat" authorities="user" />
-                <user name="peter" password="opal" authorities="user" />
-            </user-service>
-        </authentication-provider>
-    </authentication-manager>
+<!-- 	<authentication-manager> -->
+<!--         <authentication-provider> -->
+<!--             <user-service> -->
+<!--                 <user name="rod" password="koala" authorities="supervisor, user, teller" /> -->
+<!--                 <user name="dianne" password="emu" authorities="user,teller" /> -->
+<!--                 <user name="scott" password="wombat" authorities="user" /> -->
+<!--                 <user name="peter" password="opal" authorities="user" /> -->
+<!--             </user-service> -->
+<!--         </authentication-provider> -->
+<!--     </authentication-manager> -->
 
 </beans:beans>

@@ -1,29 +1,31 @@
 package it.polito.ai.lhmf.json;
 
-import java.io.IOException;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
-
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.orm.Supplier;
 
+import java.io.IOException;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
-import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.ObjectCodec;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.hibernate.SessionFactory;
 
 public class ProductDeserializer extends JsonDeserializer<Product>
 {
-
+	//TODO Fra, sei sicuro che sia indispensabile fare query hibernate nei deserializzatori? Cmq, ti ho modificato il codice per avere
+	// la session factory iniettata da spring.
+	private SessionFactory sessionFactory;
+	
+	public ProductDeserializer(SessionFactory sf) {
+		this.sessionFactory = sf;
+	}
+	
 	@Override
 	public Product deserialize(JsonParser jpar, DeserializationContext context)
 			throws IOException, JsonProcessingException
@@ -32,9 +34,10 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 
 		try
 		{
-			Session hibernateSession = (Session) ((ServletRequestAttributes) RequestContextHolder
-					.getRequestAttributes()).getRequest().getAttribute(
-					"hibernate_session");
+//			Session hibernateSession = (Session) ((ServletRequestAttributes) RequestContextHolder
+//					.getRequestAttributes()).getRequest().getAttribute(
+//					"hibernate_session");
+			Session hibernateSession = sessionFactory.getCurrentSession();
 
 			ObjectCodec oc = jpar.getCodec();
 			JsonNode node = oc.readTree(jpar);

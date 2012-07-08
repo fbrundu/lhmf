@@ -1,9 +1,10 @@
 package it.polito.ai.lhmf;
 
+import it.polito.ai.lhmf.model.constants.MemberTypes;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,22 +17,20 @@ public class IndexController
 	public ModelAndView index(Model model, HttpSession session,
 			HttpServletRequest request)
 	{
-		String user = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.addAttribute("user", user);
+		model.addAttribute("user", session.getAttribute("user"));
 		
-//		switch ((Integer) session.getAttribute("member_type"))
-//		{
-		// FIXME: use enum instead of numeric values for member_type
-//		case 0:
-//			return new ModelAndView("index_normal");
-//		case 1:
-//			return new ModelAndView("index_resp");
-//		case 2:
+		switch ((Integer) session.getAttribute("member_type"))
+		{
+		case MemberTypes.USER_NORMAL:
+			return new ModelAndView("index_normal");
+		case MemberTypes.USER_RESP:
+			return new ModelAndView("index_resp");
+		case MemberTypes.USER_SUPPLIER:
 			return new ModelAndView("index_supplier");
-//		case 3:
-//			return new ModelAndView("index_admin");
-//		default:
-//			return new ModelAndView("error");
-//		}
+		case MemberTypes.USER_ADMIN:
+			return new ModelAndView("index_admin");
+		default:
+			return new ModelAndView("error");
+		}
 	}
 }

@@ -1,25 +1,31 @@
 package it.polito.ai.lhmf.model;
 
-import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
 import it.polito.ai.lhmf.orm.Log;
+import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 
-public abstract class LogInterface
+public class LogInterface
 {
+	//The session factory will be automatically injected by spring
+	private SessionFactory sessionFactory;
+	
+	public void setSessionFactory(SessionFactory sf){
+		this.sessionFactory = sf;
+	}
+	
 	@SuppressWarnings("unchecked")
-	public static List<Log> getLogs(Session hibernateSession, long start,
-			long end) throws NoHibernateSessionException
+	@Transactional(readOnly=true)
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	public List<Log> getLogs(long start, long end)
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		Query query = hibernateSession
-				.createQuery("from Log where logTimestamp between :startDate and :endDate");
+		Query query = sessionFactory.getCurrentSession().createQuery("from Log where logTimestamp between :startDate and :endDate");
 		Timestamp startDate = new Timestamp(start);
 		Timestamp endDate = new Timestamp(end);
 		query.setTimestamp("startDate", startDate);

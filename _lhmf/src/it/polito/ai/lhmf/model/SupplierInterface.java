@@ -1,35 +1,36 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
 import it.polito.ai.lhmf.orm.Supplier;
 
 import java.util.List;
 
-import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public abstract class SupplierInterface
+public class SupplierInterface
 {
-	public static Integer newSupplier(Session hibernateSession,
-			Supplier supplier) throws NoHibernateSessionException,
-			InvalidParametersException
+	//The session factory will be automatically injected by spring
+	private SessionFactory sessionFactory;
+	
+	public void setSessionFactory(SessionFactory sf){
+		this.sessionFactory = sf;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer newSupplier(Supplier supplier) throws InvalidParametersException
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
 		if (supplier == null)
 			throw new InvalidParametersException();
 
-		return (Integer) hibernateSession.save(supplier);
+		return (Integer) sessionFactory.getCurrentSession().save(supplier);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Supplier> getSuppliers(Session hibernateSession)
-			throws NoHibernateSessionException
+	@Transactional(readOnly=true)
+	public List<Supplier> getSuppliers()
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		return hibernateSession.createQuery("from Supplier").list();
+		return sessionFactory.getCurrentSession().createQuery("from Supplier").list();
 	}
 }
