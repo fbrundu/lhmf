@@ -35,9 +35,11 @@
 			<div class="header-middle"></div>
 		</header>
 		<nav class="header-percorso">
-		<ul>
-	    	<li>Ciao ${user} | <a href='<spring:url htmlEscape="true" value="/logout"/>'>Logout</a>
-	    </ul>
+		<c:if test="${user != null}">
+			<ul>
+		    	<li>Ciao ${user} | <a href='<spring:url htmlEscape="true" value="/logout"/>'>Logout</a>
+		    </ul>
+	    </c:if>
 		<ul>
 	      <li><a href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
 	      <li>NN</li>

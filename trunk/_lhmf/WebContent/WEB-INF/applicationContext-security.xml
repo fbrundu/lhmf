@@ -17,11 +17,45 @@
 
     <http pattern="/css/**" security="none"/>
     <http pattern="/img/**" security="none"/>
-<!--     <http pattern="/js/**" security="none"/> -->
+    <http pattern="/js/**" security="none"/>
 
 	<http use-expressions="true">
+	    <intercept-url pattern="/openid_signup*" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <form-login authentication-success-handler-ref="loginSuccessfull"/>
+        <openid-login user-service-ref="myUserDetailsService" authentication-success-handler-ref="loginSuccessfull" authentication-failure-handler-ref="openIdSuccessButNotRegistered">
+            <attribute-exchange>
+                <openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true"/>
+                <openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true"/>
+                <openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
+                <openid-attribute name="address" type="http://axschema.org/contact/postaladdress/home" required="true"/>
+                <openid-attribute name="city" type="http://axschema.org/contact/city/home" required="true"/>
+                <openid-attribute name="state" type="http://axschema.org/contact/state/home" required="true"/>
+                <openid-attribute name="country" type="http://axschema.org/contact/country/home" required="true"/>
+                <openid-attribute name="cap" type="http://axschema.org/contact/postalcode/home" required="true"/>
+                <openid-attribute name="phone" type="http://axschema.org/contact/phone/default" required="true"/>
+                
+                <openid-attribute name="firstname" type="http://schema.openid.net/namePerson/first" required="true"/>
+                <openid-attribute name="lastname" type="http://schema.openid.net/namePerson/last" required="true"/>
+                <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
+                <openid-attribute name="address" type="http://schema.openid.net/contact/postaladdress/home" required="true"/>
+                <openid-attribute name="city" type="http://schema.openid.net/contact/city/home" required="true"/>
+                <openid-attribute name="state" type="http://schema.openid.net/contact/state/home" required="true"/>
+                <openid-attribute name="country" type="http://schema.openid.net/contact/country/home" required="true"/>
+                <openid-attribute name="cap" type="http://schema.openid.net/contact/postalcode/home" required="true"/>
+                <openid-attribute name="phone" type="http://schema.openid.net/contact/phone/default" required="true"/>
+                
+                <openid-attribute name="firstname" type="http://openid.net/schema/namePerson/first" required="true"/>
+                <openid-attribute name="lastname" type="http://openid.net/schema/namePerson/last" required="true"/>
+                <openid-attribute name="email" type="http://openid.net/schema/contact/email" required="true"/>
+                <openid-attribute name="address" type="http://openid.net/schema/contact/postaladdress/home" required="true"/>
+                <openid-attribute name="city" type="http://openid.net/schema/contact/city/home" required="true"/>
+                <openid-attribute name="state" type="http://openid.net/schema/contact/state/home" required="true"/>
+                <openid-attribute name="country" type="http://openid.net/schema/contact/country/home" required="true"/>
+                <openid-attribute name="cap" type="http://openid.net/schema/contact/postalcode/home" required="true"/>
+                <openid-attribute name="phone" type="http://openid.net/schema/contact/phone/default" required="true"/>
+            </attribute-exchange>
+        </openid-login>
         <logout logout-url="/logout" logout-success-url="/" delete-cookies="JSESSIONID"/>
         <remember-me user-service-ref="myUserDetailsService" authentication-success-handler-ref="loginSuccessfull"/>
 <!--
@@ -36,6 +70,10 @@
     </http>
     
 	<beans:bean id="loginSuccessfull" class="it.polito.ai.lhmf.security.LoginSuccessfullHandler"/>
+	
+	<beans:bean id="openIdSuccessButNotRegistered" class="it.polito.ai.lhmf.security.OpenIdRegistrationRequiredHandler">
+	    <beans:property name="defaultFailureUrl" value="/spring_security_login?login_error"/>
+	</beans:bean>
     
 	<authentication-manager>
 	    <authentication-provider user-service-ref="myUserDetailsService">
@@ -46,36 +84,5 @@
 	<beans:bean id="myUserDetailsService" class="it.polito.ai.lhmf.security.MyUserDetailsService">
 	    <beans:property name="sessionFactory" ref="sessionFactory"/>
 	</beans:bean>
-
-    <!--
-    Usernames/Passwords are
-        rod/koala
-        dianne/emu
-        scott/wombat
-        peter/opal
-    -->
-<!--     <beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/> -->
-
-<!--     <authentication-manager> -->
-<!--         <authentication-provider> -->
-<!--             <password-encoder ref="encoder"/> -->
-<!--             <user-service> -->
-<!--                 <user name="rod" password="4efe081594ce25ee4efd9f7067f7f678a347bccf2de201f3adf2a3eb544850b465b4e51cdc3fcdde" authorities="supervisor, user, teller" /> -->
-<!--                 <user name="dianne" password="957ea522524a41cbfb649a3e293d56268f840fd5b661b499b07858bc020d6d223f912e3ab303b00f" authorities="user,teller" /> -->
-<!--                 <user name="scott" password="fb1f9e48058d30dc21c35ab4cf895e2a80f2f03fac549b51be637196dfb6b2b7276a89c65e38b7a1" authorities="user" /> -->
-<!--                 <user name="peter" password="e175750688deee19d7179d444bfaf92129f4eea8b4503d83eb8f92a7dd9cda5fbae73638c913e420" authorities="user" /> -->
-<!--             </user-service> -->
-<!--         </authentication-provider> -->
-<!--     </authentication-manager> -->
-<!-- 	<authentication-manager> -->
-<!--         <authentication-provider> -->
-<!--             <user-service> -->
-<!--                 <user name="rod" password="koala" authorities="supervisor, user, teller" /> -->
-<!--                 <user name="dianne" password="emu" authorities="user,teller" /> -->
-<!--                 <user name="scott" password="wombat" authorities="user" /> -->
-<!--                 <user name="peter" password="opal" authorities="user" /> -->
-<!--             </user-service> -->
-<!--         </authentication-provider> -->
-<!--     </authentication-manager> -->
 
 </beans:beans>
