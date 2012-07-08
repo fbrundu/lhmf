@@ -19,23 +19,10 @@
         <property name="packagesToScan" value="it.polito.ai.lhmf.orm"/>
         <property name="hibernateProperties">
             <props>
-<!--                 <prop key="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</prop> -->
-<!--   				<prop key="hibernate.connection.url">jdbc:mysql://localhost/malnati_project</prop> -->
-<!-- 			  	<prop key="hibernate.connection.username">root</prop> -->
 			  	<prop key="hibernate.default_schema">malnati_project</prop>
 			  	<prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
 			  	<prop key="hibernate.show_sql">true</prop>
-<!-- 			  	<prop key="hibernate.current_session_context_class">thread</prop> -->
             </props>
-<!--             <list> -->
-<!--                 <value>hibernate.connection.driver_class=org.gjt.mm.mysql.Driver</value> -->
-<!--                 <value>hibernate.connection.url=jdbc:mysql://localhost/malnati_project</value> -->
-<!--                 <value>hibernate.connection.username=root</value> -->
-<!--                 <value>hibernate.default_schema=malnati_project</value> -->
-<!--                 <value>hibernate.dialect=org.hibernate.dialect.MySQLInnoDBDialect</value> -->
-<!--                 <value>hibernate.show_sql=true</value> -->
-<!--                 <value>hibernate.current_session_context_class=thread</value> -->
-<!--             </list> -->
         </property>
     </bean>
     
