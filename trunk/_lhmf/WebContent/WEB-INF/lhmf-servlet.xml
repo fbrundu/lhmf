@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
          http://www.springframework.org/schema/beans
          http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -10,7 +11,12 @@
          http://www.springframework.org/schema/context/spring-context-3.1.xsd
          http://www.springframework.org/schema/mvc
          http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+         http://www.springframework.org/schema/security 
+         http://www.springframework.org/schema/security/spring-security-3.1.xsd
          ">
+	<!--  Questo non dovrebbe andare qui. le annotazioni di sicurezza andrebbero messe solo sui metodi del modell (service layer). Per ora perà mi serve per /log -->
+	<security:global-method-security pre-post-annotations="enabled" />
+	
 	<!-- modificato per impostare ObjectMapper customizzato per la serializzazione degli oggetti hibernate -->
 	<mvc:annotation-driven>
 	    <mvc:message-converters>
@@ -48,7 +54,9 @@
 		</property>
 	</bean>
 	
-	<bean name="customObjectMapper" id="customObjectMapper" class="it.polito.ai.lhmf.json.CustomObjectMapper"/>
+	<bean name="customObjectMapper" id="customObjectMapper" class="it.polito.ai.lhmf.json.CustomObjectMapper">
+	    <constructor-arg ref="sessionFactory"/>
+	</bean>
 
 	<mvc:resources mapping="/css/**" location="/css/" />
 	<mvc:resources mapping="/img/**" location="/img/" />

@@ -10,7 +10,7 @@
   <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            /WEB-INF/applcationContext.xml
+            /WEB-INF/applicationContext.xml
             /WEB-INF/applicationContext-security.xml
             /WEB-INF/applicationContext-service.xml
         </param-value>
@@ -32,6 +32,16 @@
   </servlet-mapping>
   
   <!-- FILTERS -->
+  <!-- Used to be able access hibernate objects in json serializers -->
+  <filter>
+      <filter-name>openHibernateSessionInView</filter-name>
+      <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+	<filter-name>openHibernateSessionInView</filter-name>
+	<url-pattern>/*</url-pattern>
+  </filter-mapping>
   
   <filter>
       <filter-name>springSecurityFilterChain</filter-name>
@@ -42,22 +52,4 @@
 	<filter-name>springSecurityFilterChain</filter-name>
 	<url-pattern>/*</url-pattern>
   </filter-mapping>
-  
-<!--   <filter> -->
-<!--       <filter-name>HibernateFilter</filter-name> -->
-<!--       <filter-class>it.polito.ai.lhmf.filters.HibernateFilter</filter-class> -->
-<!--   </filter> -->
-<!--   <filter-mapping> -->
-<!--       <filter-name>HibernateFilter</filter-name> -->
-<!--       <url-pattern>/*</url-pattern> -->
-<!--   </filter-mapping> -->
-  <filter>
-      <filter-name>LoginFilter</filter-name>
-      <filter-class>it.polito.ai.lhmf.filters.LoginFilter</filter-class>
-  </filter>
-  <filter-mapping>
-      <filter-name>LoginFilter</filter-name>
-      <url-pattern>/*</url-pattern>
-  </filter-mapping>
-
 </web-app>

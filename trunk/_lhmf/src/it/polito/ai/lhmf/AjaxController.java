@@ -1,6 +1,9 @@
 package it.polito.ai.lhmf;
 
-import it.polito.ai.lhmf.model.*;
+import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.LogInterface;
+import it.polito.ai.lhmf.model.ProductCategoryInterface;
+import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.orm.Log;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
@@ -9,6 +12,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +24,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/ajax")
 public class AjaxController
 {
+	@Autowired
+	private LogInterface logInterface;
+	
+	@Autowired
+	private ProductInterface productInterface;
+	
+	@Autowired
+	private ProductCategoryInterface productCategoryInterface;
+	
 	@RequestMapping(value = "/getlogs", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Log> getLogs(HttpServletRequest request,
@@ -27,19 +40,7 @@ public class AjaxController
 			@RequestParam(value = "end") long end)
 	{
 		List<Log> logs = null;
-		/* solo se e' amministratore */
-		if ((Integer) request.getSession().getAttribute("member_type") == 3)
-		{
-			try
-			{
-				logs = LogInterface.getLogs((org.hibernate.Session) request
-						.getAttribute("hibernate_session"), start, end);
-			}
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-		}
+		logs = logInterface.getLogs(start, end);
 		return logs;
 	}
 
@@ -48,14 +49,11 @@ public class AjaxController
 	Integer newProduct(HttpServletRequest request, @RequestBody Product product)
 	{
 		Integer idProduct = -1;
-		try
-		{
-			idProduct = ProductInterface.newProduct(
-					(org.hibernate.Session) request
-							.getAttribute("hibernate_session"), product);
-		}
-		catch (Exception e)
-		{
+		try {
+			idProduct = productInterface.newProduct(
+					product);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return idProduct;
@@ -66,16 +64,7 @@ public class AjaxController
 	List<Product> getProducts(HttpServletRequest request)
 	{
 		List<Product> productsList = null;
-		try
-		{
-			productsList = ProductInterface
-					.getProducts((org.hibernate.Session) request
-							.getAttribute("hibernate_session"));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		productsList = productInterface.getProducts();
 		return productsList;
 	}
 
@@ -85,14 +74,11 @@ public class AjaxController
 			@RequestBody ProductCategory productCategory)
 	{
 		Integer idProductCategory = -1;
-		try
-		{
-			idProductCategory = ProductCategoryInterface
-					.newProductCategory((org.hibernate.Session) request
-							.getAttribute("hibernate_session"), productCategory);
-		}
-		catch (Exception e)
-		{
+		try {
+			idProductCategory = productCategoryInterface
+					.newProductCategory(productCategory);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return idProductCategory;
@@ -103,16 +89,7 @@ public class AjaxController
 	List<ProductCategory> getProductCategories(HttpServletRequest request)
 	{
 		List<ProductCategory> productCategoriesList = null;
-		try
-		{
-			productCategoriesList = ProductCategoryInterface
-					.getProductCategories((org.hibernate.Session) request
-							.getAttribute("hibernate_session"));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		productCategoriesList = productCategoryInterface.getProductCategories();
 		return productCategoriesList;
 	}
 
@@ -122,14 +99,11 @@ public class AjaxController
 			@RequestBody ProductCategory productCategory)
 	{
 		Integer rowsAffected = -1;
-		try
-		{
-			rowsAffected = ProductCategoryInterface
-					.updateProductCategory((org.hibernate.Session) request
-							.getAttribute("hibernate_session"), productCategory);
-		}
-		catch (Exception e)
-		{
+		try {
+			rowsAffected = productCategoryInterface
+					.updateProductCategory(productCategory);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rowsAffected;
@@ -141,15 +115,10 @@ public class AjaxController
 			@RequestBody Integer idProductCategory)
 	{
 		Integer rowsAffected = -1;
-		try
-		{
-			rowsAffected = ProductCategoryInterface.deleteProductCategory(
-					(org.hibernate.Session) request
-							.getAttribute("hibernate_session"),
-					idProductCategory);
-		}
-		catch (Exception e)
-		{
+		try {
+			rowsAffected = productCategoryInterface.deleteProductCategory(idProductCategory);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return rowsAffected;

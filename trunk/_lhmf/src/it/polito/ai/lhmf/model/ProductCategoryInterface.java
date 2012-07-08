@@ -1,50 +1,49 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
 import it.polito.ai.lhmf.orm.ProductCategory;
 
 import java.util.List;
 
 import org.hibernate.Query;
-import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public abstract class ProductCategoryInterface
+public class ProductCategoryInterface
 {
-	public static Integer newProductCategory(Session hibernateSession,
-			ProductCategory productCategory)
-			throws NoHibernateSessionException, InvalidParametersException
+	//The session factory will be automatically injected by spring
+	private SessionFactory sessionFactory;
+	
+	public void setSessionFactory(SessionFactory sf){
+		this.sessionFactory = sf;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer newProductCategory(ProductCategory productCategory)
+			throws InvalidParametersException
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
 		if (productCategory == null)
 			throw new InvalidParametersException();
 
-		return (Integer) hibernateSession.save(productCategory);
+		return (Integer) sessionFactory.getCurrentSession().save(productCategory);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<ProductCategory> getProductCategories(
-			Session hibernateSession) throws NoHibernateSessionException
+	@Transactional(readOnly=true)
+	public List<ProductCategory> getProductCategories()
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		return hibernateSession.createQuery("from ProductCategory").list();
+		return sessionFactory.getCurrentSession().createQuery("from ProductCategory").list();
 	}
 
-	public static Integer updateProductCategory(Session hibernateSession,
-			ProductCategory productCategory)
-			throws NoHibernateSessionException, InvalidParametersException
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer updateProductCategory(ProductCategory productCategory)
+			throws InvalidParametersException
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
 		if (productCategory == null)
 			throw new InvalidParametersException();
 
-		Query query = hibernateSession
+		Query query = sessionFactory.getCurrentSession()
 				.createQuery("update ProductCategory set description = :description"
 						+ " where idProductCategory = :idProductCategory");
 		query.setParameter("description", productCategory.getDescription());
@@ -54,17 +53,13 @@ public abstract class ProductCategoryInterface
 		return (Integer) query.executeUpdate();
 	}
 
-	public static Integer deleteProductCategory(Session hibernateSession,
-			Integer idProductCategory) throws NoHibernateSessionException,
-			InvalidParametersException
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer deleteProductCategory(Integer idProductCategory) throws InvalidParametersException
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
 		if (idProductCategory == null)
 			throw new InvalidParametersException();
 
-		Query query = hibernateSession
+		Query query = sessionFactory.getCurrentSession()
 				.createQuery("delete from ProductCategory where idProductCategory = :idProductCategory");
 
 		query.setString("idProductCategory", idProductCategory.toString());

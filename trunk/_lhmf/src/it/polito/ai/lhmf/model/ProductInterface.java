@@ -1,34 +1,37 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.exceptions.NoHibernateSessionException;
 import it.polito.ai.lhmf.orm.Product;
 
 import java.util.List;
 
-import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public abstract class ProductInterface
+public class ProductInterface
 {
-	public static Integer newProduct(Session hibernateSession, Product product)
-			throws NoHibernateSessionException, InvalidParametersException
+	//The session factory will be automatically injected by spring
+	private SessionFactory sessionFactory;
+	
+	public void setSessionFactory(SessionFactory sf){
+		this.sessionFactory = sf;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer newProduct(Product product)
+			throws InvalidParametersException
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
 		if (product == null)
 			throw new InvalidParametersException();
 
-		return (Integer) hibernateSession.save(product);
+		return (Integer) sessionFactory.getCurrentSession().save(product);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Product> getProducts(Session hibernateSession)
-			throws NoHibernateSessionException
+	@Transactional(readOnly=true)
+	public List<Product> getProducts()
 	{
-		if (hibernateSession == null)
-			throw new NoHibernateSessionException();
-
-		return hibernateSession.createQuery("from Product").list();
+		return sessionFactory.getCurrentSession().createQuery("from Product").list();
 	}
 }
