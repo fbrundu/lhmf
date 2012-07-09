@@ -60,9 +60,10 @@ public class ProductCategoryInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession()
-				.createQuery("delete from ProductCategory where idProductCategory = :idProductCategory");
+				.createQuery("delete from ProductCategory"
+						+ "where idProductCategory = :idProductCategory");
 
-		query.setString("idProductCategory", idProductCategory.toString());
+		query.setParameter("idProductCategory", idProductCategory);
 
 		return (Integer) query.executeUpdate();
 	}

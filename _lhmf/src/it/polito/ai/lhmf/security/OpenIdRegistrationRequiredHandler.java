@@ -14,22 +14,30 @@ import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-public class OpenIdRegistrationRequiredHandler extends SimpleUrlAuthenticationFailureHandler{
+public class OpenIdRegistrationRequiredHandler extends
+		SimpleUrlAuthenticationFailureHandler
+{
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException exception)
-			throws IOException, ServletException {
+			throws IOException, ServletException
+	{
 		boolean registrationRedirect = false;
-		if(exception instanceof OpenIdNeedsRegistration){
+		if (exception instanceof OpenIdNeedsRegistration)
+		{
 			OpenIdNeedsRegistration e = (OpenIdNeedsRegistration) exception;
 			OpenIDAuthenticationToken token = e.getOpenIDToken();
-			if(token != null && token.getStatus().equals(OpenIDAuthenticationStatus.SUCCESS)){
-				//Object principal = token.getPrincipal();
+			if (token != null
+					&& token.getStatus().equals(
+							OpenIDAuthenticationStatus.SUCCESS))
+			{
+				// Object principal = token.getPrincipal();
 				request.getSession().setAttribute("OPENID_TOKEN", token);
 				registrationRedirect = true;
 			}
 		}
-		if(registrationRedirect){
+		if (registrationRedirect)
+		{
 			DefaultRedirectStrategy red = new DefaultRedirectStrategy();
 			red.sendRedirect(request, response, "/openid_signup");
 		}
