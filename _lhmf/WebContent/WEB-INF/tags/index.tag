@@ -39,15 +39,15 @@
 			<ul>
 		    	<li>Ciao ${user} | <a href='<spring:url htmlEscape="true" value="/logout"/>'>Logout</a>
 		    </ul>
+		    <ul>
+		      <li><a href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
+		      <li>NN</li>
+		    </ul>
+		    <ul>
+		      <li><a href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
+		      <li>NN</li>
+		    </ul>
 	    </c:if>
-		<ul>
-	      <li><a href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
-	      <li>NN</li>
-	    </ul>
-	    <ul>
-	      <li><a href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
-	      <li>NN</li>
-	    </ul>
 		</nav>
 		<div class="main">
 			<div class="navigazione">
