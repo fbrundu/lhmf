@@ -24,7 +24,37 @@
         		<c:when test="${email != null}"><input type="text" name="email" id="email" readonly="readonly" value="${email}"/></c:when>
         		<c:otherwise><input type="text" name="email" id="email" required="required"/></c:otherwise>
         	</c:choose>
-        	<br><input type="submit" value="Registrati"/>
+        	<br><label for="address">Address: </label>
+          <c:choose>
+            <c:when test="${address != null}"><input type="text" name="address" id="address" readonly="readonly" value="${address}"/></c:when>
+            <c:otherwise><input type="text" name="address" id="address" required="required"/></c:otherwise>
+          </c:choose>
+          <br><label for="city">City: </label>
+          <c:choose>
+            <c:when test="${city != null}"><input type="text" name="city" id="city" readonly="readonly" value="${city}"/></c:when>
+            <c:otherwise><input type="text" name="city" id="city" required="required"/></c:otherwise>
+          </c:choose>
+          <br><label for="state">State: </label>
+          <c:choose>
+            <c:when test="${state != null}"><input type="text" name="state" id="state" readonly="readonly" value="${state}"/></c:when>
+            <c:otherwise><input type="text" name="state" id="state" required="required"/></c:otherwise>
+          </c:choose>
+          <br><label for="country">Country: </label>
+          <c:choose>
+            <c:when test="${country != null}"><input type="text" name="country" id="country" readonly="readonly" value="${country}"/></c:when>
+            <c:otherwise><input type="text" name="country" id="country" required="required"/></c:otherwise>
+          </c:choose>
+          <br><label for="cap">Cap: </label>
+          <c:choose>
+            <c:when test="${cap != null}"><input type="text" name="cap" id="cap" readonly="readonly" value="${cap}"/></c:when>
+            <c:otherwise><input type="text" name="cap" id="cap" required="required"/></c:otherwise>
+          </c:choose>
+          <br><label for="phone">Phone: </label>
+          <c:choose>
+            <c:when test="${phone != null}"><input type="text" name="phone" id="phone" readonly="readonly" value="${phone}"/></c:when>
+            <c:otherwise><input type="text" name="phone" id="phone" required="required"/></c:otherwise>
+          </c:choose>
+          <br><input type="submit" value="Registrati"/>
         </form>
     </jsp:body>
 </t:index>
