@@ -92,13 +92,6 @@ public class MyUserDetailsService implements UserDetailsService,
 			return new User(m.getUsername(), m.getPassword(), enabled, true,
 					true, true, roles);
 		}
-		// List<SimpleGrantedAuthority> roles = new
-		// ArrayList<SimpleGrantedAuthority>();
-		// roles.add(new SimpleGrantedAuthority(UserRoles.NORMAL));
-		// roles.add(new SimpleGrantedAuthority(UserRoles.RESP));
-		// roles.add(new SimpleGrantedAuthority(UserRoles.ADMIN));
-		// User user = new User("luca", "asf", true, true, true, true, roles);
-		// return user;
 	}
 
 	@Override
@@ -136,65 +129,5 @@ public class MyUserDetailsService implements UserDetailsService,
 			return new User(m.getUsername(), m.getPassword(), enabled, true,
 					true, true, roles);
 		}
-
-		// CustomUserDetails user = registeredUsers.get(id);
-		//
-		// if (user != null) {
-		// return user;
-		// }
-
-		// String email = null;
-		// String firstName = null;
-		// String lastName = null;
-		// String fullName = null;
-		//
-		// List<OpenIDAttribute> attributes = token.getAttributes();
-		//
-		// for (OpenIDAttribute attribute : attributes) {
-		// if (attribute.getName().equals("email")) {
-		// email = attribute.getValues().get(0);
-		// }
-		//
-		// if (attribute.getName().equals("firstname")) {
-		// firstName = attribute.getValues().get(0);
-		// }
-		//
-		// if (attribute.getName().equals("lastname")) {
-		// lastName = attribute.getValues().get(0);
-		// }
-		//
-		// if (attribute.getName().equals("fullname")) {
-		// fullName = attribute.getValues().get(0);
-		// }
-		// }
-		//
-		// if (fullName == null) {
-		// StringBuilder fullNameBldr = new StringBuilder();
-		//
-		// if (firstName != null) {
-		// fullNameBldr.append(firstName);
-		// }
-		//
-		// if (lastName != null) {
-		// fullNameBldr.append(" ").append(lastName);
-		// }
-		// fullName = fullNameBldr.toString();
-		// }
-		// User user = new User(id, "unused",
-		// AuthorityUtils.createAuthorityList(UserRoles.NORMAL));
-
-		// user = new CustomUserDetails(id, DEFAULT_AUTHORITIES);
-		// user.setEmail(email);
-		// user.setName(fullName);
-		//
-		// registeredUsers.put(id, user);
-		//
-		// user = new CustomUserDetails(id, DEFAULT_AUTHORITIES);
-		// user.setEmail(email);
-		// user.setName(fullName);
-		// user.setNewUser(true);
-
-		// return user;
 	}
-
 }

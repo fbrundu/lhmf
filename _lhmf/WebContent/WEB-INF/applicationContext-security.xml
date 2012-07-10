@@ -7,8 +7,10 @@
 
 <beans:beans xmlns="http://www.springframework.org/schema/security"
     xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    					http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
     <debug />
@@ -21,9 +23,13 @@
 
 	<http use-expressions="true">
 	    <intercept-url pattern="/openid_signup*" access="permitAll"/>
+	    <intercept-url pattern="/facebook_signup*" access="permitAll"/>
 	    <intercept-url pattern="/login*" access="permitAll"/>
+	    <intercept-url pattern="/j_spring_oauth_security_check*" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <form-login login-page="/login" authentication-success-handler-ref="loginSuccessfull" authentication-failure-url="/login?form_error"/>
+        <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+        <custom-filter before="FILTER_SECURITY_INTERCEPTOR " ref="fbAuthFilter"/>
         <openid-login user-service-ref="myUserDetailsService" authentication-success-handler-ref="loginSuccessfull" authentication-failure-handler-ref="openIdSuccessButNotRegistered">
             <attribute-exchange>
                 <openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true"/>
@@ -59,24 +65,48 @@
         </openid-login>
         <logout logout-url="/logout" logout-success-url="/" delete-cookies="JSESSIONID" invalidate-session="true"/>
         <remember-me user-service-ref="myUserDetailsService" authentication-success-handler-ref="loginSuccessfull"/>
-<!--
-    Uncomment to enable X509 client authentication support
-        <x509 />
--->
+
         <!-- Uncomment to limit the number of sessions a user can have -->
 <!--         <session-management invalid-session-url="/timeout.jsp"> -->
 <!--             <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" /> -->
 <!--         </session-management> -->
-
     </http>
+    
+	<beans:bean id="customAccessTokenProviderChain" class="org.springframework.security.oauth2.client.token.AccessTokenProviderChain">
+	    <beans:constructor-arg>
+	        <beans:list>
+	            <beans:bean class="it.polito.ai.lhmf.security.FacebookAccessTokenProvider"/>
+	            <beans:bean class="org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsAccessTokenProvider"/>
+	        </beans:list>  
+	    </beans:constructor-arg>
+	</beans:bean>
+	
+	<beans:bean id="oauth2ClientFilter" class="org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter">
+	    <beans:property name="accessTokenProvider" ref="customAccessTokenProviderChain"/>
+	    <beans:property name="redirectOnError" value="true"/>
+	</beans:bean>
+	
+	<beans:bean id="oauth2ResourceDetailsService" class="it.polito.ai.lhmf.security.FacebookResourceDetailsService"/>
+	
+	<beans:bean id="fbAuthFilter" class="it.polito.ai.lhmf.security.FacebookAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+		<beans:property name="protectedResourceDetailsService" ref="oauth2ResourceDetailsService"/>
+		<beans:property name="authenticationSuccessHandler" ref="loginSuccessfull"/>
+		<beans:property name="AuthenticationFailureHandler" ref="fbSuccessButNotRegistered"/>
+		<beans:property name="sessionFactory" ref="sessionFactory"/>
+	</beans:bean>
     
 	<beans:bean id="loginSuccessfull" class="it.polito.ai.lhmf.security.LoginSuccessfullHandler"/>
 	
 	<beans:bean id="openIdSuccessButNotRegistered" class="it.polito.ai.lhmf.security.OpenIdRegistrationRequiredHandler">
 	    <beans:property name="defaultFailureUrl" value="/login?openid_error"/>
 	</beans:bean>
+	
+	<beans:bean id="fbSuccessButNotRegistered" class="it.polito.ai.lhmf.security.FacebookRegistrationRequiredHandler">
+	    <beans:property name="defaultFailureUrl" value="/login?fb_error"/>
+	</beans:bean>
     
-	<authentication-manager>
+	<authentication-manager alias="authenticationManager">
 	    <authentication-provider user-service-ref="myUserDetailsService">
 	        <password-encoder hash="md5"/>
 	    </authentication-provider>

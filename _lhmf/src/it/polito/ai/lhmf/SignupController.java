@@ -1,9 +1,13 @@
 package it.polito.ai.lhmf;
 
+import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
+
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -111,5 +115,36 @@ public class SignupController
 		// TODO registrazione, settaggio attributi e reindirizzamento alla view
 		// apposita
 		return new ModelAndView("/");
+	}
+	
+	@RequestMapping(value = "/facebook_signup", method = RequestMethod.GET)
+	public ModelAndView facebookSignupGet(Model model, HttpSession session){
+		ObjectNode values = (ObjectNode) session.getAttribute("FACEBOOK_VALUES");
+		JsonNode idNode = values.get("id");
+		JsonNode nameNode = values.get("first_name");
+		JsonNode surnameNode = values.get("last_name");
+		JsonNode emailNode = values.get("email");
+		
+		session.setAttribute("FACEBOOK_USERID", FacebookAuthenticationFilter.FACEBOOK_USERID_PREFIX + idNode.getTextValue());
+		
+		//TODO implementare altri attributti
+		if(nameNode != null)
+			model.addAttribute("firstname", nameNode.getTextValue());
+		
+		if(surnameNode != null)
+			model.addAttribute("lastname", surnameNode.getTextValue());
+		
+		if(emailNode != null)
+			model.addAttribute("email", emailNode.getTextValue());
+		
+		model.addAttribute("actionUrl", "/facebook_signup");
+		return new ModelAndView("signup");
+	}
+	
+	@RequestMapping(value ="/facebook_signup", method = RequestMethod.POST)
+	public ModelAndView facebookSignupPost( @RequestParam(value="firstname", required=true) String firstname,
+			@RequestParam(value="lastname", required=true) String lastname, 
+			@RequestParam(value="email", required=true)String email){
+		return null;
 	}
 }
