@@ -30,6 +30,8 @@ public class AjaxController
 	@Autowired
 	private ProductInterface productInterface;
 	
+	//private Order
+	
 	@Autowired
 	private ProductCategoryInterface productCategoryInterface;
 	
@@ -122,5 +124,22 @@ public class AjaxController
 			e.printStackTrace();
 		}
 		return rowsAffected;
+	}
+	
+	@RequestMapping(value = "/neworder", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer newOrder(HttpServletRequest request, @RequestBody Order order)
+	{
+		Integer idOrder = -1;
+		try {
+			idOrder = orderI
+			
+			idProduct = productInterface.newProduct(
+					product);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return idOrder;
 	}
 }
