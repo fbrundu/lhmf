@@ -1,7 +1,5 @@
 package it.polito.ai.lhmf.model;
 
-import java.security.InvalidParameterException;
-
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.orm.Log;
@@ -10,6 +8,7 @@ import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,11 +38,13 @@ public class UserInterface {
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
-	public void adminEnableMember(Member admin, String id) throws InvalidParametersException{
-		if(id == null)
+	public void adminEnableMember(Member admin, String username) throws InvalidParametersException{
+		if(username == null)
 			throw new InvalidParametersException();
 		Session session = sessionFactory.getCurrentSession();
-		Member member = (Member) session.get(Member.class, id);
+		Query query = session.createQuery("from Member where username = :username");
+		query.setParameter("username", username);
+		Member member = (Member) query.uniqueResult();
 		if(member == null)
 			throw new InvalidParametersException();
 		else{
@@ -51,7 +52,7 @@ public class UserInterface {
 				member.setMemberStatus((MemberStatus)session.get(MemberStatus.class, MemberStatuses.ENABLED));
 				Log log = new Log();
 				log.setMember(admin);
-				log.setLogtext("Admin enabled member" + "id");
+				log.setLogtext("Admin enabled member '" + username + "'");
 				session.save(log);
 			}
 		}
@@ -67,11 +68,13 @@ public class UserInterface {
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
-	public void adminRemoveMember(Member admin, String id) throws InvalidParametersException{
-		if(id == null)
+	public void adminRemoveMember(Member admin, String username) throws InvalidParametersException{
+		if(username == null)
 			throw new InvalidParametersException();
 		Session session = sessionFactory.getCurrentSession();
-		Member member = (Member)session.get(Member.class, id);
+		Query query = session.createQuery("from Member where username = :username");
+		query.setParameter("username", username);
+		Member member = (Member) query.uniqueResult();
 		if(member != null){
 			session.delete(member);
 			Log log = new Log();
