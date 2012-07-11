@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class OrderInterface
 {
-	//The session factory will be automatically injected by spring
+	
 	private SessionFactory sessionFactory;
 		
 	public void setSessionFactory(SessionFactory sf)
@@ -32,8 +32,16 @@ public class OrderInterface
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOrders()
+	public List<Order> getPastOrders()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Order").list();
+		return sessionFactory.getCurrentSession().createQuery("from Order where date_close = 0").list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getActiveOrders()
+	{
+		return sessionFactory.getCurrentSession().createQuery("from Order where date_close <> 0").list();
+	}
+	
 }

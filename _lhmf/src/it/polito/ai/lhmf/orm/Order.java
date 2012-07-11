@@ -37,7 +37,7 @@ public class Order implements java.io.Serializable {
 	private Date dateDelivery;
 	private Set<Purchase> purchases = new HashSet<Purchase>(0);
 	private Set<Product> products = new HashSet<Product>(0);
-
+	
 	public Order() {
 	}
 
