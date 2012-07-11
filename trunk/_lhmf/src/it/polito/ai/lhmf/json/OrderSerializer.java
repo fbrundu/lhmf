@@ -19,8 +19,6 @@ import org.codehaus.jackson.map.SerializerProvider;
 
 public class OrderSerializer extends JsonSerializer<Order>
 {
-	
-	//rivedere il database
 	@Override
 	public void serialize(Order value, JsonGenerator jgen,
 			SerializerProvider provider) throws IOException,
@@ -28,21 +26,11 @@ public class OrderSerializer extends JsonSerializer<Order>
 	{
 		jgen.writeStartObject();
 		jgen.writeNumberField("idOrder", value.getIdOrder());
-		/*jgen.writeStringField("name", value.getName());
-		jgen.writeStringField("description", value.getDescription());
-		jgen.writeNumberField("dimension", value.getDimension());
-		jgen.writeStringField("measure_unit", value.getMeasureUnit());
-		jgen.writeNumberField("unit_block", value.getUnitBlock());
-		jgen.writeBooleanField("availability", value.isAvailability());
-		jgen.writeNumberField("transport_cost", value.getTransportCost());
-		jgen.writeNumberField("unit_cost", value.getUnitCost());
-		jgen.writeNumberField("min_buy", value.getMinBuy());
-		jgen.writeNumberField("max_buy", value.getMaxBuy());
-		jgen.writeNumberField("idMember_supplier", value.getSupplier()
-				.getIdMember());
-		jgen.writeNumberField("idCategory", value.getProductCategory()
-				.getIdProductCategory());
+		jgen.writeStringField("date_open", value.getDateOpen().toString());
+		jgen.writeStringField("date_close", value.getDateClose().toString());
+		jgen.writeStringField("date_delivery", value.getDateDelivery().toString());
+		jgen.writeNumberField("idMember_resp", value.getMember().getIdMember());
+		jgen.writeNumberField("idMember_supplier", value.getSupplier().getIdMember());
 		jgen.writeEndObject();
-		*/
 	}
 }

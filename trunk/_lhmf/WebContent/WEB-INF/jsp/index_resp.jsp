@@ -18,9 +18,6 @@
   <jsp:body>
         <p>Body example</p>
         <script type="text/javascript">
-      		$(function(){
-        		HelloOrder();
-      		});
         </script>
     </jsp:body>
 </t:index>
