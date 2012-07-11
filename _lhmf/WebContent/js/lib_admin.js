@@ -9,6 +9,7 @@
 
 	$(function(){
 		$("#logLink").click(logClicked);
+		$("#userLink").click(userClicked);
 		
 		$.datepicker.setDefaults({
 			dateFormat: 'dd/mm/yy'
@@ -35,6 +36,9 @@
 							$('#max').datepicker("setDate", Date.now());
 						}
 						break;
+			case 'userMgmt':
+					writeUserPage();
+					break;
 			case 'null': break;
 			default: writeIndexPage();
 		}
@@ -49,6 +53,18 @@
 			if(!! stateData && !! stateData.action && stateData.action == 'log')
 				return;
 			History.pushState({action:'log'}, null, 'log');
+		}
+	}
+	
+	function userClicked(event){
+		if(histEnabled == true){
+			event.preventDefault();
+			var History = window.History;
+			var state = History.getState();
+			var stateData = state.data;
+			if(!! stateData && !! stateData.action && stateData.action == 'userMgmt')
+				return;
+			History.pushState({action:'userMgmt'}, null, 'userMgmt');
 		}
 	}
 
@@ -85,6 +101,14 @@
 
 	function writeIndexPage(){
 		$('.centrale').html("<p>Body admin history state</p>");
+	}
+	
+	function writeUserPage(){
+		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Utenti esistenti</a></li></ul>" +
+				"<div id='tabs-1'></div><div id='tabs-2'></div></div>");
+		$('#tabs-1').html("Aggiungi utente");
+		$('#tabs-2').html("Utenti esistenti");
+		$('#tabs').tabs();
 	}
 })(window);
 

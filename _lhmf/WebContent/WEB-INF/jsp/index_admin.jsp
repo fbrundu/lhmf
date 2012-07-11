@@ -20,7 +20,7 @@
 					<c:choose>
 						<c:when test="${minLog != null}">
 							<script type="text/javascript">
-								function firstPageCallback(){
+								function drawPageCallback(){
 									var state = History.getState();
 									var newState = {data:{action: 'log', min: ${minLog}, max: ${maxLog}}, title: null, url: "./log?min=" + ${minLog} + "&max=" + ${maxLog}};
 									if(newState.data != state.data || newState.title != state.title || newState.url != state.url)
@@ -31,7 +31,7 @@
 						</c:when>
 						<c:otherwise>
 							<script type="text/javascript">
-								function firstPageCallback(){
+								function drawPageCallback(){
 									var state = History.getState();
 									var newState = {data: {action:'log'}, title: null, url: './log'};
 									if(newState != state)
@@ -54,7 +54,7 @@
 	
 	<jsp:attribute name="userMenu">
     	<p>Menù di amministrazione</p>
-    	<p>Gestione utenti</p>
+    	<p><a href='<spring:url htmlEscape="true" value="/userMgmt"/>' id="userLink">Gestione utenti</a></p>
     	<p><a href='<spring:url htmlEscape="true" value="/log"/>' id="logLink">Consultazione log</a></p>
 	</jsp:attribute>
 	
