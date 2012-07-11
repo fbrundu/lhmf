@@ -48,4 +48,8 @@
     <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="orderDao" class="it.polito.ai.lhmf.model.OrderInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>
