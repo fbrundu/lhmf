@@ -5,10 +5,12 @@ import it.polito.ai.lhmf.model.LogInterface;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Log;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.ProductCategory;
+import it.polito.ai.lhmf.orm.Purchase;
 
 import java.util.List;
 
@@ -34,6 +36,9 @@ public class AjaxController
 	
 	@Autowired
 	private OrderInterface orderInterface;
+	
+	@Autowired
+	private PurchaseInterface purchaseInterface;
 	
 	@Autowired
 	private ProductCategoryInterface productCategoryInterface;
@@ -129,7 +134,6 @@ public class AjaxController
 		return rowsAffected;
 	}
 	
-	/*
 	@RequestMapping(value = "/neworder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newOrder(HttpServletRequest request, @RequestBody Order order)
@@ -137,12 +141,65 @@ public class AjaxController
 		Integer idOrder = -1;
 		try 
 		{
-			idOrder = orderIterface.newOrder(order)
-		} 
+			idOrder = orderInterface.newOrder(order);
+		}
 		catch (InvalidParametersException e) 
 		{
 			e.printStackTrace();
 		}
 		return idOrder;
-	}*/
+	}
+	
+	@RequestMapping(value = "/getpastorders", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getPastOrders(HttpServletRequest request)
+	{
+		List<Order> orderList = null;
+		orderList = orderInterface.getPastOrders(); 
+		return orderList;
+	}
+	
+	@RequestMapping(value = "/getactiveorders", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getActiveOrders(HttpServletRequest request)
+	{
+		List<Order> orderList = null;
+		orderList = orderInterface.getActiveOrders(); 
+		return orderList;
+	}
+	
+	@RequestMapping(value = "/newpurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer newPurchase(HttpServletRequest request, @RequestBody Purchase purchase)
+	{
+		Integer idPurchase = -1;
+		try 
+		{
+			idPurchase = purchaseInterface.newPurchase(purchase);
+		}
+		catch (InvalidParametersException e) 
+		{
+			e.printStackTrace();
+		}
+		return idPurchase;
+	}
+	/*
+	@RequestMapping(value = "/getpastpurchase", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Purchase> getPastPurchase(HttpServletRequest request)
+	{
+		List<Purchase> purchaseList = null;
+		purchaseList = purchaseInterface.getPastPurchase(); 
+		return purchaseList;
+	}
+	
+	@RequestMapping(value = "/getactivepurchase", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Purchase> getActivePurchase(HttpServletRequest request)
+	{
+		List<Purchase> purchaseList = null;
+		purchaseList = purchaseIterface.getActivePurchase(); 
+		return purchaseList;
+	}
+	*/
 }
