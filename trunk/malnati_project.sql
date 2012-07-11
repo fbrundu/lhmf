@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Giu 08, 2012 alle 18:13
+-- Generato il: Lug 11, 2012 alle 17:57
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `log`
 --
 
+DROP TABLE IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
   `idLog` int(11) NOT NULL AUTO_INCREMENT,
   `logtext` varchar(300) NOT NULL,
@@ -33,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `idMember` int(11) NOT NULL,
   PRIMARY KEY (`idLog`),
   KEY `fk_Log_Member1` (`idMember`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -41,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `log` (
 -- Struttura della tabella `member`
 --
 
+DROP TABLE IF EXISTS `member`;
 CREATE TABLE IF NOT EXISTS `member` (
   `idMember` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -58,9 +60,10 @@ CREATE TABLE IF NOT EXISTS `member` (
   `member_type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`idMember`),
+  UNIQUE KEY `username` (`username`),
   KEY `fk_Member_Member_Type1` (`member_type`),
   KEY `fk_Member_Member_Status1` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -68,11 +71,21 @@ CREATE TABLE IF NOT EXISTS `member` (
 -- Struttura della tabella `member_status`
 --
 
+DROP TABLE IF EXISTS `member_status`;
 CREATE TABLE IF NOT EXISTS `member_status` (
   `idMember_Status` int(11) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idMember_Status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `member_status`
+--
+
+INSERT INTO `member_status` (`idMember_Status`, `description`) VALUES
+(0, 'mail non verificata'),
+(1, 'mail verificata, non abilitato'),
+(2, 'abilitato');
 
 -- --------------------------------------------------------
 
@@ -80,11 +93,21 @@ CREATE TABLE IF NOT EXISTS `member_status` (
 -- Struttura della tabella `member_type`
 --
 
+DROP TABLE IF EXISTS `member_type`;
 CREATE TABLE IF NOT EXISTS `member_type` (
   `idMember_Type` int(11) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idMember_Type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `member_type`
+--
+
+INSERT INTO `member_type` (`idMember_Type`, `description`) VALUES
+(0, 'normale'),
+(1, 'responsabile'),
+(2, 'admin');
 
 -- --------------------------------------------------------
 
@@ -92,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `member_type` (
 -- Struttura della tabella `message`
 --
 
+DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `idMessage` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(300) NOT NULL,
@@ -109,6 +133,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- Struttura della tabella `notify`
 --
 
+DROP TABLE IF EXISTS `notify`;
 CREATE TABLE IF NOT EXISTS `notify` (
   `idNotify` int(11) NOT NULL AUTO_INCREMENT,
   `text` int(11) NOT NULL,
@@ -124,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `notify` (
 -- Struttura della tabella `order`
 --
 
+DROP TABLE IF EXISTS `order`;
 CREATE TABLE IF NOT EXISTS `order` (
   `idOrder` int(11) NOT NULL,
   `date_open` date NOT NULL,
@@ -142,6 +168,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 -- Struttura della tabella `order_product`
 --
 
+DROP TABLE IF EXISTS `order_product`;
 CREATE TABLE IF NOT EXISTS `order_product` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
@@ -156,6 +183,7 @@ CREATE TABLE IF NOT EXISTS `order_product` (
 -- Struttura della tabella `product`
 --
 
+DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `idProduct` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -181,6 +209,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 -- Struttura della tabella `product_category`
 --
 
+DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE IF NOT EXISTS `product_category` (
   `idProduct_Category` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -193,6 +222,7 @@ CREATE TABLE IF NOT EXISTS `product_category` (
 -- Struttura della tabella `purchase`
 --
 
+DROP TABLE IF EXISTS `purchase`;
 CREATE TABLE IF NOT EXISTS `purchase` (
   `idPurchase` int(11) NOT NULL AUTO_INCREMENT,
   `idMember` int(11) NOT NULL,
@@ -208,6 +238,7 @@ CREATE TABLE IF NOT EXISTS `purchase` (
 -- Struttura della tabella `purchase_product`
 --
 
+DROP TABLE IF EXISTS `purchase_product`;
 CREATE TABLE IF NOT EXISTS `purchase_product` (
   `idPurchase` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
@@ -223,6 +254,7 @@ CREATE TABLE IF NOT EXISTS `purchase_product` (
 -- Struttura della tabella `supplier`
 --
 
+DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `idMember` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -247,6 +279,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `payment_method` varchar(45) NOT NULL,
   `idMember_resp` int(11) NOT NULL,
   PRIMARY KEY (`idMember`),
+  UNIQUE KEY `username` (`username`),
   KEY `fk_Supplier_Member` (`idMember_resp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
@@ -264,8 +297,8 @@ ALTER TABLE `log`
 -- Limiti per la tabella `member`
 --
 ALTER TABLE `member`
-  ADD CONSTRAINT `fk_Member_Member_Type1` FOREIGN KEY (`member_type`) REFERENCES `member_type` (`idMember_Type`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Member_Member_Status1` FOREIGN KEY (`status`) REFERENCES `member_status` (`idMember_Status`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Member_Member_Status1` FOREIGN KEY (`status`) REFERENCES `member_status` (`idMember_Status`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Member_Member_Type1` FOREIGN KEY (`member_type`) REFERENCES `member_type` (`idMember_Type`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `message`
@@ -298,8 +331,8 @@ ALTER TABLE `order_product`
 -- Limiti per la tabella `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `fk_Product_Supplier1` FOREIGN KEY (`idMember_supplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Product_Product_Category1` FOREIGN KEY (`idCategory`) REFERENCES `product_category` (`idProduct_Category`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Product_Product_Category1` FOREIGN KEY (`idCategory`) REFERENCES `product_category` (`idProduct_Category`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Product_Supplier1` FOREIGN KEY (`idMember_supplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `purchase`
@@ -312,8 +345,8 @@ ALTER TABLE `purchase`
 -- Limiti per la tabella `purchase_product`
 --
 ALTER TABLE `purchase_product`
-  ADD CONSTRAINT `fk_Purchase_has_Product_Purchase1` FOREIGN KEY (`idPurchase`) REFERENCES `purchase` (`idPurchase`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Purchase_has_Product_Product1` FOREIGN KEY (`idProduct`) REFERENCES `product` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Purchase_has_Product_Product1` FOREIGN KEY (`idProduct`) REFERENCES `product` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Purchase_has_Product_Purchase1` FOREIGN KEY (`idPurchase`) REFERENCES `purchase` (`idPurchase`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `supplier`
