@@ -1,14 +1,39 @@
 //CRUD on Order
-function newOrder(productCategory)
+/////
+function newOrder(order)
 {
-  $.postJSON("ajax/newproductcategory", productCategory, function(
-      idProductCategory)
+  $.postJSON("ajax/neworder", order, function(idOrder)
   {
-    console.debug("Inserted: " + idProductCategory);
+    console.debug("Inserted: " + idOrder);
   });
 }
 
-function HelloOrder()
+function updateOrder(order)
+{
+  $.postJSON("ajax/updateorder", product, function(rowsAffected)
+  {
+    console.debug("Updated: " + rowsAffected);
+  });
+}
+
+/*function getOders()
+{
+  $.getJSON("ajax/getproducts", function(productsList)
+  {
+    window.localStorage.setItem('productsList', JSON.stringify(productsList));
+    console.debug("productsList saved in localstorage");
+  });
+}
+
+function deleteOrder(idOrder)
+{
+  $.postJSON("ajax/deleteproduct", idProduct, function(rowsAffected)
+  {
+    console.debug("Deleted: " + rowsAffected);
+  });
+}
+*/
+/*function HelloOrder()
 {
   var productCategory = new Object();
   productCategory.idProductCategory = 1;
@@ -45,3 +70,4 @@ function HelloOrder()
     deleteCategory(productCategory.idProductCategory);
   }, 9000);
 }
+*/

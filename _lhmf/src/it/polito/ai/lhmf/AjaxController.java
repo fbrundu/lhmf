@@ -4,8 +4,10 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.LogInterface;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
+import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.orm.Log;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.ProductCategory;
 
 import java.util.List;
@@ -30,7 +32,8 @@ public class AjaxController
 	@Autowired
 	private ProductInterface productInterface;
 	
-	//private Order
+	@Autowired
+	private OrderInterface orderInterface;
 	
 	@Autowired
 	private ProductCategoryInterface productCategoryInterface;
@@ -126,20 +129,19 @@ public class AjaxController
 		return rowsAffected;
 	}
 	
-	@RequestMapping(value = "/neworder", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/neworder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newOrder(HttpServletRequest request, @RequestBody Order order)
 	{
 		Integer idOrder = -1;
-		try {
-			idOrder = orderI
-			
-			idProduct = productInterface.newProduct(
-					product);
-		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
+		try 
+		{
+			idOrder = orderIterface.newOrder(order)
+		} 
+		catch (InvalidParametersException e) 
+		{
 			e.printStackTrace();
 		}
 		return idOrder;
-	}
+	}*/
 }
