@@ -2,8 +2,13 @@ package it.polito.ai.lhmf;
 
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.JsonNode;
@@ -34,7 +39,6 @@ public class SignupController
 		String address = null;
 		String city = null;
 		String state = null;
-		String country = null;
 		String cap = null;
 		String phone = null;
 
@@ -45,14 +49,12 @@ public class SignupController
 			String value = attribute.getValues().get(0);
 			if (value != null)
 			{
-				if (attribute.getName().equals("firstname")
-						&& firstname == null)
+				if (attribute.getName().equals("firstname")	&& firstname == null)
 				{
 					firstname = value;
 					model.addAttribute("firstname", firstname);
 				}
-				else if (attribute.getName().equals("lastname")
-						&& lastname == null)
+				else if (attribute.getName().equals("lastname")	&& lastname == null)
 				{
 					lastname = value;
 					model.addAttribute("lastname", lastname);
@@ -62,8 +64,7 @@ public class SignupController
 					email = value;
 					model.addAttribute("email", email);
 				}
-				else if (attribute.getName().equals("address")
-						&& address == null)
+				else if (attribute.getName().equals("address") && address == null)
 				{
 					address = value;
 					model.addAttribute("address", address);
@@ -78,12 +79,6 @@ public class SignupController
 					state = value;
 					model.addAttribute("state", state);
 				}
-				else if (attribute.getName().equals("country")
-						&& country == null)
-				{
-					country = value;
-					model.addAttribute("country", country);
-				}
 				else if (attribute.getName().equals("cap") && cap == null)
 				{
 					cap = value;
@@ -97,23 +92,109 @@ public class SignupController
 			}
 		}
 		model.addAttribute("actionUrl", "/openid_signup");
+		model.addAttribute("fromOpenID", true);
 		return new ModelAndView("signup");
 	}
 
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.POST)
-	public ModelAndView openIdSignupPost(
+	public ModelAndView openIdSignupPost( Model model,
 			@RequestParam(value = "firstname", required = true) String firstname,
 			@RequestParam(value = "lastname", required = true) String lastname,
 			@RequestParam(value = "email", required = true) String email,
 			@RequestParam(value = "address", required = true) String address,
 			@RequestParam(value = "city", required = true) String city,
 			@RequestParam(value = "state", required = true) String state,
-			@RequestParam(value = "country", required = true) String country,
+			//@RequestParam(value = "country", required = true) String country,
 			@RequestParam(value = "cap", required = true) String cap,
-			@RequestParam(value = "phone", required = true) String phone)
+			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone)
 	{
 		// TODO registrazione, settaggio attributi e reindirizzamento alla view
 		// apposita
+		
+		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		
+		model.addAttribute("firstname", firstname);
+		model.addAttribute("lastname", lastname);
+		model.addAttribute("email", email);
+		model.addAttribute("address", address);
+		model.addAttribute("city", city);
+		model.addAttribute("state", state);
+		model.addAttribute("cap", cap);
+		model.addAttribute("phone", phone);
+		
+		if(firstname.equals("") || isNumeric(firstname)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Nome");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(lastname.equals("") || isNumeric(lastname)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Cognome");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(!isValidEmailAddress(email)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Email");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(address.equals("") || isNumeric(address)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Indirizzo");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(city.equals("") || isNumeric(city)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Città");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}	
+		if(state.equals("") || isNumeric(state)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Stato");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(cap.equals("") || !isNumeric(cap)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Cap");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(!phone.equals("not set")) {
+			
+			if(!isNumeric(phone)) {
+				
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Telefono");
+				error.put("error", "Formato non Valido");
+				errors.add(error);
+			}
+		}
+	
+		if(errors.size() > 0) {
+		
+			// Ci sono errori, rimandare alla pagina mostrandoli
+			model.addAttribute("errors", errors);
+			model.addAttribute("fromOpenID", false);
+			model.addAttribute("actionUrl", "/openid_signup");
+			return new ModelAndView("signup");
+			
+		}
+		else
+		{
+			//eseguire la registrazione e mandare alla pagina principale
+		}
 		return new ModelAndView("/");
 	}
 	
@@ -147,4 +228,30 @@ public class SignupController
 			@RequestParam(value="email", required=true)String email){
 		return null;
 	}
+	
+	public static boolean isValidEmailAddress(String email) {
+		   boolean result = true;
+		   
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(email);
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
+	}
+	
+	public static boolean isNumeric(String args) {
+			boolean result = true;
+		
+			try {	
+				Integer.parseInt(args);
+			} catch (NumberFormatException e) {
+				result = false;
+			}
+			
+			return result;
+			
+	}
+
 }
