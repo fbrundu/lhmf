@@ -129,7 +129,8 @@ public class AjaxController
 		return rowsAffected;
 	}
 	
-	/*@RequestMapping(value = "/neworder", method = RequestMethod.POST)
+	/*
+	@RequestMapping(value = "/neworder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newOrder(HttpServletRequest request, @RequestBody Order order)
 	{
