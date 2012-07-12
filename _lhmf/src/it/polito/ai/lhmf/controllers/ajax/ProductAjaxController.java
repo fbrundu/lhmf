@@ -26,14 +26,32 @@ public class ProductAjaxController
 	Integer newProduct(HttpServletRequest request, @RequestBody Product product)
 	{
 		Integer idProduct = -1;
-		try {
-			idProduct = productInterface.newProduct(
-					product);
-		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
+		try
+		{
+			idProduct = productInterface.newProduct(product);
+		}
+		catch (InvalidParametersException e)
+		{
 			e.printStackTrace();
 		}
 		return idProduct;
+	}
+
+	@RequestMapping(value = "/ajax/getproduct", method = RequestMethod.GET)
+	public @ResponseBody
+	Product getProduct(HttpServletRequest request,
+			@RequestBody Integer idProduct)
+	{
+		Product product = null;
+		try
+		{
+			product = productInterface.getProduct(idProduct);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return product;
 	}
 
 	@RequestMapping(value = "/ajax/getproducts", method = RequestMethod.GET)
@@ -41,7 +59,49 @@ public class ProductAjaxController
 	List<Product> getProducts(HttpServletRequest request)
 	{
 		List<Product> productsList = null;
-		productsList = productInterface.getProducts();
+		try
+		{
+			productsList = productInterface.getProducts();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return productsList;
 	}
+
+	@RequestMapping(value = "/ajax/updateproduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer updateProduct(HttpServletRequest request,
+			@RequestBody Product product)
+	{
+		Integer rowsAffected = -1;
+		try
+		{
+			rowsAffected = productInterface.updateProduct(product);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rowsAffected;
+	}
+
+	@RequestMapping(value = "/ajax/deleteproduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer deleteProduct(HttpServletRequest request,
+			@RequestBody Integer idProduct)
+	{
+		Integer rowsAffected = -1;
+		try
+		{
+			rowsAffected = productInterface.deleteProduct(idProduct);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rowsAffected;
+	}
+
 }

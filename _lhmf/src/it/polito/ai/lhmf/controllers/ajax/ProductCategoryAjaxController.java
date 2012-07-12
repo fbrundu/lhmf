@@ -1,6 +1,5 @@
 package it.polito.ai.lhmf.controllers.ajax;
 
-import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.orm.ProductCategory;
 
@@ -27,14 +26,34 @@ public class ProductCategoryAjaxController
 			@RequestBody ProductCategory productCategory)
 	{
 		Integer idProductCategory = -1;
-		try {
+		try
+		{
 			idProductCategory = productCategoryInterface
 					.newProductCategory(productCategory);
-		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return idProductCategory;
+	}
+
+	@RequestMapping(value = "/ajax/getproductcategory", method = RequestMethod.GET)
+	public @ResponseBody
+	ProductCategory getProductCategory(HttpServletRequest request,
+			@RequestBody Integer idProductCategory)
+	{
+		ProductCategory productCategory = null;
+		try
+		{
+			productCategory = productCategoryInterface
+					.getProductCategory(idProductCategory);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return productCategory;
 	}
 
 	@RequestMapping(value = "/ajax/getproductcategories", method = RequestMethod.GET)
@@ -42,7 +61,15 @@ public class ProductCategoryAjaxController
 	List<ProductCategory> getProductCategories(HttpServletRequest request)
 	{
 		List<ProductCategory> productCategoriesList = null;
-		productCategoriesList = productCategoryInterface.getProductCategories();
+		try
+		{
+			productCategoriesList = productCategoryInterface
+					.getProductCategories();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 		return productCategoriesList;
 	}
 
@@ -52,11 +79,13 @@ public class ProductCategoryAjaxController
 			@RequestBody ProductCategory productCategory)
 	{
 		Integer rowsAffected = -1;
-		try {
+		try
+		{
 			rowsAffected = productCategoryInterface
 					.updateProductCategory(productCategory);
-		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return rowsAffected;
@@ -68,10 +97,13 @@ public class ProductCategoryAjaxController
 			@RequestBody Integer idProductCategory)
 	{
 		Integer rowsAffected = -1;
-		try {
-			rowsAffected = productCategoryInterface.deleteProductCategory(idProductCategory);
-		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
+		try
+		{
+			rowsAffected = productCategoryInterface
+					.deleteProductCategory(idProductCategory);
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 		return rowsAffected;
