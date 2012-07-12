@@ -56,4 +56,8 @@
     <bean id="userDao" class="it.polito.ai.lhmf.model.UserInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="purchaseDao" class="it.polito.ai.lhmf.model.PurchaseInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>
