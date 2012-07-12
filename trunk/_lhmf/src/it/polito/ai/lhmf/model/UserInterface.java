@@ -58,7 +58,7 @@ public class UserInterface {
 		}
 	}
 	
-	/* TODO se i supplier li aggiunge solo l'admin, è necessario abilitarli in un secondo momento???
+	/* TODO se i supplier li aggiunge solo l'admin, ï¿½ necessario abilitarli in un secondo momento???
 	@Transactional(propagation = Propagation.REQUIRED)
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	public void adminEnableSupplier(Member admin, ){
@@ -82,7 +82,7 @@ public class UserInterface {
 			log.setLogtext("Admin enabled member" + "id");
 			session.save(log);
 		}
-		//TODO cosa succcede se l'utente eliminato è loggato???
+		//TODO cosa succcede se l'utente eliminato ï¿½ loggato???
 	}
 	
 	public void adminUpgradeMember(Member admin, int newRoleId){
