@@ -1,4 +1,4 @@
-package it.polito.ai.lhmf;
+package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
 
@@ -153,7 +153,7 @@ public class SignupController
 		if(city.equals("") || isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Città");
+			error.put("id", "Cittï¿½");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	

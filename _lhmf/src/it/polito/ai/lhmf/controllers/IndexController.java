@@ -1,4 +1,4 @@
-package it.polito.ai.lhmf;
+package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 
