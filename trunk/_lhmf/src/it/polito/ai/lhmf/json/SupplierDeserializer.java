@@ -54,8 +54,8 @@ public class SupplierDeserializer extends JsonDeserializer<Supplier>
 			newSupplier.setCap(node.get("cap").getIntValue());
 			newSupplier.setTel(node.get("tel").getTextValue());
 			newSupplier.setActive(node.get("state").getBooleanValue());
-			newSupplier.setMemberType(node.get("memberType").getNumberValue()
-					.byteValue());
+//			newSupplier.setMemberType(node.get("memberType").getNumberValue()
+//					.byteValue());
 			newSupplier.setCompanyName(node.get("companyName").getTextValue());
 			newSupplier.setDescription(node.get("description").getTextValue());
 			newSupplier.setContactName(node.get("contactName").getTextValue());
