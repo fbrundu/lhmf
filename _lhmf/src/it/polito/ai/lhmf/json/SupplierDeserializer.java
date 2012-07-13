@@ -44,14 +44,14 @@ public class SupplierDeserializer extends JsonDeserializer<Supplier>
 			newSupplier.setSurname(node.get("surname").getTextValue());
 			newSupplier.setUsername(node.get("username").getTextValue());
 			// newSupplier.setPassword(node.get("password").getTextValue());
-			newSupplier.setRegCode(node.get("regCode").getTextValue());
-			String regDateString = node.get("regDate").getTextValue();
-			newSupplier.setRegDate(ISO8601DateParser.parse(regDateString));
+//			newSupplier.setRegCode(node.get("regCode").getTextValue());
+//			String regDateString = node.get("regDate").getTextValue();
+//			newSupplier.setRegDate(ISO8601DateParser.parse(regDateString));
 			newSupplier.setEmail(node.get("email").getTextValue());
 			newSupplier.setAddress(node.get("address").getTextValue());
 			newSupplier.setCity(node.get("city").getTextValue());
 			newSupplier.setState(node.get("state").getTextValue());
-			newSupplier.setCap(node.get("description").getIntValue());
+			newSupplier.setCap(node.get("cap").getIntValue());
 			newSupplier.setTel(node.get("tel").getTextValue());
 			newSupplier.setActive(node.get("state").getBooleanValue());
 			newSupplier.setMemberType(node.get("memberType").getNumberValue()

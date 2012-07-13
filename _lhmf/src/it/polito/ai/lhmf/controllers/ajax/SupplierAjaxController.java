@@ -26,34 +26,22 @@ public class SupplierAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/newsupplier", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer newSupplier(HttpServletRequest request, @RequestBody Supplier supplier)
+	Integer newSupplier(HttpServletRequest request,
+			@RequestBody Supplier supplier) throws InvalidParametersException
 	{
 		Integer idSupplier = -1;
-		try
-		{
-			idSupplier = supplierInterface.newSupplier(supplier);
-		}
-		catch (InvalidParametersException e)
-		{
-			e.printStackTrace();
-		}
+		idSupplier = supplierInterface.newSupplier(supplier);
 		return idSupplier;
 	}
-
+	
+	// TODO get da chi può essere fatto?
 	@RequestMapping(value = "/ajax/getsupplier", method = RequestMethod.GET)
 	public @ResponseBody
 	Supplier getSupplier(HttpServletRequest request,
 			@RequestBody Integer idSupplier)
 	{
 		Supplier supplier = null;
-		try
-		{
-			supplier = supplierInterface.getSupplier(idSupplier);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		supplier = supplierInterface.getSupplier(idSupplier);
 		return supplier;
 	}
 
@@ -62,14 +50,7 @@ public class SupplierAjaxController
 	List<Supplier> getSuppliers(HttpServletRequest request)
 	{
 		List<Supplier> suppliersList = null;
-		try
-		{
-			suppliersList = supplierInterface.getSuppliers();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		suppliersList = supplierInterface.getSuppliers();
 		return suppliersList;
 	}
 
@@ -77,17 +58,10 @@ public class SupplierAjaxController
 	@RequestMapping(value = "/ajax/updatesupplier", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer updateSupplier(HttpServletRequest request,
-			@RequestBody Supplier supplier)
+			@RequestBody Supplier supplier) throws InvalidParametersException
 	{
 		Integer rowsAffected = -1;
-		try
-		{
-			rowsAffected = supplierInterface.updateSupplier(supplier);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		rowsAffected = supplierInterface.updateSupplier(supplier);
 		return rowsAffected;
 	}
 
@@ -95,17 +69,10 @@ public class SupplierAjaxController
 	@RequestMapping(value = "/ajax/deletesupplier", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer deleteSupplier(HttpServletRequest request,
-			@RequestBody Integer idSupplier)
+			@RequestBody Integer idSupplier) throws InvalidParametersException
 	{
 		Integer rowsAffected = -1;
-		try
-		{
-			rowsAffected = supplierInterface.deleteSupplier(idSupplier);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		rowsAffected = supplierInterface.deleteSupplier(idSupplier);
 		return rowsAffected;
 	}
 }

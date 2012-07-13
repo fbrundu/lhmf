@@ -20,38 +20,32 @@ public class OrderAjaxController
 {
 	@Autowired
 	private OrderInterface orderInterface;
-	
+
 	@RequestMapping(value = "/ajax/neworder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newOrder(HttpServletRequest request, @RequestBody Order order)
+			throws InvalidParametersException
 	{
 		Integer idOrder = -1;
-		try 
-		{
-			idOrder = orderInterface.newOrder(order);
-		}
-		catch (InvalidParametersException e) 
-		{
-			e.printStackTrace();
-		}
+		idOrder = orderInterface.newOrder(order);
 		return idOrder;
 	}
-	
+
 	@RequestMapping(value = "/ajax/getpastorders", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Order> getPastOrders(HttpServletRequest request)
 	{
 		List<Order> orderList = null;
-		orderList = orderInterface.getPastOrders(); 
+		orderList = orderInterface.getPastOrders();
 		return orderList;
 	}
-	
+
 	@RequestMapping(value = "/ajax/getactiveorders", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Order> getActiveOrders(HttpServletRequest request)
 	{
 		List<Order> orderList = null;
-		orderList = orderInterface.getActiveOrders(); 
+		orderList = orderInterface.getActiveOrders();
 		return orderList;
 	}
 }
