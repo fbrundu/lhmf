@@ -195,7 +195,7 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!phone.equals("not set")) {
+		if(!phone.equals("not set") || !phone.equals("")) {
 			
 			if(!isNumeric(phone)) {
 				
@@ -244,6 +244,9 @@ public class SignupController
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
 										email, address, city, state, capNumeric);
+			
+			if(!phone.equals("not set") || !phone.equals("")) 
+				member.setTel(phone);
 			
 			memberInterface.newMember(member);
 			

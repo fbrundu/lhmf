@@ -37,7 +37,7 @@
 	        <br><label for="cap" class="left">Cap: </label>
 	          <input type="text" name="cap" id="cap" class="field" required="required" value="${cap}" onfocus="scrivi_help('cap');"/>
 	        <br><label for="phone" class="left">Telefono: </label>
-	          <input type="text" name="phone" id="phone" class="field" required="required" value="${phone}" onfocus="scrivi_help('phone');"/>
+	          <input type="text" name="phone" id="phone" class="field" value="${phone}" onfocus="scrivi_help('phone');"/>
 	        <br><input type="submit" class="button" value="Registrati"/>
 	          <c:if test="${fromOpenID == false}">
 	          
