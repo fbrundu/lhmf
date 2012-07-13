@@ -2,6 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="
@@ -13,6 +14,8 @@
          http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
          http://www.springframework.org/schema/security 
          http://www.springframework.org/schema/security/spring-security-3.1.xsd
+         http://www.springframework.org/schema/security/oauth2
+         http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
          ">
 	<!--  Questo non dovrebbe andare qui. le annotazioni di sicurezza andrebbero messe solo sui metodi del modell (service layer). Per ora perà mi serve per /log -->
 	<security:global-method-security pre-post-annotations="enabled" />
@@ -26,6 +29,15 @@
 	    </mvc:message-converters>
 	</mvc:annotation-driven>
 	<context:component-scan base-package="it.polito.ai.lhmf" />
+	
+	<oauth:authorization-server client-details-service-ref="clientDetails" token-services-ref="tokenServices" 
+	    user-approval-handler-ref="userApprovalHandler">
+	    <oauth:authorization-code />
+		<oauth:implicit />
+		<oauth:refresh-token />
+		<oauth:client-credentials />
+		<oauth:password />
+	</oauth:authorization-server>
 
 	<bean
 		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
