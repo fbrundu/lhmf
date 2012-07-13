@@ -16,6 +16,7 @@ import org.codehaus.jackson.map.SerializerProvider;
  */
 public class MemberSerializer extends JsonSerializer<Member> {
 
+	//TODO : da aggiornare?
 	@Override
 	public void serialize(Member value, JsonGenerator jgen,
 			SerializerProvider provider) throws IOException,
