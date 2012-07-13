@@ -18,14 +18,13 @@ import org.hibernate.SessionFactory;
 
 public class ProductDeserializer extends JsonDeserializer<Product>
 {
-	//TODO Fra, sei sicuro che sia indispensabile fare query hibernate nei deserializzatori? Cmq, ti ho modificato il codice per avere
-	// la session factory iniettata da spring.
 	private SessionFactory sessionFactory;
-	
-	public ProductDeserializer(SessionFactory sf) {
+
+	public ProductDeserializer(SessionFactory sf)
+	{
 		this.sessionFactory = sf;
 	}
-	
+
 	@Override
 	public Product deserialize(JsonParser jpar, DeserializationContext context)
 			throws IOException, JsonProcessingException
@@ -34,14 +33,11 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 
 		try
 		{
-//			Session hibernateSession = (Session) ((ServletRequestAttributes) RequestContextHolder
-//					.getRequestAttributes()).getRequest().getAttribute(
-//					"hibernate_session");
 			Session hibernateSession = sessionFactory.getCurrentSession();
 
 			ObjectCodec oc = jpar.getCodec();
 			JsonNode node = oc.readTree(jpar);
-			
+
 			newProduct.setIdProduct(node.get("idProduct").getIntValue());
 			newProduct.setName(node.get("name").getTextValue());
 			newProduct.setDescription(node.get("description").getTextValue());
@@ -50,21 +46,22 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 			newProduct.setUnitBlock(node.get("unitBlock").getIntValue());
 			newProduct.setAvailability(node.get("availability")
 					.getBooleanValue());
-			newProduct.setTransportCost(node.get(
-					"transportCost").getNumberValue().floatValue());
-			newProduct.setUnitCost(node.get("unitCost")
+			newProduct.setTransportCost(node.get("transportCost")
 					.getNumberValue().floatValue());
+			newProduct.setUnitCost(node.get("unitCost").getNumberValue()
+					.floatValue());
 			newProduct.setMinBuy(node.get("minBuy").getIntValue());
 			newProduct.setMaxBuy(node.get("maxBuy").getIntValue());
 
 			Query query = hibernateSession
 					.createQuery("from Supplier where idMember = :idMember");
-			query.setParameter("idMember", node.get("idMember").getNumberValue());
+			query.setParameter("idMember", node.get("idMember")
+					.getNumberValue());
 			Supplier supplier = (Supplier) query.uniqueResult();
 			newProduct.setSupplier(supplier);
 
-			query = hibernateSession
-					.createQuery("from ProductCategory where idProduct_Category = :idProductCategory");
+			query = hibernateSession.createQuery("from ProductCategory"
+					+ "where idProduct_Category = :idProductCategory");
 			query.setParameter("idProductCategory",
 					node.get("idProductCategory").getNumberValue());
 			ProductCategory productCategory = (ProductCategory) query
