@@ -2,7 +2,11 @@ package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,8 +15,20 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
+import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.MemberStatusInterface;
+import it.polito.ai.lhmf.model.MemberTypeInterface;
+import it.polito.ai.lhmf.model.MemberInterface;
+
+import it.polito.ai.lhmf.model.constants.MemberStatuses;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
+import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberType;
+import it.polito.ai.lhmf.orm.MemberStatus;
+
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.openid.OpenIDAttribute;
 import org.springframework.security.openid.OpenIDAuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -25,6 +41,14 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SignupController
 {
+	@Autowired
+	private MemberInterface memberInterface;
+	@Autowired
+	private MemberStatusInterface memberStatusInterface;
+	@Autowired
+	private MemberTypeInterface memberTypeInterface;
+
+	
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.GET)
 	public ModelAndView openIdSignupGet(Model model, HttpSession session)
 	{
@@ -97,7 +121,7 @@ public class SignupController
 	}
 
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.POST)
-	public ModelAndView openIdSignupPost( Model model,
+	public ModelAndView openIdSignupPost( Model model, HttpSession session,
 			@RequestParam(value = "firstname", required = true) String firstname,
 			@RequestParam(value = "lastname", required = true) String lastname,
 			@RequestParam(value = "email", required = true) String email,
@@ -106,7 +130,7 @@ public class SignupController
 			@RequestParam(value = "state", required = true) String state,
 			//@RequestParam(value = "country", required = true) String country,
 			@RequestParam(value = "cap", required = true) String cap,
-			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone)
+			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone) throws ParseException, InvalidParametersException
 	{
 		// TODO registrazione, settaggio attributi e reindirizzamento alla view
 		// apposita
@@ -194,6 +218,36 @@ public class SignupController
 		else
 		{
 			//eseguire la registrazione e mandare alla pagina principale
+			
+			//Mi ricavo il memberType 
+			MemberType mType = memberTypeInterface.getMemberType(MemberTypes.USER_NORMAL);
+			//Mi ricavo il memberStatus 
+			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+			
+			//genero un regCode
+			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
+			
+			//setto la data odierna
+			Calendar calendar = Calendar.getInstance();     
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			String sDate = dateFormat.format(calendar.getTime());
+			Date regDate = dateFormat.parse(sDate);
+			
+			//trasformo il cap in un numero
+			int capNumeric = Integer.parseInt(cap);
+
+			//username
+			String username = (String) session.getAttribute("OPENID_USERID");
+			
+			// Creo un nuovo utente 
+			
+			Member member = new Member(	mType, mStatus, firstname, lastname, 
+										username, "not set", regCode, regDate, 
+										email, address, city, state, capNumeric);
+			
+			memberInterface.newMember(member);
+			
+			
 		}
 		return new ModelAndView("/");
 	}

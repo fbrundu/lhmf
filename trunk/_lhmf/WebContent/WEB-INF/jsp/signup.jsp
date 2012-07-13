@@ -29,37 +29,27 @@
         		<c:otherwise><input type="text" name="email" id="email" class="field" required="required" value="${email}" onfocus="scrivi_help('email');"/></c:otherwise>
         	</c:choose>
         	<br><label for="address" class="left">Indirizzo: </label>
-          <c:choose>
-            <c:when test="${fromOpenID == true && address != null}"><input type="text" name="address" id="address" class="field_readonly" readonly="readonly" value="${address}"/></c:when>
-            <c:otherwise><input type="text" name="address" id="address" class="field" required="required" value="${address}" onfocus="scrivi_help('address');"/></c:otherwise>
-          </c:choose>
-          <br><label for="city" class="left">Città: </label>
-          <c:choose>
-            <c:when test="${fromOpenID == true && city != null}"><input type="text" name="city" id="city" class="field_readonly" readonly="readonly" value="${city}"/></c:when>
-            <c:otherwise><input type="text" name="city" id="city" class="field" required="required" value="${city}" onfocus="scrivi_help('city');"/></c:otherwise>
-          </c:choose>
-          <br><label for="state" class="left">Stato: </label>
-          	<%@ include file="state.html" %>
-          <br><label for="cap" class="left">Cap: </label>
-          <c:choose>
-            <c:when test="${fromOpenID == true && cap != null}"><input type="text" name="cap" id="cap" class="field" readonly="readonly" value="${cap}"/></c:when>
-            <c:otherwise><input type="text" name="cap" id="cap" class="field" required="required" value="${cap}" onfocus="scrivi_help('cap');"/></c:otherwise>
-          </c:choose>
-          <br><label for="phone" class="left">Telefono: </label>
-          <c:choose>
-            <c:when test="${fromOpenID == true && phone != null}"><input type="text" name="phone" id="phone" class="field" readonly="readonly" value="${phone}"/></c:when>
-            <c:otherwise><input type="text" name="phone" id="phone" class="field" required="required" value="${phone}" onfocus="scrivi_help('phone');"/></c:otherwise>
-          </c:choose>
-          <br><input type="submit" class="button" value="Registrati"/>
-          <c:if test="${fromOpenID == false}">
-	          <div id="errors">
-	          <ul>
-		          <c:forEach var="err" items="${errors}">
-			        <li><c:out value="${err.id}" />: <c:out value="${err.error}" /></li>
-			      </c:forEach>
-			  </ul>
-	          </div>
-          </c:if>
+          		<input type="text" name="address" id="address" class="field" required="required" value="${address}" onfocus="scrivi_help('address');"/>
+	        <br><label for="city" class="left">Città: </label>
+	          <input type="text" name="city" id="city" class="field" required="required" value="${city}" onfocus="scrivi_help('city');"/>
+	        <br><label for="state" class="left">Stato: </label>
+	          	<%@ include file="state.html" %>
+	        <br><label for="cap" class="left">Cap: </label>
+	          <input type="text" name="cap" id="cap" class="field" required="required" value="${cap}" onfocus="scrivi_help('cap');"/>
+	        <br><label for="phone" class="left">Telefono: </label>
+	          <input type="text" name="phone" id="phone" class="field" required="required" value="${phone}" onfocus="scrivi_help('phone');"/>
+	        <br><input type="submit" class="button" value="Registrati"/>
+	          <c:if test="${fromOpenID == false}">
+	          
+		          <div id="errors">
+		          <ul>
+			          <c:forEach var="err" items="${errors}">
+				        <li><c:out value="${err.id}" />: <c:out value="${err.error}" /></li>
+				      </c:forEach>
+				  </ul>
+		          </div>
+          	  </c:if>
+          	  
         </fieldset>
         <fieldset><legend>&nbsp;Aiuto alla Digitazione&nbsp;</legend><br />
                 <textarea name="helptext" style="text-align:center" rows="3" cols="20"></textarea>
