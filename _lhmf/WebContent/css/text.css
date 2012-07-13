@@ -54,11 +54,14 @@
 .registrazioneform fieldset {padding:20px 0 0 0; margin:0 0 20px 0; border:solid 1px rgb(220,220,220);}
 .registrazioneform fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
 .registrazioneform label.left {float:left; width:100px; margin:0 0 0 10px; padding:2px; font-size:110%;}
-.registrazioneform input.field {width:275px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%;}
-.registrazioneform input.field_valid {width:275px; padding:2px; border:solid 1px rgb(0,255,0); font-family:verdana,arial,sans-serif; font-size:110%;}
-.registrazioneform input.field_notvalid {width:275px; padding:2px; border:solid 1px rgb(255,0,0); font-family:verdana,arial,sans-serif; font-size:110%;}
+.registrazioneform select.field {width:275px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.registrazioneform select option {padding-left: 20px;}
+.registrazioneform input.field {width:250px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.registrazioneform input.field_readonly {width:250px; padding:2px; background: #dddddd; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.registrazioneform input.field_valid {width:250px; padding:2px; border:solid 1px rgb(0,255,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.registrazioneform input.field_notvalid {width:250px; padding:2px; border:solid 1px rgb(255,0,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .registrazioneform textarea {width:400px; text-align:center; color:#666; padding:2px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240); font-family:verdana,arial,sans-serif; font-size:110%;}
-.registrazioneform input.button {float:right; width:9.0em; margin-right:20px; padding:1px; background:rgb(230,230,230); border:solid 1px rgb(150,150,150); text-align:center; font-family:verdana,arial,sans-serif; color:rgb(150,150,150); font-size:110%;}
+.registrazioneform input.button {float:right; width:9.0em; margin-right:150px; padding:1px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .registrazioneform input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
 
 /********************/
