@@ -41,7 +41,7 @@ public class SupplierSerializer extends JsonSerializer<Supplier>
 		jgen.writeNumberField("cap", value.getCap());
 		jgen.writeStringField("tel", value.getTel());
 		jgen.writeBooleanField("active", value.isActive());
-		jgen.writeNumberField("memberType", value.getMemberType());
+//		jgen.writeNumberField("memberType", value.getMemberType());
 		jgen.writeStringField("companyName", value.getCompanyName());
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeStringField("contactName", value.getContactName());
