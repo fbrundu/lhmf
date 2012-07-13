@@ -21,17 +21,11 @@ public class PurchaseAjaxController
 	
 	@RequestMapping(value = "/ajax/newpurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer newPurchase(HttpServletRequest request, @RequestBody Purchase purchase)
+	Integer newPurchase(HttpServletRequest request,
+			@RequestBody Purchase purchase) throws InvalidParametersException
 	{
 		Integer idPurchase = -1;
-		try 
-		{
 			idPurchase = purchaseInterface.newPurchase(purchase);
-		}
-		catch (InvalidParametersException e) 
-		{
-			e.printStackTrace();
-		}
 		return idPurchase;
 	}
 	/*

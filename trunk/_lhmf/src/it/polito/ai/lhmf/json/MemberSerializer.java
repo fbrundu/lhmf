@@ -11,34 +11,38 @@ import org.codehaus.jackson.map.SerializerProvider;
 
 /**
  * Serializer for the Hibernate class {@link Member}
+ * 
  * @author Luca Moretto
- *
+ * 
  */
-public class MemberSerializer extends JsonSerializer<Member> {
+public class MemberSerializer extends JsonSerializer<Member>
+{
 
-	//TODO : da aggiornare?
 	@Override
 	public void serialize(Member value, JsonGenerator jgen,
 			SerializerProvider provider) throws IOException,
-			JsonProcessingException {
+			JsonProcessingException
+	{
 		jgen.writeStartObject();
 		jgen.writeNumberField("idMember", value.getIdMember());
-		jgen.writeStringField("username", value.getUsername());
 		jgen.writeStringField("name", value.getName());
 		jgen.writeStringField("surname", value.getSurname());
-		jgen.writeStringField("tel", value.getTel());
+		jgen.writeStringField("username", value.getUsername());
+		// FIXME E' utile? questo campo può essere richiesto solo dall'admin
+		// credo; nel caso serva lo rimettiamo
+		// jgen.writeFieldName("regDate");
+		// provider.defaultSerializeDateValue(value.getRegDate(), jgen);
 		jgen.writeStringField("email", value.getEmail());
 		jgen.writeStringField("address", value.getAddress());
 		jgen.writeStringField("city", value.getCity());
-		jgen.writeNumberField("cap", value.getCap());
 		jgen.writeStringField("state", value.getState());
-		jgen.writeFieldName("regDate");
-		provider.defaultSerializeDateValue(value.getRegDate(), jgen);
-		jgen.writeStringField("memberStatus", value.getMemberStatus().getDescription());
-		jgen.writeStringField("memberType", value.getMemberType().getDescription());
+		jgen.writeNumberField("cap", value.getCap());
+		jgen.writeStringField("tel", value.getTel());
+		jgen.writeStringField("memberType", value.getMemberType()
+				.getDescription());
+		jgen.writeStringField("memberStatus", value.getMemberStatus()
+				.getDescription());
 		jgen.writeEndObject();
 	}
-	
-	
 
 }
