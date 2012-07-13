@@ -60,4 +60,20 @@
     <bean id="purchaseDao" class="it.polito.ai.lhmf.model.PurchaseInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="purchaseDao" class="it.polito.ai.lhmf.model.MemberInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="purchaseDao" class="it.polito.ai.lhmf.model.MemberStatusInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="purchaseDao" class="it.polito.ai.lhmf.model.MemberTypeInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="purchaseDao" class="it.polito.ai.lhmf.model.MessageInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>
