@@ -30,7 +30,7 @@ public class PurchaseInterface
 		return (Integer) sessionFactory.getCurrentSession().save(purchase);
 	}
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Purchase> getPastPurchase()
 	{ 
@@ -38,14 +38,14 @@ public class PurchaseInterface
 		//String dateToQuery = new String(Calendar.YEAR+""+Calendar.MONTH+""+Calendar.DAY_OF_MONTH);
 		//query.setParameter("date_close", dateToQuery);
 		//return query.list();
+		return sessionFactory.getCurrentSession().createQuery("from Purchase").list();
 	}
-	*/
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Purchase> getActivePurchase()
 	{
-		
-		return sessionFactory.getCurrentSession().createQuery("from Order" + "where date_close = 0").list();
+		return sessionFactory.getCurrentSession().createQuery("from Purchase").list();
 	}
 	
 	
