@@ -37,7 +37,8 @@
 						<input type="text" name="j_username" id="j_username" tabindex="1" class="field" value="" /></p>
 			  		<p>	<label for="j_password" class="top">Password:</label><br />
 						<input type="password" name="j_password" id="j_password" tabindex="2" class="field" value="" /></p>
-						<p>	<a href="signup">Non sei registrato? Registrati ora!</a></p>
+						<spring:url value="/signup" var="url" htmlEscape="true"/>
+						<p>	<a href="${url}">Non sei registrato? Registrati ora!</a></p>
 			  		<p>	<input type="submit" name="action" class="button" value="LOGIN"  /></p>
 			 		
 	        	</fieldset>

@@ -15,7 +15,7 @@
     	<fieldset><legend>&nbsp;Dati per la Registrazione&nbsp;</legend><br />
         	<label for="firstname" class="left">Nome: </label>
         	<c:choose>
-        		<c:when test="${fromOpenID == true && firstname != null}"><input type="text" name="firstname" id="firstname" class="field_readonly" value="${firstname}"/></c:when>
+        		<c:when test="${fromOpenID == true && firstname != null}"><input type="text" name="firstname" id="firstname" class="field_readonly" readonly="readonly" value="${firstname}"/></c:when>
         		<c:otherwise><input type="text" name="firstname" id="firstname" class="field" required="required" value="${firstname}" onfocus="scrivi_help('firstname');"/></c:otherwise>
         	</c:choose>
         	<br><label for="lastname" class="left">Cognome: </label>
@@ -38,22 +38,30 @@
 	          <input type="text" name="cap" id="cap" class="field" required="required" value="${cap}" onfocus="scrivi_help('cap');"/>
 	        <br><label for="phone" class="left">Telefono: </label>
 	          <input type="text" name="phone" id="phone" class="field" value="${phone}" onfocus="scrivi_help('phone');"/>
-	        <br><input type="submit" class="button" value="Registrati"/>
-	          <c:if test="${fromOpenID == false}">
-	          
-		          <div id="errors">
-		          <ul>
-			          <c:forEach var="err" items="${errors}">
-				        <li><c:out value="${err.id}" />: <c:out value="${err.error}" /></li>
-				      </c:forEach>
-				  </ul>
-		          </div>
-          	  </c:if>
-          	  
         </fieldset>
         <fieldset><legend>&nbsp;Aiuto alla Digitazione&nbsp;</legend><br />
                 <textarea name="helptext" style="text-align:center" rows="3" cols="20"></textarea>
-              </fieldset>
+        </fieldset>
+        <c:if test="${getUserCredentials == true}">
+	        <fieldset><legend>&nbsp;Informazioni di Login&nbsp;</legend><br />
+	                <br><label for="contact_username" class="left">Username:</label>
+	                    <input type="text" name="username" id="contact_username" class="field" value="" tabindex="11" onfocus="scrivi_help('username');"/>
+	                <br><label for="contact_password" class="left">Password:</label>
+	                    <input type="password" name="password" id="contact_password" class="field" value="" tabindex="12" onfocus="scrivi_help('password');"/>
+	                <br><label for="contact_repassword" class="left">Riscrivi Password:</label>
+	                    <input type="password" name="repassword" id="contact_repassword" class="field" value="" tabindex="13" onfocus="scrivi_help('repassword');"/>
+	        </fieldset>
+        </c:if>
+        <p><input type="submit" class="button" value="Registrati"/></p>
+        <c:if test="${fromOpenID == false}">
+	          <div id="errors">
+	          <ul>
+		          <c:forEach var="err" items="${errors}">
+			        <li><c:out value="${err.id}" />: <c:out value="${err.error}" /></li>
+			      </c:forEach>
+			  </ul>
+	          </div>
+   	    </c:if>
         </form>
         </div>
     </jsp:body>

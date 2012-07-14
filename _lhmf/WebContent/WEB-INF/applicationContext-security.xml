@@ -49,6 +49,7 @@
 	<http use-expressions="true">
 	    <intercept-url pattern="/openid_signup*" access="permitAll"/>
 	    <intercept-url pattern="/facebook_signup*" access="permitAll"/>
+	    <intercept-url pattern="/normal_signup*" access="permitAll"/>
 	    <intercept-url pattern="/signup*" access="permitAll"/>
 	    <intercept-url pattern="/login*" access="permitAll"/>
 	    <intercept-url pattern="/j_spring_oauth_security_check*" access="permitAll"/>
