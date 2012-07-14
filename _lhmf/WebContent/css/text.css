@@ -64,6 +64,8 @@
 .registrazioneform input.button {float:right; width:9.0em; margin-right:150px; padding:1px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .registrazioneform input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
 
+.actionError { color: red; }
+
 /********************/
 /*  COMMON CLASSES  */
 /********************/

@@ -34,8 +34,17 @@ public class SupplierInterface
 	public Supplier getSupplier(Integer idSupplier)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Supplier" + "where idMember = :idSupplier");
+				"from Supplier " + "where idMember = :idSupplier");
 		query.setParameter("idSupplier", idSupplier);
+		return (Supplier) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public Supplier getSupplier(String username)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Supplier " + "where username = :username");
+		query.setParameter("username", username);
 		return (Supplier) query.uniqueResult();
 	}
 

@@ -121,7 +121,10 @@
 		<beans:property name="sessionFactory" ref="sessionFactory"/>
 	</beans:bean>
     
-	<beans:bean id="loginSuccessfull" class="it.polito.ai.lhmf.security.LoginSuccessfullHandler"/>
+	<beans:bean id="loginSuccessfull" class="it.polito.ai.lhmf.security.LoginSuccessfullHandler">
+	    <beans:property name="memberInterface" ref="memberDao"/>
+	    <beans:property name="supplierInterface" ref="supplierDao"/>
+	</beans:bean>
 	
 	<beans:bean id="openIdSuccessButNotRegistered" class="it.polito.ai.lhmf.security.OpenIdRegistrationRequiredHandler">
 	    <beans:property name="defaultFailureUrl" value="/login?openid_error"/>

@@ -13,6 +13,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
@@ -126,6 +127,10 @@ public class MyUserDetailsService implements UserDetailsService,
 			boolean enabled = false;
 			if (m.getMemberStatus().getIdMemberStatus() == MemberStatuses.ENABLED)
 				enabled = true;
+			if(!enabled)
+				//OpenIDAuthenticationProvider non controlla se l'account è abilitato o meno. Quindi lancio l'eccezione per fare in modo che venga stampato l'errore
+				//e l'utente non venga loggato.
+				throw new DisabledException("L'account non è ancora stato abilitato dall'amministratore");
 			return new User(m.getUsername(), m.getPassword(), enabled, true,
 					true, true, roles);
 		}
