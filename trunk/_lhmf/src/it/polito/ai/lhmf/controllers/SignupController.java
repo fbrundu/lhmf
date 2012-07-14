@@ -669,6 +669,59 @@ public class SignupController
 		
 	}
 	
+	@RequestMapping(value ="/authMail", method = RequestMethod.GET)
+	public ModelAndView authMail( Model model,
+			@RequestParam(value = "id", required = true) int id,
+			@RequestParam(value = "regCode", required = true) String regCode)
+	{
+		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		
+		Member member = memberInterface.getMember(id);
+		
+		if(member == null) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Account");
+			error.put("error", "Account non esistente");
+			errors.add(error);
+			
+		} else if(!member.getRegCode().equals(regCode)) {
+			
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Code");
+				error.put("error", "Codice non corretto");
+				errors.add(error);
+			
+		} else {
+			
+			//Account esistente e codice corretto.
+			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+			member.setMemberStatus(mStatus);
+			
+			model.addAttribute("firstname", member.getName());
+			
+			try {
+				memberInterface.updateMember(member);
+			} catch (InvalidParametersException e) {
+				
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "InternalError");
+				error.put("error", "Non è stato possibile verificare l'email.");
+				errors.add(error);
+			}
+			
+		}
+		
+		// Ci sono errori, rimandare alla pagina mostrandoli
+		if(errors.size() > 0) {
+			model.addAttribute("errors", errors);
+			model.addAttribute("authFailed", true);
+			
+		}
+		
+		return new ModelAndView("/authMail_confirmed");
+	}
+	
 	public static boolean isNumeric(String args) {
 			boolean result = true;
 		
