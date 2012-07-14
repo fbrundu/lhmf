@@ -1,5 +1,7 @@
 package it.polito.ai.lhmf.controllers.ajax;
 
+import java.util.List;
+
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Purchase;
@@ -28,7 +30,7 @@ public class PurchaseAjaxController
 			idPurchase = purchaseInterface.newPurchase(purchase);
 		return idPurchase;
 	}
-	/*
+	
 	@RequestMapping(value = "/ajax/getpastpurchase", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Purchase> getPastPurchase(HttpServletRequest request)
@@ -43,8 +45,8 @@ public class PurchaseAjaxController
 	List<Purchase> getActivePurchase(HttpServletRequest request)
 	{
 		List<Purchase> purchaseList = null;
-		purchaseList = purchaseIterface.getActivePurchase(); 
+		purchaseList = purchaseInterface.getActivePurchase(); 
 		return purchaseList;
 	}
-	*/
+	
 }
