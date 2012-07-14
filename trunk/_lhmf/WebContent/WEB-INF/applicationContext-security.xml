@@ -52,6 +52,7 @@
 	    <intercept-url pattern="/normal_signup*" access="permitAll"/>
 	    <intercept-url pattern="/signup*" access="permitAll"/>
 	    <intercept-url pattern="/login*" access="permitAll"/>
+	    <intercept-url pattern="/authMail*" access="permitAll"/>
 	    <intercept-url pattern="/j_spring_oauth_security_check*" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <form-login login-page="/login" authentication-success-handler-ref="loginSuccessfull" authentication-failure-url="/login?form_error"/>
