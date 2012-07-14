@@ -6,7 +6,7 @@
 <%@ page import="java.util.ArrayList" %>
 
 <t:index>
-    <jsp:attribute name="scripts"><script type="text/javascript" src="<spring:url htmlEscape="true" value="/js/contolla_form.js"/>"></script></jsp:attribute>
+    <jsp:attribute name="scripts"><script type="text/javascript" src="<spring:url htmlEscape="true" value="/js/contollaform.js"/>"></script></jsp:attribute>
 	<jsp:attribute name="bodyTitle">Registrazione</jsp:attribute>
     
     <jsp:body>
