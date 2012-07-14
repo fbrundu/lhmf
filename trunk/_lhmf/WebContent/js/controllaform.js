@@ -60,6 +60,11 @@ function controllaCampo(name){
 			if (!email_reg_exp.test(valore) || (valore == "") || (valore == "undefined")) 
 				return false;
 		break;
+		case 'repassword':
+			var regform = document.getElementById("regform");
+			if ((valore == "") || (valore == "undefined") || (valore != regform.password.value)) 
+				return false;
+		break;
 		case 'cap':
 			if ((valore == "") || (valore == "undefined") || (isNaN(valore) == 1)) 
 				return false;
@@ -103,6 +108,15 @@ switch(name) {
 		case 'email':
 		valore = regform.email.value;
 		break;
+		case 'username':
+		valore = regform.username.value;
+		break;
+		case 'password':
+		valore = regform.password.value;
+		break;
+		case 'repassword':
+		valore = regform.repassword.value;
+		break;
 	}
 	return valore;
 }
@@ -141,6 +155,15 @@ var regform = document.getElementById("regform");
 		break;
 		case 'phone':
 		regform.helptext.value = 'Inserisci il Telefono (opzionale)';
+		break;
+		case 'username':
+		regform.helptext.value = 'Inserisci l\'username \n (ti servirà per accedere al sito)';
+		break;
+		case 'password':
+		regform.helptext.value = 'Inserisci la Password';
+		break;
+		case 'repassword':
+		regform.helptext.value = 'Riscrivi la Password \n (deve essere uguale al campo precedente)';
 		break;
 	}
 

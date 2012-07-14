@@ -2,6 +2,9 @@ package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -440,6 +443,15 @@ public class SignupController
 		return new ModelAndView("/signup_confirmed");
 	}
 	
+	@RequestMapping(value ="/signup")
+	public ModelAndView normalSignupGet( Model model )
+	{
+		model.addAttribute("actionUrl", "/normal_signup");
+		model.addAttribute("getUserCredentials", true);
+		return new ModelAndView("signup");
+		
+	}
+	
 	@RequestMapping(value ="/normal_signup", method = RequestMethod.POST)
 	public ModelAndView normalSignupPost( Model model, HttpSession session,
 			@RequestParam(value = "firstname", required = true) String firstname,
@@ -449,10 +461,182 @@ public class SignupController
 			@RequestParam(value = "city", required = true) String city,
 			@RequestParam(value = "state", required = true) String state,
 			@RequestParam(value = "cap", required = true) String cap,
-			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone) throws ParseException, InvalidParametersException
+			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone,
+			@RequestParam(value = "username", required = true) String username,
+			@RequestParam(value = "password", required = true) String password,
+			@RequestParam(value = "repassword", required = true) String repassword) throws ParseException, InvalidParametersException
 	{
 		
-		return null;
+ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		
+		model.addAttribute("firstname", firstname);
+		model.addAttribute("lastname", lastname);
+		model.addAttribute("email", email);
+		model.addAttribute("address", address);
+		model.addAttribute("city", city);
+		model.addAttribute("state", state);
+		model.addAttribute("cap", cap);
+		model.addAttribute("phone", phone);
+		model.addAttribute("username", phone);
+		model.addAttribute("password", phone);
+		model.addAttribute("repassword", phone);
+		
+		if(firstname.equals("") || isNumeric(firstname)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Nome");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(lastname.equals("") || isNumeric(lastname)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Cognome");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(!isValidEmailAddress(email)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Email");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(address.equals("") || isNumeric(address)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Indirizzo");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(city.equals("") || isNumeric(city)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Citt�");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}	
+		if(state.equals("") || isNumeric(state)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Stato");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(cap.equals("") || !isNumeric(cap)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Cap");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(!phone.equals(""))
+		{
+			if(!isNumeric(phone)) {
+				
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Telefono");
+				error.put("error", "Formato non Valido");
+				errors.add(error);
+			}
+		}
+		if(username.equals("")) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Username");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(password.equals("")) {
+					
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Password");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(repassword.equals("")) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "RePassword");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+	
+		if(errors.size() > 0) {
+		
+			// Ci sono errori, rimandare alla pagina mostrandoli
+			model.addAttribute("errors", errors);
+			model.addAttribute("fromOpenID", false);
+			model.addAttribute("actionUrl", "/normal_signup");
+			return new ModelAndView("signup");
+			
+		}
+		else
+		{
+			//eseguire la registrazione
+			checkMail = true;
+			
+			//Mi ricavo il memberType 
+			MemberType mType = memberTypeInterface.getMemberType(MemberTypes.USER_NORMAL);
+			
+			//Mi ricavo il memberStatus 
+			MemberStatus mStatus;
+			
+			//genero un regCode
+			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
+			
+			if(checkMail) {
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+				model.addAttribute("checkMail", true);
+			} else
+			{
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				
+				//Inviare qui la mail con il codice di registrazione.
+			}
+			
+			
+			
+			//setto la data odierna
+			Calendar calendar = Calendar.getInstance();     
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			String sDate = dateFormat.format(calendar.getTime());
+			Date regDate = dateFormat.parse(sDate);
+			
+			//trasformo il cap in un numero
+			int capNumeric = Integer.parseInt(cap);
+			
+			//genero l'md5 della password		
+			byte[] bytesOfPassword;
+			MessageDigest md;
+			String md5Password;
+			
+			try 
+			{
+				bytesOfPassword = password.getBytes("UTF-8");
+				md = MessageDigest.getInstance("MD5");
+				byte[] theDigestPassword = md.digest(bytesOfPassword);
+				md5Password = new String(theDigestPassword, "UTF-8");
+				
+				// Creo un nuovo utente 
+				Member member = new Member(	mType, mStatus, firstname, lastname, 
+						username, md5Password, regCode, regDate, 
+						email, address, city, state, capNumeric);
+				
+				if(!phone.equals("")) 
+					member.setTel(phone);
+				
+				memberInterface.newMember(member);
+				
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// Registrazione avvenuta con successo. Redirigere 
+		return new ModelAndView("/signup_confirmed");
 		
 	}
 	
