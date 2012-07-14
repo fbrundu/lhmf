@@ -581,6 +581,7 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			model.addAttribute("errors", errors);
 			model.addAttribute("fromOpenID", false);
 			model.addAttribute("actionUrl", "/normal_signup");
+			model.addAttribute("getUserCredentials", true);
 			return new ModelAndView("signup");
 			
 		}
