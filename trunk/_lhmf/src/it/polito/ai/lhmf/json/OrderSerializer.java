@@ -2,20 +2,12 @@ package it.polito.ai.lhmf.json;
 
 import java.io.IOException;
 
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 
 import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-
-/**
- * Serializer for the Hibernate class {@link Member}
- * 
- * @author Hassan Metwalley
- * 
- */
 
 public class OrderSerializer extends JsonSerializer<Order>
 {
