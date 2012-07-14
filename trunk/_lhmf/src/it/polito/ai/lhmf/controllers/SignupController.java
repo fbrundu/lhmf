@@ -234,14 +234,6 @@ public class SignupController
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
 				model.addAttribute("checkMail", true);
 				
-				//Inviare qui la mail con il codice di registrazione.
-				SendEmail emailer = new SendEmail();
-				
-				String mailTo = email;
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode);
-				SendEmail.send(mailTo, subject, body);
-				
 			} else
 			{
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);		
@@ -268,7 +260,17 @@ public class SignupController
 			if(!phone.equals("")) 
 				member.setTel(phone);
 			
-			memberInterface.newMember(member);
+			int memberId = memberInterface.newMember(member);
+			
+			if(checkMail) {
+				//Inviare qui la mail con il codice di registrazione.
+				SendEmail emailer = new SendEmail();
+				
+				String mailTo = email;
+				String subject = "Conferma mail per GasProject.net";
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+				SendEmail.send(mailTo, subject, body);	
+			} 
 	
 		}
 		
@@ -410,16 +412,7 @@ public class SignupController
 			
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-				model.addAttribute("checkMail", true);
-				
-				//Inviare qui la mail con il codice di registrazione.
-				SendEmail emailer = new SendEmail();
-				
-				String mailTo = email;
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode);
-				SendEmail.send(mailTo, subject, body);	
-				
+				model.addAttribute("checkMail", true);		
 			} else
 			{
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
@@ -440,7 +433,6 @@ public class SignupController
 			String username = (String) session.getAttribute("FACEBOOK_USERID");
 			
 			// Creo un nuovo utente 
-			
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
 										email, address, city, state, capNumeric);
@@ -448,7 +440,17 @@ public class SignupController
 			if(!phone.equals("")) 
 				member.setTel(phone);
 			
-			memberInterface.newMember(member);
+			int memberId = memberInterface.newMember(member);
+			
+			if(checkMail) {
+				//Inviare qui la mail con il codice di registrazione.
+				SendEmail emailer = new SendEmail();
+				
+				String mailTo = email;
+				String subject = "Conferma mail per GasProject.net";
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+				SendEmail.send(mailTo, subject, body);	
+			}
 	
 		}
 		
@@ -480,7 +482,7 @@ public class SignupController
 			@RequestParam(value = "repassword", required = true) String repassword) throws ParseException, InvalidParametersException
 	{
 		
-ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
 		model.addAttribute("firstname", firstname);
 		model.addAttribute("lastname", lastname);
@@ -559,6 +561,12 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			error.put("id", "Username");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
+		} else {
+			
+			//TODO: Controllare se c'è un altro membro con lo stesso username
+			
+			//TODO: Controllare che non ci sia un supplier con lo stesso username
+			
 		}
 		if(password.equals("")) {
 					
@@ -601,24 +609,12 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-				model.addAttribute("checkMail", true);
-				
-				//Inviare qui la mail con il codice di registrazione.
-				SendEmail emailer = new SendEmail();
-				
-				String mailTo = email;
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode);
-				SendEmail.send(mailTo, subject, body);	
-				
-				
+				model.addAttribute("checkMail", true);			
 			} else
 			{
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
 
 			}
-			
-			
 			
 			//setto la data odierna
 			Calendar calendar = Calendar.getInstance();     
@@ -631,6 +627,7 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			
 			//genero l'md5 della password
 			String md5Password;
+			int memberId = 0;
 			
 			try {
 				md5Password = CreateMD5.MD5(password);
@@ -643,7 +640,7 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 				if(!phone.equals("")) 
 					member.setTel(phone);
 				
-				memberInterface.newMember(member);
+				memberId = memberInterface.newMember(member);
 				
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
@@ -652,6 +649,17 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			if(checkMail) {
+				//Inviare qui la mail con il codice di registrazione.
+				SendEmail emailer = new SendEmail();
+				
+				String mailTo = email;
+				String subject = "Conferma mail per GasProject.net";
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+				SendEmail.send(mailTo, subject, body);		
+			} 
+			
 					
 			
 		}
