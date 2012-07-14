@@ -33,8 +33,17 @@ public class MemberInterface
 	public Member getMember(Integer idMember)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Member" + "where idMember = :idMember");
+				"from Member " + "where idMember = :idMember");
 		query.setParameter("idMember", idMember);
+		return (Member) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public Member getMember(String username)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member " + "where username = :username");
+		query.setParameter("username", username);
 		return (Member) query.uniqueResult();
 	}
 
