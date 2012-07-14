@@ -1,5 +1,7 @@
 package it.polito.ai.lhmf.model;
 
+import java.util.List;
+
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Purchase;
 
@@ -27,5 +29,24 @@ public class PurchaseInterface
 		}
 		return (Integer) sessionFactory.getCurrentSession().save(purchase);
 	}
+	
+	/*@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Purchase> getPastPurchase()
+	{ 
+		//Query query = sessionFactory.getCurrentSession().createQuery("from Order" + "where date_close <= :date_close"); 
+		//String dateToQuery = new String(Calendar.YEAR+""+Calendar.MONTH+""+Calendar.DAY_OF_MONTH);
+		//query.setParameter("date_close", dateToQuery);
+		//return query.list();
+	}
+	*/
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Purchase> getActivePurchase()
+	{
+		
+		return sessionFactory.getCurrentSession().createQuery("from Order" + "where date_close = 0").list();
+	}
+	
 	
 }
