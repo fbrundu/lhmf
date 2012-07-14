@@ -1,9 +1,10 @@
 package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
+import it.polito.ai.lhmf.util.CreateMD5;
+import it.polito.ai.lhmf.util.SendEmail;
 
 import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpSession;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
@@ -49,7 +48,7 @@ public class SignupController
 	@Autowired
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
-	private MemberTypeInterface memberTypeInterface;
+	private MemberTypeInterface memberTypeInterface;	
 	
 	private boolean checkMail;
 
@@ -164,7 +163,7 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!isValidEmailAddress(email)) {
+		if(!SendEmail.isValidEmailAddress(email)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Email");
@@ -234,11 +233,18 @@ public class SignupController
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
 				model.addAttribute("checkMail", true);
-			} else
-			{
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
 				
 				//Inviare qui la mail con il codice di registrazione.
+				SendEmail emailer = new SendEmail();
+				
+				String mailTo = email;
+				String subject = "Conferma mail per GasProject.net";
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode);
+				SendEmail.send(mailTo, subject, body);
+				
+			} else
+			{
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);		
 			}
 			
 			//setto la data odierna
@@ -334,7 +340,7 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!isValidEmailAddress(email)) {
+		if(!SendEmail.isValidEmailAddress(email)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Email");
@@ -405,11 +411,18 @@ public class SignupController
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
 				model.addAttribute("checkMail", true);
+				
+				//Inviare qui la mail con il codice di registrazione.
+				SendEmail emailer = new SendEmail();
+				
+				String mailTo = email;
+				String subject = "Conferma mail per GasProject.net";
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode);
+				SendEmail.send(mailTo, subject, body);	
+				
 			} else
 			{
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
-				
-				//Inviare qui la mail con il codice di registrazione.
 			}
 			
 			
@@ -495,7 +508,7 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!isValidEmailAddress(email)) {
+		if(!SendEmail.isValidEmailAddress(email)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Email");
@@ -588,11 +601,20 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
 				model.addAttribute("checkMail", true);
+				
+				//Inviare qui la mail con il codice di registrazione.
+				SendEmail emailer = new SendEmail();
+				
+				String mailTo = email;
+				String subject = "Conferma mail per GasProject.net";
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode);
+				SendEmail.send(mailTo, subject, body);	
+				
+				
 			} else
 			{
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
-				
-				//Inviare qui la mail con il codice di registrazione.
+
 			}
 			
 			
@@ -606,17 +628,11 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 			//trasformo il cap in un numero
 			int capNumeric = Integer.parseInt(cap);
 			
-			//genero l'md5 della password		
-			byte[] bytesOfPassword;
-			MessageDigest md;
+			//genero l'md5 della password
 			String md5Password;
 			
-			try 
-			{
-				bytesOfPassword = password.getBytes("UTF-8");
-				md = MessageDigest.getInstance("MD5");
-				byte[] theDigestPassword = md.digest(bytesOfPassword);
-				md5Password = new String(theDigestPassword, "UTF-8");
+			try {
+				md5Password = CreateMD5.MD5(password);
 				
 				// Creo un nuovo utente 
 				Member member = new Member(	mType, mStatus, firstname, lastname, 
@@ -628,28 +644,20 @@ ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 				
 				memberInterface.newMember(member);
 				
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
 			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+					
+			
 		}
 		
 		// Registrazione avvenuta con successo. Redirigere 
 		return new ModelAndView("/signup_confirmed");
 		
-	}
-	
-	public static boolean isValidEmailAddress(String email) {
-		   boolean result = true;
-		   
-		   try {
-		      InternetAddress emailAddr = new InternetAddress(email);
-		      emailAddr.validate();
-		   } catch (AddressException ex) {
-		      result = false;
-		   }
-		   return result;
 	}
 	
 	public static boolean isNumeric(String args) {
