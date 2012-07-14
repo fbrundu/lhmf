@@ -19,42 +19,35 @@
 		}
 		</script>
 	</jsp:attribute>
+	
+	<jsp:attribute name="bodyTitle">Accesso al sito</jsp:attribute>
+	
 	<jsp:body>
-        <h2>Accedi con username e password del sito</h2>
         <c:if test="${param.form_error != null}">
 		   <span class="actionError">
 		   Il tentativo di accesso al sito non è andato a buon fine.<br/><br/>
 		   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
 		  </span>
 		</c:if>
-        <form method = "POST" action='<spring:url value="/j_spring_security_check"></spring:url>'>
-        	<table>
-				<tr>
-					<td>
-						<label for="j_username">Nome utente</label>
-					</td>
-					<td>
-						<input type="text" id="j_username" name="j_username" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="j_password">Password</label>
-					</td>
-					<td >
-						<input id="j_password" type="password" name="j_password" value=""/>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					</td>
-					<td>
-						<input type="submit" />
-					</td>
-				</tr>
-			</table>
+		<div class="registrazioneform" align="center">
+        <form id="regform" method = "POST" action='<spring:url value="/j_spring_security_check"></spring:url>'>
+        	
+	        	<fieldset><legend>&nbsp;Effettua il Login&nbsp;</legend><br />
+	        		<p>	<label for="j_username" class="top">Username:</label><br />
+						<input type="text" name="j_username" id="j_username" tabindex="1" class="field" value="" /></p>
+			  		<p>	<label for="j_password" class="top">Password:</label><br />
+						<input type="password" name="j_password" id="j_password" tabindex="2" class="field" value="" /></p>
+						<p>	<a href="signup">Non sei registrato? Registrati ora!</a></p>
+			  		<p>	<input type="submit" name="action" class="button" value="LOGIN"  /></p>
+			 		
+	        	</fieldset>
         	
         </form>
+        
+        </div>
+        
+        <div align="center">
+        <p></p>
         <h2>Accedi con il tuo account preferito</h2>
         <c:if test="${param.openid_error != null}">
 		   <span class="actionError">
@@ -74,5 +67,6 @@
 		<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_oauth_security_check"/>' method="POST">
 			<input type="submit" />
 		</form>
+		</div>
     </jsp:body>
 </t:index>

@@ -47,6 +47,8 @@ public class SignupController
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
 	private MemberTypeInterface memberTypeInterface;
+	
+	private boolean checkMail;
 
 	
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.GET)
@@ -60,12 +62,13 @@ public class SignupController
 		String firstname = null;
 		String lastname = null;
 		String email = null;
-		String address = null;
+		/*String address = null;
 		String city = null;
 		String state = null;
 		String cap = null;
-		String phone = null;
+		String phone = null;*/
 
+		checkMail = true;
 		// TODO implementare altri attributi (vedere
 		// applicationContext-security.xml dove ci sono quelli richiesti)
 		for (OpenIDAttribute attribute : attributes)
@@ -86,9 +89,10 @@ public class SignupController
 				else if (attribute.getName().equals("email") && email == null)
 				{
 					email = value;
+					checkMail = false;
 					model.addAttribute("email", email);
 				}
-				else if (attribute.getName().equals("address") && address == null)
+				/*else if (attribute.getName().equals("address") && address == null)
 				{
 					address = value;
 					model.addAttribute("address", address);
@@ -112,7 +116,7 @@ public class SignupController
 				{
 					phone = value;
 					model.addAttribute("phone", phone);
-				}
+				}*/
 			}
 		}
 		model.addAttribute("actionUrl", "/openid_signup");
@@ -128,12 +132,9 @@ public class SignupController
 			@RequestParam(value = "address", required = true) String address,
 			@RequestParam(value = "city", required = true) String city,
 			@RequestParam(value = "state", required = true) String state,
-			//@RequestParam(value = "country", required = true) String country,
 			@RequestParam(value = "cap", required = true) String cap,
 			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone) throws ParseException, InvalidParametersException
 	{
-		// TODO registrazione, settaggio attributi e reindirizzamento alla view
-		// apposita
 		
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
@@ -195,8 +196,8 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!phone.equals("not set") || !phone.equals("")) {
-			
+		if(!phone.equals(""))
+		{
 			if(!isNumeric(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
@@ -222,10 +223,20 @@ public class SignupController
 			//Mi ricavo il memberType 
 			MemberType mType = memberTypeInterface.getMemberType(MemberTypes.USER_NORMAL);
 			//Mi ricavo il memberStatus 
-			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+			MemberStatus mStatus;
 			
 			//genero un regCode
 			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
+			
+			if(checkMail) {
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+				model.addAttribute("checkMail", true);
+			} else
+			{
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				
+				//Inviare qui la mail con il codice di registrazione.
+			}
 			
 			//setto la data odierna
 			Calendar calendar = Calendar.getInstance();     
@@ -245,14 +256,15 @@ public class SignupController
 										username, "not set", regCode, regDate, 
 										email, address, city, state, capNumeric);
 			
-			if(!phone.equals("not set") || !phone.equals("")) 
+			if(!phone.equals("")) 
 				member.setTel(phone);
 			
 			memberInterface.newMember(member);
-			
-			
+	
 		}
-		return new ModelAndView("/");
+		
+		// Registrazione avvenuta con successo. Redirigere 
+		return new ModelAndView("/signup_confirmed");
 	}
 	
 	@RequestMapping(value = "/facebook_signup", method = RequestMethod.GET)
@@ -264,26 +276,184 @@ public class SignupController
 		JsonNode emailNode = values.get("email");
 		
 		session.setAttribute("FACEBOOK_USERID", FacebookAuthenticationFilter.FACEBOOK_USERID_PREFIX + idNode.getTextValue());
+		checkMail = true;
 		
-		//TODO implementare altri attributti
 		if(nameNode != null)
 			model.addAttribute("firstname", nameNode.getTextValue());
 		
 		if(surnameNode != null)
 			model.addAttribute("lastname", surnameNode.getTextValue());
 		
-		if(emailNode != null)
+		if(emailNode != null) {
+			checkMail = false;
 			model.addAttribute("email", emailNode.getTextValue());
+		}
 		
+		model.addAttribute("fromOpenID", true);
 		model.addAttribute("actionUrl", "/facebook_signup");
 		return new ModelAndView("signup");
 	}
 	
 	@RequestMapping(value ="/facebook_signup", method = RequestMethod.POST)
-	public ModelAndView facebookSignupPost( @RequestParam(value="firstname", required=true) String firstname,
-			@RequestParam(value="lastname", required=true) String lastname, 
-			@RequestParam(value="email", required=true)String email){
+	public ModelAndView facebookSignupPost(  Model model, HttpSession session,
+			@RequestParam(value = "firstname", required = true) String firstname,
+			@RequestParam(value = "lastname", required = true) String lastname,
+			@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "address", required = true) String address,
+			@RequestParam(value = "city", required = true) String city,
+			@RequestParam(value = "state", required = true) String state,
+			@RequestParam(value = "cap", required = true) String cap,
+			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone) throws ParseException, InvalidParametersException
+	{
+		
+		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		
+		model.addAttribute("firstname", firstname);
+		model.addAttribute("lastname", lastname);
+		model.addAttribute("email", email);
+		model.addAttribute("address", address);
+		model.addAttribute("city", city);
+		model.addAttribute("state", state);
+		model.addAttribute("cap", cap);
+		model.addAttribute("phone", phone);
+		
+		if(firstname.equals("") || isNumeric(firstname)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Nome");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(lastname.equals("") || isNumeric(lastname)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Cognome");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(!isValidEmailAddress(email)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Email");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(address.equals("") || isNumeric(address)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Indirizzo");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(city.equals("") || isNumeric(city)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Citt�");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}	
+		if(state.equals("") || isNumeric(state)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Stato");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(cap.equals("") || !isNumeric(cap)) {
+			
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Cap");
+			error.put("error", "Formato non Valido");
+			errors.add(error);
+		}
+		if(!phone.equals(""))
+		{
+			if(!isNumeric(phone)) {
+				
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Telefono");
+				error.put("error", "Formato non Valido");
+				errors.add(error);
+			}
+		}
+	
+		if(errors.size() > 0) {
+		
+			// Ci sono errori, rimandare alla pagina mostrandoli
+			model.addAttribute("errors", errors);
+			model.addAttribute("fromOpenID", false);
+			model.addAttribute("actionUrl", "/facebook_signup");
+			return new ModelAndView("signup");
+			
+		}
+		else
+		{
+			//eseguire la registrazione
+			
+			//Mi ricavo il memberType 
+			MemberType mType = memberTypeInterface.getMemberType(MemberTypes.USER_NORMAL);
+			
+			//Mi ricavo il memberStatus 
+			MemberStatus mStatus;
+			
+			//genero un regCode
+			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
+			
+			if(checkMail) {
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+				model.addAttribute("checkMail", true);
+			} else
+			{
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				
+				//Inviare qui la mail con il codice di registrazione.
+			}
+			
+			
+			
+			//setto la data odierna
+			Calendar calendar = Calendar.getInstance();     
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			String sDate = dateFormat.format(calendar.getTime());
+			Date regDate = dateFormat.parse(sDate);
+			
+			//trasformo il cap in un numero
+			int capNumeric = Integer.parseInt(cap);
+
+			//username
+			String username = (String) session.getAttribute("FACEBOOK_USERID");
+			
+			// Creo un nuovo utente 
+			
+			Member member = new Member(	mType, mStatus, firstname, lastname, 
+										username, "not set", regCode, regDate, 
+										email, address, city, state, capNumeric);
+			
+			if(!phone.equals("")) 
+				member.setTel(phone);
+			
+			memberInterface.newMember(member);
+	
+		}
+		
+		// Registrazione avvenuta con successo. Redirigere 
+		return new ModelAndView("/signup_confirmed");
+	}
+	
+	@RequestMapping(value ="/normal_signup", method = RequestMethod.POST)
+	public ModelAndView normalSignupPost( Model model, HttpSession session,
+			@RequestParam(value = "firstname", required = true) String firstname,
+			@RequestParam(value = "lastname", required = true) String lastname,
+			@RequestParam(value = "email", required = true) String email,
+			@RequestParam(value = "address", required = true) String address,
+			@RequestParam(value = "city", required = true) String city,
+			@RequestParam(value = "state", required = true) String state,
+			@RequestParam(value = "cap", required = true) String cap,
+			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone) throws ParseException, InvalidParametersException
+	{
+		
 		return null;
+		
 	}
 	
 	public static boolean isValidEmailAddress(String email) {
