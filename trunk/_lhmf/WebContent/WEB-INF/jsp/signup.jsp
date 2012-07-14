@@ -39,6 +39,17 @@
 	        <br><label for="phone" class="left">Telefono: </label>
 	          <input type="text" name="phone" id="phone" class="field" value="${phone}" onfocus="scrivi_help('phone');"/>
         </fieldset>
+        <c:if test="${fromOpenID == false}">
+	          <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
+	          <div style="padding-left: 40px">
+	          	<p><span class="actionError">
+			          <c:forEach var="err" items="${errors}">
+				        	<strong><c:out value="${err.id}" /></strong>: <c:out value="${err.error}" /><br />
+				      </c:forEach>
+				</span></p>
+				</div>
+	          </fieldset>
+   	    </c:if>
         <fieldset><legend>&nbsp;Aiuto alla Digitazione&nbsp;</legend><br />
                 <textarea name="helptext" style="text-align:center" rows="3" cols="20"></textarea>
         </fieldset>
@@ -53,15 +64,6 @@
 	        </fieldset>
         </c:if>
         <p><input type="submit" class="button" value="Registrati"/></p>
-        <c:if test="${fromOpenID == false}">
-	          <div id="errors">
-	          <ul>
-		          <c:forEach var="err" items="${errors}">
-			        <li><c:out value="${err.id}" />: <c:out value="${err.error}" /></li>
-			      </c:forEach>
-			  </ul>
-	          </div>
-   	    </c:if>
         </form>
         </div>
     </jsp:body>

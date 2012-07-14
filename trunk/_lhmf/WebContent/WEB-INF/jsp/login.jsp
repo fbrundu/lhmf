@@ -23,13 +23,16 @@
 	<jsp:attribute name="bodyTitle">Accesso al sito</jsp:attribute>
 	
 	<jsp:body>
+	<div class="registrazioneform" align="center">
         <c:if test="${param.form_error != null}">
-		   <span class="actionError">
-		   Il tentativo di accesso al sito non è andato a buon fine.<br/><br/>
-		   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
-		  </span>
+	        <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
+			   <span class="actionError">
+				   <strong>Il tentativo di accesso al sito non è andato a buon fine.</strong><br/><br/>
+				   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.<br/>
+			  </span>
+			</fieldset>
 		</c:if>
-		<div class="registrazioneform" align="center">
+		
         <form id="regform" method = "POST" action='<spring:url value="/j_spring_security_check"></spring:url>'>
         	
 	        	<fieldset><legend>&nbsp;Effettua il Login&nbsp;</legend><br />
@@ -45,29 +48,37 @@
         	
         </form>
         
-        </div>
         
-        <div align="center">
-        <p></p>
-        <h2>Accedi con il tuo account preferito</h2>
-        <c:if test="${param.openid_error != null}">
-		   <span class="actionError">
-		   Il tentativo di accesso al sito non è andato a buon fine.<br/><br/>
-		   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.
-		  </span>
-		</c:if>
-		<form id="openid_form" class="loginform" name="oidf" action='<spring:url htmlEscape="true" value="/j_spring_openid_security_check"/>' method="POST">
-			<div id="openid_choice">
-				<div id="openid_btns"></div>
-			</div>
-			<div id="openid_input_area">
-				<input id="openid_identifier" name="openid_identifier" type="text" value="http://" required="required"/>
-				<input id="openid_submit" type="submit" value="Sign-In"/>
-			</div>
-		</form>
-		<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_oauth_security_check"/>' method="POST">
-			<input type="submit" />
-		</form>
+        
+        <p><c:if test="${param.openid_error != null}">
+	        <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
+			   <span class="actionError">
+				   <strong>Il tentativo di accesso al sito non è andato a buon fine.</strong><br/><br/>
+				   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.<br/>
+			  </span>
+			 </fieldset>
+		</c:if></p>
+		
+		</div>
+		
+		
+		<p class="center"></p>
+		
+		<div class="loginBox" align="center">
+	        <h2 align="center">Accedi con il tuo account preferito</h2>
+			<p class="center"></p>
+			<form id="openid_form" class="loginform" name="oidf" action='<spring:url htmlEscape="true" value="/j_spring_openid_security_check"/>' method="POST">
+				<div id="openid_choice" >
+					<div id="openid_btns"></div>
+				</div>
+				<div id="openid_input_area">
+					<input id="openid_identifier" name="openid_identifier" type="text" value="http://" required="required"/>
+					<input id="openid_submit" type="submit" value="Sign-In"/>
+				</div>
+			</form>
+			<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_oauth_security_check"/>' method="POST">
+				<input type="submit" />
+			</form>
 		</div>
     </jsp:body>
 </t:index>
