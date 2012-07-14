@@ -63,16 +63,16 @@ public class MemberInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Member"
-						+ "set name = :name,"
-						+ "surname = :surname,"
-						+ "username = :username"
+				"update Member "
+						+ "set name = :name, "
+						+ "surname = :surname, "
+						+ "username = :username, "
 						// + "password = :password"
 						// + "regCode = :regCode" + "regDate = :regDate"
-						+ "email = :email" + "address = :address"
-						+ "city = :city" + "state = :state" + "cap = :cap"
-						+ "tel = :tel" + "memberType = :memberType"
-						+ "status = :status" + "where idMember = :idMember");
+						+ "email = :email, " + "address = :address, "
+						+ "city = :city, " + "state = :state, " + "cap = :cap, "
+						+ "tel = :tel, " + "memberType = :memberType, "
+						+ "status = :status " + "where idMember = :idMember");
 		query.setParameter("name", member.getName());
 		query.setParameter("surname", member.getSurname());
 		query.setParameter("username", member.getUsername());
@@ -85,10 +85,8 @@ public class MemberInterface
 		query.setParameter("state", member.getState());
 		query.setParameter("cap", member.getCap());
 		query.setParameter("tel", member.getTel());
-		query.setParameter("memberType", member.getMemberType()
-				.getIdMemberType());
-		query.setParameter("status", member.getMemberStatus()
-				.getIdMemberStatus());
+		query.setParameter("memberType", member.getMemberType());
+		query.setParameter("status", member.getMemberStatus());
 		query.setParameter("idMember", member.getIdMember());
 
 		return (Integer) query.executeUpdate();
