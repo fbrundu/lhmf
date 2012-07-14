@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   `idMember` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
-  `username` varchar(45) NOT NULL,
+  `username` varchar(250) NOT NULL,
   `password` varchar(32) NOT NULL,
   `reg_code` varchar(64) NOT NULL,
   `reg_date` date NOT NULL,
