@@ -3,49 +3,41 @@ package it.polito.ai.lhmf.util;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
-//import javax.activation.*;
 
 public class SendEmail
 {
+	private static final String username = "gas.no.reply@gmail.com";
+	private static final String password = "gasproject";
 	
    public static void send(String mailTo, String subject, String body)
    {
       
       // Recipient's email ID needs to be mentioned.
       String to = mailTo;
-
-      // Sender's email ID needs to be mentioned
-      String from = "jeyaxs@gmail.com";
-
-      // Assuming you are sending email from localhost
-      String host = "smtp.gmail.com";
-
-      // Get system properties
-      Properties properties = System.getProperties();
-
-      // Setup mail server
-      properties.setProperty("mail.smtp.host", host);
-      properties.setProperty("mail.user", "jeyaxs@hotmail.com");
-      properties.setProperty("mail.password", "-secure-");
       
-      properties.setProperty("mail.smtp.auth", "true");
-      properties.setProperty("mail.smtp.socketFactory.port", "465");
-      properties.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-      properties.setProperty("mail.smtp.socketFactory.fallback", "false");
-
-      // Get the default Session object.
-      Session session = Session.getDefaultInstance(properties);
+      Properties props = new Properties();
+      props.put("mail.smtp.auth", "true");
+      props.put("mail.smtp.starttls.enable", "true");
+      props.put("mail.smtp.host", "smtp.gmail.com");
+      props.put("mail.smtp.port", "587");
+      
+      Session session = Session.getInstance(props, 
+    		  new javax.mail.Authenticator() {
+    	  			protected PasswordAuthentication getPasswordAuthentication() {
+    	  				return new PasswordAuthentication(username, password);
+    	  			}
+    		  });
 
       try{
          // Create a default MimeMessage object.
          MimeMessage message = new MimeMessage(session);
 
          // Set From: header field of the header.
-         message.setFrom(new InternetAddress(from));
+         message.setFrom(new InternetAddress(username));
 
          // Set To: header field of the header.
-         message.addRecipient(Message.RecipientType.TO,
-                                  new InternetAddress(to));
+         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to)
+                                  /*new InternetAddress(to)*/);
 
          // Set Subject: header field
          message.setSubject(subject);
