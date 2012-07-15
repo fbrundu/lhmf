@@ -2,6 +2,7 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.Supplier;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class ProductInterface
 	public Product getProduct(Integer idProduct)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Product" + "where idProduct = :idProduct");
+				"from Product " + "where idProduct = :idProduct");
 		query.setParameter("idProduct", idProduct);
 		return (Product) query.uniqueResult();
 	}
@@ -47,6 +48,26 @@ public class ProductInterface
 				.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Product> getProductsBySupplier(String username)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Supplier where username = :username");
+		query.setParameter("username", username);
+		Supplier supplier = (Supplier) query.uniqueResult();
+		if (supplier != null)
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"from Product "
+							+ "where idMember_supplier = :idMember_supplier");
+			query.setParameter("idMember_supplier", supplier.getIdMember());
+			return query.list();
+		}
+		else
+			return null;
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer updateProduct(Product product)
 			throws InvalidParametersException
@@ -55,17 +76,17 @@ public class ProductInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Product" + "set name = :name,"
+				"update Product " + "set name = :name,"
 						+ "description = :description,"
-						+ "dimension = :dimension"
-						+ "measureUnit = :measureUnit"
-						+ "unitBlock = :unitBlock"
-						+ "availability = :availability"
-						+ "transportCost = :transportCost"
-						+ "unitCost = :unitCost" + "minBuy = :minBuy"
-						+ "maxBuy = :maxBuy"
-						+ "idMember_supplier = :idMember_supplier"
-						+ "idCategory = :idCategory"
+						+ "dimension = :dimension,"
+						+ "measureUnit = :measureUnit,"
+						+ "unitBlock = :unitBlock,"
+						+ "availability = :availability,"
+						+ "transportCost = :transportCost,"
+						+ "unitCost = :unitCost," + "minBuy = :minBuy,"
+						+ "maxBuy = :maxBuy,"
+						+ "idMember_supplier = :idMember_supplier,"
+						+ "idCategory = :idCategory "
 						+ "where idProduct = :idProduct");
 		query.setParameter("name", product.getName());
 		query.setParameter("description", product.getDescription());
@@ -94,7 +115,7 @@ public class ProductInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from Product" + "where idProduct = :idProduct");
+				"delete from Product " + "where idProduct = :idProduct");
 
 		query.setParameter("idProduct", idProduct);
 

@@ -23,7 +23,7 @@ function HelloCategory()
 // CRUD on ProductCategory
 function newCategory(productCategory)
 {
-  $.postJSON("ajax/newproductcategory", productCategory, function(
+  $.postJSONsync("ajax/newproductcategory", productCategory, function(
       idProductCategory)
   {
     console.debug("Inserted: " + idProductCategory);
@@ -32,7 +32,7 @@ function newCategory(productCategory)
 
 function updateCategory(productCategory)
 {
-  $.postJSON("ajax/updateproductcategory", productCategory, function(
+  $.postJSONsync("ajax/updateproductcategory", productCategory, function(
       rowsAffected)
   {
     console.debug("Updated: " + rowsAffected);
@@ -51,7 +51,7 @@ function getCategories()
 
 function deleteCategory(idProductCategory)
 {
-  $.postJSON("ajax/deleteproductcategory", idProductCategory, function(
+  $.postJSONsync("ajax/deleteproductcategory", idProductCategory, function(
       rowsAffected)
   {
     console.debug("Deleted: " + rowsAffected);
@@ -79,28 +79,17 @@ function HelloProduct()
   product.maxBuy = 1;
   product.idProductCategory = productCategory.idProductCategory;
   product.idMember = 1;
-  setTimeout(function()
-  {
-    newProduct(product);
-  }, 3000);
-  setTimeout(function()
-  {
-    getProducts();
-  }, 5000);
-  setTimeout(function()
-  {
-    getCategories();
-  }, 7000);
-  setTimeout(function()
-  {
-    deleteCategory(productCategory.idProductCategory);
-  }, 9000);
+  newProduct(product);
+  getMyProducts();
+  getCategories();
+  //deleteProduct(1);
+  //deleteCategory(productCategory.idProductCategory);
 }
 
 // CRUD on Product
 function newProduct(product)
 {
-  $.postJSON("ajax/newproduct", product, function(idProduct)
+  $.postJSONsync("ajax/newproduct", product, function(idProduct)
   {
     console.debug("Inserted: " + idProduct);
   });
@@ -108,7 +97,7 @@ function newProduct(product)
 
 function updateProduct(product)
 {
-  $.postJSON("ajax/updateproduct", product, function(rowsAffected)
+  $.postJSONsync("ajax/updateproduct", product, function(rowsAffected)
   {
     console.debug("Updated: " + rowsAffected);
   });
@@ -123,9 +112,18 @@ function getProducts()
   });
 }
 
+function getMyProducts()
+{
+  $.getJSON("ajax/getmyproducts", function(productsList)
+  {
+    window.localStorage.setItem('productsList', JSON.stringify(productsList));
+    console.debug("productsList saved in localstorage");
+  });
+}
+
 function deleteProduct(idProduct)
 {
-  $.postJSON("ajax/deleteproduct", idProduct, function(rowsAffected)
+  $.postJSONsync("ajax/deleteproduct", idProduct, function(rowsAffected)
   {
     console.debug("Deleted: " + rowsAffected);
   });

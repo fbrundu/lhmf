@@ -3,12 +3,14 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +49,17 @@ public class ProductAjaxController
 	{
 		List<Product> productsList = null;
 		productsList = productInterface.getProducts();
+		return productsList;
+	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getmyproducts", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Product> getMyProducts(HttpServletRequest request)
+	{
+		List<Product> productsList = null;
+		productsList = productInterface.getProductsBySupplier((String) request
+				.getSession().getAttribute("username"));
 		return productsList;
 	}
 

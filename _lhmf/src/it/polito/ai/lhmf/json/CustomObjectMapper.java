@@ -26,11 +26,21 @@ public class CustomObjectMapper extends ObjectMapper
 				new Version(1, 0, 0, null));
 
 		serializers.addSerializer(Member.class, new MemberSerializer());
-		//serializers.addSerializer(Product.class, new ProductSerializer());
-		//serializers.addSerializer(ProductCategory.class,
-		//		new ProductCategorySerializer());
+		serializers.addSerializer(Order.class, new OrderSerializer());
+		serializers.addSerializer(Product.class, new ProductSerializer());
+		serializers.addSerializer(ProductCategory.class,
+				new ProductCategorySerializer());
+		serializers.addSerializer(Purchase.class, new PurchaseSerializer());
+		serializers.addSerializer(Supplier.class, new SupplierSerializer());
 
-		//serializers.addDeserializer(Product.class, new ProductDeserializer(sf));
+		serializers.addDeserializer(Member.class, new MemberDeserializer());
+		serializers.addDeserializer(Order.class, new OrderDeserializer());
+		serializers.addDeserializer(Product.class, new ProductDeserializer(sf));
+		serializers.addDeserializer(ProductCategory.class,
+				new ProductCategoryDeserializer(sf));
+		serializers.addDeserializer(Purchase.class, new PurchaseDeserializer());
+		serializers.addDeserializer(Supplier.class,
+				new SupplierDeserializer());
 
 		registerModule(serializers);
 	}

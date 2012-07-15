@@ -60,7 +60,7 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 			Supplier supplier = (Supplier) query.uniqueResult();
 			newProduct.setSupplier(supplier);
 
-			query = hibernateSession.createQuery("from ProductCategory"
+			query = hibernateSession.createQuery("from ProductCategory "
 					+ "where idProduct_Category = :idProductCategory");
 			query.setParameter("idProductCategory",
 					node.get("idProductCategory").getNumberValue());
