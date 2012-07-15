@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 11, 2012 alle 17:57
+-- Generato il: Lug 15, 2012 alle 09:57
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -26,7 +26,6 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `log`
 --
 
-DROP TABLE IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
   `idLog` int(11) NOT NULL AUTO_INCREMENT,
   `logtext` varchar(300) NOT NULL,
@@ -42,7 +41,6 @@ CREATE TABLE IF NOT EXISTS `log` (
 -- Struttura della tabella `member`
 --
 
-DROP TABLE IF EXISTS `member`;
 CREATE TABLE IF NOT EXISTS `member` (
   `idMember` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -71,7 +69,6 @@ CREATE TABLE IF NOT EXISTS `member` (
 -- Struttura della tabella `member_status`
 --
 
-DROP TABLE IF EXISTS `member_status`;
 CREATE TABLE IF NOT EXISTS `member_status` (
   `idMember_Status` int(11) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
@@ -93,7 +90,6 @@ INSERT INTO `member_status` (`idMember_Status`, `description`) VALUES
 -- Struttura della tabella `member_type`
 --
 
-DROP TABLE IF EXISTS `member_type`;
 CREATE TABLE IF NOT EXISTS `member_type` (
   `idMember_Type` int(11) NOT NULL,
   `description` varchar(45) DEFAULT NULL,
@@ -115,7 +111,6 @@ INSERT INTO `member_type` (`idMember_Type`, `description`) VALUES
 -- Struttura della tabella `message`
 --
 
-DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `idMessage` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(300) NOT NULL,
@@ -133,7 +128,6 @@ CREATE TABLE IF NOT EXISTS `message` (
 -- Struttura della tabella `notify`
 --
 
-DROP TABLE IF EXISTS `notify`;
 CREATE TABLE IF NOT EXISTS `notify` (
   `idNotify` int(11) NOT NULL AUTO_INCREMENT,
   `text` int(11) NOT NULL,
@@ -149,7 +143,6 @@ CREATE TABLE IF NOT EXISTS `notify` (
 -- Struttura della tabella `order`
 --
 
-DROP TABLE IF EXISTS `order`;
 CREATE TABLE IF NOT EXISTS `order` (
   `idOrder` int(11) NOT NULL,
   `date_open` date NOT NULL,
@@ -168,7 +161,6 @@ CREATE TABLE IF NOT EXISTS `order` (
 -- Struttura della tabella `order_product`
 --
 
-DROP TABLE IF EXISTS `order_product`;
 CREATE TABLE IF NOT EXISTS `order_product` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
@@ -183,7 +175,6 @@ CREATE TABLE IF NOT EXISTS `order_product` (
 -- Struttura della tabella `product`
 --
 
-DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `idProduct` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
@@ -209,7 +200,6 @@ CREATE TABLE IF NOT EXISTS `product` (
 -- Struttura della tabella `product_category`
 --
 
-DROP TABLE IF EXISTS `product_category`;
 CREATE TABLE IF NOT EXISTS `product_category` (
   `idProduct_Category` int(11) NOT NULL,
   `description` varchar(45) NOT NULL,
@@ -222,7 +212,6 @@ CREATE TABLE IF NOT EXISTS `product_category` (
 -- Struttura della tabella `purchase`
 --
 
-DROP TABLE IF EXISTS `purchase`;
 CREATE TABLE IF NOT EXISTS `purchase` (
   `idPurchase` int(11) NOT NULL AUTO_INCREMENT,
   `idMember` int(11) NOT NULL,
@@ -238,7 +227,6 @@ CREATE TABLE IF NOT EXISTS `purchase` (
 -- Struttura della tabella `purchase_product`
 --
 
-DROP TABLE IF EXISTS `purchase_product`;
 CREATE TABLE IF NOT EXISTS `purchase_product` (
   `idPurchase` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
@@ -254,12 +242,11 @@ CREATE TABLE IF NOT EXISTS `purchase_product` (
 -- Struttura della tabella `supplier`
 --
 
-DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `idMember` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
-  `username` varchar(45) NOT NULL,
+  `username` varchar(250) NOT NULL,
   `password` varchar(32) NOT NULL,
   `reg_code` varchar(64) NOT NULL,
   `reg_date` date NOT NULL,
