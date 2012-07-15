@@ -53,9 +53,14 @@
 	</jsp:attribute>
 	
 	<jsp:attribute name="userMenu">
-    	<p>Menù di amministrazione</p>
-    	<p><a href='<spring:url htmlEscape="true" value="/userMgmt"/>' id="userLink">Gestione utenti</a></p>
-    	<p><a href='<spring:url htmlEscape="true" value="/log"/>' id="logLink">Consultazione log</a></p>
+	<div class="round-border-topright"></div>
+	<h1 class="first">Menu di Amministrazione</h1>
+	<dl class="menu-navigazione">
+	  <dt><a href="<spring:url htmlEscape="true" value="/userMgmt"/>">Gestione Utenti</a></dt>
+	  <dt><a href="<spring:url htmlEscape="true" value="/log"/>">Log</a></dt>
+	  <dt><a href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche (NN)</a></dt>
+	  <dt><a href="<spring:url htmlEscape="true" value="/messaggi"/>">Messaggi (NN)</a></dt>
+	</dl> 
 	</jsp:attribute>
 	
 	<jsp:attribute name="bodyTitle">Interfaccia di amministrazione</jsp:attribute>
