@@ -81,10 +81,11 @@ function HelloProduct()
   product.id_member_supplier = 1;
   newProduct(product);
   getMyProducts();
-  my_products_list = JSON.parse(window.localStorage.getItem('my_products_list'));
-  for (var prodIndex in my_products_list)
+  my_products_list = JSON
+      .parse(window.localStorage.getItem('my_products_list'));
+  for ( var prodIndex in my_products_list)
   {
-    if(my_products_list[prodIndex].name == "Lasagne")
+    if (my_products_list[prodIndex].name == "Lasagne")
     {
       my_products_list[prodIndex].name = "Cambiato";
       updateProduct(my_products_list[prodIndex]);
@@ -126,7 +127,8 @@ function getMyProducts()
 {
   $.getJSONsync("ajax/getmyproducts", function(productsList)
   {
-    window.localStorage.setItem('my_products_list', JSON.stringify(productsList));
+    window.localStorage.setItem('my_products_list', JSON
+        .stringify(productsList));
     console.debug("my_products_list saved in localstorage");
   });
 }
@@ -141,10 +143,26 @@ function deleteProduct(idProduct)
 
 function deleteAllMyProducts()
 {
-  my_products_list = JSON.parse(window.localStorage.getItem('my_products_list'));
+  my_products_list = JSON
+      .parse(window.localStorage.getItem('my_products_list'));
 
-  for (var prodIndex in my_products_list)
+  for ( var prodIndex in my_products_list)
   {
     deleteProduct(my_products_list[prodIndex].id_product);
   }
+}
+
+function returnFormattedProductsTable(productList, page)
+{
+  var returnedTableString = "";
+  if (page < 1 || (page - 1) * 20 >= productList.length)
+    return "";
+  for ( var prodIndex = (page - 1) * 20; prodIndex < productList.length
+      && prodIndex <= page * 20; prodIndex++)
+  {
+    returnedTableString += "<tr>";
+    returnedTableString += "<td>" + productList[prodIndex].name + "</td>";
+    returnedTableString += "</tr>";
+  }
+  return returnedTableString;
 }
