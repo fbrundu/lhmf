@@ -21,6 +21,7 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberStatusInterface;
 import it.polito.ai.lhmf.model.MemberTypeInterface;
 import it.polito.ai.lhmf.model.MemberInterface;
+import it.polito.ai.lhmf.model.MessageInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
 
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
@@ -28,6 +29,7 @@ import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberType;
 import it.polito.ai.lhmf.orm.MemberStatus;
+import it.polito.ai.lhmf.orm.Message;
 import it.polito.ai.lhmf.orm.Supplier;
 
 import org.codehaus.jackson.JsonNode;
@@ -53,6 +55,8 @@ public class SignupController
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
 	private MemberTypeInterface memberTypeInterface;	
+	@Autowired
+	private MessageInterface messageInterface;	
 		
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.GET)
 	public ModelAndView openIdSignupGet(Model model, HttpSession session)
@@ -306,10 +310,40 @@ public class SignupController
 				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
 				SendEmail.send(mailTo, subject, body);	
 			} 
+			
+			//Mandare messaggio all'admin
+			
+			//Ricavo il membro Admin
+			Member memberAdmin = memberInterface.getMemberAdmin();
+			
+			//Creo il Current timestamp
+			java.util.Date now = calendar.getTime();
+			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+			
+			String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+							"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+							"Email: " + member.getEmail() + "\n";  
+			
+			//Costruisco l'oggetto message	
+			Message message = new Message();
+			
+			message.setMemberByIdSender(member);
+			message.setMemberByIdReceiver(memberAdmin);
+			message.setMessageTimestamp(currentTimestamp);
+			message.setText(text);
+			
+			try {
+				messageInterface.newMessage(message);
+			} catch (InvalidParametersException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 	
 		}
 		
-		// Registrazione avvenuta con successo. Redirigere 
+		// Registrazione avvenuta con successo. Redirigere				
 		return new ModelAndView("/signup_confirmed");
 	}
 	
@@ -522,6 +556,35 @@ public class SignupController
 				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
 				SendEmail.send(mailTo, subject, body);	
 			}
+			
+			//Mandare messaggio all'admin
+			
+			//Ricavo il membro Admin
+			Member memberAdmin = memberInterface.getMemberAdmin();
+			
+			//Creo il Current timestamp
+			java.util.Date now = calendar.getTime();
+			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+			
+			String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+							"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+							"Email: " + member.getEmail() + "\n";  
+			
+			//Costruisco l'oggetto message	
+			Message message = new Message();
+			
+			message.setMemberByIdSender(member);
+			message.setMemberByIdReceiver(memberAdmin);
+			message.setMessageTimestamp(currentTimestamp);
+			message.setText(text);
+			
+			try {
+				messageInterface.newMessage(message);
+			} catch (InvalidParametersException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 	
 		}
 		
@@ -827,6 +890,37 @@ public class SignupController
 			model.addAttribute("authFailed", true);
 			
 		}
+		
+		//Mandare messaggio all'admin
+		
+		//Ricavo il membro Admin
+		Member memberAdmin = memberInterface.getMemberAdmin();
+		
+		//Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date now = calendar.getTime();
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+		
+		String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+						"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+						"Email: " + member.getEmail() + "\n";  
+		
+		//Costruisco l'oggetto message	
+		Message message = new Message();
+		
+		message.setMemberByIdSender(member);
+		message.setMemberByIdReceiver(memberAdmin);
+		message.setMessageTimestamp(currentTimestamp);
+		message.setText(text);
+		
+		try {
+			messageInterface.newMessage(message);
+		} catch (InvalidParametersException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		
 		return new ModelAndView("/authMail_confirmed");
 	}

@@ -1,12 +1,15 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberType;
 
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +56,19 @@ public class MemberInterface
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Member " + "where email = :email");
 		query.setParameter("email", email);
+		return (Member) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public Member getMemberAdmin()
+	{
+		//Recupero il memberType dell'admin
+		MemberType mType = new MemberType(MemberTypes.USER_ADMIN);
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member " + "where memberType = :memberType");
+		
+		query.setParameter("memberType", mType);
 		return (Member) query.uniqueResult();
 	}
 
