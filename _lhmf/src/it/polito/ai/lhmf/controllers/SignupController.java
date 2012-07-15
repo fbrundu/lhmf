@@ -167,6 +167,34 @@ public class SignupController
 			error.put("id", "Email");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
+		} else {
+			
+			//Controllo email già in uso
+			
+			Member memberControl = memberInterface.getMemberByEmail(email);
+			boolean checkSupplier = true;
+			
+			if(memberControl != null)
+			{
+				checkSupplier = false;
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Email");
+				error.put("error", "Email già utilizzata da un altro account");
+				errors.add(error);
+			}
+						
+			if(checkSupplier) {
+				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
+				
+				if(supplierControl != null)
+				{
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "Email");
+					error.put("error", "Email già utilizzata da un altro account");
+					errors.add(error);
+				}
+			}
+			
 		}
 		if(address.equals("") || isNumeric(address)) {
 			
@@ -354,6 +382,34 @@ public class SignupController
 			error.put("id", "Email");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
+		} else {
+			
+			//Controllo email già in uso
+			
+			Member memberControl = memberInterface.getMemberByEmail(email);
+			boolean checkSupplier = true;
+			
+			if(memberControl != null)
+			{
+				checkSupplier = false;
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Email");
+				error.put("error", "Email già utilizzata da un altro account");
+				errors.add(error);
+			}
+						
+			if(checkSupplier) {
+				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
+				
+				if(supplierControl != null)
+				{
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "Email");
+					error.put("error", "Email già utilizzata da un altro account");
+					errors.add(error);
+				}
+			}
+			
 		}
 		if(address.equals("") || isNumeric(address)) {
 			
@@ -531,6 +587,34 @@ public class SignupController
 			error.put("id", "Email");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
+		} else {
+			
+			//Controllo email già in uso
+			
+			Member memberControl = memberInterface.getMemberByEmail(email);
+			boolean checkSupplier = true;
+			
+			if(memberControl != null)
+			{
+				checkSupplier = false;
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Email");
+				error.put("error", "Email già utilizzata da un altro account");
+				errors.add(error);
+			}
+						
+			if(checkSupplier) {
+				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
+				
+				if(supplierControl != null)
+				{
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "Email");
+					error.put("error", "Email già utilizzata da un altro account");
+					errors.add(error);
+				}
+			}
+			
 		}
 		if(address.equals("") || isNumeric(address)) {
 			
