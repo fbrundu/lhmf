@@ -46,6 +46,15 @@ public class MemberInterface
 		query.setParameter("username", username);
 		return (Member) query.uniqueResult();
 	}
+	
+	@Transactional(readOnly = true)
+	public Member getMemberByEmail(String email)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member " + "where email = :email");
+		query.setParameter("email", email);
+		return (Member) query.uniqueResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
