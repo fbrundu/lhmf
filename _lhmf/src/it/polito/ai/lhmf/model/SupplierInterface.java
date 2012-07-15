@@ -47,6 +47,15 @@ public class SupplierInterface
 		query.setParameter("username", username);
 		return (Supplier) query.uniqueResult();
 	}
+	
+	@Transactional(readOnly = true)
+	public Supplier getSupplierByMail(String email)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Supplier " + "where email = :email");
+		query.setParameter("email", email);
+		return (Supplier) query.uniqueResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
