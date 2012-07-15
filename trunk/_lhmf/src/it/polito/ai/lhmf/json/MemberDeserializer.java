@@ -55,14 +55,14 @@ public class MemberDeserializer extends JsonDeserializer<Member>
 			newMember.setCap(node.get("cap").getIntValue());
 			newMember.setTel(node.get("tel").getTextValue());
 
-			Query query = hibernateSession.createQuery("from MemberType"
+			Query query = hibernateSession.createQuery("from MemberType "
 					+ "where description = :typeDescription");
 			query.setParameter("typeDescription", node.get("memberType")
 					.getTextValue());
 			MemberType memberType = (MemberType) query.uniqueResult();
 			newMember.setMemberType(memberType);
 			
-			query = hibernateSession.createQuery("from MemberStatus"
+			query = hibernateSession.createQuery("from MemberStatus "
 					+ "where description = :statusDescription");
 			query.setParameter("statusDescription", node.get("memberStatus")
 					.getTextValue());

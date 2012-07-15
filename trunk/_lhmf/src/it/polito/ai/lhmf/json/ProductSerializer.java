@@ -25,7 +25,7 @@ public class ProductSerializer extends JsonSerializer<Product>
 			JsonProcessingException
 	{
 		jgen.writeStartObject();
-		jgen.writeNumberField("idProduct", value.getIdProduct());
+		jgen.writeNumberField("id_product", value.getIdProduct());
 		jgen.writeStringField("name", value.getName());
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeNumberField("dimension", value.getDimension());
@@ -36,9 +36,9 @@ public class ProductSerializer extends JsonSerializer<Product>
 		jgen.writeNumberField("unit_cost", value.getUnitCost());
 		jgen.writeNumberField("min_buy", value.getMinBuy());
 		jgen.writeNumberField("max_buy", value.getMaxBuy());
-		jgen.writeNumberField("idMember_supplier", value.getSupplier()
+		jgen.writeNumberField("id_member_supplier", value.getSupplier()
 				.getIdMember());
-		jgen.writeNumberField("idCategory", value.getProductCategory()
+		jgen.writeNumberField("id_product_category", value.getProductCategory()
 				.getIdProductCategory());
 		jgen.writeEndObject();
 	}

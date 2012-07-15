@@ -41,7 +41,7 @@ function updateCategory(productCategory)
 
 function getCategories()
 {
-  $.getJSON("ajax/getproductcategories", function(productCategoriesList)
+  $.getJSONsync("ajax/getproductcategories", function(productCategoriesList)
   {
     window.localStorage.setItem('productCategoriesList', JSON
         .stringify(productCategoriesList));
@@ -66,24 +66,34 @@ function HelloProduct()
   productCategory.description = "Descrizione2";
   newCategory(productCategory);
   var product = new Object();
-  product.idProduct = 1;
+  product.id_product = 1;
   product.name = "Lasagne";
   product.description = "Di nonna";
   product.dimension = 2;
-  product.measureUnit = "Fette";
-  product.unitBlock = 1;
+  product.measure_unit = "Fette";
+  product.unit_block = 1;
   product.availability = true;
-  product.transportCost = 0.1;
-  product.unitCost = 0.2;
-  product.minBuy = 1;
-  product.maxBuy = 1;
-  product.idProductCategory = productCategory.idProductCategory;
-  product.idMember = 1;
+  product.transport_cost = 0.1;
+  product.unit_cost = 0.2;
+  product.min_buy = 1;
+  product.max_buy = 1;
+  product.id_product_category = productCategory.idProductCategory;
+  product.id_member_supplier = 1;
   newProduct(product);
   getMyProducts();
-  getCategories();
-  //deleteProduct(1);
-  //deleteCategory(productCategory.idProductCategory);
+  my_products_list = JSON.parse(window.localStorage.getItem('my_products_list'));
+  for (var prodIndex in my_products_list)
+  {
+    if(my_products_list[prodIndex].name == "Lasagne")
+    {
+      my_products_list[prodIndex].name = "Cambiato";
+      updateProduct(my_products_list[prodIndex]);
+      getMyProducts();
+    }
+  }
+  deleteAllMyProducts();
+  deleteCategory(productCategory.idProductCategory);
+  getMyProducts();
 }
 
 // CRUD on Product
@@ -105,19 +115,19 @@ function updateProduct(product)
 
 function getProducts()
 {
-  $.getJSON("ajax/getproducts", function(productsList)
+  $.getJSONsync("ajax/getproducts", function(productsList)
   {
-    window.localStorage.setItem('productsList', JSON.stringify(productsList));
-    console.debug("productsList saved in localstorage");
+    window.localStorage.setItem('products_list', JSON.stringify(productsList));
+    console.debug("products_list saved in localstorage");
   });
 }
 
 function getMyProducts()
 {
-  $.getJSON("ajax/getmyproducts", function(productsList)
+  $.getJSONsync("ajax/getmyproducts", function(productsList)
   {
-    window.localStorage.setItem('productsList', JSON.stringify(productsList));
-    console.debug("productsList saved in localstorage");
+    window.localStorage.setItem('my_products_list', JSON.stringify(productsList));
+    console.debug("my_products_list saved in localstorage");
   });
 }
 
@@ -127,4 +137,14 @@ function deleteProduct(idProduct)
   {
     console.debug("Deleted: " + rowsAffected);
   });
+}
+
+function deleteAllMyProducts()
+{
+  my_products_list = JSON.parse(window.localStorage.getItem('my_products_list'));
+
+  for (var prodIndex in my_products_list)
+  {
+    deleteProduct(my_products_list[prodIndex].id_product);
+  }
 }

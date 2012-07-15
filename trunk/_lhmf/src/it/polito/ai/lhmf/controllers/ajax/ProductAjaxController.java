@@ -23,6 +23,7 @@ public class ProductAjaxController
 	@Autowired
 	private ProductInterface productInterface;
 
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/newproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newProduct(HttpServletRequest request, @RequestBody Product product)
@@ -63,6 +64,7 @@ public class ProductAjaxController
 		return productsList;
 	}
 
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/updateproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer updateProduct(HttpServletRequest request,
@@ -73,6 +75,7 @@ public class ProductAjaxController
 		return rowsAffected;
 	}
 
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/deleteproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer deleteProduct(HttpServletRequest request,
