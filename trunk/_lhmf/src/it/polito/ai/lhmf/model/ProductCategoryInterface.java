@@ -39,7 +39,7 @@ public class ProductCategoryInterface
 			throw new InvalidParametersException();
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from ProductCategory"
+				"from ProductCategory "
 						+ "where idProductCategory = :idProductCategory");
 		query.setParameter("idProductCategory", idProductCategory);
 		return (ProductCategory) query.uniqueResult();
@@ -61,7 +61,7 @@ public class ProductCategoryInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update ProductCategory set description = :description"
+				"update ProductCategory set description = :description "
 						+ " where idProductCategory = :idProductCategory");
 		query.setParameter("description", productCategory.getDescription());
 		query.setParameter("idProductCategory",
@@ -78,7 +78,7 @@ public class ProductCategoryInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from ProductCategory"
+				"delete from ProductCategory "
 						+ "where idProductCategory = :idProductCategory");
 
 		query.setParameter("idProductCategory", idProductCategory);
