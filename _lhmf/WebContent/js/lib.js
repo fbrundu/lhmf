@@ -20,3 +20,13 @@ $.postJSONsync = function(url, data, callback) {
       'success': callback
   });
 };
+
+$.getJSONsync = function(url, callback) {
+  return jQuery.ajax({
+      'async': false,
+      'type': 'GET',
+      'url': url,
+      'contentType': 'application/json',
+      'success': callback
+  });
+};
