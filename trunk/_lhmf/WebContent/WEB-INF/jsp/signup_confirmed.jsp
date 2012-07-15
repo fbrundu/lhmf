@@ -22,7 +22,7 @@
         	Attivando la tua  mail potrai aver accesso ai nostri servizi
 			  </c:when>
 			  <c:otherwise>
-			    Il tuo account è quasi pronto. Dopo l'attivazione da parte di un admin potrai avere accesso ai nostri servizi.
+			    Il tuo account è quasi pronto. <br />Dopo l'attivazione da parte di un admin potrai avere accesso ai nostri servizi.
 			  </c:otherwise>
 			</c:choose>
 			</div>
