@@ -49,10 +49,7 @@ public class SignupController
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
 	private MemberTypeInterface memberTypeInterface;	
-	
-	private boolean checkMail;
-
-	
+		
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.GET)
 	public ModelAndView openIdSignupGet(Model model, HttpSession session)
 	{
@@ -70,9 +67,6 @@ public class SignupController
 		String cap = null;
 		String phone = null;*/
 
-		checkMail = true;
-		// TODO implementare altri attributi (vedere
-		// applicationContext-security.xml dove ci sono quelli richiesti)
 		for (OpenIDAttribute attribute : attributes)
 		{
 			String value = attribute.getValues().get(0);
@@ -91,7 +85,7 @@ public class SignupController
 				else if (attribute.getName().equals("email") && email == null)
 				{
 					email = value;
-					checkMail = false;
+					session.setAttribute("checkMail", false);
 					model.addAttribute("email", email);
 				}
 				/*else if (attribute.getName().equals("address") && address == null)
@@ -180,7 +174,7 @@ public class SignupController
 		if(city.equals("") || isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Cittï¿½");
+			error.put("id", "Cittïà");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
@@ -230,6 +224,15 @@ public class SignupController
 			//genero un regCode
 			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
 			
+			boolean checkMail;
+			
+			if(session.getAttribute("checkMail") == null)
+				checkMail = true;
+			else {
+				checkMail = false;
+				session.removeAttribute("checkMail");
+			}			
+				
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
 				model.addAttribute("checkMail", true);
@@ -287,7 +290,6 @@ public class SignupController
 		JsonNode emailNode = values.get("email");
 		
 		session.setAttribute("FACEBOOK_USERID", FacebookAuthenticationFilter.FACEBOOK_USERID_PREFIX + idNode.getTextValue());
-		checkMail = true;
 		
 		if(nameNode != null)
 			model.addAttribute("firstname", nameNode.getTextValue());
@@ -296,7 +298,7 @@ public class SignupController
 			model.addAttribute("lastname", surnameNode.getTextValue());
 		
 		if(emailNode != null) {
-			checkMail = false;
+			session.setAttribute("checkMail", false);
 			model.addAttribute("email", emailNode.getTextValue());
 		}
 		
@@ -409,6 +411,15 @@ public class SignupController
 			
 			//genero un regCode
 			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
+			
+			boolean checkMail;
+			
+			if(session.getAttribute("checkMail") == null)
+				checkMail = true;
+			else {
+				checkMail = false;
+				session.removeAttribute("checkMail");
+			}
 			
 			if(checkMail) {
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
@@ -596,25 +607,16 @@ public class SignupController
 		else
 		{
 			//eseguire la registrazione
-			checkMail = true;
 			
 			//Mi ricavo il memberType 
 			MemberType mType = memberTypeInterface.getMemberType(MemberTypes.USER_NORMAL);
 			
 			//Mi ricavo il memberStatus 
-			MemberStatus mStatus;
+			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+			model.addAttribute("checkMail", true);	
 			
 			//genero un regCode
-			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
-			
-			if(checkMail) {
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-				model.addAttribute("checkMail", true);			
-			} else
-			{
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
-
-			}
+			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));					
 			
 			//setto la data odierna
 			Calendar calendar = Calendar.getInstance();     
@@ -650,15 +652,13 @@ public class SignupController
 				e.printStackTrace();
 			}
 			
-			if(checkMail) {
-				//Inviare qui la mail con il codice di registrazione.
-				SendEmail emailer = new SendEmail();
-				
-				String mailTo = email;
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
-				SendEmail.send(mailTo, subject, body);		
-			} 
+			//Inviare qui la mail con il codice di registrazione.
+			SendEmail emailer = new SendEmail();
+			
+			String mailTo = email;
+			String subject = "Conferma mail per GasProject.net";
+			String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+			SendEmail.send(mailTo, subject, body);		
 			
 					
 			
