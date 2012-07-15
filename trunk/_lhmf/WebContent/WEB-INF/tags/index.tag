@@ -55,13 +55,12 @@
 				<h1 class="first">Menu</h1>
 				<dl class="menu-navigazione">
 					<dt><a href='<spring:url htmlEscape="true" value="/"/>'>Home</a></dt>
-					<dt><a href="relazione.php">Relazione</a></dt>
-					<dd><a href="presentazione.php">Struttura Web</a></dd>
-					<dd><a href="db.php">Il DataBase</a></dd>
-					<dd><a href="auth.php">L'autenticazione</a></dd>
-					<dd><a href="reg.php">La Registrazione</a></dd>
+					<dt><a href="">Relazione</a></dt>
+					<dd><a href="">Struttura Web</a></dd>
+					<dd><a href="">Il DataBase</a></dd>
+					<dd><a href="">L'autenticazione</a></dd>
+					<dd><a href="">La Registrazione</a></dd>
 				</dl>
-				<br /><br />
 				<jsp:invoke fragment="userMenu" />
 			</div>
 			<div class="contenuto">
