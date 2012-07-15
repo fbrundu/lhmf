@@ -50,14 +50,7 @@
         
         
         
-        <p><c:if test="${param.openid_error != null}">
-	        <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
-			   <span class="actionError">
-				   <strong>Il tentativo di accesso al sito non è andato a buon fine.</strong><br/><br/>
-				   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.<br/>
-			  </span>
-			 </fieldset>
-		</c:if></p>
+        
 		
 		</div>
 		
@@ -65,6 +58,14 @@
 		<p class="center"></p>
 		
 		<div class="loginBox" align="center">
+	        <c:if test="${param.openid_error != null || param.fb_error != null}">
+	        <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
+			   <span class="actionError">
+				   <strong>Il tentativo di accesso al sito non è andato a buon fine.</strong><br/><br/>
+				   Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.<br/>
+			  </span>
+			 </fieldset>
+			</c:if>
 	        <h2 align="center">Accedi con il tuo account preferito</h2>
 			<p class="center"></p>
 			<form id="openid_form" class="loginform" name="oidf" action='<spring:url htmlEscape="true" value="/j_spring_openid_security_check"/>' method="POST">

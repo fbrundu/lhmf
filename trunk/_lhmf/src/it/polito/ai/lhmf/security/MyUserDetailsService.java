@@ -4,8 +4,10 @@ import it.polito.ai.lhmf.exceptions.OpenIdNeedsRegistration;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 import it.polito.ai.lhmf.orm.Supplier;
+import it.polito.ai.lhmf.security.exception.MailNotVerifiedException;
 
 import java.util.Collections;
 import java.util.List;
@@ -87,10 +89,12 @@ public class MyUserDetailsService implements UserDetailsService,
 						UserRoles.ADMIN));
 			// TODO? else
 			// errore
-			boolean enabled = false;
-			if (m.getMemberStatus().getIdMemberStatus() == MemberStatuses.ENABLED)
-				enabled = true;
-			return new User(m.getUsername(), m.getPassword(), enabled, true,
+			MemberStatus status = m.getMemberStatus();
+			if (status.getIdMemberStatus() == MemberStatuses.NOT_VERIFIED)
+				throw new MailNotVerifiedException("Il tuo indirizzo e-mail non è ancora stato verificato. Verifica la tua casella di posta e attiva la tua mail seguendo le istruzioni nel messaggio che ti abbiamo mandato");
+			else if(status.getIdMemberStatus() == MemberStatuses.VERIFIED_DISABLED)
+				throw new DisabledException("L'account non è ancora stato abilitato dall'amministratore");
+			return new User(m.getUsername(), m.getPassword(), true, true,
 					true, true, roles);
 		}
 	}
@@ -124,14 +128,12 @@ public class MyUserDetailsService implements UserDetailsService,
 						UserRoles.ADMIN));
 			// TODO? else
 			// errore
-			boolean enabled = false;
-			if (m.getMemberStatus().getIdMemberStatus() == MemberStatuses.ENABLED)
-				enabled = true;
-			if(!enabled)
-				//OpenIDAuthenticationProvider non controlla se l'account è abilitato o meno. Quindi lancio l'eccezione per fare in modo che venga stampato l'errore
-				//e l'utente non venga loggato.
+			MemberStatus status = m.getMemberStatus();
+			if (status.getIdMemberStatus() == MemberStatuses.NOT_VERIFIED)
+				throw new MailNotVerifiedException("Il tuo indirizzo e-mail non è ancora stato verificato. Verifica la tua casella di posta e attiva la tua mail seguendo le istruzioni nel messaggio che ti abbiamo mandato");
+			else if(status.getIdMemberStatus() == MemberStatuses.VERIFIED_DISABLED)
 				throw new DisabledException("L'account non è ancora stato abilitato dall'amministratore");
-			return new User(m.getUsername(), m.getPassword(), enabled, true,
+			return new User(m.getUsername(), m.getPassword(), true, true,
 					true, true, roles);
 		}
 	}

@@ -4,8 +4,10 @@ import it.polito.ai.lhmf.exceptions.FacebookNeedsRegistration;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 import it.polito.ai.lhmf.security.MyUserDetailsService.UserRoles;
+import it.polito.ai.lhmf.security.exception.MailNotVerifiedException;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,6 +23,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -70,7 +73,10 @@ public class FacebookAuthenticationFilter extends AbstractAuthenticationProcessi
 		ObjectNode result = facebookRest.getForObject("https://graph.facebook.com/me/", ObjectNode.class);
 		
 		UserDetails userDetails = loadFacebookUserDetails(result);
-		return createSuccessfulAuthentication(userDetails, new OAuth2AuthenticationToken(context.getAccessToken(resource), RESOURCE_ID));
+		if(!userDetails.isEnabled())
+			throw new DisabledException("L'account non è ancora stato abilitato dall'amministratore");
+		else
+			return createSuccessfulAuthentication(userDetails, new OAuth2AuthenticationToken(context.getAccessToken(resource), RESOURCE_ID));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -107,12 +113,12 @@ public class FacebookAuthenticationFilter extends AbstractAuthenticationProcessi
 				roles = Collections.singletonList(new SimpleGrantedAuthority(UserRoles.RESP));
 			else if(type.getIdMemberType() == MemberTypes.USER_ADMIN)
 				roles = Collections.singletonList(new SimpleGrantedAuthority(UserRoles.ADMIN));
-			//else
-			//    errore
-			boolean enabled = false;
-			if(m.getMemberStatus().getIdMemberStatus() == MemberStatuses.ENABLED)
-				enabled = true;
-			return new User(m.getUsername(), m.getPassword(), enabled, true, true, true, roles);
+			MemberStatus status = m.getMemberStatus();
+			if (status.getIdMemberStatus() == MemberStatuses.NOT_VERIFIED)
+				throw new MailNotVerifiedException("Il tuo indirizzo e-mail non è ancora stato verificato. Verifica la tua casella di posta e attiva la tua mail seguendo le istruzioni nel messaggio che ti abbiamo mandato");
+			else if(status.getIdMemberStatus() == MemberStatuses.VERIFIED_DISABLED)
+				throw new DisabledException("L'account non è ancora stato abilitato dall'amministratore");
+			return new User(m.getUsername(), m.getPassword(), true, true, true, true, roles);
 		}
 	}
 	
