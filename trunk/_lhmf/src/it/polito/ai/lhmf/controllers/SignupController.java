@@ -21,12 +21,14 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberStatusInterface;
 import it.polito.ai.lhmf.model.MemberTypeInterface;
 import it.polito.ai.lhmf.model.MemberInterface;
+import it.polito.ai.lhmf.model.SupplierInterface;
 
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberType;
 import it.polito.ai.lhmf.orm.MemberStatus;
+import it.polito.ai.lhmf.orm.Supplier;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -45,6 +47,8 @@ public class SignupController
 {
 	@Autowired
 	private MemberInterface memberInterface;
+	@Autowired
+	private SupplierInterface supplierInterface;
 	@Autowired
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
@@ -573,10 +577,31 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		} else {
+						
+			Member memberControl = memberInterface.getMember(username);
+			boolean checkSupplier = true;
 			
-			//TODO: Controllare se c'è un altro membro con lo stesso username
+			if(memberControl != null)
+			{
+				checkSupplier = false;
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Username");
+				error.put("error", "Username non disponibile");
+				errors.add(error);
+			}
+						
+			if(checkSupplier) {
+				Supplier supplierControl = supplierInterface.getSupplier(username);
+				
+				if(supplierControl != null)
+				{
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "Username");
+					error.put("error", "Username non disponibile");
+					errors.add(error);
+				}
+			}
 			
-			//TODO: Controllare che non ci sia un supplier con lo stesso username
 			
 		}
 		if(password.equals("")) {
