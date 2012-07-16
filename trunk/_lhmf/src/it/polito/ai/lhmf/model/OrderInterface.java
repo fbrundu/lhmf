@@ -36,7 +36,7 @@ public class OrderInterface
 	@Transactional(readOnly=true)
 	public List<Order> getPastOrders()
 	{ 
-		Query query = sessionFactory.getCurrentSession().createQuery("from Order" + "where date_close <= :date_close"); 
+		Query query = sessionFactory.getCurrentSession().createQuery("from Order " + "where date_close <= :date_close"); 
 		String dateToQuery = new String(Calendar.YEAR+""+Calendar.MONTH+""+Calendar.DAY_OF_MONTH);
 		query.setParameter("date_close", dateToQuery);
 		return query.list();
@@ -46,7 +46,7 @@ public class OrderInterface
 	@Transactional(readOnly=true)
 	public List<Order> getActiveOrders()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Order" + "where date_close = 0").list();
+		return sessionFactory.getCurrentSession().createQuery("from Order " + "where date_close = 0").list();
 	}
 	
 }
