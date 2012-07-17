@@ -7,11 +7,11 @@
 <t:index>
 	<jsp:attribute name="scripts">
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_admin.js"/>'></script>
-		
+					
 			<c:choose>
 				<c:when test="${firstPage == null}">
 					<script type="text/javascript">
-						function firstPageCallback(){
+						function drawPageCallback(){
 							writeIndexPage();
 						}
 					</script>
@@ -44,7 +44,7 @@
 				</c:when>
 				<c:otherwise>
 					<script type="text/javascript">
-						function firstPageCallback(){
+						function drawPageCallback(){
 							writeIndexPage();
 						}
 					</script>
@@ -56,8 +56,8 @@
 	<div class="round-border-topright"></div>
 	<h1 class="first">Menu di Amministrazione</h1>
 	<dl class="menu-navigazione">
-	  <dt><a href="<spring:url htmlEscape="true" value="/userMgmt"/>">Gestione Utenti</a></dt>
-	  <dt><a href="<spring:url htmlEscape="true" value="/log"/>">Log</a></dt>
+	  <dt><a id="userLink" href="<spring:url htmlEscape="true" value="/userMgmt"/>">Gestione Utenti</a></dt>
+	  <dt><a id="logLink" href="<spring:url htmlEscape="true" value="/log"/>">Log</a></dt>
 	  <dt><a href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche (NN)</a></dt>
 	  <dt><a href="<spring:url htmlEscape="true" value="/messaggi"/>">Messaggi (NN)</a></dt>
 	</dl> 
