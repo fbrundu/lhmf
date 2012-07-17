@@ -121,7 +121,7 @@
 	}
 	
 	function doRegistration(stateData){
-		$.getJSON("ajax/newMember", {	username: stateData.username,
+		$.postJSON("ajax/newMember", {	username: stateData.username,
 										firstname: stateData.firstname,
 										lastname: stateData.lastname,
 										email: stateData.email,
@@ -188,7 +188,7 @@
 				"<li><a href='#tabs-3'>Modifica utente</a></li><li><a href='#tabs-4'>Lista utenti</a></li></ul>" +
 				"<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div><div id='tabs-4'></div></div>");
 		$('#tabs-1').html("<div class='registrazioneform' style='margin: 2em 0 0 65px;'>" +
-							"<form  id='regform' action='newMember' method='get'>" +
+							"<form  id='regform' action='newMember' method='post'>" +
 							"<fieldset><legend>&nbsp;Dati per la Registrazione&nbsp;</legend><br />" +
 							"<label for='username' class='left'>Username:</label>" +
 							"<input type='text' name='username' id='username' class='field' required='required'/>" +
