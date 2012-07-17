@@ -183,7 +183,7 @@ function getMyProducts()
       });
 }
 
-function loadAllMyProductsFromLocalStorage()
+function loadMyProductsFromLocalStorage()
 {
   return JSON.parse(window.localStorage.getItem('myProductsList'));
 }
@@ -212,13 +212,13 @@ function deleteAllMyProducts()
 }
 
 function getProductsAsTableRows(productsList, productCategoriesList, page,
-    itemsPerPage)
+    itemsPerPage, suppliersList)
 {
   var returnedTableString = "";
   if (page < 1 || (page - 1) * itemsPerPage >= productsList.length
       || itemsPerPage < 1 || itemsPerPage > 100 || productsList == undefined
       || productCategoriesList == undefined || page == undefined
-      || itemsPerPage == undefined)
+      || itemsPerPage == undefined || suppliersList == undefined)
   {
     console.debug("Invalid parameters in " + displayFunctionName());
     return "";
@@ -227,26 +227,62 @@ function getProductsAsTableRows(productsList, productCategoriesList, page,
       && productIndex <= page * itemsPerPage; productIndex++)
   {
     returnedTableString += "<tr>";
-    returnedTableString += "<td>" + productsList[prodIndex].name + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].description
+    returnedTableString += "<td>" + productsList[productIndex].name + "</td>";
+    returnedTableString += "<td>" + productsList[productIndex].description
         + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].dimension + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].measureUnit
+    returnedTableString += "<td>" + productsList[productIndex].dimension
         + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].unitBlock + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].availability
+    returnedTableString += "<td>" + productsList[productIndex].measureUnit
         + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].transportCost
+    returnedTableString += "<td>" + productsList[productIndex].unitBlock
         + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].unitCost + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].minBuy + "</td>";
-    returnedTableString += "<td>" + productsList[prodIndex].maxBuy + "</td>";
-    // TODO
-    // return supplier name from idMemberSupplier
+    returnedTableString += "<td>" + productsList[productIndex].availability
+        + "</td>";
+    returnedTableString += "<td>" + productsList[productIndex].transportCost
+        + "</td>";
+    returnedTableString += "<td>" + productsList[productIndex].unitCost
+        + "</td>";
+    returnedTableString += "<td>" + productsList[productIndex].minBuy + "</td>";
+    returnedTableString += "<td>" + productsList[productIndex].maxBuy + "</td>";
     returnedTableString += "<td>"
         + getCategoryDescription(productCategoriesList,
-            productsList[prodIndex].idProductCategory) + "</td>";
+            productsList[productIndex].idProductCategory) + "</td>";
+    returnedTableString += getSupplierAsTableRow(suppliersList,
+        productsList[productIndex].idMemberSupplier);
     returnedTableString += "</tr>";
   }
   return returnedTableString;
+}
+
+function getAllSuppliers()
+{
+  $.getJSONsync("ajax/getsuppliers",
+      function(suppliersList)
+      {
+        window.localStorage.setItem('suppliersList', JSON
+            .stringify(suppliersList));
+        console.debug("suppliersList saved in localstorage");
+      });
+}
+
+function loadAllSuppliersFromLocalStorage()
+{
+  return JSON.parse(window.localStorage.getItem('suppliersList'));
+}
+
+function getSupplierAsTableRow(suppliersList, idSupplier)
+{
+  if (suppliersList == undefined || idSupplier == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return "";
+  }
+  for ( var supplierIndex in suppliersList)
+  {
+    // TODO return member resp name
+    if (suppliersList[supplierIndex].idMember == idSupplier)
+      return "<td>" + suppliersList[supplierIndex].name
+          + suppliersList[supplierIndex].surname + "</td>";
+  }
+  return "";
 }
