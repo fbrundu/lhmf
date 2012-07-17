@@ -30,3 +30,12 @@ $.getJSONsync = function(url, callback) {
       'success': callback
   });
 };
+
+function displayFunctionName() 
+{
+   var functionName = arguments.callee.toString();
+   functionName = functionName.substr('function '.length);
+   functionName = functionName.substr(0, functionName.indexOf('('));
+
+   return functionName;
+}
