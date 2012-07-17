@@ -53,9 +53,15 @@ public class SendEmail
       }
    }
    
-   public String getBodyForAuth(String firstname, String lastname, String regCode, int memberId) 
+   public String getBodyForAuth(String firstname, String lastname, String regCode, int memberId, boolean fromAdmin) 
    {
  	  String link = "http://localhost:8080/_lhmf/authMail?id=" + memberId + "&regCode=" + regCode;
+ 	  
+ 	  if(fromAdmin)
+ 		  link += "&fromAdmin=1";
+ 	  else
+ 		 link += "&fromAdmin=0";
+ 	  
  	  String body = "Gentile " + firstname + " " + lastname + ",\n\n"
  					+ "Clicca il link in basso per verificare il tuo indirizzo di posta elettronica associato all'account GasProject.net:\n" 
  					+ link + " \n\n"

@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
+import it.polito.ai.lhmf.util.CheckNumber;
 import it.polito.ai.lhmf.util.CreateMD5;
 import it.polito.ai.lhmf.util.SendEmail;
 
@@ -151,14 +152,14 @@ public class SignupController
 		model.addAttribute("cap", cap);
 		model.addAttribute("phone", phone);
 		
-		if(firstname.equals("") || isNumeric(firstname)) {
+		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Nome");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(lastname.equals("") || isNumeric(lastname)) {
+		if(lastname.equals("") || CheckNumber.isNumeric(lastname)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cognome");
@@ -200,28 +201,28 @@ public class SignupController
 			}
 			
 		}
-		if(address.equals("") || isNumeric(address)) {
+		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Indirizzo");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(city.equals("") || isNumeric(city)) {
+		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cittïà");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
-		if(state.equals("") || isNumeric(state)) {
+		if(state.equals("") || CheckNumber.isNumeric(state)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Stato");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(cap.equals("") || !isNumeric(cap)) {
+		if(cap.equals("") || !CheckNumber.isNumeric(cap)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cap");
@@ -230,7 +231,7 @@ public class SignupController
 		}
 		if(!phone.equals(""))
 		{
-			if(!isNumeric(phone)) {
+			if(!CheckNumber.isNumeric(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
@@ -305,9 +306,11 @@ public class SignupController
 				//Inviare qui la mail con il codice di registrazione.
 				SendEmail emailer = new SendEmail();
 				
+				boolean fromAdmin = false;
+				
 				String mailTo = email;
 				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
 				SendEmail.send(mailTo, subject, body);	
 			} 
 			
@@ -396,14 +399,14 @@ public class SignupController
 		model.addAttribute("cap", cap);
 		model.addAttribute("phone", phone);
 		
-		if(firstname.equals("") || isNumeric(firstname)) {
+		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Nome");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(lastname.equals("") || isNumeric(lastname)) {
+		if(lastname.equals("") || CheckNumber.isNumeric(lastname)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cognome");
@@ -445,28 +448,28 @@ public class SignupController
 			}
 			
 		}
-		if(address.equals("") || isNumeric(address)) {
+		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Indirizzo");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(city.equals("") || isNumeric(city)) {
+		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cittï¿½");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
-		if(state.equals("") || isNumeric(state)) {
+		if(state.equals("") || CheckNumber.isNumeric(state)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Stato");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(cap.equals("") || !isNumeric(cap)) {
+		if(cap.equals("") || !CheckNumber.isNumeric(cap)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cap");
@@ -475,7 +478,7 @@ public class SignupController
 		}
 		if(!phone.equals(""))
 		{
-			if(!isNumeric(phone)) {
+			if(!CheckNumber.isNumeric(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
@@ -550,10 +553,11 @@ public class SignupController
 			if(checkMail) {
 				//Inviare qui la mail con il codice di registrazione.
 				SendEmail emailer = new SendEmail();
+				boolean fromAdmin = false;
 				
 				String mailTo = email;
 				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
 				SendEmail.send(mailTo, subject, body);	
 			}
 			
@@ -630,14 +634,14 @@ public class SignupController
 		model.addAttribute("password", phone);
 		model.addAttribute("repassword", phone);
 		
-		if(firstname.equals("") || isNumeric(firstname)) {
+		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Nome");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(lastname.equals("") || isNumeric(lastname)) {
+		if(lastname.equals("") || CheckNumber.isNumeric(lastname)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cognome");
@@ -679,28 +683,28 @@ public class SignupController
 			}
 			
 		}
-		if(address.equals("") || isNumeric(address)) {
+		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Indirizzo");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(city.equals("") || isNumeric(city)) {
+		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cittï¿½");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
-		if(state.equals("") || isNumeric(state)) {
+		if(state.equals("") || CheckNumber.isNumeric(state)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Stato");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(cap.equals("") || !isNumeric(cap)) {
+		if(cap.equals("") || !CheckNumber.isNumeric(cap)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
 			error.put("id", "Cap");
@@ -709,7 +713,7 @@ public class SignupController
 		}
 		if(!phone.equals(""))
 		{
-			if(!isNumeric(phone)) {
+			if(!CheckNumber.isNumeric(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
@@ -826,10 +830,11 @@ public class SignupController
 			
 			//Inviare qui la mail con il codice di registrazione.
 			SendEmail emailer = new SendEmail();
+			boolean fromAdmin = false;
 			
 			String mailTo = email;
 			String subject = "Conferma mail per GasProject.net";
-			String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId);
+			String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
 			SendEmail.send(mailTo, subject, body);		
 			
 					
@@ -844,7 +849,8 @@ public class SignupController
 	@RequestMapping(value ="/authMail", method = RequestMethod.GET)
 	public ModelAndView authMail( Model model,
 			@RequestParam(value = "id", required = true) int id,
-			@RequestParam(value = "regCode", required = true) String regCode)
+			@RequestParam(value = "regCode", required = true) String regCode,
+			@RequestParam(value = "fromAdmin", required = true) boolean fromAdmin)
 	{
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
@@ -891,51 +897,48 @@ public class SignupController
 			
 		}
 		
-		//Mandare messaggio all'admin
-		
-		//Ricavo il membro Admin
-		Member memberAdmin = memberInterface.getMemberAdmin();
-		
-		//Creo il Current timestamp
-		Calendar calendar = Calendar.getInstance();
-		java.util.Date now = calendar.getTime();
-		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-		
-		String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-						"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-						"Email: " + member.getEmail() + "\n";  
-		
-		//Costruisco l'oggetto message	
-		Message message = new Message();
-		
-		message.setMemberByIdSender(member);
-		message.setMemberByIdReceiver(memberAdmin);
-		message.setMessageTimestamp(currentTimestamp);
-		message.setText(text);
-		
-		try {
-			messageInterface.newMessage(message);
-		} catch (InvalidParametersException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(!fromAdmin) {
+			
+			//Mandare messaggio all'admin
+			
+			//Ricavo il membro Admin
+			Member memberAdmin = memberInterface.getMemberAdmin();
+			
+			//Creo il Current timestamp
+			Calendar calendar = Calendar.getInstance();
+			java.util.Date now = calendar.getTime();
+			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+			
+			String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+							"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+							"Email: " + member.getEmail() + "\n";  
+			
+			//Costruisco l'oggetto message	
+			Message message = new Message();
+			
+			message.setMemberByIdSender(member);
+			message.setMemberByIdReceiver(memberAdmin);
+			message.setMessageTimestamp(currentTimestamp);
+			message.setText(text);
+			
+			try {
+				messageInterface.newMessage(message);
+			} catch (InvalidParametersException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		} else
+		{
+			//TODO: Aggiornare direttamente l'account. Qui l'utente ha accettato una registrazione
+			// fatta direttamente dall'admin. Non c'è bisogno di avvisarlo ma procedere direttamente
+			// all'attivazione.
 		}
 		
 		
 		
-		return new ModelAndView("/authMail_confirmed");
-	}
-	
-	public static boolean isNumeric(String args) {
-			boolean result = true;
 		
-			try {	
-				Integer.parseInt(args);
-			} catch (NumberFormatException e) {
-				result = false;
-			}
-			
-			return result;
-			
+		return new ModelAndView("/authMail_confirmed");
 	}
 
 }
