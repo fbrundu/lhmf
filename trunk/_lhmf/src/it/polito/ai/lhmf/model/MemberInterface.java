@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,7 +124,7 @@ public class MemberInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from Member" + "where idMember = :idMember");
+				"delete from Member " + "where idMember = :idMember");
 
 		query.setParameter("idMember", idMember);
 

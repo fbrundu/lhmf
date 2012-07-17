@@ -33,9 +33,3 @@ Luca:
 Francesco: 
   - utente fornitore (index_supplier.jsp)
     {Crea o modifica listino, Crea, Visualizza, Modifica, Elimina prodotti}
-
-# FILES
-
-+ LoginController.java - ritorna la view del login (login.jsp)
-+ LoginFilter.java - filtro per il login, interviene su tutte le URI a parte
-  "/login" e redirige su questa ("/login") se l'utente non è loggato

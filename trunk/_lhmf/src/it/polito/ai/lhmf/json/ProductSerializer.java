@@ -25,20 +25,20 @@ public class ProductSerializer extends JsonSerializer<Product>
 			JsonProcessingException
 	{
 		jgen.writeStartObject();
-		jgen.writeNumberField("id_product", value.getIdProduct());
+		jgen.writeNumberField("idProduct", value.getIdProduct());
 		jgen.writeStringField("name", value.getName());
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeNumberField("dimension", value.getDimension());
-		jgen.writeStringField("measure_unit", value.getMeasureUnit());
-		jgen.writeNumberField("unit_block", value.getUnitBlock());
+		jgen.writeStringField("measureUnit", value.getMeasureUnit());
+		jgen.writeNumberField("unitBlock", value.getUnitBlock());
 		jgen.writeBooleanField("availability", value.isAvailability());
-		jgen.writeNumberField("transport_cost", value.getTransportCost());
-		jgen.writeNumberField("unit_cost", value.getUnitCost());
-		jgen.writeNumberField("min_buy", value.getMinBuy());
-		jgen.writeNumberField("max_buy", value.getMaxBuy());
-		jgen.writeNumberField("id_member_supplier", value.getSupplier()
+		jgen.writeNumberField("transportCost", value.getTransportCost());
+		jgen.writeNumberField("unitCost", value.getUnitCost());
+		jgen.writeNumberField("minBuy", value.getMinBuy());
+		jgen.writeNumberField("maxBuy", value.getMaxBuy());
+		jgen.writeNumberField("idMemberSupplier", value.getSupplier()
 				.getIdMember());
-		jgen.writeNumberField("id_product_category", value.getProductCategory()
+		jgen.writeNumberField("idProductCategory", value.getProductCategory()
 				.getIdProductCategory());
 		jgen.writeEndObject();
 	}

@@ -66,7 +66,7 @@ public class SupplierDeserializer extends JsonDeserializer<Supplier>
 
 			Query query = hibernateSession
 					.createQuery("from Member where idMember = :idMember");
-			query.setParameter("idMember", node.get("idMember_resp")
+			query.setParameter("idMember", node.get("idMemberResp")
 					.getNumberValue());
 			Member memberResp = (Member) query.uniqueResult();
 			newSupplier.setMember(memberResp);
