@@ -1,6 +1,11 @@
 // CRUD on ProductCategory
 function newCategory(productCategory)
 {
+  if (productCategory == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
   $.postJSONsync("ajax/newproductcategory", productCategory, function(
       idProductCategory)
   {
@@ -10,6 +15,11 @@ function newCategory(productCategory)
 
 function updateCategory(productCategory)
 {
+  if (productCategory == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
   $.postJSONsync("ajax/updateproductcategory", productCategory, function(
       rowsAffected)
   {
@@ -34,11 +44,53 @@ function loadCategoriesFromLocalStorage()
 
 function deleteCategory(idProductCategory)
 {
+  if (idProductCategory == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
   $.postJSONsync("ajax/deleteproductcategory", idProductCategory, function(
       rowsAffected)
   {
     console.debug("Deleted: " + rowsAffected);
   });
+}
+
+function getCategoryDescription(productCategoriesList, idProductCategory)
+{
+  if (productCategoriesList == undefined || idProductCategory == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return "";
+  }
+  for ( var categoryIndex in productCategoriesList)
+  {
+    if (productCategoriesList[categoryIndex].idProductCategory == idProductCategory)
+      return productCategoriesList[categoryIndex].description;
+  }
+  return "";
+}
+
+function getCategoriesAsTableRows(productCategoriesList, page, itemsPerPage)
+{
+  var returnedTableString = "";
+  if (page < 1 || (page - 1) * itemsPerPage >= productCategoriesList.length
+      || itemsPerPage < 1 || itemsPerPage > 100
+      || productCategoriesList == undefined || page == undefined
+      || itemsPerPage == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return "";
+  }
+  for ( var productIndex = (page - 1) * itemsPerPage; productIndex < productCategoriesList.length
+      && productIndex <= page * itemsPerPage; productIndex++)
+  {
+    returnedTableString += "<tr>";
+    returnedTableString += "<td>"
+        + productCategoriesList[prodIndex].description + "</td>";
+    returnedTableString += "</tr>";
+  }
+  return returnedTableString;
 }
 
 // HelloProduct: example on how to do ajax operations
@@ -82,6 +134,11 @@ function HelloProduct()
 // CRUD on Product
 function newProduct(product)
 {
+  if (product == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
   $.postJSONsync("ajax/newproduct", product, function(idProduct)
   {
     console.debug("Inserted: " + idProduct);
@@ -90,6 +147,11 @@ function newProduct(product)
 
 function updateProduct(product)
 {
+  if (product == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
   $.postJSONsync("ajax/updateproduct", product, function(rowsAffected)
   {
     console.debug("Updated: " + rowsAffected);
@@ -112,12 +174,13 @@ function loadAllProductsFromLocalStorage()
 
 function getMyProducts()
 {
-  $.getJSONsync("ajax/getmyproducts", function(productsList)
-  {
-    window.localStorage.setItem('myProductsList', JSON
-        .stringify(productsList));
-    console.debug("myProductsList saved in localstorage");
-  });
+  $.getJSONsync("ajax/getmyproducts",
+      function(productsList)
+      {
+        window.localStorage.setItem('myProductsList', JSON
+            .stringify(productsList));
+        console.debug("myProductsList saved in localstorage");
+      });
 }
 
 function loadAllMyProductsFromLocalStorage()
@@ -127,6 +190,11 @@ function loadAllMyProductsFromLocalStorage()
 
 function deleteProduct(idProduct)
 {
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
   $.postJSONsync("ajax/deleteproduct", idProduct, function(rowsAffected)
   {
     console.debug("Deleted: " + rowsAffected);
@@ -143,16 +211,41 @@ function deleteAllMyProducts()
   }
 }
 
-function getProductsAsTableRows(productList, page)
+function getProductsAsTableRows(productsList, productCategoriesList, page,
+    itemsPerPage)
 {
   var returnedTableString = "";
-  if (page < 1 || (page - 1) * 20 >= productList.length)
+  if (page < 1 || (page - 1) * itemsPerPage >= productsList.length
+      || itemsPerPage < 1 || itemsPerPage > 100 || productsList == undefined
+      || productCategoriesList == undefined || page == undefined
+      || itemsPerPage == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
     return "";
-  for ( var prodIndex = (page - 1) * 20; prodIndex < productList.length
-      && prodIndex <= page * 20; prodIndex++)
+  }
+  for ( var productIndex = (page - 1) * itemsPerPage; productIndex < productsList.length
+      && productIndex <= page * itemsPerPage; productIndex++)
   {
     returnedTableString += "<tr>";
-    returnedTableString += "<td>" + productList[prodIndex].name + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].name + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].description
+        + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].dimension + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].measureUnit
+        + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].unitBlock + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].availability
+        + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].transportCost
+        + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].unitCost + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].minBuy + "</td>";
+    returnedTableString += "<td>" + productsList[prodIndex].maxBuy + "</td>";
+    // TODO
+    // return supplier name from idMemberSupplier
+    returnedTableString += "<td>"
+        + getCategoryDescription(productCategoriesList,
+            productsList[prodIndex].idProductCategory) + "</td>";
     returnedTableString += "</tr>";
   }
   return returnedTableString;
