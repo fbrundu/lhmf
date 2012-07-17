@@ -37,17 +37,17 @@ public class OrderDeserializer extends JsonDeserializer<Order>{
 			JsonNode node = oc.readTree(jPar);
 			
 			newOrder.setIdOrder(node.get("idOrder").getIntValue());
-			newOrder.setDateOpen(ISO8601DateParser.parse(node.get("date_open").getTextValue()));
-			newOrder.setDateClose(ISO8601DateParser.parse(node.get("date_close").getTextValue()));
-			newOrder.setDateDelivery(ISO8601DateParser.parse(node.get("date_close").getTextValue()));
+			newOrder.setDateOpen(ISO8601DateParser.parse(node.get("dateOpen").getTextValue()));
+			newOrder.setDateClose(ISO8601DateParser.parse(node.get("dateClose").getTextValue()));
+			newOrder.setDateDelivery(ISO8601DateParser.parse(node.get("dateDelivery").getTextValue()));
 			
 			Query queryResp = hibernateSession.createQuery("from Member where idMember = :idMember");
-			queryResp.setParameter("idMember", node.get("idMember_resp").getNumberValue());
+			queryResp.setParameter("idMember", node.get("idMemberResp").getNumberValue());
 			Member memberResp = (Member) queryResp.uniqueResult();
 			newOrder.setMember(memberResp);
 			
 			Query querySupplier = hibernateSession.createQuery("from Supplier where idMember = :idMember");
-			querySupplier.setParameter("idMember", node.get("idMember_supplier").getNumberValue());
+			querySupplier.setParameter("idMember", node.get("idMemberSupplier").getNumberValue());
 			Member memberSupplier = (Member) querySupplier.uniqueResult();
 			newOrder.setMember(memberSupplier);
 		}
