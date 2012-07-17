@@ -77,25 +77,39 @@
 				
 			//});
 			if(logList.length > 0){
-				$("#logs").append("<tr><th>ID Log<th>Membro<th>Testo<th>Timestamp</tr>");
+				$("#logs").append("<tr>  <th class='top' width='10%'> ID Log </th>" +
+										"<th class='top' width='20%'> Membro </th>" +
+										"<th class='top' width='20%'> Timestamp  </th>" +
+										"<th class='top' width='50%'> Testo  </th> </tr>");
 				for(var i = 0; i < logList.length; i++){
 					var log = logList[i];
-					$("#logs").append("<tr><td>" + log.idLog +"<td>" + log.member.name + " " + log.member.surname + "<td>" + log.logtext + "<td>" + new Date(log.logTimestamp) + "</tr>");
+					$("#logs").append("<tr><td>" + log.idLog +"<td>" + log.member.name + " " + log.member.surname + "<td>" + new Date(log.logTimestamp) + "<td>" + log.logtext + "</tr>");
 		//			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
 		//					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
 				}
 			}
-			$("#logs").fadeIn(500);
+			$("#logs").fadeIn(1000);
 		});
 	}
 
 	function writeLogPage(){
-//		$(".centrale").html("<p>Seleziona range di date:</p><p><label for='start'>Data iniziale: </label><input type='text' id='start'><label for='end'>" +
-//				" Data finale: </label><input type='text' id='end'>&nbsp;<button type='button' id='logsRequest'>Seleziona</button>" +
-//				"<table id='logs'></table>");
-		$(".centrale").html("<p>Seleziona range di date:</p><p><form method='get' action='log'><label for='min'>Data iniziale: </label><input type='text' id='min'/><label for='max'>" +
-				" Data finale: </label><input type='text' id='max'/>&nbsp;<button type='submit' id='logsRequest'>Seleziona</button></form>" +
-				"<table id='logs'></table>");
+		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Consulta Log</a></li></ul>" +
+		"<div id='tabs-1'></div></div>");
+		$('#tabs-1').html("<div class='logform'>" +
+						    "<form method='get' action='log'>" +
+						      "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
+						        "<label for='min' class='left'>Data iniziale: </label>" +
+						        "<input type='text' id='min' class='field'/>" +
+						        "<label for='max' class='left'>Data finale: </label>" +
+						        "<input type='text' id='max' class='field'/>" +
+						      "</fieldset>" +
+						      "<button type='submit' id='logsRequest'> Visualizza </button>" +
+						    "</form>" +
+						    "<table id='logs' class='log'></table>" +
+						  "</div>" +
+						  "<div id='dialog' title='Errore nell\'input delle date'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+		$('#tabs').tabs();
+		$( "#dialog" ).dialog({ autoOpen: false });
 		prepareLogForm();
 	}
 
@@ -127,8 +141,9 @@ function prepareLogForm(){
 		event.preventDefault();
 		var startDate = $('#min').datepicker("getDate");
 		var endDate = $('#max').datepicker("getDate");
-		if(startDate == null || endDate == null){
-			window.alert("Selezionare entrambe le date!");
+		if(startDate == null || endDate == null || startDate >= endDate){
+			//$('body').append('<div id="dialog" title="Errore nell\'input delle date"> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>');
+			$( "#dialog" ).dialog('open');
 		}
 		else{
 			endDate.setHours(23);

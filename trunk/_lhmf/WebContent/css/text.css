@@ -45,10 +45,10 @@
 .contenuto p.center {text-align:center;}
 .contenuto p.right {text-align:right;}
 
-.contenuto table {clear:both; width:600px; margin:2.0em 0 0.2em 20px; table-layout: fixed; border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
+/*.contenuto table {clear:both; width:600px; margin:2.0em 0 0.2em 20px; table-layout: fixed; border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
 .contenuto table th.top {height:3.5em; padding:0 7px 0 7px; empty-cells:show; background-color:rgb(175,175,175); text-align:left; color:rgb(255,255,255); font-weight:bold; font-size:110%;}
 .contenuto table th {height:3.0em; padding:2px 20px 2px 7px; border-left:solid 2px rgb(255,255,255); border-right:solid 2px rgb(255,255,255); border-top:solid 2px rgb(255,255,255); border-bottom:solid 2px rgb(255,255,255); background-color:rgb(225,225,225); text-align:left; color:rgb(80,80,80); font-weight:bold; font-size:110%;}
-.contenuto table td {height:3.0em; padding:2px 7px 2px 7px; border-left:solid 2px rgb(255,255,255); border-right:solid 2px rgb(255,255,255); border-top:solid 2px rgb(255,255,255); border-bottom:solid 2px rgb(255,255,255); background-color:rgb(225,225,225); text-align:left; font-weight:normal; color:rgb(80,80,80); font-size:110%;}
+.contenuto table td {height:3.0em; padding:2px 7px 2px 7px; border-left:solid 2px rgb(255,255,255); border-right:solid 2px rgb(255,255,255); border-top:solid 2px rgb(255,255,255); border-bottom:solid 2px rgb(255,255,255); background-color:rgb(225,225,225); text-align:left; font-weight:normal; color:rgb(80,80,80); font-size:110%;}*/
 
 .loginBox {width:600px; margin:2.0em; padding-top: 20px; padding-left: 10px; padding-right:10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
 .loginBox fieldset {padding:20px 10px 20px 10px; margin:0 0 20px 0; border:solid 1px rgb(220,220,220);}
@@ -65,8 +65,22 @@
 .registrazioneform input.field_valid {width:250px; padding:2px; border:solid 1px rgb(0,255,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .registrazioneform input.field_notvalid {width:250px; padding:2px; border:solid 1px rgb(255,0,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .registrazioneform textarea {width:400px; text-align:center; color:#666; padding:2px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240); font-family:verdana,arial,sans-serif; font-size:110%;}
+.registrazioneform button {float:right; width:15.0em; margin-right:150px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .registrazioneform input.button {float:right; width:9.0em; margin-right:150px; padding:1px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .registrazioneform input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+
+.logform {padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
+.logform div.divresp {float:left; text-align:center; width:90%; margin:0 10px 0 10px; padding:10px; font-size:110%;}
+.logform fieldset {border:solid 1px rgb(220,220,220); padding:2px; margin:2px;}
+.logform fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
+.logform label.left {width:100px; margin:0 0 0 10px; padding:2px; font-size:110%;}
+.logform input.field {width:150px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.logform button {float:right; width:100%; background:rgb(230,230,230); border:solid 1px black; text-align:center; margin: 10px 0; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
+.logform button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+
+.logform table.log {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
+.logform table.log th.top {height:2em; padding:0 2px 0 2px; border:solid 1px rgb(200,200,200); empty-cells:show; background-color:rgb(175,175,175); text-align:center; color:rgb(255,255,255); font-weight:bold; font-size:110%;}
+.logform table.log td {height:2.0em; border:solid 1px rgb(200,200,200); background-color:rgb(225,225,225); text-align:center; font-weight:normal; color:rgb(80,80,80);}
 
 .actionError { color: red; }
 
