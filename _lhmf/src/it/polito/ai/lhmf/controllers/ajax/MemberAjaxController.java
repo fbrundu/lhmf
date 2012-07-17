@@ -40,7 +40,7 @@ public class MemberAjaxController
 	private MemberStatusInterface memberStatusInterface;
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
-	@RequestMapping(value = "/ajax/newMember", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/newMember", method = RequestMethod.POST)
 	public @ResponseBody
 	List<String> newMember(HttpServletRequest request,
 			@RequestBody Member member) throws InvalidParametersException, ParseException

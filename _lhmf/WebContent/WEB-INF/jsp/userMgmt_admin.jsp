@@ -48,7 +48,7 @@
 			<!-- Tab per l'inserimento di un nuovo utente -->
 			
 			  <div class="registrazioneform" style="margin: 2em 0 0 65px;">
-		    	<form  id="regform" action='newMember' method='get'>
+		    	<form  id="regform" action='newMember' method='post'>
 		    	<fieldset><legend>&nbsp;Dati per la Registrazione&nbsp;</legend><br />
 		        	<label for="username" class="left">Username:</label>
 			          <input type="text" name="username" id="username" class="field" required="required"/>
