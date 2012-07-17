@@ -38,24 +38,24 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 			ObjectCodec oc = jpar.getCodec();
 			JsonNode node = oc.readTree(jpar);
 
-			newProduct.setIdProduct(node.get("id_product").getIntValue());
+			newProduct.setIdProduct(node.get("idProduct").getIntValue());
 			newProduct.setName(node.get("name").getTextValue());
 			newProduct.setDescription(node.get("description").getTextValue());
 			newProduct.setDimension(node.get("dimension").getIntValue());
 			newProduct.setMeasureUnit(node.get("measure_unit").getTextValue());
-			newProduct.setUnitBlock(node.get("unit_block").getIntValue());
+			newProduct.setUnitBlock(node.get("unitBlock").getIntValue());
 			newProduct.setAvailability(node.get("availability")
 					.getBooleanValue());
-			newProduct.setTransportCost(node.get("transport_cost")
+			newProduct.setTransportCost(node.get("transportCost")
 					.getNumberValue().floatValue());
-			newProduct.setUnitCost(node.get("unit_cost").getNumberValue()
+			newProduct.setUnitCost(node.get("unitCost").getNumberValue()
 					.floatValue());
-			newProduct.setMinBuy(node.get("min_buy").getIntValue());
-			newProduct.setMaxBuy(node.get("max_buy").getIntValue());
+			newProduct.setMinBuy(node.get("minBuy").getIntValue());
+			newProduct.setMaxBuy(node.get("maxBuy").getIntValue());
 
 			Query query = hibernateSession
 					.createQuery("from Supplier where idMember = :idMember");
-			query.setParameter("idMember", node.get("id_member_supplier")
+			query.setParameter("idMember", node.get("idMemberSupplier")
 					.getNumberValue());
 			Supplier supplier = (Supplier) query.uniqueResult();
 			newProduct.setSupplier(supplier);
@@ -63,7 +63,7 @@ public class ProductDeserializer extends JsonDeserializer<Product>
 			query = hibernateSession.createQuery("from ProductCategory "
 					+ "where idProduct_Category = :idProductCategory");
 			query.setParameter("idProductCategory",
-					node.get("id_product_category").getNumberValue());
+					node.get("idProductCategory").getNumberValue());
 			ProductCategory productCategory = (ProductCategory) query
 					.uniqueResult();
 			newProduct.setProductCategory(productCategory);

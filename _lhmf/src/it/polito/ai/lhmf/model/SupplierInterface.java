@@ -73,22 +73,22 @@ public class SupplierInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Supplier"
+				"update Supplier "
 						+ "set name = :name,"
 						+ "surname = :surname,"
-						+ "username = :username"
-						// + "password = :password"
-						// + "regCode = :regCode" + "regDate = :regDate"
-						+ "email = :email" + "address = :address"
-						+ "city = :city" + "state = :state" + "cap = :cap"
-						+ "tel = :tel" + "active = :active"
-						+ "memberType = :memberType"
-						+ "companyName = :companyName"
-						+ "description = :description"
-						+ "contactName = :contactName" + "fax = :fax"
-						+ "website = :website"
-						+ "paymentMethod = :paymentMethod"
-						+ "idMember_resp = :idMember_resp"
+						+ "username = :username,"
+						// + "password = :password,"
+						// + "regCode = :regCode," + "regDate = :regDate,"
+						+ "email = :email," + "address = :address,"
+						+ "city = :city," + "state = :state," + "cap = :cap,"
+						+ "tel = :tel," + "active = :active,"
+						+ "memberType = :memberType,"
+						+ "companyName = :companyName,"
+						+ "description = :description,"
+						+ "contactName = :contactName," + "fax = :fax,"
+						+ "website = :website,"
+						+ "paymentMethod = :paymentMethod,"
+						+ "idMember_resp = :idMember_resp "
 						+ "where idMember = :idSupplier");
 		query.setParameter("name", supplier.getName());
 		query.setParameter("surname", supplier.getSurname());
@@ -125,7 +125,7 @@ public class SupplierInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from Supplier" + "where idMember = :idSupplier");
+				"delete from Supplier " + "where idMember = :idSupplier");
 
 		query.setParameter("idSupplier", idSupplier);
 

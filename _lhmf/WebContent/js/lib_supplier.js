@@ -66,19 +66,19 @@ function HelloProduct()
   productCategory.description = "Descrizione2";
   newCategory(productCategory);
   var product = new Object();
-  product.id_product = 1;
+  product.idProduct = 1;
   product.name = "Lasagne";
   product.description = "Di nonna";
   product.dimension = 2;
-  product.measure_unit = "Fette";
-  product.unit_block = 1;
+  product.measureUnit = "Fette";
+  product.unitBlock = 1;
   product.availability = true;
-  product.transport_cost = 0.1;
-  product.unit_cost = 0.2;
-  product.min_buy = 1;
-  product.max_buy = 1;
-  product.id_product_category = productCategory.idProductCategory;
-  product.id_member_supplier = 1;
+  product.transportCost = 0.1;
+  product.unitCost = 0.2;
+  product.minBuy = 1;
+  product.maxBuy = 1;
+  product.idProductCategory = productCategory.idProductCategory;
+  product.idMemberSupplier = 1;
   newProduct(product);
   getMyProducts();
   my_products_list = JSON
