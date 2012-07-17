@@ -1,25 +1,3 @@
-// HelloCategory: example on how to do ajax operations
-function HelloCategory()
-{
-  var productCategory = new Object();
-  productCategory.idProductCategory = "1";
-  productCategory.description = "Descrizione2";
-  newCategory(productCategory);
-  productCategory.description = "Descrizione1";
-  setTimeout(function()
-  {
-    updateCategory(productCategory);
-  }, 3000);
-  setTimeout(function()
-  {
-    getCategories();
-  }, 5000);
-  setTimeout(function()
-  {
-    deleteCategory(productCategory.idProductCategory);
-  }, 7000);
-}
-
 // CRUD on ProductCategory
 function newCategory(productCategory)
 {
@@ -47,6 +25,11 @@ function getCategories()
         .stringify(productCategoriesList));
     console.debug("productCategoriesList saved in localstorage");
   });
+}
+
+function loadCategoriesFromLocalStorage()
+{
+  return JSON.parse(window.localStorage.getItem('productCategoriesList'));
 }
 
 function deleteCategory(idProductCategory)
@@ -81,14 +64,13 @@ function HelloProduct()
   product.idMemberSupplier = 1;
   newProduct(product);
   getMyProducts();
-  my_products_list = JSON
-      .parse(window.localStorage.getItem('my_products_list'));
-  for ( var prodIndex in my_products_list)
+  myProductsList = loadAllMyProductsFromLocalStorage();
+  for ( var prodIndex in myProductsList)
   {
-    if (my_products_list[prodIndex].name == "Lasagne")
+    if (myProductsList[prodIndex].name == "Lasagne")
     {
-      my_products_list[prodIndex].name = "Cambiato";
-      updateProduct(my_products_list[prodIndex]);
+      myProductsList[prodIndex].name = "Cambiato";
+      updateProduct(myProductsList[prodIndex]);
       getMyProducts();
     }
   }
@@ -114,23 +96,33 @@ function updateProduct(product)
   });
 }
 
-function getProducts()
+function getAllProducts()
 {
   $.getJSONsync("ajax/getproducts", function(productsList)
   {
-    window.localStorage.setItem('products_list', JSON.stringify(productsList));
-    console.debug("products_list saved in localstorage");
+    window.localStorage.setItem('productsList', JSON.stringify(productsList));
+    console.debug("productsList saved in localstorage");
   });
+}
+
+function loadAllProductsFromLocalStorage()
+{
+  return JSON.parse(window.localStorage.getItem('productsList'));
 }
 
 function getMyProducts()
 {
   $.getJSONsync("ajax/getmyproducts", function(productsList)
   {
-    window.localStorage.setItem('my_products_list', JSON
+    window.localStorage.setItem('myProductsList', JSON
         .stringify(productsList));
-    console.debug("my_products_list saved in localstorage");
+    console.debug("myProductsList saved in localstorage");
   });
+}
+
+function loadAllMyProductsFromLocalStorage()
+{
+  return JSON.parse(window.localStorage.getItem('myProductsList'));
 }
 
 function deleteProduct(idProduct)
@@ -143,16 +135,15 @@ function deleteProduct(idProduct)
 
 function deleteAllMyProducts()
 {
-  my_products_list = JSON
-      .parse(window.localStorage.getItem('my_products_list'));
+  myProductsList = loadAllMyProductsFromLocalStorage();
 
-  for ( var prodIndex in my_products_list)
+  for ( var prodIndex in myProductsList)
   {
-    deleteProduct(my_products_list[prodIndex].id_product);
+    deleteProduct(myProductsList[prodIndex].id_product);
   }
 }
 
-function returnFormattedProductsTable(productList, page)
+function getProductsAsTableRows(productList, page)
 {
   var returnedTableString = "";
   if (page < 1 || (page - 1) * 20 >= productList.length)
