@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class LogController {
+public class AdminController {
+	
 	@RequestMapping("/log")
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	public ModelAndView logPage(Model model, HttpServletRequest request, HttpServletResponse response,
@@ -28,4 +29,20 @@ public class LogController {
 		}
 		return new ModelAndView("log_admin");
 	}
+	
+	@RequestMapping("/userMgmt")
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	public ModelAndView userPage(Model model, HttpServletRequest request, HttpServletResponse response)
+	{
+		//TODO: bisogna aggiungere i parametri e reinserirli nel model.
+		model.addAttribute("user", request.getSession().getAttribute("user"));
+		
+		model.addAttribute("firstPage", "user");
+		
+		return new ModelAndView("userMgmt_admin");
+	}
+	
+	
+	
+	
 }

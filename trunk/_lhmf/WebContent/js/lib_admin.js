@@ -26,7 +26,7 @@
 		switch(stateData.action){
 			case 'log': 
 						writeLogPage();
-						if(!!stateData.min && !! stateData.max){
+						if(!!stateData.min && !!stateData.max){
 							$('#min').datepicker("setDate", new Date(stateData.min));
 							$('#max').datepicker("setDate", new Date(stateData.max));
 							showLogs(stateData.min, stateData.max);
@@ -37,6 +37,34 @@
 						}
 						break;
 			case 'userMgmt':
+				switch(stateData.tab) {
+					case 1:
+						// Tab registrazione
+						
+						writeUserPage(1);
+						
+						if(!!stateData.username) {
+							
+							doRegistration(stateData);
+							
+						}
+						
+						break;
+					case 2:
+						// Tab 2
+						writeUserPage(2);
+						
+						break;
+					case 3:
+						//Tab 3
+						writeUserPage(3);
+						
+						break;
+					case 4:
+						writeUserPage(4);
+						break;
+				
+				}
 					writeUserPage();
 					break;
 			case 'null': break;
@@ -77,7 +105,7 @@
 				
 			//});
 			if(logList.length > 0){
-				$("#logs").append("<tr>  <th class='top' width='10%'> ID Log </th>" +
+				$("#logs").append("<tr>  <th class='top' width='10%'> ID </th>" +
 										"<th class='top' width='20%'> Membro </th>" +
 										"<th class='top' width='20%'> Timestamp  </th>" +
 										"<th class='top' width='50%'> Testo  </th> </tr>");
@@ -89,6 +117,44 @@
 				}
 			}
 			$("#logs").fadeIn(1000);
+		});
+	}
+	
+	function doRegistration(stateData){
+		$.getJSON("ajax/newMember", {	username: stateData.username,
+										firstname: stateData.firstname,
+										lastname: stateData.lastname,
+										email: stateData.email,
+										address: stateData.address,
+										city: stateData.city,
+										state: stateData.state,
+										cap: stateData.cap,
+										tel: stateData.tel}, function(regResult){
+			console.log("Ricevuto risultato registrazione");
+			
+			$("#errorDiv").hide();
+			$("#errors").html("");
+			
+			var errors = regResult.errors;
+			
+			if(errors.length <= 0) {
+				
+				$("#legendError").html("");
+				$("#legendError").append("Registrazione Riuscita");
+				
+				$("#errors").append("La registrazione del nuovo utente è avvenuta con successo.<br />" +
+									"&Egrave; stata inviata una mail all'indirizzo inserito per verificarne l'autenticità.<br />" +
+									"In seguito sarà possibile attivare l'utente");
+			} else {
+				
+				for(var i = 0; i < errors.length; i++){
+					var error = errors[i].split(":");
+					$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
+				}
+			}
+			
+			$("#errorDiv").show("slow");
+			//$("#errorDiv").fadeIn(1000);
 		});
 	}
 
@@ -107,7 +173,7 @@
 						    "</form>" +
 						    "<table id='logs' class='log'></table>" +
 						  "</div>" +
-						  "<div id='dialog' title='Errore nell\'input delle date'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+						  "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
 		$('#tabs').tabs();
 		$( "#dialog" ).dialog({ autoOpen: false });
 		prepareLogForm();
@@ -117,12 +183,45 @@
 		$('.centrale').html("<p>Body admin history state</p>");
 	}
 	
-	function writeUserPage(){
-		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Utenti esistenti</a></li></ul>" +
-				"<div id='tabs-1'></div><div id='tabs-2'></div></div>");
-		$('#tabs-1').html("Aggiungi utente");
-		$('#tabs-2').html("Utenti esistenti");
-		$('#tabs').tabs();
+	function writeUserPage(tab){
+		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Attiva utente</a></li>" +
+				"<li><a href='#tabs-3'>Modifica utente</a></li><li><a href='#tabs-4'>Lista utenti</a></li></ul>" +
+				"<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div><div id='tabs-4'></div></div>");
+		$('#tabs-1').html("<div class='registrazioneform' style='margin: 2em 0 0 65px;'>" +
+							"<form  id='regform' action='newMember' method='get'>" +
+							"<fieldset><legend>&nbsp;Dati per la Registrazione&nbsp;</legend><br />" +
+							"<label for='username' class='left'>Username:</label>" +
+							"<input type='text' name='username' id='username' class='field' required='required'/>" +
+					"<br><br><label for='firstname' class='left'>Nome: </label>" +
+							"<input type='text' name='firstname' id='firstname' class='field' required='required'/>" +
+						"<br><label for='lastname' class='left'>Cognome: </label>" +
+							"<input type='text' name='lastname' id='lastname' class='field' required='required'/>" +
+						"<br><label for='email' class='left'>Email: </label>" +
+							"<input type='text' name='email' id='email' class='field' required='required'/>" +
+						"<br><label for='address' class='left'>Indirizzo: </label>" +
+							"<input type='text' name='address' id='address' class='field' required='required'/>" +
+						"<br><label for='city' class='left'>Citt&agrave: </label>" +
+							"<input type='text' name='city' id='city' class='field' required='required'/>" +
+						"<br><label for='state' class='left'>Stato: </label>" +
+						    "<input type='text' name='state' id='state' class='field' required='required'/>" +
+						"<br><label for='cap' class='left'>Cap: </label>" +
+						     "<input type='text' name='cap' id='cap' class='field' required='required'/>" +
+						"<br><label for='phone' class='left'>Telefono: </label>" +
+						     "<input type='text' name='phone' id='phone' class='field'/>" +
+					        "</fieldset>" +
+					        "<div id='errorDiv' style='display:none;'>" +
+					        	"<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />" +
+						         "<div id='errors' style='padding-left: 40px'>" +
+								  "</div>" +
+						        "</fieldset>" +
+					        "</div>" +
+					        "<p><input type='submit' id='regRequest' class='button' value='Registra'/></p>" +
+					        "</form>" +
+					      "</div><p></p>");
+		$('#tabs-2').html("Attiva utente");
+		$('#tabs-3').html("Modifica utente");
+		$('#tabs-4').html("Lista Utenti");
+		prepareUserForm(tab);
 	}
 })(window);
 
@@ -141,7 +240,7 @@ function prepareLogForm(){
 		event.preventDefault();
 		var startDate = $('#min').datepicker("getDate");
 		var endDate = $('#max').datepicker("getDate");
-		if(startDate == null || endDate == null || startDate >= endDate){
+		if(startDate == null || endDate == null || startDate > endDate){
 			//$('body').append('<div id="dialog" title="Errore nell\'input delle date"> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>');
 			$( "#dialog" ).dialog('open');
 		}
@@ -163,4 +262,106 @@ function prepareLogForm(){
 		}
 	});
 }
+
+function prepareUserForm(tab){
+	$('#tabs').tabs({
+		  selected: tab 
+	});
+	
+	$('#regRequest').on("click", function(event){
+		
+		event.preventDefault();
+		
+		var errors = new Array();
+		
+		var username = $('#username').val();
+		var firstname = $('#firstname').val();
+		var lastname = $('#lastname').val();
+		var email = $('#email').val();
+		var address = $('#address').val();
+		var city = $('#city').val();
+		var state = $('#state').val();
+		var cap = $('#cap').val();
+		var tel = $('#phone').val();
+		
+		if(username == "") {
+			errors.push("Username: Formato non valido");
+		}
+		if(firstname == "" || isNumber(firstname)) {
+			errors.push("Nome: Formato non valido");
+		}
+		if(lastname == "" || isNumber(lastname)) {
+			errors.push("Cognome: Formato non valido");
+		}
+		if(email == "" || !isValidMail(email)) {
+			errors.push("Email: Formato non valido");
+		}
+		if(address == "" || isNumber(address)) {
+			errors.push("Indirizzo: Formato non valido");
+		}
+		if(city == "" || isNumber(city)) {
+			errors.push("Citt&agrave: Formato non valido");
+		}
+		if(state == "" || isNumber(state)) {
+			errors.push("Stato: Formato non valido");
+		}
+		if(cap == "" || !isNumber(cap)) {
+			errors.push("Cap: Formato non valido");
+		}
+		if(tel != "")
+			if(!isNumber(tel)) {
+			errors.push("Telefono: Formato non valido");
+		}
+		
+
+		if(errors.length > 0){
+			$("#errors").html("");
+			$("#errorDiv").hide();
+			
+			
+			for(var i = 0; i < errors.length; i++){
+				var error = errors[i].split(":");
+				$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
+			}
+			
+			$("#errorDiv").show("slow");
+			//$("#errorDiv").fadeIn(1000);
+		}
+		else{
+					
+			var History = window.History;
+			if(History.enabled)
+				History.pushState({	action: 'userMgmt', 
+								 	tab: 1, 
+									username: username,
+									firstname: firstname,
+									lastname: lastname,
+									email: email,
+									address: address,
+									city: city,
+									state: state,
+									cap: cap,
+									tel: tel}, null, "./userMgmt?reg=1");
+			//console.log("Vai con l'ajax!");
+			else{
+				$("form").submit();
+			}
+			
+		}
+	});
+}
+
+function isNumber(n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+
+function isValidMail(email) {
+	 
+	   var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	   if(reg.test(email) == false) {
+	      return false;
+	   }
+	   return true;
+	}
+
 
