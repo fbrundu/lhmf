@@ -9,6 +9,8 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
+import com.sun.corba.se.impl.orbutil.graph.Node;
+
 public class OrderSerializer extends JsonSerializer<Order>
 {
 	@Override
@@ -18,11 +20,15 @@ public class OrderSerializer extends JsonSerializer<Order>
 	{
 		jgen.writeStartObject();
 		jgen.writeNumberField("idOrder", value.getIdOrder());
-		jgen.writeStringField("date_open", value.getDateOpen().toString());
-		jgen.writeStringField("date_close", value.getDateClose().toString());
-		jgen.writeStringField("date_delivery", value.getDateDelivery().toString());
-		jgen.writeNumberField("idMember_resp", value.getMember().getIdMember());
-		jgen.writeNumberField("idMember_supplier", value.getSupplier().getIdMember());
+		jgen.writeStringField("dateOpen",
+				ISO8601DateParser.toString(value.getDateOpen()));
+		jgen.writeStringField("dateClose",
+				ISO8601DateParser.toString(value.getDateClose()));
+		jgen.writeStringField("dateDelivery",
+				ISO8601DateParser.toString(value.getDateDelivery()));
+		jgen.writeNumberField("idMemberResp", value.getMember().getIdMember());
+		jgen.writeNumberField("idMemberSupplier", value.getSupplier()
+				.getIdMember());
 		jgen.writeEndObject();
 	}
 }
