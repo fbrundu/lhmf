@@ -25,7 +25,7 @@ public class ProductCategorySerializer extends JsonSerializer<ProductCategory>
 			JsonProcessingException
 	{
 		jgen.writeStartObject();
-		jgen.writeNumberField("idProduct_Category",
+		jgen.writeNumberField("idProductCategory",
 				value.getIdProductCategory());
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeEndObject();
