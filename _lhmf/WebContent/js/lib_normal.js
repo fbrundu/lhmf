@@ -1,4 +1,3 @@
-//CRUD on Order
 function newPurchase(purchase)
 {
 	if (purchase == undefined)
@@ -54,10 +53,8 @@ function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
       	&& purchaseIndex <= page * itemsPerPage; purchaseIndex++)
 	{
 	    returnedTableString += "<tr>";
-	    returnedTableString += "<td>" + purchasesList[purchaseIndex].dateOpen + "</td>";
-	    returnedTableString += "<td>" + purchasesList[purchaseIndex].dateClose + "</td>";
-	    returnedTableString += "<td>" + purchasesList[purchaseIndex].supplier + "</td>";
-	    returnedTableString += "<td>" + purchasesList[purchaseIndex].member + "</td>";
+	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idMember + "</td>";
+	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idOrder + "</td>";
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;

@@ -1,4 +1,3 @@
-//CRUD on Order
 function newOrder(order)
 {
 	if (order == undefined)
@@ -56,9 +55,9 @@ function getOrdersAsTableRows(ordersList, page, itemsPerPage)
 	    returnedTableString += "<tr>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
-	    //in questo caso bisogna visualizzare un supplier singolo e una lista?
-	    returnedTableString += "<td>" + ordersList[orderIndex].supplier + "</td>";
-	    returnedTableString += "<td>" + ordersList[orderIndex].member + "</td>";
+	    returnedTableString += "<td>" + ordersList[orderIndex].dateDelivery + "</td>";
+	    returnedTableString += "<td>" + ordersList[orderIndex].idMemberResp + "</td>";
+	    returnedTableString += "<td>" + ordersList[orderIndex].idMemberSupplier + "</td>";
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
