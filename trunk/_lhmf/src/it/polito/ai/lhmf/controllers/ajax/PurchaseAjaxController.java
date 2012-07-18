@@ -5,10 +5,12 @@ import java.util.List;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Purchase;
+import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ public class PurchaseAjaxController
 	@Autowired
 	private PurchaseInterface purchaseInterface;
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/newpurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newPurchase(HttpServletRequest request,
