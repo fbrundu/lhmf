@@ -39,6 +39,53 @@ function loadAllActivePurchasesFromLocalStorage()
 	return JSON.parse(window.localStorage.getItem('activePurchasesList'));
 }
 
+function getActiveOrdersAsTableRow(ordersList, idOrderIn)
+{
+	var returnedTableString = "";
+	if (ordersList == undefined || idOrderIn == undefined)
+	{
+		console.debug("Invalid parameters in " + displayFunctionName());
+		return returnedTableString;
+	}
+	for ( var orderIndex in ordersList)
+	{
+		if (ordersList[orderIndex].idOrder == idOrderIn)
+		{
+			returnedTableString += "<tr>";
+			returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
+			//TODO: inserire altre info dato che è un ordine attivo?
+			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
+			//TODO: inserire anche il resp
+			returnedTableString += "</tr>";
+		}
+	}
+	return returnedTableString;
+}
+
+function getPastOrdersAsTableRow(ordersList, idOrderIn)
+{
+	var returnedTableString = "";
+	if (ordersList == undefined || idOrderIn == undefined)
+	{
+		console.debug("Invalid parameters in " + displayFunctionName());
+		return returnedTableString;
+	}
+	for ( var orderIndex in ordersList)
+	{
+		if (ordersList[orderIndex].idOrder == idOrderIn)
+		{
+			returnedTableString += "<tr>";
+			returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
+			returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
+			returnedTableString += "<td>" + ordersList[orderIndex].dateDelivery + "</td>";
+			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
+			//TODO: inserire anche il resp
+			returnedTableString += "</tr>";
+		}
+	}
+	return returnedTableString;
+}
+
 function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
 {
 	var returnedTableString = "";
@@ -53,9 +100,11 @@ function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
       	&& purchaseIndex <= page * itemsPerPage; purchaseIndex++)
 	{
 	    returnedTableString += "<tr>";
+	    //TODO: vedere come ritornare il membro responsabile
 	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idMember + "</td>";
-	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idOrder + "</td>";
+	    returnedTableString += getPastOrdersTableRow(ordersList, purchasesList[purchaseIndex].idOrder);
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
 }
+

@@ -56,8 +56,9 @@ function getOrdersAsTableRows(ordersList, page, itemsPerPage)
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateDelivery + "</td>";
+	    //TODO: vedere come ritornare il membro responsabile
 	    returnedTableString += "<td>" + ordersList[orderIndex].idMemberResp + "</td>";
-	    returnedTableString += "<td>" + ordersList[orderIndex].idMemberSupplier + "</td>";
+	    returnedTableString += getSupplierAsTableRow(suppliersList, productsList[productIndex].idMemberSupplier);
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
