@@ -62,4 +62,4 @@ function getOrdersAsTableRows(ordersList, page, itemsPerPage)
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
-}
+	}
