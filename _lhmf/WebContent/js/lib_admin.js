@@ -191,7 +191,7 @@
 					     "<br><label for='payMethod' class='left'>Metodo Pagamento: </label>" +
 					         "<input type='text' name='payMethod' id='payMethod' class='field' />" +
 				         "<br><br><label for='mtype' class='left'>Responsabile: </label>" +
-					         "<select name='memberResp' id='mtype' class='field'>" +
+					         "<select name='memberResp' id='memberResp' class='field'>" +
 							 "</select>" +
 					        "</fieldset>" +
 					        "<div id='errorDiv' style='display:none;'>" +
@@ -258,69 +258,117 @@ function prepareUserForm(tab){
 	$('#respFieldset').hide();
 	$('#respFieldset').children().attr("disabled", "disabled");
 	
-	//Recuperare
-	
-	$('#regRequest').on("click", function(event){
-		
-		event.preventDefault();
-		
-		var errors = new Array();
-		
-		var username = $('#username').val();
-		var firstname = $('#firstname').val();
-		var lastname = $('#lastname').val();
-		var email = $('#email').val();
-		var address = $('#address').val();
-		var city = $('#city').val();
-		var state = $('#state').val();
-		var cap = $('#cap').val();
-		var tel = $('#phone').val();
-		
-		if(username == "") {
-			errors.push("Username: Formato non valido");
-		}
-		if(firstname == "") {
-			errors.push("Nome: Formato non valido");
-		}
-		if(lastname == "" || isNumber(lastname)) {
-			errors.push("Cognome: Formato non valido");
-		}
-		if(email == "" || !isValidMail(email)) {
-			errors.push("Email: Formato non valido");
-		}
-		if(address == "" || isNumber(address)) {
-			errors.push("Indirizzo: Formato non valido");
-		}
-		if(city == "" || isNumber(city)) {
-			errors.push("Citt&agrave: Formato non valido");
-		}
-		if(state == "" || isNumber(state)) {
-			errors.push("Stato: Formato non valido");
-		}
-		if(cap == "" || !isNumber(cap)) {
-			errors.push("Cap: Formato non valido");
-		}
-		if(tel != "")
-			if(!isNumber(tel)) {
-			errors.push("Telefono: Formato non valido");
-		}
-		
+	$('#regRequest').on("click", clickRegHandler);
+}
 
-		if(errors.length > 0){
-			$("#errors").html("");
-			$("#errorDiv").hide();
-			
-			
-			for(var i = 0; i < errors.length; i++){
-				var error = errors[i].split(":");
-				$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
-			}
-			
-			$("#errorDiv").show("slow");
-			//$("#errorDiv").fadeIn(1000);
+function clickRegHandler(event) {
+	
+	event.preventDefault();
+	
+	var errors = new Array();
+	
+	var username = $('#username').val();
+	var firstname = $('#firstname').val();
+	var lastname = $('#lastname').val();
+	var email = $('#email').val();
+	var address = $('#address').val();
+	var city = $('#city').val();
+	var state = $('#state').val();
+	var cap = $('#cap').val();
+	var tel = $('#phone').val();
+	var mType = $('#mtype').val();
+	var company = "";
+	var description = "";
+	var contactName = "";
+	var fax = "";
+	var website = "";
+	var payMethod = "";
+	var idResp = "";
+	
+	if(username == "") {
+		errors.push("Username: Formato non valido");
+	}
+	if(firstname == "" || isNumber(firstname)) {
+		errors.push("Nome: Formato non valido");
+	}
+	if(lastname == "" || isNumber(lastname)) {
+		errors.push("Cognome: Formato non valido");
+	}
+	if(email == "" || !isValidMail(email)) {
+		errors.push("Email: Formato non valido");
+	}
+	if(address == "" || isNumber(address)) {
+		errors.push("Indirizzo: Formato non valido");
+	}
+	if(city == "" || isNumber(city)) {
+		errors.push("Citt&agrave: Formato non valido");
+	}
+	if(state == "" || isNumber(state)) {
+		errors.push("Stato: Formato non valido");
+	}
+	if(cap == "" || !isNumber(cap)) {
+		errors.push("Cap: Formato non valido");
+	}
+	if(tel != "")
+		if(!isNumber(tel)) {
+		errors.push("Telefono: Formato non valido");
+	}
+	
+	if(mType == 3) {
+		
+		//Recuperare variabili fornitore
+		
+		company = $('#company').val();
+		description = $('#description').val();
+		contactName = $('#contactName').val();
+		fax = $('#fax').val();
+		website = $('#website').val();
+		payMethod = $('#payMethod').val();
+		idResp = $('#memberResp').val();
+		
+		if(company == "" || isNumber(company)) {
+			errors.push("Compagnia: Formato non valido");
 		}
-		else{
-					
+		if(description == "" || isNumber(description)) {
+			errors.push("Descrizione: Formato non valido");
+		}
+		if(contactName == "" || isNumber(contactName)) {
+			errors.push("Contatto: Formato non valido");
+		}
+		if(fax == "" || !isNumber(fax)) {
+			errors.push("Fax: Formato non valido");
+		}
+		if(website == "" || isNumber(website)) {
+			errors.push("Web Site: Formato non valido");
+		}
+		if(payMethod == "" || isNumber(payMethod)) {
+			errors.push("Metodo di Pagamento: Formato non valido");
+		}
+		if(idResp == -1 ) {
+			errors.push("Responsabile: Non hai selezionato un responsabile");
+		}
+	}
+
+	if(errors.length > 0){
+		$("#errors").html("");
+		$("#errorDiv").hide();
+		
+		
+		for(var i = 0; i < errors.length; i++){
+			var error = errors[i].split(":");
+			$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
+		}
+		
+		$("#errorDiv").show("slow");
+		//$("#errorDiv").fadeIn(1000);
+	}
+	else{
+		
+		//Chiamata ajax
+		
+		if(mType != 3) {
+			
+			// Registrazione membro normale o responsabile
 			$.post("ajax/newMember", {	username: username,
 				firstname: firstname,
 				lastname: lastname,
@@ -329,38 +377,66 @@ function prepareUserForm(tab){
 				city: city,
 				state: state,
 				cap: cap,
-				tel: tel}, function(regResult) {
-					
-				console.log("Ricevuto risultato registrazione");
-				
-				$("#errorDiv").hide();
-				$("#errors").html("");
-				
-				var errors = regResult;
-				
-				if(errors.length <= 0) {
-				
-				$("#legendError").html("");
-				$("#legendError").append("Registrazione Riuscita");
-				
-				$("#errors").append("La registrazione del nuovo utente &egrave avvenuta con successo.<br />" +
-								"&Egrave; stata inviata una mail per verificarne l'autenticit&agrave.<br />" +
-								"Una volta autenticata l'email l'attivazione sar&agrave automatica.");
-				} else {
-				
-					for(var i = 0; i < errors.length; i++){
-					var error = errors[i].split(":");
-					$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
-					}
-				}
-
-				$("#errorDiv").show("slow");
-				$("#errorDiv").fadeIn(1000);
-				});
+				tel: tel,
+				mType: mType}, postRegHandler);
 			
-		}
-	});
+		} else {
+			
+			// Registrazione Fornitore
+			
+			$.post("ajax/newMember", {	username: username,
+				firstname: firstname,
+				lastname: lastname,
+				email: email,
+				address: address,
+				city: city,
+				state: state,
+				cap: cap,
+				tel: tel,
+				mType: mType,
+				company: company,
+				description: description,
+				contactName: contactName,
+				fax: fax,
+				website: website,
+				payMethod: payMethod,
+				idResp: idResp}, postRegHandler);
+			
+		}	
+	}
 }
+
+
+function postRegHandler(regResult) {
+	
+	console.log("Ricevuto risultato registrazione");
+	
+	$("#errorDiv").hide();
+	$("#errors").html("");
+	
+	var errors = regResult;
+	
+	if(errors.length <= 0) {
+	
+	$("#legendError").html("");
+	$("#legendError").append("Registrazione Riuscita");
+	
+	$("#errors").append("La registrazione del nuovo utente &egrave avvenuta con successo.<br />" +
+					"&Egrave; stata inviata una mail per verificarne l'autenticit&agrave.<br />" +
+					"Una volta autenticata l'email l'attivazione sar&agrave automatica.");
+	} else {
+	
+		for(var i = 0; i < errors.length; i++){
+		var error = errors[i].split(":");
+		$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
+		}
+	}
+
+	$("#errorDiv").show("slow");
+	$("#errorDiv").fadeIn(1000);
+}
+
+
 
 function checkRespSelect() {
 	
@@ -368,6 +444,24 @@ function checkRespSelect() {
 	
 	if(selected == 3) {
 		//Utente fornitore selezionato
+		
+		//TODO:Caricare qui la lista dei fornitori
+		$.post("ajax/getMembersRespString", function(data) {
+			
+			var output = [];
+			output.push('<option value="-1"> Seleziona Responsabile...</option>');
+
+			$.each(data, function(index, val)
+			{
+				var temp = val.split(","); 
+				output.push('<option value="'+ temp[0] +'">'+ temp[1] +'</option>');
+			});
+
+			$('#memberResp').html(output.join(''));
+
+			
+		}).error(function() { alert("error"); });
+		
 		
 		$('#respFieldset').show('slow');
 		$('#respFieldset').children().attr("disabled", false);

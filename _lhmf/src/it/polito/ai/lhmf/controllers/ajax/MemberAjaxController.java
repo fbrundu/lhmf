@@ -6,7 +6,6 @@ import it.polito.ai.lhmf.model.MemberStatusInterface;
 import it.polito.ai.lhmf.model.MemberTypeInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
-import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
@@ -57,7 +56,15 @@ public class MemberAjaxController
 			@RequestParam(value = "city", required = true) String city,
 			@RequestParam(value = "state", required = true) String state,
 			@RequestParam(value = "cap", required = true) String cap,
-			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone) throws InvalidParametersException, ParseException
+			@RequestParam(value = "phone", required = false, defaultValue = "not set") String phone,
+			@RequestParam(value = "mType", required = false) int memberType,
+			@RequestParam(value = "company", required = false) String company,
+			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "contactName", required = false) String contactName,
+			@RequestParam(value = "fax", required = false) String fax,
+			@RequestParam(value = "website", required = false) String website,
+			@RequestParam(value = "payMethod", required = false) String payMethod,
+			@RequestParam(value = "idResp", required = false) int idResp) throws InvalidParametersException, ParseException
 	{
 		Integer idMember = -1;
 		
@@ -130,6 +137,32 @@ public class MemberAjaxController
 			errors.add("Cap: Formato non Valido");
 		}
 		
+		if(memberType == 3) {
+			
+			//Controllo campi fornitore
+			
+			if(CheckNumber.isNumeric(company)) {
+				errors.add("Compagnia: Formato non Valido");
+			}
+			if(CheckNumber.isNumeric(description)) {
+				errors.add("Descrizione: Formato non Valido");
+			}	
+			if(CheckNumber.isNumeric(contactName)) {
+				errors.add("Stato: Formato non Valido");
+			}
+			if(!fax.equals(""))
+			{
+				if(!CheckNumber.isNumeric(fax)) 
+					errors.add("Fax: Formato non Valido");
+			}
+			if(CheckNumber.isNumeric(website)) {
+				errors.add("Web Site: Formato non Valido");
+			}
+			if(CheckNumber.isNumeric(payMethod)) {
+				errors.add("Metodo Pagamento: Formato non Valido");
+			}			
+		}
+		
 		if(errors.size() > 0) {
 			
 			// Ci sono errori, rimandare alla pagina mostrandoli
@@ -138,52 +171,115 @@ public class MemberAjaxController
 		}
 		else
 		{
-			//eseguire la registrazione 
 			
-			//Mi ricavo il memberType 
-			MemberType mType = memberTypeInterface.getMemberType(MemberTypes.USER_NORMAL);
-			//Mi ricavo il memberStatus 
-			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-			
-			//genero un regCode
-			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
-			
-			//setto la data odierna
-			Calendar calendar = Calendar.getInstance();     
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			String sDate = dateFormat.format(calendar.getTime());
-			Date regDate = dateFormat.parse(sDate);
-			
-			//trasformo il cap in un numero
-			int capNumeric = Integer.parseInt(cap);
-			
-			// Creo un nuovo utente 
-			//TODO: implementare generazione password
-			Member member = new Member(	mType, mStatus, firstname, lastname, 
-										username, "prova", regCode, regDate, 
-										email, address, city, state, capNumeric);
-			
-			if(!phone.equals("") && !phone.equals("not set")) 
-				member.setTel(phone);
-			
-			idMember = memberInterface.newMember(member);
-			
-			if(idMember < 1)
-				errors.add("Errore Interno: la registrazione non è andata a buon fine");
-			else {
+			if(memberType != 3) {
 				
-				//Inviare qui la mail con il codice di registrazione.
-				/*SendEmail emailer = new SendEmail();
+				//Registrazione Utente Normale o Responsabile
 				
-				boolean fromAdmin = true;
+				//Mi ricavo il memberType 
+				MemberType mType = memberTypeInterface.getMemberType(memberType);
+				//Mi ricavo il memberStatus 
+				MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
 				
-				String mailTo = member.getEmail();
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(member.getName(), member.getSurname(), regCode, idMember, fromAdmin);
-				SendEmail.send(mailTo, subject, body);	*/
+				//genero un regCode
+				String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
 				
+				//setto la data odierna
+				Calendar calendar = Calendar.getInstance();     
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				String sDate = dateFormat.format(calendar.getTime());
+				Date regDate = dateFormat.parse(sDate);
+				
+				//trasformo il cap in un numero
+				int capNumeric = Integer.parseInt(cap);
+				
+				// Creo un nuovo utente 
+				
+				//TODO: implementare generazione password
+				Member member = new Member(	mType, mStatus, firstname, lastname, 
+											username, "prova", regCode, regDate, 
+											email, address, city, state, capNumeric);
+				
+				if(!phone.equals("") && !phone.equals("not set")) 
+					member.setTel(phone);
+				
+				idMember = memberInterface.newMember(member);
+				
+				if(idMember < 1)
+					errors.add("Errore Interno: la registrazione non è andata a buon fine");
+				else {
+					
+					//Inviare qui la mail con il codice di registrazione.
+					/*SendEmail emailer = new SendEmail();
+					
+					boolean fromAdmin = true;
+					
+					String mailTo = member.getEmail();
+					String subject = "Conferma mail per GasProject.net";
+					String body = emailer.getBodyForAuth(member.getName(), member.getSurname(), regCode, idMember, fromAdmin);
+					SendEmail.send(mailTo, subject, body);	*/
+				}
+				
+			} else {
+				
+				//Registrazione Fornitore
+				
+				//genero un regCode
+				String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
+				
+				//setto la data odierna
+				Calendar calendar = Calendar.getInstance();     
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+				String sDate = dateFormat.format(calendar.getTime());
+				Date regDate = dateFormat.parse(sDate);
+				
+				//trasformo il cap in un numero
+				int capNumeric = Integer.parseInt(cap);
+				
+				//Mi ricavo il membro responsabile 
+				Member memberResp = memberInterface.getMember(idResp);
+				
+				// Creo un nuovo fornitore
+				
+				//TODO: implementare generazione password
+				
+				byte mt = 0;
+				
+				Supplier supplier = new Supplier(memberResp, firstname, lastname, username, "password", regCode, regDate, email, address, city, state, capNumeric, false, mt, payMethod);
+								
+				if(!phone.equals("") && !phone.equals("not set")) 
+					supplier.setTel(phone);
+				if(!company.equals("")) 
+					supplier.setCompanyName(company);
+				if(!description.equals("")) 
+					supplier.setDescription(description);
+				if(!contactName.equals("")) 
+					supplier.setContactName(contactName);
+				if(!fax.equals("")) 
+					supplier.setFax(fax);
+				if(!website.equals("")) 
+					supplier.setWebsite(website);
+				if(!payMethod.equals("")) 
+					supplier.setPaymentMethod(payMethod);
+				
+				idMember = supplierInterface.newSupplier(supplier);
+				
+				if(idMember < 1)
+					errors.add("Errore Interno: la registrazione non è andata a buon fine");
+				else {
+					
+					//Inviare qui la mail con il codice di registrazione.
+					/*SendEmail emailer = new SendEmail();
+					
+					boolean fromAdmin = true;
+					
+					String mailTo = member.getEmail();
+					String subject = "Conferma mail per GasProject.net";
+					String body = emailer.getBodyForAuth(member.getName(), member.getSurname(), regCode, idMember, fromAdmin);
+					SendEmail.send(mailTo, subject, body);	*/
+					
+				}
 			}
-	
 		}
 		return errors;
 	}
@@ -194,9 +290,28 @@ public class MemberAjaxController
 	Member getMember(HttpServletRequest request,
 			@RequestBody Integer idMember)
 	{
+		
 		Member member = null;
 		member = memberInterface.getMember(idMember);
 		return member;
+	}
+	
+	@RequestMapping(value = "/ajax/getMembersRespString", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<String> getMembersRespString(HttpServletRequest request)
+	{
+		ArrayList<String> respString = new ArrayList<String>();
+		
+		List<Member> listMember = new ArrayList<Member>();
+		listMember = memberInterface.getMembersResp();
+		
+		for (Member m : listMember) {
+		  
+			String temp = m.getIdMember() + "," + m.getName() + " " + m.getSurname();
+			respString.add(temp);	
+		}
+		
+		return respString;
 	}
 
 	@RequestMapping(value = "/ajax/getmembers", method = RequestMethod.GET)
