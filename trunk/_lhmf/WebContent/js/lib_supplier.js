@@ -253,36 +253,3 @@ function getProductsAsTableRows(productsList, productCategoriesList, page,
   }
   return returnedTableString;
 }
-
-function getAllSuppliers()
-{
-  $.getJSONsync("ajax/getsuppliers",
-      function(suppliersList)
-      {
-        window.localStorage.setItem('suppliersList', JSON
-            .stringify(suppliersList));
-        console.debug("suppliersList saved in localstorage");
-      });
-}
-
-function loadAllSuppliersFromLocalStorage()
-{
-  return JSON.parse(window.localStorage.getItem('suppliersList'));
-}
-
-function getSupplierAsTableRow(suppliersList, idSupplier)
-{
-  if (suppliersList == undefined || idSupplier == undefined)
-  {
-    console.debug("Invalid parameters in " + displayFunctionName());
-    return "";
-  }
-  for ( var supplierIndex in suppliersList)
-  {
-    // TODO return member resp name
-    if (suppliersList[supplierIndex].idMember == idSupplier)
-      return "<td>" + suppliersList[supplierIndex].name
-          + suppliersList[supplierIndex].surname + "</td>";
-  }
-  return "";
-}
