@@ -1,9 +1,9 @@
 package it.polito.ai.lhmf.json;
 
-import java.io.IOException;
-
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+
+import java.io.IOException;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParser;
@@ -14,16 +14,13 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class OrderDeserializer extends JsonDeserializer<Order>{
 
-	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory sessionFactory)
-	{
-		this.sessionFactory = sessionFactory;
+	public OrderDeserializer(SessionFactory sf) {
+		this.sessionFactory = sf;
 	}
 	
 	@Override

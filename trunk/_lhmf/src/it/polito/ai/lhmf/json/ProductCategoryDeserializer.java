@@ -10,10 +10,17 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.ObjectCodec;
 import org.codehaus.jackson.map.DeserializationContext;
 import org.codehaus.jackson.map.JsonDeserializer;
+import org.hibernate.SessionFactory;
 
 public class ProductCategoryDeserializer extends
 		JsonDeserializer<ProductCategory>
 {
+	private SessionFactory sessionFactory;
+	
+	public ProductCategoryDeserializer(SessionFactory sf) {
+		this.sessionFactory = sf;
+	}
+
 	@Override
 	public ProductCategory deserialize(JsonParser jpar,
 			DeserializationContext context) throws IOException,

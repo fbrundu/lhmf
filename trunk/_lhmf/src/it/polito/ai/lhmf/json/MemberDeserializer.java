@@ -15,16 +15,13 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class MemberDeserializer extends JsonDeserializer<Member>
 {
-	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory sessionFactory)
-	{
-		this.sessionFactory = sessionFactory;
+	public MemberDeserializer(SessionFactory sf) {
+		this.sessionFactory = sf;
 	}
 
 	@Override
@@ -71,6 +68,7 @@ public class MemberDeserializer extends JsonDeserializer<Member>
 		}
 		catch (Exception e)
 		{
+			//TODO cosa fa mappingException??? perchè nella console non si vede nulla e lato client nemmeno..
 			throw context.mappingException(e.getMessage());
 		}
 		return newMember;
