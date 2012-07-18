@@ -229,7 +229,7 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!phone.equals(""))
+		if(!phone.equals("") && !phone.equals("not set"))
 		{
 			if(!CheckNumber.isNumeric(phone)) {
 				
@@ -476,7 +476,7 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!phone.equals(""))
+		if(!phone.equals("") && !phone.equals("not set"))
 		{
 			if(!CheckNumber.isNumeric(phone)) {
 				
@@ -711,7 +711,7 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}
-		if(!phone.equals(""))
+		if(!phone.equals("") && !phone.equals("not set"))
 		{
 			if(!CheckNumber.isNumeric(phone)) {
 				
@@ -815,7 +815,7 @@ public class SignupController
 						username, md5Password, regCode, regDate, 
 						email, address, city, state, capNumeric);
 				
-				if(!phone.equals("")) 
+				if(!phone.equals("") && !phone.equals("not set")) 
 					member.setTel(phone);
 				
 				memberId = memberInterface.newMember(member);
@@ -850,7 +850,7 @@ public class SignupController
 	public ModelAndView authMail( Model model,
 			@RequestParam(value = "id", required = true) int id,
 			@RequestParam(value = "regCode", required = true) String regCode,
-			@RequestParam(value = "fromAdmin", required = true) boolean fromAdmin)
+			@RequestParam(value = "a", required = true) boolean fromAdmin)
 	{
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
