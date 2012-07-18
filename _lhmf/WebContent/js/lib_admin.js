@@ -43,11 +43,11 @@
 						
 						writeUserPage(1);
 						
-						if(!!stateData.username) {
+						/*if(!!stateData.username) {
 							
 							doRegistration(stateData);
 							
-						}
+						}*/
 						
 						break;
 					case 2:
@@ -120,44 +120,6 @@
 		});
 	}
 	
-	function doRegistration(stateData){
-		$.postJSON("ajax/newMember", {	username: stateData.username,
-										firstname: stateData.firstname,
-										lastname: stateData.lastname,
-										email: stateData.email,
-										address: stateData.address,
-										city: stateData.city,
-										state: stateData.state,
-										cap: stateData.cap,
-										tel: stateData.tel}, function(regResult){
-			console.log("Ricevuto risultato registrazione");
-			
-			$("#errorDiv").hide();
-			$("#errors").html("");
-			
-			var errors = regResult.errors;
-			
-			if(errors.length <= 0) {
-				
-				$("#legendError").html("");
-				$("#legendError").append("Registrazione Riuscita");
-				
-				$("#errors").append("La registrazione del nuovo utente è avvenuta con successo.<br />" +
-									"&Egrave; stata inviata una mail all'indirizzo inserito per verificarne l'autenticità.<br />" +
-									"In seguito sarà possibile attivare l'utente");
-			} else {
-				
-				for(var i = 0; i < errors.length; i++){
-					var error = errors[i].split(":");
-					$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
-				}
-			}
-			
-			$("#errorDiv").show("slow");
-			//$("#errorDiv").fadeIn(1000);
-		});
-	}
-
 	function writeLogPage(){
 		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Consulta Log</a></li></ul>" +
 		"<div id='tabs-1'></div></div>");
@@ -208,6 +170,29 @@
 						     "<input type='text' name='cap' id='cap' class='field' required='required'/>" +
 						"<br><label for='phone' class='left'>Telefono: </label>" +
 						     "<input type='text' name='phone' id='phone' class='field'/>" +
+				    "<br><br><label for='mtype' class='left'>Tipo Utente: </label>" +
+						     "<select name='mtype' id='mtype' class='field' onchange='checkRespSelect()'>" +
+						     	"<option value='0'>Normale</option>" +
+						     	"<option value='1'>Responsabile  </option>" +
+						     	"<option value='3'>Fornitore </option>" +
+						     "</select>" +
+					        "</fieldset>" +
+					        "<fieldset id='respFieldset' ><legend>&nbsp;Dati Fornitore&nbsp;</legend><br />" +
+					    "<br><label for='company' class='left'>Compagnia: </label>" +
+				        	"<input type='text' name='company' id='company' class='field' />" +
+				        "<br><label for='description' class='left'>Descrizione: </label>" +
+				        	"<input type='text' name='description' id='description' class='field' />" +
+				        "<br><label for='contactName' class='left'>Contatto: </label>" +
+				          	"<input type='text' name='contactName' id='contactName' class='field' />" +
+					    "<br><label for='fax' class='left'>Fax: </label>" +
+					        "<input type='text' name='fax' id='fax' class='field' />" +
+					    "<br><label for='website' class='left'>WebSite: </label>" +
+					        "<input type='text' name='website' id='website' class='field' />" +
+					     "<br><label for='payMethod' class='left'>Metodo Pagamento: </label>" +
+					         "<input type='text' name='payMethod' id='payMethod' class='field' />" +
+				         "<br><br><label for='mtype' class='left'>Responsabile: </label>" +
+					         "<select name='memberResp' id='mtype' class='field'>" +
+							 "</select>" +
 					        "</fieldset>" +
 					        "<div id='errorDiv' style='display:none;'>" +
 					        	"<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -268,6 +253,13 @@ function prepareUserForm(tab){
 		  selected: tab 
 	});
 	
+	//disabilitare fieldset resp
+	
+	$('#respFieldset').hide();
+	$('#respFieldset').children().attr("disabled", "disabled");
+	
+	//Recuperare
+	
 	$('#regRequest').on("click", function(event){
 		
 		event.preventDefault();
@@ -287,7 +279,7 @@ function prepareUserForm(tab){
 		if(username == "") {
 			errors.push("Username: Formato non valido");
 		}
-		if(firstname == "" || isNumber(firstname)) {
+		if(firstname == "") {
 			errors.push("Nome: Formato non valido");
 		}
 		if(lastname == "" || isNumber(lastname)) {
@@ -329,26 +321,66 @@ function prepareUserForm(tab){
 		}
 		else{
 					
-			var History = window.History;
-			if(History.enabled)
-				History.pushState({	action: 'userMgmt', 
-								 	tab: 1, 
-									username: username,
-									firstname: firstname,
-									lastname: lastname,
-									email: email,
-									address: address,
-									city: city,
-									state: state,
-									cap: cap,
-									tel: tel}, null, "./userMgmt?reg=1");
-			//console.log("Vai con l'ajax!");
-			else{
-				$("form").submit();
-			}
+			$.post("ajax/newMember", {	username: username,
+				firstname: firstname,
+				lastname: lastname,
+				email: email,
+				address: address,
+				city: city,
+				state: state,
+				cap: cap,
+				tel: tel}, function(regResult) {
+					
+				console.log("Ricevuto risultato registrazione");
+				
+				$("#errorDiv").hide();
+				$("#errors").html("");
+				
+				var errors = regResult;
+				
+				if(errors.length <= 0) {
+				
+				$("#legendError").html("");
+				$("#legendError").append("Registrazione Riuscita");
+				
+				$("#errors").append("La registrazione del nuovo utente &egrave avvenuta con successo.<br />" +
+								"&Egrave; stata inviata una mail per verificarne l'autenticit&agrave.<br />" +
+								"Una volta autenticata l'email l'attivazione sar&agrave automatica.");
+				} else {
+				
+					for(var i = 0; i < errors.length; i++){
+					var error = errors[i].split(":");
+					$("#errors").append("<strong>" + error[0] +"</strong>: " + error[1] + "<br />");
+					}
+				}
+
+				$("#errorDiv").show("slow");
+				$("#errorDiv").fadeIn(1000);
+				});
 			
 		}
 	});
+}
+
+function checkRespSelect() {
+	
+	var selected = $('#mtype').val();
+	
+	if(selected == 3) {
+		//Utente fornitore selezionato
+		
+		$('#respFieldset').show('slow');
+		$('#respFieldset').children().attr("disabled", false);
+		
+	} else {
+		//Fornitore non selezionato
+		
+		$('#respFieldset').hide('slow');
+		$('#respFieldset').children().attr("disabled", true);
+	}
+	
+	
+	
 }
 
 function isNumber(n) {

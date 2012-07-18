@@ -68,8 +68,31 @@
 			         <input type="text" name="cap" id="cap" class="field" required="required"/>
 			     <br><label for="phone" class="left">Telefono: </label>
 			         <input type="text" name="phone" id="phone" class="field"/>
+		     <br><br><label for="mtype" class="left">Tipo Utente: </label>
+			         <select name="mtype" id="mtype" class="field" onchange="checkRespSelect()">
+			         	<option value="0">Normale</option>
+					    <option value="1">Responsabile  </option>
+					    <option value="3">Fornitore </option>
+					 </select>
 		        </fieldset>
-		        <div style="display:none;">
+		        <fieldset id="respFieldset" style="display: none"><legend>&nbsp;Dati Fornitore&nbsp;</legend><br />
+		        <br><label for="company" class="left">Compagnia: </label>
+		        	<input type="text" name="company" id="company" class="field" />
+		        <br><label for="description" class="left">Descrizione: </label>
+		        	<input type="text" name="description" id="description" class="field" />
+		        <br><label for="contactName" class="left">Contatto: </label>
+		          	<input type="text" name="contactName" id="contactName" class="field" />
+			    <br><br><label for="fax" class="left">Fax: </label>
+			        <input type="text" name="fax" id="fax" class="field" />
+			    <br><label for="website" class="left">WebSite: </label>
+			        <input type="text" name="website" id="website" class="field" />
+			     <br><label for="payMethod" class="left">Metodo Pagamento: </label>
+			         <input type="text" name="payMethod" id="payMethod" class="field" />
+		         <br><br><label for="mtype" class="left">Responsabile: </label>
+			         <select name="memberResp" id="mtype" class="field">
+					 </select>
+			    </fieldset>
+		        <div id="errorDiv" style="display:none;">
 		        	<fieldset><legend id="legendError">&nbsp;Errore&nbsp;</legend><br />
 			          <div id="errors" style="padding-left: 40px">
 			          	

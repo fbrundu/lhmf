@@ -33,3 +33,7 @@ Luca:
 Francesco: 
   - utente fornitore (index_supplier.jsp)
     {Crea o modifica listino, Crea, Visualizza, Modifica, Elimina prodotti}
+    
+    
+ Link matteo:
+ http://stackoverflow.com/questions/170986/what-is-the-best-way-to-add-options-to-a-select-from-an-array-with-jquery
