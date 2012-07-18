@@ -102,9 +102,9 @@ function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
 	    returnedTableString += "<tr>";
 	    //TODO: vedere come ritornare il membro responsabile
 	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idMember + "</td>";
+	    //Inserire anche ordini attivi? Se si visualizzare solo la data di apertura e non quella di chiusura e di consegna?
 	    returnedTableString += getPastOrdersTableRow(ordersList, purchasesList[purchaseIndex].idOrder);
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
 }
-
