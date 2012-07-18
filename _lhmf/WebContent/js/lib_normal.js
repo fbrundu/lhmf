@@ -1,27 +1,64 @@
 //CRUD on Order
 function newPurchase(purchase)
 {
-  $.postJSON("ajax/newpurchase", purchase, function(
-      idPurchase)
-  {
-    console.debug("Inserted: " + idPurchase);
-  });
+	if (purchase == undefined)
+	{
+	    console.debug("Invalid parameters in " + displayFunctionName());
+	    return;
+	}
+	$.postJSONsync("ajax/newpurchase", purchase, function(idPurchase)
+	{
+		console.debug("Inserted: " + idPurchase);
+	});
+}
   
-  function getPastPurchases()
-  {
-    $.getJSON("ajax/getpastpurchases", function(orderList)
+function getPastPurchases()
+{
+    $.getJSONsync("ajax/getpastpurchases", function(pastPurchasesList)
     {
-      window.localStorage.setItem('orderList', JSON.stringify(orderList));
-      console.debug("orderList saved in localstorage");
+    	window.localStorage.setItem('pastPurchasesList', JSON.stringify(pastPurchasesList));
+    	console.debug("pastPurchasesList saved in localstorage");
     });
-  }
+}
+
+function loadAllPastPurchasesFromLocalStorage()
+{
+	return JSON.parse(window.localStorage.getItem('pastPurchasesList'));
+}
    
-  function getActivePurchases()
-  {
-    $.getJSON("ajax/getactivepurchases", function(orderList)
+function getActivePurchases()
+{
+    $.getJSONsync("ajax/getactivepurchases", function(activePurchasesList)
     {
-      window.localStorage.setItem('orderList', JSON.stringify(orderList));
-      console.debug("orderList saved in localstorage");
+      window.localStorage.setItem('activePurchasesList', JSON.stringify(activePurchasesList));
+      console.debug("activePurchasesList saved in localstorage");
     });
-  }
+}
+
+function loadAllActivePurchasesFromLocalStorage()
+{
+	return JSON.parse(window.localStorage.getItem('activePurchasesList'));
+}
+
+function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
+{
+	var returnedTableString = "";
+	if (page < 1 || (page - 1) * itemsPerPage >= purchasesList.length
+		|| itemsPerPage < 1 || itemsPerPage > 100 || purchasesList == undefined
+		|| page == undefined || itemsPerPage == undefined)
+	{
+		console.debug("Invalid parameters in " + displayFunctionName());
+		return "";
+	}
+	for ( var purchaseIndex = (page - 1) * itemsPerPage; purchaseIndex < purchasesList.length
+      	&& purchaseIndex <= page * itemsPerPage; purchaseIndex++)
+	{
+	    returnedTableString += "<tr>";
+	    returnedTableString += "<td>" + purchasesList[purchaseIndex].dateOpen + "</td>";
+	    returnedTableString += "<td>" + purchasesList[purchaseIndex].dateClose + "</td>";
+	    returnedTableString += "<td>" + purchasesList[purchaseIndex].supplier + "</td>";
+	    returnedTableString += "<td>" + purchasesList[purchaseIndex].member + "</td>";
+	    returnedTableString += "</tr>";
+	}
+	return returnedTableString;
 }

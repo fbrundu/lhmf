@@ -1,26 +1,65 @@
 //CRUD on Order
 function newOrder(order)
 {
-  $.postJSON("ajax/neworder", order, function(idOrder)
-  {
-    console.debug("Inserted: " + idOrder);
-  });
+	if (order == undefined)
+	{
+		console.debug("Invalid parameters in " + displayFunctionName());
+	    return;
+	}
+	$.postJSONsync("ajax/neworder", order, function(idOrder)
+    {
+    	console.debug("Inserted: " + idOrder);
+    });
 }
 
 function getPastOrders()
 {
-  $.getJSON("ajax/getpastorders", function(orderList)
-  {
-    window.localStorage.setItem('orderList', JSON.stringify(orderList));
-    console.debug("orderList saved in localstorage");
-  });
+	$.getJSONsync("ajax/getpastorders", function(pastOrdersList)
+	{
+		window.localStorage.setItem('pastOrdersList', JSON.stringify(pastOrdersList));
+		console.debug("pastOrdersList saved in localstorage");
+	});
 }
- 
+
+function loadAllPastOrdersFromLocalStorage()
+{
+	return JSON.parse(window.localStorage.getItem('pastOrdersList'));
+}
+
 function getActiveOrders()
 {
-  $.getJSON("ajax/getactiveorders", function(orderList)
-  {
-    window.localStorage.setItem('orderList', JSON.stringify(orderList));
-    console.debug("orderList saved in localstorage");
-  });
+	$.getJSONsync("ajax/getactiveorders", function(activeOrdersList)
+	{
+		window.localStorage.setItem('activeOrdersList', JSON.stringify(activeOrdersList));
+		console.debug("activeOrdersList saved in localstorage");
+	});
+}
+
+function loadAllActiveOrdersFromLocalStorage()
+{
+	return JSON.parse(window.localStorage.getItem('activeOrdersList'));
+}
+
+function getOrdersAsTableRows(ordersList, page, itemsPerPage)
+{
+	var returnedTableString = "";
+	if (page < 1 || (page - 1) * itemsPerPage >= ordersList.length
+		|| itemsPerPage < 1 || itemsPerPage > 100 || ordersList == undefined
+		|| page == undefined || itemsPerPage == undefined)
+	{
+		console.debug("Invalid parameters in " + displayFunctionName());
+		return "";
+	}
+	for ( var orderIndex = (page - 1) * itemsPerPage; orderIndex < ordersList.length
+      	&& orderIndex <= page * itemsPerPage; orderIndex++)
+	{
+	    returnedTableString += "<tr>";
+	    returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
+	    returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
+	    //in questo caso bisogna visualizzare un supplier singolo e una lista?
+	    returnedTableString += "<td>" + ordersList[orderIndex].supplier + "</td>";
+	    returnedTableString += "<td>" + ordersList[orderIndex].member + "</td>";
+	    returnedTableString += "</tr>";
+	}
+	return returnedTableString;
 }
