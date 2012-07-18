@@ -39,7 +39,7 @@ function loadAllActivePurchasesFromLocalStorage()
 	return JSON.parse(window.localStorage.getItem('activePurchasesList'));
 }
 
-function getActiveOrdersAsTableRow(ordersList, idOrderIn)
+function getActiveOrdersAsRows(ordersList, idOrderIn)
 {
 	var returnedTableString = "";
 	if (ordersList == undefined || idOrderIn == undefined)
@@ -53,7 +53,7 @@ function getActiveOrdersAsTableRow(ordersList, idOrderIn)
 		{
 			returnedTableString += "<tr>";
 			returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
-			//TODO: inserire altre info dato che è un ordine attivo?
+			returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
 			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
 			//TODO: inserire anche il resp
 			returnedTableString += "</tr>";
@@ -62,7 +62,7 @@ function getActiveOrdersAsTableRow(ordersList, idOrderIn)
 	return returnedTableString;
 }
 
-function getPastOrdersAsTableRow(ordersList, idOrderIn)
+function getPastOrdersAsRows(ordersList, idOrderIn)
 {
 	var returnedTableString = "";
 	if (ordersList == undefined || idOrderIn == undefined)
@@ -102,8 +102,8 @@ function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
 	    returnedTableString += "<tr>";
 	    //TODO: vedere come ritornare il membro responsabile
 	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idMember + "</td>";
-	    //Inserire anche ordini attivi? Se si visualizzare solo la data di apertura e non quella di chiusura e di consegna?
-	    returnedTableString += getPastOrdersTableRow(ordersList, purchasesList[purchaseIndex].idOrder);
+	    returnedTableString += getActiveOrdersAsRows(ordersList, purchasesList[purchaseIndex].idOrder);
+	    returnedTableString += getPastOrdersAsRows(ordersList, purchasesList[purchaseIndex].idOrder);
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
