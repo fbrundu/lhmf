@@ -14,16 +14,13 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class SupplierDeserializer extends JsonDeserializer<Supplier>
 {
-	@Autowired
 	private SessionFactory sessionFactory;
 
-	public void setSessionFactory(SessionFactory sessionFactory)
-	{
-		this.sessionFactory = sessionFactory;
+	public SupplierDeserializer(SessionFactory sf) {
+		this.sessionFactory = sf;
 	}
 
 	@Override
