@@ -89,7 +89,7 @@
 			     <br><label for="payMethod" class="left">Metodo Pagamento: </label>
 			         <input type="text" name="payMethod" id="payMethod" class="field" />
 		         <br><br><label for="mtype" class="left">Responsabile: </label>
-			         <select name="memberResp" id="mtype" class="field">
+			         <select name="memberResp" id="memberResp" class="field">
 					 </select>
 			    </fieldset>
 		        <div id="errorDiv" style="display:none;">

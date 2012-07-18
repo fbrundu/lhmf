@@ -65,7 +65,7 @@ public class MemberInterface
 		MemberType mType = new MemberType(MemberTypes.USER_ADMIN);
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Member " + "where memberType = :memberType");
+				"from Member where memberType = :memberType");
 		
 		query.setParameter("memberType", mType);
 		return (Member) query.uniqueResult();
@@ -77,6 +77,20 @@ public class MemberInterface
 	{
 		return sessionFactory.getCurrentSession().createQuery("from Member")
 				.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersResp()
+	{
+		//Recupero il memberType dell'admin
+		MemberType mType = new MemberType(MemberTypes.USER_RESP);
+				
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where memberType = :memberType");
+				
+		query.setParameter("memberType", mType);
+		return (List<Member>) query.list();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

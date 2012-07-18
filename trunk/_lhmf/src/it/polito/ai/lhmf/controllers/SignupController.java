@@ -829,13 +829,13 @@ public class SignupController
 			}
 			
 			//Inviare qui la mail con il codice di registrazione.
-			SendEmail emailer = new SendEmail();
+			/*SendEmail emailer = new SendEmail();
 			boolean fromAdmin = false;
 			
 			String mailTo = email;
 			String subject = "Conferma mail per GasProject.net";
 			String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
-			SendEmail.send(mailTo, subject, body);		
+			SendEmail.send(mailTo, subject, body);	*/	
 			
 					
 			
