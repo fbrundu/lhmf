@@ -46,7 +46,7 @@ public class OrderInterface
 	@Transactional(readOnly=true)
 	public List<Order> getActiveOrders()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Order " + "where date_close = 0").list();
+		return sessionFactory.getCurrentSession().createQuery("from Order " + "where date_delivery = 0").list();
 	}
 	
 }

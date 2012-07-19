@@ -48,7 +48,7 @@ public class PurchaseInterface
 	@Transactional(readOnly=true)
 	public List<Purchase> getActivePurchase()
 	{
-		List<Order> orders = sessionFactory.getCurrentSession().createQuery("from Order " + "where date_close = 0").list();
+		List<Order> orders = sessionFactory.getCurrentSession().createQuery("from Order " + "where date_delivery = 0").list();
 		Query queryPurchase = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idPurchase = :idPurchase");
 		return queryPurchase.setParameterList("idPurchase", orders).list();
 	}	
