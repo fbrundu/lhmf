@@ -232,12 +232,12 @@
 						      "<button type='submit' id='memberToActiveRequest'> Visualizza </button>" +
 						    "</form>" +
 						    "<table id='memberList' class='log'></table>" +
-						  "</div>" +
-						  "<div id='errorDiv2' style='display:none;'>" +
-				        	"<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />" +
-					         "<div id='errors2' style='padding-left: 40px'>" +
-							  "</div>" +
-					        "</fieldset>" +
+							  "<div id='errorDiv2' style='display:none;'>" +
+					        	"<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />" +
+						         "<div id='errors2' style='padding-left: 40px'>" +
+								  "</div>" +
+						        "</fieldset>" +
+					          "</div><br />" +
 				          "</div>");
 		
 		
@@ -316,9 +316,9 @@ function clickMemberActivationHandler(event){
 	event.preventDefault();
 	
 	var form = $(this).parents('form');
-	var id = $('input', form).val();
+	var idMember = $('input', form).val();
 	
-	$.post("ajax/activeMember", id, postMemberActivationHandler);
+	$.post("ajax/activeMember", {idMember: idMember}, postMemberActivationHandler);
 	
 }
 
@@ -329,7 +329,7 @@ function postMemberActivationHandler(result) {
 		//Errore nell'attivazione
 		
 	} else {
-		var trControl = "ActMember_" + result;
+		var trControl = "#ActMember_" + result;
 		
 		$(trControl).hide("slow");
 	}
@@ -349,10 +349,10 @@ function postMemberToActivateHandler(memberResult) {
 		$("#legendError2").html("");
 		$("#legendError2").append("Comunicazione");
 		
-		$("#errors2").append("Non ci sono membri da visualizzare");
+		$("#errors2").append("Non ci sono membri da visualizzare<br /><br />");
 		
-		$("#errorDiv").show("slow");
-		$("#errorDiv").fadeIn(1000);
+		$("#errorDiv2").show("slow");
+		$("#errorDiv2").fadeIn(1000);
 	} else {
 		
 		$("#memberList").hide();

@@ -360,15 +360,15 @@ public class MemberAjaxController
 		
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/activeMember", method = RequestMethod.POST)
-	public @ResponseBody Integer memberActivation(HttpServletRequest request,
-			@RequestParam(value = "idMember", required = true) Integer idMember)
+	public @ResponseBody int memberActivation(HttpServletRequest request,
+			@RequestParam(value = "idMember", required = true) int idMember)
 	{
 		Member member = memberInterface.getMember(idMember);
 		
 		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
 		member.setMemberStatus(mStatus);
 		
-		Integer result;
+		int result;
 		try {
 			result = memberInterface.updateMember(member);
 		} catch (InvalidParametersException e) {
