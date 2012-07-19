@@ -322,6 +322,65 @@ public class MemberAjaxController
 		membersList = memberInterface.getMembers();
 		return membersList;
 	}
+	
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/getMemberToActivate", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Member> getMembersToActivate(HttpServletRequest request,
+			@RequestParam(value = "memberType", required = true) int memberType,
+			@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "itemsPerPage", required = true) int itemsPerPage)
+	{
+		List<Member> membersList = null;
+		
+		if(memberType == 4) {
+			//Prendo tutti gli utenti da attivare
+			membersList = memberInterface.getMembersToActivate();
+		} else
+		{
+			//Richiesta di un tipo utente specifico
+			
+			MemberType mType = new MemberType(memberType);
+			membersList = memberInterface.getMembersToActivate(mType);
+		}
+		
+		List<Member> returnList = new ArrayList<Member>();
+		
+		int startIndex = page * itemsPerPage;
+		int endIndex = startIndex + itemsPerPage;
+		
+		if(endIndex > membersList.size())
+			endIndex = membersList.size();
+		
+		returnList.addAll(membersList.subList(startIndex, endIndex));
+		
+		return returnList;
+	}
+		
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/activeMember", method = RequestMethod.POST)
+	public Integer memberActivation(HttpServletRequest request,
+			@RequestParam(value = "idMember", required = true) Integer idMember)
+	{
+		Member member = memberInterface.getMember(idMember);
+		
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+		member.setMemberStatus(mStatus);
+		
+		Integer result;
+		try {
+			result = memberInterface.updateMember(member);
+		} catch (InvalidParametersException e) {
+			result = 0;
+			e.printStackTrace();
+		}
+		
+		if(result == 0)
+			return result;
+		else 
+			return idMember;
+	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/updatemember", method = RequestMethod.POST)

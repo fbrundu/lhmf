@@ -1,8 +1,10 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 
 import java.util.List;
@@ -143,5 +145,35 @@ public class MemberInterface
 		query.setParameter("idMember", idMember);
 
 		return (Integer) query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersToActivate() {
+		
+		//Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where memberStatus = :memberStatus order by idMember");
+				
+		query.setParameter("memberStatus", mStatus);
+		return (List<Member>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersToActivate(MemberType memberType) {
+		
+		//Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.VERIFIED_DISABLED);
+		
+		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberStatus = :memberStatus AND " +
+				"memberType = :memberType order by idMember");
+		
+		query.setParameter("memberStatus", mStatus);
+		query.setParameter("memberType", memberType);
+		
+		return (List<Member>) query.list();
 	}
 }
