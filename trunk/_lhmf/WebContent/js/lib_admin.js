@@ -1,3 +1,5 @@
+var numberOfMember;
+
 (function(window, undefined){
 	var History = window.History;
 		$ = window.jQuery;
@@ -216,13 +218,12 @@
 						        	"<option value='0'> Normale </option>" +
 						        	"<option value='1'> Responsabile </option>" +
 						        	"<option value='3'> Fornitore </option>" +
-						        	"<option value='4'> Tutti </option>" +
 								 "</select>" +
 						        "<label for='page' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
 						        "<select name='page' id='page' class='field'>" +
 					        		"<option value='0'> ... </option>" +
 					        	"</select>" +
-					        	"<label for='itemsPerPage' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
+					        	"<label for='itemsPerPage' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>" +
 						        "<select name='itemsPerPage' id='itemsPerPage' class='field'>" +
 					        		"<option value='10'> 10 </option>" +
 					        		"<option value='25'> 25 </option>" +
@@ -306,9 +307,18 @@ function clickActMemberHandler(event){
 	var page = $('#page').val();
 	var itemsPerPage = $('#itemsPerPage').val();
 	
-	$.post("ajax/getMemberToActivate", {	memberType: memberType,
+	if(memberType == 3) {
+		//supplier
+		$.post("ajax/getSuppliersToActivate", {	page: page,
+												itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
+		
+	} else {
+		//normale o responsabile
+		$.post("ajax/getMembersToActivate", {	memberType: memberType,
 												page: page,
 												itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
+	}
+	
 	
 }
 
@@ -316,9 +326,19 @@ function clickMemberActivationHandler(event){
 	event.preventDefault();
 	
 	var form = $(this).parents('form');
-	var idMember = $('input', form).val();
+	var tmp = $('input', form).val().split(',');
+	var idMember = tmp[0];
+	var isSupplier = tmp[1];
 	
-	$.post("ajax/activeMember", {idMember: idMember}, postMemberActivationHandler);
+	if(isSupplier != 'true') {
+		//member
+		$.post("ajax/activeMember", {idMember: idMember}, postMemberActivationHandler);
+	} else {
+		//supplier
+		$.post("ajax/activeSupplier", {idMember: idMember}, postMemberActivationHandler);
+	}
+	
+	
 	
 }
 
@@ -335,21 +355,29 @@ function postMemberActivationHandler(result) {
 	}
 }
 
-function postMemberToActivateHandler(memberResult) {
+function postMemberToActivateHandler(result) {
 	
-	console.log("Ricevuto risultato lista membri da attivare");
+	console.log("Ricevuto risultato lista membri/suppliers da attivare");
 	
 	$("#errorDiv2").hide();
 	$("#errors2").html("");
 	
-	var data = memberResult;
+	var data = result;
 	
 	if(data.length <= 0) {
 	
 		$("#legendError2").html("");
 		$("#legendError2").append("Comunicazione");
 		
-		$("#errors2").append("Non ci sono membri da visualizzare<br /><br />");
+		var memberType = $('#memberType').val();
+		
+		if(memberType == 3) 
+			$("#errors2").append("Non ci sono Fornitori da visualizzare<br /><br />");
+		if(memberType == 1) 
+			$("#errors2").append("Non ci sono Responsabili  da visualizzare<br /><br />");
+		if(memberType == 0) 
+			$("#errors2").append("Non ci sono Membri  da visualizzare<br /><br />");
+		
 		
 		$("#errorDiv2").show("slow");
 		$("#errorDiv2").fadeIn(1000);
@@ -358,16 +386,16 @@ function postMemberToActivateHandler(memberResult) {
 		$("#memberList").hide();
 		
 		//Costruire le option delle pagine
+		var mtype = $('#memberType').val();
+		$.postSync("ajax/getNumberItemsToActivate", {memberType: mtype}, function(numberItems){ numberOfMember = numberItems; });
 		
 		//qui c'è il numero di pagine. Generare le options del pageSelect
 		var out = [];
 		var itemsPerPage = $('#itemsPerPage').val();
-		var npagine = Math.ceil(data.length / itemsPerPage);
+		var npagine = Math.ceil(numberOfMember / itemsPerPage);
 		
-		
-		
-		for(var i = 0; i < npagine; i++)
-			out.push('<option value="'+ i +'"> Pagina ' + i+1 + '</option>');
+		for(var i = 0; i < npagine;)
+			out.push('<option value="'+ i +'"> ' + (++i) + '</option>');
 		
 		$('#page').html(out.join(''));
 		
@@ -378,12 +406,23 @@ function postMemberToActivateHandler(memberResult) {
 							 "<th class='top' width='30%'> Tipo  </th>" +
 							 "<th class='top' width='20%'> Attiva  </th> </tr>");
 		
+		
+		
+		
 		$.each(data, function(index, val)
 		{
-			output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td>" +
+			if (typeof val.active === "undefined") {
+				//member
+				output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td>" +
 						val.memberType + "</td><td>" +
-						"<form method='post'><input type='hidden' value='" + val.idMember + "'/>" +
+						"<form method='post'><input type='hidden' value='" + val.idMember + ",false'/>" +
 						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
+			} else  {
+				//supplier
+				output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td> Fornitore </td><td>" +
+						"<form method='post'><input type='hidden' value='" + val.idMember + ",true'/>" +
+						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
+			}
 		});
 
 		
@@ -507,37 +546,37 @@ function clickRegHandler(event) {
 			
 			// Registrazione membro normale o responsabile
 			$.post("ajax/newMember", {	username: username,
-				firstname: firstname,
-				lastname: lastname,
-				email: email,
-				address: address,
-				city: city,
-				state: state,
-				cap: cap,
-				tel: tel,
-				mType: mType}, postRegHandler);
+										firstname: firstname,
+										lastname: lastname,
+										email: email,
+										address: address,
+										city: city,
+										state: state,
+										cap: cap,
+										tel: tel,
+										mType: mType}, postRegHandler);
 			
 		} else {
 			
 			// Registrazione Fornitore
 			
-			$.post("ajax/newMember", {	username: username,
-				firstname: firstname,
-				lastname: lastname,
-				email: email,
-				address: address,
-				city: city,
-				state: state,
-				cap: cap,
-				tel: tel,
-				mType: mType,
-				company: company,
-				description: description,
-				contactName: contactName,
-				fax: fax,
-				website: website,
-				payMethod: payMethod,
-				idResp: idResp}, postRegHandler);
+			$.post("ajax/newSupplier", {	username: username,
+											firstname: firstname,
+											lastname: lastname,
+											email: email,
+											address: address,
+											city: city,
+											state: state,
+											cap: cap,
+											tel: tel,
+											mType: mType,
+											company: company,
+											description: description,
+											contactName: contactName,
+											fax: fax,
+											website: website,
+											payMethod: payMethod,
+											idResp: idResp}, postRegHandler);
 			
 		}	
 	}
@@ -578,6 +617,7 @@ function postRegHandler(regResult) {
 function checkRespSelect() {
 	
 	var selected = $('#mtype').val();
+	$("#errorDiv").hide('slow');
 	
 	if(selected == 3) {
 		//Utente fornitore selezionato

@@ -9,6 +9,16 @@ $.postJSON = function(url, data, callback) {
     });
 };
 
+$.postSync = function(url, data, callback) {
+    return jQuery.ajax({
+    	'async': false,
+        'type': 'POST',
+        'url': url,
+        'data': data,
+        'success': callback
+    });
+};
+
 $.postJSONsync = function(url, data, callback) {
   return jQuery.ajax({
       'async': false,
