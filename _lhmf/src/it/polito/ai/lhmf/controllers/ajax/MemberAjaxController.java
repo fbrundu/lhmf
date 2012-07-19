@@ -100,7 +100,7 @@ public class MemberAjaxController
 			errors.add("Email: Formato non Valido");
 		} else {
 			
-			//Controllo email già in uso
+			//Controllo email giï¿½ in uso
 			
 			Member memberControl = memberInterface.getMemberByEmail(email);
 			boolean checkSupplier = true;
@@ -108,14 +108,14 @@ public class MemberAjaxController
 			if(memberControl != null)
 			{
 				checkSupplier = false;
-				errors.add("Email: Email già utilizzata da un altro account");
+				errors.add("Email: Email giï¿½ utilizzata da un altro account");
 			}
 						
 			if(checkSupplier) {
 				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
 				
 				if(supplierControl != null)
-					errors.add("Email: Email già utilizzata da un altro account");
+					errors.add("Email: Email giï¿½ utilizzata da un altro account");
 			}
 			
 		}
@@ -123,7 +123,7 @@ public class MemberAjaxController
 			errors.add("Indirizzo: Formato non Valido");
 		}
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
-			errors.add("Città: Formato non Valido");
+			errors.add("Cittï¿½: Formato non Valido");
 		}	
 		if(state.equals("") || CheckNumber.isNumeric(state)) {
 			errors.add("Stato: Formato non Valido");
@@ -206,7 +206,7 @@ public class MemberAjaxController
 				idMember = memberInterface.newMember(member);
 				
 				if(idMember < 1)
-					errors.add("Errore Interno: la registrazione non è andata a buon fine");
+					errors.add("Errore Interno: la registrazione non ï¿½ andata a buon fine");
 				else {
 					
 					//Inviare qui la mail con il codice di registrazione.
@@ -265,7 +265,7 @@ public class MemberAjaxController
 				idMember = supplierInterface.newSupplier(supplier);
 				
 				if(idMember < 1)
-					errors.add("Errore Interno: la registrazione non è andata a buon fine");
+					errors.add("Errore Interno: la registrazione non ï¿½ andata a buon fine");
 				else {
 					
 					//Inviare qui la mail con il codice di registrazione.
@@ -360,7 +360,7 @@ public class MemberAjaxController
 		
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/activeMember", method = RequestMethod.POST)
-	public Integer memberActivation(HttpServletRequest request,
+	public @ResponseBody Integer memberActivation(HttpServletRequest request,
 			@RequestParam(value = "idMember", required = true) Integer idMember)
 	{
 		Member member = memberInterface.getMember(idMember);
