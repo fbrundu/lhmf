@@ -40,8 +40,7 @@
     	  <ul>
     	    <li><a href='#tabs-1'>Aggiungi utente</a></li>
     	    <li><a href='#tabs-2'>Attiva utente</a></li>
-			<li><a href='#tabs-3'>Modifica utente</a></li>
-			<li><a href='#tabs-4'>Lista utenti</a></li>
+			<li><a href='#tabs-3'>Lista utenti</a></li>
 		  </ul>
 			<div id='tabs-1'>
 			
@@ -112,11 +111,6 @@
 			<div id='tabs-3'>
 			
 			<!-- Tab per la modifica di un utente -->
-			  Modifica utente
-			</div>
-			<div id='tabs-4'>
-			
-			<!-- Tab per la lista degli utenti -->
 			  Lista Utenti
 			</div>
 		</div>

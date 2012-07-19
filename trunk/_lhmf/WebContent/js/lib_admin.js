@@ -111,7 +111,7 @@
 										"<th class='top' width='50%'> Testo  </th> </tr>");
 				for(var i = 0; i < logList.length; i++){
 					var log = logList[i];
-					$("#logs").append("<tr><td>" + log.idLog +"<td>" + log.member.name + " " + log.member.surname + "<td>" + new Date(log.logTimestamp) + "<td>" + log.logtext + "</tr>");
+					$("#logs").append("<tr><td>" + log.idLog +"</td><td>" + log.member.name + " " + log.member.surname + "</td><td>" + new Date(log.logTimestamp) + "</td><td>" + log.logtext + "</td></tr>");
 		//			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
 		//					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
 				}
@@ -147,8 +147,10 @@
 	
 	function writeUserPage(tab){
 		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Attiva utente</a></li>" +
-				"<li><a href='#tabs-3'>Modifica utente</a></li><li><a href='#tabs-4'>Lista utenti</a></li></ul>" +
-				"<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div><div id='tabs-4'></div></div>");
+				"<li><a href='#tabs-3'>Lista utenti</a></li></ul>" +
+				"<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div></div>");
+		
+		// HTML per la registrazione utenti e fornitori
 		$('#tabs-1').html("<div class='registrazioneform' style='margin: 2em 0 0 65px;'>" +
 							"<form  id='regform' action='newMember' method='post'>" +
 							"<fieldset><legend>&nbsp;Dati per la Registrazione&nbsp;</legend><br />" +
@@ -203,9 +205,43 @@
 					        "<p><input type='submit' id='regRequest' class='button' value='Registra'/></p>" +
 					        "</form>" +
 					      "</div><p></p>");
-		$('#tabs-2').html("Attiva utente");
-		$('#tabs-3').html("Modifica utente");
-		$('#tabs-4').html("Lista Utenti");
+		
+		// TAB per attivazione utenti
+		
+		$('#tabs-2').html("<div class='logform'>" +
+						    "<form method='post' action=''>" +
+						      "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
+						        "<label for='memberType' class='left'>Tipo Membro: </label>" +
+						        "<select name='memberType' id='memberType' class='field'>" +
+						        	"<option value='0'> Normale </option>" +
+						        	"<option value='1'> Responsabile </option>" +
+						        	"<option value='3'> Fornitore </option>" +
+						        	"<option value='4'> Tutti </option>" +
+								 "</select>" +
+						        "<label for='page' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
+						        "<select name='page' id='page' class='field'>" +
+					        		"<option value='0'> ... </option>" +
+					        	"</select>" +
+					        	"<label for='itemsPerPage' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
+						        "<select name='itemsPerPage' id='itemsPerPage' class='field'>" +
+					        		"<option value='10'> 10 </option>" +
+					        		"<option value='25'> 25 </option>" +
+					        		"<option value='50'> 50 </option>" +
+					        	"</select>" +
+						      "</fieldset>" +
+						      "<button type='submit' id='memberToActiveRequest'> Visualizza </button>" +
+						    "</form>" +
+						    "<table id='memberList' class='log'></table>" +
+						  "</div>" +
+						  "<div id='errorDiv2' style='display:none;'>" +
+				        	"<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />" +
+					         "<div id='errors2' style='padding-left: 40px'>" +
+							  "</div>" +
+					        "</fieldset>" +
+				          "</div>");
+		
+		
+		$('#tabs-3').html("Lista Utenti");
 		prepareUserForm(tab);
 	}
 })(window);
@@ -221,6 +257,7 @@ function prepareLogForm(){
 		maxDate: 0
 		});
 	$('#max').datepicker("setDate", Date.now());
+	
 	$('#logsRequest').on("click", function(event){
 		event.preventDefault();
 		var startDate = $('#min').datepicker("getDate");
@@ -259,6 +296,106 @@ function prepareUserForm(tab){
 	$('#respFieldset').children().attr("disabled", "disabled");
 	
 	$('#regRequest').on("click", clickRegHandler);
+	
+	$('#memberToActiveRequest').on("click", clickActMemberHandler);
+}
+
+function clickActMemberHandler(event){
+	event.preventDefault();
+	var memberType = $('#memberType').val();
+	var page = $('#page').val();
+	var itemsPerPage = $('#itemsPerPage').val();
+	
+	$.post("ajax/getMemberToActivate", {	memberType: memberType,
+												page: page,
+												itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
+	
+}
+
+function clickMemberActivationHandler(event){
+	event.preventDefault();
+	
+	var form = $(this).parents('form');
+	var id = $('input', form).val();
+	
+	$.post("ajax/activeMember", id, postMemberActivationHandler);
+	
+}
+
+function postMemberActivationHandler(result) {
+	
+	if(result == 0) {
+		
+		//Errore nell'attivazione
+		
+	} else {
+		var trControl = "ActMember_" + result;
+		
+		$(trControl).hide("slow");
+	}
+}
+
+function postMemberToActivateHandler(memberResult) {
+	
+	console.log("Ricevuto risultato lista membri da attivare");
+	
+	$("#errorDiv2").hide();
+	$("#errors2").html("");
+	
+	var data = memberResult;
+	
+	if(data.length <= 0) {
+	
+		$("#legendError2").html("");
+		$("#legendError2").append("Comunicazione");
+		
+		$("#errors2").append("Non ci sono membri da visualizzare");
+		
+		$("#errorDiv").show("slow");
+		$("#errorDiv").fadeIn(1000);
+	} else {
+		
+		$("#memberList").hide();
+		
+		//Costruire le option delle pagine
+		
+		//qui c'è il numero di pagine. Generare le options del pageSelect
+		var out = [];
+		var itemsPerPage = $('#itemsPerPage').val();
+		var npagine = Math.ceil(data.length / itemsPerPage);
+		
+		
+		
+		for(var i = 0; i < npagine; i++)
+			out.push('<option value="'+ i +'"> Pagina ' + i+1 + '</option>');
+		
+		$('#page').html(out.join(''));
+		
+		//Costruzione tabella con utenti
+		var output = [];
+		output.push("	<tr>  <th class='top' width='10%'> ID </th>" +
+							 "<th class='top' width='40%'> Membro </th>" +
+							 "<th class='top' width='30%'> Tipo  </th>" +
+							 "<th class='top' width='20%'> Attiva  </th> </tr>");
+		
+		$.each(data, function(index, val)
+		{
+			output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td>" +
+						val.memberType + "</td><td>" +
+						"<form method='post'><input type='hidden' value='" + val.idMember + "'/>" +
+						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
+		});
+
+		
+		
+		$('#memberList').html(output.join(''));
+		
+		$.each(data, function(index, val)
+		{
+			$("#memberActivation_" + val.idMember).on("click", clickMemberActivationHandler);
+		});
+		$("#memberList").fadeIn(1000);
+	}
 }
 
 function clickRegHandler(event) {
@@ -445,7 +582,6 @@ function checkRespSelect() {
 	if(selected == 3) {
 		//Utente fornitore selezionato
 		
-		//TODO:Caricare qui la lista dei fornitori
 		$.post("ajax/getMembersRespString", function(data) {
 			
 			var output = [];
