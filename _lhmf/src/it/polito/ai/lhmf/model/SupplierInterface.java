@@ -131,4 +131,25 @@ public class SupplierInterface
 
 		return (Integer) query.executeUpdate();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Supplier> getSuppliersToActivate() {
+				
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Supplier where active = :active order by idMember");
+				
+		query.setParameter("active", false);
+		return (List<Supplier>) query.list();
+	}
+
+	@Transactional(readOnly = true)
+	public Long getNumberItemsToActivate() {
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Supplier where active = :active");
+				
+		query.setParameter("active", false);
+		return (Long) query.uniqueResult();
+	}
 }
