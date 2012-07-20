@@ -39,7 +39,7 @@ function loadAllActiveOrdersFromLocalStorage()
 	return JSON.parse(window.localStorage.getItem('activeOrdersList'));
 }
 
-function getActiveOrdersAsTableRows(ordersList, page, itemsPerPage)
+function getActiveOrdersAsTableRows(ordersList, respsList, suppliersList, page, itemsPerPage)
 {
 	var returnedTableString = "";
 	if (page < 1 || (page - 1) * itemsPerPage >= ordersList.length
@@ -55,15 +55,14 @@ function getActiveOrdersAsTableRows(ordersList, page, itemsPerPage)
 	    returnedTableString += "<tr>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
-	    //TODO: vedere come ritornare il membro responsabile
-	    returnedTableString += "<td>" + ordersList[orderIndex].idMemberResp + "</td>";
+	    returnedTableString += getRespAsTableRow(respsList, productsList[productIndex].idMemberResp);
 	    returnedTableString += getSupplierAsTableRow(suppliersList, productsList[productIndex].idMemberSupplier);
 	    returnedTableString += "</tr>";
 	}
 	return returnedTableString;
 }
 
-function getPastOrdersAsTableRows(ordersList, page, itemsPerPage)
+function getPastOrdersAsTableRows(ordersList, respsList, suppliersList, page, itemsPerPage)
 {
 	var returnedTableString = "";
 	if (page < 1 || (page - 1) * itemsPerPage >= ordersList.length
@@ -80,8 +79,7 @@ function getPastOrdersAsTableRows(ordersList, page, itemsPerPage)
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
 	    returnedTableString += "<td>" + ordersList[orderIndex].dateDelivery + "</td>";
-	    //TODO: vedere come ritornare il membro responsabile
-	    returnedTableString += "<td>" + ordersList[orderIndex].idMemberResp + "</td>";
+	    returnedTableString += getRespAsTableRow(respsList, productsList[productIndex].idMemberResp);
 	    returnedTableString += getSupplierAsTableRow(suppliersList, productsList[productIndex].idMemberSupplier);
 	    returnedTableString += "</tr>";
 	}
