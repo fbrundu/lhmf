@@ -39,7 +39,7 @@ function loadAllActivePurchasesFromLocalStorage()
 	return JSON.parse(window.localStorage.getItem('activePurchasesList'));
 }
 
-function getActiveOrdersAsRows(ordersList, idOrderIn)
+function getActiveOrdersAsRows(ordersList, respsList, suppliersList, idOrderIn)
 {
 	var returnedTableString = "";
 	if (ordersList == undefined || idOrderIn == undefined)
@@ -55,14 +55,14 @@ function getActiveOrdersAsRows(ordersList, idOrderIn)
 			returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
 			returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
 			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
-			//TODO: inserire anche il resp
+			returnedTableString += getRespAsTableRow(respsList, ordersList[orderIndex].idMemberResp);
 			returnedTableString += "</tr>";
 		}
 	}
 	return returnedTableString;
 }
 
-function getPastOrdersAsRows(ordersList, idOrderIn)
+function getPastOrdersAsRows(ordersList, respsList, suppliersList, idOrderIn)
 {
 	var returnedTableString = "";
 	if (ordersList == undefined || idOrderIn == undefined)
@@ -79,14 +79,14 @@ function getPastOrdersAsRows(ordersList, idOrderIn)
 			returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
 			returnedTableString += "<td>" + ordersList[orderIndex].dateDelivery + "</td>";
 			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
-			//TODO: inserire anche il resp
+			returnedTableString += getRespAsTableRow(respsList, ordersList[orderIndex].idMemberResp);
 			returnedTableString += "</tr>";
 		}
 	}
 	return returnedTableString;
 }
 
-function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
+function getPurchasesAsTableRows(purchasesList, respsList, orderList, page, itemsPerPage)
 {
 	var returnedTableString = "";
 	if (page < 1 || (page - 1) * itemsPerPage >= purchasesList.length
@@ -100,7 +100,7 @@ function getPurchasesAsTableRows(purchasesList, page, itemsPerPage)
       	&& purchaseIndex <= page * itemsPerPage; purchaseIndex++)
 	{
 	    returnedTableString += "<tr>";
-	    //TODO: vedere come ritornare il membro responsabile
+	    returnedTableString += getRespAsTableRow(respsList, ordersList[orderIndex].idMemberResp);
 	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idMember + "</td>";
 	    returnedTableString += getActiveOrdersAsRows(ordersList, purchasesList[purchaseIndex].idOrder);
 	    returnedTableString += getPastOrdersAsRows(ordersList, purchasesList[purchaseIndex].idOrder);

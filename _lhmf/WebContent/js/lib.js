@@ -82,3 +82,32 @@ function getSupplierAsTableRow(suppliersList, idSupplier)
   }
   return "";
 }
+
+function getAllResps()
+{
+	$.getJSONsync("ajax/getmembers", function(respsList)
+    {
+		window.sessionStorage.setItem('respsList', JSON.stringify(respsList));
+        console.debug("respsList saved in localstorage");
+    });
+}
+
+function loadAllRespsFromLocalStorage()
+{
+	return JSON.parse(window.sessionStorage.getItem('respsList'));
+}
+
+function getRespAsTableRow(respsList, idResp)
+{
+	if (respsList == undefined || idResp == undefined)
+	{
+		console.debug("Invalid parameters in " + displayFunctionName());
+		return "";
+	}
+	for ( var respIndex in respsList)
+	{
+		if (respsList[respIndex].idMember == idResp)
+			return "<td>" + respsList[respIndex].name + respsList[respIndex].surname + /*respsList[respIndex].idMember +*/ "</td>";
+  }
+  return "";
+}
