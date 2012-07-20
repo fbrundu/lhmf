@@ -43,8 +43,8 @@ public class MemberDeserializer extends JsonDeserializer<Member>
 			newMember.setUsername(node.get("username").getTextValue());
 			// newSupplier.setPassword(node.get("password").getTextValue());
 			// newSupplier.setRegCode(node.get("regCode").getTextValue());
-			// String regDateString = node.get("regDate").getTextValue();
-			// newSupplier.setRegDate(ISO8601DateParser.parse(regDateString));
+			String regDateString = node.get("regDate").getTextValue();
+			newMember.setRegDate(ISO8601DateParser.parse(regDateString));
 			newMember.setEmail(node.get("email").getTextValue());
 			newMember.setAddress(node.get("address").getTextValue());
 			newMember.setCity(node.get("city").getTextValue());

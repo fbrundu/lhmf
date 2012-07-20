@@ -32,8 +32,8 @@ public class SupplierSerializer extends JsonSerializer<Supplier>
 		jgen.writeStringField("username", value.getUsername());
 //		jgen.writeStringField("password", value.getPassword());
 //		jgen.writeStringField("regCode", value.getRegCode());
-//		jgen.writeFieldName("regDate");
-//		provider.defaultSerializeDateValue(value.getRegDate(), jgen);
+		jgen.writeFieldName("regDate");
+		provider.defaultSerializeDateValue(value.getRegDate(), jgen);
 		jgen.writeStringField("email", value.getEmail());
 		jgen.writeStringField("address", value.getAddress());
 		jgen.writeStringField("city", value.getCity());

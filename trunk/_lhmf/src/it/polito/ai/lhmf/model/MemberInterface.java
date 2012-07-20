@@ -178,4 +178,27 @@ public class MemberInterface
 		
 		return (Long) query.uniqueResult();
 	}
+
+	@Transactional(readOnly = true)
+	public Long getNumberItems(int memberType) {
+		
+		//Recupero il MemberStatus
+		MemberType mType = new MemberType(memberType);
+				
+		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberType = :memberType");
+		
+		query.setParameter("memberType", mType);
+		
+		return (Long) query.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembers(MemberType memberType) {
+				
+		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberType = :memberType order by idMember");
+		
+		query.setParameter("memberType", memberType);
+		return (List<Member>) query.list();
+	}
 }

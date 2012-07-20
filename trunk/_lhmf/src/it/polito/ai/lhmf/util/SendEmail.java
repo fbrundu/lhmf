@@ -53,23 +53,6 @@ public class SendEmail
       }
    }
    
-   public String getBodyForAuth(String firstname, String lastname, String regCode, int memberId, boolean fromAdmin) 
-   {
- 	  String link = "http://localhost:8080/_lhmf/authMail?id=" + memberId + "&regCode=" + regCode;
- 	  
- 	  if(fromAdmin)
- 		  link += "&a=1";
- 	  else
- 		 link += "&a=0";
- 	  
- 	  String body = "Gentile " + firstname + " " + lastname + ",\n\n"
- 					+ "Clicca il link in basso per verificare il tuo indirizzo di posta elettronica associato all'account GasProject.net:\n" 
- 					+ link + " \n\n"
- 					+ "Verificare il tuo indirizzo di posta elettronica ti permetterà di accedere a tutti i servizi del tuo account GasProject.net\n"
- 					+ "Se non hai effettuato nessuna registrazione presso GasProject.net ti preghiamo di ignorare questa mail.";
- 	  return body;
- }
-   
    public static boolean isValidEmailAddress(String email) {
 	   boolean result = true;
 	   
@@ -81,4 +64,66 @@ public class SendEmail
 	   }
 	   return result;
    }
+
+	public void sendAdminRegistration(	String contact, 
+										String username, 
+										String password, 
+										String regCode, 
+										Integer idMember, 
+										String email,
+										boolean isSupplier) {
+		
+		String subject = "Conferma mail per GasProject.net";
+		String id;
+		if(isSupplier) {
+			id = idMember + ":1:1";
+		} else {
+			id = idMember + ":0:1";
+		}
+		
+		String link = "http://localhost:8080/_lhmf/authMail?id=" + id + "&regCode=" + regCode;
+		  
+		
+		String body = "Gentile " + contact + ",\n\n"
+					+ "È stato creato un account in tuo nome. I dati di accesso sono i seguenti:\n" +
+					"Username:" + username + "\n" +
+					"Password:" + password + "\n\n" +
+					"Cliccando il link in basso potrai attivare il tuo account su GasProject.net:\n"
+					+ link + " \n\n"
+					+ "Attivare il tuo account ti permetterà di accedere a tutti i servizi ddo GasProject.net\n"
+					+ "Se non hai richiesto una registrazione o non vuoi utilizzare le funzionalità di GasProject.net \nti preghiamo di ignorare questa mail.\n\n" +
+					"GasProject.it Staff";
+	
+		SendEmail.send(email, subject, body);
+		
+	}
+	
+	public void sendNormalRegistration(	String contact,  
+										String regCode, 
+										Integer idMember, 
+										String email,
+										boolean isSupplier) {
+							
+		String subject = "Conferma mail per GasProject.net";
+		String id;
+		if(isSupplier) {
+		id = idMember + ":1:0";
+		} else {
+		id = idMember + ":0:0";
+		}
+		
+		String link = "http://localhost:8080/_lhmf/authMail?id=" + id + "&regCode=" + regCode;
+		
+		
+		String body = "Gentile " + contact + ",\n\n" +
+		"Hai eseguito la registrazione su GasProject.it:\n" +
+		"Clicca il link in basso per verificare il tuo indirizzo di posta elettronica associato all'account GasProject.net:\n" 
+		+ link + " \n\n"
+		+ "Verificare il tuo indirizzo di posta elettronica ti permetterà di accedere a tutti i servizi del tuo account GasProject.net\n"
+		+ "Se non hai effettuato nessuna registrazione presso GasProject.net ti preghiamo di ignorare questa mail.";
+		
+		SendEmail.send(email, subject, body);
+		
+	}
+
 }
