@@ -430,7 +430,7 @@ function postMemberListHandler(result) {
         $("#legendError3").html("");
         $("#legendError3").append("Comunicazione");
         
-        var memberType = $('#memberType').val();
+        var memberType = $('#memberType2').val();
         
         if(memberType == 3) 
             $("#errors3").append("Non ci sono Fornitori da visualizzare<br /><br />");
@@ -440,8 +440,8 @@ function postMemberListHandler(result) {
             $("#errors3").append("Non ci sono Membri  da visualizzare<br /><br />");
         
         
-        $("#errorDiv2").show("slow");
-        $("#errorDiv2").fadeIn(1000);
+        $("#errorDiv3").show("slow");
+        $("#errorDiv3").fadeIn(1000);
     } else {
         
         $("#memberList2").hide();
@@ -491,7 +491,7 @@ function postMemberListHandler(result) {
                 //member
                 output.push("<tr> <td>" + val.idMember +"</td>" +
                 		         "<td>" + val.name + " " + val.surname + "</td>" +
-                				 "<td>" + val.regDate + "</td>" +
+                				 "<td>" + new Date(val.regDate) + "</td>" +
                 				 "<td>" + val.email + "</td>" +
                 				 "<td>" + val.address + " " + val.cap+ ", " + val.city + " " + val.state + "</td>" +
                         		 "<td>" + val.tel + "</td></tr>");
