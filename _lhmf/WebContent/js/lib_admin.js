@@ -1,100 +1,107 @@
 var numberOfMember;
 
-(function(window, undefined){
+(function(window, undefined) {
 	var History = window.History;
-		$ = window.jQuery;
+	$ = window.jQuery;
 	var histEnabled = History.enabled;
-	if(!histEnabled)
+	if (!histEnabled)
 		console.log("HTML 5 History API is disabled!");
 	else
 		History.Adapter.bind(window, 'statechange', historyStateChanged);
 
-	$(function(){
+	$(function() {
 		$("#logLink").click(logClicked);
 		$("#userLink").click(userClicked);
-		
+
 		$.datepicker.setDefaults({
-			dateFormat: 'dd/mm/yy'
-			});
+			dateFormat : 'dd/mm/yy'
+		});
 		drawPageCallback();
 	});
-	
-	function historyStateChanged(){
+
+	function historyStateChanged() {
 		var History = window.History;
 		var state = History.getState();
 		var stateData = state.data;
-		if(!stateData)
+		if (!stateData)
 			showIndex();
-		switch(stateData.action){
-			case 'log': 
-						writeLogPage();
-						if(!!stateData.min && !!stateData.max){
-							$('#min').datepicker("setDate", new Date(stateData.min));
-							$('#max').datepicker("setDate", new Date(stateData.max));
-							showLogs(stateData.min, stateData.max);
-						}
-						else{
-							$('#min').datepicker("setDate", Date.now());
-							$('#max').datepicker("setDate", Date.now());
-						}
-						break;
-			case 'userMgmt':
-				switch(stateData.tab) {
-					case 1:
-						// Tab registrazione
-						
-						writeUserPage(1);
-						
-						/*if(!!stateData.username) {
-							
-							doRegistration(stateData);
-							
-						}*/
-						
-						break;
-					case 2:
-						// Tab 2
-						writeUserPage(2);
-						
-						break;
-					case 3:
-						//Tab 3
-						writeUserPage(3);
-						
-						break;
-					case 4:
-						writeUserPage(4);
-						break;
-				
-				}
-					writeUserPage();
-					break;
-			case 'null': break;
-			default: writeIndexPage();
+		switch (stateData.action) {
+		case 'log':
+			writeLogPage();
+			if (!!stateData.min && !!stateData.max) {
+				$('#min').datepicker("setDate", new Date(stateData.min));
+				$('#max').datepicker("setDate", new Date(stateData.max));
+				showLogs(stateData.min, stateData.max);
+			} else {
+				$('#min').datepicker("setDate", Date.now());
+				$('#max').datepicker("setDate", Date.now());
+			}
+			break;
+		case 'userMgmt':
+			switch (stateData.tab) {
+			case 1:
+				// Tab registrazione
+
+				writeUserPage(1);
+
+				/*
+				 * if(!!stateData.username) {
+				 * 
+				 * doRegistration(stateData);
+				 *  }
+				 */
+
+				break;
+			case 2:
+				// Tab 2
+				writeUserPage(2);
+
+				break;
+			case 3:
+				// Tab 3
+				writeUserPage(3);
+
+				break;
+			case 4:
+				writeUserPage(4);
+				break;
+
+			}
+			writeUserPage();
+			break;
+		case 'null':
+			break;
+		default:
+			writeIndexPage();
 		}
 	}
 
-	function logClicked(event){
-		if(histEnabled == true){
+	function logClicked(event) {
+		if (histEnabled == true) {
 			event.preventDefault();
 			var History = window.History;
 			var state = History.getState();
 			var stateData = state.data;
-			if(!! stateData && !! stateData.action && stateData.action == 'log')
+			if (!!stateData && !!stateData.action && stateData.action == 'log')
 				return;
-			History.pushState({action:'log'}, null, 'log');
+			History.pushState({
+				action : 'log'
+			}, null, 'log');
 		}
 	}
-	
-	function userClicked(event){
-		if(histEnabled == true){
+
+	function userClicked(event) {
+		if (histEnabled == true) {
 			event.preventDefault();
 			var History = window.History;
 			var state = History.getState();
 			var stateData = state.data;
-			if(!! stateData && !! stateData.action && stateData.action == 'userMgmt')
+			if (!!stateData && !!stateData.action
+					&& stateData.action == 'userMgmt')
 				return;
-			History.pushState({action:'userMgmt'}, null, 'userMgmt');
+			History.pushState({
+				action : 'userMgmt'
+			}, null, 'userMgmt');
 		}
 	}
 
@@ -113,9 +120,10 @@ var numberOfMember;
 										"<th class='top' width='50%'> Testo  </th> </tr>");
 				for(var i = 0; i < logList.length; i++){
 					var log = logList[i];
-					$("#logs").append("<tr><td>" + log.idLog +"</td><td>" + log.member.name + " " + log.member.surname + "</td><td>" + new Date(log.logTimestamp) + "</td><td>" + log.logtext + "</td></tr>");
-		//			console.log("Log id: " + log.idLog + ", log text: " + log.logtext + ", member name: " + log.member.name + 
-		//					", member surname: " + log.member.surname + ", log timestamp: " + new Date(log.logTimestamp));
+					$("#logs").append("<tr> <td>" + log.idLog +"</td>" +
+							               "<td>" + log.member.name + " " + log.member.surname + "</td>" +
+							               "<td>" + new Date(log.logTimestamp) + "</td>" +
+							               "<td>" + log.logtext + "</td></tr>");
 				}
 			}
 			$("#logs").fadeIn(1000);
@@ -212,7 +220,7 @@ var numberOfMember;
 		
 		$('#tabs-2').html("<div class='logform'>" +
 						    "<form method='post' action=''>" +
-						      "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
+						      "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />" +
 						        "<label for='memberType' class='left'>Tipo Membro: </label>" +
 						        "<select name='memberType' id='memberType' class='field'>" +
 						        	"<option value='0'> Normale </option>" +
@@ -242,7 +250,36 @@ var numberOfMember;
 				          "</div>");
 		
 		
-		$('#tabs-3').html("Lista Utenti");
+		$('#tabs-3').html("<div class='logform'>" +
+                                "<form method='post' action=''>" +
+                                "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />" +
+                                  "<label for='memberType2' class='left'>Tipo Membro: </label>" +
+                                  "<select name='memberType2' id='memberType2' class='field'>" +
+                                      "<option value='0'> Normale </option>" +
+                                      "<option value='1'> Responsabile </option>" +
+                                      "<option value='3'> Fornitore </option>" +
+                                   "</select>" +
+                                  "<label for='page2' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
+                                  "<select name='page2' id='page2' class='field'>" +
+                                      "<option value='0'> ... </option>" +
+                                  "</select>" +
+                                  "<label for='itemsPerPage2' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>" +
+                                  "<select name='itemsPerPage2' id='itemsPerPage2' class='field'>" +
+                                      "<option value='10'> 10 </option>" +
+                                      "<option value='25'> 25 </option>" +
+                                      "<option value='50'> 50 </option>" +
+                                  "</select>" +
+                                "</fieldset>" +
+                                "<button type='submit' id='getList'> Visualizza </button>" +
+                              "</form>" +
+                              "<table id='memberList2' class='log'></table>" +
+                                "<div id='errorDiv3' style='display:none;'>" +
+                                  "<fieldset><legend id='legendError3'>&nbsp;Errore&nbsp;</legend><br />" +
+                                   "<div id='errors3' style='padding-left: 40px'>" +
+                                    "</div>" +
+                                  "</fieldset>" +
+                                "</div><br />" +
+                            "</div>");
 		prepareUserForm(tab);
 	}
 })(window);
@@ -299,7 +336,31 @@ function prepareUserForm(tab){
 	$('#regRequest').on("click", clickRegHandler);
 	
 	$('#memberToActiveRequest').on("click", clickActMemberHandler);
+	
+	$('#getList').on("click", clickGetMemberHandler);
 }
+
+function clickGetMemberHandler(event) {
+    event.preventDefault();
+    var memberType = $('#memberType2').val();
+    var page = $('#page2').val();
+    var itemsPerPage = $('#itemsPerPage2').val();
+    
+
+    if(memberType == 3) {
+        //supplier
+        $.post("ajax/getSuppliersList", { page: page,
+                                                itemsPerPage: itemsPerPage }, postMemberListHandler);
+        
+    } else {
+        //normale o responsabile
+        $.post("ajax/getMembersList", {   memberType: memberType,
+                                                page: page,
+                                                itemsPerPage: itemsPerPage }, postMemberListHandler);
+    }
+    
+}
+
 
 function clickActMemberHandler(event){
 	event.preventDefault();
@@ -355,6 +416,103 @@ function postMemberActivationHandler(result) {
 	}
 }
 
+function postMemberListHandler(result) {
+    
+    console.log("Ricevuto risultato lista membri/suppliers");
+    
+    $("#errorDiv3").hide();
+    $("#errors3").html("");
+    
+    var data = result;
+    
+    if(data.length <= 0) {
+        
+        $("#legendError3").html("");
+        $("#legendError3").append("Comunicazione");
+        
+        var memberType = $('#memberType').val();
+        
+        if(memberType == 3) 
+            $("#errors3").append("Non ci sono Fornitori da visualizzare<br /><br />");
+        if(memberType == 1) 
+            $("#errors3").append("Non ci sono Responsabili  da visualizzare<br /><br />");
+        if(memberType == 0) 
+            $("#errors3").append("Non ci sono Membri  da visualizzare<br /><br />");
+        
+        
+        $("#errorDiv2").show("slow");
+        $("#errorDiv2").fadeIn(1000);
+    } else {
+        
+        $("#memberList2").hide();
+        
+        //Costruire le option delle pagine
+        var mtype = $('#memberType2').val();
+        $.postSync("ajax/getNumberItems", {memberType: mtype}, function(numberItems){ numberOfMember = numberItems; });
+        
+        //qui c'è il numero di pagine. Generare le options del pageSelect
+        var out = [];
+        var itemsPerPage = $('#itemsPerPage2').val();
+        var npagine = Math.ceil(numberOfMember / itemsPerPage);
+        
+        for(var i = 0; i < npagine;)
+            out.push('<option value="'+ i +'"> ' + (++i) + '</option>');
+        
+        $('#page2').html(out.join(''));
+        
+        //Costruzione tabella con utenti
+        var output = [];
+        
+        if (typeof data[0].active === "undefined") {
+            //member
+            output.push("   <tr>  <th class='top' width='10%'> ID </th>" +
+                                 "<th class='top' width='25%'> Membro </th>" +
+                                 "<th class='top' width='20%'> Data Iscrizione </th>" +
+                                 "<th class='top' width='20%'> Email  </th>" +
+                                 "<th class='top' width='25%'> Address  </th>" +
+                                 "<th class='top' width='10%'> Tel  </th> </tr>");
+        } else  {
+            //supplier
+            output.push("   <tr>  <th class='top' width='5%'> ID </th>" +
+                                 "<th class='top' width='15%'> Compagnia  </th>" +
+                                 "<th class='top' width='15%'> Email  </th>" +
+                                 "<th class='top' width='20%'> Address  </th>" +
+                                 "<th class='top' width='10%'> Tel  </th>" +
+                                 "<th class='top' width='10%'> Contatto  </th>" +
+                                 "<th class='top' width='10%'> Fax  </th>" +
+                                 "<th class='top' width='15%'> WebSite  </th>" +
+                                 " </tr>");
+        }
+        
+        
+        $.each(data, function(index, val)
+        {
+            if (typeof val.active === "undefined") {
+                //member
+                output.push("<tr> <td>" + val.idMember +"</td>" +
+                		         "<td>" + val.name + " " + val.surname + "</td>" +
+                				 "<td>" + val.regDate + "</td>" +
+                				 "<td>" + val.email + "</td>" +
+                				 "<td>" + val.address + " " + val.cap+ ", " + val.city + " " + val.state + "</td>" +
+                        		 "<td>" + val.tel + "</td></tr>");
+            } else  {
+                //supplier
+                output.push("<tr> <td>" + val.idMember +"</td>" +
+                                 "<td>" + val.companyName + "</td>" +
+                                 "<td>" + val.email + "</td>" +
+                                 "<td>" + val.address + " " + val.cap+ ", " + val.city + " " + val.state + "</td>" +
+                                 "<td>" + val.tel + "</td>" +
+                                 "<td>" + val.contactName + "</td>" +
+                                 "<td>" + val.fax + "</td>" +
+                                 "<td>" + val.website + "</td></tr>");
+            }
+        });
+
+        $('#memberList2').html(output.join(''));
+        $("#memberList2").fadeIn(1000);
+    }
+    
+}
 function postMemberToActivateHandler(result) {
 	
 	console.log("Ricevuto risultato lista membri/suppliers da attivare");

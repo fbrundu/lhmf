@@ -61,8 +61,7 @@ public class SupplierInterface
 	@Transactional(readOnly = true)
 	public List<Supplier> getSuppliers()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Supplier")
-				.list();
+		return sessionFactory.getCurrentSession().createQuery("from Supplier order by idMember").list();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -150,6 +149,15 @@ public class SupplierInterface
 				"select count(*) from Supplier where active = :active");
 				
 		query.setParameter("active", false);
+		return (Long) query.uniqueResult();
+	}
+
+	@Transactional(readOnly = true)
+	public Long getNumberItems() {
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Supplier");
+				
 		return (Long) query.uniqueResult();
 	}
 }

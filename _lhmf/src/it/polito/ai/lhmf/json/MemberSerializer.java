@@ -28,10 +28,8 @@ public class MemberSerializer extends JsonSerializer<Member>
 		jgen.writeStringField("name", value.getName());
 		jgen.writeStringField("surname", value.getSurname());
 		jgen.writeStringField("username", value.getUsername());
-		// FIXME E' utile? questo campo può essere richiesto solo dall'admin
-		// credo; nel caso serva lo rimettiamo
-		// jgen.writeFieldName("regDate");
-		// provider.defaultSerializeDateValue(value.getRegDate(), jgen);
+		jgen.writeFieldName("regDate");
+		provider.defaultSerializeDateValue(value.getRegDate(), jgen);
 		jgen.writeStringField("email", value.getEmail());
 		jgen.writeStringField("address", value.getAddress());
 		jgen.writeStringField("city", value.getCity());

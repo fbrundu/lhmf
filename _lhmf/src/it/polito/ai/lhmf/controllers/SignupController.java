@@ -303,15 +303,13 @@ public class SignupController
 			int memberId = memberInterface.newMember(member);
 			
 			if(checkMail) {
-				//Inviare qui la mail con il codice di registrazione.
+				
+				//Inviare qui la mail con il codice di registrazione. 
+				/*
 				SendEmail emailer = new SendEmail();
-				
-				boolean fromAdmin = false;
-				
-				String mailTo = email;
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
-				SendEmail.send(mailTo, subject, body);	
+				boolean isSupplier = false;
+				emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
+				*/
 			} 
 			
 			//Mandare messaggio all'admin
@@ -338,7 +336,6 @@ public class SignupController
 			try {
 				messageInterface.newMessage(message);
 			} catch (InvalidParametersException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -551,14 +548,13 @@ public class SignupController
 			int memberId = memberInterface.newMember(member);
 			
 			if(checkMail) {
-				//Inviare qui la mail con il codice di registrazione.
-				SendEmail emailer = new SendEmail();
-				boolean fromAdmin = false;
 				
-				String mailTo = email;
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
-				SendEmail.send(mailTo, subject, body);	
+				//Inviare qui la mail con il codice di registrazione. 
+				/*
+				SendEmail emailer = new SendEmail();
+				boolean isSupplier = false;
+				emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
+				*/
 			}
 			
 			//Mandare messaggio all'admin
@@ -585,7 +581,6 @@ public class SignupController
 			try {
 				messageInterface.newMessage(message);
 			} catch (InvalidParametersException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -821,21 +816,17 @@ public class SignupController
 				memberId = memberInterface.newMember(member);
 				
 			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			//Inviare qui la mail con il codice di registrazione.
-			/*SendEmail emailer = new SendEmail();
-			boolean fromAdmin = false;
-			
-			String mailTo = email;
-			String subject = "Conferma mail per GasProject.net";
-			String body = emailer.getBodyForAuth(firstname, lastname, regCode, memberId, fromAdmin);
-			SendEmail.send(mailTo, subject, body);	*/	
+			//Inviare qui la mail con il codice di registrazione. 
+			/*
+			SendEmail emailer = new SendEmail();
+			boolean isSupplier = false;
+			emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
+			*/
 			
 					
 			
@@ -848,94 +839,165 @@ public class SignupController
 	
 	@RequestMapping(value ="/authMail", method = RequestMethod.GET)
 	public ModelAndView authMail( Model model,
-			@RequestParam(value = "id", required = true) int id,
-			@RequestParam(value = "regCode", required = true) String regCode,
-			@RequestParam(value = "a", required = true) boolean fromAdmin)
+			@RequestParam(value = "id", required = true) String id,
+			@RequestParam(value = "regCode", required = true) String regCode)
 	{
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
-		Member member = memberInterface.getMember(id);
+		String temp[] = id.split(":");
 		
-		if(member == null) {
+		int idMember = Integer.parseInt(temp[0]);
+		
+		boolean isSupplier;
+		if(Integer.parseInt(temp[1]) == 1) 
+			isSupplier = true;
+		else
+			isSupplier = false;
+		
+		boolean fromAdmin;
+		if(Integer.parseInt(temp[2]) == 1)
+			fromAdmin = true;
+		else
+			fromAdmin = false;
+		
+		if(isSupplier) {
 			
-			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Account");
-			error.put("error", "Account non esistente");
-			errors.add(error);
+			Supplier supplier = supplierInterface.getSupplier(idMember);
 			
-		} else if(!member.getRegCode().equals(regCode)) {
-			
-				Map<String, String> error = new HashMap<String, String>();
-				error.put("id", "Code");
-				error.put("error", "Codice non corretto");
-				errors.add(error);
-			
-		} else {
-			
-			//Account esistente e codice corretto.
-			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
-			member.setMemberStatus(mStatus);
-			
-			model.addAttribute("firstname", member.getName());
-			
-			try {
-				memberInterface.updateMember(member);
-			} catch (InvalidParametersException e) {
+			if(supplier == null) {
 				
 				Map<String, String> error = new HashMap<String, String>();
-				error.put("id", "InternalError");
-				error.put("error", "Non è stato possibile verificare l'email.");
+				error.put("id", "Account");
+				error.put("error", "Account non esistente");
 				errors.add(error);
-			}
+				
+			} else if(!supplier.getRegCode().equals(regCode)) {
+				
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "Code");
+					error.put("error", "Codice non corretto");
+					errors.add(error);
+				
+			} else {
+				
+				//Account esistente e codice corretto.
+				boolean active = true;
+				supplier.setActive(active);
+				
+				model.addAttribute("firstname", supplier.getName());
+				
+				try {
+					supplierInterface.updateSupplier(supplier);
+				} catch (InvalidParametersException e) {
+					
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "InternalError");
+					error.put("error", "Non è stato possibile verificare l'email.");
+					errors.add(error);
+				}	
+			}		
+		} else {
 			
+			Member member = memberInterface.getMember(id);
+			
+			if(member == null) {
+				
+				Map<String, String> error = new HashMap<String, String>();
+				error.put("id", "Account");
+				error.put("error", "Account non esistente");
+				errors.add(error);
+				
+			} else if(!member.getRegCode().equals(regCode)) {
+				
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "Code");
+					error.put("error", "Codice non corretto");
+					errors.add(error);
+				
+			} else {
+				
+				//Account esistente e codice corretto.
+				MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				member.setMemberStatus(mStatus);
+				
+				model.addAttribute("firstname", member.getName());
+				
+				try {
+					memberInterface.updateMember(member);
+				} catch (InvalidParametersException e) {
+					
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "InternalError");
+					error.put("error", "Non è stato possibile verificare l'email.");
+					errors.add(error);
+				}
+				
+			}
 		}
 		
 		// Ci sono errori, rimandare alla pagina mostrandoli
-		if(errors.size() > 0) {
-			model.addAttribute("errors", errors);
-			model.addAttribute("authFailed", true);
+		if(errors.size() <= 0) {
 			
+			if(fromAdmin) {
+				
+				// AutoAttivare l'account. Supplier e modificato automaticamente 
+				
+				if(!isSupplier) {
+					
+					Member member = memberInterface.getMember(idMember);
+					
+					MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+					member.setMemberStatus(mStatus);
+					
+					int result;
+					try {
+						result = memberInterface.updateMember(member);
+					} catch (InvalidParametersException e) {
+						result = 0;
+						e.printStackTrace();
+					}
+					
+					if(result == 0) {
+						Map<String, String> error = new HashMap<String, String>();
+						error.put("id", "Attivazione");
+						error.put("error", "L'email è stata verificata ma richiede ancora l'attivazione da parte di un admin.");
+						errors.add(error);
+					}
+				}
+				
+			} else {
+				
+				//Mandare messaggio all'admin
+				
+				//Ricavo il membro Admin
+				Member memberAdmin = memberInterface.getMemberAdmin();
+				Member member = memberInterface.getMember(idMember);
+				
+				//Creo il Current timestamp
+				Calendar calendar = Calendar.getInstance();
+				java.util.Date now = calendar.getTime();
+				java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+				
+				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+								"Email: " + member.getEmail() + "\n";  
+				
+				//Costruisco l'oggetto message	
+				Message message = new Message();
+				
+				message.setMemberByIdSender(member);
+				message.setMemberByIdReceiver(memberAdmin);
+				message.setMessageTimestamp(currentTimestamp);
+				message.setText(text);
+				
+				try {
+					messageInterface.newMessage(message);
+				} catch (InvalidParametersException e) {
+					e.printStackTrace();
+				}
+				
+			}		
 		}
-		
-		if(!fromAdmin) {
-			
-			//Mandare messaggio all'admin
-			
-			//Ricavo il membro Admin
-			Member memberAdmin = memberInterface.getMemberAdmin();
-			
-			//Creo il Current timestamp
-			Calendar calendar = Calendar.getInstance();
-			java.util.Date now = calendar.getTime();
-			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-			
-			String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-							"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-							"Email: " + member.getEmail() + "\n";  
-			
-			//Costruisco l'oggetto message	
-			Message message = new Message();
-			
-			message.setMemberByIdSender(member);
-			message.setMemberByIdReceiver(memberAdmin);
-			message.setMessageTimestamp(currentTimestamp);
-			message.setText(text);
-			
-			try {
-				messageInterface.newMessage(message);
-			} catch (InvalidParametersException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} else
-		{
-			//TODO: Aggiornare direttamente l'account. Qui l'utente ha accettato una registrazione
-			// fatta direttamente dall'admin. Non c'è bisogno di avvisarlo ma procedere direttamente
-			// all'attivazione.
-		}
-		
-		
 		
 		
 		return new ModelAndView("/authMail_confirmed");

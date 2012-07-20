@@ -7,8 +7,11 @@ import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 import it.polito.ai.lhmf.util.CheckNumber;
+import it.polito.ai.lhmf.util.CreateMD5;
 import it.polito.ai.lhmf.util.SendEmail;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -178,43 +181,48 @@ public class SupplierAjaxController
 			
 			// Creo un nuovo fornitore
 			
-			//TODO: implementare generazione password
+			String alfaString = Long.toHexString(Double.doubleToLongBits(Math.random()));
+			String password = alfaString.substring(4, 12);
 			
-			byte mt = 0;
-			
-			Supplier supplier = new Supplier(memberResp, firstname, lastname, username, "password", regCode, regDate, email, address, city, state, capNumeric, false, mt, payMethod);
-							
-				if(!phone.equals("") && !phone.equals("not set")) 
-					supplier.setTel(phone);
-				if(!company.equals("")) 
-					supplier.setCompanyName(company);
-				if(!description.equals("")) 
-					supplier.setDescription(description);
-				if(!contactName.equals("")) 
-					supplier.setContactName(contactName);
-				if(!fax.equals("")) 
-					supplier.setFax(fax);
-				if(!website.equals("")) 
-					supplier.setWebsite(website);
-				if(!payMethod.equals("")) 
-					supplier.setPaymentMethod(payMethod);
-			
-			idMember = supplierInterface.newSupplier(supplier);
-			
-			if(idMember < 1)
-				errors.add("Errore Interno: la registrazione non � andata a buon fine");
-			else {
+			try {
+				String md5Password = CreateMD5.MD5(password);
 				
-				//Inviare qui la mail con il codice di registrazione.
-				/*SendEmail emailer = new SendEmail();
+				byte mt = 0;
 				
-				boolean fromAdmin = true;
+				Supplier supplier = new Supplier(memberResp, firstname, lastname, username, md5Password, regCode, regDate, email, address, city, state, capNumeric, false, mt, payMethod);
+								
+					if(!phone.equals("") && !phone.equals("not set")) 
+						supplier.setTel(phone);
+					if(!company.equals("")) 
+						supplier.setCompanyName(company);
+					if(!description.equals("")) 
+						supplier.setDescription(description);
+					if(!contactName.equals("")) 
+						supplier.setContactName(contactName);
+					if(!fax.equals("")) 
+						supplier.setFax(fax);
+					if(!website.equals("")) 
+						supplier.setWebsite(website);
+					if(!payMethod.equals("")) 
+						supplier.setPaymentMethod(payMethod);
 				
-				String mailTo = member.getEmail();
-				String subject = "Conferma mail per GasProject.net";
-				String body = emailer.getBodyForAuth(member.getName(), member.getSurname(), regCode, idMember, fromAdmin);
-				SendEmail.send(mailTo, subject, body);	*/
+				idMember = supplierInterface.newSupplier(supplier);
 				
+				if(idMember < 1)
+					errors.add("Errore Interno: la registrazione non � andata a buon fine");
+				else {
+					
+					//Inviare qui la mail con il codice di registrazione e la password generata
+					/*
+					SendEmail emailer = new SendEmail();
+					boolean isSupplier = true;
+					emailer.sendAdminRegistration(firstname + " " + lastname, username, password, regCode, idMember, email, isSupplier);
+					*/
+				}	
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
 			}
 		}
 		return errors;
@@ -272,6 +280,30 @@ public class SupplierAjaxController
 		List<Supplier> supplierList = null;
 		
 		supplierList = supplierInterface.getSuppliersToActivate();
+		
+		List<Supplier> returnList = new ArrayList<Supplier>();
+		
+		int startIndex = page * itemsPerPage;
+		int endIndex = startIndex + itemsPerPage;
+		
+		if(endIndex > supplierList.size())
+			endIndex = supplierList.size();
+		
+		returnList.addAll(supplierList.subList(startIndex, endIndex));
+		
+		return returnList;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/getSuppliersList", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Supplier> getSuppliersList(HttpServletRequest request,
+			@RequestParam(value = "page", required = true) int page,
+			@RequestParam(value = "itemsPerPage", required = true) int itemsPerPage)
+	{
+		List<Supplier> supplierList = null;
+		
+		supplierList = supplierInterface.getSuppliers();
 		
 		List<Supplier> returnList = new ArrayList<Supplier>();
 		
