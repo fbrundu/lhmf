@@ -17,12 +17,16 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.sax.TextElementListener;
+import android.view.Window;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -34,6 +38,8 @@ public class AndroidGASActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        requestWindowFeature(Window.FEATURE_PROGRESS);
         //setContentView(R.layout.main);
         Context ctx = getApplicationContext();
         SQLiteOpenHelper repositoryHelper = new SQLiteConnectionRepositoryHelper(ctx);
@@ -45,7 +51,7 @@ public class AndroidGASActivity extends Activity {
         
         final ConnectionRepository repo = new SQLiteConnectionRepository(repositoryHelper, connectionFactoryRegistry, enc);
         
-        String redirectUri = "http://10.0.2.2:8080/_lhmf/";
+        String redirectUri = "http://192.168.0.2:8080/_lhmf/";
         OAuth2Parameters params = new OAuth2Parameters();
         params.setRedirectUri(redirectUri);
         
@@ -58,6 +64,8 @@ public class AndroidGASActivity extends Activity {
         	
         	@Override
         	public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        		setTitle(url);
+        		
         		Uri uri = Uri.parse(url);
 
         		String uriFragment = uri.getFragment();
@@ -79,6 +87,11 @@ public class AndroidGASActivity extends Activity {
 		
 						try {
 							repo.addConnection(connection);
+							if(!isServiceRunning()){
+								Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
+								startService(intent);
+							}
+								
 						} catch (DuplicateConnectionException e) {
 						// connection already exists in repository!
 						}
@@ -87,9 +100,6 @@ public class AndroidGASActivity extends Activity {
 	        		}
 	        		
 	        		//Uscire dalla webview
-	        		
-	        		/* Esempio: ottenere le api dal repo (che sarà nel contesto applicativo) */
-	        		Gas api = repo.findPrimaryConnection(Gas.class).getApi();
         		}
         		else if (uri.getQueryParameter("error") != null) {
 	        		CharSequence errorReason = uri.getQueryParameter("error_description").replace("+", " ");
@@ -98,8 +108,26 @@ public class AndroidGASActivity extends Activity {
         		}
         	}
         });
+        
+        wv.setWebChromeClient(new WebChromeClient(){
+        	@Override
+        	public void onProgressChanged(WebView view, int newProgress) {
+        		setProgress(newProgress * 100);
+        	}
+        });
+        
         setContentView(wv);
         
         wv.loadUrl(authorizeUrl); 
     }
+    
+    private boolean isServiceRunning() {
+	    ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+	    for (RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (GasNetworkService.class.getName().equals(serviceInfo.service.getClassName())) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 }
