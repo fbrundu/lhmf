@@ -1,0 +1,268 @@
+/* -----
+	Author:			Mohammed Munawar Ahmed
+	Company:		Mobifreaks.com
+	Company URL:	http://www.mobifreaks.com
+	Mail Us:		support@mobifreaks.com 
+	License:		Creative Commons 3.0 Unported
+	License URL:	http://creativecommons.org/licenses/by/3.0/
+	
+	Attribution Required:
+	User should provide backlink to mobifreaks.com / source page from which you downloaded this mobile template [or] keep the link the text "Design by mobifreaks.com" on the footer
+	NOTE: no follow, no index back link will not be considered as a healthy back link. link should be clickable.
+----- */
+
+/* -----
+reset
+----- */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,select,p,blockquote,th,td,*{
+	margin:0;
+	padding:0;
+}
+table{
+	border-collapse:collapse;
+	border-spacing:0;
+}
+fieldset,img{
+	border:0;
+}
+address,button,caption,cite,code,dfn,em,input,optgroup,option,select,strong,textarea,th,var{
+	font:inherit;
+}
+del,ins{
+	text-decoration:none;
+}
+li{
+	list-style:none;
+}
+caption,th{
+	text-align:left;
+}
+h1,h2,h3,h4,h5,h6{
+	font-size:100%;
+	font-weight:normal;
+}
+q:before,q:after{
+	content:'';
+}
+abbr,acronym{
+	border:0;
+	font-variant:normal;
+}
+sup,sub{
+	vertical-align:baseline;
+}
+legend{
+	color:#000000;
+}
+a{
+	color:#0079ce;
+	text-decoration:none;
+}
+/*
+additional
+*/
+.clear{
+	clear:both;
+}
+/* ----- Main Class's ----- */
+.header,
+.footer {
+	border-bottom:1px solid #eeeeee;
+	background:#E8E8E8;
+}
+.header,
+.content,
+.footer,
+.nav{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:.85em;
+}
+/* ----- Header ----- */
+.logo{
+	display:inline-block;
+	padding:5px;
+	margin-left:5px;
+	background:#E8E8E8;
+}
+/* ----- Menu ----- */
+.header button{
+	cursor:pointer;
+	padding:5px;
+	-moz-border-radius:.3em;
+	-webkit-border-radius:.3em;
+	border-radius:.3em;
+	margin:5px 10px 5px 0;
+	border:none;
+	color:#aaaaaa;
+	border:1px solid #eeeeee;
+	background:#ffffff;
+}
+.nav{
+	text-align:center;
+	background:#f9f9f9;
+}
+.nav ul{
+}
+.nav li{
+	text-transform:capitalize;
+	display:block;
+	border-bottom:1px dotted #eeeeee;
+}
+.nav a{
+	display:block;
+	padding:10px;
+	color:#7d7d7d;
+}
+.nav a:hover{
+	background:#ffffff;
+	color:#0079ce;
+}
+/* ----- Content ----- */
+.blog{
+	padding:10px;
+	border-bottom:2px solid #eeeeee;
+	padding:10px;
+	background:#ffffff;
+}
+.blog h2{
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:1.2em;
+}
+.blog h2 a{
+	color:#0079ce;
+}
+.blog-img{
+	text-align:center;
+	margin:0 auto;
+	padding:10px 0 5px 0;
+}
+.blog-content{
+	color:#2d2d2d;
+}
+.blog-content h3{
+	padding:5px 0;
+}
+.blog-content code{
+	overflow:hidden;
+	font-family: "Courier New", Courier, monospace; 
+	display:block;
+	margin:10px;
+	padding:10px;
+	-moz-border-radius:0.5em;
+	-webkit-border-radius:0.5em;
+	border-radius:0.5em;
+}
+.dark{
+	background:#2d2d2d;
+	color:#dddddd;
+}
+.light{
+	background:#f9f9f9;
+	color:#2d2d2d;
+	border:1px solid #dddddd;
+}
+.blog-content p{
+	padding:5px 0;
+}
+.blog-content p,
+.blog-content ul,
+.blog-content ol,
+.blog-content code,
+.blog-content dl{
+	line-height:1.8em;
+}
+.blog-content dt{
+	font-weight:bold;
+	text-decoration:underline;
+	padding-left:10px;
+}
+.blog-content dd{
+	padding-left:30px;
+}
+.blog-content ul,
+.blog-content ol{
+	margin:10px 10px 10px 30px;
+}
+.blog-content ul{
+	list-style:disc;
+}
+.blog-content blockquote{
+	background:url(../images/blockquote-down.png) no-repeat;
+	margin:5px 0;
+	color:#5d5d5d;
+	border-top:1px solid #eeeeee; 
+	border-bottom:1px solid #eeeeee; 
+}
+.blog-content blockquote p{
+	background:url(../images/blockquote-up.png) no-repeat bottom right;
+	font-style:italic;
+	padding:10px 40px;
+}/* ----- Footer ----- */
+.footer{
+	background:#f9f9f9;
+}
+.footer a{
+	display:inline-block;
+}
+.footer p{
+	color:#1d1d1d;
+	padding:5px;
+}
+.author a{
+	display:inline-block;
+	color:#004b7f;
+}
+.author a:hover{
+}
+.author{
+	font-family:Arial, Helvetica, sans-serif;
+	border-top:1px solid #eeeeee;
+	text-align:right;
+	font-size:12px;
+	padding:10px;
+}
+/* pagination */
+.pagination{
+	font-size:12px;
+	display:block;
+	margin:10px 0 10px 10px;
+}
+.pagination li{
+	display:inline-block;
+	margin:0 0 0 5px;
+}
+.pagination a{
+	display:block;
+	padding:5px 10px;
+	color:#ffffff;
+	-moz-border-radius:.3em;
+	-webkit-border-radius:.3em;
+	border-radius:.3em;
+	background:#0079ce;
+}
+.pagination a:hover{
+	background:#008ef1;
+}
+.pagination .current a{
+	color:#0079ce;
+	background:none;
+}
+.pagination .current a:hover{
+	color:#008ef1;
+}
+.pagination img{
+	display:inline-block;
+}
+
+.loginform {margin:10px; padding:10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
+.loginform fieldset {padding:10px; margin:5px; border:solid 1px rgb(220,220,220);}
+.loginform fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
+.loginform label.left {float:left; margin:0 0 0 10px; padding:2px; font-size:110%;}
+.loginform select.field {padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.loginform input.field {padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+.loginform input.button {width:9.0em; padding:1px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
+.loginform input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+
+.loginBox {margin: 10px; padding: 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
+.loginBox fieldset {padding: 10px; margin:5px; border:solid 1px rgb(220,220,220);}
+.loginBox fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
