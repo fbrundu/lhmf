@@ -4,11 +4,12 @@ import java.util.Collections;
 
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetailsService;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 
 public class FacebookResourceDetailsService implements OAuth2ProtectedResourceDetailsService{
 	private final String RESOURCE_ID = "facebook";
-	private final FacebookResourceDetails resource = new FacebookResourceDetails();
+	private final AuthorizationCodeResourceDetails resource = new AuthorizationCodeResourceDetails();
 	
 	public FacebookResourceDetailsService(){
 		resource.setAccessTokenUri("https://graph.facebook.com/oauth/access_token");
