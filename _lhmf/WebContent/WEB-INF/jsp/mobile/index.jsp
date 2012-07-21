@@ -8,11 +8,11 @@
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 <meta charset="utf-8">
 <title>GasProject.net</title>
-<link href="css/style-mobile.css" rel="stylesheet" type="text/css"  />
-<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
-<link type="text/css" rel="stylesheet" href='js/openid-selector/css/openid-shadow.css'/>
-<script type="text/javascript" src='js/openid-selector/js/openid-jquery.js'></script>
-<script type="text/javascript" src='js/openid-selector/js/openid-it.js'></script>
+<link href='<spring:url htmlEscape="true" value="/css/style-mobile.css"/>' rel="stylesheet" type="text/css"  />
+<script src='<spring:url htmlEscape="true" value="/js/jquery-1.7.2.min.js"/>' type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href='<spring:url htmlEscape="true" value="/js/openid-selector/css/openid-shadow.css"/>'/>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/openid-selector/js/openid-jquery.js"/>'></script>
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/openid-selector/js/openid-it.js"/>'></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	openid.init('openid_identifier');
