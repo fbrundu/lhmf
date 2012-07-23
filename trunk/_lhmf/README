@@ -37,3 +37,28 @@ Francesco:
     
  Link matteo:
  http://stackoverflow.com/questions/170986/what-is-the-best-way-to-add-options-to-a-select-from-an-array-with-jquery
+ 
+ 
+ 
+ 
+ MODIFICHE DA FARE AL DATABASE.
+ 
+ Modificare tabella Supplier togliendo tutti gli attributi comuni con Member
+ rendendola una tabella che estende le informazioni di un membro nel caso in cui
+ sia un Supplier (ricavabile da Member_Type) quindi una relazione 1 -> 0:1.
+ Si elimina active e membertype da supplier.
+ Cap diventa varchar(5).
+ 
+ Aggiungere variabile booleana a Notifiche e messaggi per indicare letto-nonletto.
+ 
+ Aggiunta categorie Notifiche/Messaggi (da capire bene).
+ Collegare la tabella Message con le tabelle: Product, Order.
+ 
+ Aggiungere attributo Path immagine in Product.
+ 
+ Tipi Messaggio (Categoria):
+ 	- Nuovo utente da attivare (quindi creare messaggio dopo authMail)
+ 	- Nuovo prodotto
+ 	- Scadenza ordine / Chiusura Ordine
+ 	- Consegna ordine
+ 	- ...altro
