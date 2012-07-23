@@ -300,6 +300,7 @@ public class SignupController
 			if(!phone.equals("")) 
 				member.setTel(phone);
 			
+			@SuppressWarnings("unused")
 			int memberId = memberInterface.newMember(member);
 			
 			if(checkMail) {
@@ -545,6 +546,7 @@ public class SignupController
 			if(!phone.equals("")) 
 				member.setTel(phone);
 			
+			@SuppressWarnings("unused")
 			int memberId = memberInterface.newMember(member);
 			
 			if(checkMail) {
@@ -800,6 +802,7 @@ public class SignupController
 			
 			//genero l'md5 della password
 			String md5Password;
+			@SuppressWarnings("unused")
 			int memberId = 0;
 			
 			try {
