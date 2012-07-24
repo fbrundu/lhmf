@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 24, 2012 alle 21:16
+-- Generato il: Lug 24, 2012 alle 22:14
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 CREATE TABLE IF NOT EXISTS `notify` (
   `idNotify` int(11) NOT NULL AUTO_INCREMENT,
-  `text` int(11) DEFAULT NULL,
+  `text` varchar(300) NOT NULL,
   `notify_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `isReaded` tinyint(1) NOT NULL DEFAULT '0',
   `idMember` int(11) NOT NULL,
@@ -199,10 +199,11 @@ CREATE TABLE IF NOT EXISTS `product` (
   `min_buy` int(11) DEFAULT NULL,
   `max_buy` int(11) DEFAULT NULL,
   `imgPath` varchar(100) DEFAULT NULL,
-  `idMember_supplier` int(11) NOT NULL,
   `idCategory` int(11) NOT NULL COMMENT '			',
+  `idSupplier` int(11) NOT NULL,
   PRIMARY KEY (`idProduct`),
-  KEY `fk_Product_Product_Category1` (`idCategory`)
+  KEY `fk_Product_Product_Category1` (`idCategory`),
+  KEY `fk_Product_Supplier1` (`idSupplier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -318,6 +319,7 @@ ALTER TABLE `order_product`
 -- Limiti per la tabella `product`
 --
 ALTER TABLE `product`
+  ADD CONSTRAINT `fk_Product_Supplier1` FOREIGN KEY (`idSupplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Product_Product_Category1` FOREIGN KEY (`idCategory`) REFERENCES `product_category` (`idProduct_Category`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
