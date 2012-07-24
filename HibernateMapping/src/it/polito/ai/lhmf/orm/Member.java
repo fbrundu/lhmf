@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 20.43.24 by Hibernate Tools 3.4.0.CR1
+// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
