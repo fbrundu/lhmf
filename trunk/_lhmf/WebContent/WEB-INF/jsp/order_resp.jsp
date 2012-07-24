@@ -6,11 +6,11 @@
 
 <t:index>
 	<jsp:attribute name="scripts">
-		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_admin.js"/>'></script>
+		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_resp.js"/>'></script>
 		<script type="text/javascript">
 			function drawPageCallback(){
 				if(History.enabled){
-					var newState = {data: {action:'userMgmt'}, title: null, url: './userMgmt'};
+					var newState = {data: {action:'order'}, title: null, url: './order'};
 					History.replaceState({action: 'null'}, null, newState.url);
 					History.replaceState(newState.data, newState.title, newState.url);
 				}
@@ -28,33 +28,24 @@
 	</jsp:attribute>
 	
 	<jsp:attribute name="userMenu">
-    	<p>Menù di amministrazione</p>
-    	<p>Gestione utenti</p>
-    	<p><a href='<spring:url htmlEscape="true" value="/log"/>' id="logLink">Consultazione log</a></p>
+    	<p>Menù di Responsabile</p>
+    	<p>Ordini</p>
 	</jsp:attribute>
 	
-	<jsp:attribute name="bodyTitle">Interfaccia di amministrazione</jsp:attribute>
+	<jsp:attribute name="bodyTitle">Interfaccia Responsabile</jsp:attribute>
     
     <jsp:body>
-    	<div id='tabs'>
+    	<div id='tabsOrder'>
     	  <ul>
-    	    <li><a href='#tabs-1'>Aggiungi utente</a></li>
-    	    <li><a href='#tabs-2'>Attiva utente</a></li>
-			<li><a href='#tabs-3'>Lista utenti</a></li>
+    	    <li><a href='tabsOrder-1'>Crea Ordine</a></li>
+    	    <li><a href='tabsOrder-2'>Ordini Attivi</a></li>
+			<li><a href='tabsOrder-3'>Ordini Scaduti</a></li>
+			<li><a href='tabsOrder-3'>Ordini in Consegna</a></li>
 		  </ul>
-			<div id='tabs-1'>
-			
-			</div>
-			<div id='tabs-2'>
-			
-			<!-- Tab per l'attivazione di un utente -->
-			  Attiva utente
-			</div>
-			<div id='tabs-3'>
-			
-			<!-- Tab per la modifica di un utente -->
-			  Lista Utenti
-			</div>
+			<div id='tabsOrder-1'></div>
+			<div id='tabsOrder-2'></div>
+			<div id='tabsOrder-3'></div>
+			<div id='tabsOrder-4'></div>
 		</div>
     </jsp:body>
 </t:index>
