@@ -13,6 +13,7 @@
 <!doctype html>
 <html class="no-js">
 <head>
+<base href='<spring:url htmlEscape="true" value="/"/>'/>
 <meta charset="utf-8" />
 <meta name="copyright" content="Politecnico di Torino 2012" />
 <meta name="description" content="Applicazioni Internet" />
