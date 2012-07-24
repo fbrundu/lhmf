@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 24, 2012 alle 19:25
+-- Generato il: Lug 24, 2012 alle 20:39
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -254,14 +254,17 @@ CREATE TABLE IF NOT EXISTS `purchase_product` (
 --
 
 CREATE TABLE IF NOT EXISTS `supplier` (
-  `Member_idMember` int(11) NOT NULL,
+  `idMember` int(11) NOT NULL,
   `company_name` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   `contact_name` varchar(45) DEFAULT NULL,
   `fax` varchar(45) DEFAULT NULL,
   `website` varchar(45) DEFAULT NULL,
   `payment_method` varchar(45) NOT NULL,
-  KEY `fk_Supplier_Member1` (`Member_idMember`)
+  `idMemberResp` int(11) NOT NULL,
+  PRIMARY KEY (`idMember`),
+  KEY `fk_Supplier_Member1` (`idMember`),
+  KEY `fk_Supplier_Member2` (`idMemberResp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -278,8 +281,8 @@ ALTER TABLE `log`
 -- Limiti per la tabella `member`
 --
 ALTER TABLE `member`
-  ADD CONSTRAINT `fk_Member_Member_Type1` FOREIGN KEY (`member_type`) REFERENCES `member_type` (`idMember_Type`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Member_Member_Status1` FOREIGN KEY (`status`) REFERENCES `member_status` (`idMember_Status`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Member_Member_Status1` FOREIGN KEY (`status`) REFERENCES `member_status` (`idMember_Status`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Member_Member_Type1` FOREIGN KEY (`member_type`) REFERENCES `member_type` (`idMember_Type`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `message`
@@ -326,14 +329,15 @@ ALTER TABLE `purchase`
 -- Limiti per la tabella `purchase_product`
 --
 ALTER TABLE `purchase_product`
-  ADD CONSTRAINT `fk_Purchase_has_Product_Purchase1` FOREIGN KEY (`idPurchase`) REFERENCES `purchase` (`idPurchase`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Purchase_has_Product_Product1` FOREIGN KEY (`idProduct`) REFERENCES `product` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Purchase_has_Product_Product1` FOREIGN KEY (`idProduct`) REFERENCES `product` (`idProduct`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Purchase_has_Product_Purchase1` FOREIGN KEY (`idPurchase`) REFERENCES `purchase` (`idPurchase`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `supplier`
 --
 ALTER TABLE `supplier`
-  ADD CONSTRAINT `fk_Supplier_Member1` FOREIGN KEY (`Member_idMember`) REFERENCES `member` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Supplier_Member1` FOREIGN KEY (`idMember`) REFERENCES `member` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Supplier_Member2` FOREIGN KEY (`idMemberResp`) REFERENCES `member` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

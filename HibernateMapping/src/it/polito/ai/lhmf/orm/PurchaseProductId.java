@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 8-giu-2012 18.52.32 by Hibernate Tools 3.4.0.CR1
+// Generated 24-lug-2012 20.43.24 by Hibernate Tools 3.4.0.CR1
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -11,10 +11,6 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PurchaseProductId implements java.io.Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private int idPurchase;
 	private int idProduct;
 
