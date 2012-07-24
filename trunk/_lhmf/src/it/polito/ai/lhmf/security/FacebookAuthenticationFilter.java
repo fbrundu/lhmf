@@ -113,6 +113,8 @@ public class FacebookAuthenticationFilter extends AbstractAuthenticationProcessi
 				roles = Collections.singletonList(new SimpleGrantedAuthority(UserRoles.RESP));
 			else if(type.getIdMemberType() == MemberTypes.USER_ADMIN)
 				roles = Collections.singletonList(new SimpleGrantedAuthority(UserRoles.ADMIN));
+			else if(type.getIdMemberType() == MemberTypes.USER_SUPPLIER)
+				roles = Collections.singletonList(new SimpleGrantedAuthority(UserRoles.SUPPLIER));
 			MemberStatus status = m.getMemberStatus();
 			if (status.getIdMemberStatus() == MemberStatuses.NOT_VERIFIED)
 				throw new MailNotVerifiedException("Il tuo indirizzo e-mail non è ancora stato verificato. Verifica la tua casella di posta e attiva la tua mail seguendo le istruzioni nel messaggio che ti abbiamo mandato");

@@ -6,7 +6,6 @@ import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
-import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.exception.MailNotVerifiedException;
 
 import java.util.Collections;
@@ -45,7 +44,6 @@ public class MyUserDetailsService implements UserDetailsService,
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException
@@ -54,28 +52,11 @@ public class MyUserDetailsService implements UserDetailsService,
 		Query query = session
 				.createQuery("from Member where username = :username");
 		query.setParameter("username", username);
-		List<Member> ret = query.list();
-		if (ret.size() == 0)
-		{
-			query = session
-					.createQuery("from Supplier where username = :username");
-			query.setParameter("username", username);
-			List<Supplier> retS = query.list();
-			if (retS.size() == 1)
-			{
-				Supplier s = retS.get(0);
-				List<SimpleGrantedAuthority> roles = Collections
-						.singletonList(new SimpleGrantedAuthority(
-								UserRoles.SUPPLIER));
-				return new User(s.getUsername(), s.getPassword(), s.isActive(),
-						true, true, true, roles);
-			}
-			else
+		Member m = (Member) query.uniqueResult();
+		if (m == null)
 				throw new UsernameNotFoundException("Username not found!");
-		}
 		else
 		{
-			Member m = ret.get(0);
 			List<SimpleGrantedAuthority> roles = null;
 			MemberType type = m.getMemberType();
 			if (type.getIdMemberType() == MemberTypes.USER_NORMAL)
@@ -87,6 +68,9 @@ public class MyUserDetailsService implements UserDetailsService,
 			else if (type.getIdMemberType() == MemberTypes.USER_ADMIN)
 				roles = Collections.singletonList(new SimpleGrantedAuthority(
 						UserRoles.ADMIN));
+			else if (type.getIdMemberType() == MemberTypes.USER_SUPPLIER)
+				roles = Collections.singletonList(new SimpleGrantedAuthority(
+						UserRoles.SUPPLIER));
 			// TODO? else
 			// errore
 			MemberStatus status = m.getMemberStatus();
@@ -126,6 +110,9 @@ public class MyUserDetailsService implements UserDetailsService,
 			else if (type.getIdMemberType() == MemberTypes.USER_ADMIN)
 				roles = Collections.singletonList(new SimpleGrantedAuthority(
 						UserRoles.ADMIN));
+			else if (type.getIdMemberType() == MemberTypes.USER_SUPPLIER)
+				roles = Collections.singletonList(new SimpleGrantedAuthority(
+						UserRoles.SUPPLIER));
 			// TODO? else
 			// errore
 			MemberStatus status = m.getMemberStatus();
