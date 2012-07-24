@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 20.43.24 by Hibernate Tools 3.4.0.CR1
+// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import java.util.HashSet;
@@ -26,11 +26,11 @@ import javax.persistence.TemporalType;
 public class Order implements java.io.Serializable {
 
 	private int idOrder;
+	private Supplier supplier;
 	private Member member;
 	private Date dateOpen;
 	private Date dateClose;
 	private Date dateDelivery;
-	private int idMemberSupplier;
 	private Set purchases = new HashSet(0);
 	private Set messages = new HashSet(0);
 	private Set products = new HashSet(0);
@@ -38,24 +38,24 @@ public class Order implements java.io.Serializable {
 	public Order() {
 	}
 
-	public Order(int idOrder, Member member, Date dateOpen, Date dateClose,
-			int idMemberSupplier) {
+	public Order(int idOrder, Supplier supplier, Member member, Date dateOpen,
+			Date dateClose) {
 		this.idOrder = idOrder;
+		this.supplier = supplier;
 		this.member = member;
 		this.dateOpen = dateOpen;
 		this.dateClose = dateClose;
-		this.idMemberSupplier = idMemberSupplier;
 	}
 
-	public Order(int idOrder, Member member, Date dateOpen, Date dateClose,
-			Date dateDelivery, int idMemberSupplier, Set purchases,
-			Set messages, Set products) {
+	public Order(int idOrder, Supplier supplier, Member member, Date dateOpen,
+			Date dateClose, Date dateDelivery, Set purchases, Set messages,
+			Set products) {
 		this.idOrder = idOrder;
+		this.supplier = supplier;
 		this.member = member;
 		this.dateOpen = dateOpen;
 		this.dateClose = dateClose;
 		this.dateDelivery = dateDelivery;
-		this.idMemberSupplier = idMemberSupplier;
 		this.purchases = purchases;
 		this.messages = messages;
 		this.products = products;
@@ -69,6 +69,16 @@ public class Order implements java.io.Serializable {
 
 	public void setIdOrder(int idOrder) {
 		this.idOrder = idOrder;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idSupplier", nullable = false)
+	public Supplier getSupplier() {
+		return this.supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -109,15 +119,6 @@ public class Order implements java.io.Serializable {
 
 	public void setDateDelivery(Date dateDelivery) {
 		this.dateDelivery = dateDelivery;
-	}
-
-	@Column(name = "idMember_supplier", nullable = false)
-	public int getIdMemberSupplier() {
-		return this.idMemberSupplier;
-	}
-
-	public void setIdMemberSupplier(int idMemberSupplier) {
-		this.idMemberSupplier = idMemberSupplier;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")

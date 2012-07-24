@@ -1,7 +1,9 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 20.43.24 by Hibernate Tools 3.4.0.CR1
+// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -31,6 +34,7 @@ public class Supplier implements java.io.Serializable {
 	private String fax;
 	private String website;
 	private String paymentMethod;
+	private Set orders = new HashSet(0);
 
 	public Supplier() {
 	}
@@ -44,7 +48,7 @@ public class Supplier implements java.io.Serializable {
 
 	public Supplier(Member memberByIdMember, Member memberByIdMemberResp,
 			String companyName, String description, String contactName,
-			String fax, String website, String paymentMethod) {
+			String fax, String website, String paymentMethod, Set orders) {
 		this.memberByIdMember = memberByIdMember;
 		this.memberByIdMemberResp = memberByIdMemberResp;
 		this.companyName = companyName;
@@ -53,6 +57,7 @@ public class Supplier implements java.io.Serializable {
 		this.fax = fax;
 		this.website = website;
 		this.paymentMethod = paymentMethod;
+		this.orders = orders;
 	}
 
 	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "memberByIdMember"))
@@ -139,6 +144,15 @@ public class Supplier implements java.io.Serializable {
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
+	public Set getOrders() {
+		return this.orders;
+	}
+
+	public void setOrders(Set orders) {
+		this.orders = orders;
 	}
 
 }
