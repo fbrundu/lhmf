@@ -38,11 +38,11 @@ public class SupplierAjaxController
 	@Autowired
 	private MemberInterface memberInterface;
 
-	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/newSupplier", method = RequestMethod.POST)
 	public @ResponseBody
-	List<String> newMember(HttpServletRequest request,
+	List<String> newMember(
+			HttpServletRequest request,
 			@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "firstname", required = true) String firstname,
 			@RequestParam(value = "lastname", required = true) String lastname,
@@ -59,176 +59,234 @@ public class SupplierAjaxController
 			@RequestParam(value = "fax", required = false) String fax,
 			@RequestParam(value = "website", required = false) String website,
 			@RequestParam(value = "payMethod", required = false) String payMethod,
-			@RequestParam(value = "idResp", required = false) int idResp) throws InvalidParametersException, ParseException
+			@RequestParam(value = "idResp", required = false) int idResp)
+			throws InvalidParametersException, ParseException
 	{
 		Integer idMember = -1;
-		
+
 		ArrayList<String> errors = new ArrayList<String>();
-		
-		if(username.equals("")) {
+
+		if (username.equals(""))
+		{
 			errors.add("Username: Formato non Valido");
-		} else {
-						
+		}
+		else
+		{
+
 			Member memberControl = memberInterface.getMember(username);
 			boolean checkSupplier = true;
-			
-			if(memberControl != null)
+
+			if (memberControl != null)
 			{
 				checkSupplier = false;
 				errors.add("Username: non disponibile");
 			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplier(username);
-				
-				if(supplierControl != null)
+
+			if (checkSupplier)
+			{
+				Supplier supplierControl = supplierInterface
+						.getSupplier(username);
+
+				if (supplierControl != null)
 					errors.add("Username: non disponibile");
-			}	
+			}
 		}
-		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
+		if (firstname.equals("") || CheckNumber.isNumeric(firstname))
+		{
 			errors.add("Nome: Formato non Valido");
 		}
-		if(lastname.equals("") || CheckNumber.isNumeric(lastname)) {
+		if (lastname.equals("") || CheckNumber.isNumeric(lastname))
+		{
 			errors.add("Cognome: Formato non Valido");
 		}
-		if(!SendEmail.isValidEmailAddress(email)) {
+		if (!SendEmail.isValidEmailAddress(email))
+		{
 			errors.add("Email: Formato non Valido");
-		} else {
-			
-			//Controllo email gi� in uso
-			
+		}
+		else
+		{
+
+			// Controllo email gi� in uso
+
 			Member memberControl = memberInterface.getMemberByEmail(email);
 			boolean checkSupplier = true;
-			
-			if(memberControl != null)
+
+			if (memberControl != null)
 			{
 				checkSupplier = false;
 				errors.add("Email: Email gi� utilizzata da un altro account");
 			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
-				
-				if(supplierControl != null)
+
+			if (checkSupplier)
+			{
+				Supplier supplierControl = supplierInterface
+						.getSupplierByMail(email);
+
+				if (supplierControl != null)
 					errors.add("Email: Email gi� utilizzata da un altro account");
 			}
-			
+
 		}
-		if(address.equals("") || CheckNumber.isNumeric(address)) {
+		if (address.equals("") || CheckNumber.isNumeric(address))
+		{
 			errors.add("Indirizzo: Formato non Valido");
 		}
-		if(city.equals("") || CheckNumber.isNumeric(city)) {
+		if (city.equals("") || CheckNumber.isNumeric(city))
+		{
 			errors.add("Citt�: Formato non Valido");
-		}	
-		if(state.equals("") || CheckNumber.isNumeric(state)) {
+		}
+		if (state.equals("") || CheckNumber.isNumeric(state))
+		{
 			errors.add("Stato: Formato non Valido");
 		}
-		if(!phone.equals("") && !phone.equals("not set"))
+		if (!phone.equals("") && !phone.equals("not set"))
 		{
-			if(!CheckNumber.isNumeric(phone)) 
+			if (!CheckNumber.isNumeric(phone))
 				errors.add("Telefono: Formato non Valido");
 		}
-		if(cap.equals("") || !CheckNumber.isNumeric(cap)) {
+		if (cap.equals("") || !CheckNumber.isNumeric(cap))
+		{
 			errors.add("Cap: Formato non Valido");
 		}
-		if(CheckNumber.isNumeric(company)) {
+		if (CheckNumber.isNumeric(company))
+		{
 			errors.add("Compagnia: Formato non Valido");
 		}
-		if(CheckNumber.isNumeric(description)) {
+		if (CheckNumber.isNumeric(description))
+		{
 			errors.add("Descrizione: Formato non Valido");
-		}	
-		if(CheckNumber.isNumeric(contactName)) {
+		}
+		if (CheckNumber.isNumeric(contactName))
+		{
 			errors.add("Stato: Formato non Valido");
 		}
-		if(!fax.equals(""))
+		if (!fax.equals(""))
 		{
-			if(!CheckNumber.isNumeric(fax)) 
+			if (!CheckNumber.isNumeric(fax))
 				errors.add("Fax: Formato non Valido");
 		}
-		if(CheckNumber.isNumeric(website)) {
+		if (CheckNumber.isNumeric(website))
+		{
 			errors.add("Web Site: Formato non Valido");
 		}
-		if(CheckNumber.isNumeric(payMethod)) {
+		if (CheckNumber.isNumeric(payMethod))
+		{
 			errors.add("Metodo Pagamento: Formato non Valido");
 		}
-		
 
-		if(errors.size() > 0) {
-			
+		if (errors.size() > 0)
+		{
+
 			// Ci sono errori, rimandare alla pagina mostrandoli
 			return errors;
-			
+
 		}
 		else
 		{
-				
-			//Registrazione Fornitore
-			
-			//genero un regCode
-			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
-			
-			//setto la data odierna
-			Calendar calendar = Calendar.getInstance();     
+
+			// Registrazione Fornitore
+
+			// genero un regCode
+			String regCode = Long.toHexString(Double.doubleToLongBits(Math
+					.random()));
+
+			// setto la data odierna
+			Calendar calendar = Calendar.getInstance();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			String sDate = dateFormat.format(calendar.getTime());
 			Date regDate = dateFormat.parse(sDate);
-			
-			//trasformo il cap in un numero
+
+			// trasformo il cap in un numero
 			int capNumeric = Integer.parseInt(cap);
-			
-			//Mi ricavo il membro responsabile 
+
+			// Mi ricavo il membro responsabile
 			Member memberResp = memberInterface.getMember(idResp);
-			
+
 			// Creo un nuovo fornitore
-			
-			String alfaString = Long.toHexString(Double.doubleToLongBits(Math.random()));
+
+			String alfaString = Long.toHexString(Double.doubleToLongBits(Math
+					.random()));
 			String password = alfaString.substring(4, 12);
-			
-			try {
+
+			try
+			{
 				String md5Password = CreateMD5.MD5(password);
-				
+
 				byte mt = 0;
-				
-				Supplier supplier = new Supplier(memberResp, firstname, lastname, username, md5Password, regCode, regDate, email, address, city, state, capNumeric, false, mt, payMethod);
-								
-					if(!phone.equals("") && !phone.equals("not set")) 
-						supplier.setTel(phone);
-					if(!company.equals("")) 
-						supplier.setCompanyName(company);
-					if(!description.equals("")) 
-						supplier.setDescription(description);
-					if(!contactName.equals("")) 
-						supplier.setContactName(contactName);
-					if(!fax.equals("")) 
-						supplier.setFax(fax);
-					if(!website.equals("")) 
-						supplier.setWebsite(website);
-					if(!payMethod.equals("")) 
-						supplier.setPaymentMethod(payMethod);
-				
+
+				Supplier supplier = new Supplier(memberResp, firstname,
+						lastname, username, md5Password, regCode, regDate,
+						email, address, city, state, capNumeric, false, mt,
+						payMethod);
+
+				if (!phone.equals("") && !phone.equals("not set"))
+					supplier.setTel(phone);
+				if (!company.equals(""))
+					supplier.setCompanyName(company);
+				if (!description.equals(""))
+					supplier.setDescription(description);
+				if (!contactName.equals(""))
+					supplier.setContactName(contactName);
+				if (!fax.equals(""))
+					supplier.setFax(fax);
+				if (!website.equals(""))
+					supplier.setWebsite(website);
+				if (!payMethod.equals(""))
+					supplier.setPaymentMethod(payMethod);
+
 				idMember = supplierInterface.newSupplier(supplier);
-				
-				if(idMember < 1)
+
+				if (idMember < 1)
 					errors.add("Errore Interno: la registrazione non � andata a buon fine");
-				else {
-					
-					//Inviare qui la mail con il codice di registrazione e la password generata
+				else
+				{
+
+					// Inviare qui la mail con il codice di registrazione e la
+					// password generata
 					/*
-					SendEmail emailer = new SendEmail();
-					boolean isSupplier = true;
-					emailer.sendAdminRegistration(firstname + " " + lastname, username, password, regCode, idMember, email, isSupplier);
-					*/
-				}	
-			} catch (NoSuchAlgorithmException e) {
+					 * SendEmail emailer = new SendEmail(); boolean isSupplier =
+					 * true; emailer.sendAdminRegistration(firstname + " " +
+					 * lastname, username, password, regCode, idMember, email,
+					 * isSupplier);
+					 */
+				}
+			}
+			catch (NoSuchAlgorithmException e)
+			{
 				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
+			}
+			catch (UnsupportedEncodingException e)
+			{
 				e.printStackTrace();
 			}
 		}
 		return errors;
 	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getmyidsupplier", method = RequestMethod.GET)
+	public @ResponseBody
+	Integer getMyIdSupplier(HttpServletRequest request)
+	{
+		Integer idSupplier = -1;
+		idSupplier = supplierInterface.getIdSupplier((String) request
+				.getAttribute("user"));
+		return idSupplier;
+	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getmesupplier", method = RequestMethod.GET)
+	public @ResponseBody
+	Supplier getMeSupplier(HttpServletRequest request)
+	{
+		Supplier supplier = null;
+		supplier = supplierInterface.getSupplier((String) request
+				.getAttribute("user"));
+		return supplier;
+	}
 	
 	// TODO get da chi può essere fatto?
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getsupplier", method = RequestMethod.GET)
 	public @ResponseBody
 	Supplier getSupplier(HttpServletRequest request,
@@ -239,6 +297,8 @@ public class SupplierAjaxController
 		return supplier;
 	}
 
+	// TODO get da chi può essere fatto?
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getsuppliers", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Supplier> getSuppliers(HttpServletRequest request)
@@ -269,76 +329,82 @@ public class SupplierAjaxController
 		rowsAffected = supplierInterface.deleteSupplier(idSupplier);
 		return rowsAffected;
 	}
-	
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getSuppliersToActivate", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Supplier> getSuppliersToActivate(HttpServletRequest request,
+	List<Supplier> getSuppliersToActivate(
+			HttpServletRequest request,
 			@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "itemsPerPage", required = true) int itemsPerPage)
 	{
 		List<Supplier> supplierList = null;
-		
+
 		supplierList = supplierInterface.getSuppliersToActivate();
-		
+
 		List<Supplier> returnList = new ArrayList<Supplier>();
-		
+
 		int startIndex = page * itemsPerPage;
 		int endIndex = startIndex + itemsPerPage;
-		
-		if(endIndex > supplierList.size())
+
+		if (endIndex > supplierList.size())
 			endIndex = supplierList.size();
-		
+
 		returnList.addAll(supplierList.subList(startIndex, endIndex));
-		
+
 		return returnList;
 	}
-	
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getSuppliersList", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Supplier> getSuppliersList(HttpServletRequest request,
+	List<Supplier> getSuppliersList(
+			HttpServletRequest request,
 			@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "itemsPerPage", required = true) int itemsPerPage)
 	{
 		List<Supplier> supplierList = null;
-		
+
 		supplierList = supplierInterface.getSuppliers();
-		
+
 		List<Supplier> returnList = new ArrayList<Supplier>();
-		
+
 		int startIndex = page * itemsPerPage;
 		int endIndex = startIndex + itemsPerPage;
-		
-		if(endIndex > supplierList.size())
+
+		if (endIndex > supplierList.size())
 			endIndex = supplierList.size();
-		
+
 		returnList.addAll(supplierList.subList(startIndex, endIndex));
-		
+
 		return returnList;
 	}
-	
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/activeSupplier", method = RequestMethod.POST)
-	public @ResponseBody int supplierActivation(HttpServletRequest request,
+	public @ResponseBody
+	int supplierActivation(HttpServletRequest request,
 			@RequestParam(value = "idMember", required = true) int idMember)
 	{
 		Supplier supplier = supplierInterface.getSupplier(idMember);
-		
+
 		boolean active = true;
 		supplier.setActive(active);
-		
+
 		int result;
-		try {
+		try
+		{
 			result = supplierInterface.updateSupplier(supplier);
-		} catch (InvalidParametersException e) {
+		}
+		catch (InvalidParametersException e)
+		{
 			result = 0;
 			e.printStackTrace();
 		}
-		
-		if(result == 0)
+
+		if (result == 0)
 			return result;
-		else 
+		else
 			return idMember;
 	}
 }

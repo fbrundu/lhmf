@@ -38,16 +38,18 @@ public class SupplierInterface
 		query.setParameter("idSupplier", idSupplier);
 		return (Supplier) query.uniqueResult();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Supplier getSupplier(String username)
 	{
+		if (username == null)
+			return null;
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Supplier " + "where username = :username");
 		query.setParameter("username", username);
 		return (Supplier) query.uniqueResult();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Supplier getSupplierByMail(String email)
 	{
@@ -61,7 +63,8 @@ public class SupplierInterface
 	@Transactional(readOnly = true)
 	public List<Supplier> getSuppliers()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Supplier order by idMember").list();
+		return sessionFactory.getCurrentSession()
+				.createQuery("from Supplier order by idMember").list();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -102,7 +105,7 @@ public class SupplierInterface
 		query.setParameter("cap", supplier.getCap());
 		query.setParameter("tel", supplier.getTel());
 		query.setParameter("active", supplier.isActive());
-		//FIXME non dovrebbe essere di tipo MemberType?
+		// FIXME non dovrebbe essere di tipo MemberType?
 		query.setParameter("memberType", supplier.getMemberType());
 		query.setParameter("companyName", supplier.getCompanyName());
 		query.setParameter("description", supplier.getDescription());
@@ -130,34 +133,49 @@ public class SupplierInterface
 
 		return (Integer) query.executeUpdate();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Supplier> getSuppliersToActivate() {
-				
+	public List<Supplier> getSuppliersToActivate()
+	{
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Supplier where active = :active order by idMember");
-				
+
 		query.setParameter("active", false);
 		return (List<Supplier>) query.list();
 	}
 
 	@Transactional(readOnly = true)
-	public Long getNumberItemsToActivate() {
-		
+	public Long getNumberItemsToActivate()
+	{
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"select count(*) from Supplier where active = :active");
-				
+
 		query.setParameter("active", false);
 		return (Long) query.uniqueResult();
 	}
 
 	@Transactional(readOnly = true)
-	public Long getNumberItems() {
-		
+	public Long getNumberItems()
+	{
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"select count(*) from Supplier");
-				
+
 		return (Long) query.uniqueResult();
+	}
+
+	@Transactional(readOnly = true)
+	public Integer getIdSupplier(String username)
+	{
+		if (username == null)
+			return -1;
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Supplier where username = :username");
+		query.setString("username", username);
+		return ((Supplier) query.uniqueResult()).getIdMember();
 	}
 }

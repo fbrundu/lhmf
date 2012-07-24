@@ -21,14 +21,20 @@ public class ProductCategoryInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer newProductCategory(ProductCategory productCategory)
+	public Integer newProductCategory(String productCategoryDescription)
 			throws InvalidParametersException
 	{
-		if (productCategory == null)
+		if (productCategoryDescription == null)
 			throw new InvalidParametersException();
 
-		return (Integer) sessionFactory.getCurrentSession().save(
-				productCategory);
+		if (getProductCategory(productCategoryDescription) == null)
+		{
+			ProductCategory pc = new ProductCategory();
+			pc.setDescription(productCategoryDescription);
+			sessionFactory.getCurrentSession().save(pc);
+		}
+		return getProductCategory(productCategoryDescription)
+				.getIdProductCategory();
 	}
 
 	@Transactional(readOnly = true)
@@ -37,11 +43,24 @@ public class ProductCategoryInterface
 	{
 		if (idProductCategory == null)
 			throw new InvalidParametersException();
-		
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from ProductCategory "
 						+ "where idProductCategory = :idProductCategory");
 		query.setParameter("idProductCategory", idProductCategory);
+		return (ProductCategory) query.uniqueResult();
+	}
+
+	@Transactional(readOnly = true)
+	public ProductCategory getProductCategory(String description)
+			throws InvalidParametersException
+	{
+		if (description == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from ProductCategory " + "where description = :description");
+		query.setParameter("description", description);
 		return (ProductCategory) query.uniqueResult();
 	}
 

@@ -10,58 +10,35 @@
       <div class="round-border-topright"></div>
 		<h1 class="first">Menu Fornitore</h1>
 		<dl class="menu-navigazione">
-		  <dt><a href="">Link 1</a></dt>
-		  <dt><a href="">Link 2</a></dt>
-		  <dt><a href="">Link 3</a></dt>	
-		  <dt><a href="">Link 4</a></dt>	
-		  <dt><a href="">Notifiche (NN)</a></dt>
-	      <dt><a href="">Messaggi (NN)</a></dt>			
+		  <dt>
+				<a id="productsLink"
+					href="<spring:url htmlEscape="true" value="/productsMgmt"/>">Gestione Prodotti</a>
+			</dt>
+		  <dt>
+				<a href="">Notifiche (NN)</a>
+			</dt>
+	      <dt>
+				<a href="">Messaggi (NN)</a>
+			</dt>			
 		</dl> 
     </jsp:attribute>
 
 	<jsp:attribute name="scripts">
 	<script type="text/javascript"
 			src='<spring:url htmlEscape="true" value="/js/lib_supplier.js"/>'></script>
-  <script>
-      $(function()
+	    <script type="text/javascript">
+      function drawPageCallback()
       {
-        $("#products").html(
-            returnFormattedProductsTable(JSON.parse(window.localStorage
-                .getItem('my_products_list')), 1));
-        $("#addProduct").click(function(){
-          var product = new Object();
-          product.name = $("#product_name").val();
-          newProduct(product);
-          });
-      });
-    </script>
-    
+        writeIndexPage();
+      }
+      </script>
     </jsp:attribute>
 
 	<jsp:attribute name="bodyTitle">
-      <h1>Pagina Fornitore</h1>
+      Interfaccia Fornitore
     </jsp:attribute>
 
 	<jsp:body>
-	  <h3>Prodotti</h3>
-    <br/>
-    <input id="product_name" type="text" placeholder="Nome" maxlength="45" />
-    <input id="product_description" type="text" placeholder="Descrizione" maxlength="45" />
-    <input id="product_dimension" type="number" placeholder="Dimensione" />
-    <input id="product_measure_unit" type="text" placeholder="Unità di misura" maxlength="45" />
-    <input id="product_block_unit" type="number" placeholder="Unità/blocco" />
-    <label for="product_availability">Disponibilità</label><input id="product_availability" type="checkbox" />
-    <input id="product_transport_cost" type="number" placeholder="Costo di trasporto" />
-    <input id="product_unit_cost" type="number" placeholder="Costo per unità" />
-    <input id="product_min_buy" type="number" placeholder="Unità minime acquistabili" />
-    <input id="product_max_buy" type="number" placeholder="Unità massime acquistabili" />
-  `idMember_supplier` int(11) NOT NULL,
-  `idCategory` int(11) NOT NULL COMMENT
-    
-    <br/>
-    <button id="addProduct">Aggiungi</button>
-	  <table id="products">
-	  </table>
     </jsp:body>
 
 </t:index>
