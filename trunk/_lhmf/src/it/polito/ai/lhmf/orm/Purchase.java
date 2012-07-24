@@ -30,6 +30,7 @@ public class Purchase implements java.io.Serializable
 	private Integer idPurchase;
 	private Order order;
 	private Member member;
+	private boolean isShipped;
 	private Set<PurchaseProduct> purchaseProducts = new HashSet<PurchaseProduct>(
 			0);
 
@@ -37,17 +38,17 @@ public class Purchase implements java.io.Serializable
 	{
 	}
 
-	public Purchase(Order order, Member member)
-	{
+	public Purchase(Order order, Member member, boolean isShipped) {
 		this.order = order;
 		this.member = member;
+		this.isShipped = isShipped;
 	}
 
-	public Purchase(Order order, Member member,
-			Set<PurchaseProduct> purchaseProducts)
-	{
+	public Purchase(Order order, Member member, boolean isShipped,
+			Set<PurchaseProduct> purchaseProducts) {
 		this.order = order;
 		this.member = member;
+		this.isShipped = isShipped;
 		this.purchaseProducts = purchaseProducts;
 	}
 
@@ -86,6 +87,15 @@ public class Purchase implements java.io.Serializable
 	public void setMember(Member member)
 	{
 		this.member = member;
+	}
+	
+	@Column(name = "isShipped", nullable = false)
+	public boolean isIsShipped() {
+		return this.isShipped;
+	}
+
+	public void setIsShipped(boolean isShipped) {
+		this.isShipped = isShipped;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "purchase")
