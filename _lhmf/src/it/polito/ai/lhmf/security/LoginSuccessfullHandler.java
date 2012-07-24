@@ -1,10 +1,8 @@
 package it.polito.ai.lhmf.security;
 
 import it.polito.ai.lhmf.model.MemberInterface;
-import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
-import it.polito.ai.lhmf.orm.Supplier;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -21,8 +19,6 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 public class LoginSuccessfullHandler extends
 		SavedRequestAwareAuthenticationSuccessHandler {
 	private MemberInterface mInt;
-	
-	private SupplierInterface sInt;
 	
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request,
@@ -58,19 +54,10 @@ public class LoginSuccessfullHandler extends
 		Member member = mInt.getMember(userName);
 		if(member != null)
 			session.setAttribute("user", member.getName());
-		else{
-			Supplier supplier = sInt.getSupplier(userName);
-			if(supplier != null)
-				session.setAttribute("user", supplier.getName());
-		}
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	
 	public void setMemberInterface(MemberInterface mInt){
 		this.mInt = mInt;
-	}
-	
-	public void setSupplierInterface(SupplierInterface sInt){
-		this.sInt = sInt;
 	}
 }
