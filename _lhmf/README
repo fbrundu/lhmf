@@ -56,6 +56,8 @@ Francesco:
  
  Aggiungere attributo Path immagine in Product.
  
+ Modificare attributo id di product_category con auto_increment
+ 
  Tipi Messaggio (Categoria):
  	- Nuovo utente da attivare (quindi creare messaggio dopo authMail)
  	- Nuovo prodotto
