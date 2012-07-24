@@ -15,4 +15,18 @@ public class LoginController
 	{
 		return new ModelAndView("login");
 	}
+	
+	@RequestMapping("/mobile/login")
+	public ModelAndView mobileLogin(Model model, HttpSession session)
+	{
+		model.addAttribute("client", "mobile_browser");
+		return new ModelAndView("mobile/login");
+	}
+	
+	@RequestMapping("/android/login")
+	public ModelAndView androidLogin(Model model, HttpSession session)
+	{
+		model.addAttribute("client", "android");
+		return new ModelAndView("mobile/login");
+	}
 }

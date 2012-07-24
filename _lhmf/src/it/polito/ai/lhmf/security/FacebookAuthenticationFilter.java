@@ -49,7 +49,7 @@ public class FacebookAuthenticationFilter extends AbstractAuthenticationProcessi
 	 */
 	protected UserDetailsService userDetailsService;
 	
-	public static final String DEFAULT_PROTECTED_PATH = "/j_spring_oauth_security_check";
+	public static final String DEFAULT_PROTECTED_PATH = "/j_spring_facebook_security_check";
 	
 	private OAuth2ProtectedResourceDetailsService protectedResourceDetailsService;
 	private OAuth2RestTemplate facebookRest;

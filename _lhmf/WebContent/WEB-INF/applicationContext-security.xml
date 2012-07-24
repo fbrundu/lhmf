@@ -34,7 +34,7 @@
 	
 	<!-- The OAuth2 protected resources are separated out into their own block so we can deal with authorization and error handling 
 		separately. This isn't mandatory, but it makes it easier to control the behaviour. -->
-	<http pattern="/android/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
+	<http pattern="/androidApi/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
 		access-decision-manager-ref="accessDecisionManager" xmlns="http://www.springframework.org/schema/security">
 		<anonymous enabled="false" />
 <!-- 		<intercept-url pattern="/photos" access="ROLE_USER,SCOPE_READ" /> -->
@@ -44,6 +44,55 @@
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
+	
+	<http pattern="/android/**" use-expressions="true">
+	    <intercept-url pattern="/android/login*" access="permitAll"/>
+	    <intercept-url pattern="/android/success*" access="isAuthenticated()"/>
+	     <intercept-url pattern="/android/j_spring_facebook_security_check*" access="permitAll"/>
+	    <form-login login-page="/android/login" login-processing-url="/android/j_spring_security_check" default-target-url="/android/loginSuccess"
+	        always-use-default-target="true" authentication-failure-url="/android/login?form_error"/>
+	    <openid-login user-service-ref="myUserDetailsService" login-processing-url="/android/j_spring_openid_security_check" default-target-url="/android/loginSuccess"
+	        always-use-default-target="true" authentication-failure-handler-ref="androidOpenIdSuccessButNotRegistered">
+            <attribute-exchange>
+                <openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true"/>
+                <openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true"/>
+                <openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
+                <openid-attribute name="address" type="http://axschema.org/contact/postaladdress/home" required="true"/>
+                <openid-attribute name="city" type="http://axschema.org/contact/city/home" required="true"/>
+                <openid-attribute name="state" type="http://axschema.org/contact/state/home" required="true"/>
+                <openid-attribute name="country" type="http://axschema.org/contact/country/home" required="true"/>
+                <openid-attribute name="cap" type="http://axschema.org/contact/postalcode/home" required="true"/>
+                <openid-attribute name="phone" type="http://axschema.org/contact/phone/default" required="true"/>
+                
+                <openid-attribute name="firstname" type="http://schema.openid.net/namePerson/first" required="true"/>
+                <openid-attribute name="lastname" type="http://schema.openid.net/namePerson/last" required="true"/>
+                <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
+                <openid-attribute name="address" type="http://schema.openid.net/contact/postaladdress/home" required="true"/>
+                <openid-attribute name="city" type="http://schema.openid.net/contact/city/home" required="true"/>
+                <openid-attribute name="state" type="http://schema.openid.net/contact/state/home" required="true"/>
+                <openid-attribute name="country" type="http://schema.openid.net/contact/country/home" required="true"/>
+                <openid-attribute name="cap" type="http://schema.openid.net/contact/postalcode/home" required="true"/>
+                <openid-attribute name="phone" type="http://schema.openid.net/contact/phone/default" required="true"/>
+                
+                <openid-attribute name="firstname" type="http://openid.net/schema/namePerson/first" required="true"/>
+                <openid-attribute name="lastname" type="http://openid.net/schema/namePerson/last" required="true"/>
+                <openid-attribute name="email" type="http://openid.net/schema/contact/email" required="true"/>
+                <openid-attribute name="address" type="http://openid.net/schema/contact/postaladdress/home" required="true"/>
+                <openid-attribute name="city" type="http://openid.net/schema/contact/city/home" required="true"/>
+                <openid-attribute name="state" type="http://openid.net/schema/contact/state/home" required="true"/>
+                <openid-attribute name="country" type="http://openid.net/schema/contact/country/home" required="true"/>
+                <openid-attribute name="cap" type="http://openid.net/schema/contact/postalcode/home" required="true"/>
+                <openid-attribute name="phone" type="http://openid.net/schema/contact/phone/default" required="true"/>
+            </attribute-exchange>
+        </openid-login>
+        <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
+        <custom-filter before="FILTER_SECURITY_INTERCEPTOR " ref="androidFbAuthFilter"/>
+	</http>
+	
+<!-- 	<http pattern="/mobile/**" use-expressions="true"> -->
+<!-- 	    <intercept-url pattern="/mobile/login*" access="permitAll"/> -->
+<!-- 	    <form-login login-page="/mobile/login" login-processing-url="/mobile/j_spring_security_check_mobile" authentication-success-handler-ref="loginSuccessfull" authentication-failure-url="/mobile/login?form_error"/> -->
+<!-- 	</http> -->
 
 	<!-- Normal security (not andorid clients OAuth) -->
 	<http use-expressions="true">
@@ -53,7 +102,7 @@
 	    <intercept-url pattern="/signup*" access="permitAll"/>
 	    <intercept-url pattern="/login*" access="permitAll"/>
 	    <intercept-url pattern="/authMail*" access="permitAll"/>
-	    <intercept-url pattern="/j_spring_oauth_security_check*" access="permitAll"/>
+	    <intercept-url pattern="/j_spring_facebook_security_check*" access="permitAll"/>
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <form-login login-page="/login" authentication-success-handler-ref="loginSuccessfull" authentication-failure-url="/login?form_error"/>
         <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
@@ -114,13 +163,30 @@
 	    <beans:property name="redirectOnError" value="true"/>
 	</beans:bean>
 	
-	<beans:bean id="oauth2ResourceDetailsService" class="it.polito.ai.lhmf.security.FacebookResourceDetailsService"/>
+	<beans:bean id="facebookResourceDetailsService" class="it.polito.ai.lhmf.security.FacebookResourceDetailsService"/>
+	<beans:bean id="androidFacebookResourceDetailsService" class="it.polito.ai.lhmf.security.FacebookResourceDetailsService">
+	    <beans:constructor-arg value="true"/>
+	</beans:bean>
 	
 	<beans:bean id="fbAuthFilter" class="it.polito.ai.lhmf.security.FacebookAuthenticationFilter">
 		<beans:property name="authenticationManager" ref="authenticationManager"/>
-		<beans:property name="protectedResourceDetailsService" ref="oauth2ResourceDetailsService"/>
+		<beans:property name="protectedResourceDetailsService" ref="facebookResourceDetailsService"/>
 		<beans:property name="authenticationSuccessHandler" ref="loginSuccessfull"/>
-		<beans:property name="AuthenticationFailureHandler" ref="fbSuccessButNotRegistered"/>
+		<beans:property name="authenticationFailureHandler" ref="fbSuccessButNotRegistered"/>
+		<beans:property name="sessionFactory" ref="sessionFactory"/>
+	</beans:bean>
+	
+	<beans:bean id="androidFbAuthFilter" class="it.polito.ai.lhmf.security.FacebookAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"/>
+		<beans:property name="protectedResourceDetailsService" ref="androidFacebookResourceDetailsService"/>
+		<beans:property name="filterProcessesUrl" value="/android/j_spring_facebook_security_check"/>
+		<beans:property name="authenticationSuccessHandler">
+		    <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+		        <beans:constructor-arg value="/android/loginSuccess"/>
+		        <beans:property name="alwaysUseDefaultTargetUrl" value="true"/>
+		    </beans:bean>
+		</beans:property>
+		<beans:property name="AuthenticationFailureHandler" ref="androidFbSuccessButNotRegistered"/>
 		<beans:property name="sessionFactory" ref="sessionFactory"/>
 	</beans:bean>
     
@@ -135,6 +201,14 @@
 	
 	<beans:bean id="fbSuccessButNotRegistered" class="it.polito.ai.lhmf.security.FacebookRegistrationRequiredHandler">
 	    <beans:property name="defaultFailureUrl" value="/login?fb_error"/>
+	</beans:bean>
+	
+	<beans:bean id="androidOpenIdSuccessButNotRegistered" class="it.polito.ai.lhmf.security.OpenIdRegistrationRequiredHandler">
+	    <beans:property name="defaultFailureUrl" value="/android/login?openid_error"/>
+	</beans:bean>
+	
+	<beans:bean id="androidFbSuccessButNotRegistered" class="it.polito.ai.lhmf.security.FacebookRegistrationRequiredHandler">
+	    <beans:property name="defaultFailureUrl" value="/android/login?fb_error"/>
 	</beans:bean>
     
 	<authentication-manager alias="authenticationManager">

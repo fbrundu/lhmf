@@ -24,6 +24,13 @@ public class FacebookResourceDetailsService implements OAuth2ProtectedResourceDe
 		resource.setTokenName("oauth_token");
 		resource.setUserAuthorizationUri("https://www.facebook.com/dialog/oauth");
 	}
+	
+	public FacebookResourceDetailsService(boolean mobile){
+		this();
+		if(mobile)
+			resource.setUserAuthorizationUri("https://www.facebook.com/dialog/oauth?display=touch");
+	}
+	
 	@Override
 	public OAuth2ProtectedResourceDetails loadProtectedResourceDetailsById(
 			String id) throws IllegalArgumentException {

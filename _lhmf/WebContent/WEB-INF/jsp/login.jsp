@@ -77,7 +77,7 @@
 					<input id="openid_submit" type="submit" value="Sign-In"/>
 				</div>
 			</form>
-			<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_oauth_security_check"/>' method="POST">
+			<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_facebook_security_check"/>' method="POST">
 				<input type="submit" />
 			</form>
 		</div>

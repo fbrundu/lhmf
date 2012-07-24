@@ -5,12 +5,13 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+<base href='<spring:url htmlEscape="true" value="/"/>'/>
 <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 <meta charset="utf-8">
 <title>GasProject.net</title>
 <link href='<spring:url htmlEscape="true" value="/css/style-mobile.css"/>' rel="stylesheet" type="text/css"  />
 <script src='<spring:url htmlEscape="true" value="/js/jquery-1.7.2.min.js"/>' type="text/javascript"></script>
-<link type="text/css" rel="stylesheet" href='<spring:url htmlEscape="true" value="/js/openid-selector/css/openid-shadow.css"/>'/>
+<link type="text/css" rel="stylesheet" href='<spring:url htmlEscape="true" value="/js/openid-selector/css/openid-mobile.css"/>'/>
 <script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/openid-selector/js/openid-jquery.js"/>'></script>
 <script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/openid-selector/js/openid-it.js"/>'></script>
 <script type="text/javascript">
@@ -26,7 +27,7 @@ function facebook_click() {
 <body>
     <div class="header" align="center">
         <div class="logo">
-            <a href="<spring:url value='/'></spring:url>"><img src="img/logo.png" alt="GasProject.it" /></a>
+            <a href="<spring:url htmlEscape='true' value='/'></spring:url>"><img src="<spring:url htmlEscape='true' value='/img/logo.png'/>" alt="GasProject.it"/></a>
         </div>
         <div align="center"><button id="show">Menu <span>+</span> <span style="display:none;">-</span></button></div>
         <div class="clear"></div>
@@ -50,8 +51,14 @@ function facebook_click() {
                   </span>
                 </fieldset>
             </c:if>
-        
-           <form id="loginform" method = "POST" action='<spring:url value="/j_spring_security_check"></spring:url>'>
+		   <c:choose>
+				<c:when test="${client == 'android'}">
+					<form id="loginform" method = "POST" action='<spring:url value="/android/j_spring_security_check"></spring:url>'>
+				</c:when>
+				<c:otherwise>
+					<form id="loginform" method = "POST" action='<spring:url value="/j_spring_security_check"></spring:url>'>
+				</c:otherwise>
+		   </c:choose>        
                 <fieldset><legend>&nbsp;Effettua il Login&nbsp;</legend><br />
                     <p>	<label for="j_username" class="top">Username</label><br />
                         <input type="text" name="j_username" id="j_username" tabindex="1" class="field" value="" /></p>
@@ -73,7 +80,14 @@ function facebook_click() {
 			</c:if>
 	        <h2 align="center">Accedi con il tuo account preferito</h2>
 			<p class="center"></p>
-			<form id="openid_form_mobile" class="loginform" name="oidf" action='<spring:url htmlEscape="true" value="/j_spring_openid_security_check"/>' method="POST">
+			<c:choose>
+				<c:when test="${client == 'android'}">
+					<form id="openid_form" class="loginform" name="oidf" action='<spring:url htmlEscape="true" value="/android/j_spring_openid_security_check"/>' method="POST">
+				</c:when>
+				<c:otherwise>
+					<form id="openid_form" class="loginform" name="oidf" action='<spring:url htmlEscape="true" value="/j_spring_openid_security_check"/>' method="POST">
+				</c:otherwise>
+		    </c:choose> 
 				<div id="openid_choice" >
 					<div id="openid_btns"></div>
 				</div>
@@ -82,7 +96,14 @@ function facebook_click() {
 					<input id="openid_submit" type="submit" value="Sign-In"/>
 				</div>
 			</form>
-			<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_oauth_security_check"/>' method="POST">
+			<c:choose>
+				<c:when test="${client == 'android'}">
+					<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/android/j_spring_facebook_security_check"/>' method="POST">
+				</c:when>
+				<c:otherwise>
+					<form style="display:none" id="facebook_form" class="loginform" name="f" action='<spring:url htmlEscape="true" value="/j_spring_facebook_security_check"/>' method="POST">
+				</c:otherwise>
+		    </c:choose> 
 				<input type="submit" />
 			</form>
 		</div>

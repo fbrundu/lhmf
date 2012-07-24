@@ -17,7 +17,7 @@ openid = {
 	cookie_path : '/',
 
 	//img_path : 'images/',
-	img_path : 'js/openid-selector/images/',
+	img_path : $('base').attr('href') + 'js/openid-selector/images/',
 	locale : null, // is set in openid-<locale>.js
 	sprite : null, // usually equals to locale, is set in
 	// openid-<locale>.js
