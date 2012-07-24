@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 24, 2012 alle 20:39
+-- Generato il: Lug 24, 2012 alle 21:16
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -160,9 +160,10 @@ CREATE TABLE IF NOT EXISTS `order` (
   `date_close` date NOT NULL,
   `date_delivery` date DEFAULT NULL,
   `idMember_resp` int(11) NOT NULL,
-  `idMember_supplier` int(11) NOT NULL,
+  `idSupplier` int(11) NOT NULL,
   PRIMARY KEY (`idOrder`),
-  KEY `fk_Order_Member1` (`idMember_resp`)
+  KEY `fk_Order_Member1` (`idMember_resp`),
+  KEY `fk_Order_Supplier1` (`idSupplier`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -303,6 +304,7 @@ ALTER TABLE `notify`
 -- Limiti per la tabella `order`
 --
 ALTER TABLE `order`
+  ADD CONSTRAINT `fk_Order_Supplier1` FOREIGN KEY (`idSupplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_Order_Member1` FOREIGN KEY (`idMember_resp`) REFERENCES `member` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
