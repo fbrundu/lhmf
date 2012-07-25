@@ -1,5 +1,16 @@
 package it.polito.ai.lhmf.controllers;
 
+import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.MemberInterface;
+import it.polito.ai.lhmf.model.MemberStatusInterface;
+import it.polito.ai.lhmf.model.MemberTypeInterface;
+import it.polito.ai.lhmf.model.MessageInterface;
+import it.polito.ai.lhmf.model.constants.MemberStatuses;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
+import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberStatus;
+import it.polito.ai.lhmf.orm.MemberType;
+import it.polito.ai.lhmf.orm.Message;
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
 import it.polito.ai.lhmf.util.CheckNumber;
 import it.polito.ai.lhmf.util.CreateMD5;
@@ -18,21 +29,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.model.MemberStatusInterface;
-import it.polito.ai.lhmf.model.MemberTypeInterface;
-import it.polito.ai.lhmf.model.MemberInterface;
-import it.polito.ai.lhmf.model.MessageInterface;
-import it.polito.ai.lhmf.model.SupplierInterface;
-
-import it.polito.ai.lhmf.model.constants.MemberStatuses;
-import it.polito.ai.lhmf.model.constants.MemberTypes;
-import it.polito.ai.lhmf.orm.Member;
-import it.polito.ai.lhmf.orm.MemberType;
-import it.polito.ai.lhmf.orm.MemberStatus;
-import it.polito.ai.lhmf.orm.Message;
-import it.polito.ai.lhmf.orm.Supplier;
-
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +46,6 @@ public class SignupController
 {
 	@Autowired
 	private MemberInterface memberInterface;
-	@Autowired
-	private SupplierInterface supplierInterface;
 	@Autowired
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
@@ -177,29 +171,14 @@ public class SignupController
 			//Controllo email già in uso
 			
 			Member memberControl = memberInterface.getMemberByEmail(email);
-			boolean checkSupplier = true;
 			
 			if(memberControl != null)
 			{
-				checkSupplier = false;
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
 				error.put("error", "Email già utilizzata da un altro account");
 				errors.add(error);
 			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
-				
-				if(supplierControl != null)
-				{
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "Email");
-					error.put("error", "Email già utilizzata da un altro account");
-					errors.add(error);
-				}
-			}
-			
 		}
 		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
@@ -417,31 +396,15 @@ public class SignupController
 		} else {
 			
 			//Controllo email già in uso
-			
 			Member memberControl = memberInterface.getMemberByEmail(email);
-			boolean checkSupplier = true;
 			
 			if(memberControl != null)
 			{
-				checkSupplier = false;
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
 				error.put("error", "Email già utilizzata da un altro account");
 				errors.add(error);
-			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
-				
-				if(supplierControl != null)
-				{
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "Email");
-					error.put("error", "Email già utilizzata da un altro account");
-					errors.add(error);
-				}
-			}
-			
+			}		
 		}
 		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
@@ -648,29 +611,14 @@ public class SignupController
 		} else {
 			
 			//Controllo email già in uso
-			
 			Member memberControl = memberInterface.getMemberByEmail(email);
-			boolean checkSupplier = true;
 			
 			if(memberControl != null)
 			{
-				checkSupplier = false;
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
 				error.put("error", "Email già utilizzata da un altro account");
 				errors.add(error);
-			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
-				
-				if(supplierControl != null)
-				{
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "Email");
-					error.put("error", "Email già utilizzata da un altro account");
-					errors.add(error);
-				}
 			}
 			
 		}
@@ -721,30 +669,14 @@ public class SignupController
 		} else {
 						
 			Member memberControl = memberInterface.getMember(username);
-			boolean checkSupplier = true;
 			
 			if(memberControl != null)
 			{
-				checkSupplier = false;
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Username");
 				error.put("error", "Username non disponibile");
 				errors.add(error);
-			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplier(username);
-				
-				if(supplierControl != null)
-				{
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "Username");
-					error.put("error", "Username non disponibile");
-					errors.add(error);
-				}
-			}
-			
-			
+			}		
 		}
 		if(password.equals("")) {
 					
