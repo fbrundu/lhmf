@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
+// Generated 25-lug-2012 11.32.27 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -24,7 +24,7 @@ public class Notify implements java.io.Serializable {
 
 	private Integer idNotify;
 	private Member member;
-	private Integer text;
+	private String text;
 	private Date notifyTimestamp;
 	private boolean isReaded;
 	private int notifyCategory;
@@ -32,15 +32,7 @@ public class Notify implements java.io.Serializable {
 	public Notify() {
 	}
 
-	public Notify(Member member, Date notifyTimestamp, boolean isReaded,
-			int notifyCategory) {
-		this.member = member;
-		this.notifyTimestamp = notifyTimestamp;
-		this.isReaded = isReaded;
-		this.notifyCategory = notifyCategory;
-	}
-
-	public Notify(Member member, Integer text, Date notifyTimestamp,
+	public Notify(Member member, String text, Date notifyTimestamp,
 			boolean isReaded, int notifyCategory) {
 		this.member = member;
 		this.text = text;
@@ -70,12 +62,12 @@ public class Notify implements java.io.Serializable {
 		this.member = member;
 	}
 
-	@Column(name = "text")
-	public Integer getText() {
+	@Column(name = "text", nullable = false, length = 300)
+	public String getText() {
 		return this.text;
 	}
 
-	public void setText(Integer text) {
+	public void setText(String text) {
 		this.text = text;
 	}
 

@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
+// Generated 25-lug-2012 11.32.27 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +25,7 @@ public class Product implements java.io.Serializable {
 
 	private Integer idProduct;
 	private ProductCategory productCategory;
+	private Supplier supplier;
 	private String name;
 	private String description;
 	private int dimension;
@@ -36,7 +37,6 @@ public class Product implements java.io.Serializable {
 	private Integer minBuy;
 	private Integer maxBuy;
 	private String imgPath;
-	private int idMemberSupplier;
 	private Set purchaseProducts = new HashSet(0);
 	private Set orders = new HashSet(0);
 	private Set messages = new HashSet(0);
@@ -44,11 +44,11 @@ public class Product implements java.io.Serializable {
 	public Product() {
 	}
 
-	public Product(ProductCategory productCategory, String name,
-			String description, int dimension, String measureUnit,
-			boolean availability, float transportCost, float unitCost,
-			int idMemberSupplier) {
+	public Product(ProductCategory productCategory, Supplier supplier,
+			String name, String description, int dimension, String measureUnit,
+			boolean availability, float transportCost, float unitCost) {
 		this.productCategory = productCategory;
+		this.supplier = supplier;
 		this.name = name;
 		this.description = description;
 		this.dimension = dimension;
@@ -56,15 +56,15 @@ public class Product implements java.io.Serializable {
 		this.availability = availability;
 		this.transportCost = transportCost;
 		this.unitCost = unitCost;
-		this.idMemberSupplier = idMemberSupplier;
 	}
 
-	public Product(ProductCategory productCategory, String name,
-			String description, int dimension, String measureUnit,
+	public Product(ProductCategory productCategory, Supplier supplier,
+			String name, String description, int dimension, String measureUnit,
 			Integer unitBlock, boolean availability, float transportCost,
 			float unitCost, Integer minBuy, Integer maxBuy, String imgPath,
-			int idMemberSupplier, Set purchaseProducts, Set orders, Set messages) {
+			Set purchaseProducts, Set orders, Set messages) {
 		this.productCategory = productCategory;
+		this.supplier = supplier;
 		this.name = name;
 		this.description = description;
 		this.dimension = dimension;
@@ -76,7 +76,6 @@ public class Product implements java.io.Serializable {
 		this.minBuy = minBuy;
 		this.maxBuy = maxBuy;
 		this.imgPath = imgPath;
-		this.idMemberSupplier = idMemberSupplier;
 		this.purchaseProducts = purchaseProducts;
 		this.orders = orders;
 		this.messages = messages;
@@ -101,6 +100,16 @@ public class Product implements java.io.Serializable {
 
 	public void setProductCategory(ProductCategory productCategory) {
 		this.productCategory = productCategory;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "idSupplier", nullable = false)
+	public Supplier getSupplier() {
+		return this.supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 
 	@Column(name = "name", nullable = false, length = 45)
@@ -200,15 +209,6 @@ public class Product implements java.io.Serializable {
 
 	public void setImgPath(String imgPath) {
 		this.imgPath = imgPath;
-	}
-
-	@Column(name = "idMember_supplier", nullable = false)
-	public int getIdMemberSupplier() {
-		return this.idMemberSupplier;
-	}
-
-	public void setIdMemberSupplier(int idMemberSupplier) {
-		this.idMemberSupplier = idMemberSupplier;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")

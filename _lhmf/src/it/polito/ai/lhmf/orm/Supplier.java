@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
+// Generated 25-lug-2012 11.32.27 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -39,6 +39,7 @@ public class Supplier implements java.io.Serializable {
 	private String website;
 	private String paymentMethod;
 	private Set<Order> orders = new HashSet<Order>(0);
+	private Set<Product> products = new HashSet<Product>(0);
 
 	public Supplier() {
 	}
@@ -52,7 +53,8 @@ public class Supplier implements java.io.Serializable {
 
 	public Supplier(Member memberByIdMember, Member memberByIdMemberResp,
 			String companyName, String description, String contactName,
-			String fax, String website, String paymentMethod, Set<Order> orders) {
+			String fax, String website, String paymentMethod, Set<Order> orders,
+			Set<Product> products) {
 		this.memberByIdMember = memberByIdMember;
 		this.memberByIdMemberResp = memberByIdMemberResp;
 		this.companyName = companyName;
@@ -62,6 +64,7 @@ public class Supplier implements java.io.Serializable {
 		this.website = website;
 		this.paymentMethod = paymentMethod;
 		this.orders = orders;
+		this.products = products;
 	}
 
 	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "memberByIdMember"))
@@ -89,7 +92,7 @@ public class Supplier implements java.io.Serializable {
 	public void setMemberByIdMember(Member memberByIdMember) {
 		this.memberByIdMember = memberByIdMember;
 	}
-	
+
 	/**
 	 * Ritorna il responsabile legato a questo Supplier
 	 * @return
@@ -165,6 +168,15 @@ public class Supplier implements java.io.Serializable {
 
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
+	public Set<Product> getProducts() {
+		return this.products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
 }

@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
+// Generated 25-lug-2012 11.32.27 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -35,6 +35,7 @@ public class Supplier implements java.io.Serializable {
 	private String website;
 	private String paymentMethod;
 	private Set orders = new HashSet(0);
+	private Set products = new HashSet(0);
 
 	public Supplier() {
 	}
@@ -48,7 +49,8 @@ public class Supplier implements java.io.Serializable {
 
 	public Supplier(Member memberByIdMember, Member memberByIdMemberResp,
 			String companyName, String description, String contactName,
-			String fax, String website, String paymentMethod, Set orders) {
+			String fax, String website, String paymentMethod, Set orders,
+			Set products) {
 		this.memberByIdMember = memberByIdMember;
 		this.memberByIdMemberResp = memberByIdMemberResp;
 		this.companyName = companyName;
@@ -58,6 +60,7 @@ public class Supplier implements java.io.Serializable {
 		this.website = website;
 		this.paymentMethod = paymentMethod;
 		this.orders = orders;
+		this.products = products;
 	}
 
 	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "memberByIdMember"))
@@ -153,6 +156,15 @@ public class Supplier implements java.io.Serializable {
 
 	public void setOrders(Set orders) {
 		this.orders = orders;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "supplier")
+	public Set getProducts() {
+		return this.products;
+	}
+
+	public void setProducts(Set products) {
+		this.products = products;
 	}
 
 }
