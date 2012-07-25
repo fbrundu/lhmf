@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 24-lug-2012 21.25.07 by Hibernate Tools 3.4.0.CR1
+// Generated 25-lug-2012 11.32.27 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 import javax.persistence.Column;
