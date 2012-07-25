@@ -19,7 +19,8 @@ public class SupplierDeserializer extends JsonDeserializer<Supplier>
 {
 	private SessionFactory sessionFactory;
 
-	public SupplierDeserializer(SessionFactory sf) {
+	public SupplierDeserializer(SessionFactory sf)
+	{
 		this.sessionFactory = sf;
 	}
 
@@ -37,22 +38,6 @@ public class SupplierDeserializer extends JsonDeserializer<Supplier>
 			JsonNode node = oc.readTree(jpar);
 
 			newSupplier.setIdMember(node.get("idMember").getIntValue());
-			newSupplier.setName(node.get("name").getTextValue());
-			newSupplier.setSurname(node.get("surname").getTextValue());
-			newSupplier.setUsername(node.get("username").getTextValue());
-			// newSupplier.setPassword(node.get("password").getTextValue());
-//			newSupplier.setRegCode(node.get("regCode").getTextValue());
-			String regDateString = node.get("regDate").getTextValue();
-			newSupplier.setRegDate(ISO8601DateParser.parse(regDateString));
-			newSupplier.setEmail(node.get("email").getTextValue());
-			newSupplier.setAddress(node.get("address").getTextValue());
-			newSupplier.setCity(node.get("city").getTextValue());
-			newSupplier.setState(node.get("state").getTextValue());
-			newSupplier.setCap(node.get("cap").getIntValue());
-			newSupplier.setTel(node.get("tel").getTextValue());
-			newSupplier.setActive(node.get("state").getBooleanValue());
-//			newSupplier.setMemberType(node.get("memberType").getNumberValue()
-//					.byteValue());
 			newSupplier.setCompanyName(node.get("companyName").getTextValue());
 			newSupplier.setDescription(node.get("description").getTextValue());
 			newSupplier.setContactName(node.get("contactName").getTextValue());
@@ -66,7 +51,7 @@ public class SupplierDeserializer extends JsonDeserializer<Supplier>
 			query.setParameter("idMember", node.get("idMemberResp")
 					.getNumberValue());
 			Member memberResp = (Member) query.uniqueResult();
-			newSupplier.setMember(memberResp);
+			newSupplier.setMemberByIdMemberResp(memberResp);
 		}
 		catch (Exception e)
 		{

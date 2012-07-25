@@ -1,0 +1,3443 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - July 2012 Commit Log</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>July 2012 Commit Log</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a></div>
+
+<div id="nav" class="section">
+<h2>Commit Logs</h2>
+<ul>
+    <li><span class="here">July 2012</span></li>
+    <li><a href="2012-06.html">June 2012</a></li>
+</ul>
+</div><dl class="attributes">
+    <dt>Number of Commits:</dt>
+    <dd>118</dd>
+    <dt>Number of Active Developers:</dt>
+    <dd>4</dd>
+</dl>
+<dl class="commitlist">
+  <dt><a name="118"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-25 14:35</span>
+    <a class="permalink" title="Permalink to this commit" href="#118">#118</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">184</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiornato Member De/Serializer
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        MemberDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        MemberSerializer.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="117"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-25 14:33</span>
+    <a class="permalink" title="Permalink to this commit" href="#117">#117</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">183</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiornata SupplierInterface
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        SupplierInterface.java&#160;<span class="change">(+3&#160;-26)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="116"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-25 14:22</span>
+    <a class="permalink" title="Permalink to this commit" href="#116">#116</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">182</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Tolta annotazione catalog da hibernate mapping; aggiunte classi dimenticare scorso commit
+    </p>
+    <p class="commitdetails"><strong>82</strong> lines of code changed in <span class="files">8 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        productsMgmt_supplier.jsp&#160;<span class="new">(new&#160;42)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SupplierController.java&#160;<span class="new">(new&#160;30)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Member.java&#160;<span class="change">(+5&#160;-5)</span>,
+        Message.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Notify.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Order.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Product.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Supplier.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="115"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-25 13:19</span>
+    <a class="permalink" title="Permalink to this commit" href="#115">#115</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">181</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modifiche security per android
+    </p>
+    <p class="commitdetails"><strong>9</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android</strong>:
+        AndroidGASActivity.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android/binding</strong>:
+        GasServiceProvider.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+6&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="114"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-25 12:59</span>
+    <a class="permalink" title="Permalink to this commit" href="#114">#114</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">180</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modifiche dopo l'upgrade del database e aggiunte al controllore delle schede
+    </p>
+    <p class="commitdetails"><strong>89</strong> lines of code changed in <span class="files">7 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_normal.jsp&#160;<span class="change">(+8&#160;-22)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+15)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        PurchaseAjaxController.java&#160;<span class="change">(+33&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        PurchaseDeserializer.java&#160;<span class="change">(+2)</span>,
+        PurchaseSerializer.java&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        OrderInterface.java&#160;<span class="change">(+8)</span>,
+        PurchaseInterface.java&#160;<span class="change">(+22&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="113"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-25 12:24</span>
+    <a class="permalink" title="Permalink to this commit" href="#113">#113</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">179</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+mapping completato e riportato nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>156</strong> lines of code changed in <span class="files">16 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>HibernateMapping/src/it/polito/ai/lhmf/orm</strong>:
+        Log.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Member.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberStatus.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberType.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Message.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Notify.java&#160;<span class="change">(+6&#160;-14)</span>,
+        Order.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Product.java&#160;<span class="change">(+20&#160;-20)</span>,
+        ProductCategory.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Purchase.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProduct.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProductId.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Supplier.java&#160;<span class="change">(+14&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Notify.java&#160;<span class="change">(+30&#160;-7)</span>,
+        Product.java&#160;<span class="change">(+61&#160;-74)</span>,
+        Supplier.java&#160;<span class="change">(+15&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="112"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 23:07</span>
+    <a class="permalink" title="Permalink to this commit" href="#112">#112</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">178</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+prime correzioni successive al cambio db
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAuthenticationFilter.java&#160;<span class="change">(+2)</span>,
+        LoginSuccessfullHandler.java&#160;<span class="change">(-13)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+8&#160;-21)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="111"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 22:29</span>
+    <a class="permalink" title="Permalink to this commit" href="#111">#111</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">177</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: product: aggiunto collegamento con supplier<br />
+          notifiy: modificato text in VARCHAR(300)<br />
+<br />
+mapping: rifare mapping di Product, Supplier e Notify
+    </p>
+    <p class="commitdetails"><strong>268</strong> lines of code changed in <span class="files">7 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+6&#160;-4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Member.java&#160;<span class="change">(+101&#160;-114)</span>,
+        Message.java&#160;<span class="change">(+78&#160;-6)</span>,
+        Order.java&#160;<span class="change">(+25&#160;-5)</span>,
+        Purchase.java&#160;<span class="change">(+15&#160;-5)</span>,
+        Supplier.java&#160;<span class="change">(+43&#160;-205)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="110"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 21:26</span>
+    <a class="permalink" title="Permalink to this commit" href="#110">#110</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">176</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+HibernateMapping: rifatto il mapping, da riportare nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>46</strong> lines of code changed in <span class="files">13 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>HibernateMapping/src/it/polito/ai/lhmf/orm</strong>:
+        Log.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Member.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberStatus.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberType.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Message.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Notify.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Order.java&#160;<span class="change">(+19&#160;-18)</span>,
+        Product.java&#160;<span class="change">(+1&#160;-1)</span>,
+        ProductCategory.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Purchase.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProduct.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProductId.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Supplier.java&#160;<span class="change">(+16&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="109"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 21:20</span>
+    <a class="permalink" title="Permalink to this commit" href="#109">#109</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">175</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: aggiunto collegamento tra Order e Supplier, da rifare il mapping
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+5&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="108"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 20:55</span>
+    <a class="permalink" title="Permalink to this commit" href="#108">#108</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">174</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: ripristinato collegamento tra supplierr e member per responsabile.<br />
+<br />
+HibernateMapping: rifatto il mapping, ancora da riportare nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>334</strong> lines of code changed in <span class="files">15 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+12&#160;-8)</span>
+      </li>
+      <li>
+        <strong>HibernateMapping/src/it/polito/ai/lhmf/orm</strong>:
+        Log.java&#160;<span class="change">(+2&#160;-6)</span>,
+        Member.java&#160;<span class="change">(+53&#160;-44)</span>,
+        MemberStatus.java&#160;<span class="change">(+6&#160;-10)</span>,
+        MemberType.java&#160;<span class="change">(+6&#160;-10)</span>,
+        Message.java&#160;<span class="change">(+61&#160;-10)</span>,
+        Notify.java&#160;<span class="change">(+38&#160;-11)</span>,
+        Order.java&#160;<span class="change">(+36&#160;-29)</span>,
+        Product.java&#160;<span class="change">(+50&#160;-32)</span>,
+        ProductCategory.java&#160;<span class="change">(+13&#160;-17)</span>,
+        Purchase.java&#160;<span class="change">(+20&#160;-11)</span>,
+        PurchaseProduct.java&#160;<span class="change">(+2&#160;-6)</span>,
+        PurchaseProductId.java&#160;<span class="change">(+1&#160;-5)</span>,
+        Supplier.java&#160;<span class="change">(+34&#160;-222)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="107"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 19:32</span>
+    <a class="permalink" title="Permalink to this commit" href="#107">#107</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">173</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificato ulteriormente db:<br />
+-aggiunto NULLABLE a message.product, message.order, message.sender<br />
+-aggiunti message_categorye notofy_category<br />
+-aggiunto NULLABLE a message.text e notify.text
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        newDB.sql&#160;<span class="change">(+10&#160;-95)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="106"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-24 18:52</span>
+    <a class="permalink" title="Permalink to this commit" href="#106">#106</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">172</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creazione prodotto + categoria terminata; da testare
+    </p>
+    <p class="commitdetails"><strong>660</strong> lines of code changed in <span class="files">8 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_supplier.jsp&#160;<span class="change">(+16&#160;-39)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+17)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_supplier.js&#160;<span class="change">(+326&#160;-47)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        ProductAjaxController.java&#160;<span class="change">(+48&#160;-2)</span>,
+        ProductCategoryAjaxController.java&#160;<span class="change">(+6&#160;-2)</span>,
+        SupplierAjaxController.java&#160;<span class="change">(+191&#160;-125)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        ProductCategoryInterface.java&#160;<span class="change">(+24&#160;-5)</span>,
+        SupplierInterface.java&#160;<span class="change">(+32&#160;-14)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="105"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 18:24</span>
+    <a class="permalink" title="Permalink to this commit" href="#105">#105</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">171</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creato insfrastruttura di presentazione per Responsabile.
+    </p>
+    <p class="commitdetails"><strong>705</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_resp.jsp&#160;<span class="change">(+15&#160;-30)</span>,
+        order_resp.jsp&#160;<span class="new">(new&#160;51)</span>,
+        userMgmt_admin.jsp&#160;<span class="change">(-58)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_resp.js&#160;<span class="change">(+614)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        RespController.java&#160;<span class="new">(new&#160;25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="104"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 18:22</span>
+    <a class="permalink" title="Permalink to this commit" href="#104">#104</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">170</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+NUOVO DATABASE. Le Modifiche sono sostanziose. Era necessario. Riadattare il codice se non funziona (dopo aver sistemato Hibernate)
+    </p>
+    <p class="commitdetails"><strong>425</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        newDB.sql&#160;<span class="new">(new&#160;425)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="103"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 18:15</span>
+    <a class="permalink" title="Permalink to this commit" href="#103">#103</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">169</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>296</strong> lines of code changed in <span class="files">10 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+79&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp/mobile</strong>:
+        index.jsp&#160;<span class="del">(del)</span>,
+        login.jsp&#160;<span class="new">(new&#160;123)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/css</strong>:
+        openid-mobile.css&#160;<span class="new">(new&#160;69)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/js</strong>:
+        openid-jquery.js&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        LoginController.java&#160;<span class="change">(+14)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAuthenticationFilter.java&#160;<span class="change">(+1&#160;-1)</span>,
+        FacebookResourceDetailsService.java&#160;<span class="change">(+7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="102"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 15:22</span>
+    <a class="permalink" title="Permalink to this commit" href="#102">#102</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">168</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunta modifica per il db (id product_category da mettere come auto_increment)
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="101"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-24 11:44</span>
+    <a class="permalink" title="Permalink to this commit" href="#101">#101</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">167</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Costruzione pagine normal e responsable(inizio)
+    </p>
+    <p class="commitdetails"><strong>46</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_normal.jsp&#160;<span class="change">(+22&#160;-7)</span>,
+        index_resp.jsp&#160;<span class="change">(+24&#160;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="100"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-23 18:46</span>
+    <a class="permalink" title="Permalink to this commit" href="#100">#100</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">166</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Descrizione modifiche database in README
+    </p>
+    <p class="commitdetails"><strong>25</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(+25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="99"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-23 18:07</span>
+    <a class="permalink" title="Permalink to this commit" href="#99">#99</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">165</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="98"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-23 17:35</span>
+    <a class="permalink" title="Permalink to this commit" href="#98">#98</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">164</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modifica pagina jsp utente normale
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_normal.jsp&#160;<span class="change">(+2&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="97"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-22 00:02</span>
+    <a class="permalink" title="Permalink to this commit" href="#97">#97</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">163</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+sistemate due cosine per facebook.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookResourceDetails.java&#160;<span class="del">(del)</span>,
+        FacebookResourceDetailsService.java&#160;<span class="change">(+2&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="96"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-21 22:41</span>
+    <a class="permalink" title="Permalink to this commit" href="#96">#96</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">162</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificati link con spring:uri
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp/mobile</strong>:
+        index.jsp&#160;<span class="change">(+5&#160;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="95"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-21 22:37</span>
+    <a class="permalink" title="Permalink to this commit" href="#95">#95</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">161</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creato pagina Login per Mobile
+    </p>
+    <p class="commitdetails"><strong>373</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp/mobile</strong>:
+        index.jsp&#160;<span class="new">(new&#160;102)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        style-mobile.css&#160;<span class="new">(new&#160;268)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/img</strong>:
+        logo.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/css</strong>:
+        openid-shadow.css&#160;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="94"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-21 21:26</span>
+    <a class="permalink" title="Permalink to this commit" href="#94">#94</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">160</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+versioje iniziale service android. viene attivato quando è attiva una connessione. Al suo interno (per ora nel thread principale, da spostare in un altro thread) verifica che l'utente sia già loggato. se non lo p, mette una notifica per far loggare l'utente
+    </p>
+    <p class="commitdetails"><strong>174</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>AndroidGAS</strong>:
+        AndroidManifest.xml&#160;<span class="change">(+13&#160;-5)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android</strong>:
+        AndroidGASActivity.java&#160;<span class="change">(+33&#160;-5)</span>,
+        GasNetworkService.java&#160;<span class="new">(new&#160;77)</span>,
+        NetworkStateBroadcastReceiver.java&#160;<span class="new">(new&#160;49)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android/binding</strong>:
+        GasServiceProvider.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="93"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-20 17:16</span>
+    <a class="permalink" title="Permalink to this commit" href="#93">#93</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">159</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Bug del timestamp della data di registrazione nella lista membri risolto
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+4&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="92"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-20 16:21</span>
+    <a class="permalink" title="Permalink to this commit" href="#92">#92</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">158</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Pannello Admin Completato. (Bisogna fare tutta la parte relativa ad ordini e prodotti). Implementato anche la generazione delle password. Modificato modalità di invio email. Implementato l'authMail in modo tale che attivi direttamente l'account se è stato creato dall'admin (Ancora da Testare). <br />
+<br />
+Perfavore se trovate bug fatemelo sapere. 
+    </p>
+    <p class="commitdetails"><strong>631</strong> lines of code changed in <span class="files">11 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+228&#160;-70)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+157&#160;-95)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+79&#160;-18)</span>,
+        SupplierAjaxController.java&#160;<span class="change">(+64&#160;-32)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        MemberDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        MemberSerializer.java&#160;<span class="change">(+2&#160;-4)</span>,
+        SupplierDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        SupplierSerializer.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+23)</span>,
+        SupplierInterface.java&#160;<span class="change">(+10&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+62&#160;-17)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="91"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-20 15:21</span>
+    <a class="permalink" title="Permalink to this commit" href="#91">#91</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">157</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Resp implementato su sessionStorage
+    </p>
+    <p class="commitdetails"><strong>39</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+29)</span>,
+        lib_normal.js&#160;<span class="change">(+6&#160;-6)</span>,
+        lib_resp.js&#160;<span class="change">(+4&#160;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="90"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-20 00:52</span>
+    <a class="permalink" title="Permalink to this commit" href="#90">#90</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">156</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Attiva Membri Completato. Risolti bug registrazione. Qualche piccolezza ancora da fare.
+    </p>
+    <p class="commitdetails"><strong>432</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+10)</span>,
+        lib_admin.js&#160;<span class="change">(+82&#160;-42)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+66&#160;-148)</span>,
+        SupplierAjaxController.java&#160;<span class="change">(+240&#160;-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+13&#160;-11)</span>,
+        SupplierInterface.java&#160;<span class="change">(+21)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="89"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-19 21:45</span>
+    <a class="permalink" title="Permalink to this commit" href="#89">#89</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">155</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Finito attivazione Account da parte dell'admin. Per ora funziona solo per membri e responsabili. Devo ancora integrare fornitori.
+    </p>
+    <p class="commitdetails"><strong>15</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+12&#160;-12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="88"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-19 20:42</span>
+    <a class="permalink" title="Permalink to this commit" href="#88">#88</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">154</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Forse fixato bug controllore ajax activeMember; testare
+    </p>
+    <p class="commitdetails"><strong>31</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        lhmf-servlet.xml&#160;<span class="change">(+24&#160;-18)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+7&#160;-7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="87"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-19 18:46</span>
+    <a class="permalink" title="Permalink to this commit" href="#87">#87</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">153</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Sto lavorando sulla lista membri da attivare. 
+    </p>
+    <p class="commitdetails"><strong>236</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+1&#160;-7)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+143&#160;-7)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+59)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+32)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="86"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-19 16:42</span>
+    <a class="permalink" title="Permalink to this commit" href="#86">#86</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">152</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        OrderInterface.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseInterface.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="85"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-19 00:33</span>
+    <a class="permalink" title="Permalink to this commit" href="#85">#85</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">151</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Registrazione Forenitore Completata. <br />
+<br />
+Cose da fare/aggiustare:<br />
+- Generare le password ed inviarle all'email.<br />
+- Modificare l'authMail affinche attivi anche i suppliers (ora fa solo membri e responsabili)<br />
+- Modificare il getMembersRespString in modo che restituisca solo i membri attivati.
+    </p>
+    <p class="commitdetails"><strong>346</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+171&#160;-77)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+157&#160;-42)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+15&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="84"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-18 18:34</span>
+    <a class="permalink" title="Permalink to this commit" href="#84">#84</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">150</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Lato client impostato per registrare responsabili e fornitori. Manca lato server. Sarà fatto presto abbiate fede.
+    </p>
+    <p class="commitdetails"><strong>192</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(+4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+24&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+90&#160;-58)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+5&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+67&#160;-19)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="83"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-18 17:13</span>
+    <a class="permalink" title="Permalink to this commit" href="#83">#83</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">149</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+javascript quasi completo di utenti normale e responsabile
+    </p>
+    <p class="commitdetails"><strong>31</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+5&#160;-5)</span>,
+        lib_resp.js&#160;<span class="change">(+26&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="82"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-18 14:39</span>
+    <a class="permalink" title="Permalink to this commit" href="#82">#82</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">148</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>25</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+5&#160;-5)</span>,
+        MemberDeserializer.java&#160;<span class="change">(+3&#160;-5)</span>,
+        OrderDeserializer.java&#160;<span class="change">(+4&#160;-7)</span>,
+        ProductCategoryDeserializer.java&#160;<span class="change">(+7)</span>,
+        PurchaseDeserializer.java&#160;<span class="change">(+4&#160;-7)</span>,
+        SupplierDeserializer.java&#160;<span class="change">(+2&#160;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="81"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-18 13:40</span>
+    <a class="permalink" title="Permalink to this commit" href="#81">#81</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">147</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunti alcuni dettagli riguardo utenti normale e responsabile
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+2&#160;-2)</span>,
+        lib_resp.js&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        PurchaseInterface.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="80"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-18 12:33</span>
+    <a class="permalink" title="Permalink to this commit" href="#80">#80</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">146</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>54</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+1&#160;-1)</span>,
+        lib_normal.js&#160;<span class="change">(+51&#160;-2)</span>,
+        lib_resp.js&#160;<span class="change">(+2&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="79"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-18 11:25</span>
+    <a class="permalink" title="Permalink to this commit" href="#79">#79</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">145</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>11</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+2&#160;-5)</span>,
+        lib_resp.js&#160;<span class="change">(+3&#160;-4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        OrderAjaxController.java&#160;<span class="change">(+3)</span>,
+        PurchaseAjaxController.java&#160;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="78"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-18 10:37</span>
+    <a class="permalink" title="Permalink to this commit" href="#78">#78</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">144</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Spostate operazioni su supplier (client-side) in lib.js -&gt; utili per tutti gli utenti
+    </p>
+    <p class="commitdetails"><strong>33</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+33)</span>,
+        lib_supplier.js&#160;<span class="change">(-33)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="77"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-18 09:39</span>
+    <a class="permalink" title="Permalink to this commit" href="#77">#77</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">143</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+piccoli update
+    </p>
+    <p class="commitdetails"><strong>108</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+54&#160;-17)</span>,
+        lib_resp.js&#160;<span class="change">(+54&#160;-15)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="76"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-17 23:59</span>
+    <a class="permalink" title="Permalink to this commit" href="#76">#76</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">142</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Non entra nel metodo ajax/newMember. Non riesco a capire il perchè. 
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="75"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-17 22:18</span>
+    <a class="permalink" title="Permalink to this commit" href="#75">#75</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">141</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modificato il controllo ajax per newmember. Sezione admin ancora da finire.
+    </p>
+    <p class="commitdetails"><strong>606</strong> lines of code changed in <span class="files">9 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        authMail_confirmed.jsp&#160;<span class="new">(new&#160;43)</span>,
+        userMgmt_admin.jsp&#160;<span class="new">(new&#160;101)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+211&#160;-10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        AdminController.java&#160;<span class="new">(new&#160;48)</span>,
+        LogController.java&#160;<span class="del">(del)</span>,
+        SignupController.java&#160;<span class="change">(+68&#160;-65)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+111&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        CheckNumber.java&#160;<span class="new">(new&#160;17)</span>,
+        SendEmail.java&#160;<span class="change">(+7&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="74"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 18:32</span>
+    <a class="permalink" title="Permalink to this commit" href="#74">#74</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">140</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Quasi finita lib_supplier: manca il riferimento al member responsabile quando si stampa un prodotto
+    </p>
+    <p class="commitdetails"><strong>52</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_supplier.js&#160;<span class="change">(+52&#160;-16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="73"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 18:13</span>
+    <a class="permalink" title="Permalink to this commit" href="#73">#73</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">139</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Migliorata lib_supplier
+    </p>
+    <p class="commitdetails"><strong>113</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+9)</span>,
+        lib_supplier.js&#160;<span class="change">(+104&#160;-11)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="72"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 17:28</span>
+    <a class="permalink" title="Permalink to this commit" href="#72">#72</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">138</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Migliorata lib_supplier
+    </p>
+    <p class="commitdetails"><strong>29</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_supplier.js&#160;<span class="change">(+29&#160;-38)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="71"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 17:05</span>
+    <a class="permalink" title="Permalink to this commit" href="#71">#71</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">137</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Revisione deser/ser + hibernate completata
+    </p>
+    <p class="commitdetails"><strong>45</strong> lines of code changed in <span class="files">8 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_supplier.js&#160;<span class="change">(+10&#160;-10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        ProductDeserializer.java&#160;<span class="change">(+8&#160;-8)</span>,
+        ProductSerializer.java&#160;<span class="change">(+9&#160;-9)</span>,
+        SupplierDeserializer.java&#160;<span class="change">(+1&#160;-1)</span>,
+        SupplierSerializer.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+1&#160;-2)</span>,
+        SupplierInterface.java&#160;<span class="change">(+15&#160;-15)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="70"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 16:45</span>
+    <a class="permalink" title="Permalink to this commit" href="#70">#70</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">136</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="69"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 16:44</span>
+    <a class="permalink" title="Permalink to this commit" href="#69">#69</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">135</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Corretto bug su ProductCategorySerializer: mismatch tra campo serializzato e deserializzato (idProduct_Category - idProductCategory) 
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        OrderSerializer.java&#160;<span class="change">(-2)</span>,
+        ProductCategoryDeserializer.java&#160;<span class="change">(-19)</span>,
+        ProductCategorySerializer.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="68"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-17 16:39</span>
+    <a class="permalink" title="Permalink to this commit" href="#68">#68</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">134</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Corretto bug su OrderDeserializer (doppio node.get(\"date_close\")) e corretto formato (camelCase per JSON e js se no facciamo confusione)
+    </p>
+    <p class="commitdetails"><strong>17</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        OrderDeserializer.java&#160;<span class="change">(+5&#160;-5)</span>,
+        OrderSerializer.java&#160;<span class="change">(+12&#160;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="67"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-17 13:40</span>
+    <a class="permalink" title="Permalink to this commit" href="#67">#67</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">133</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Sistemato parte log Admin.
+    </p>
+    <p class="commitdetails"><strong>47</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+5&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+16&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+26&#160;-11)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="66"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-16 14:58</span>
+    <a class="permalink" title="Permalink to this commit" href="#66">#66</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">132</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        OrderInterface.java&#160;<span class="change">(+2&#160;-2)</span>,
+        PurchaseInterface.java&#160;<span class="change">(+4&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="65"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 23:53</span>
+    <a class="permalink" title="Permalink to this commit" href="#65">#65</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">131</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Puttanate
+    </p>
+    <p class="commitdetails"><strong>53</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+8&#160;-3)</span>,
+        index_normal.jsp&#160;<span class="change">(+10&#160;-1)</span>,
+        index_resp.jsp&#160;<span class="change">(+18&#160;-1)</span>,
+        index_supplier.jsp&#160;<span class="change">(+10&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+5&#160;-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="64"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-15 20:41</span>
+    <a class="permalink" title="Permalink to this commit" href="#64">#64</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">130</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added return products table to lib_supplier; modificato poco index_supplier (non è completo)
+    </p>
+    <p class="commitdetails"><strong>63</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_supplier.jsp&#160;<span class="change">(+39&#160;-10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_supplier.js&#160;<span class="change">(+24&#160;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="63"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 20:14</span>
+    <a class="permalink" title="Permalink to this commit" href="#63">#63</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">129</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunto invio messaggio all'admin con richiesta di attivazione account (sempre dopo la verifica della mail, quindi subito per facebook e openid, alla conferma per gli utenti normali).
+    </p>
+    <p class="commitdetails"><strong>111</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+95&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="62"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 18:49</span>
+    <a class="permalink" title="Permalink to this commit" href="#62">#62</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">128</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunto controllo sulle email. Non viene permessa la registrazione con una mail già in uso.
+    </p>
+    <p class="commitdetails"><strong>84</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+84)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="61"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-15 18:45</span>
+    <a class="permalink" title="Permalink to this commit" href="#61">#61</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">127</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Fixed bug on Product CRUD
+    </p>
+    <p class="commitdetails"><strong>67</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+11&#160;-1)</span>,
+        lib_supplier.js&#160;<span class="change">(+39&#160;-19)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        ProductAjaxController.java&#160;<span class="change">(+3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        MemberDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        ProductDeserializer.java&#160;<span class="change">(+9&#160;-9)</span>,
+        ProductSerializer.java&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="60"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 18:14</span>
+    <a class="permalink" title="Permalink to this commit" href="#60">#60</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">126</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunti getMemberByEmail e getSupplierByMail
+    </p>
+    <p class="commitdetails"><strong>18</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+9)</span>,
+        SupplierInterface.java&#160;<span class="change">(+9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="59"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 17:50</span>
+    <a class="permalink" title="Permalink to this commit" href="#59">#59</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">125</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunti controlli sul campo username
+    </p>
+    <p class="commitdetails"><strong>27</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+27&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="58"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 17:37</span>
+    <a class="permalink" title="Permalink to this commit" href="#58">#58</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">124</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Tolto il membro checkMail. Cambiato con variabile di sessione
+    </p>
+    <p class="commitdetails"><strong>33</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup_confirmed.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+32&#160;-32)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="57"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-15 17:11</span>
+    <a class="permalink" title="Permalink to this commit" href="#57">#57</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">123</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Tolte annotazioni JSONSerialize/Deserialize da classi orm package - fa tutto il CustomObjectMapper; aggiunto il deserializzatore per ProductCategory; aggiunta funzione per ricevere i prodotti solo del supplier che fa la richiesta; corrette alcune query hql delle interfacce (per la prossima revisione saranno tutte corrette)
+    </p>
+    <p class="commitdetails"><strong>143</strong> lines of code changed in <span class="files">12 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_supplier.js&#160;<span class="change">(+20&#160;-22)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        ProductAjaxController.java&#160;<span class="change">(+13)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+14&#160;-4)</span>,
+        ProductCategoryDeserializer.java&#160;<span class="new">(new&#160;59)</span>,
+        ProductDeserializer.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        ProductCategoryInterface.java&#160;<span class="change">(+3&#160;-3)</span>,
+        ProductInterface.java&#160;<span class="change">(+33&#160;-12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Member.java&#160;<span class="change">(-8)</span>,
+        Product.java&#160;<span class="change">(-8)</span>,
+        ProductCategory.java&#160;<span class="change">(-5)</span>,
+        Purchase.java&#160;<span class="change">(-5)</span>,
+        Supplier.java&#160;<span class="change">(-8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="56"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-15 11:20</span>
+    <a class="permalink" title="Permalink to this commit" href="#56">#56</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">122</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+aggiunto controllo account abilitato anche per facebook.<br />
+modificato leggermente lo stile della pagina di login.
+    </p>
+    <p class="commitdetails"><strong>55</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+9&#160;-8)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+4&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAuthenticationFilter.java&#160;<span class="change">(+13&#160;-7)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+13&#160;-11)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security/exception</strong>:
+        MailNotVerifiedException.java&#160;<span class="new">(new&#160;16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="55"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-15 11:10</span>
+    <a class="permalink" title="Permalink to this commit" href="#55">#55</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">121</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>18</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+18)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="54"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-15 11:06</span>
+    <a class="permalink" title="Permalink to this commit" href="#54">#54</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">120</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+CRUD completato su purchase
+    </p>
+    <p class="commitdetails"><strong>12</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        PurchaseInterface.java&#160;<span class="change">(+12&#160;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="53"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-15 09:58</span>
+    <a class="permalink" title="Permalink to this commit" href="#53">#53</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">119</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificata dimensione username anche per i supplier
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+2&#160;-15)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="52"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 01:41</span>
+    <a class="permalink" title="Permalink to this commit" href="#52">#52</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">118</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Conferma dell'email finita e funzionante. Ho dovuto modificare il memberInterface per via di qualche errore nel metodo updateMember. Tutto ok.
+    </p>
+    <p class="commitdetails"><strong>63</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+53)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+10&#160;-12)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="51"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 00:44</span>
+    <a class="permalink" title="Permalink to this commit" href="#51">#51</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">117</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modificato applicationContext-security.xml per i permessi per la pagina che dovrà autenticare la mail.
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="50"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 00:42</span>
+    <a class="permalink" title="Permalink to this commit" href="#50">#50</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">116</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>46</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+44&#160;-36)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="49"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 00:22</span>
+    <a class="permalink" title="Permalink to this commit" href="#49">#49</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">115</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>53</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+38&#160;-27)</span>,
+        signup.jsp&#160;<span class="change">(+11&#160;-9)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+3&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="48"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-14 23:24</span>
+    <a class="permalink" title="Permalink to this commit" href="#48">#48</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">114</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+invio mail funzionante
+    </p>
+    <p class="commitdetails"><strong>17</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+17&#160;-25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="47"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-14 22:59</span>
+    <a class="permalink" title="Permalink to this commit" href="#47">#47</a>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="46"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-14 22:11</span>
+    <a class="permalink" title="Permalink to this commit" href="#46">#46</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">110</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+SQL aggiornato; dobbiamo inserire anche istruzioni di update del database?
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="45"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-14 21:56</span>
+    <a class="permalink" title="Permalink to this commit" href="#45">#45</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">109</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="44"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-14 20:32</span>
+    <a class="permalink" title="Permalink to this commit" href="#44">#44</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">108</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creata l'infrastruttura per mandare le mail... ma testare da locale è difficile.
+    </p>
+    <p class="commitdetails"><strong>193</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup_confirmed.jsp&#160;<span class="new">(new&#160;33)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+45&#160;-37)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        CreateMD5.java&#160;<span class="new">(new&#160;34)</span>,
+        SendEmail.java&#160;<span class="new">(new&#160;81)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="43"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-14 19:11</span>
+    <a class="permalink" title="Permalink to this commit" href="#43">#43</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">107</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Effettuata anche la registrazione normale. Manca da fare l'invio delle mail.
+    </p>
+    <p class="commitdetails"><strong>234</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+2&#160;-1)</span>,
+        signup.jsp&#160;<span class="change">(+22&#160;-14)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        controllaform.js&#160;<span class="change">(+23)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+186&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="42"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-14 17:43</span>
+    <a class="permalink" title="Permalink to this commit" href="#42">#42</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">106</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunta registrazione facebook. Modificata pagina login.jsp. Aggiunto un permesso per /siognup* su applicationContext-security.xml
+    </p>
+    <p class="commitdetails"><strong>212</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+21&#160;-27)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+189&#160;-19)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="41"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-14 17:31</span>
+    <a class="permalink" title="Permalink to this commit" href="#41">#41</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">105</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificato LoginSuccessfullHandler.java: quando un login ha successo, mette nella session le chiavi "member_type" con l'intero del tipo di membro, "username" con l'username del membro, "user" con il nome del membro (per stamparlo nelle pagine web: "Ciao &lt;membro&gt;"<br />
+<br />
+OCCHIO a come sono scritte le query nei vari *Interface: spesso mancano spazi tra "from Tabella" e "where ..."
+    </p>
+    <p class="commitdetails"><strong>56</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+4&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+10&#160;-1)</span>,
+        SupplierInterface.java&#160;<span class="change">(+10&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        LoginSuccessfullHandler.java&#160;<span class="change">(+25&#160;-1)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="40"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-14 12:59</span>
+    <a class="permalink" title="Permalink to this commit" href="#40">#40</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">104</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modifiche su crud, serializer e deserializer su order e purchase
+    </p>
+    <p class="commitdetails"><strong>122</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        OrderDeserializer.java&#160;<span class="new">(new&#160;60)</span>,
+        OrderSerializer.java&#160;<span class="change">(-8)</span>,
+        PurchaseDeserializer.java&#160;<span class="new">(new&#160;58)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        PurchaseInterface.java&#160;<span class="change">(+4&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="39"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-14 11:09</span>
+    <a class="permalink" title="Permalink to this commit" href="#39">#39</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">103</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>34</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        PurchaseAjaxController.java&#160;<span class="change">(+5&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        OrderInterface.java&#160;<span class="change">(+8&#160;-3)</span>,
+        PurchaseInterface.java&#160;<span class="change">(+21)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="38"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-13 21:58</span>
+    <a class="permalink" title="Permalink to this commit" href="#38">#38</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">102</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Sistemata registrazione per OpenId. Bisogna risolvere il redirect
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+4&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="37"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-13 21:15</span>
+    <a class="permalink" title="Permalink to this commit" href="#37">#37</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">101</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunti gli injection mancanti del sessionFactory
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext.xml&#160;<span class="change">(+4&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="36"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-13 21:08</span>
+    <a class="permalink" title="Permalink to this commit" href="#36">#36</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">100</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunti bean injection della sessionFactory mancanti<br />
+
+    </p>
+    <p class="commitdetails"><strong>16</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext.xml&#160;<span class="change">(+16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="35"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-13 21:01</span>
+    <a class="permalink" title="Permalink to this commit" href="#35">#35</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">99</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>127</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="change">(+21&#160;-31)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+56&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberStatusInterface.java&#160;<span class="new">(new&#160;25)</span>,
+        MemberTypeInterface.java&#160;<span class="new">(new&#160;25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="34"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-13 20:04</span>
+    <a class="permalink" title="Permalink to this commit" href="#34">#34</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">98</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added MessageInterface + minox fixes
+    </p>
+    <p class="commitdetails"><strong>92</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        SupplierDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        SupplierSerializer.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MessageInterface.java&#160;<span class="new">(new&#160;89)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="33"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-13 20:00</span>
+    <a class="permalink" title="Permalink to this commit" href="#33">#33</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">96</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+-Aggiunto OAuth2 Provider lato server per fornire access token ai client android. In questo modo i client dovranno fare il logn solo una volta, e per il resto useranno l'access token. (<a href="https://developers.google.com/accounts/docs/MobileApps">https://developers.google.com/accounts/docs/MobileApps</a>)<br />
+<br />
+-Iniziato sviluppo client android, con prova di login (spring social con custom provider per OAuth Gas)
+    </p>
+    <p class="commitdetails"><strong>381</strong> lines of code changed in <span class="files">25 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>AndroidGAS</strong>:
+        .classpath&#160;<span class="new">(new&#160;14)</span>,
+        .project&#160;<span class="new">(new&#160;33)</span>,
+        AndroidManifest.xml&#160;<span class="new">(new&#160;24)</span>,
+        proguard-project.txt&#160;<span class="new">(new&#160;20)</span>,
+        project.properties&#160;<span class="new">(new&#160;14)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/libs</strong>:
+        jackson-all-1.9.7.jar&#160;<span class="new">(new)</span>,
+        spring-android-auth-1.0.0.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-android-core-1.0.0.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-android-rest-template-1.0.0.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-crypto-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-social-core-1.0.2.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-hdpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-ldpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-mdpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-xhdpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/layout</strong>:
+        main.xml&#160;<span class="new">(new&#160;12)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/values</strong>:
+        strings.xml&#160;<span class="new">(new&#160;7)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android</strong>:
+        AndroidGASActivity.java&#160;<span class="new">(new&#160;105)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android/binding</strong>:
+        GASConnectionFactory.java&#160;<span class="new">(new&#160;10)</span>,
+        Gas.java&#160;<span class="new">(new&#160;7)</span>,
+        GasServiceProvider.java&#160;<span class="new">(new&#160;17)</span>,
+        GasTemplate.java&#160;<span class="new">(new&#160;9)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+75)</span>,
+        lhmf-servlet.xml&#160;<span class="change">(+12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security/oauth</strong>:
+        AndroidClientApprovalHandler.java&#160;<span class="new">(new&#160;22)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="32"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-13 18:00</span>
+    <a class="permalink" title="Permalink to this commit" href="#32">#32</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">95</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added CRUD+Ajax controller+Hibernate interface for Member; need testing
+    </p>
+    <p class="commitdetails"><strong>190</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="new">(new&#160;78)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="new">(new&#160;102)</span>,
+        SupplierInterface.java&#160;<span class="change">(+10&#160;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="31"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-13 17:04</span>
+    <a class="permalink" title="Permalink to this commit" href="#31">#31</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">94</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added annotation on Member to deserialize it with MemberDeserializer
+    </p>
+    <p class="commitdetails"><strong>102</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Member.java&#160;<span class="change">(+102&#160;-49)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="30"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-13 17:02</span>
+    <a class="permalink" title="Permalink to this commit" href="#30">#30</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">93</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added MemberDeserializer; regDate have to be serialized?
+    </p>
+    <p class="commitdetails"><strong>268</strong> lines of code changed in <span class="files">14 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        OrderAjaxController.java&#160;<span class="change">(+7&#160;-13)</span>,
+        ProductAjaxController.java&#160;<span class="change">(+8&#160;-42)</span>,
+        ProductCategoryAjaxController.java&#160;<span class="change">(+14&#160;-45)</span>,
+        PurchaseAjaxController.java&#160;<span class="change">(+2&#160;-8)</span>,
+        SupplierAjaxController.java&#160;<span class="change">(+11&#160;-44)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+4&#160;-4)</span>,
+        MemberDeserializer.java&#160;<span class="new">(new&#160;78)</span>,
+        MemberSerializer.java&#160;<span class="change">(+17&#160;-13)</span>,
+        SupplierDeserializer.java&#160;<span class="change">(+4&#160;-4)</span>,
+        SupplierSerializer.java&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Member.java&#160;<span class="change">(+5)</span>,
+        Product.java&#160;<span class="change">(+78&#160;-35)</span>,
+        ProductCategory.java&#160;<span class="change">(+5)</span>,
+        Purchase.java&#160;<span class="change">(+32&#160;-13)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="29"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-13 16:10</span>
+    <a class="permalink" title="Permalink to this commit" href="#29">#29</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">92</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+CRUD and ajax for Supplier; unable to test -&gt; to do as soon as possible; added class to deserialize Date from JSON to Java
+    </p>
+    <p class="commitdetails"><strong>475</strong> lines of code changed in <span class="files">9 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        SupplierAjaxController.java&#160;<span class="new">(new&#160;111)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+19&#160;-10)</span>,
+        ISO8601DateParser.java&#160;<span class="new">(new&#160;134)</span>,
+        MemberSerializer.java&#160;<span class="change">(+1)</span>,
+        ProductDeserializer.java&#160;<span class="change">(+12&#160;-15)</span>,
+        SupplierDeserializer.java&#160;<span class="new">(new&#160;65)</span>,
+        SupplierSerializer.java&#160;<span class="new">(new&#160;41)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        SupplierInterface.java&#160;<span class="change">(+84&#160;-8)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Supplier.java&#160;<span class="change">(+8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="28"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-13 03:39</span>
+    <a class="permalink" title="Permalink to this commit" href="#28">#28</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">91</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>255</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="change">(+8&#160;-11)</span>,
+        state.html&#160;<span class="new">(new&#160;240)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+7&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="27"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-12 15:53</span>
+    <a class="permalink" title="Permalink to this commit" href="#27">#27</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">90</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+CRUD and ajax completed for Product and ProductCategory
+    </p>
+    <p class="commitdetails"><strong>216</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        ProductAjaxController.java&#160;<span class="change">(+66&#160;-6)</span>,
+        ProductCategoryAjaxController.java&#160;<span class="change">(+44&#160;-12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        ProductCategoryInterface.java&#160;<span class="change">(+33&#160;-15)</span>,
+        ProductInterface.java&#160;<span class="change">(+73&#160;-7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="26"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-12 14:34</span>
+    <a class="permalink" title="Permalink to this commit" href="#26">#26</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">89</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Controllers refactoring complete; check for bugs
+    </p>
+    <p class="commitdetails"><strong>641</strong> lines of code changed in <span class="files">17 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="del">(del)</span>,
+        IndexController.java&#160;<span class="del">(del)</span>,
+        LogController.java&#160;<span class="del">(del)</span>,
+        LoginController.java&#160;<span class="del">(del)</span>,
+        LoginFormSubmittedController.java&#160;<span class="del">(del)</span>,
+        SignupController.java&#160;<span class="del">(del)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        IndexController.java&#160;<span class="new">(new&#160;36)</span>,
+        LogController.java&#160;<span class="new">(new&#160;31)</span>,
+        LoginController.java&#160;<span class="new">(new&#160;18)</span>,
+        LoginFormSubmittedController.java&#160;<span class="new">(new&#160;25)</span>,
+        SignupController.java&#160;<span class="new">(new&#160;257)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        LogAjaxController.java&#160;<span class="new">(new&#160;33)</span>,
+        OrderAjaxController.java&#160;<span class="new">(new&#160;57)</span>,
+        ProductAjaxController.java&#160;<span class="new">(new&#160;47)</span>,
+        ProductCategoryAjaxController.java&#160;<span class="new">(new&#160;79)</span>,
+        PurchaseAjaxController.java&#160;<span class="new">(new&#160;56)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        UserInterface.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="25"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-12 11:51</span>
+    <a class="permalink" title="Permalink to this commit" href="#25">#25</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">88</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext.xml&#160;<span class="change">(+4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="24"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-11 18:51</span>
+    <a class="permalink" title="Permalink to this commit" href="#24">#24</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">87</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modificati Controlli alla registrazione e relativa grafica.
+    </p>
+    <p class="commitdetails"><strong>313</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="change">(+43&#160;-30)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        mail.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        controllaform.js&#160;<span class="new">(new&#160;147)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        SignupController.java&#160;<span class="change">(+123&#160;-16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="23"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-11 18:20</span>
+    <a class="permalink" title="Permalink to this commit" href="#23">#23</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">86</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>39</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+24)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        UserInterface.java&#160;<span class="change">(+12&#160;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="22"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-11 18:02</span>
+    <a class="permalink" title="Permalink to this commit" href="#22">#22</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">85</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+creati valori UNIQUE per username in member e supplier.<br />
+Il nuovo script .sql contiene gia' i diversi member type e member status
+    </p>
+    <p class="commitdetails"><strong>42</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+42&#160;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="21"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-11 18:01</span>
+    <a class="permalink" title="Permalink to this commit" href="#21">#21</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">84</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+CRUD su ordine e purchase(in parte per un dubbio)
+    </p>
+    <p class="commitdetails"><strong>61</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+61&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="20"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-11 17:57</span>
+    <a class="permalink" title="Permalink to this commit" href="#20">#20</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">83</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>94</strong> lines of code changed in <span class="files">9 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_normal.jsp&#160;<span class="change">(-3)</span>,
+        index_resp.jsp&#160;<span class="change">(-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="change">(+4&#160;-42)</span>,
+        lib_resp.js&#160;<span class="change">(+9&#160;-56)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        OrderSerializer.java&#160;<span class="change">(+5&#160;-17)</span>,
+        PurchaseSerializer.java&#160;<span class="new">(new&#160;33)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        OrderInterface.java&#160;<span class="change">(+11&#160;-3)</span>,
+        PurchaseInterface.java&#160;<span class="new">(new&#160;31)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Order.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="19"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-11 16:12</span>
+    <a class="permalink" title="Permalink to this commit" href="#19">#19</a>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>94</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext.xml&#160;<span class="change">(+4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+2&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        UserInterface.java&#160;<span class="new">(new&#160;88)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="18"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-11 15:15</span>
+    <a class="permalink" title="Permalink to this commit" href="#18">#18</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">80</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Tolti alcuni errori.....prossimo commit a fine giornata
+    </p>
+    <p class="commitdetails"><strong>134</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext.xml&#160;<span class="change">(+4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_resp.js&#160;<span class="change">(+31&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+12&#160;-10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        OrderSerializer.java&#160;<span class="new">(new&#160;48)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        OrderInterface.java&#160;<span class="new">(new&#160;39)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="17"></a>
+    <a href="user_hasmet87@gmail.com.html" class="author">hasmet87@gmail.com</a>
+    <span class="date">2012-07-11 12:24</span>
+    <a class="permalink" title="Permalink to this commit" href="#17">#17</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">79</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Piccole aggiunte agli utenti normali e responsabile
+    </p>
+    <p class="commitdetails"><strong>147</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_normal.jsp&#160;<span class="change">(+17&#160;-6)</span>,
+        index_resp.jsp&#160;<span class="change">(+17&#160;-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_normal.js&#160;<span class="new">(new&#160;47)</span>,
+        lib_resp.js&#160;<span class="new">(new&#160;47)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+19)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="16"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-10 14:00</span>
+    <a class="permalink" title="Permalink to this commit" href="#16">#16</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">78</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+FACEBOOK!!!
+    </p>
+    <p class="commitdetails"><strong>461</strong> lines of code changed in <span class="files">12 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+36&#160;-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        spring-security-oauth2-1.0.0.M6.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        SignupController.java&#160;<span class="change">(+35)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/exceptions</strong>:
+        FacebookNeedsRegistration.java&#160;<span class="new">(new&#160;21)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAccessTokenMessageConverter.java&#160;<span class="new">(new&#160;68)</span>,
+        FacebookAccessTokenProvider.java&#160;<span class="new">(new&#160;19)</span>,
+        FacebookAuthenticationFilter.java&#160;<span class="new">(new&#160;123)</span>,
+        FacebookRegistrationRequiredHandler.java&#160;<span class="new">(new&#160;39)</span>,
+        FacebookResourceDetails.java&#160;<span class="new">(new&#160;14)</span>,
+        FacebookResourceDetailsService.java&#160;<span class="new">(new&#160;34)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(-67)</span>,
+        OAuth2AuthenticationToken.java&#160;<span class="new">(new&#160;72)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="15"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-09 22:23</span>
+    <a class="permalink" title="Permalink to this commit" href="#15">#15</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">77</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added few fields in signup view, + comments
+    </p>
+    <p class="commitdetails"><strong>261</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="change">(+31&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        SignupController.java&#160;<span class="change">(+84&#160;-28)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        ProductCategoryInterface.java&#160;<span class="change">(+3&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        MyUserDetailsService.java&#160;<span class="change">(+129&#160;-101)</span>,
+        OpenIdRegistrationRequiredHandler.java&#160;<span class="change">(+14&#160;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="14"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-09 14:04</span>
+    <a class="permalink" title="Permalink to this commit" href="#14">#14</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">76</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+migliorie pagina di login
+    </p>
+    <p class="commitdetails"><strong>713</strong> lines of code changed in <span class="files">97 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+4&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+71&#160;-8)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        xercesImpl-2.8.1.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+8&#160;-8)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector</strong>:
+        README.txt&#160;<span class="new">(new&#160;67)</span>,
+        remcomments.sed&#160;<span class="new">(new&#160;94)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/css</strong>:
+        openid-shadow.css&#160;<span class="new">(new&#160;101)</span>,
+        openid.css&#160;<span class="new">(new&#160;69)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/images.large</strong>:
+        aol.gif&#160;<span class="new">(new)</span>,
+        facebook.gif&#160;<span class="new">(new)</span>,
+        google.gif&#160;<span class="new">(new)</span>,
+        mailru.gif&#160;<span class="new">(new)</span>,
+        myopenid.gif&#160;<span class="new">(new)</span>,
+        openid.gif&#160;<span class="new">(new)</span>,
+        rambler.gif&#160;<span class="new">(new)</span>,
+        verisign.gif&#160;<span class="new">(new)</span>,
+        vkontakte.gif&#160;<span class="new">(new)</span>,
+        yahoo.gif&#160;<span class="new">(new)</span>,
+        yandex.gif&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/images.small</strong>:
+        aol.ico&#160;<span class="new">(new)</span>,
+        aol.ico.gif&#160;<span class="new">(new)</span>,
+        aol.ico.png&#160;<span class="new">(new)</span>,
+        blogger.ico&#160;<span class="new">(new)</span>,
+        blogger.ico.gif&#160;<span class="new">(new)</span>,
+        blogger.ico.png&#160;<span class="new">(new)</span>,
+        claimid.ico&#160;<span class="new">(new)</span>,
+        claimid.ico.gif&#160;<span class="new">(new)</span>,
+        claimid.ico.png&#160;<span class="new">(new)</span>,
+        clickpass.ico&#160;<span class="new">(new)</span>,
+        clickpass.ico.gif&#160;<span class="new">(new)</span>,
+        clickpass.ico.png&#160;<span class="new">(new)</span>,
+        facebook.ico&#160;<span class="new">(new)</span>,
+        facebook.ico.gif&#160;<span class="new">(new)</span>,
+        facebook.ico.png&#160;<span class="new">(new)</span>,
+        flickr.ico&#160;<span class="new">(new)</span>,
+        flickr.ico.gif&#160;<span class="new">(new)</span>,
+        flickr.ico.png&#160;<span class="new">(new)</span>,
+        google.ico&#160;<span class="new">(new)</span>,
+        google.ico.gif&#160;<span class="new">(new)</span>,
+        google.ico.png&#160;<span class="new">(new)</span>,
+        google_profile.ico&#160;<span class="new">(new)</span>,
+        google_profile.ico.gif&#160;<span class="new">(new)</span>,
+        google_profile.ico.png&#160;<span class="new">(new)</span>,
+        launchpad.ico&#160;<span class="new">(new)</span>,
+        launchpad.ico.gif&#160;<span class="new">(new)</span>,
+        launchpad.ico.png&#160;<span class="new">(new)</span>,
+        linkedin.ico&#160;<span class="new">(new)</span>,
+        linkedin.ico.gif&#160;<span class="new">(new)</span>,
+        linkedin.ico.png&#160;<span class="new">(new)</span>,
+        livejournal.ico&#160;<span class="new">(new)</span>,
+        livejournal.ico.gif&#160;<span class="new">(new)</span>,
+        livejournal.ico.png&#160;<span class="new">(new)</span>,
+        mailru.ico&#160;<span class="new">(new)</span>,
+        mailru.ico.gif&#160;<span class="new">(new)</span>,
+        mailru.ico.png&#160;<span class="new">(new)</span>,
+        myopenid.ico&#160;<span class="new">(new)</span>,
+        myopenid.ico.gif&#160;<span class="new">(new)</span>,
+        myopenid.ico.png&#160;<span class="new">(new)</span>,
+        openid.ico&#160;<span class="new">(new)</span>,
+        openid.ico.gif&#160;<span class="new">(new)</span>,
+        openid.ico.png&#160;<span class="new">(new)</span>,
+        rambler.ico&#160;<span class="new">(new)</span>,
+        rambler.ico.gif&#160;<span class="new">(new)</span>,
+        rambler.ico.png&#160;<span class="new">(new)</span>,
+        technorati.ico&#160;<span class="new">(new)</span>,
+        technorati.ico.gif&#160;<span class="new">(new)</span>,
+        technorati.ico.png&#160;<span class="new">(new)</span>,
+        twitter.ico&#160;<span class="new">(new)</span>,
+        twitter.ico.gif&#160;<span class="new">(new)</span>,
+        twitter.ico.png&#160;<span class="new">(new)</span>,
+        verisign.ico&#160;<span class="new">(new)</span>,
+        verisign.ico.gif&#160;<span class="new">(new)</span>,
+        verisign.ico.png&#160;<span class="new">(new)</span>,
+        vidoop.ico&#160;<span class="new">(new)</span>,
+        vidoop.ico.gif&#160;<span class="new">(new)</span>,
+        vidoop.ico.png&#160;<span class="new">(new)</span>,
+        vkontakte.ico&#160;<span class="new">(new)</span>,
+        vkontakte.ico.gif&#160;<span class="new">(new)</span>,
+        vkontakte.ico.png&#160;<span class="new">(new)</span>,
+        winliveid.ico&#160;<span class="new">(new)</span>,
+        winliveid.ico.gif&#160;<span class="new">(new)</span>,
+        winliveid.ico.png&#160;<span class="new">(new)</span>,
+        wordpress.ico&#160;<span class="new">(new)</span>,
+        wordpress.ico.gif&#160;<span class="new">(new)</span>,
+        wordpress.ico.png&#160;<span class="new">(new)</span>,
+        yahoo.ico&#160;<span class="new">(new)</span>,
+        yahoo.ico.gif&#160;<span class="new">(new)</span>,
+        yahoo.ico.png&#160;<span class="new">(new)</span>,
+        yandex.ico&#160;<span class="new">(new)</span>,
+        yandex.ico.gif&#160;<span class="new">(new)</span>,
+        yandex.ico.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/images</strong>:
+        openid-inputicon.gif&#160;<span class="new">(new)</span>,
+        openid-providers-en.png&#160;<span class="new">(new)</span>,
+        openid-providers-it.png&#160;<span class="new">(new)</span>,
+        openid-providers-ru.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/js</strong>:
+        openid-it.js&#160;<span class="new">(new&#160;96)</span>,
+        openid-jquery.js&#160;<span class="new">(new&#160;203)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="13"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-08 23:16</span>
+    <a class="permalink" title="Permalink to this commit" href="#13">#13</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">75</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+FUNZIONANO GLI OPENID!!!!! (tipo google, e parecchi altri...) per proivare con google scrivere nella casella di testo "Identity" questo url "<a href="https://www.google.com/accounts/o8/id">https://www.google.com/accounts/o8/id</a>" e vedrete la magia!<br />
+Al momento però gli openid non vengono registrati, quindi non fa effettivamente il login...<br />
+<br />
+IMPORTANTE: dato che l'app sta diventando pesantina a causa delle librerie, ho dovuto modificare i parametri della VM di tomcat. Lo potete fare da eclipse andando a modificare la configurazione di avvio del programma, e aggiungendo ai parametri della VM<br />
+questa cosa:<br />
+-XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC
+    </p>
+    <p class="commitdetails"><strong>282</strong> lines of code changed in <span class="files">15 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+39&#160;-32)</span>,
+        applicationContext.xml&#160;<span class="change">(-13)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        signup.jsp&#160;<span class="new">(new&#160;30)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        commons-codec-1.3.jar&#160;<span class="new">(new)</span>,
+        guice-2.0.jar&#160;<span class="new">(new)</span>,
+        httpclient-4.0.jar&#160;<span class="new">(new)</span>,
+        httpcore-4.0.1.jar&#160;<span class="new">(new)</span>,
+        nekohtml-1.9.14.jar&#160;<span class="new">(new)</span>,
+        openid4java-0.9.6.jar&#160;<span class="new">(new)</span>,
+        spring-security-openid-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+5&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        SignupController.java&#160;<span class="new">(new&#160;59)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/exceptions</strong>:
+        OpenIdNeedsRegistration.java&#160;<span class="new">(new&#160;19)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        MyUserDetailsService.java&#160;<span class="change">(+91&#160;-1)</span>,
+        OpenIdRegistrationRequiredHandler.java&#160;<span class="new">(new&#160;39)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="12"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-08 21:19</span>
+    <a class="permalink" title="Permalink to this commit" href="#12">#12</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">74</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+tolte librerie per il momento inutili
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">8 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        org.springframework.instrument.tomcat-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.jms-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.oxm-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.test-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.web.portlet-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.web.struts-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        spring-security-acl-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        spring-security-crypto-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="11"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-08 13:49</span>
+    <a class="permalink" title="Permalink to this commit" href="#11">#11</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">73</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+troppa roba. se avete dubbi chiedete.<br />
+Più che altro guardate come ho usato le annotazioni @Transaciton e @PreAuthorize un pò in giro nel codice.
+    </p>
+    <p class="commitdetails"><strong>407</strong> lines of code changed in <span class="files">25 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+20&#160;-14)</span>,
+        applicationContext-service.xml&#160;<span class="change">(+9)</span>,
+        applicationContext.xml&#160;<span class="change">(+64)</span>,
+        lhmf-servlet.xml&#160;<span class="change">(+9&#160;-1)</span>,
+        web.xml&#160;<span class="change">(+10&#160;-18)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        cglib-nodep-2.2.2.jar&#160;<span class="new">(new)</span>,
+        commons-dbcp-1.4.jar&#160;<span class="new">(new)</span>,
+        commons-pool-1.6.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+36&#160;-67)</span>,
+        IndexController.java&#160;<span class="change">(+15&#160;-16)</span>,
+        LogController.java&#160;<span class="change">(+9&#160;-19)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/exceptions</strong>:
+        NoHibernateSessionException.java&#160;<span class="del">(del)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/filters</strong>:
+        HibernateFilter.java&#160;<span class="del">(del)</span>,
+        HibernteFilter.java&#160;<span class="del">(del)</span>,
+        LoginFilter.java&#160;<span class="del">(del)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+3&#160;-2)</span>,
+        ProductDeserializer.java&#160;<span class="change">(+15&#160;-12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        LogInterface.java&#160;<span class="change">(+16&#160;-10)</span>,
+        ProductCategoryInterface.java&#160;<span class="change">(+25&#160;-30)</span>,
+        ProductInterface.java&#160;<span class="change">(+18&#160;-15)</span>,
+        SupplierInterface.java&#160;<span class="change">(+17&#160;-16)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model/constants</strong>:
+        MemberStatuses.java&#160;<span class="new">(new&#160;9)</span>,
+        MemberTypes.java&#160;<span class="new">(new&#160;10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        LoginSuccessfullHandler.java&#160;<span class="new">(new&#160;52)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+70&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="10"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-07 22:55</span>
+    <a class="permalink" title="Permalink to this commit" href="#10">#10</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">72</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Bug r70 fixed; check if other bugs occurs
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        ProductDeserializer.java&#160;<span class="change">(+4&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="9"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-07 20:59</span>
+    <a class="permalink" title="Permalink to this commit" href="#9">#9</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">71</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+about to do the spring revolution!!!<br />
+<br />
+-aggiunte librerie per spring security<br />
+-aggiunto username in index.tag<br />
+-aggiunto uso di spring:url al posto degli url normali nei file jsp<br />
+-commentato intero contenuto di HibernateFilter, dovrà sparire<br />
+<br />
+-aggiunti file XML per creazione contesto applicativo<br />
+
+    </p>
+    <p class="commitdetails"><strong>203</strong> lines of code changed in <span class="files">18 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="new">(new&#160;75)</span>,
+        applicationContext-service.xml&#160;<span class="new">(new)</span>,
+        applicationContext.xml&#160;<span class="new">(new)</span>,
+        web.xml&#160;<span class="change">(+32&#160;-7)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+8&#160;-8)</span>,
+        log_admin.jsp&#160;<span class="change">(+4&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        aopalliance.jar&#160;<span class="new">(new)</span>,
+        spring-security-acl-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-config-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-core-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-crypto-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-taglibs-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-web-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+22&#160;-16)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        IndexController.java&#160;<span class="change">(+5&#160;-2)</span>,
+        LogController.java&#160;<span class="change">(+4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/filters</strong>:
+        HibernateFilter.java&#160;<span class="change">(+37&#160;-37)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        MyUserDetailsService.java&#160;<span class="new">(new&#160;16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="8"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-07 20:01</span>
+    <a class="permalink" title="Permalink to this commit" href="#8">#8</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">70</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added deserializer: WARNING it does not work yet, do not revert to this revision unless you want to debug ProductDeserializer.java
+    </p>
+    <p class="commitdetails"><strong>325</strong> lines of code changed in <span class="files">10 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        web.xml&#160;<span class="change">(+8&#160;-8)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_supplier.jsp&#160;<span class="change">(+5&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+12)</span>,
+        lib_supplier.js&#160;<span class="change">(+92&#160;-21)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        IndexController.java&#160;<span class="change">(+12&#160;-12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+4&#160;-1)</span>,
+        ProductCategorySerializer.java&#160;<span class="new">(new&#160;34)</span>,
+        ProductDeserializer.java&#160;<span class="new">(new&#160;77)</span>,
+        ProductSerializer.java&#160;<span class="new">(new&#160;46)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        SupplierInterface.java&#160;<span class="new">(new&#160;35)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="7"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-05 12:51</span>
+    <a class="permalink" title="Permalink to this commit" href="#7">#7</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">69</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+inizio gestione history su ie (non ha le api...) Soluzione: usare history solo per browser html5, per quelli html4 fare normali richieste al server (esempio: verificare parametri per richieste log su ie)
+    </p>
+    <p class="commitdetails"><strong>159</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        admin_static.jsp&#160;<span class="new">(new&#160;9)</span>,
+        index_admin.jsp&#160;<span class="change">(+3&#160;-2)</span>,
+        log_admin.jsp&#160;<span class="new">(new&#160;47)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        jquery.history.js&#160;<span class="change">(+1&#160;-1)</span>,
+        lib_admin.js&#160;<span class="change">(+97&#160;-98)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        LogController.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="6"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-04 23:14</span>
+    <a class="permalink" title="Permalink to this commit" href="#6">#6</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">68</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>11</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+10&#160;-15)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="5"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-04 17:58</span>
+    <a class="permalink" title="Permalink to this commit" href="#5">#5</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">67</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+riporovare history, almeno su ie8
+    </p>
+    <p class="commitdetails"><strong>32</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+29&#160;-4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/filters</strong>:
+        LoginFilter.java&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="4"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-04 11:28</span>
+    <a class="permalink" title="Permalink to this commit" href="#4">#4</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">66</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Wonderful animation dei log! :D
+    </p>
+    <p class="commitdetails"><strong>12</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+12&#160;-6)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="3"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-03 23:20</span>
+    <a class="permalink" title="Permalink to this commit" href="#3">#3</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">65</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+migliorata gestione history. Adesso funzionano back, forward, reload e segnalibri.
+    </p>
+    <p class="commitdetails"><strong>89</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+44&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+6&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+1&#160;-1)</span>,
+        LogController.java&#160;<span class="new">(new&#160;37)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        ProductInterface.java&#160;<span class="change">(-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="2"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-03 19:51</span>
+    <a class="permalink" title="Permalink to this commit" href="#2">#2</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">64</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+-inizio uso history (con la libreria jquery.history.js di History.js <a href="https://github.com/balupton/history.js">https://github.com/balupton/history.js</a>)<br />
+<br />
+-aggiunta librearia modernizer js (potrebbe servirci in futuro)
+    </p>
+    <p class="commitdetails"><strong>1379</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+11&#160;-64)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+3&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        jquery.history.js&#160;<span class="new">(new&#160;1)</span>,
+        lib_admin.js&#160;<span class="new">(new&#160;99)</span>,
+        modernizr-2.5.3.js&#160;<span class="new">(new&#160;1265)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="1"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-03 15:05</span>
+    <a class="permalink" title="Permalink to this commit" href="#1">#1</a>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">63</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Refactored HibernateInterface, now it is distributed in several file &lt;name&gt;Interface for every hibernate mapping, under model package
+    </p>
+    <p class="commitdetails"><strong>167</strong> lines of code changed in <span class="files">7 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_supplier.jsp&#160;<span class="change">(+3&#160;-27)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+10&#160;-10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf</strong>:
+        AjaxController.java&#160;<span class="change">(+13&#160;-13)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        HibernateInterface.java&#160;<span class="del">(del)</span>,
+        LogInterface.java&#160;<span class="new">(new&#160;29)</span>,
+        ProductCategoryInterface.java&#160;<span class="new">(new&#160;74)</span>,
+        ProductInterface.java&#160;<span class="new">(new&#160;38)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p class="previous"><a href="2012-06.html">June 2012</a> &#187; </p>
+<div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

@@ -1,0 +1,761 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - /trunk Developers: jyxpowa@gmail.com</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>/trunk Developers: jyxpowa@gmail.com</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a> &#171; <a href="developers.html">Developers</a></div>
+<dl class="attributes">
+    <dt>Login name:</dt>
+    <dd>jyxpowa@gmail.com</dd>
+    <dt>Total Commits:</dt>
+    <dd>165 (14.3%)</dd>
+    <dt>Lines of Code:</dt>
+    <dd>6,963 (26.9%)</dd>
+    <dt>Most Recent Commit:</dt>
+    <dd><span class="date">2012-07-24 18:24</span></dd>
+    <dt>Tweet this:</dt>
+    <dd><a onclick="return shortenTweet(this.href);" href="http://twitter.com/home?status=jyxpowa%40gmail.com%20contributed%206%2C963%20(26.9%25)%20lines%20to%20%2Ftrunk%20%7B0}%20most%20recent%20commit%202012-07-24%20stats%20by%20StatSVN%20http%3A%2F%2Fstatsvn.org"><img style="border:0px" alt="Tweet this" src="tweet-this.png"/></a></dd>
+</dl>
+
+<div class="section">
+<h2>Activity by Clock Time</h2>
+<p class="chart"><img src="activity_time_jyxpowa@gmail.com.png" alt="Activity by Hour of Day for jyxpowa@gmail.com" width="800" height="500" /></p><p class="chart"><img src="activity_day_jyxpowa@gmail.com.png" alt="Activity by Day of Week for jyxpowa@gmail.com" width="800" height="500" /></p></div>
+<div class="section">
+<h2>Activity in Directories</h2>
+  <table  rules="groups" summary="Overview of this author's activities in different directories">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Directory</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Totals</th>
+        <td>165 (100.0%)</td>
+        <td>6963 (100.0%)</td>
+        <td>42.2</td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_js.html" class="directory">_lhmf/WebContent/js/</a></th>
+        <td>14 (8.5%)</td>
+        <td>1763 (25.3%)</td>
+        <td>125.9</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_controllers.html" class="directory">_lhmf/src/it/polito/ai/lhmf/controllers/</a></th>
+        <td>20 (12.1%)</td>
+        <td>1124 (16.1%)</td>
+        <td>56.2</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_controllers_ajax.html" class="directory">_lhmf/src/it/polito/ai/lhmf/controllers/ajax/</a></th>
+        <td>10 (6.1%)</td>
+        <td>847 (12.2%)</td>
+        <td>84.7</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir.html" class="directory">/</a></th>
+        <td>5 (3.0%)</td>
+        <td>751 (10.8%)</td>
+        <td>150.2</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_jsp.html" class="directory">_lhmf/WebContent/WEB-INF/jsp/</a></th>
+        <td>30 (18.2%)</td>
+        <td>737 (10.6%)</td>
+        <td>24.5</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_WEB-INF.html" class="directory">_lhmf/WebContent/WEB-INF/</a></th>
+        <td>6 (3.6%)</td>
+        <td>480 (6.9%)</td>
+        <td>80.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_css.html" class="directory">_lhmf/WebContent/css/</a></th>
+        <td>10 (6.1%)</td>
+        <td>431 (6.2%)</td>
+        <td>43.1</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_model.html" class="directory">_lhmf/src/it/polito/ai/lhmf/model/</a></th>
+        <td>12 (7.3%)</td>
+        <td>208 (3.0%)</td>
+        <td>17.3</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_util.html" class="directory">_lhmf/src/it/polito/ai/lhmf/util/</a></th>
+        <td>7 (4.2%)</td>
+        <td>205 (2.9%)</td>
+        <td>29.2</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf.html" class="directory">_lhmf/src/it/polito/ai/lhmf/</a></th>
+        <td>6 (3.6%)</td>
+        <td>184 (2.6%)</td>
+        <td>30.6</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_jsp_mobile.html" class="directory">_lhmf/WebContent/WEB-INF/jsp/mobile/</a></th>
+        <td>2 (1.2%)</td>
+        <td>107 (1.5%)</td>
+        <td>53.5</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_tags.html" class="directory">_lhmf/WebContent/WEB-INF/tags/</a></th>
+        <td>3 (1.8%)</td>
+        <td>54 (0.8%)</td>
+        <td>18.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf.html" class="directory">_lhmf/</a></th>
+        <td>3 (1.8%)</td>
+        <td>31 (0.4%)</td>
+        <td>10.3</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_filters.html" class="directory">_lhmf/src/it/polito/ai/lhmf/filters/</a></th>
+        <td>1 (0.6%)</td>
+        <td>30 (0.4%)</td>
+        <td>30.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_json.html" class="directory">_lhmf/src/it/polito/ai/lhmf/json/</a></th>
+        <td>4 (2.4%)</td>
+        <td>8 (0.1%)</td>
+        <td>2.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector_css.html" class="directory">_lhmf/WebContent/js/openid-selector/css/</a></th>
+        <td>1 (0.6%)</td>
+        <td>3 (0.0%)</td>
+        <td>3.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_build.html" class="directory">_lhmf/build/</a></th>
+        <td>1 (0.6%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_img.html" class="directory">_lhmf/WebContent/img/</a></th>
+        <td>9 (5.5%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_lib.html" class="directory">_lhmf/WebContent/WEB-INF/lib/</a></th>
+        <td>1 (0.6%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_Site_images.html" class="directory">Site/images/</a></th>
+        <td>12 (7.3%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_Site.html" class="directory">Site/</a></th>
+        <td>8 (4.8%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+<p class="chart"><img src="directory_sizes_jyxpowa@gmail.com.png" alt="Activity of jyxpowa@gmail.com" width="800" height="500" /></p></div>
+<div class="section">
+<h2>Most Recent Commits</h2>
+<dl class="commitlist">
+  <dt><a name="20"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 18:24</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">171</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creato insfrastruttura di presentazione per Responsabile.
+    </p>
+    <p class="commitdetails"><strong>705</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_resp.jsp&#160;<span class="change">(+15&#160;-30)</span>,
+        order_resp.jsp&#160;<span class="new">(new&#160;51)</span>,
+        userMgmt_admin.jsp&#160;<span class="change">(-58)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_resp.js&#160;<span class="change">(+614)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        RespController.java&#160;<span class="new">(new&#160;25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="19"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 18:22</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">170</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+NUOVO DATABASE. Le Modifiche sono sostanziose. Era necessario. Riadattare il codice se non funziona (dopo aver sistemato Hibernate)
+    </p>
+    <p class="commitdetails"><strong>425</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        newDB.sql&#160;<span class="new">(new&#160;425)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="18"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 15:22</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">168</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunta modifica per il db (id product_category da mettere come auto_increment)
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(+2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="17"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-23 18:46</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">166</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Descrizione modifiche database in README
+    </p>
+    <p class="commitdetails"><strong>25</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(+25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="16"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-23 18:07</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">165</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>3</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="15"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-21 22:41</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">162</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificati link con spring:uri
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp/mobile</strong>:
+        index.jsp&#160;<span class="change">(+5&#160;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="14"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-21 22:37</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">161</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creato pagina Login per Mobile
+    </p>
+    <p class="commitdetails"><strong>373</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp/mobile</strong>:
+        index.jsp&#160;<span class="new">(new&#160;102)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        style-mobile.css&#160;<span class="new">(new&#160;268)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/img</strong>:
+        logo.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/css</strong>:
+        openid-shadow.css&#160;<span class="change">(+3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="13"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-20 17:16</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">159</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Bug del timestamp della data di registrazione nella lista membri risolto
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+4&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="12"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-20 16:21</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">158</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Pannello Admin Completato. (Bisogna fare tutta la parte relativa ad ordini e prodotti). Implementato anche la generazione delle password. Modificato modalità di invio email. Implementato l'authMail in modo tale che attivi direttamente l'account se è stato creato dall'admin (Ancora da Testare). <br />
+<br />
+Perfavore se trovate bug fatemelo sapere. 
+    </p>
+    <p class="commitdetails"><strong>631</strong> lines of code changed in <span class="files">11 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+228&#160;-70)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+157&#160;-95)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+79&#160;-18)</span>,
+        SupplierAjaxController.java&#160;<span class="change">(+64&#160;-32)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        MemberDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        MemberSerializer.java&#160;<span class="change">(+2&#160;-4)</span>,
+        SupplierDeserializer.java&#160;<span class="change">(+2&#160;-2)</span>,
+        SupplierSerializer.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+23)</span>,
+        SupplierInterface.java&#160;<span class="change">(+10&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+62&#160;-17)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="11"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-20 00:52</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">156</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Attiva Membri Completato. Risolti bug registrazione. Qualche piccolezza ancora da fare.
+    </p>
+    <p class="commitdetails"><strong>432</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib.js&#160;<span class="change">(+10)</span>,
+        lib_admin.js&#160;<span class="change">(+82&#160;-42)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+66&#160;-148)</span>,
+        SupplierAjaxController.java&#160;<span class="change">(+240&#160;-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+13&#160;-11)</span>,
+        SupplierInterface.java&#160;<span class="change">(+21)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="10"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-19 21:45</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">155</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Finito attivazione Account da parte dell'admin. Per ora funziona solo per membri e responsabili. Devo ancora integrare fornitori.
+    </p>
+    <p class="commitdetails"><strong>15</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+12&#160;-12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="9"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-19 18:46</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">153</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Sto lavorando sulla lista membri da attivare. 
+    </p>
+    <p class="commitdetails"><strong>236</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+1&#160;-7)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+143&#160;-7)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+59)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+32)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="8"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-19 00:33</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">151</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Registrazione Forenitore Completata. <br />
+<br />
+Cose da fare/aggiustare:<br />
+- Generare le password ed inviarle all'email.<br />
+- Modificare l'authMail affinche attivi anche i suppliers (ora fa solo membri e responsabili)<br />
+- Modificare il getMembersRespString in modo che restituisca solo i membri attivati.
+    </p>
+    <p class="commitdetails"><strong>346</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+171&#160;-77)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+157&#160;-42)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+15&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="7"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-18 18:34</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">150</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Lato client impostato per registrare responsabili e fornitori. Manca lato server. Sarà fatto presto abbiate fede.
+    </p>
+    <p class="commitdetails"><strong>192</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf</strong>:
+        README&#160;<span class="change">(+4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+24&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+90&#160;-58)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+5&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+67&#160;-19)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="6"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-17 23:59</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">142</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Non entra nel metodo ajax/newMember. Non riesco a capire il perchè. 
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        userMgmt_admin.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="5"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-17 22:18</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">141</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modificato il controllo ajax per newmember. Sezione admin ancora da finire.
+    </p>
+    <p class="commitdetails"><strong>606</strong> lines of code changed in <span class="files">9 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        authMail_confirmed.jsp&#160;<span class="new">(new&#160;43)</span>,
+        userMgmt_admin.jsp&#160;<span class="new">(new&#160;101)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+211&#160;-10)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        AdminController.java&#160;<span class="new">(new&#160;48)</span>,
+        LogController.java&#160;<span class="del">(del)</span>,
+        SignupController.java&#160;<span class="change">(+68&#160;-65)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers/ajax</strong>:
+        MemberAjaxController.java&#160;<span class="change">(+111&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        CheckNumber.java&#160;<span class="new">(new&#160;17)</span>,
+        SendEmail.java&#160;<span class="change">(+7&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="4"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-17 13:40</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">133</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Sistemato parte log Admin.
+    </p>
+    <p class="commitdetails"><strong>47</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+5&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+16&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+26&#160;-11)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="3"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 23:53</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">131</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Puttanate
+    </p>
+    <p class="commitdetails"><strong>53</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+8&#160;-3)</span>,
+        index_normal.jsp&#160;<span class="change">(+10&#160;-1)</span>,
+        index_resp.jsp&#160;<span class="change">(+18&#160;-1)</span>,
+        index_supplier.jsp&#160;<span class="change">(+10&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+5&#160;-6)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="2"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 20:14</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">129</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunto invio messaggio all'admin con richiesta di attivazione account (sempre dopo la verifica della mail, quindi subito per facebook e openid, alla conferma per gli utenti normali).
+    </p>
+    <p class="commitdetails"><strong>111</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+95&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="1"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-15 18:49</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">128</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunto controllo sulle email. Non viene permessa la registrazione con una mail già in uso.
+    </p>
+    <p class="commitdetails"><strong>84</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        SignupController.java&#160;<span class="change">(+84)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p>(30 more)</p>
+</div><div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - Directory _lhmf/WebContent/js/openid-selector/images.small/</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>Directory _lhmf/WebContent/js/openid-selector/images.small/</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a></div>
+<dl class="attributes">
+    <dt>Directory Created:</dt>
+    <dd><span class="date">2012-07-09 14:04</span></dd>
+    <dt>Total Files:</dt>
+    <dd>72</dd>
+    <dt>Deleted Files:</dt>
+    <dd>0</dd>
+    <dt>Lines of Code:</dt>
+    <dd>0</dd>
+</dl>
+<p class="dirtree">
+<a href="dir.html">[root]</a>/<a href="dir__lhmf.html">_lhmf</a>/<a href="dir__lhmf_WebContent.html">WebContent</a>/<a href="dir__lhmf_WebContent_js.html">js</a>/<a href="dir__lhmf_WebContent_js_openid-selector.html">openid-selector</a>/<strong>images.small</strong><br/>
+</p>
+
+<div class="section">
+<h2>Developers</h2>
+  <table  rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  class="odd">
+        <th><a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a></th>
+        <td>72 (100.0%)</td>
+        <td>0 (-)</td>
+        <td>0.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="section">
+<h2>Most Recent Commits</h2>
+<dl class="commitlist">
+  <dt><a name="1"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-09 14:04</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">76</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+migliorie pagina di login
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">72 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/images.small</strong>:
+        aol.ico&#160;<span class="new">(new)</span>,
+        aol.ico.gif&#160;<span class="new">(new)</span>,
+        aol.ico.png&#160;<span class="new">(new)</span>,
+        blogger.ico&#160;<span class="new">(new)</span>,
+        blogger.ico.gif&#160;<span class="new">(new)</span>,
+        blogger.ico.png&#160;<span class="new">(new)</span>,
+        claimid.ico&#160;<span class="new">(new)</span>,
+        claimid.ico.gif&#160;<span class="new">(new)</span>,
+        claimid.ico.png&#160;<span class="new">(new)</span>,
+        clickpass.ico&#160;<span class="new">(new)</span>,
+        clickpass.ico.gif&#160;<span class="new">(new)</span>,
+        clickpass.ico.png&#160;<span class="new">(new)</span>,
+        facebook.ico&#160;<span class="new">(new)</span>,
+        facebook.ico.gif&#160;<span class="new">(new)</span>,
+        facebook.ico.png&#160;<span class="new">(new)</span>,
+        flickr.ico&#160;<span class="new">(new)</span>,
+        flickr.ico.gif&#160;<span class="new">(new)</span>,
+        flickr.ico.png&#160;<span class="new">(new)</span>,
+        google.ico&#160;<span class="new">(new)</span>,
+        google.ico.gif&#160;<span class="new">(new)</span>,
+        google.ico.png&#160;<span class="new">(new)</span>,
+        google_profile.ico&#160;<span class="new">(new)</span>,
+        google_profile.ico.gif&#160;<span class="new">(new)</span>,
+        google_profile.ico.png&#160;<span class="new">(new)</span>,
+        launchpad.ico&#160;<span class="new">(new)</span>,
+        launchpad.ico.gif&#160;<span class="new">(new)</span>,
+        launchpad.ico.png&#160;<span class="new">(new)</span>,
+        linkedin.ico&#160;<span class="new">(new)</span>,
+        linkedin.ico.gif&#160;<span class="new">(new)</span>,
+        linkedin.ico.png&#160;<span class="new">(new)</span>,
+        livejournal.ico&#160;<span class="new">(new)</span>,
+        livejournal.ico.gif&#160;<span class="new">(new)</span>,
+        livejournal.ico.png&#160;<span class="new">(new)</span>,
+        mailru.ico&#160;<span class="new">(new)</span>,
+        mailru.ico.gif&#160;<span class="new">(new)</span>,
+        mailru.ico.png&#160;<span class="new">(new)</span>,
+        myopenid.ico&#160;<span class="new">(new)</span>,
+        myopenid.ico.gif&#160;<span class="new">(new)</span>,
+        myopenid.ico.png&#160;<span class="new">(new)</span>,
+        openid.ico&#160;<span class="new">(new)</span>,
+        openid.ico.gif&#160;<span class="new">(new)</span>,
+        openid.ico.png&#160;<span class="new">(new)</span>,
+        rambler.ico&#160;<span class="new">(new)</span>,
+        rambler.ico.gif&#160;<span class="new">(new)</span>,
+        rambler.ico.png&#160;<span class="new">(new)</span>,
+        technorati.ico&#160;<span class="new">(new)</span>,
+        technorati.ico.gif&#160;<span class="new">(new)</span>,
+        technorati.ico.png&#160;<span class="new">(new)</span>,
+        twitter.ico&#160;<span class="new">(new)</span>,
+        twitter.ico.gif&#160;<span class="new">(new)</span>,
+        twitter.ico.png&#160;<span class="new">(new)</span>,
+        verisign.ico&#160;<span class="new">(new)</span>,
+        verisign.ico.gif&#160;<span class="new">(new)</span>,
+        verisign.ico.png&#160;<span class="new">(new)</span>,
+        vidoop.ico&#160;<span class="new">(new)</span>,
+        vidoop.ico.gif&#160;<span class="new">(new)</span>,
+        vidoop.ico.png&#160;<span class="new">(new)</span>,
+        vkontakte.ico&#160;<span class="new">(new)</span>,
+        vkontakte.ico.gif&#160;<span class="new">(new)</span>,
+        vkontakte.ico.png&#160;<span class="new">(new)</span>,
+        winliveid.ico&#160;<span class="new">(new)</span>,
+        winliveid.ico.gif&#160;<span class="new">(new)</span>,
+        winliveid.ico.png&#160;<span class="new">(new)</span>,
+        wordpress.ico&#160;<span class="new">(new)</span>,
+        wordpress.ico.gif&#160;<span class="new">(new)</span>,
+        wordpress.ico.png&#160;<span class="new">(new)</span>,
+        yahoo.ico&#160;<span class="new">(new)</span>,
+        yahoo.ico.gif&#160;<span class="new">(new)</span>,
+        yahoo.ico.png&#160;<span class="new">(new)</span>,
+        yandex.ico&#160;<span class="new">(new)</span>,
+        yandex.ico.gif&#160;<span class="new">(new)</span>,
+        yandex.ico.png&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+</div><div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

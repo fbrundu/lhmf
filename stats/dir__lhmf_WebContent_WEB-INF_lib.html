@@ -1,0 +1,378 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - Directory _lhmf/WebContent/WEB-INF/lib/</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>Directory _lhmf/WebContent/WEB-INF/lib/</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a></div>
+<dl class="attributes">
+    <dt>Directory Created:</dt>
+    <dd><span class="date">2012-06-07 17:25</span></dd>
+    <dt>Total Files:</dt>
+    <dd>45</dd>
+    <dt>Deleted Files:</dt>
+    <dd>8</dd>
+    <dt>Lines of Code:</dt>
+    <dd>0</dd>
+</dl>
+<p class="dirtree">
+<a href="dir.html">[root]</a>/<a href="dir__lhmf.html">_lhmf</a>/<a href="dir__lhmf_WebContent.html">WebContent</a>/<a href="dir__lhmf_WebContent_WEB-INF.html">WEB-INF</a>/<strong>lib</strong><br/>
+</p>
+
+<div class="section">
+<h2>Developers</h2>
+  <table  rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Totals</th>
+        <td>61 (100.0%)</td>
+        <td>0 (-)</td>
+        <td>0.0</td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr  class="odd">
+        <th><a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a></th>
+        <td>36 (59.0%)</td>
+        <td>0 (-)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a></th>
+        <td>1 (1.6%)</td>
+        <td>0 (-)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a></th>
+        <td>24 (39.3%)</td>
+        <td>0 (-)</td>
+        <td>0.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="section">
+<h2>Most Recent Commits</h2>
+<dl class="commitlist">
+  <dt><a name="11"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-11 18:51</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">87</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Modificati Controlli alla registrazione e relativa grafica.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        mail.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="10"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-10 14:00</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">78</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+FACEBOOK!!!
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        spring-security-oauth2-1.0.0.M6.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="9"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-09 14:04</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">76</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+migliorie pagina di login
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        xercesImpl-2.8.1.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="8"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-08 23:16</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">75</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+FUNZIONANO GLI OPENID!!!!! (tipo google, e parecchi altri...) per proivare con google scrivere nella casella di testo "Identity" questo url "<a href="https://www.google.com/accounts/o8/id">https://www.google.com/accounts/o8/id</a>" e vedrete la magia!<br />
+Al momento però gli openid non vengono registrati, quindi non fa effettivamente il login...<br />
+<br />
+IMPORTANTE: dato che l'app sta diventando pesantina a causa delle librerie, ho dovuto modificare i parametri della VM di tomcat. Lo potete fare da eclipse andando a modificare la configurazione di avvio del programma, e aggiungendo ai parametri della VM<br />
+questa cosa:<br />
+-XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">7 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        commons-codec-1.3.jar&#160;<span class="new">(new)</span>,
+        guice-2.0.jar&#160;<span class="new">(new)</span>,
+        httpclient-4.0.jar&#160;<span class="new">(new)</span>,
+        httpcore-4.0.1.jar&#160;<span class="new">(new)</span>,
+        nekohtml-1.9.14.jar&#160;<span class="new">(new)</span>,
+        openid4java-0.9.6.jar&#160;<span class="new">(new)</span>,
+        spring-security-openid-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="7"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-08 21:19</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">74</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+tolte librerie per il momento inutili
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">8 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        org.springframework.instrument.tomcat-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.jms-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.oxm-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.test-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.web.portlet-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        org.springframework.web.struts-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        spring-security-acl-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>,
+        spring-security-crypto-3.1.1.RELEASE.jar&#160;<span class="del">(del)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="6"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-08 13:49</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">73</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+troppa roba. se avete dubbi chiedete.<br />
+Più che altro guardate come ho usato le annotazioni @Transaciton e @PreAuthorize un pò in giro nel codice.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        cglib-nodep-2.2.2.jar&#160;<span class="new">(new)</span>,
+        commons-dbcp-1.4.jar&#160;<span class="new">(new)</span>,
+        commons-pool-1.6.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="5"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-07 20:59</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">71</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+about to do the spring revolution!!!<br />
+<br />
+-aggiunte librerie per spring security<br />
+-aggiunto username in index.tag<br />
+-aggiunto uso di spring:url al posto degli url normali nei file jsp<br />
+-commentato intero contenuto di HibernateFilter, dovrà sparire<br />
+<br />
+-aggiunti file XML per creazione contesto applicativo<br />
+
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">7 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        aopalliance.jar&#160;<span class="new">(new)</span>,
+        spring-security-acl-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-config-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-core-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-crypto-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-taglibs-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-web-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="4"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-06-20 19:39</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">51</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added JSON GET controller, to get json data via http; added example on "index_supplier.jsp" to show getJSON use; added scripts fragment on template (index.tag); IMPORTANT: put jackson...jar in classpath.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        jackson-all-1.9.7.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="3"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-06-12 15:36</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">31</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+-aggiunto Filter per sessioni hibernate. Ad ogni richiesta viene automaticamente creata una sessione, dalla quale si crea una transazione. La Session viene messa come attributo nella request e deve essere usata per accedere al database. quando il controllo torna al filtro, esso fa il commit della transazione. se vengono sollevati Throwable, viene fatto il rollback della transazione.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">9 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        antlr-2.7.7.jar&#160;<span class="new">(new)</span>,
+        dom4j-1.6.1.jar&#160;<span class="new">(new)</span>,
+        hibernate-commons-annotations-4.0.1.Final.jar&#160;<span class="new">(new)</span>,
+        hibernate-core-4.1.4.Final.jar&#160;<span class="new">(new)</span>,
+        hibernate-jpa-2.0-api-1.0.1.Final.jar&#160;<span class="new">(new)</span>,
+        javassist-3.15.0-GA.jar&#160;<span class="new">(new)</span>,
+        jboss-logging-3.1.0.GA.jar&#160;<span class="new">(new)</span>,
+        jboss-transaction-api_1.1_spec-1.0.0.Final.jar&#160;<span class="new">(new)</span>,
+        mysql-connector-java-5.1.20-bin.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="2"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-06-08 17:36</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">19</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Added spring-webmvc...jar for spring.tld
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        spring-webmvc-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="1"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-06-07 17:25</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">8</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Base and directory structure; do NOT use previous project called lhmf_gas
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">22 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/lib</strong>:
+        commons-logging-1.1.1.jar&#160;<span class="new">(new)</span>,
+        jstl-1.2.jar&#160;<span class="new">(new)</span>,
+        org.springframework.aop-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.asm-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.aspects-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.beans-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.context-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.context.support-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.core-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.expression-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.instrument-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.instrument.tomcat-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.jdbc-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.jms-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.orm-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.oxm-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.test-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.transaction-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.web-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.web.portlet-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.web.servlet-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        org.springframework.web.struts-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+</div><div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>
