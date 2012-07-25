@@ -1,3 +1,4 @@
+//////
 function newPurchase(purchase)
 {
 	if (purchase == undefined)
@@ -37,6 +38,20 @@ function getActivePurchases()
 function loadAllActivePurchasesFromLocalStorage()
 {
 	return JSON.parse(window.localStorage.getItem('activePurchasesList'));
+}
+
+function getMyPurchase()
+{
+  $.getJSONsync("ajax/getmypurchases", function(purchasesList)
+      {
+        window.localStorage.setItem('myPurchasesList', JSON.stringify(purchasesList));
+        console.debug("myPurchasesList saved in localstorage");
+      });
+}
+
+function loadMyPurchasesFromLocalStorage()
+{
+  return JSON.parse(window.localStorage.getItem('myPurchasesList'));
 }
 
 function getActiveOrdersAsRows(ordersList, respsList, suppliersList, idOrderIn)

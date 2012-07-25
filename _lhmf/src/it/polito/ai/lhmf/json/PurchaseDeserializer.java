@@ -36,6 +36,8 @@ public class PurchaseDeserializer extends JsonDeserializer<Purchase>{
 			
 			newPurchase.setIdPurchase(node.get("idPurchase").getIntValue());
 			
+			newPurchase.setIsShipped(node.get("isShipped").getBooleanValue());
+			
 			Query queryMember = hibernateSession.createQuery("from Member where idMember = :idMember");
 			queryMember.setParameter("idMember", node.get("idMember").getNumberValue());
 			Member member = (Member) queryMember.uniqueResult();

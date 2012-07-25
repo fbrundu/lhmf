@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Purchase;
 
@@ -51,5 +52,25 @@ public class PurchaseInterface
 		List<Order> orders = sessionFactory.getCurrentSession().createQuery("from Order " + "where date_delivery = 0").list();
 		Query queryPurchase = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idPurchase = :idPurchase");
 		return queryPurchase.setParameterList("idPurchase", orders).list();
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Purchase> getPurchasesByMember(String username)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where username = :username");
+		query.setParameter("username", username);
+		Member member = (Member) query.uniqueResult();
+		if (member != null)
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"from Purchase "
+							+ "where idMember = :idMember");
+			query.setParameter("idMember", member.getIdMember());
+			return query.list();
+		}
+		else
+			return null;
+	}
 }
