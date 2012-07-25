@@ -299,13 +299,8 @@ public class MemberAjaxController
 			@RequestParam(value = "memberType", required = true) int memberType)
 	{
 		Long resultCall;
-		if(memberType == 3) {
-			//Fornitore
-			resultCall = supplierInterface.getNumberItems();
-		} else {
-			//normali o responsabili
-			resultCall = memberInterface.getNumberItems(memberType);
-		}
+
+		resultCall = memberInterface.getNumberItems(memberType);
 		
 		int result = (int) (long) resultCall;
 		

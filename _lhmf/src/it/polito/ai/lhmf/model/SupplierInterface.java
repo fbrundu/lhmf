@@ -142,16 +142,6 @@ public class SupplierInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Long getNumberItems()
-	{
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"select count(*) from Supplier");
-
-		return (Long) query.uniqueResult();
-	}
-
-	@Transactional(readOnly = true)
 	public Integer getIdSupplier(String username)
 	{
 		if (username == null)
