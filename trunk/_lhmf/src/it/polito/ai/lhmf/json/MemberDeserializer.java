@@ -49,7 +49,7 @@ public class MemberDeserializer extends JsonDeserializer<Member>
 			newMember.setAddress(node.get("address").getTextValue());
 			newMember.setCity(node.get("city").getTextValue());
 			newMember.setState(node.get("state").getTextValue());
-			newMember.setCap(node.get("cap").getIntValue());
+			newMember.setCap(node.get("cap").getTextValue());
 			newMember.setTel(node.get("tel").getTextValue());
 
 			Query query = hibernateSession.createQuery("from MemberType "
@@ -68,7 +68,7 @@ public class MemberDeserializer extends JsonDeserializer<Member>
 		}
 		catch (Exception e)
 		{
-			//TODO cosa fa mappingException??? perchè nella console non si vede nulla e lato client nemmeno..
+			//TODO cosa fa mappingException??? perchï¿½ nella console non si vede nulla e lato client nemmeno..
 			throw context.mappingException(e.getMessage());
 		}
 		return newMember;
