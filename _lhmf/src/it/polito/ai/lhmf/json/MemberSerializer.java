@@ -34,7 +34,7 @@ public class MemberSerializer extends JsonSerializer<Member>
 		jgen.writeStringField("address", value.getAddress());
 		jgen.writeStringField("city", value.getCity());
 		jgen.writeStringField("state", value.getState());
-		jgen.writeNumberField("cap", value.getCap());
+		jgen.writeStringField("cap", value.getCap());
 		jgen.writeStringField("tel", value.getTel());
 		jgen.writeStringField("memberType", value.getMemberType()
 				.getDescription());
