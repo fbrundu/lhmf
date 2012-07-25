@@ -3,8 +3,14 @@ NON FUNZIONANTE
 -Nella registrazione nella casella di aiuto per l'username vi è una à che viene visualizzata male:
  	Inserisci l'username 
  (ti servir- per accedere al sito)
+  il resto va bene
  
 -Nella registrazione di un nuovo utente da parte dell'admin il telefono risulta sempre NULL nel database
+ il resto va bene
+ 
+-Quando viene registrato un nuovo fornitore, quest'ultimo viene aggiunto solamente alla tabella Member
+e non a quella Supplier. Questo crea un errore quando si prova a visualizzare i prodotti dalla pagina del
+fornitore.
 
 -Da utente loggato forzando l'apertura di una pagina non consentita 
 (ad esempio da admin loggato provando a aprire index_normal.jsp) creo un errore (HTTP Status 404) 
@@ -18,3 +24,4 @@ FUNZIONANTE
 
 -Testata l'attivazione e la visualizzazione di ogni tipo di utente
 -Testata la registrazione normale
+-Testato login normale, con Facebook, con google e con yahoo
