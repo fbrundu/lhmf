@@ -9,7 +9,6 @@ import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
-import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 import it.polito.ai.lhmf.util.CheckNumber;
 import it.polito.ai.lhmf.util.CreateMD5;
@@ -71,20 +70,10 @@ public class MemberAjaxController
 		} else {
 						
 			Member memberControl = memberInterface.getMember(username);
-			boolean checkSupplier = true;
 			
 			if(memberControl != null)
-			{
-				checkSupplier = false;
 				errors.add("Username: non disponibile");
-			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplier(username);
-				
-				if(supplierControl != null)
-					errors.add("Username: non disponibile");
-			}	
+			
 		}
 		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
 			errors.add("Nome: Formato non Valido");
@@ -99,27 +88,16 @@ public class MemberAjaxController
 			//Controllo email gi� in uso
 			
 			Member memberControl = memberInterface.getMemberByEmail(email);
-			boolean checkSupplier = true;
 			
 			if(memberControl != null)
-			{
-				checkSupplier = false;
-				errors.add("Email: Email gi� utilizzata da un altro account");
-			}
-						
-			if(checkSupplier) {
-				Supplier supplierControl = supplierInterface.getSupplierByMail(email);
-				
-				if(supplierControl != null)
-					errors.add("Email: Email gi� utilizzata da un altro account");
-			}
+				errors.add("Email: Email gi&agrave utilizzata da un altro account");
 			
 		}
 		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			errors.add("Indirizzo: Formato non Valido");
 		}
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
-			errors.add("Citt�: Formato non Valido");
+			errors.add("Citt&agrave: Formato non Valido");
 		}	
 		if(state.equals("") || CheckNumber.isNumeric(state)) {
 			errors.add("Stato: Formato non Valido");
