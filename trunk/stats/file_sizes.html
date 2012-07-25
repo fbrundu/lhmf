@@ -1,0 +1,351 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - File Sizes and File Counts</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>File Sizes and File Counts</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a></div>
+<dl class="attributes">
+    <dt>Total Files:</dt>
+    <dd>351</dd>
+    <dt>Average File Size:</dt>
+    <dd>53.9 lines</dd>
+    <dt>Average Revisions Per File:</dt>
+    <dd>2.3</dd>
+</dl>
+<p class="chart"><img src="file_count.png" alt="File Count" width="800" height="500" /></p><p class="chart"><img src="file_size.png" alt="Average File Size" width="800" height="500" /></p>
+<div class="section">
+<h2>File Types</h2>
+  <table  rules="groups" summary="File Extensions">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Files</th>
+        <th>LOC</th>
+        <th>LOC per file</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Totals</th>
+        <td>351 (100.0%)</td>
+        <td>18924 (100.0%)</td>
+        <td>53.9</td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr  class="odd">
+        <th>*.java</th>
+        <td>105 (29.9%)</td>
+        <td>10599 (56.0%)</td>
+        <td>100.9</td>
+      </tr>
+      <tr  class="even">
+        <th>*.js</th>
+        <td>12 (3.4%)</td>
+        <td>4164 (22.0%)</td>
+        <td>347.0</td>
+      </tr>
+      <tr  class="odd">
+        <th>*.css</th>
+        <td>7 (2.0%)</td>
+        <td>1246 (6.6%)</td>
+        <td>178.0</td>
+      </tr>
+      <tr  class="even">
+        <th>*.jsp</th>
+        <td>15 (4.3%)</td>
+        <td>763 (4.0%)</td>
+        <td>50.8</td>
+      </tr>
+      <tr  class="odd">
+        <th>*.sql</th>
+        <td>2 (0.6%)</td>
+        <td>694 (3.7%)</td>
+        <td>347.0</td>
+      </tr>
+      <tr  class="even">
+        <th>*.xml</th>
+        <td>14 (4.0%)</td>
+        <td>658 (3.5%)</td>
+        <td>47.0</td>
+      </tr>
+      <tr  class="odd">
+        <th>*.html</th>
+        <td>1 (0.3%)</td>
+        <td>240 (1.3%)</td>
+        <td>240.0</td>
+      </tr>
+      <tr  class="even">
+        <th>*.sed</th>
+        <td>1 (0.3%)</td>
+        <td>94 (0.5%)</td>
+        <td>94.0</td>
+      </tr>
+      <tr  class="odd">
+        <th>*.txt</th>
+        <td>2 (0.6%)</td>
+        <td>87 (0.5%)</td>
+        <td>43.5</td>
+      </tr>
+      <tr  class="even">
+        <th>*.tag</th>
+        <td>1 (0.3%)</td>
+        <td>84 (0.4%)</td>
+        <td>84.0</td>
+      </tr>
+      <tr  class="odd">
+        <th>Others</th>
+        <td>17 (4.8%)</td>
+        <td>295 (1.6%)</td>
+        <td>17.3</td>
+      </tr>
+      <tr  class="even">
+        <th>Non-Code Files</th>
+        <td>174 (49.6%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="section">
+<h2>Largest Files</h2>
+  <table  rules="groups" summary="The largest files in the repository">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Lines of Code</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/modernizr-2.5.3.js</th>
+        <td>1265</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</th>
+        <td>1009</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_admin.js</th>
+        <td>827</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_resp.js</th>
+        <td>701</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/css/jquery-ui-1.8.21.custom.css</th>
+        <td>565</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_supplier.js</th>
+        <td>534</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/controllers/ajax/SupplierAjaxController.java</th>
+        <td>410</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</th>
+        <td>385</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> newDB.sql</th>
+        <td>348</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/orm/Member.java</th>
+        <td>346</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> malnati_project.sql</th>
+        <td>346</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Supplier.java</th>
+        <td>332</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> HibernateMapping/src/it/polito/ai/lhmf/orm/Member.java</th>
+        <td>318</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Member.java</th>
+        <td>309</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/applicationContext-security.xml</th>
+        <td>275</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/css/style-mobile.css</th>
+        <td>268</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/orm/Product.java</th>
+        <td>245</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> HibernateMapping/src/it/polito/ai/lhmf/orm/Product.java</th>
+        <td>241</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/jsp/state.html</th>
+        <td>240</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Product.java</th>
+        <td>223</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="section">
+<h2>Files With Most Revisions</h2>
+  <table  rules="groups" summary="The files with most revisions">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>File</th>
+        <th>Revisions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</th>
+        <td>18</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_admin.js</th>
+        <td>17</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/tags/index.tag</th>
+        <td>17</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file-deleted.png" width="15" height="13" alt="File removed from repo" title="File removed from repo"/> _lhmf/src/it/polito/ai/lhmf/IndexController.java</th>
+        <td>16</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</th>
+        <td>15</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/applicationContext-security.xml</th>
+        <td>13</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</th>
+        <td>13</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_supplier.js</th>
+        <td>12</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file-deleted.png" width="15" height="13" alt="File removed from repo" title="File removed from repo"/> _lhmf/src/it/polito/ai/lhmf/AjaxController.java</th>
+        <td>12</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/jsp/login.jsp</th>
+        <td>12</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</th>
+        <td>11</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/jsp/signup.jsp</th>
+        <td>11</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_resp.js</th>
+        <td>10</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</th>
+        <td>10</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</th>
+        <td>10</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/js/lib_normal.js</th>
+        <td>10</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/css/text.css</th>
+        <td>10</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/README</th>
+        <td>10</td>
+      </tr>
+      <tr  class="odd">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</th>
+        <td>10</td>
+      </tr>
+      <tr  class="even">
+        <th><img src="file.png" width="15" height="13" alt="file in repo" title="file in repo"/> _lhmf/WebContent/WEB-INF/lhmf-servlet.xml</th>
+        <td>9</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div><div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

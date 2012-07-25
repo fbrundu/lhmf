@@ -1,0 +1,5103 @@
+<?xml version="1.0"?>
+<log>
+<logentry
+   revision="184">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-25T12:35:56.948862Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberSerializer.java</path>
+</paths>
+<msg>Aggiornato Member De/Serializer</msg>
+</logentry>
+<logentry
+   revision="183">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-25T12:33:22.820417Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+</paths>
+<msg>Aggiornata SupplierInterface</msg>
+</logentry>
+<logentry
+   revision="182">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-25T12:22:52.944905Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SupplierController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/productsMgmt_supplier.jsp</path>
+</paths>
+<msg>Tolta annotazione catalog da hibernate mapping; aggiunte classi dimenticare scorso commit</msg>
+</logentry>
+<logentry
+   revision="181">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-25T11:19:16.712519Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/AndroidGASActivity.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding/GasServiceProvider.java</path>
+</paths>
+<msg>modifiche security per android</msg>
+</logentry>
+<logentry
+   revision="180">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-25T10:59:06.307528Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/PurchaseDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/PurchaseAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/OrderInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/PurchaseSerializer.java</path>
+</paths>
+<msg>Modifiche dopo l'upgrade del database e aggiunte al controllore delle schede</msg>
+</logentry>
+<logentry
+   revision="179">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-25T10:24:37.985131Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+</paths>
+<msg>mapping completato e riportato nel progetto principale</msg>
+</logentry>
+<logentry
+   revision="178">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T21:07:21.028023Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookAuthenticationFilter.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/security/LoginSuccessfullHandler.java</path>
+</paths>
+<msg>prime correzioni successive al cambio db</msg>
+</logentry>
+<logentry
+   revision="177">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T20:29:21.206408Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   action="M"
+   kind="file">/trunk/malnati.mwb</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   action="M"
+   kind="file">/trunk/newDB.sql</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Message.java</path>
+</paths>
+<msg>database: product: aggiunto collegamento con supplier
+          notifiy: modificato text in VARCHAR(300)
+
+mapping: rifare mapping di Product, Supplier e Notify</msg>
+</logentry>
+<logentry
+   revision="176">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T19:26:48.725106Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+</paths>
+<msg>HibernateMapping: rifatto il mapping, da riportare nel progetto principale</msg>
+</logentry>
+<logentry
+   revision="175">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T19:20:09.165070Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/malnati.mwb</path>
+<path
+   action="M"
+   kind="file">/trunk/newDB.sql</path>
+</paths>
+<msg>database: aggiunto collegamento tra Order e Supplier, da rifare il mapping</msg>
+</logentry>
+<logentry
+   revision="174">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T18:55:36.422600Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   action="M"
+   kind="file">/trunk/newDB.sql</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   action="M"
+   kind="dir">/trunk</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="M">/trunk/malnati.mwb</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Member.java</path>
+</paths>
+<msg>database: ripristinato collegamento tra supplierr e member per responsabile.
+
+HibernateMapping: rifatto il mapping, ancora da riportare nel progetto principale</msg>
+</logentry>
+<logentry
+   revision="173">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T17:32:16.911452Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/newDB.sql</path>
+</paths>
+<msg>modificato ulteriormente db:
+-aggiunto NULLABLE a message.product, message.order, message.sender
+-aggiunti message_categorye notofy_category
+-aggiunto NULLABLE a message.text e notify.text</msg>
+</logentry>
+<logentry
+   revision="172">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-24T16:52:46.756639Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductCategoryAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductCategoryInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/SupplierAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+</paths>
+<msg>Creazione prodotto + categoria terminata; da testare</msg>
+</logentry>
+<logentry
+   revision="171">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-24T16:24:05.272285Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/malnati.mwb</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/order_resp.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/RespController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/userMgmt_admin.jsp</path>
+</paths>
+<msg>Creato insfrastruttura di presentazione per Responsabile.</msg>
+</logentry>
+<logentry
+   revision="170">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-24T16:22:22.425990Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/newDB.sql</path>
+</paths>
+<msg>NUOVO DATABASE. Le Modifiche sono sostanziose. Era necessario. Riadattare il codice se non funziona (dopo aver sistemato Hibernate)</msg>
+</logentry>
+<logentry
+   revision="169">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-24T16:15:22.059720Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/LoginController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookAuthenticationFilter.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/css/openid-mobile.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/js/openid-jquery.js</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/WEB-INF/jsp/mobile/index.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/mobile/login.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookResourceDetailsService.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="168">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-24T13:22:49.950495Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/README</path>
+</paths>
+<msg>Aggiunta modifica per il db (id product_category da mettere come auto_increment)</msg>
+</logentry>
+<logentry
+   revision="167">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-24T09:44:57.752614Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+</paths>
+<msg>Costruzione pagine normal e responsable(inizio)</msg>
+</logentry>
+<logentry
+   revision="166">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-23T16:46:45.945673Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/README</path>
+</paths>
+<msg>Descrizione modifiche database in README</msg>
+</logentry>
+<logentry
+   revision="165">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-23T16:07:33.421088Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="164">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-23T15:35:46.531035Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+</paths>
+<msg>Modifica pagina jsp utente normale</msg>
+</logentry>
+<logentry
+   revision="163">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-21T22:02:48.638345Z</date>
+<paths>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookResourceDetails.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookResourceDetailsService.java</path>
+</paths>
+<msg>sistemate due cosine per facebook.</msg>
+</logentry>
+<logentry
+   revision="162">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-21T20:41:58.678687Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/mobile/index.jsp</path>
+</paths>
+<msg>modificati link con spring:uri</msg>
+</logentry>
+<logentry
+   revision="161">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-21T20:37:34.718708Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/img/logo.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/style-mobile.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/css/openid-shadow.css</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/mobile</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/mobile/index.jsp</path>
+</paths>
+<msg>Creato pagina Login per Mobile</msg>
+</logentry>
+<logentry
+   revision="160">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-21T19:26:19.193686Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/AndroidGAS/AndroidManifest.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding/GasServiceProvider.java</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/NetworkStateBroadcastReceiver.java</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/GasNetworkService.java</path>
+<path
+   kind="file"
+   action="M">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/AndroidGASActivity.java</path>
+</paths>
+<msg>versioje iniziale service android. viene attivato quando è attiva una connessione. Al suo interno (per ora nel thread principale, da spostare in un altro thread) verifica che l'utente sia già loggato. se non lo p, mette una notifica per far loggare l'utente</msg>
+</logentry>
+<logentry
+   revision="159">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-20T15:16:57.626169Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+</paths>
+<msg>Bug del timestamp della data di registrazione nella lista membri risolto</msg>
+</logentry>
+<logentry
+   revision="158">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-20T14:21:01.753668Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/SupplierAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberDeserializer.java</path>
+</paths>
+<msg>Pannello Admin Completato. (Bisogna fare tutta la parte relativa ad ordini e prodotti). Implementato anche la generazione delle password. Modificato modalità di invio email. Implementato l'authMail in modo tale che attivi direttamente l'account se è stato creato dall'admin (Ancora da Testare). 
+
+Perfavore se trovate bug fatemelo sapere. </msg>
+</logentry>
+<logentry
+   revision="157">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-20T13:21:28.358901Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+</paths>
+<msg>Resp implementato su sessionStorage</msg>
+</logentry>
+<logentry
+   revision="156">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-19T22:52:38.632565Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/SupplierAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+</paths>
+<msg>Attiva Membri Completato. Risolti bug registrazione. Qualche piccolezza ancora da fare.</msg>
+</logentry>
+<logentry
+   revision="155">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-19T19:45:10.627463Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+</paths>
+<msg>Finito attivazione Account da parte dell'admin. Per ora funziona solo per membri e responsabili. Devo ancora integrare fornitori.</msg>
+</logentry>
+<logentry
+   revision="154">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-19T18:42:12.594747Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+</paths>
+<msg>Forse fixato bug controllore ajax activeMember; testare</msg>
+</logentry>
+<logentry
+   revision="153">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-19T16:46:52.012475Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/userMgmt_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+</paths>
+<msg>Sto lavorando sulla lista membri da attivare. </msg>
+</logentry>
+<logentry
+   revision="152">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-19T14:42:21.505156Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/OrderInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="151">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-18T22:33:04.613169Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/userMgmt_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Registrazione Forenitore Completata. 
+
+Cose da fare/aggiustare:
+- Generare le password ed inviarle all'email.
+- Modificare l'authMail affinche attivi anche i suppliers (ora fa solo membri e responsabili)
+- Modificare il getMembersRespString in modo che restituisca solo i membri attivati.</msg>
+</logentry>
+<logentry
+   revision="150">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-18T16:34:53.652585Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/README</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/userMgmt_admin.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Lato client impostato per registrare responsabili e fornitori. Manca lato server. Sarà fatto presto abbiate fede.</msg>
+</logentry>
+<logentry
+   revision="149">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-18T15:13:26.689825Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+</paths>
+<msg>javascript quasi completo di utenti normale e responsabile</msg>
+</logentry>
+<logentry
+   revision="148">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-18T12:39:45.328608Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductCategoryDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/PurchaseDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderDeserializer.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="147">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-18T11:40:35.437463Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+</paths>
+<msg>Aggiunti alcuni dettagli riguardo utenti normale e responsabile</msg>
+</logentry>
+<logentry
+   revision="146">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-18T10:33:24.334778Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="145">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-18T09:25:09.967021Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/PurchaseAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/OrderAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="144">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-18T08:37:21.145884Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Spostate operazioni su supplier (client-side) in lib.js -&gt; utili per tutti gli utenti</msg>
+</logentry>
+<logentry
+   revision="143">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-18T07:39:08.684541Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+</paths>
+<msg>piccoli update</msg>
+</logentry>
+<logentry
+   revision="142">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-17T21:59:11.077299Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/userMgmt_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+</paths>
+<msg>Non entra nel metodo ajax/newMember. Non riesco a capire il perchè. </msg>
+</logentry>
+<logentry
+   revision="141">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-17T20:18:17.445030Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/AdminController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/CheckNumber.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/authMail_confirmed.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/userMgmt_admin.jsp</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/LogController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Modificato il controllo ajax per newmember. Sezione admin ancora da finire.</msg>
+</logentry>
+<logentry
+   revision="140">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T16:32:00.777165Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Quasi finita lib_supplier: manca il riferimento al member responsabile quando si stampa un prodotto</msg>
+</logentry>
+<logentry
+   revision="139">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T16:13:24.381125Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Migliorata lib_supplier</msg>
+</logentry>
+<logentry
+   revision="138">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T15:28:47.752062Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Migliorata lib_supplier</msg>
+</logentry>
+<logentry
+   revision="137">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T15:05:19.721328Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/README</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+</paths>
+<msg>Revisione deser/ser + hibernate completata</msg>
+</logentry>
+<logentry
+   revision="136">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T14:45:50.824414Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="135">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T14:44:32.523118Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductCategoryDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductCategorySerializer.java</path>
+</paths>
+<msg>Corretto bug su ProductCategorySerializer: mismatch tra campo serializzato e deserializzato (idProduct_Category - idProductCategory) </msg>
+</logentry>
+<logentry
+   revision="134">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-17T14:39:49.132371Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderSerializer.java</path>
+</paths>
+<msg>Corretto bug su OrderDeserializer (doppio node.get(\"date_close\")) e corretto formato (camelCase per JSON e js se no facciamo confusione)</msg>
+</logentry>
+<logentry
+   revision="133">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-17T11:40:52.042701Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+</paths>
+<msg>Sistemato parte log Admin.</msg>
+</logentry>
+<logentry
+   revision="132">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-16T12:58:53.074523Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/OrderInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="131">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-15T21:53:50.235228Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+</paths>
+<msg>Puttanate</msg>
+</logentry>
+<logentry
+   revision="130">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-15T18:41:44.995666Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Added return products table to lib_supplier; modificato poco index_supplier (non è completo)</msg>
+</logentry>
+<logentry
+   revision="129">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-15T18:14:12.548332Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Aggiunto invio messaggio all'admin con richiesta di attivazione account (sempre dopo la verifica della mail, quindi subito per facebook e openid, alla conferma per gli utenti normali).</msg>
+</logentry>
+<logentry
+   revision="128">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-15T16:49:45.326426Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Aggiunto controllo sulle email. Non viene permessa la registrazione con una mail già in uso.</msg>
+</logentry>
+<logentry
+   revision="127">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-15T16:45:38.646697Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Fixed bug on Product CRUD</msg>
+</logentry>
+<logentry
+   revision="126">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-15T16:14:29.642775Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+</paths>
+<msg>Aggiunti getMemberByEmail e getSupplierByMail</msg>
+</logentry>
+<logentry
+   revision="125">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-15T15:50:35.134206Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Aggiunti controlli sul campo username</msg>
+</logentry>
+<logentry
+   revision="124">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-15T15:37:45.346751Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup_confirmed.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Tolto il membro checkMail. Cambiato con variabile di sessione</msg>
+</logentry>
+<logentry
+   revision="123">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-15T15:11:04.476649Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductCategoryDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductCategoryInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductInterface.java</path>
+</paths>
+<msg>Tolte annotazioni JSONSerialize/Deserialize da classi orm package - fa tutto il CustomObjectMapper; aggiunto il deserializzatore per ProductCategory; aggiunta funzione per ricevere i prodotti solo del supplier che fa la richiesta; corrette alcune query hql delle interfacce (per la prossima revisione saranno tutte corrette)</msg>
+</logentry>
+<logentry
+   revision="122">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-15T09:20:06.060569Z</date>
+<paths>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src/it/polito/ai/lhmf/security/exception</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/exception/MailNotVerifiedException.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookAuthenticationFilter.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/css/text.css</path>
+</paths>
+<msg>aggiunto controllo account abilitato anche per facebook.
+modificato leggermente lo stile della pagina di login.</msg>
+</logentry>
+<logentry
+   revision="121">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-15T09:10:52.757783Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="120">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-15T09:06:40.757365Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+</paths>
+<msg>CRUD completato su purchase</msg>
+</logentry>
+<logentry
+   revision="119">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-15T07:58:01.086507Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/malnati_project.sql</path>
+</paths>
+<msg>modificata dimensione username anche per i supplier</msg>
+</logentry>
+<logentry
+   revision="118">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T23:41:30.025654Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Conferma dell'email finita e funzionante. Ho dovuto modificare il memberInterface per via di qualche errore nel metodo updateMember. Tutto ok.</msg>
+</logentry>
+<logentry
+   revision="117">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T22:44:21.134071Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+</paths>
+<msg>Modificato applicationContext-security.xml per i permessi per la pagina che dovrà autenticare la mail.</msg>
+</logentry>
+<logentry
+   revision="116">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T22:42:51.062135Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="115">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T22:22:53.491333Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="114">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-14T21:24:14.005279Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+</paths>
+<msg>invio mail funzionante</msg>
+</logentry>
+<logentry
+   revision="113">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T21:02:40.286984Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="112">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T21:00:53.189692Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="111">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T20:59:19.339399Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="110">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-14T20:11:31.306679Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/malnati_project.sql</path>
+</paths>
+<msg>SQL aggiornato; dobbiamo inserire anche istruzioni di update del database?</msg>
+</logentry>
+<logentry
+   revision="109">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-14T19:56:38.770075Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="108">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T18:32:26.252665Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/CreateMD5.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup_confirmed.jsp</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/util</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/util/SendEmail.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Creata l'infrastruttura per mandare le mail... ma testare da locale è difficile.</msg>
+</logentry>
+<logentry
+   revision="107">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T17:11:08.789515Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/controllaform.js</path>
+</paths>
+<msg>Effettuata anche la registrazione normale. Manca da fare l'invio delle mail.</msg>
+</logentry>
+<logentry
+   revision="106">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-14T15:43:01.670051Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+</paths>
+<msg>Aggiunta registrazione facebook. Modificata pagina login.jsp. Aggiunto un permesso per /siognup* su applicationContext-security.xml</msg>
+</logentry>
+<logentry
+   revision="105">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-14T15:31:54.697594Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/security/LoginSuccessfullHandler.java</path>
+</paths>
+<msg>modificato LoginSuccessfullHandler.java: quando un login ha successo, mette nella session le chiavi "member_type" con l'intero del tipo di membro, "username" con l'username del membro, "user" con il nome del membro (per stamparlo nelle pagine web: "Ciao &lt;membro&gt;"
+
+OCCHIO a come sono scritte le query nei vari *Interface: spesso mancano spazi tra "from Tabella" e "where ..."</msg>
+</logentry>
+<logentry
+   revision="104">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-14T10:59:00.678776Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderSerializer.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/PurchaseDeserializer.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderDeserializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+</paths>
+<msg>Modifiche su crud, serializer e deserializer su order e purchase</msg>
+</logentry>
+<logentry
+   revision="103">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-14T09:09:18.993343Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/PurchaseAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/OrderInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="102">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-13T19:58:09.903470Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+</paths>
+<msg>Sistemata registrazione per OpenId. Bisogna risolvere il redirect</msg>
+</logentry>
+<logentry
+   revision="101">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-13T19:15:36.122566Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+</paths>
+<msg>Aggiunti gli injection mancanti del sessionFactory</msg>
+</logentry>
+<logentry
+   revision="100">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-13T19:08:53.681166Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+</paths>
+<msg>Aggiunti bean injection della sessionFactory mancanti
+</msg>
+</logentry>
+<logentry
+   revision="99">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-13T19:01:31.037023Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberStatusInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberTypeInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="98">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-13T18:04:48.184489Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierDeserializer.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MessageInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierSerializer.java</path>
+</paths>
+<msg>Added MessageInterface + minox fixes</msg>
+</logentry>
+<logentry
+   revision="97">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-13T18:01:44.352838Z</date>
+<paths>
+<path
+   action="M"
+   kind="dir">/trunk/AndroidGAS</path>
+</paths>
+<msg>ingored android bin and gen directories</msg>
+</logentry>
+<logentry
+   revision="96">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-13T18:00:14.196356Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/proguard-project.txt</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding/GasTemplate.java</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding/GasServiceProvider.java</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/libs/jackson-all-1.9.7.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/libs/spring-social-core-1.0.2.RELEASE.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/AndroidGASActivity.java</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/libs/spring-android-core-1.0.0.RELEASE.jar</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/src/it/polito/ai/lhmf</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/libs</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/res</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/libs/spring-android-auth-1.0.0.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/res/drawable-mdpi/ic_launcher.png</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/res/drawable-mdpi</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/src/it</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/AndroidManifest.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/libs/spring-security-crypto-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/res/layout</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/src/it/polito</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding/Gas.java</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/res/values/strings.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/libs/spring-android-rest-template-1.0.0.RELEASE.jar</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/res/drawable-xhdpi/ic_launcher.png</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/src/it/polito/ai/lhmf/android/binding/GASConnectionFactory.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/res/drawable-xhdpi</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/.project</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/src</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/res/values</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/res/layout/main.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src/it/polito/ai/lhmf/security/oauth</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/res/drawable-hdpi/ic_launcher.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/oauth/AndroidClientApprovalHandler.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/res/drawable-hdpi</path>
+<path
+   action="A"
+   kind="file">/trunk/AndroidGAS/res/drawable-ldpi/ic_launcher.png</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/.classpath</path>
+<path
+   kind="dir"
+   action="A">/trunk/AndroidGAS/res/drawable-ldpi</path>
+<path
+   kind="file"
+   action="A">/trunk/AndroidGAS/project.properties</path>
+<path
+   action="A"
+   kind="dir">/trunk/AndroidGAS/src/it/polito/ai</path>
+</paths>
+<msg>-Aggiunto OAuth2 Provider lato server per fornire access token ai client android. In questo modo i client dovranno fare il logn solo una volta, e per il resto useranno l'access token. (https://developers.google.com/accounts/docs/MobileApps)
+
+-Iniziato sviluppo client android, con prova di login (spring social con custom provider per OAuth Gas)</msg>
+</logentry>
+<logentry
+   revision="95">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-13T16:00:55.726227Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/MemberAjaxController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/MemberInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+</paths>
+<msg>Added CRUD+Ajax controller+Hibernate interface for Member; need testing</msg>
+</logentry>
+<logentry
+   revision="94">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-13T15:04:08.802973Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Member.java</path>
+</paths>
+<msg>Added annotation on Member to deserialize it with MemberDeserializer</msg>
+</logentry>
+<logentry
+   revision="93">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-13T15:02:45.826977Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductAjaxController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/SupplierAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/PurchaseAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/OrderAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductCategoryAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierDeserializer.java</path>
+</paths>
+<msg>Added MemberDeserializer; regDate have to be serialized?</msg>
+</logentry>
+<logentry
+   revision="92">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-13T14:10:38.505218Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/SupplierAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ISO8601DateParser.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/SupplierDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+</paths>
+<msg>CRUD and ajax for Supplier; unable to test -&gt; to do as soon as possible; added class to deserialize Date from JSON to Java</msg>
+</logentry>
+<logentry
+   revision="91">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-13T01:39:39.878091Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/state.html</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="90">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-12T13:53:16.998339Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductCategoryAjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductCategoryInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductAjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductInterface.java</path>
+</paths>
+<msg>CRUD and ajax completed for Product and ProductCategory</msg>
+</logentry>
+<logentry
+   revision="89">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-12T12:34:47.077004Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductAjaxController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/IndexController.java</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginFormSubmittedController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/LogAjaxController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/LoginController.java</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/LogController.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/LoginFormSubmittedController.java</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/LogController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/UserInterface.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/SignupController.java</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/PurchaseAjaxController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/OrderAjaxController.java</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/SignupController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/controllers/ajax/ProductCategoryAjaxController.java</path>
+</paths>
+<msg>Controllers refactoring complete; check for bugs</msg>
+</logentry>
+<logentry
+   revision="88">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-12T09:51:42.484122Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="87">
+<author>jyxpowa@gmail.com</author>
+<date>2012-07-11T16:51:05.993267Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/controllaform.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/SignupController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/mail.jar</path>
+</paths>
+<msg>Modificati Controlli alla registrazione e relativa grafica.</msg>
+</logentry>
+<logentry
+   revision="86">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-11T16:20:58.647814Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/UserInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="85">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-11T16:02:31.052716Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/malnati_project.sql</path>
+</paths>
+<msg>creati valori UNIQUE per username in member e supplier.
+Il nuovo script .sql contiene gia' i diversi member type e member status</msg>
+</logentry>
+<logentry
+   revision="84">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-11T16:01:28.435409Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+</paths>
+<msg>CRUD su ordine e purchase(in parte per un dubbio)</msg>
+</logentry>
+<logentry
+   revision="83">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-11T15:57:30.762912Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/PurchaseSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderSerializer.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/PurchaseInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/OrderInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="82">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-11T14:16:55.501775Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/UserInterface.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="81">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-11T14:12:25.684350Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="80">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-11T13:15:05.674402Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/OrderInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/OrderSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+</paths>
+<msg>Tolti alcuni errori.....prossimo commit a fine giornata</msg>
+</logentry>
+<logentry
+   revision="79">
+<author>hasmet87@gmail.com</author>
+<date>2012-07-11T10:24:51.465795Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/lib_normal.js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_resp.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+</paths>
+<msg>Piccole aggiunte agli utenti normali e responsabile</msg>
+</logentry>
+<logentry
+   revision="78">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-10T12:00:13.567624Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/SignupController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-oauth2-1.0.0.M6.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookRegistrationRequiredHandler.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/OAuth2AuthenticationToken.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookAccessTokenProvider.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookResourceDetails.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookResourceDetailsService.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookAccessTokenMessageConverter.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/exceptions/FacebookNeedsRegistration.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/FacebookAuthenticationFilter.java</path>
+</paths>
+<msg>FACEBOOK!!!</msg>
+</logentry>
+<logentry
+   revision="77">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-09T20:23:50.221244Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/SignupController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductCategoryInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/OpenIdRegistrationRequiredHandler.java</path>
+</paths>
+<msg>Added few fields in signup view, + comments</msg>
+</logentry>
+<logentry
+   revision="76">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-09T12:04:49.346245Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/livejournal.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/clickpass.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/google_profile.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/vidoop.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.large/myopenid.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.large/verisign.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/vidoop.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/facebook.ico</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/js/openid-selector/images.large</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/yandex.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/clickpass.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/facebook.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/clickpass.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/technorati.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/twitter.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/facebook.gif</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/yandex.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/vkontakte.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/css/openid-shadow.css</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/yandex.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/technorati.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/twitter.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/technorati.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/yandex.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/vkontakte.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/twitter.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/vkontakte.ico.gif</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/remcomments.sed</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/launchpad.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/README.txt</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/aol.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/xercesImpl-2.8.1.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/yahoo.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images/openid-providers-en.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/flickr.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/google.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/launchpad.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/rambler.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/launchpad.ico.gif</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images/openid-providers-it.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/flickr.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/mailru.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/google.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/winliveid.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/flickr.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/google.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/linkedin.ico.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/js/openid-selector/images</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/claimid.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/mailru.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/google.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/winliveid.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/linkedin.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/mailru.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/js/openid-jquery.js</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/aol.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/winliveid.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/linkedin.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/openid.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/claimid.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/yahoo.ico.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/js/openid-selector/css</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/blogger.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/claimid.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/mailru.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/rambler.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/myopenid.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/css/openid.css</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images/openid-inputicon.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/verisign.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/aol.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/wordpress.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/livejournal.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/openid.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/aol.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/yahoo.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/google_profile.ico.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images/openid-providers-ru.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/blogger.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/openid.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.large/vkontakte.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/yahoo.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/vidoop.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/rambler.ico</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/myopenid.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/blogger.ico.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/verisign.ico</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/js/openid-selector/images.small</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/myopenid.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/wordpress.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.small/rambler.ico.gif</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/verisign.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/livejournal.ico</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/js/openid-it.js</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/openid-selector/images.large/openid.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/facebook.ico.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/wordpress.ico.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/openid-selector/images.small/google_profile.ico</path>
+</paths>
+<msg>migliorie pagina di login</msg>
+</logentry>
+<logentry
+   revision="75">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-08T21:16:03.171966Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/signup.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/openid4java-0.9.6.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/httpclient-4.0.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/commons-codec-1.3.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/httpcore-4.0.1.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/guice-2.0.jar</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="M"
+   kind="dir">/trunk</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-openid-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/exceptions/OpenIdNeedsRegistration.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/SignupController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/OpenIdRegistrationRequiredHandler.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/nekohtml-1.9.14.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+</paths>
+<msg>FUNZIONANO GLI OPENID!!!!! (tipo google, e parecchi altri...) per proivare con google scrivere nella casella di testo "Identity" questo url "https://www.google.com/accounts/o8/id" e vedrete la magia!
+Al momento però gli openid non vengono registrati, quindi non fa effettivamente il login...
+
+IMPORTANTE: dato che l'app sta diventando pesantina a causa delle librerie, ho dovuto modificare i parametri della VM di tomcat. Lo potete fare da eclipse andando a modificare la configurazione di avvio del programma, e aggiungendo ai parametri della VM
+questa cosa:
+-XX:PermSize=256m -XX:MaxPermSize=256m -XX:+DisableExplicitGC</msg>
+</logentry>
+<logentry
+   revision="74">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-08T19:19:31.617615Z</date>
+<paths>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.instrument.tomcat-3.1.1.RELEASE.jar</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.test-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-acl-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.web.struts-3.1.1.RELEASE.jar</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-crypto-3.1.1.RELEASE.jar</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.oxm-3.1.1.RELEASE.jar</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.web.portlet-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.jms-3.1.1.RELEASE.jar</path>
+</paths>
+<msg>tolte librerie per il momento inutili</msg>
+</logentry>
+<logentry
+   revision="73">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-08T11:49:38.156084Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/LogInterface.java</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/exceptions/NoHibernateSessionException.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/constants/MemberTypes.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/constants/MemberStatuses.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/LogController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   kind="dir"
+   action="D">/trunk/_lhmf/src/it/polito/ai/lhmf/filters</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/commons-dbcp-1.4.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/security/LoginSuccessfullHandler.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/cglib-nodep-2.2.2.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/commons-pool-1.6.jar</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-service.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/constants</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductCategoryInterface.java</path>
+</paths>
+<msg>troppa roba. se avete dubbi chiedete.
+Più che altro guardate come ho usato le annotazioni @Transaciton e @PreAuthorize un pò in giro nel codice.</msg>
+</logentry>
+<logentry
+   revision="72">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-07T20:55:36.595062Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+</paths>
+<msg>Bug r70 fixed; check if other bugs occurs</msg>
+</logentry>
+<logentry
+   revision="71">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-07T18:59:10.388699Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-crypto-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-taglibs-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernateFilter.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/aopalliance.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-core-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/security/MyUserDetailsService.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/LogController.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src/it/polito/ai/lhmf/security</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-acl-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-service.xml</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/applicationContext.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-config-3.1.1.RELEASE.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/applicationContext-security.xml</path>
+<path
+   action="M"
+   kind="dir">/trunk</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-security-web-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/log_admin.jsp</path>
+</paths>
+<msg>about to do the spring revolution!!!
+
+-aggiunte librerie per spring security
+-aggiunto username in index.tag
+-aggiunto uso di spring:url al posto degli url normali nei file jsp
+-commentato intero contenuto di HibernateFilter, dovrà sparire
+
+-aggiunti file XML per creazione contesto applicativo
+</msg>
+</logentry>
+<logentry
+   revision="70">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-07T18:01:44.981374Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductDeserializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductCategorySerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/ProductSerializer.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/SupplierInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+</paths>
+<msg>Added deserializer: WARNING it does not work yet, do not revert to this revision unless you want to debug ProductDeserializer.java</msg>
+</logentry>
+<logentry
+   revision="69">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-05T10:51:43.648770Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/admin_static.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/LogController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/jquery.history.js</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/log_admin.jsp</path>
+</paths>
+<msg>inizio gestione history su ie (non ha le api...) Soluzione: usare history solo per browser html5, per quelli html4 fare normali richieste al server (esempio: verificare parametri per richieste log su ie)</msg>
+</logentry>
+<logentry
+   revision="68">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-04T21:14:12.156531Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="67">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-04T15:58:17.134680Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+</paths>
+<msg>riporovare history, almeno su ie8</msg>
+</logentry>
+<logentry
+   revision="66">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-04T09:28:42.290549Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+</paths>
+<msg>Wonderful animation dei log! :D</msg>
+</logentry>
+<logentry
+   revision="65">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-03T21:20:19.419672Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/LogController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductInterface.java</path>
+</paths>
+<msg>migliorata gestione history. Adesso funzionano back, forward, reload e segnalibri.</msg>
+</logentry>
+<logentry
+   revision="64">
+<author>l.moretto88@gmail.com</author>
+<date>2012-07-03T17:51:16.886856Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/modernizr-2.5.3.js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_admin.js</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/jquery.history.js</path>
+</paths>
+<msg>-inizio uso history (con la libreria jquery.history.js di History.js https://github.com/balupton/history.js)
+
+-aggiunta librearia modernizer js (potrebbe servirci in futuro)</msg>
+</logentry>
+<logentry
+   revision="63">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-07-03T13:05:51.112478Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductInterface.java</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/HibernateInterface.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/LogInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/ProductCategoryInterface.java</path>
+</paths>
+<msg>Refactored HibernateInterface, now it is distributed in several file &lt;name&gt;Interface for every hibernate mapping, under model package</msg>
+</logentry>
+<logentry
+   revision="62">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-26T14:50:33.389261Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/CustomObjectMapper.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/HibernateInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/json/MemberSerializer.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+</paths>
+<msg>-fixata query per ottenimento log. usa Timestamp e 'between ... and ...'
+-creato ObjectMapper customizzato (CustomObjectMapper.java) per serializzazione custom json di Member. Usare questa classe per imostare serializzatori custom per eventuali altre classi (se le classi hanno loop di dipendenze la serializzazione crasha, quindi bisogna scegliere bene cosa serializzare e cosa no)
+-modificato lhmf-servlet.xml per impostare ObjectMapper customizzato per la serializzazione degli oggetti hibernate
+-aggiunto controllo in AjaxController che, se arriva richiesta per i log, l'utente loggato sia di tipo admin (3)</msg>
+</logentry>
+<logentry
+   revision="61">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-25T11:56:59.528723Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/HibernateInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+</paths>
+<msg>iniziata parte di consultazione log di sistema. rivedere query hql server-side per i log
+
+LoginController: penso sia sbagliata la condizione per verificare se bisogna fare redirect. dovrebbe essere if(!refererPage.matches... &amp;&amp; (...)), ossia non in OR ma in AND</msg>
+</logentry>
+<logentry
+   revision="60">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-25T08:38:50.630579Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernateFilter.java</path>
+</paths>
+<msg>HibernateFilter: aggiunto /js/.* ai path da ignorare per la creazione delle sessioni hibernate. Da fare anche in LoginFilter probabilmente</msg>
+</logentry>
+<logentry
+   revision="59">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-23T20:01:05.884670Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>lib_supplier.js with example use of local storage (not complete)</msg>
+</logentry>
+<logentry
+   revision="58">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-23T19:50:16.350954Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/lib_supplier.js</path>
+</paths>
+<msg>Uploading a minimal version of lib_supplier.js;</msg>
+</logentry>
+<logentry
+   revision="57">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-22T16:34:23.472719Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+</paths>
+<msg>Provato a fare qualche stronzata. Ho da risolvere i redirect.</msg>
+</logentry>
+<logentry
+   revision="56">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-22T14:47:58.103956Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/HibernateInterface.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+</paths>
+<msg>CRUD completed for ProductCategory</msg>
+</logentry>
+<logentry
+   revision="55">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-22T14:29:14.869024Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/css/setup.css</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/img/bg_bullet_arrow.png</path>
+</paths>
+<msg>Aggiunto il NAV per messaggi e notifiche nel template, modificato il css.</msg>
+</logentry>
+<logentry
+   revision="54">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-22T14:10:46.443994Z</date>
+<paths>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/hello.jsp</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/src/HelloSpring.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/HelloSpringController.java</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/spring.tld</path>
+</paths>
+<msg>Removed unused resources</msg>
+</logentry>
+<logentry
+   revision="53">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-22T13:57:47.279577Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/jquery-ui-1.8.21.custom.css</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-bg_highlight-soft_75_cccccc_1x100.png</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/images/ui-icons_454545_256x240.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/images/ui-bg_inset-soft_95_fef1ec_1x100.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-bg_glass_65_ffffff_1x400.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-bg_glass_75_ffffff_1x400.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-icons_cd0a0a_256x240.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/images/ui-bg_flat_0_aaaaaa_40x100.png</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/js/jquery-1.7.1.min.js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-icons_222222_256x240.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/jquery-1.7.2.min.js</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/images/ui-icons_2e83ff_256x240.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/css/images</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-icons_888888_256x240.png</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-bg_glass_75_dadada_1x400.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/images/ui-bg_glass_55_fbf9ee_1x400.png</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/js/jquery-ui-1.8.21.custom.min.js</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/images/ui-bg_glass_75_e6e6e6_1x400.png</path>
+</paths>
+<msg>Added jQuery UI and modified template index.tag</msg>
+</logentry>
+<logentry
+   revision="52">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-21T19:55:49.073328Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/AjaxController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/exceptions/InvalidParametersException.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/lib.js</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/JSONGetController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/model/HibernateInterface.java</path>
+</paths>
+<msg>CRD on ProductCategory using ajax, only Update to implement; examples on index_supplier.jsp; JSONGetController is now AjaxController; added lib.js</msg>
+</logentry>
+<logentry
+   revision="51">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-20T17:39:49.412482Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/js/jquery-1.7.1.min.js</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/js</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/JSONGetController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/jackson-all-1.9.7.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/README</path>
+</paths>
+<msg>Added JSON GET controller, to get json data via http; added example on "index_supplier.jsp" to show getJSON use; added scripts fragment on template (index.tag); IMPORTANT: put jackson...jar in classpath.</msg>
+</logentry>
+<logentry
+   revision="50">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-19T12:49:36.463366Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+</paths>
+<msg>Refactoring index.tag in order to use html5 features</msg>
+</logentry>
+<logentry
+   revision="49">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-18T16:56:34.562659Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/model</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/exceptions</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/exceptions/NoHibernateSessionException.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/model/HibernateInterface.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+</paths>
+<msg>Added HibernateInterface, wrapper methods to use hibernate</msg>
+</logentry>
+<logentry
+   revision="48">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-17T15:06:01.799648Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+</paths>
+<msg>Refactoring on ignoring path in LoginFilter.java</msg>
+</logentry>
+<logentry
+   revision="47">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-17T14:54:10.081533Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernateFilter.java</path>
+</paths>
+<msg>modificato HibernateFilter per non creare sessioni e transazioni quando le url richiste sono di tipo css/* o img/*</msg>
+</logentry>
+<logentry
+   revision="46">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-17T14:42:20.561629Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+</paths>
+<msg>Fixed regression with a check on paths to ignore. Paths to ignore are loaded on filter on init()</msg>
+</logentry>
+<logentry
+   revision="45">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-17T13:26:45.922288Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="44">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-17T12:54:10.701287Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/README</path>
+</paths>
+<msg>Updated README</msg>
+</logentry>
+<logentry
+   revision="43">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-16T22:50:27.066277Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/LoginFilter.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernateFilter.java</path>
+</paths>
+<msg>LoginFilter added. Shows a regression when opening it with chromium: it does not get css</msg>
+</logentry>
+<logentry
+   revision="42">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-16T19:48:51.669380Z</date>
+<paths>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernteFilter.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernateFilter.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+</paths>
+<msg>Refactored HibernateFilter using web.xml instead of annotations</msg>
+</logentry>
+<logentry
+   revision="41">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-13T16:37:07.078499Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginFormSubmittedController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/README</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+</paths>
+<msg>Refactoring complete</msg>
+</logentry>
+<logentry
+   revision="40">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-13T16:25:54.549043Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/base.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+</paths>
+<msg>Starting refactoring</msg>
+</logentry>
+<logentry
+   revision="39">
+<author>hasmet87@gmail.com</author>
+<date>2012-06-13T13:09:16.216381Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="38">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-12T15:46:57.258228Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/README</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+</paths>
+<msg>Defined TODO and modified jsps</msg>
+</logentry>
+<logentry
+   revision="37">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-12T15:44:35.937645Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginFormSubmittedController.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="36">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-12T15:13:17.907634Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginFormSubmittedController.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/README</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+</paths>
+<msg>Added static resources mapping; added custom attribute for tags in index.tag</msg>
+</logentry>
+<logentry
+   revision="35">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-12T15:09:42.285548Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/img/bg_main_withnav.jpg</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/img/bg_foot.jpg</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/img/bg_head_polito.jpg</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/img</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/img/no.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/img/bg_head_breadcrumbs.jpg</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/img/bg_corner_topright.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/img/yes.gif</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="34">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-12T14:31:19.861361Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernteFilter.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="33">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-12T13:56:37.030283Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/css/setup.css</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/LoginFormSubmittedController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/css/text.css</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/css</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="32">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-12T13:41:10.172662Z</date>
+<paths>
+<path
+   action="M"
+   kind="dir">/trunk/ProvaWebHibernate</path>
+<path
+   action="M"
+   kind="dir">/trunk</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="31">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-12T13:36:36.865133Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/filters/HibernteFilter.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/javassist-3.15.0-GA.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/dom4j-1.6.1.jar</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/filters</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/hibernate-core-4.1.4.Final.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/jboss-logging-3.1.0.GA.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/antlr-2.7.7.jar</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/hibernate-commons-annotations-4.0.1.Final.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/mysql-connector-java-5.1.20-bin.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/.project</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src/it/polito/ai/lhmf/orm</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/hibernate.cfg.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/orm/Product.java</path>
+</paths>
+<msg>-aggiunto Filter per sessioni hibernate. Ad ogni richiesta viene automaticamente creata una sessione, dalla quale si crea una transazione. La Session viene messa come attributo nella request e deve essere usata per accedere al database. quando il controllo torna al filtro, esso fa il commit della transazione. se vengono sollevati Throwable, viene fatto il rollback della transazione.</msg>
+</logentry>
+<logentry
+   revision="30">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-12T12:57:14.107660Z</date>
+<paths>
+<path
+   kind="dir"
+   action="D">/trunk/Site</path>
+</paths>
+<msg>Cambio sito</msg>
+</logentry>
+<logentry
+   revision="29">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-11T15:52:44.874475Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/.settings/org.eclipse.wst.common.component</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/gasproject/FakeServlet.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/.classpath</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/hibernate-core-4.1.4.Final.jar</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai</path>
+<path
+   action="A"
+   kind="dir">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/jboss-logging-3.1.0.GA.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/antlr-2.7.7.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/hibernate-commons-annotations-4.0.1.Final.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/.settings/org.eclipse.jdt.core.prefs</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/WebContent/META-INF/MANIFEST.MF</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/hibernate-jpa-2.0-api-1.0.1.Final.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/dom4j-1.6.1.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/javassist-3.15.0-GA.jar</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF</path>
+<path
+   action="A"
+   kind="dir">/trunk/ProvaWebHibernate</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/.settings/org.eclipse.wst.jsdt.ui.superType.name</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/src/it</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/.settings/org.eclipse.wst.jsdt.ui.superType.container</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/ProvaWebHibernate/src/it/polito/ai/gasproject</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/jboss-transaction-api_1.1_spec-1.0.0.Final.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/.settings/org.eclipse.wst.common.project.facet.core.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/WebContent</path>
+<path
+   action="A"
+   kind="dir">/trunk/ProvaWebHibernate/WebContent/META-INF</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/web.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/ProvaWebHibernate/.settings</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/WebContent/WEB-INF/lib/mysql-connector-java-5.1.20-bin.jar</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/.project</path>
+<path
+   action="A"
+   kind="file">/trunk/ProvaWebHibernate/src/hibernate.cfg.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm</path>
+<path
+   kind="file"
+   action="M">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   action="M"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/ProvaWebHibernate/src</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="A">/trunk/ProvaWebHibernate/.settings/.jsdtscope</path>
+</paths>
+<msg>-versione aggiornata classi mapping (HibernateMapping)
+-esempio di uso di hibernate (con file giusto di configurazione per database in localhost): ProvaWebHibernate, il tutto viene fatto nella classe FakeServlet. quando riceve una richiesta inserisce/aggiorna il contenuto della tabella member_status del db. poi esegue una query HQL (non sql). Con il file xml di congigurazione, hibernate è impostato per stampare le query SQL che esegue verso il db. Le librerie per hibernate (base) sono quelle in WebContent/WEB-INF/lib</msg>
+</logentry>
+<logentry
+   revision="28">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T18:46:41.301417Z</date>
+<paths>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/WEB-INF/jsp/supplier.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/README</path>
+<path
+   action="D"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/error.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_supplier.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_admin.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_normal.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/index_resp.jsp</path>
+</paths>
+<msg>Added README and jsp subpages(2)</msg>
+</logentry>
+<logentry
+   revision="27">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T18:45:11.230294Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+</paths>
+<msg>Added README and jsp subpages</msg>
+</logentry>
+<logentry
+   revision="26">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-08T17:00:45.841723Z</date>
+<paths>
+<path
+   kind="dir"
+   action="D">/trunk/HibernateMapping/src/it/polito/ai/gasproject</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Supplier.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Member.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/hibernate.reveng.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Notify.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberType.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Purchase.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Order.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/MemberStatus.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProduct.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/ProductCategory.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Product.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/hibernate.cfg.xml</path>
+<path
+   action="D"
+   kind="file">/trunk/HibernateMapping/hibernate.reveng.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Log.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/HibernateMapping/src/it/polito/ai/lhmf</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/Message.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/lhmf/orm/PurchaseProductId.java</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="25">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T16:41:24.096807Z</date>
+<paths>
+<path
+   kind="dir"
+   action="M">/trunk/_lhmf</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/HelloSpringController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+</paths>
+<msg>Prime aggiunte per il Login</msg>
+</logentry>
+<logentry
+   revision="24">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T16:13:56.561176Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/malnati_project.sql</path>
+</paths>
+<msg>Export del db MySql</msg>
+</logentry>
+<logentry
+   revision="23">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T16:03:17.136903Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/login.jsp</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/HelloSpringController.java</path>
+<path
+   action="M"
+   kind="file">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+</paths>
+<msg>Improvement on controllers</msg>
+</logentry>
+<logentry
+   revision="22">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T16:01:30.162916Z</date>
+<paths>
+<path
+   kind="dir"
+   action="D">/trunk/_lhmf/build</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="21">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T15:42:01.295814Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/spring.tld</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="20">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T15:41:23.111356Z</date>
+<paths>
+<path
+   kind="dir"
+   action="M">/trunk/_lhmf</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="19">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T15:36:17.736001Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/spring-webmvc-3.1.1.RELEASE.jar</path>
+</paths>
+<msg>Added spring-webmvc...jar for spring.tld</msg>
+</logentry>
+<logentry
+   revision="18">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T15:18:16.705251Z</date>
+<paths>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/.classpath</path>
+</paths>
+<msg>Unversioned .classpath and .settings</msg>
+</logentry>
+<logentry
+   revision="17">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T15:12:33.181889Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="dir"
+   action="D">/trunk/_lhmf/.settings</path>
+</paths>
+<msg>Deleted .settings folder</msg>
+</logentry>
+<logentry
+   revision="16">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T14:47:21.135668Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/malnati.mwb</path>
+</paths>
+<msg>Problema Not Null risolto. mwb non piace il notnull nei timestamp. mysql va modificato a mano.</msg>
+</logentry>
+<logentry
+   revision="15">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T14:43:52.600629Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/IndexController.java</path>
+<path
+   kind="file"
+   action="D">/trunk/_lhmf/WebContent/index.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/index.jsp</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/tags</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/tags/index.tag</path>
+</paths>
+<msg>Added stub for templating index file</msg>
+</logentry>
+<logentry
+   revision="14">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-08T14:09:29.723171Z</date>
+<paths>
+<path
+   action="M"
+   kind="file">/trunk/malnati.mwb</path>
+</paths>
+<msg>Aggiunti i campi data e timestamp in membri, log, messaggi e notifiche.</msg>
+</logentry>
+<logentry
+   revision="13">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T14:07:22.099104Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/base.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/jsp/supplier.jsp</path>
+</paths>
+<msg>Base for jsp added, supplier.jsp added</msg>
+</logentry>
+<logentry
+   revision="12">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T08:34:45.932872Z</date>
+<paths>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/WEB-INF/jsp/hello.jsp</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/index.jsp</path>
+</paths>
+<msg>Fixed Hello Spring test, mapped on 'hello'</msg>
+</logentry>
+<logentry
+   revision="11">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-08T07:34:06.642112Z</date>
+<paths>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src/it/polito/ai</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf/HelloSpringController.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito/ai/lhmf</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/src/it/polito</path>
+<path
+   kind="file"
+   action="M">/trunk/_lhmf/WebContent/index.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/src/HelloSpring.xml</path>
+</paths>
+<msg>Added Hello Spring test; mapping not working yet</msg>
+</logentry>
+<logentry
+   revision="10">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-07T21:05:25.560946Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Supplier.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/hibernate.reveng.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Member.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Notify.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/MemberType.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Purchase.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Order.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/MemberStatus.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/PurchaseProduct.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/ProductCategory.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Product.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Log.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/HibernateMapping/src/it/polito/ai</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/gasproject</path>
+<path
+   action="A"
+   kind="dir">/trunk/HibernateMapping/src/it</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/Message.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/gasproject/orm/PurchaseProductId.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/HibernateMapping/src/it/polito</path>
+</paths>
+<msg>ricaricate classi risultato del reverse engineering. manca progetto</msg>
+</logentry>
+<logentry
+   revision="9">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-07T19:55:39.169337Z</date>
+<paths>
+<path
+   kind="dir"
+   action="D">/trunk/HibernateMapping/src/it</path>
+<path
+   action="D"
+   kind="file">/trunk/HibernateMapping/src/hibernate.cfg.xml</path>
+<path
+   kind="file"
+   action="D">/trunk/HibernateMapping/src/hibernate.reveng.xml</path>
+</paths>
+<msg>cancellato contenuto HibernateMapping per rifarlo</msg>
+</logentry>
+<logentry
+   revision="8">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-07T15:25:41.922873Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/jsp/hello.jsp</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/jstl-1.2.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/.settings/.jsdtscope</path>
+<path
+   action="D"
+   kind="dir">/trunk/lhmf_gas</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/.settings/org.eclipse.wst.common.component</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/build/classes</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.orm-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/build</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.instrument.tomcat-3.1.1.RELEASE.jar</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/.classpath</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.context.support-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.web.servlet-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/.settings/org.eclipse.wst.jsdt.ui.superType.container</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/WEB-INF/lib</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.oxm-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/.settings/org.eclipse.wst.common.project.facet.core.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.web.portlet-3.1.1.RELEASE.jar</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent/META-INF</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.instrument-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/index.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/commons-logging-1.1.1.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/.settings/org.eclipse.jdt.core.prefs</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/.settings</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.web-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.aop-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.asm-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.context-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.transaction-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/src</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.core-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.beans-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.jms-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/WEB-INF/jsp</path>
+<path
+   action="A"
+   kind="dir">/trunk/_lhmf/WebContent/WEB-INF</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.expression-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/.settings/org.eclipse.wst.jsdt.ui.superType.name</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.jdbc-3.1.1.RELEASE.jar</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.aspects-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lhmf-servlet.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/_lhmf/WebContent</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/web.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/META-INF/MANIFEST.MF</path>
+<path
+   action="A"
+   kind="file">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.test-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/WebContent/WEB-INF/lib/org.springframework.web.struts-3.1.1.RELEASE.jar</path>
+<path
+   kind="file"
+   action="A">/trunk/_lhmf/.project</path>
+</paths>
+<msg>Base and directory structure; do NOT use previous project called lhmf_gas</msg>
+</logentry>
+<logentry
+   revision="7">
+<author>francesco.brundu@gmail.com</author>
+<date>2012-06-07T12:19:43.453843Z</date>
+<paths>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/classes/META-INF/persistence.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/test</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/.settings/org.eclipse.wst.common.project.facet.core.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/resources/META-INF/persistence.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/test/java/it/polito</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/mvc</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/test-classes/it</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/WEB-INF/spring-quickstart-ds.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/.settings</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF/maven/it.polito.ai.lhmf_gas/lhmf_gas/pom.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/test/resources</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/m2e-wtp</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/repo/MemberDao.class</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/test-classes/it/polito</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/test/java/it/polito/ai/lhmf_gas</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/asidebkg.png</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes/META-INF</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes/META-INF/spring</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/resources/META-INF</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/test/java</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/webapp/resources/gfx</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/test/resources/import.sql</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/pom.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/test-classes/it/polito/ai/lhmf_gas</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/resources/gfx/bkg-blkheader.png</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.settings/org.eclipse.wst.jsdt.ui.superType.name</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/test/java/it/polito/ai/lhmf_gas/test</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/mvc</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/classes/META-INF/spring/infrastructure.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/resources/META-INF/spring/infrastructure.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.settings/org.hibernate.eclipse.console.prefs</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/test-classes/it/polito/ai/lhmf_gas/test/MemberDaoTest.class</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/logo.png</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF/maven/it.polito.ai.lhmf_gas/lhmf_gas/pom.properties</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/WEB-INF/jboss-deployment-structure.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/test/java/it/polito/ai/lhmf_gas/test/MemberDaoTest.java</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/test/resources/META-INF/test-persistence.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/webapp/WEB-INF</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/test/resources/META-INF</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/test/resources/test-context.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/mvc/MemberRestController.class</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/mvc/MemberController.class</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.project</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF/maven/it.polito.ai.lhmf_gas/lhmf_gas</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/domain</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/dualbrand_logo.png</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/headerbkg.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/webapp</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/resources/gfx/icon_small.png</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.settings/.jsdtscope</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/webapp/resources/css</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/classes/import.sql</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/java</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/.settings/org.eclipse.wst.common.component</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/resources/import.sql</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/repo/MemberDaoImpl.class</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/WEB-INF/jboss-as-spring-mvc-context.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/m2e-wtp/web-resources</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/dualbrand_as7eap.png</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/mvc/MemberController.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/java/it/polito/ai</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/test-classes/it/polito/ai/lhmf_gas/test</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/resources/gfx/icon_large.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF/maven</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/.settings/org.eclipse.jdt.core.prefs</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/.settings/org.eclipse.m2e.core.prefs</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/WEB-INF/views/index.jsp</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.settings/org.eclipse.wst.common.project.facet.core.prefs.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/domain/Member.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/resources</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/resources/META-INF/spring</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.settings/org.eclipse.jpt.core.prefs</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/repo/MemberDaoImpl.java</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/classes/META-INF/spring/applicationContext.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/resources/META-INF/spring/applicationContext.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/classes/it</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/domain/Member.class</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/test-classes</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/resources/css/screen.css</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/test/java/it</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/dualbrand_catapillarbutterfly.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/m2e-wtp/web-resources/META-INF/maven/it.polito.ai.lhmf_gas</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/repo/MemberDao.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/java/it</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/test-classes/import.sql</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/test-classes/it/polito/ai</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/webapp/WEB-INF/views</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/java/it/polito</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/src/main/webapp/resources/gfx/banner.png</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/classes/it/polito/ai/lhmf_gas/repo</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/WEB-INF/web.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/repo</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/classes/it/polito/ai</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/domain</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/.classpath</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/target/test-classes/META-INF</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/target/test-classes/test-context.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/target/test-classes/META-INF/test-persistence.xml</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/src/test/java/it/polito/ai</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/webapp/resources/gfx/icon_medium.png</path>
+<path
+   kind="dir"
+   action="A">/trunk/lhmf_gas/src/main/webapp/resources</path>
+<path
+   action="A"
+   kind="file">/trunk/lhmf_gas/.settings/org.eclipse.wst.jsdt.ui.superType.container</path>
+<path
+   action="A"
+   kind="dir">/trunk/lhmf_gas/target/classes/it/polito</path>
+<path
+   kind="file"
+   action="A">/trunk/lhmf_gas/src/main/java/it/polito/ai/lhmf_gas/mvc/MemberRestController.java</path>
+</paths>
+<msg>Spring MVC project stub; use Import from Eclipse with JBoss plugin installed</msg>
+</logentry>
+<logentry
+   revision="6">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-05T15:32:11.341865Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/Site/images/img04.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/Site/images/img05.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/Site/index.html</path>
+<path
+   action="A"
+   kind="file">/trunk/Site/license.txt</path>
+<path
+   kind="dir"
+   action="A">/trunk/Site/include</path>
+<path
+   kind="dir"
+   action="A">/trunk/Site/images</path>
+<path
+   kind="file"
+   action="A">/trunk/Site/images/img01.gif</path>
+<path
+   action="A"
+   kind="file">/trunk/Site/images/img06.jpg</path>
+<path
+   action="A"
+   kind="file">/trunk/Site/images/img02.gif</path>
+<path
+   kind="file"
+   action="A">/trunk/Site/style.css</path>
+<path
+   kind="file"
+   action="A">/trunk/Site/images/img03.gif</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="5">
+<author>jyxpowa@gmail.com</author>
+<date>2012-06-05T15:30:33.720048Z</date>
+<paths>
+<path
+   kind="dir"
+   action="A">/trunk/Site</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="4">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-05T15:10:47.123250Z</date>
+<paths>
+<path
+   action="M"
+   kind="dir">/trunk/HibernateMapping</path>
+</paths>
+<msg>aggiunta ignore cartella HibernateMapping/bin</msg>
+</logentry>
+<logentry
+   revision="3">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-05T15:09:55.543701Z</date>
+<paths>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Log.java</path>
+<path
+   kind="file"
+   action="A">/trunk/malnati.mwb</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Message.java</path>
+<path
+   action="A"
+   kind="dir">/trunk/HibernateMapping</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Supplier.hbm.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/MemberType.hbm.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Purchase.hbm.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Order.hbm.xml</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/MemberStatus.hbm.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/hibernate.reveng.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Supplier.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/.settings</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Notify.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Message.hbm.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/MemberType.java</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/.project</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/MemberStatus.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/hibernate.cfg.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Order.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/ProductCategory.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Product.java</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/.classpath</path>
+<path
+   kind="dir"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/PurchaseProductId.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Member.hbm.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Notify.hbm.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/PurchaseProduct.hbm.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/ProductCategory.hbm.xml</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/.settings/org.eclipse.jdt.core.prefs</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Product.hbm.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Log.hbm.xml</path>
+<path
+   kind="file"
+   action="A">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Member.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/Purchase.java</path>
+<path
+   action="A"
+   kind="file">/trunk/HibernateMapping/src/it/polito/ai/es3/gasproject/orm/PurchaseProduct.java</path>
+</paths>
+<msg>aggiunto progetto HibernateMapping per il reverse engineering delle tabelle del database verso classi java hibernate</msg>
+</logentry>
+<logentry
+   revision="2">
+<author>l.moretto88@gmail.com</author>
+<date>2012-06-05T15:08:36.426420Z</date>
+<paths>
+<path
+   action="M"
+   kind="dir">/trunk</path>
+</paths>
+<msg></msg>
+</logentry>
+<logentry
+   revision="1">
+<date>2012-06-05T14:14:13.984641Z</date>
+<paths>
+<path
+   kind="dir"
+   action="A">/branches</path>
+<path
+   kind="dir"
+   action="A">/tags</path>
+<path
+   action="A"
+   kind="dir">/trunk</path>
+<path
+   action="A"
+   kind="dir">/wiki</path>
+</paths>
+<msg>Initial directory structure.</msg>
+</logentry>
+</log>

@@ -1,0 +1,990 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - /trunk Developers: l.moretto88@gmail.com</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>/trunk Developers: l.moretto88@gmail.com</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a> &#171; <a href="developers.html">Developers</a></div>
+<dl class="attributes">
+    <dt>Login name:</dt>
+    <dd>l.moretto88@gmail.com</dd>
+    <dt>Total Commits:</dt>
+    <dd>516 (44.8%)</dd>
+    <dt>Lines of Code:</dt>
+    <dd>11,746 (45.5%)</dd>
+    <dt>Most Recent Commit:</dt>
+    <dd><span class="date">2012-07-25 13:19</span></dd>
+    <dt>Tweet this:</dt>
+    <dd><a onclick="return shortenTweet(this.href);" href="http://twitter.com/home?status=l.moretto88%40gmail.com%20contributed%2011%2C746%20(45.5%25)%20lines%20to%20%2Ftrunk%20%7B0}%20most%20recent%20commit%202012-07-25%20stats%20by%20StatSVN%20http%3A%2F%2Fstatsvn.org"><img style="border:0px" alt="Tweet this" src="tweet-this.png"/></a></dd>
+</dl>
+
+<div class="section">
+<h2>Activity by Clock Time</h2>
+<p class="chart"><img src="activity_time_l.moretto88@gmail.com.png" alt="Activity by Hour of Day for l.moretto88@gmail.com" width="800" height="500" /></p><p class="chart"><img src="activity_day_l.moretto88@gmail.com.png" alt="Activity by Day of Week for l.moretto88@gmail.com" width="800" height="500" /></p></div>
+<div class="section">
+<h2>Activity in Directories</h2>
+  <table  rules="groups" summary="Overview of this author's activities in different directories">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Directory</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Totals</th>
+        <td>516 (100.0%)</td>
+        <td>11746 (100.0%)</td>
+        <td>22.7</td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr  class="odd">
+        <th><a href="dir_HibernateMapping_src_it_polito_ai_lhmf_orm.html" class="directory">HibernateMapping/src/it/polito/ai/lhmf/orm/</a></th>
+        <td>65 (12.6%)</td>
+        <td>2211 (18.8%)</td>
+        <td>34.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_orm.html" class="directory">_lhmf/src/it/polito/ai/lhmf/orm/</a></th>
+        <td>21 (4.1%)</td>
+        <td>2089 (17.8%)</td>
+        <td>99.4</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_ProvaWebHibernate_src_it_polito_ai_lhmf_orm.html" class="directory">ProvaWebHibernate/src/it/polito/ai/lhmf/orm/</a></th>
+        <td>13 (2.5%)</td>
+        <td>1721 (14.7%)</td>
+        <td>132.3</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_js.html" class="directory">_lhmf/WebContent/js/</a></th>
+        <td>10 (1.9%)</td>
+        <td>1544 (13.1%)</td>
+        <td>154.4</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_security.html" class="directory">_lhmf/src/it/polito/ai/lhmf/security/</a></th>
+        <td>24 (4.7%)</td>
+        <td>713 (6.1%)</td>
+        <td>29.7</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_WEB-INF.html" class="directory">_lhmf/WebContent/WEB-INF/</a></th>
+        <td>23 (4.5%)</td>
+        <td>507 (4.3%)</td>
+        <td>22.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_jsp.html" class="directory">_lhmf/WebContent/WEB-INF/jsp/</a></th>
+        <td>15 (2.9%)</td>
+        <td>308 (2.6%)</td>
+        <td>20.5</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector_js.html" class="directory">_lhmf/WebContent/js/openid-selector/js/</a></th>
+        <td>3 (0.6%)</td>
+        <td>300 (2.6%)</td>
+        <td>100.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_AndroidGAS_src_it_polito_ai_lhmf_android.html" class="directory">AndroidGAS/src/it/polito/ai/lhmf/android/</a></th>
+        <td>5 (1.0%)</td>
+        <td>265 (2.3%)</td>
+        <td>53.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf.html" class="directory">_lhmf/src/it/polito/ai/lhmf/</a></th>
+        <td>15 (2.9%)</td>
+        <td>249 (2.1%)</td>
+        <td>16.6</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector_css.html" class="directory">_lhmf/WebContent/js/openid-selector/css/</a></th>
+        <td>3 (0.6%)</td>
+        <td>239 (2.0%)</td>
+        <td>79.6</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_model.html" class="directory">_lhmf/src/it/polito/ai/lhmf/model/</a></th>
+        <td>11 (2.1%)</td>
+        <td>223 (1.9%)</td>
+        <td>20.2</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector.html" class="directory">_lhmf/WebContent/js/openid-selector/</a></th>
+        <td>2 (0.4%)</td>
+        <td>161 (1.4%)</td>
+        <td>80.5</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_filters.html" class="directory">_lhmf/src/it/polito/ai/lhmf/filters/</a></th>
+        <td>9 (1.7%)</td>
+        <td>151 (1.3%)</td>
+        <td>16.7</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_jsp_mobile.html" class="directory">_lhmf/WebContent/WEB-INF/jsp/mobile/</a></th>
+        <td>2 (0.4%)</td>
+        <td>123 (1.0%)</td>
+        <td>61.5</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS.html" class="directory">AndroidGAS/</a></th>
+        <td>6 (1.2%)</td>
+        <td>118 (1.0%)</td>
+        <td>19.6</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_json.html" class="directory">_lhmf/src/it/polito/ai/lhmf/json/</a></th>
+        <td>10 (1.9%)</td>
+        <td>110 (0.9%)</td>
+        <td>11.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_ProvaWebHibernate_src_it_polito_ai_gasproject.html" class="directory">ProvaWebHibernate/src/it/polito/ai/gasproject/</a></th>
+        <td>1 (0.2%)</td>
+        <td>90 (0.8%)</td>
+        <td>90.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir.html" class="directory">/</a></th>
+        <td>10 (1.9%)</td>
+        <td>77 (0.7%)</td>
+        <td>7.7</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_ProvaWebHibernate.html" class="directory">ProvaWebHibernate/</a></th>
+        <td>2 (0.4%)</td>
+        <td>62 (0.5%)</td>
+        <td>31.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_HibernateMapping_src.html" class="directory">HibernateMapping/src/</a></th>
+        <td>6 (1.2%)</td>
+        <td>62 (0.5%)</td>
+        <td>10.3</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS_src_it_polito_ai_lhmf_android_binding.html" class="directory">AndroidGAS/src/it/polito/ai/lhmf/android/binding/</a></th>
+        <td>6 (1.2%)</td>
+        <td>47 (0.4%)</td>
+        <td>7.8</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_exceptions.html" class="directory">_lhmf/src/it/polito/ai/lhmf/exceptions/</a></th>
+        <td>3 (0.6%)</td>
+        <td>40 (0.3%)</td>
+        <td>13.3</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_tags.html" class="directory">_lhmf/WebContent/WEB-INF/tags/</a></th>
+        <td>6 (1.2%)</td>
+        <td>40 (0.3%)</td>
+        <td>6.6</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_ProvaWebHibernate_.settings.html" class="directory">ProvaWebHibernate/.settings/</a></th>
+        <td>6 (1.2%)</td>
+        <td>40 (0.3%)</td>
+        <td>6.6</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf.html" class="directory">_lhmf/</a></th>
+        <td>1 (0.2%)</td>
+        <td>36 (0.3%)</td>
+        <td>36.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src.html" class="directory">_lhmf/src/</a></th>
+        <td>1 (0.2%)</td>
+        <td>27 (0.2%)</td>
+        <td>27.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_ProvaWebHibernate_src.html" class="directory">ProvaWebHibernate/src/</a></th>
+        <td>1 (0.2%)</td>
+        <td>26 (0.2%)</td>
+        <td>26.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_HibernateMapping.html" class="directory">HibernateMapping/</a></th>
+        <td>4 (0.8%)</td>
+        <td>23 (0.2%)</td>
+        <td>5.7</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_util.html" class="directory">_lhmf/src/it/polito/ai/lhmf/util/</a></th>
+        <td>2 (0.4%)</td>
+        <td>22 (0.2%)</td>
+        <td>11.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_security_oauth.html" class="directory">_lhmf/src/it/polito/ai/lhmf/security/oauth/</a></th>
+        <td>1 (0.2%)</td>
+        <td>22 (0.2%)</td>
+        <td>22.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_model_constants.html" class="directory">_lhmf/src/it/polito/ai/lhmf/model/constants/</a></th>
+        <td>2 (0.4%)</td>
+        <td>19 (0.2%)</td>
+        <td>9.5</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_security_exception.html" class="directory">_lhmf/src/it/polito/ai/lhmf/security/exception/</a></th>
+        <td>1 (0.2%)</td>
+        <td>16 (0.1%)</td>
+        <td>16.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_src_it_polito_ai_lhmf_controllers.html" class="directory">_lhmf/src/it/polito/ai/lhmf/controllers/</a></th>
+        <td>1 (0.2%)</td>
+        <td>14 (0.1%)</td>
+        <td>14.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_ProvaWebHibernate_WebContent_WEB-INF.html" class="directory">ProvaWebHibernate/WebContent/WEB-INF/</a></th>
+        <td>1 (0.2%)</td>
+        <td>12 (0.1%)</td>
+        <td>12.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS_res_layout.html" class="directory">AndroidGAS/res/layout/</a></th>
+        <td>1 (0.2%)</td>
+        <td>12 (0.1%)</td>
+        <td>12.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_HibernateMapping_.settings.html" class="directory">HibernateMapping/.settings/</a></th>
+        <td>1 (0.2%)</td>
+        <td>11 (0.1%)</td>
+        <td>11.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS_res_values.html" class="directory">AndroidGAS/res/values/</a></th>
+        <td>1 (0.2%)</td>
+        <td>7 (0.1%)</td>
+        <td>7.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_css.html" class="directory">_lhmf/WebContent/css/</a></th>
+        <td>2 (0.4%)</td>
+        <td>6 (0.1%)</td>
+        <td>3.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_ProvaWebHibernate_WebContent_META-INF.html" class="directory">ProvaWebHibernate/WebContent/META-INF/</a></th>
+        <td>1 (0.2%)</td>
+        <td>3 (0.0%)</td>
+        <td>3.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector_images.html" class="directory">_lhmf/WebContent/js/openid-selector/images/</a></th>
+        <td>4 (0.8%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector_images.small.html" class="directory">_lhmf/WebContent/js/openid-selector/images.small/</a></th>
+        <td>72 (14.0%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir__lhmf_WebContent_js_openid-selector_images.large.html" class="directory">_lhmf/WebContent/js/openid-selector/images.large/</a></th>
+        <td>11 (2.1%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir__lhmf_WebContent_WEB-INF_lib.html" class="directory">_lhmf/WebContent/WEB-INF/lib/</a></th>
+        <td>36 (7.0%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_ProvaWebHibernate_WebContent_WEB-INF_lib.html" class="directory">ProvaWebHibernate/WebContent/WEB-INF/lib/</a></th>
+        <td>9 (1.7%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_HibernateMapping_src_it_polito_ai_gasproject_orm.html" class="directory">HibernateMapping/src/it/polito/ai/gasproject/orm/</a></th>
+        <td>26 (5.0%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_HibernateMapping_src_it_polito_ai_es3_gasproject_orm.html" class="directory">HibernateMapping/src/it/polito/ai/es3/gasproject/orm/</a></th>
+        <td>50 (9.7%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS_res_drawable-xhdpi.html" class="directory">AndroidGAS/res/drawable-xhdpi/</a></th>
+        <td>1 (0.2%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_AndroidGAS_res_drawable-mdpi.html" class="directory">AndroidGAS/res/drawable-mdpi/</a></th>
+        <td>1 (0.2%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS_res_drawable-ldpi.html" class="directory">AndroidGAS/res/drawable-ldpi/</a></th>
+        <td>1 (0.2%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="dir_AndroidGAS_res_drawable-hdpi.html" class="directory">AndroidGAS/res/drawable-hdpi/</a></th>
+        <td>1 (0.2%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="dir_AndroidGAS_libs.html" class="directory">AndroidGAS/libs/</a></th>
+        <td>6 (1.2%)</td>
+        <td>0 (0.0%)</td>
+        <td>0.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+<p class="chart"><img src="directory_sizes_l.moretto88@gmail.com.png" alt="Activity of l.moretto88@gmail.com" width="800" height="500" /></p></div>
+<div class="section">
+<h2>Most Recent Commits</h2>
+<dl class="commitlist">
+  <dt><a name="20"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-25 13:19</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">181</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modifiche security per android
+    </p>
+    <p class="commitdetails"><strong>9</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android</strong>:
+        AndroidGASActivity.java&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android/binding</strong>:
+        GasServiceProvider.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+6&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="19"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-25 12:24</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">179</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+mapping completato e riportato nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>156</strong> lines of code changed in <span class="files">16 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>HibernateMapping/src/it/polito/ai/lhmf/orm</strong>:
+        Log.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Member.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberStatus.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberType.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Message.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Notify.java&#160;<span class="change">(+6&#160;-14)</span>,
+        Order.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Product.java&#160;<span class="change">(+20&#160;-20)</span>,
+        ProductCategory.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Purchase.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProduct.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProductId.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Supplier.java&#160;<span class="change">(+14&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Notify.java&#160;<span class="change">(+30&#160;-7)</span>,
+        Product.java&#160;<span class="change">(+61&#160;-74)</span>,
+        Supplier.java&#160;<span class="change">(+15&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="18"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 23:07</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">178</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+prime correzioni successive al cambio db
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in <span class="files">4 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAuthenticationFilter.java&#160;<span class="change">(+2)</span>,
+        LoginSuccessfullHandler.java&#160;<span class="change">(-13)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+8&#160;-21)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="17"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 22:29</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">177</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: product: aggiunto collegamento con supplier<br />
+          notifiy: modificato text in VARCHAR(300)<br />
+<br />
+mapping: rifare mapping di Product, Supplier e Notify
+    </p>
+    <p class="commitdetails"><strong>268</strong> lines of code changed in <span class="files">7 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+6&#160;-4)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/orm</strong>:
+        Member.java&#160;<span class="change">(+101&#160;-114)</span>,
+        Message.java&#160;<span class="change">(+78&#160;-6)</span>,
+        Order.java&#160;<span class="change">(+25&#160;-5)</span>,
+        Purchase.java&#160;<span class="change">(+15&#160;-5)</span>,
+        Supplier.java&#160;<span class="change">(+43&#160;-205)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="16"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 21:26</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">176</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+HibernateMapping: rifatto il mapping, da riportare nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>46</strong> lines of code changed in <span class="files">13 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>HibernateMapping/src/it/polito/ai/lhmf/orm</strong>:
+        Log.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Member.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberStatus.java&#160;<span class="change">(+1&#160;-1)</span>,
+        MemberType.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Message.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Notify.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Order.java&#160;<span class="change">(+19&#160;-18)</span>,
+        Product.java&#160;<span class="change">(+1&#160;-1)</span>,
+        ProductCategory.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Purchase.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProduct.java&#160;<span class="change">(+1&#160;-1)</span>,
+        PurchaseProductId.java&#160;<span class="change">(+1&#160;-1)</span>,
+        Supplier.java&#160;<span class="change">(+16&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="15"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 21:20</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">175</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: aggiunto collegamento tra Order e Supplier, da rifare il mapping
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+5&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="14"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 20:55</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">174</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: ripristinato collegamento tra supplierr e member per responsabile.<br />
+<br />
+HibernateMapping: rifatto il mapping, ancora da riportare nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>334</strong> lines of code changed in <span class="files">15 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+12&#160;-8)</span>
+      </li>
+      <li>
+        <strong>HibernateMapping/src/it/polito/ai/lhmf/orm</strong>:
+        Log.java&#160;<span class="change">(+2&#160;-6)</span>,
+        Member.java&#160;<span class="change">(+53&#160;-44)</span>,
+        MemberStatus.java&#160;<span class="change">(+6&#160;-10)</span>,
+        MemberType.java&#160;<span class="change">(+6&#160;-10)</span>,
+        Message.java&#160;<span class="change">(+61&#160;-10)</span>,
+        Notify.java&#160;<span class="change">(+38&#160;-11)</span>,
+        Order.java&#160;<span class="change">(+36&#160;-29)</span>,
+        Product.java&#160;<span class="change">(+50&#160;-32)</span>,
+        ProductCategory.java&#160;<span class="change">(+13&#160;-17)</span>,
+        Purchase.java&#160;<span class="change">(+20&#160;-11)</span>,
+        PurchaseProduct.java&#160;<span class="change">(+2&#160;-6)</span>,
+        PurchaseProductId.java&#160;<span class="change">(+1&#160;-5)</span>,
+        Supplier.java&#160;<span class="change">(+34&#160;-222)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="13"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 19:32</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">173</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificato ulteriormente db:<br />
+-aggiunto NULLABLE a message.product, message.order, message.sender<br />
+-aggiunti message_categorye notofy_category<br />
+-aggiunto NULLABLE a message.text e notify.text
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        newDB.sql&#160;<span class="change">(+10&#160;-95)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="12"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 18:15</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">169</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>296</strong> lines of code changed in <span class="files">10 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+79&#160;-5)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp/mobile</strong>:
+        index.jsp&#160;<span class="del">(del)</span>,
+        login.jsp&#160;<span class="new">(new&#160;123)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/tags</strong>:
+        index.tag&#160;<span class="change">(+1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/css</strong>:
+        openid-mobile.css&#160;<span class="new">(new&#160;69)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js/openid-selector/js</strong>:
+        openid-jquery.js&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/controllers</strong>:
+        LoginController.java&#160;<span class="change">(+14)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAuthenticationFilter.java&#160;<span class="change">(+1&#160;-1)</span>,
+        FacebookResourceDetailsService.java&#160;<span class="change">(+7)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="11"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-22 00:02</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">163</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+sistemate due cosine per facebook.
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookResourceDetails.java&#160;<span class="del">(del)</span>,
+        FacebookResourceDetailsService.java&#160;<span class="change">(+2&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="10"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-21 21:26</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">160</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+versioje iniziale service android. viene attivato quando è attiva una connessione. Al suo interno (per ora nel thread principale, da spostare in un altro thread) verifica che l'utente sia già loggato. se non lo p, mette una notifica per far loggare l'utente
+    </p>
+    <p class="commitdetails"><strong>174</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>AndroidGAS</strong>:
+        AndroidManifest.xml&#160;<span class="change">(+13&#160;-5)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android</strong>:
+        AndroidGASActivity.java&#160;<span class="change">(+33&#160;-5)</span>,
+        GasNetworkService.java&#160;<span class="new">(new&#160;77)</span>,
+        NetworkStateBroadcastReceiver.java&#160;<span class="new">(new&#160;49)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android/binding</strong>:
+        GasServiceProvider.java&#160;<span class="change">(+2&#160;-2)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="9"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-18 14:39</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">148</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>25</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/json</strong>:
+        CustomObjectMapper.java&#160;<span class="change">(+5&#160;-5)</span>,
+        MemberDeserializer.java&#160;<span class="change">(+3&#160;-5)</span>,
+        OrderDeserializer.java&#160;<span class="change">(+4&#160;-7)</span>,
+        ProductCategoryDeserializer.java&#160;<span class="change">(+7)</span>,
+        PurchaseDeserializer.java&#160;<span class="change">(+4&#160;-7)</span>,
+        SupplierDeserializer.java&#160;<span class="change">(+2&#160;-5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="8"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-15 11:20</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">122</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+aggiunto controllo account abilitato anche per facebook.<br />
+modificato leggermente lo stile della pagina di login.
+    </p>
+    <p class="commitdetails"><strong>55</strong> lines of code changed in <span class="files">5 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        login.jsp&#160;<span class="change">(+9&#160;-8)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+4&#160;-2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        FacebookAuthenticationFilter.java&#160;<span class="change">(+13&#160;-7)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+13&#160;-11)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security/exception</strong>:
+        MailNotVerifiedException.java&#160;<span class="new">(new&#160;16)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="7"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-15 09:58</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">119</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificata dimensione username anche per i supplier
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+2&#160;-15)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="6"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-14 23:24</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">114</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+invio mail funzionante
+    </p>
+    <p class="commitdetails"><strong>17</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+17&#160;-25)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="5"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-14 21:56</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">109</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/util</strong>:
+        SendEmail.java&#160;<span class="change">(+5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="4"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-14 17:31</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">105</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificato LoginSuccessfullHandler.java: quando un login ha successo, mette nella session le chiavi "member_type" con l'intero del tipo di membro, "username" con l'username del membro, "user" con il nome del membro (per stamparlo nelle pagine web: "Ciao &lt;membro&gt;"<br />
+<br />
+OCCHIO a come sono scritte le query nei vari *Interface: spesso mancano spazi tra "from Tabella" e "where ..."
+    </p>
+    <p class="commitdetails"><strong>56</strong> lines of code changed in <span class="files">6 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+4&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/css</strong>:
+        text.css&#160;<span class="change">(+2)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        MemberInterface.java&#160;<span class="change">(+10&#160;-1)</span>,
+        SupplierInterface.java&#160;<span class="change">(+10&#160;-1)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security</strong>:
+        LoginSuccessfullHandler.java&#160;<span class="change">(+25&#160;-1)</span>,
+        MyUserDetailsService.java&#160;<span class="change">(+5)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="3"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-13 20:00</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">96</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+-Aggiunto OAuth2 Provider lato server per fornire access token ai client android. In questo modo i client dovranno fare il logn solo una volta, e per il resto useranno l'access token. (<a href="https://developers.google.com/accounts/docs/MobileApps">https://developers.google.com/accounts/docs/MobileApps</a>)<br />
+<br />
+-Iniziato sviluppo client android, con prova di login (spring social con custom provider per OAuth Gas)
+    </p>
+    <p class="commitdetails"><strong>381</strong> lines of code changed in <span class="files">25 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>AndroidGAS</strong>:
+        .classpath&#160;<span class="new">(new&#160;14)</span>,
+        .project&#160;<span class="new">(new&#160;33)</span>,
+        AndroidManifest.xml&#160;<span class="new">(new&#160;24)</span>,
+        proguard-project.txt&#160;<span class="new">(new&#160;20)</span>,
+        project.properties&#160;<span class="new">(new&#160;14)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/libs</strong>:
+        jackson-all-1.9.7.jar&#160;<span class="new">(new)</span>,
+        spring-android-auth-1.0.0.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-android-core-1.0.0.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-android-rest-template-1.0.0.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-security-crypto-3.1.1.RELEASE.jar&#160;<span class="new">(new)</span>,
+        spring-social-core-1.0.2.RELEASE.jar&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-hdpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-ldpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-mdpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/drawable-xhdpi</strong>:
+        ic_launcher.png&#160;<span class="new">(new)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/layout</strong>:
+        main.xml&#160;<span class="new">(new&#160;12)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/res/values</strong>:
+        strings.xml&#160;<span class="new">(new&#160;7)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android</strong>:
+        AndroidGASActivity.java&#160;<span class="new">(new&#160;105)</span>
+      </li>
+      <li>
+        <strong>AndroidGAS/src/it/polito/ai/lhmf/android/binding</strong>:
+        GASConnectionFactory.java&#160;<span class="new">(new&#160;10)</span>,
+        Gas.java&#160;<span class="new">(new&#160;7)</span>,
+        GasServiceProvider.java&#160;<span class="new">(new&#160;17)</span>,
+        GasTemplate.java&#160;<span class="new">(new&#160;9)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext-security.xml&#160;<span class="change">(+75)</span>,
+        lhmf-servlet.xml&#160;<span class="change">(+12)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/security/oauth</strong>:
+        AndroidClientApprovalHandler.java&#160;<span class="new">(new&#160;22)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="2"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-12 11:51</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">88</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>4</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF</strong>:
+        applicationContext.xml&#160;<span class="change">(+4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="1"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-11 18:20</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">86</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+
+    </p>
+    <p class="commitdetails"><strong>39</strong> lines of code changed in <span class="files">3 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        <strong>_lhmf/WebContent/WEB-INF/jsp</strong>:
+        index_admin.jsp&#160;<span class="change">(+3&#160;-3)</span>
+      </li>
+      <li>
+        <strong>_lhmf/WebContent/js</strong>:
+        lib_admin.js&#160;<span class="change">(+24)</span>
+      </li>
+      <li>
+        <strong>_lhmf/src/it/polito/ai/lhmf/model</strong>:
+        UserInterface.java&#160;<span class="change">(+12&#160;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+<p>(26 more)</p>
+</div><div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

@@ -1,0 +1,757 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - Directory [root]</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>Directory [root]</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a></div>
+<dl class="attributes">
+    <dt>Directory Created:</dt>
+    <dd><span class="date">2012-06-05 17:09</span></dd>
+    <dt>Total Files:</dt>
+    <dd>3</dd>
+    <dt>Deleted Files:</dt>
+    <dd>0</dd>
+    <dt>Lines of Code:</dt>
+    <dd>694</dd>
+</dl>
+<p class="dirtree">
+<strong>[root]</strong><br/>
+&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS.html">AndroidGAS</a> 
+(5 files, 113 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_libs.html">libs</a> 
+(6 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res.html">res</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res_drawable-hdpi.html">drawable-hdpi</a> 
+(1 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res_drawable-ldpi.html">drawable-ldpi</a> 
+(1 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res_drawable-mdpi.html">drawable-mdpi</a> 
+(1 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res_drawable-xhdpi.html">drawable-xhdpi</a> 
+(1 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res_layout.html">layout</a> 
+(1 files, 12 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_res_values.html">values</a> 
+(1 files, 7 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src.html">src</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src_it_polito_ai_lhmf.html">lhmf</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src_it_polito_ai_lhmf_android.html">android</a> 
+(3 files, 259 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_AndroidGAS_src_it_polito_ai_lhmf_android_binding.html">binding</a> 
+(4 files, 43 lines)<br />
+&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping.html">HibernateMapping</a> 
+(2 files, 23 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_.settings.html">.settings</a> 
+(1 files, 11 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_src.html">src</a> 
+(2 files, 31 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_src_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_src_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_es3.html">es3</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_es3_gasproject.html">gasproject</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_es3_gasproject_orm.html">orm</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_gasproject.html">gasproject</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_gasproject_orm.html">orm</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_lhmf.html">lhmf</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_HibernateMapping_src_it_polito_ai_lhmf_orm.html">orm</a> 
+(13 files, 1649 lines)<br />
+&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate.html">ProvaWebHibernate</a> 
+(2 files, 62 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_.settings.html">.settings</a> 
+(6 files, 40 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_WebContent.html">WebContent</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_WebContent_META-INF.html">META-INF</a> 
+(1 files, 3 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_WebContent_WEB-INF.html">WEB-INF</a> 
+(1 files, 12 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_WebContent_WEB-INF_lib.html">lib</a> 
+(9 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src.html">src</a> 
+(1 files, 26 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src_it_polito_ai_gasproject.html">gasproject</a> 
+(1 files, 90 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src_it_polito_ai_lhmf.html">lhmf</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir_ProvaWebHibernate_src_it_polito_ai_lhmf_orm.html">orm</a> 
+(13 files, 1721 lines)<br />
+&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_Site.html">Site</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_Site_images.html">images</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf.html">_lhmf</a> 
+(2 files, 102 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir__lhmf_.settings.html">.settings</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent.html">WebContent</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_META-INF.html">META-INF</a> 
+(1 files, 3 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_WEB-INF.html">WEB-INF</a> 
+(5 files, 501 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_WEB-INF_jsp.html">jsp</a> 
+(15 files, 880 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_WEB-INF_jsp_mobile.html">mobile</a> 
+(1 files, 123 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_WEB-INF_lib.html">lib</a> 
+(45 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_WEB-INF_tags.html">tags</a> 
+(1 files, 84 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_css.html">css</a> 
+(4 files, 1004 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_css_images.html">images</a> 
+(13 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_img.html">img</a> 
+(9 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js.html">js</a> 
+(10 files, 3865 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js_openid-selector.html">openid-selector</a> 
+(2 files, 161 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js_openid-selector_css.html">css</a> 
+(3 files, 242 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js_openid-selector_images.large.html">images.large</a> 
+(11 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js_openid-selector_images.small.html">images.small</a> 
+(72 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js_openid-selector_images.html">images</a> 
+(4 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_WebContent_js_openid-selector_js.html">js</a> 
+(2 files, 299 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir__lhmf_build.html">build</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src.html">src</a> 
+(1 files, 27 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf.html">lhmf</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_controllers.html">controllers</a> 
+(7 files, 1205 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_controllers_ajax.html">ajax</a> 
+(7 files, 1187 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_exceptions.html">exceptions</a> 
+(3 files, 47 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_filters.html">filters</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_json.html">json</a> 
+(14 files, 790 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_model.html">model</a> 
+(11 files, 994 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_model_constants.html">constants</a> 
+(2 files, 19 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_orm.html">orm</a> 
+(13 files, 1769 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_security.html">security</a> 
+(9 files, 608 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_security_exception.html">exception</a> 
+(1 files, 16 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_security_oauth.html">oauth</a> 
+(1 files, 22 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder.png" width="15" height="13" alt="directory in repo" title="directory in repo"/> 
+<a href="dir__lhmf_src_it_polito_ai_lhmf_util.html">util</a> 
+(3 files, 180 lines)<br />
+&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas.html">lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_.settings.html">.settings</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src.html">src</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main.html">main</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java.html">java</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it_polito_ai_lhmf_gas.html">lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it_polito_ai_lhmf_gas_domain.html">domain</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it_polito_ai_lhmf_gas_mvc.html">mvc</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_java_it_polito_ai_lhmf_gas_repo.html">repo</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_resources.html">resources</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_resources_META-INF.html">META-INF</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_resources_META-INF_spring.html">spring</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_webapp.html">webapp</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_webapp_WEB-INF.html">WEB-INF</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_webapp_WEB-INF_views.html">views</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_webapp_resources.html">resources</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_webapp_resources_css.html">css</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_main_webapp_resources_gfx.html">gfx</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test.html">test</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_java.html">java</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_java_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_java_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_java_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_java_it_polito_ai_lhmf_gas.html">lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_java_it_polito_ai_lhmf_gas_test.html">test</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_resources.html">resources</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_src_test_resources_META-INF.html">META-INF</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target.html">target</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes.html">classes</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_META-INF.html">META-INF</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_META-INF_spring.html">spring</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it_polito_ai_lhmf_gas.html">lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it_polito_ai_lhmf_gas_domain.html">domain</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it_polito_ai_lhmf_gas_mvc.html">mvc</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_classes_it_polito_ai_lhmf_gas_repo.html">repo</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_m2e-wtp.html">m2e-wtp</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_m2e-wtp_web-resources.html">web-resources</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_m2e-wtp_web-resources_META-INF.html">META-INF</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_m2e-wtp_web-resources_META-INF_maven.html">maven</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_m2e-wtp_web-resources_META-INF_maven_it.polito.ai.lhmf_gas.html">it.polito.ai.lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_m2e-wtp_web-resources_META-INF_maven_it.polito.ai.lhmf_gas_lhmf_gas.html">lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes.html">test-classes</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes_META-INF.html">META-INF</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes_it.html">it</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes_it_polito.html">polito</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes_it_polito_ai.html">ai</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes_it_polito_ai_lhmf_gas.html">lhmf_gas</a> 
+(0 files, 0 lines)<br />
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<img src="folder-deleted.png" width="15" height="13" alt="Folder removed from repo" title="Folder removed from repo"/> 
+<a href="dir_lhmf_gas_target_test-classes_it_polito_ai_lhmf_gas_test.html">test</a> 
+(0 files, 0 lines)<br />
+</p>
+
+<div class="section">
+<h2>Lines of Code</h2>
+<p class="chart"><img src="loc_module.png" alt="Lines of Code" width="800" height="500" /></p></div>
+<div class="section">
+<h2>Developers</h2>
+  <table  rules="groups" summary="All authors and the number of their changes and lines of code in this directory">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Author</th>
+        <th>Changes</th>
+        <th>Lines of Code</th>
+        <th>Lines per Change</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Totals</th>
+        <td>16 (100.0%)</td>
+        <td>829 (100.0%)</td>
+        <td>51.8</td>
+      </tr>
+    </tfoot>
+    <tbody>
+      <tr  class="odd">
+        <th><a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a></th>
+        <td>5 (31.3%)</td>
+        <td>751 (90.6%)</td>
+        <td>150.2</td>
+      </tr>
+      <tr  class="even">
+        <th><a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a></th>
+        <td>10 (62.5%)</td>
+        <td>77 (9.3%)</td>
+        <td>7.7</td>
+      </tr>
+      <tr  class="odd">
+        <th><a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a></th>
+        <td>1 (6.3%)</td>
+        <td>1 (0.1%)</td>
+        <td>1.0</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+<div class="section">
+<h2>Most Recent Commits</h2>
+<dl class="commitlist">
+  <dt><a name="13"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 22:29</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">177</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: product: aggiunto collegamento con supplier<br />
+          notifiy: modificato text in VARCHAR(300)<br />
+<br />
+mapping: rifare mapping di Product, Supplier e Notify
+    </p>
+    <p class="commitdetails"><strong>6</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+6&#160;-4)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="12"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 21:20</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">175</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: aggiunto collegamento tra Order e Supplier, da rifare il mapping
+    </p>
+    <p class="commitdetails"><strong>5</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+5&#160;-3)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="11"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 20:55</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">174</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+database: ripristinato collegamento tra supplierr e member per responsabile.<br />
+<br />
+HibernateMapping: rifatto il mapping, ancora da riportare nel progetto principale
+    </p>
+    <p class="commitdetails"><strong>12</strong> lines of code changed in <span class="files">2 files</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>,
+        newDB.sql&#160;<span class="change">(+12&#160;-8)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="10"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-24 19:32</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">173</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificato ulteriormente db:<br />
+-aggiunto NULLABLE a message.product, message.order, message.sender<br />
+-aggiunti message_categorye notofy_category<br />
+-aggiunto NULLABLE a message.text e notify.text
+    </p>
+    <p class="commitdetails"><strong>10</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        newDB.sql&#160;<span class="change">(+10&#160;-95)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="9"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 18:24</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">171</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Creato insfrastruttura di presentazione per Responsabile.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="8"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-07-24 18:22</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">170</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+NUOVO DATABASE. Le Modifiche sono sostanziose. Era necessario. Riadattare il codice se non funziona (dopo aver sistemato Hibernate)
+    </p>
+    <p class="commitdetails"><strong>425</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        newDB.sql&#160;<span class="new">(new&#160;425)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="7"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-15 09:58</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">119</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+modificata dimensione username anche per i supplier
+    </p>
+    <p class="commitdetails"><strong>2</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+2&#160;-15)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="6"></a>
+    <a href="user_francesco.brundu@gmail.com.html" class="author">francesco.brundu@gmail.com</a>
+    <span class="date">2012-07-14 22:11</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">110</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+SQL aggiornato; dobbiamo inserire anche istruzioni di update del database?
+    </p>
+    <p class="commitdetails"><strong>1</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+1&#160;-1)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="5"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-07-11 18:02</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">85</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+creati valori UNIQUE per username in member e supplier.<br />
+Il nuovo script .sql contiene gia' i diversi member type e member status
+    </p>
+    <p class="commitdetails"><strong>42</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="change">(+42&#160;-9)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="4"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-06-08 18:13</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">24</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Export del db MySql
+    </p>
+    <p class="commitdetails"><strong>326</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati_project.sql&#160;<span class="new">(new&#160;326)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="3"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-06-08 16:47</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">16</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Problema Not Null risolto. mwb non piace il notnull nei timestamp. mysql va modificato a mano.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="2"></a>
+    <a href="user_jyxpowa@gmail.com.html" class="author">jyxpowa@gmail.com</a>
+    <span class="date">2012-06-08 16:09</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">14</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+Aggiunti i campi data e timestamp in membri, log, messaggi e notifiche.
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="change">(changed)</span>
+      </li>
+    </ul>
+  </dd>
+
+  <dt><a name="1"></a>
+    <a href="user_l.moretto88@gmail.com.html" class="author">l.moretto88@gmail.com</a>
+    <span class="date">2012-06-05 17:09</span>
+    <span class="revisionNumberOuter">Rev.: <span class="revisionNumberInner">3</span></span>
+  </dt>
+  <dd>
+    <p class="comment">
+aggiunto progetto HibernateMapping per il reverse engineering delle tabelle del database verso classi java hibernate
+    </p>
+    <p class="commitdetails"><strong>0</strong> lines of code changed in <span class="files">1 file</span>:</p>
+    <ul class="commitdetails">
+      <li>
+        malnati.mwb&#160;<span class="new">(new)</span>
+      </li>
+    </ul>
+  </dd>
+
+</dl>
+
+</div><div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

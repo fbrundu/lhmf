@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>StatSVN - /trunk Cloud Commit</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+    <meta name="Generator" content="StatSVN 0.7.0"/>
+<link rel="stylesheet" href="objectlab-statcvs.css" type="text/css"/>
+<script type="text/javascript" charset="utf-8" src="http://bit.ly/javascript-api.js?version=latest&#38;login=statsvn&#38;apiKey=R_2c362b417d0517c27876cbaca1bb68cc"></script>
+<script type="text/javascript" charset="utf-8">
+   // wait until page is loaded to call API
+   var redir_url;
+   var short_url;
+   BitlyCB.myShortenCallback = function(data) {
+      // this is how to get a result of shortening a single url
+      var result;
+      short_url=null;
+      for (var r in data.results) {
+         result = data.results[r];
+         result['longUrl'] = r;
+         short_url = result['shortUrl'];
+         break;
+      }
+      if (short_url==null) // bit.ly failed
+      document.location=redir_url;
+      else
+      redirToTwitter();
+   };
+   function shortenTweet(url) {
+      if (short_url == null || redir_url!=url) {
+      redir_url = url;
+      BitlyClient.shorten(document.location, 'BitlyCB.myShortenCallback');
+      }
+      else
+      redirToTwitter();
+      return false;
+   }
+   function redirToTwitter() { 
+      // replace {0} which is visible as %7B0} in the link
+      document.location = redir_url.replace('%7B0}', short_url);
+   }
+</script>
+  </head>
+
+<body>
+
+<h1>/trunk Cloud Commit</h1>
+<div id="parentlink">&#171; <a href="index.html">Development Statistics for /trunk</a></div>
+  <table  rules="groups" summary="Tag Cloud of Words in Commit Log Messages">
+    <colgroup align="left"/>
+    <colgroup align="right"/>
+    <thead>
+      <tr>
+        <th>Word</th>
+        <th>Frequency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr  class="odd">
+        <th>aggiunto</th>
+        <td>68 (4.8%)</td>
+      </tr>
+      <tr  class="even">
+        <th>hibernate</th>
+        <td>52 (3.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>modificato</th>
+        <td>48 (3.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>mapping</th>
+        <td>44 (3.1%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>supplier</th>
+        <td>40 (2.8%)</td>
+      </tr>
+      <tr  class="even">
+        <th>spring</th>
+        <td>40 (2.8%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>fare</th>
+        <td>40 (2.8%)</td>
+      </tr>
+      <tr  class="even">
+        <th>database</th>
+        <td>40 (2.8%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>member</th>
+        <td>36 (2.6%)</td>
+      </tr>
+      <tr  class="even">
+        <th>della</th>
+        <td>36 (2.6%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>registrazione</th>
+        <td>32 (2.3%)</td>
+      </tr>
+      <tr  class="even">
+        <th>login</th>
+        <td>32 (2.3%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>history</th>
+        <td>32 (2.3%)</td>
+      </tr>
+      <tr  class="even">
+        <th>crud</th>
+        <td>32 (2.3%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>aggiunti</th>
+        <td>32 (2.3%)</td>
+      </tr>
+      <tr  class="even">
+        <th>membri</th>
+        <td>28 (2.0%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>delle</th>
+        <td>28 (2.0%)</td>
+      </tr>
+      <tr  class="even">
+        <th>classi</th>
+        <td>28 (2.0%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>anche</th>
+        <td>28 (2.0%)</td>
+      </tr>
+      <tr  class="even">
+        <th>ajax</th>
+        <td>28 (2.0%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>admin</th>
+        <td>28 (2.0%)</td>
+      </tr>
+      <tr  class="even">
+        <th>viene</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>username</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="even">
+        <th>solo</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>responsabile</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="even">
+        <th>query</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>quando</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="even">
+        <th>product</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>pagina</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="even">
+        <th>mail</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>lib_supplier</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="even">
+        <th>java</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>index</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="even">
+        <th>file</th>
+        <td>24 (1.7%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>utenti</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>richiesta</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>refactoring</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>progetto</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>parte</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>nella</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>modifiche</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>modificare</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>membro</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>json</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>hibernatemapping</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>facebook</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>controllo</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>client</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="odd">
+        <th>ancora</th>
+        <td>20 (1.4%)</td>
+      </tr>
+      <tr  class="even">
+        <th>aggiunte</th>
+        <td>20 (1.4%)</td>
+      </tr>
+    </tbody>
+  </table>
+
+<div id="generatedby">Generated by <a href="http://www.statsvn.org">StatSVN</a> 0.7.0</div>
+</body>
+</html>

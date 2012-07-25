@@ -27,28 +27,14 @@ public class SupplierSerializer extends JsonSerializer<Supplier>
 		jgen.writeStartObject();
 
 		jgen.writeNumberField("idMember", value.getIdMember());
-		jgen.writeStringField("name", value.getName());
-		jgen.writeStringField("surname", value.getSurname());
-		jgen.writeStringField("username", value.getUsername());
-//		jgen.writeStringField("password", value.getPassword());
-//		jgen.writeStringField("regCode", value.getRegCode());
-		jgen.writeFieldName("regDate");
-		provider.defaultSerializeDateValue(value.getRegDate(), jgen);
-		jgen.writeStringField("email", value.getEmail());
-		jgen.writeStringField("address", value.getAddress());
-		jgen.writeStringField("city", value.getCity());
-		jgen.writeStringField("state", value.getState());
-		jgen.writeNumberField("cap", value.getCap());
-		jgen.writeStringField("tel", value.getTel());
-		jgen.writeBooleanField("active", value.isActive());
-//		jgen.writeNumberField("memberType", value.getMemberType());
 		jgen.writeStringField("companyName", value.getCompanyName());
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeStringField("contactName", value.getContactName());
 		jgen.writeStringField("fax", value.getFax());
 		jgen.writeStringField("website", value.getWebsite());
 		jgen.writeStringField("paymentMethod", value.getPaymentMethod());
-		jgen.writeNumberField("idMemberResp", value.getMember().getIdMember());
+		jgen.writeNumberField("idMemberResp", value.getMemberByIdMemberResp()
+				.getIdMember());
 
 		jgen.writeEndObject();
 	}
