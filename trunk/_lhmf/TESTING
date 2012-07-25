@@ -3,6 +3,8 @@ NON FUNZIONANTE
 -Nella registrazione nella casella di aiuto per l'username vi è una à che viene visualizzata male:
  	Inserisci l'username 
  (ti servir- per accedere al sito)
+ 
+-Nella registrazione di un nuovo utente da parte dell'admin il telefono risulta sempre NULL nel database
 
 -Da utente loggato forzando l'apertura di una pagina non consentita 
 (ad esempio da admin loggato provando a aprire index_normal.jsp) creo un errore (HTTP Status 404) 
@@ -14,4 +16,5 @@ NON FUNZIONANTE
 
 FUNZIONANTE
 
--Testata Registrazione di ogni tipo di utente
+-Testata l'attivazione e la visualizzazione di ogni tipo di utente
+-Testata la registrazione normale
