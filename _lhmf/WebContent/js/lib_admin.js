@@ -125,8 +125,18 @@ var numberOfMember;
 							               "<td>" + new Date(log.logTimestamp) + "</td>" +
 							               "<td>" + log.logtext + "</td></tr>");
 				}
+			
+				$("#logs").fadeIn(1000);
+			} else {
+			    
+			    $("#errorDivLog").hide();
+			    $("#legendErrorLog").html("Comunicazione");
+			    $("#errorsLog").append("Non ci sono Log  da visualizzare<br /><br />");
+			    $("#errorDivLog").show("slow");
+			    $("#errorDivLog").fadeIn(1000);
+			
 			}
-			$("#logs").fadeIn(1000);
+			
 		});
 	}
 	
@@ -134,6 +144,12 @@ var numberOfMember;
 		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Consulta Log</a></li></ul>" +
 		"<div id='tabs-1'></div></div>");
 		$('#tabs-1').html("<div class='logform'>" +
+            		        "<div id='errorDivLog' style='display:none;'>" +
+                                "<fieldset><legend id='legendErrorLog'>&nbsp;Errore&nbsp;</legend><br />" +
+                                 "<div id='errorsLog' style='padding-left: 40px'>" +
+                                  "</div>" +
+                                "</fieldset>" +
+                            "</div><br />" +
 						    "<form method='get' action='log'>" +
 						      "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
 						        "<label for='min' class='left'>Data iniziale: </label>" +
@@ -142,7 +158,7 @@ var numberOfMember;
 						        "<input type='text' id='max' class='field'/>" +
 						      "</fieldset>" +
 						      "<button type='submit' id='logsRequest'> Visualizza </button>" +
-						    "</form>" +
+                            "</form>" +
 						    "<table id='logs' class='log'></table>" +
 						  "</div>" +
 						  "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
@@ -346,19 +362,11 @@ function clickGetMemberHandler(event) {
     var page = $('#page2').val();
     var itemsPerPage = $('#itemsPerPage2').val();
     
+    //normale o responsabile
+    $.post("ajax/getMembersList", {   memberType: memberType,
+                                            page: page,
+                                            itemsPerPage: itemsPerPage }, postMemberListHandler);
 
-    if(memberType == 3) {
-        //supplier
-        $.post("ajax/getSuppliersList", { page: page,
-                                                itemsPerPage: itemsPerPage }, postMemberListHandler);
-        
-    } else {
-        //normale o responsabile
-        $.post("ajax/getMembersList", {   memberType: memberType,
-                                                page: page,
-                                                itemsPerPage: itemsPerPage }, postMemberListHandler);
-    }
-    
 }
 
 
@@ -368,19 +376,11 @@ function clickActMemberHandler(event){
 	var page = $('#page').val();
 	var itemsPerPage = $('#itemsPerPage').val();
 	
-	if(memberType == 3) {
-		//supplier
-		$.post("ajax/getSuppliersToActivate", {	page: page,
-												itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
-		
-	} else {
-		//normale o responsabile
-		$.post("ajax/getMembersToActivate", {	memberType: memberType,
-												page: page,
-												itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
-	}
-	
-	
+	//normale o responsabile
+	$.post("ajax/getMembersToActivate", {	memberType: memberType,
+											page: page,
+											itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
+
 }
 
 function clickMemberActivationHandler(event){
@@ -740,7 +740,6 @@ function clickRegHandler(event) {
 	}
 }
 
-
 function postRegHandler(regResult) {
 	
 	console.log("Ricevuto risultato registrazione");
@@ -769,8 +768,6 @@ function postRegHandler(regResult) {
 	$("#errorDiv").show("slow");
 	$("#errorDiv").fadeIn(1000);
 }
-
-
 
 function checkRespSelect() {
 	
