@@ -204,23 +204,28 @@ public class SupplierAjaxController
 					supplier.setFax(fax);
 				if (!website.equals(""))
 					supplier.setWebsite(website);
+				
 				idMember = memberInterface.newMember(memberSupplier);
-				if(idMember < 1) {
-					idMember = supplierInterface.newSupplier(supplier);
-				}
-				if (idMember < 1)
+				if(idMember < 0) {
 					errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
-				else
-				{
+				} else {
+					idMember = -1;
+					idMember = supplierInterface.newSupplier(supplier);
+					
+					if (idMember < 0)
+						errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
+					else
+					{
 
-					// Inviare qui la mail con il codice di registrazione e la
-					// password generata
-					/*
-					 * SendEmail emailer = new SendEmail(); boolean isSupplier =
-					 * true; emailer.sendAdminRegistration(firstname + " " +
-					 * lastname, username, password, regCode, idMember, email,
-					 * isSupplier);
-					 */
+						// Inviare qui la mail con il codice di registrazione e la
+						// password generata
+						/*
+						 * SendEmail emailer = new SendEmail(); boolean isSupplier =
+						 * true; emailer.sendAdminRegistration(firstname + " " +
+						 * lastname, username, password, regCode, idMember, email,
+						 * isSupplier);
+						 */
+					}
 				}
 			}
 			catch (NoSuchAlgorithmException e)

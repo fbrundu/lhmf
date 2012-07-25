@@ -1,8 +1,10 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,6 +57,30 @@ public class OrderInterface
 	public List<Order> getActiveOrders()
 	{
 		return sessionFactory.getCurrentSession().createQuery("from Order " + "where date_delivery = 0").list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getActiveOrders(long start, long end, Member memberResp) {
+		
+		//Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();  
+		java.util.Date now = calendar.getTime();
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+		Timestamp startDate = new Timestamp(start);
+		Timestamp endDate = new Timestamp(end);
+		
+		Query query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where member = :member " +
+										  "AND dateClose > :dateNow " +
+										  "AND dateOpen between :startDate and :endDate");
+		
+		query.setParameter("member", memberResp.getIdMember());
+		query.setTimestamp("dateNow", currentTimestamp);
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return query.list();
 	}
 	
 }
