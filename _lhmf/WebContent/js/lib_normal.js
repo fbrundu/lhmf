@@ -63,7 +63,7 @@
         $('#tabsPurchase-1').html("<div class='logform'>" +
                                 "<form method='post' action='prder'>" +
                                   "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +
-                                    "drag and drop" +
+                                    "Lista Ordini" +
                                     "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
                                   "</fieldset>" +
                                   "<div id='errorDivPurchase' style='display:none;'>" +
