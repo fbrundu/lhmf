@@ -8,9 +8,9 @@ NON FUNZIONANTE
 -Nella registrazione di un nuovo utente da parte dell'admin il telefono risulta sempre NULL nel database
  il resto va bene
  
--Quando viene registrato un nuovo fornitore, quest'ultimo viene aggiunto solamente alla tabella Member
+[[[RISOLTO -> Cotrolla.]]] Quando viene registrato un nuovo fornitore, quest'ultimo viene aggiunto solamente alla tabella Member
 e non a quella Supplier. Questo crea un errore quando si prova a visualizzare i prodotti dalla pagina del
-fornitore.
+fornitore. 
 
 -Da utente loggato forzando l'apertura di una pagina non consentita 
 (ad esempio da admin loggato provando a aprire index_normal.jsp) creo un errore (HTTP Status 404) 
