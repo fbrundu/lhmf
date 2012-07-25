@@ -3,7 +3,11 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
+import it.polito.ai.lhmf.model.constants.MemberStatuses;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.MemberStatus;
+import it.polito.ai.lhmf.orm.MemberType;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 import it.polito.ai.lhmf.util.CheckNumber;
@@ -41,7 +45,7 @@ public class SupplierAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/newSupplier", method = RequestMethod.POST)
 	public @ResponseBody
-	List<String> newMember(
+	List<String> newSupplier(
 			HttpServletRequest request,
 			@RequestParam(value = "username", required = true) String username,
 			@RequestParam(value = "firstname", required = true) String firstname,
@@ -58,7 +62,7 @@ public class SupplierAjaxController
 			@RequestParam(value = "contactName", required = false) String contactName,
 			@RequestParam(value = "fax", required = false) String fax,
 			@RequestParam(value = "website", required = false) String website,
-			@RequestParam(value = "payMethod", required = false) String payMethod,
+			@RequestParam(value = "payMethod", required = true) String payMethod,
 			@RequestParam(value = "idResp", required = false) int idResp)
 			throws InvalidParametersException, ParseException
 	{
@@ -72,24 +76,10 @@ public class SupplierAjaxController
 		}
 		else
 		{
-
 			Member memberControl = memberInterface.getMember(username);
-			boolean checkSupplier = true;
 
 			if (memberControl != null)
-			{
-				checkSupplier = false;
 				errors.add("Username: non disponibile");
-			}
-
-			if (checkSupplier)
-			{
-				Supplier supplierControl = supplierInterface
-						.getSupplier(username);
-
-				if (supplierControl != null)
-					errors.add("Username: non disponibile");
-			}
 		}
 		if (firstname.equals("") || CheckNumber.isNumeric(firstname))
 		{
@@ -105,27 +95,12 @@ public class SupplierAjaxController
 		}
 		else
 		{
-
-			// Controllo email giï¿½ in uso
+			// Controllo email già in uso
 
 			Member memberControl = memberInterface.getMemberByEmail(email);
-			boolean checkSupplier = true;
 
 			if (memberControl != null)
-			{
-				checkSupplier = false;
 				errors.add("Email: Email giï¿½ utilizzata da un altro account");
-			}
-
-			if (checkSupplier)
-			{
-				Supplier supplierControl = supplierInterface
-						.getSupplierByMail(email);
-
-				if (supplierControl != null)
-					errors.add("Email: Email giï¿½ utilizzata da un altro account");
-			}
-
 		}
 		if (address.equals("") || CheckNumber.isNumeric(address))
 		{
@@ -176,10 +151,8 @@ public class SupplierAjaxController
 
 		if (errors.size() > 0)
 		{
-
 			// Ci sono errori, rimandare alla pagina mostrandoli
 			return errors;
-
 		}
 		else
 		{
@@ -196,31 +169,31 @@ public class SupplierAjaxController
 			String sDate = dateFormat.format(calendar.getTime());
 			Date regDate = dateFormat.parse(sDate);
 
-			// trasformo il cap in un numero
-			int capNumeric = Integer.parseInt(cap);
-
 			// Mi ricavo il membro responsabile
 			Member memberResp = memberInterface.getMember(idResp);
 
-			// Creo un nuovo fornitore
-
+			//Genero la password
 			String alfaString = Long.toHexString(Double.doubleToLongBits(Math
 					.random()));
 			String password = alfaString.substring(4, 12);
+			
+			// Creo un nuovo membro-fornitore
 
 			try
 			{
 				String md5Password = CreateMD5.MD5(password);
+				
+				MemberType mType = new MemberType(MemberTypes.USER_SUPPLIER);
+				MemberStatus mStatus = new MemberStatus(MemberStatuses.VERIFIED_DISABLED);
 
-				byte mt = 0;
+				Member memberSupplier = new Member(	mType, mStatus, firstname, lastname, username,
+													md5Password, regCode, regDate, email, address, 
+													city, state, cap);
 
-				Supplier supplier = new Supplier(memberResp, firstname,
-						lastname, username, md5Password, regCode, regDate,
-						email, address, city, state, capNumeric, false, mt,
-						payMethod);
+				Supplier supplier = new Supplier(memberSupplier, memberResp, payMethod);
 
 				if (!phone.equals("") && !phone.equals("not set"))
-					supplier.setTel(phone);
+					memberSupplier.setTel(phone);
 				if (!company.equals(""))
 					supplier.setCompanyName(company);
 				if (!description.equals(""))
@@ -231,13 +204,12 @@ public class SupplierAjaxController
 					supplier.setFax(fax);
 				if (!website.equals(""))
 					supplier.setWebsite(website);
-				if (!payMethod.equals(""))
-					supplier.setPaymentMethod(payMethod);
-
-				idMember = supplierInterface.newSupplier(supplier);
-
+				idMember = memberInterface.newMember(memberSupplier);
+				if(idMember < 1) {
+					idMember = supplierInterface.newSupplier(supplier);
+				}
 				if (idMember < 1)
-					errors.add("Errore Interno: la registrazione non ï¿½ andata a buon fine");
+					errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
 				else
 				{
 
@@ -378,33 +350,5 @@ public class SupplierAjaxController
 		returnList.addAll(supplierList.subList(startIndex, endIndex));
 
 		return returnList;
-	}
-
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
-	@RequestMapping(value = "/ajax/activeSupplier", method = RequestMethod.POST)
-	public @ResponseBody
-	int supplierActivation(HttpServletRequest request,
-			@RequestParam(value = "idMember", required = true) int idMember)
-	{
-		Supplier supplier = supplierInterface.getSupplier(idMember);
-
-		boolean active = true;
-		supplier.setActive(active);
-
-		int result;
-		try
-		{
-			result = supplierInterface.updateSupplier(supplier);
-		}
-		catch (InvalidParametersException e)
-		{
-			result = 0;
-			e.printStackTrace();
-		}
-
-		if (result == 0)
-			return result;
-		else
-			return idMember;
 	}
 }

@@ -159,9 +159,6 @@ public class MemberAjaxController
 			String sDate = dateFormat.format(calendar.getTime());
 			Date regDate = dateFormat.parse(sDate);
 			
-			//trasformo il cap in un numero
-			int capNumeric = Integer.parseInt(cap);
-			
 			// Creo un nuovo utente 
 			
 			String alfaString = Long.toHexString(Double.doubleToLongBits(Math.random()));
@@ -171,9 +168,9 @@ public class MemberAjaxController
 				
 				String md5Password = CreateMD5.MD5(password);
 			
-				Member member = new Member(	mType, mStatus, firstname, lastname, 
-						username, md5Password, regCode, regDate, 
-						email, address, city, state, capNumeric);
+				Member member = new Member(mType, mStatus, firstname, lastname, 
+											username, md5Password, regCode, regDate, email,
+											address, city, state, cap);
 
 				if(!phone.equals("") && !phone.equals("not set")) 
 				member.setTel(phone);

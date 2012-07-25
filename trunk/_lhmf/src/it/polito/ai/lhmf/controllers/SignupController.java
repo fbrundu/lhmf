@@ -284,9 +284,6 @@ public class SignupController
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			String sDate = dateFormat.format(calendar.getTime());
 			Date regDate = dateFormat.parse(sDate);
-			
-			//trasformo il cap in un numero
-			int capNumeric = Integer.parseInt(cap);
 
 			//username
 			String username = (String) session.getAttribute("OPENID_USERID");
@@ -295,7 +292,7 @@ public class SignupController
 			
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
-										email, address, city, state, capNumeric);
+										email, address, city, state, cap);
 			
 			if(!phone.equals("")) 
 				member.setTel(phone);
@@ -531,9 +528,6 @@ public class SignupController
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			String sDate = dateFormat.format(calendar.getTime());
 			Date regDate = dateFormat.parse(sDate);
-			
-			//trasformo il cap in un numero
-			int capNumeric = Integer.parseInt(cap);
 
 			//username
 			String username = (String) session.getAttribute("FACEBOOK_USERID");
@@ -541,7 +535,7 @@ public class SignupController
 			// Creo un nuovo utente 
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
-										email, address, city, state, capNumeric);
+										email, address, city, state, cap);
 			
 			if(!phone.equals("")) 
 				member.setTel(phone);
@@ -797,9 +791,6 @@ public class SignupController
 			String sDate = dateFormat.format(calendar.getTime());
 			Date regDate = dateFormat.parse(sDate);
 			
-			//trasformo il cap in un numero
-			int capNumeric = Integer.parseInt(cap);
-			
 			//genero l'md5 della password
 			String md5Password;
 			@SuppressWarnings("unused")
@@ -811,7 +802,7 @@ public class SignupController
 				// Creo un nuovo utente 
 				Member member = new Member(	mType, mStatus, firstname, lastname, 
 						username, md5Password, regCode, regDate, 
-						email, address, city, state, capNumeric);
+						email, address, city, state, cap);
 				
 				if(!phone.equals("") && !phone.equals("not set")) 
 					member.setTel(phone);
@@ -851,130 +842,62 @@ public class SignupController
 		
 		int idMember = Integer.parseInt(temp[0]);
 		
-		boolean isSupplier;
-		if(Integer.parseInt(temp[1]) == 1) 
-			isSupplier = true;
-		else
-			isSupplier = false;
-		
 		boolean fromAdmin;
-		if(Integer.parseInt(temp[2]) == 1)
+		if(Integer.parseInt(temp[1]) == 1)
 			fromAdmin = true;
 		else
 			fromAdmin = false;
+	
+		Member member = memberInterface.getMember(idMember);
 		
-		if(isSupplier) {
+		if(member == null) {
 			
-			Supplier supplier = supplierInterface.getSupplier(idMember);
+			Map<String, String> error = new HashMap<String, String>();
+			error.put("id", "Account");
+			error.put("error", "Account non esistente");
+			errors.add(error);
 			
-			if(supplier == null) {
-				
+		} else if(!member.getRegCode().equals(regCode)) {
+			
 				Map<String, String> error = new HashMap<String, String>();
-				error.put("id", "Account");
-				error.put("error", "Account non esistente");
+				error.put("id", "Code");
+				error.put("error", "Codice non corretto");
 				errors.add(error);
-				
-			} else if(!supplier.getRegCode().equals(regCode)) {
-				
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "Code");
-					error.put("error", "Codice non corretto");
-					errors.add(error);
-				
-			} else {
-				
-				//Account esistente e codice corretto.
-				boolean active = true;
-				supplier.setActive(active);
-				
-				model.addAttribute("firstname", supplier.getName());
-				
-				try {
-					supplierInterface.updateSupplier(supplier);
-				} catch (InvalidParametersException e) {
-					
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "InternalError");
-					error.put("error", "Non è stato possibile verificare l'email.");
-					errors.add(error);
-				}	
-			}		
+			
 		} else {
 			
-			Member member = memberInterface.getMember(id);
+			//Account esistente e codice corretto.
+			MemberStatus mStatus;
+			if(fromAdmin)
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED);
+			else
+				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
 			
-			if(member == null) {
+			member.setMemberStatus(mStatus);
+			
+			model.addAttribute("firstname", member.getName());
+			
+			try {
+				memberInterface.updateMember(member);
+			} catch (InvalidParametersException e) {
 				
 				Map<String, String> error = new HashMap<String, String>();
-				error.put("id", "Account");
-				error.put("error", "Account non esistente");
+				error.put("id", "InternalError");
+				error.put("error", "Non è stato possibile verificare l'email.");
 				errors.add(error);
-				
-			} else if(!member.getRegCode().equals(regCode)) {
-				
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "Code");
-					error.put("error", "Codice non corretto");
-					errors.add(error);
-				
-			} else {
-				
-				//Account esistente e codice corretto.
-				MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
-				member.setMemberStatus(mStatus);
-				
-				model.addAttribute("firstname", member.getName());
-				
-				try {
-					memberInterface.updateMember(member);
-				} catch (InvalidParametersException e) {
-					
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "InternalError");
-					error.put("error", "Non è stato possibile verificare l'email.");
-					errors.add(error);
-				}
-				
 			}
+			
 		}
 		
 		// Ci sono errori, rimandare alla pagina mostrandoli
 		if(errors.size() <= 0) {
 			
-			if(fromAdmin) {
-				
-				// AutoAttivare l'account. Supplier e modificato automaticamente 
-				
-				if(!isSupplier) {
+			if(!fromAdmin) {
 					
-					Member member = memberInterface.getMember(idMember);
-					
-					MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-					member.setMemberStatus(mStatus);
-					
-					int result;
-					try {
-						result = memberInterface.updateMember(member);
-					} catch (InvalidParametersException e) {
-						result = 0;
-						e.printStackTrace();
-					}
-					
-					if(result == 0) {
-						Map<String, String> error = new HashMap<String, String>();
-						error.put("id", "Attivazione");
-						error.put("error", "L'email è stata verificata ma richiede ancora l'attivazione da parte di un admin.");
-						errors.add(error);
-					}
-				}
-				
-			} else {
-				
 				//Mandare messaggio all'admin
 				
 				//Ricavo il membro Admin
 				Member memberAdmin = memberInterface.getMemberAdmin();
-				Member member = memberInterface.getMember(idMember);
 				
 				//Creo il Current timestamp
 				Calendar calendar = Calendar.getInstance();
@@ -985,6 +908,7 @@ public class SignupController
 								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
 								"Email: " + member.getEmail() + "\n";  
 				
+				//TODO da sistemare con la tipologia nuova di messaggi
 				//Costruisco l'oggetto message	
 				Message message = new Message();
 				
@@ -998,11 +922,8 @@ public class SignupController
 				} catch (InvalidParametersException e) {
 					e.printStackTrace();
 				}
-				
 			}		
-		}
-		
-		
+		}	
 		return new ModelAndView("/authMail_confirmed");
 	}
 
