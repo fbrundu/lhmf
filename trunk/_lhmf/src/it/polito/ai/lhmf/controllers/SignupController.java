@@ -268,7 +268,6 @@ public class SignupController
 			String username = (String) session.getAttribute("OPENID_USERID");
 			
 			// Creo un nuovo utente 
-			
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
 										email, address, city, state, cap);
@@ -303,11 +302,9 @@ public class SignupController
 							"Email: " + member.getEmail() + "\n";  
 			
 			//Costruisco l'oggetto message	
-			Message message = new Message();
+			Message message = new Message(memberAdmin, currentTimestamp, false, 0);
 			
 			message.setMemberByIdSender(member);
-			message.setMemberByIdReceiver(memberAdmin);
-			message.setMessageTimestamp(currentTimestamp);
 			message.setText(text);
 			
 			try {
@@ -416,7 +413,7 @@ public class SignupController
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Citt�");
+			error.put("id", "Citt&agrave");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
@@ -530,11 +527,9 @@ public class SignupController
 							"Email: " + member.getEmail() + "\n";  
 			
 			//Costruisco l'oggetto message	
-			Message message = new Message();
+			Message message = new Message(memberAdmin, currentTimestamp, false, 0);
 			
 			message.setMemberByIdSender(member);
-			message.setMemberByIdReceiver(memberAdmin);
-			message.setMessageTimestamp(currentTimestamp);
 			message.setText(text);
 			
 			try {
@@ -632,7 +627,7 @@ public class SignupController
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Citt�");
+			error.put("id", "Citt&agrave");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
@@ -840,13 +835,10 @@ public class SignupController
 								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
 								"Email: " + member.getEmail() + "\n";  
 				
-				//TODO da sistemare con la tipologia nuova di messaggi
 				//Costruisco l'oggetto message	
-				Message message = new Message();
+				Message message = new Message(memberAdmin, currentTimestamp, false, 0);
 				
 				message.setMemberByIdSender(member);
-				message.setMemberByIdReceiver(memberAdmin);
-				message.setMessageTimestamp(currentTimestamp);
 				message.setText(text);
 				
 				try {
