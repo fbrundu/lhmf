@@ -64,7 +64,7 @@
                                 "<form method='post' action='prder'>" +
                                   "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +
                                     "drag and drop" +
-                                    "<button type='submit' id='orderRequest'> Crea Scheda </button>" +
+                                    "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
                                   "</fieldset>" +
                                   "<div id='errorDivPurchase' style='display:none;'>" +
                                       "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -103,7 +103,7 @@
                                       "<br /><label for='toSetShipDate' class='left'>Ordini con Data di Consegna da impostare: </label>" +
                                       "<input type='checkbox' id='toSetShipDate' />" +
                                   "</fieldset>" +
-                                  "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
+                                  "<button type='submit' id='purchaseOldRequest'> Visualizza </button>" +
                                 "</form>" +
                                 "<table id='oldPurchaseList' class='log'></table>" +
                                   "<div id='errorDivOldPurchase' style='display:none;'>" +
@@ -128,7 +128,10 @@
 
 function clickPurchaseHandler(event) {
     event.preventDefault();
-  
+    
+    
+    //Creazione schede
+    
     
 }
 
