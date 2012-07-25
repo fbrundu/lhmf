@@ -31,6 +31,14 @@ public class OrderInterface
 		}
 		return (Integer) sessionFactory.getCurrentSession().save(order);
 	}
+
+	@Transactional(readOnly = true)
+	public Order getOrder(Integer idOrder)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery("from Order " + "where idOrder = :idOrder");
+		query.setParameter("idOrder", idOrder);
+		return (Order) query.uniqueResult();
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
