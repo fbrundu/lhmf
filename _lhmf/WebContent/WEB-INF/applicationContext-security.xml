@@ -45,10 +45,12 @@
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
 	
-	<http pattern="/android/**" use-expressions="true">
-	    <intercept-url pattern="/android/login*" access="permitAll"/>
-	    <intercept-url pattern="/android/success*" access="isAuthenticated()"/>
-	     <intercept-url pattern="/android/j_spring_facebook_security_check*" access="permitAll"/>
+<!-- 	<http pattern="/android/**" use-expressions="true"> -->
+	<http pattern="/(oauth|android)/.*" request-matcher="regex" use-expressions="true">
+	    <intercept-url pattern="/oauth/.*" access="isAuthenticated()"/>
+	    <intercept-url pattern="/android/login.*" access="permitAll"/>
+	    <intercept-url pattern="/android/success.*" access="isAuthenticated()"/>
+	    <intercept-url pattern="/android/j_spring_facebook_security_check.*" access="permitAll"/>
 	    <form-login login-page="/android/login" login-processing-url="/android/j_spring_security_check" default-target-url="/android/loginSuccess"
 	        always-use-default-target="true" authentication-failure-url="/android/login?form_error"/>
 	    <openid-login user-service-ref="myUserDetailsService" login-processing-url="/android/j_spring_openid_security_check" default-target-url="/android/loginSuccess"

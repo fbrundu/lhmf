@@ -51,7 +51,7 @@ public class AndroidGASActivity extends Activity {
         
         final ConnectionRepository repo = new SQLiteConnectionRepository(repositoryHelper, connectionFactoryRegistry, enc);
         
-        String redirectUri = "http://192.168.0.2:8080/_lhmf/";
+        String redirectUri = "http://10.0.2.2:8080/_lhmf/";
         OAuth2Parameters params = new OAuth2Parameters();
         params.setRedirectUri(redirectUri);
         
