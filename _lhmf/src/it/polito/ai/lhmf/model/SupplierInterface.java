@@ -76,44 +76,21 @@ public class SupplierInterface
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Supplier "
-						+ "set name = :name,"
-						+ "surname = :surname,"
-						+ "username = :username,"
-						// + "password = :password,"
-						// + "regCode = :regCode," + "regDate = :regDate,"
-						+ "email = :email," + "address = :address,"
-						+ "city = :city," + "state = :state," + "cap = :cap,"
-						+ "tel = :tel," + "active = :active,"
-						+ "memberType = :memberType,"
-						+ "companyName = :companyName,"
+						+ "set companyName = :companyName,"
 						+ "description = :description,"
 						+ "contactName = :contactName," + "fax = :fax,"
 						+ "website = :website,"
 						+ "paymentMethod = :paymentMethod,"
 						+ "idMember_resp = :idMember_resp "
 						+ "where idMember = :idSupplier");
-		query.setParameter("name", supplier.getName());
-		query.setParameter("surname", supplier.getSurname());
-		query.setParameter("username", supplier.getUsername());
-		// query.setParameter("password", supplier.getPassword());
-		// query.setParameter("regCode", supplier.getRegCode());
-		// query.setParameter("regDate", supplier.getRegDate());
-		query.setParameter("email", supplier.getEmail());
-		query.setParameter("address", supplier.getAddress());
-		query.setParameter("city", supplier.getCity());
-		query.setParameter("state", supplier.getState());
-		query.setParameter("cap", supplier.getCap());
-		query.setParameter("tel", supplier.getTel());
-		query.setParameter("active", supplier.isActive());
-		// FIXME non dovrebbe essere di tipo MemberType?
-		query.setParameter("memberType", supplier.getMemberType());
 		query.setParameter("companyName", supplier.getCompanyName());
 		query.setParameter("description", supplier.getDescription());
 		query.setParameter("contactName", supplier.getContactName());
 		query.setParameter("fax", supplier.getFax());
 		query.setParameter("website", supplier.getWebsite());
 		query.setParameter("paymentMethod", supplier.getPaymentMethod());
-		query.setParameter("idMember_resp", supplier.getMember().getIdMember());
+		query.setParameter("idMember_resp", supplier.getMemberByIdMemberResp()
+				.getIdMember());
 		query.setParameter("idSupplier", supplier.getIdMember());
 
 		return (Integer) query.executeUpdate();
