@@ -44,9 +44,17 @@ public class SupplierInterface
 	{
 		if (username == null)
 			return null;
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Supplier " + "where username = :username");
+				"select idMember " + "from Member "
+						+ "where username = :username");
 		query.setParameter("username", username);
+		Integer idMember = (Integer) query.uniqueResult();
+		if (idMember <= 0)
+			return null;
+		query = sessionFactory.getCurrentSession().createQuery(
+				"from Supplier " + "where idMember = :idMember");
+		query.setParameter("idMember", idMember);
 		return (Supplier) query.uniqueResult();
 	}
 
@@ -75,8 +83,7 @@ public class SupplierInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Supplier "
-						+ "set companyName = :companyName,"
+				"update Supplier " + "set companyName = :companyName,"
 						+ "description = :description,"
 						+ "contactName = :contactName," + "fax = :fax,"
 						+ "website = :website,"

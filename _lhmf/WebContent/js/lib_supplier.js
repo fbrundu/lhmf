@@ -260,9 +260,8 @@ function writeSupplierPage(tab)
   $(".centrale")
       .html(
           "<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi prodotto</a></li>"
-              + "<li><a href='#tabs-2'>Attiva/disattiva disponibilità prodotto</a></li>"
-              + "<li><a href='#tabs-3'>Listino </a></li></ul>"
-              + "<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div></div>");
+              + "<li><a href='#tabs-2'>Gestione listino</a></li></ul>"
+              + "<div id='tabs-1'></div><div id='tabs-2'></div>");
 
   $('#tabs-1')
       .html(
@@ -321,11 +320,11 @@ function writeSupplierPage(tab)
 
   $('#tabs-2')
       .html(
-          "<div class='logform'>"
+          "<div class='listinoform'>"
               + "<form method='post' action=''>"
               + "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />"
-              + "<label for='memberType' class='left'>Tipo Membro: </label>"
-              + "<select name='memberType' id='memberType' class='field'>"
+              + "<label for='productCategory' class='left'>Categoria prodotto: </label>"
+              + "<select name='productCategory' id='productCategory' class='field'>"
               + "<option value='0'> Normale </option>"
               + "<option value='1'> Responsabile </option>"
               + "<option value='3'> Fornitore </option>"
@@ -349,35 +348,6 @@ function writeSupplierPage(tab)
               + "<div id='errors2' style='padding-left: 40px'>" + "</div>"
               + "</fieldset>" + "</div><br />" + "</div>");
 
-  $('#tabs-3')
-      .html(
-          "<div class='logform'>"
-              + "<form method='post' action=''>"
-              + "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />"
-              + "<label for='memberType2' class='left'>Tipo Membro: </label>"
-              + "<select name='memberType2' id='memberType2' class='field'>"
-              + "<option value='0'> Normale </option>"
-              + "<option value='1'> Responsabile </option>"
-              + "<option value='3'> Fornitore </option>"
-              + "</select>"
-              + "<label for='page2' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>"
-              + "<select name='page2' id='page2' class='field'>"
-              + "<option value='0'> ... </option>"
-              + "</select>"
-              + "<label for='itemsPerPage2' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>"
-              + "<select name='itemsPerPage2' id='itemsPerPage2' class='field'>"
-              + "<option value='10'> 10 </option>"
-              + "<option value='25'> 25 </option>"
-              + "<option value='50'> 50 </option>"
-              + "</select>"
-              + "</fieldset>"
-              + "<button type='submit' id='getList'> Visualizza </button>"
-              + "</form>"
-              + "<table id='memberList2' class='log'></table>"
-              + "<div id='errorDiv3' style='display:none;'>"
-              + "<fieldset><legend id='legendError3'>&nbsp;Errore&nbsp;</legend><br />"
-              + "<div id='errors3' style='padding-left: 40px'>" + "</div>"
-              + "</fieldset>" + "</div><br />" + "</div>");
   prepareProductsForm(tab);
 }
 
@@ -520,6 +490,8 @@ function clickNewProductHandler(event)
       maxBuy : maxBuy,
       productCategory : productCategory,
     });
+    
+    writeSupplierPage(0);
   }
 }
 
