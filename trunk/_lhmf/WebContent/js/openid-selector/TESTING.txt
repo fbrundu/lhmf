@@ -1,3 +1,0 @@
--Da utente loggato forzando l'apertura di una pagina non consentita (ad esempio da admin loggato provando a aprire index_normal.jsp) creo un errore (HTTP Status 404) - MANCANZA CONTROLLORE
-
--Da utente loggato forzando l'apertura di una pagina teoricamente consentita (ad esempio da admin loggato provando a aprire index_admin.jsp) creo un errore (HTTP Status 404) - MANCANZA CONTROLLORE
