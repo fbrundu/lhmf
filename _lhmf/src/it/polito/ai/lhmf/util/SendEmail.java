@@ -70,16 +70,10 @@ public class SendEmail
 										String password, 
 										String regCode, 
 										Integer idMember, 
-										String email,
-										boolean isSupplier) {
+										String email) {
 		
 		String subject = "Conferma mail per GasProject.net";
-		String id;
-		if(isSupplier) {
-			id = idMember + ":1:1";
-		} else {
-			id = idMember + ":0:1";
-		}
+		String id = idMember + ":1";
 		
 		String link = "http://localhost:8080/_lhmf/authMail?id=" + id + "&regCode=" + regCode;
 		  
@@ -105,12 +99,7 @@ public class SendEmail
 										boolean isSupplier) {
 							
 		String subject = "Conferma mail per GasProject.net";
-		String id;
-		if(isSupplier) {
-		id = idMember + ":1:0";
-		} else {
-		id = idMember + ":0:0";
-		}
+		String id = idMember + ":0";
 		
 		String link = "http://localhost:8080/_lhmf/authMail?id=" + id + "&regCode=" + regCode;
 		
