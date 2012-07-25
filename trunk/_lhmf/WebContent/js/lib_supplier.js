@@ -171,6 +171,16 @@ function getMyProducts()
       });
 }
 
+function getMyProductsNoLocal()
+{
+  var myProductsList;
+  $.getJSONsync("ajax/getmyproducts", function(productsList)
+  {
+    myProductsList = productsList;
+  });
+  return myProductsList;
+}
+
 function loadMyProductsFromLocalStorage()
 {
   return JSON.parse(window.localStorage.getItem('myProductsList'));
@@ -257,11 +267,10 @@ function writeIndexPage()
 
 function writeSupplierPage(tab)
 {
-  $(".centrale")
-      .html(
-          "<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi prodotto</a></li>"
-              + "<li><a href='#tabs-2'>Gestione listino</a></li></ul>"
-              + "<div id='tabs-1'></div><div id='tabs-2'></div>");
+  $(".centrale").html(
+      "<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi prodotto</a></li>"
+          + "<li><a href='#tabs-2'>Gestione listino</a></li></ul>"
+          + "<div id='tabs-1'></div><div id='tabs-2'></div>");
 
   $('#tabs-1')
       .html(
@@ -307,13 +316,14 @@ function writeSupplierPage(tab)
               + "<input type='submit' class='button' value='Crea prodotto' id='newProductSubmit' />"
               + "</p></form></div>");
   var categoriesList = getCategoriesNoLocal();
-  var categoriesString = "<option value='notSelected' selected='selected'>Seleziona categoria...</option>";
+  var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
   for ( var catIndex in categoriesList)
   {
     categoriesString += "<option value='"
         + categoriesList[catIndex].idProductCategory + "'>"
         + categoriesList[catIndex].description + "</option>";
   }
+  var categoriesForListino = categoriesString;
   categoriesString += "<option value='nuova'>Nuova categoria...</option>";
 
   $('#productCategory').html(categoriesString);
@@ -323,29 +333,27 @@ function writeSupplierPage(tab)
           "<div class='listinoform'>"
               + "<form method='post' action=''>"
               + "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />"
-              + "<label for='productCategory' class='left'>Categoria prodotto: </label>"
-              + "<select name='productCategory' id='productCategory' class='field'>"
-              + "<option value='0'> Normale </option>"
-              + "<option value='1'> Responsabile </option>"
-              + "<option value='3'> Fornitore </option>"
+              + "<label for='productCategorySearch' class='left'>Categoria: </label>"
+              + "<select name='productCategorySearch' id='productCategorySearch' class='field'>"
+              + categoriesForListino
               + "</select>"
-              + "<label for='page' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>"
-              + "<select name='page' id='page' class='field'>"
+              + "<label for='pageSearch' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>"
+              + "<select name='pageSearch' id='pageSearch' class='field'>"
               + "<option value='0'> ... </option>"
               + "</select>"
-              + "<label for='itemsPerPage' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>"
-              + "<select name='itemsPerPage' id='itemsPerPage' class='field'>"
+              + "<label for='itemsPerPageSearch' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>"
+              + "<select name='itemsPerPageSearch' id='itemsPerPageSearch' class='field'>"
               + "<option value='10'> 10 </option>"
               + "<option value='25'> 25 </option>"
               + "<option value='50'> 50 </option>"
               + "</select>"
-              + "</fieldset>"
-              + "<button type='submit' id='memberToActiveRequest'> Visualizza </button>"
+              + "</fieldset><p><input type='submit' class='button' value='Visualizza' id='productListRequest' /></p>"
               + "</form>"
-              + "<table id='memberList' class='log'></table>"
+              + "<table id='productsListTable' class='list'></table>"
               + "<div id='errorDiv2' style='display:none;'>"
               + "<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />"
-              + "<div id='errors2' style='padding-left: 40px'>" + "</div>"
+              + "<div id='errors2' style='padding-left: 40px'>"
+              + "</div>"
               + "</fieldset>" + "</div><br />" + "</div>");
 
   prepareProductsForm(tab);
@@ -381,10 +389,41 @@ function prepareProductsForm(tab)
 
   $('#newProductSubmit').on("click", clickNewProductHandler);
 
-  // FIXME
-  // $('#memberToActiveRequest').on("click", clickActMemberHandler);
+  $('#productListRequest').on("click", clickNewProductSearchHandler);
   //
   // $('#getList').on("click", clickGetMemberHandler);
+}
+
+function clickNewProductSearchHandler(event)
+{
+  event.preventDefault();
+
+  var productCategory = $("#productCategorySearch").val();
+  var page = $("#pageSearch").val();
+  var itemsPerPage = $("itemsPerPageSearch").val();
+  var myProducts = getMyProductsNoLocal();
+  var productsString = "";
+  for ( var prodIndex in myProducts)
+  {
+    productsString += "<tr>" + "<td>" + myProducts[prodIndex].name + "</td>"
+        + "<td>" + myProducts[prodIndex].description + "</td>";
+    if (myProducts[prodIndex].availability == 0)
+    {
+      productsString += "<td class='no'>Non in listino </td>";
+      productsString += "<td><input type='submit' class='button' value='Inserisci in listino' id='insertRequest' />";
+      productsString += "<input id='productId' type='hidden' value='"
+          + myProducts[prodIndex].idProduct + "'</td>";
+    }
+    else
+    {
+      productsString += "<td class='yes'>In listino</td>";
+      productsString += "<td><input type='submit' class='button' value='Rimuovi da listino' id='removeRequest' />";
+      productsString += "<input id='productId' type='hidden' value='"
+          + myProducts[prodIndex].idProduct + "'</td>";
+    }
+    productsString += "</tr>";
+  }
+  $('#productsListTable').html(productsString);
 }
 
 function clickNewProductHandler(event)
@@ -490,7 +529,7 @@ function clickNewProductHandler(event)
       maxBuy : maxBuy,
       productCategory : productCategory,
     });
-    
+
     writeSupplierPage(0);
   }
 }
