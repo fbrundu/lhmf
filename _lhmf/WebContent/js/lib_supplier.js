@@ -328,6 +328,15 @@ function writeSupplierPage(tab)
 
   $('#productCategory').html(categoriesString);
 
+  var myProducts = getMyProductsNoLocal();
+  var initialNumberOfPages = myProducts.length / 10;
+  if (myProducts.length % 10 > 0)
+    initialNumberOfPages += 1;
+
+  var pagesForListino = "";
+  for ( var page = 1; page <= initialNumberOfPages; page++)
+    pagesForListino += "<option value='" + page + "'>" + page + "</option>";
+
   $('#tabs-2')
       .html(
           "<div class='listinoform'>"
@@ -339,7 +348,7 @@ function writeSupplierPage(tab)
               + "</select>"
               + "<label for='pageSearch' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>"
               + "<select name='pageSearch' id='pageSearch' class='field'>"
-              + "<option value='0'> ... </option>"
+              + pagesForListino
               + "</select>"
               + "<label for='itemsPerPageSearch' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>"
               + "<select name='itemsPerPageSearch' id='itemsPerPageSearch' class='field'>"
@@ -390,8 +399,6 @@ function prepareProductsForm(tab)
   $('#newProductSubmit').on("click", clickNewProductHandler);
 
   $('#productListRequest').on("click", clickNewProductSearchHandler);
-  //
-  // $('#getList').on("click", clickGetMemberHandler);
 }
 
 function clickNewProductSearchHandler(event)
@@ -400,11 +407,15 @@ function clickNewProductSearchHandler(event)
 
   var productCategory = $("#productCategorySearch").val();
   var page = $("#pageSearch").val();
-  var itemsPerPage = $("itemsPerPageSearch").val();
+  var itemsPerPage = $("#itemsPerPageSearch").val();
   var myProducts = getMyProductsNoLocal();
   var productsString = "";
-  for ( var prodIndex in myProducts)
+  for ( var prodIndex = (page - 1) * itemsPerPage; prodIndex < myProducts.length
+      && prodIndex < (page * itemsPerPage); prodIndex++)
   {
+    if (productCategory != "notSelected"
+        && productCategory != myProducts[prodIndex].idProductCategory)
+      continue;
     productsString += "<tr>" + "<td>" + myProducts[prodIndex].name + "</td>"
         + "<td>" + myProducts[prodIndex].description + "</td>";
     if (myProducts[prodIndex].availability == 0)
