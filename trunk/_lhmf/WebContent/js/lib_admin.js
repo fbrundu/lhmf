@@ -364,8 +364,8 @@ function clickGetMemberHandler(event) {
     
     //normale o responsabile
     $.post("ajax/getMembersList", {   memberType: memberType,
-                                            page: page,
-                                            itemsPerPage: itemsPerPage }, postMemberListHandler);
+                                      page: page,
+                                      itemsPerPage: itemsPerPage }, postMemberListHandler);
 
 }
 
