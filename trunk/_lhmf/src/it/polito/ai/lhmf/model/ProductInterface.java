@@ -104,6 +104,36 @@ public class ProductInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setProductAvailable(Integer idProduct)
+			throws InvalidParametersException
+	{
+		if (idProduct == null || idProduct < 0)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Product " + "set availability = true "
+						+ "where idProduct = :idProduct");
+		query.setParameter("idProduct", idProduct);
+
+		return (Integer) query.executeUpdate();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setProductUnavailable(Integer idProduct)
+			throws InvalidParametersException
+	{
+		if (idProduct == null || idProduct < 0)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Product " + "set availability = false "
+						+ "where idProduct = :idProduct");
+		query.setParameter("idProduct", idProduct);
+
+		return (Integer) query.executeUpdate();
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer deleteProduct(Integer idProduct)
 			throws InvalidParametersException
 	{

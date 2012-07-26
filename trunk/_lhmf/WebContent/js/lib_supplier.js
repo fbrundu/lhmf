@@ -420,21 +420,101 @@ function clickNewProductSearchHandler(event)
         + "<td>" + myProducts[prodIndex].description + "</td>";
     if (myProducts[prodIndex].availability == 0)
     {
-      productsString += "<td class='no'>Non in listino </td>";
-      productsString += "<td><input type='submit' class='button' value='Inserisci in listino' id='insertRequest' />";
-      productsString += "<input id='productId' type='hidden' value='"
-          + myProducts[prodIndex].idProduct + "'</td>";
+      productsString += "<td id='prod" + myProducts[prodIndex].idProduct
+          + "'class='no'>Non in listino</td>";
+      productsString += "<td><form id='prodAval' name='"
+          + myProducts[prodIndex].idProduct + "' action=''>";
+      productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
+      productsString += "</form></td>";
     }
     else
     {
-      productsString += "<td class='yes'>In listino</td>";
-      productsString += "<td><input type='submit' class='button' value='Rimuovi da listino' id='removeRequest' />";
-      productsString += "<input id='productId' type='hidden' value='"
-          + myProducts[prodIndex].idProduct + "'</td>";
+      productsString += "<td id='prod" + myProducts[prodIndex].idProduct
+          + "'class='yes'>In listino</td>";
+      productsString += "<td><form id='prodNotAval' name='"
+          + myProducts[prodIndex].idProduct + "' action=''>";
+      productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
+      productsString += "</form></td>";
     }
     productsString += "</tr>";
   }
   $('#productsListTable').html(productsString);
+  $('form').filter(function()
+  {
+    return this.id.match(/prodAval/);
+  }).bind(
+      'submit',
+      function(event)
+      {
+        event.preventDefault();
+        var idProduct = $(this).attr('name');
+        if (setProductAvailable(idProduct) > 0)
+        {
+          $("#prod" + idProduct).html("In listino");
+        }
+
+        return false; // don't post it automatically
+      });
+  $('form').filter(function()
+  {
+    return this.id.match(/prodNotAval/);
+  }).bind(
+      'submit',
+      function(event)
+      {
+        event.preventDefault();
+        var idProduct = $(this).attr('name');
+        if (setProductUnavailable(idProduct) > 0)
+        {
+          $("#prod" + idProduct).html(
+              "<td class='yes'>Non in listino</td><td><form"
+                  + " id='prodAval' name='" + idProduct + "' action=''>"
+                  + "<input type='submit' class='button'"
+                  + " value='Inserisci in listino' />" + "</form></td>");
+        }
+
+        return false; // don't post it automatically
+      });
+}
+
+function setProductAvailable(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var rowsAffected = undefined;
+  $.getSync("ajax/setproductavailable", {
+    idProduct : idProduct
+  }, function(rowsAffected)
+  {
+    if (rowsAffected > 0)
+      console.debug("Product inserted in list: " + idProduct);
+    else
+      alert("Errore nell'inserimento in listino del prodotto");
+  });
+  return rowsAffected;
+}
+
+function setProductUnavailable(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var rowsAffected = undefined;
+  $.getSync("ajax/setproductunavailable", {
+    idProduct : idProduct
+  }, function(rowsAffected)
+  {
+    if (rowsAffected > 0)
+      console.debug("Product removed from list: " + idProduct);
+    else
+      alert("Errore nella rimozione da listino del prodotto");
+  });
+  return rowsAffected;
 }
 
 function clickNewProductHandler(event)
