@@ -8,9 +8,10 @@ NON FUNZIONANTE
 -Nella registrazione di un nuovo utente da parte dell'admin il telefono risulta sempre NULL nel database
  il resto va bene
  
-[[[RISOLTO -> Cotrolla.]]] Quando viene registrato un nuovo fornitore, quest'ultimo viene aggiunto solamente alla tabella Member
-e non a quella Supplier. Questo crea un errore quando si prova a visualizzare i prodotti dalla pagina del
-fornitore. 
+-Nella pagina dell'admin nella tag "Attiva utente", se si prova a visualizzare i fornitori da attivare,
+la tabella si sfasa e non funziona più (problema simile a quello di ieri con la lista utenti). Il problema è
+solo a livello grafico, il tasto "Attiva" funziona correttamente
+ - PROBLEMA "ERROR: Unknown column 'active' in 'where clause'"
 
 -Da utente loggato forzando l'apertura di una pagina non consentita 
 (ad esempio da admin loggato provando a aprire index_normal.jsp) creo un errore (HTTP Status 404) 
@@ -25,3 +26,12 @@ FUNZIONANTE
 -Testata l'attivazione e la visualizzazione di ogni tipo di utente
 -Testata la registrazione normale
 -Testato login normale, con Facebook, con google e con yahoo
+-Creazione prodotto da parte di supplier
+
+
+
+PROBLEMI RISOLTI
+
+-Quando viene registrato un nuovo fornitore, quest'ultimo viene aggiunto solamente alla tabella Member
+e non a quella Supplier. Questo crea un errore quando si prova a visualizzare i prodotti dalla pagina del
+fornitore. 
