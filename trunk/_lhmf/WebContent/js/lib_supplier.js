@@ -420,19 +420,21 @@ function clickNewProductSearchHandler(event)
         + "<td>" + myProducts[prodIndex].description + "</td>";
     if (myProducts[prodIndex].availability == 0)
     {
-      productsString += "<td id='prod" + myProducts[prodIndex].idProduct
-          + "'class='no'>Non in listino</td>";
-      productsString += "<td><form id='prodAval' name='"
-          + myProducts[prodIndex].idProduct + "' action=''>";
+      productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
+          + "' class='no'>Non in listino</td>";
+      productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
+          + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
+          + "' action=''>";
       productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
       productsString += "</form></td>";
     }
     else
     {
-      productsString += "<td id='prod" + myProducts[prodIndex].idProduct
-          + "'class='yes'>In listino</td>";
-      productsString += "<td><form id='prodNotAval' name='"
-          + myProducts[prodIndex].idProduct + "' action=''>";
+      productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
+          + "' class='yes'>In listino</td>";
+      productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
+          + "'><form id='prodNotAval' name='" + myProducts[prodIndex].idProduct
+          + "' action=''>";
       productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
       productsString += "</form></td>";
     }
@@ -442,39 +444,54 @@ function clickNewProductSearchHandler(event)
   $('form').filter(function()
   {
     return this.id.match(/prodAval/);
-  }).bind(
-      'submit',
-      function(event)
-      {
-        event.preventDefault();
-        var idProduct = $(this).attr('name');
-        if (setProductAvailable(idProduct) > 0)
-        {
-          $("#prod" + idProduct).html("In listino");
-        }
-
-        return false; // don't post it automatically
-      });
+  }).bind('submit', setProductAvailableHandler);
   $('form').filter(function()
   {
     return this.id.match(/prodNotAval/);
-  }).bind(
-      'submit',
-      function(event)
-      {
-        event.preventDefault();
-        var idProduct = $(this).attr('name');
-        if (setProductUnavailable(idProduct) > 0)
-        {
-          $("#prod" + idProduct).html(
-              "<td class='yes'>Non in listino</td><td><form"
-                  + " id='prodAval' name='" + idProduct + "' action=''>"
-                  + "<input type='submit' class='button'"
-                  + " value='Inserisci in listino' />" + "</form></td>");
-        }
+  }).bind('submit', setProductUnavailableHandler);
+}
 
-        return false; // don't post it automatically
-      });
+function setProductAvailableHandler(event)
+{
+  event.preventDefault();
+  var idProduct = $(this).attr('name');
+  if (setProductAvailable(idProduct) > 0)
+  {
+    $('#listHead' + idProduct).html('In listino');
+    $('#listHead' + idProduct).attr('class', 'yes');
+    $('#listCont' + idProduct).html(
+        "<form id='prodNotAval' name='" + idProduct + "' action=''>"
+            + "<input id='prodNotAval" + idProduct
+            + "' type='submit' class='button'"
+            + " value='Rimuovi da listino' />" + "</form>");
+  }
+  $('form').filter(function()
+  {
+    return this.id.match(/prodNotAval/);
+  }).bind('submit', setProductUnavailableHandler);
+
+  return false; // don't post it automatically
+}
+
+function setProductUnavailableHandler(event)
+{
+  event.preventDefault();
+  var idProduct = $(this).attr('name');
+  if (setProductUnavailable(idProduct) > 0)
+  {
+    $('#listHead' + idProduct).html('Non listino');
+    $('#listHead' + idProduct).attr('class', 'no');
+    $('#listCont' + idProduct).html(
+        "<form id='prodAval' name='" + idProduct + "' action=''>"
+            + "<input type='submit' class='button'"
+            + " value='Inserisci in listino' />" + "</form>");
+  }
+  $('form').filter(function()
+  {
+    return this.id.match(/prodAval/);
+  }).bind('submit', setProductAvailableHandler);
+
+  return false; // don't post it automatically
 }
 
 function setProductAvailable(idProduct)
@@ -484,17 +501,18 @@ function setProductAvailable(idProduct)
     console.debug("Invalid parameters in " + displayFunctionName());
     return;
   }
-  var rowsAffected = undefined;
+  var returnedRowsAffected = undefined;
   $.getSync("ajax/setproductavailable", {
     idProduct : idProduct
   }, function(rowsAffected)
   {
+    returnedRowsAffected = rowsAffected;
     if (rowsAffected > 0)
       console.debug("Product inserted in list: " + idProduct);
     else
       alert("Errore nell'inserimento in listino del prodotto");
   });
-  return rowsAffected;
+  return returnedRowsAffected;
 }
 
 function setProductUnavailable(idProduct)
@@ -504,17 +522,18 @@ function setProductUnavailable(idProduct)
     console.debug("Invalid parameters in " + displayFunctionName());
     return;
   }
-  var rowsAffected = undefined;
+  var returnedRowsAffected = undefined;
   $.getSync("ajax/setproductunavailable", {
     idProduct : idProduct
   }, function(rowsAffected)
   {
+    returnedRowsAffected = rowsAffected;
     if (rowsAffected > 0)
       console.debug("Product removed from list: " + idProduct);
     else
       alert("Errore nella rimozione da listino del prodotto");
   });
-  return rowsAffected;
+  return returnedRowsAffected;
 }
 
 function clickNewProductHandler(event)
