@@ -669,6 +669,12 @@ function clickNewProductHandler(event)
   {
     errors.push("Massimo unit&agrave; acquistabili: Formato non valido");
   }
+  if (minBuy > maxBuy)
+  {
+    errors.push("Massimo/minimo unit&agrave; acquistabili:"
+        + "Il minimo di unit&agrave; acquistabili deve essere minore"
+        + " o uguale al massimo unit&agrave; acquistabili");
+  }
   if (!isPositiveNumber(productCategory))
   {
     if (categoryDescription == "" || isNumber(categoryDescription))
