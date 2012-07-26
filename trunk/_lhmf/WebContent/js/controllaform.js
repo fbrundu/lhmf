@@ -157,7 +157,7 @@ var regform = document.getElementById("regform");
 		regform.helptext.value = 'Inserisci il Telefono (opzionale)';
 		break;
 		case 'username':
-		regform.helptext.value = 'Inserisci l\'username \n (ti servir‡ per accedere al sito)';
+		regform.helptext.value = 'Inserisci l\'username \n (ti servir√† per accedere al sito)';
 		break;
 		case 'password':
 		regform.helptext.value = 'Inserisci la Password';
