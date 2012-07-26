@@ -149,11 +149,12 @@ public class ProductAjaxController
 
 			if (s != null && p != null
 					&& p.getSupplier().getIdMember() == s.getIdMember())
-				rowsAffected = productInterface.setProductUnavailable(idProduct);
+				rowsAffected = productInterface
+						.setProductUnavailable(idProduct);
 		}
 		return rowsAffected;
 	}
-	
+
 	// TODO il prodotto può essere aggiornato solo dal suo supplier
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/updateproduct", method = RequestMethod.POST)
@@ -166,15 +167,25 @@ public class ProductAjaxController
 		return rowsAffected;
 	}
 
-	// TODO il prodotto può essere cancellato solo dal suo supplier
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/deleteproduct", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer deleteProduct(HttpServletRequest request,
-			@RequestBody Integer idProduct) throws InvalidParametersException
+	Integer deleteProduct(
+			HttpServletRequest request,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct)
+			throws InvalidParametersException
 	{
 		Integer rowsAffected = -1;
-		rowsAffected = productInterface.deleteProduct(idProduct);
+		if (idProduct != null && idProduct > 0)
+		{
+			Supplier s = supplierInterface.getSupplier((String) request
+					.getSession().getAttribute("username"));
+			Product p = productInterface.getProduct(idProduct);
+
+			if (s != null && p != null
+					&& p.getSupplier().getIdMember() == s.getIdMember())
+				rowsAffected = productInterface.deleteProduct(idProduct);
+		}
 		return rowsAffected;
 	}
 

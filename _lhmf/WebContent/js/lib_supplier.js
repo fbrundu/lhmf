@@ -11,14 +11,7 @@ function newCategory(pcDescription)
     description : pcDescription
   }, function(idProductCategory)
   {
-    if (idProductCategory > 0)
-    {
-      console.debug("Inserted category: " + idProductCategory);
-      idCategory = idProductCategory;
-      $("#categoryDescription").val("");
-    }
-    else
-      alert("Errore nell'inserimento nuova categoria");
+    idCategory = idProductCategory;
   });
   return idCategory;
 }
@@ -193,10 +186,14 @@ function deleteProduct(idProduct)
     console.debug("Invalid parameters in " + displayFunctionName());
     return;
   }
-  $.postJSONsync("ajax/deleteproduct", idProduct, function(rowsAffected)
+  var returnRowsAffected = undefined;
+  $.postSync("ajax/deleteproduct", {
+    idProduct : idProduct
+  }, function(rowsAffected)
   {
-    console.debug("Deleted: " + rowsAffected);
+    returnRowsAffected = rowsAffected;
   });
+  return returnRowsAffected;
 }
 
 function deleteAllMyProducts()
@@ -416,8 +413,9 @@ function clickNewProductSearchHandler(event)
     if (productCategory != "notSelected"
         && productCategory != myProducts[prodIndex].idProductCategory)
       continue;
-    productsString += "<tr>" + "<td>" + myProducts[prodIndex].name + "</td>"
-        + "<td>" + myProducts[prodIndex].description + "</td>";
+    productsString += "<tr id='listRow" + myProducts[prodIndex].idProduct
+        + "'>" + "<td>" + myProducts[prodIndex].name + "</td>" + "<td>"
+        + myProducts[prodIndex].description + "</td>";
     if (myProducts[prodIndex].availability == 0)
     {
       productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
@@ -468,6 +466,8 @@ function deleteProductHandler(event)
   event.preventDefault();
   $("#dialog:ui-dialog").dialog("destroy");
 
+  var idProduct = $(this).attr('name');
+
   $("#dialog-confirm").dialog({
     resizable : false,
     height : 140,
@@ -476,6 +476,25 @@ function deleteProductHandler(event)
       "Elimina" : function()
       {
         $(this).dialog("close");
+        if (deleteProduct(idProduct) > 0)
+        {
+          $("#listRow" + idProduct).hide('slow');
+        }
+        else
+        {
+          $("#dialog-error-remove").dialog({
+            resizable : false,
+            height : 140,
+            modal : true,
+            buttons : {
+              "Ok" : function()
+              {
+                $(this).dialog('close');
+              }
+            }
+          });
+        }
+
       },
       "Annulla" : function()
       {
@@ -483,18 +502,6 @@ function deleteProductHandler(event)
       }
     }
   });
-  // var idProduct = $(this).attr('name');
-  // if (deleteProduct(idProduct) > 0)
-  // {
-  // $('#listHead' + idProduct).html('In listino');
-  // $('#listHead' + idProduct).attr('class', 'yes');
-  // $('#listCont' + idProduct).html(
-  // "<form id='prodNotAval' name='" + idProduct + "' action=''>"
-  // + "<input id='prodNotAval" + idProduct
-  // + "' type='submit' class='button'"
-  // + " value='Rimuovi da listino' />" + "</form>");
-  // }
-  //
   return false; // don't post it automatically
 }
 
@@ -512,6 +519,21 @@ function setProductAvailableHandler(event)
             + "' type='submit' class='button'"
             + " value='Rimuovi da listino' />" + "</form>");
   }
+  else
+  {
+    $("#dialog-error-insert").dialog({
+      resizable : false,
+      height : 140,
+      modal : true,
+      buttons : {
+        "Ok" : function()
+        {
+          $(this).dialog('close');
+        }
+      }
+    });
+  }
+
   $('form').filter(function()
   {
     return this.id.match(/prodNotAval/);
@@ -532,6 +554,20 @@ function setProductUnavailableHandler(event)
         "<form id='prodAval' name='" + idProduct + "' action=''>"
             + "<input type='submit' class='button'"
             + " value='Inserisci in listino' />" + "</form>");
+  }
+  else
+  {
+    $("#dialog-error-remove").dialog({
+      resizable : false,
+      height : 140,
+      modal : true,
+      buttons : {
+        "Ok" : function()
+        {
+          $(this).dialog('close');
+        }
+      }
+    });
   }
   $('form').filter(function()
   {
@@ -556,8 +592,6 @@ function setProductAvailable(idProduct)
     returnedRowsAffected = rowsAffected;
     if (rowsAffected > 0)
       console.debug("Product inserted in list: " + idProduct);
-    else
-      alert("Errore nell'inserimento in listino del prodotto");
   });
   return returnedRowsAffected;
 }
@@ -577,8 +611,6 @@ function setProductUnavailable(idProduct)
     returnedRowsAffected = rowsAffected;
     if (rowsAffected > 0)
       console.debug("Product removed from list: " + idProduct);
-    else
-      alert("Errore nella rimozione da listino del prodotto");
   });
   return returnedRowsAffected;
 }
@@ -664,13 +696,27 @@ function clickNewProductHandler(event)
     if (!isPositiveNumber(productCategory))
     {
       var idProductCategory = newCategory(categoryDescription);
-      if (idProductCategory < 1)
+      if (idProductCategory > 0)
       {
-        console.debug("Impossibile creare nuova categoria");
-        return;
+        productCategory = idProductCategory;
+        $("#categoryDescription").val("");
       }
       else
-        productCategory = idProductCategory;
+      {
+        $("#dialog-error-insert").dialog({
+          resizable : false,
+          height : 140,
+          modal : true,
+          buttons : {
+            "Ok" : function()
+            {
+              $(this).dialog('close');
+            }
+          }
+        });
+        return;
+      }
+
     }
 
     // Creazione nuovo prodotto
