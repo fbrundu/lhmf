@@ -24,15 +24,13 @@ public class NormalAjaxController
 	
 	@Autowired
 	private OrderInterface orderInterface;
-	
 	@Autowired
 	private MemberInterface memberInterface;
-	
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderNormal", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getActiveOrderNormal(HttpServletRequest request, HttpSession session,
+	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "start") long start,
 			@RequestParam(value = "end") long end) throws InvalidParametersException
 	{
