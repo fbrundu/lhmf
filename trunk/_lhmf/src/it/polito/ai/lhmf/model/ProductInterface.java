@@ -2,7 +2,6 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Product;
-import it.polito.ai.lhmf.orm.Supplier;
 
 import java.util.List;
 
