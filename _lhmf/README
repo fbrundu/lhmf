@@ -32,6 +32,8 @@ Luca:
     Visualizzazione log}
 Francesco: 
   - utente fornitore (index_supplier.jsp)
+  	-[TODO by hassan]quando nella creazione del prodotto Minimo quantità > massimo quantità, esce messaggio di errore
+  	e ricarica la pagina. Inserire errore all'atto della creazione del prodotto
     {Crea o modifica listino, Crea, Visualizza, Modifica, Elimina prodotti}
     
     
