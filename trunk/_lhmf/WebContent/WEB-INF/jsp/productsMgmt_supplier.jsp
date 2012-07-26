@@ -35,8 +35,15 @@
     	<p>Gestione prodotti</p>
 	</jsp:attribute>
 
+	<jsp:attribute name="dialogs">
+		<div class="gasDialog" id="dialog-confirm" title="Cancellare il prodotto?">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+					style="float: left; margin: 0 7px 20px 0;"></span>Sei sicuro?</p>
+    </div>
+	</jsp:attribute>
+
+
 	<jsp:attribute name="bodyTitle">Interfaccia fornitore</jsp:attribute>
 
-	<jsp:body>
-    </jsp:body>
 </t:index>
