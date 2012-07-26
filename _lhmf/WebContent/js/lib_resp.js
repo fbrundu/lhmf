@@ -182,20 +182,22 @@ function postActiveOrderListHandler(orderList) {
     if(orderList.length > 0){
         $("#activeOrderList").append("  <tr>  <th class='top' width='10%'> ID </th>" +
                                              "<th class='top' width='20%'> Fornitore </th>" +
-                                             "<th class='top' width='20%'> Data Inizio  </th>" +
-                                             "<th class='top' width='50%'> Data Chiusura  </th>" +
-                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+                                             "<th class='top' width='15%'> Data Inizio  </th>" +
+                                             "<th class='top' width='15%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='40%'> Azione  </th> </tr>");
         for(var i = 0; i < orderList.length; i++){
             var order = orderList[i];
-            
+            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
             $("#activeOrderList").append("<tr> <td>" + order.idOrder +"</td>" +
                                               "<td>" + order.supplier.companyName + "</td>" +
-                                              "<td>" + new Date(order.dateOpen) + "</td>" +
-                                              "<td>" + new Date(order.dateClose) + "</td>" +
+                                              "<td>" + dateOpen + "</td>" +
+                                              "<td>" + dateClose + "</td>" +
                                               "<td>" + "Da fare" + "</td></tr>");
         }
     
         $("#activeOrderList").fadeIn(1000);
+        $("#errorDivActiveOrder").hide();
     } else {
         
         $("#activeOrderList").show();
