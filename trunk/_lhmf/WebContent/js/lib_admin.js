@@ -198,7 +198,7 @@ var numberOfMember;
 						     "<input type='text' name='cap' id='cap' class='field' required='required'/>" +
 						"<br><label for='phone' class='left'>Telefono: </label>" +
 						     "<input type='text' name='phone' id='phone' class='field'/>" +
-				    "<br><br><label for='mtype' class='left'>Tipo Utente: </label>" +
+						"<br><br><label for='mtype' class='left'>Tipo Utente: </label>" +
 						     "<select name='mtype' id='mtype' class='field' onchange='checkRespSelect()'>" +
 						     	"<option value='0'>Normale</option>" +
 						     	"<option value='1'>Responsabile  </option>" +
@@ -609,7 +609,7 @@ function clickRegHandler(event) {
 	var city = $('#city').val();
 	var state = $('#state').val();
 	var cap = $('#cap').val();
-	var tel = $('#phone').val();
+	var phone = $('#phone').val();
 	var mType = $('#mtype').val();
 	var company = "";
 	var description = "";
@@ -618,6 +618,8 @@ function clickRegHandler(event) {
 	var website = "";
 	var payMethod = "";
 	var idResp = "";
+	
+	console.log(tel);
 	
 	if(username == "") {
 		errors.push("Username: Formato non valido");
@@ -643,7 +645,7 @@ function clickRegHandler(event) {
 	if(cap == "" || !isNumber(cap)) {
 		errors.push("Cap: Formato non valido");
 	}
-	if(tel != "")
+	if(tel == "")
 		if(!isNumber(tel)) {
 		errors.push("Telefono: Formato non valido");
 	}
@@ -711,7 +713,7 @@ function clickRegHandler(event) {
 										city: city,
 										state: state,
 										cap: cap,
-										tel: tel,
+										phone: tel,
 										mType: mType}, postRegHandler);
 			
 		} else {
@@ -726,7 +728,7 @@ function clickRegHandler(event) {
 											city: city,
 											state: state,
 											cap: cap,
-											tel: tel,
+											phone: tel,
 											mType: mType,
 											company: company,
 											description: description,
@@ -737,6 +739,7 @@ function clickRegHandler(event) {
 											idResp: idResp}, postRegHandler);
 			
 		}	
+		console.log(tel);
 	}
 }
 
