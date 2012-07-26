@@ -149,7 +149,7 @@ function clickOrderActiveHandler(event) {
     var minDate = $('#minDate').datepicker("getDate");
     var maxDate = $('#maxDate').datepicker("getDate");
     
-    $.post("ajax/getActiveOrder", {start: minDate, end: maxDate}, postActiveOrderListHandler);
+    $.post("ajax/getActiveOrderResp", {start: minDate, end: maxDate}, postActiveOrderListHandler);
     
 }
 

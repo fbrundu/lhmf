@@ -176,7 +176,7 @@ function clickPurchaseActiveHandler(event) {
     var minDate = $('#minDate').datepicker("getDate");
     var maxDate = $('#maxDate').datepicker("getDate");
     
-    $.postSync("ajax/getActiveOrder", {start: minDate, end: maxDate}, postActiveOrderListHandler);
+    $.postSync("ajax/getActiveOrderNormal", {start: minDate, end: maxDate}, postActiveOrderListHandler);
     
 }
 

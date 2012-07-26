@@ -29,7 +29,7 @@ public class RespAjaxController
 	private MemberInterface memberInterface;
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/ajax/getActiveOrder", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "start") long start,
