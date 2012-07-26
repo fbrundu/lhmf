@@ -62,8 +62,9 @@
         
         $('#tabsPurchase-1').html("<div class='logform'>" +
                                 "<form method='post' action='prder'>" +
-                                  "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +
-                                    "Lista Ordini" +
+                                  "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +                  
+                                  "<button type='submit' id='orderActiveRequest'> Visualizza Ordini Disponibili </button>" +
+                                  
                                     "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
                                   "</fieldset>" +
                                   "<div id='errorDivPurchase' style='display:none;'>" +
@@ -126,30 +127,6 @@
     
 })(window);
 
-function clickPurchaseHandler(event) {
-    event.preventDefault();
-    
-    
-    //Creazione schede
-    
-    
-}
-
-function clickPurchaseActiveHandler(event) {
-    event.preventDefault();
-    
-    //Schede attive
-  
-    
-}
-
-function clickPurchaseOldHandler(event) {
-    event.preventDefault();
-  
-    //Schede passate
-    
-}
-
 function preparePurchaseForm(tab){
     
     $('#tabsPurchase').tabs();
@@ -163,9 +140,92 @@ function preparePurchaseForm(tab){
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
     
+    $('#orderActiveRequest').on("click", clickOrderActiveHandler);
     $('#purchaseRequest').on("click", clickPurchaseHandler);
     $('#purchaseActiveRequest').on("click", clickPurchaseActiveHandler);
     $('#purchaseOldRequest').on("click", clickPurchaseOldHandler);
+}
+
+function clickPurchaseHandler(event) {
+    event.preventDefault();
+    
+    
+    //Creazione schede
+    
+    
+    
+    
+    
+}
+
+function clickOrderActiveHandler(event) {
+    event.preventDefault();
+    
+    
+    //Creazione schede
+    
+    
+    
+    
+    
+}
+
+function clickPurchaseActiveHandler(event) {
+    event.preventDefault();
+  
+    var minDate = $('#minDate').datepicker("getDate");
+    var maxDate = $('#maxDate').datepicker("getDate");
+    
+    $.postSync("ajax/getActiveOrder", {start: minDate, end: maxDate}, postActiveOrderListHandler);
+    
+}
+
+function postActiveOrderListHandler(orderList) {
+    
+    console.log("Ricevuti Ordini Attivi");
+    
+    $("#activeOrderList").html("");
+    $("#activeOrderList").hide();
+    //$("#logs").fadeOut(500, function() {
+    
+           
+    //});
+    if(orderList.length > 0){
+        $("#activeOrderList").append("  <tr>  <th class='top' width='10%'> ID </th>" +
+                                             "<th class='top' width='20%'> Fornitore </th>" +
+                                             "<th class='top' width='20%'> Data Inizio  </th>" +
+                                             "<th class='top' width='50%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+        for(var i = 0; i < orderList.length; i++){
+            var order = orderList[i];
+            var supplier=0;
+            $.get("ajax/getsupplier", {idSupplier: order.idMemberSupplier}, function(result) {supplier = result;});
+            
+            $("#activeOrderList").append("<tr> <td>" + order.idOrder +"</td>" +
+                                              "<td>" + supplier.companyName + "</td>" +
+                                              "<td>" + new Date(order.dateOpen) + "</td>" +
+                                              "<td>" + new Date(order.dateClose) + "</td>" +
+                                              "<td>" + "Da fare" + "</td></tr>");
+        }
+    
+        $("#activeOrderList").fadeIn(1000);
+    } else {
+        
+        $("#errorDivActiveOrder").hide();
+        $("#legendErrorActiveOrder").html("Comunicazione");
+        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorDivActiveOrder").show("slow");
+        $("#errorDivActiveOrder").fadeIn(1000);
+    
+    }
+    
+}
+
+function clickPurchaseOldHandler(event) {
+    event.preventDefault();
+  
+    //Schede passate
+    
 }
 
 function newPurchase(purchase)
