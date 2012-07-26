@@ -114,7 +114,7 @@
 .listinoform table.list {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
 .listinoform table.list th.top {height:2em; padding:0 2px 0 2px; border:solid 1px rgb(200,200,200); empty-cells:show; background-color:rgb(175,175,175); text-align:center; color:rgb(255,255,255); font-weight:bold; font-size:110%;}
 .listinoform table.list td {height:2.0em; border:solid 1px rgb(200,200,200); background-color:rgb(225,225,225); text-align:center; font-weight:normal; color:rgb(80,80,80);}
-.listinoform table.list td.yes {color:rgb(0,255,0);}
+.listinoform table.list td.yes {color:rgb(0,200,0);}
 .listinoform table.list td.no {color:rgb(255,0,0);}
 
 /********************/
