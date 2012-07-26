@@ -71,11 +71,11 @@ public class OrderInterface
 		Timestamp endDate = new Timestamp(end);
 		
 		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from Order where member = :member " +
+				.createQuery("from Order where idMember_resp = :id " +
 										  "AND dateClose > :dateNow " +
 										  "AND dateOpen between :startDate and :endDate");
 		
-		query.setParameter("member", memberResp.getIdMember());
+		query.setParameter("id", memberResp.getIdMember());
 		query.setTimestamp("dateNow", currentTimestamp);
 		query.setTimestamp("startDate", startDate);
 		query.setTimestamp("endDate", endDate);
