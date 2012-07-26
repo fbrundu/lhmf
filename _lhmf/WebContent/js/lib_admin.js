@@ -619,8 +619,6 @@ function clickRegHandler(event) {
 	var payMethod = "";
 	var idResp = "";
 	
-	console.log(tel);
-	
 	if(username == "") {
 		errors.push("Username: Formato non valido");
 	}
@@ -645,8 +643,8 @@ function clickRegHandler(event) {
 	if(cap == "" || !isNumber(cap)) {
 		errors.push("Cap: Formato non valido");
 	}
-	if(tel == "")
-		if(!isNumber(tel)) {
+	if(phone == "")
+		if(!isNumber(phone)) {
 		errors.push("Telefono: Formato non valido");
 	}
 	
@@ -713,7 +711,7 @@ function clickRegHandler(event) {
 										city: city,
 										state: state,
 										cap: cap,
-										phone: tel,
+										phone: phone,
 										mType: mType}, postRegHandler);
 			
 		} else {
@@ -728,7 +726,7 @@ function clickRegHandler(event) {
 											city: city,
 											state: state,
 											cap: cap,
-											phone: tel,
+											phone: phone,
 											mType: mType,
 											company: company,
 											description: description,
@@ -739,7 +737,6 @@ function clickRegHandler(event) {
 											idResp: idResp}, postRegHandler);
 			
 		}	
-		console.log(tel);
 	}
 }
 

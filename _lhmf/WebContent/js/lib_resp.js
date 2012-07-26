@@ -91,7 +91,8 @@
                                       "</div>" +
                                     "</fieldset>" +
                                   "</div><br />" +
-                              "</div>");
+                              "</div>" +
+                              "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
         
         $('#tabsOrder-3').html("<div class='logform'>" +
                                 "<form method='post' action=''>" +
@@ -128,6 +129,7 @@
 function prepareOrderForm(tab){
     
     $('#tabsOrder').tabs();
+    $( "#dialog" ).dialog({ autoOpen: false });
     
     $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate').datepicker("setDate", Date.now());
@@ -146,10 +148,24 @@ function prepareOrderForm(tab){
 function clickOrderActiveHandler(event) {
     event.preventDefault();
   
-    var minDate = $('#minDate').datepicker("getDate");
+    var minDateTime = $('#minDate').datepicker("getDate").getTime();
     var maxDate = $('#maxDate').datepicker("getDate");
     
-    $.post("ajax/getActiveOrderResp", {start: minDate, end: maxDate}, postActiveOrderListHandler);
+    maxDate.setHours(23);
+    maxDate.setMinutes(59);
+    maxDate.setSeconds(59);
+    maxDate.setMilliseconds(999);
+    
+    var maxDateTime = maxDate.getTime();
+    
+    if(minDateTime == null || maxDateTime == null || minDateTime > maxDateTime){
+        $( "#dialog" ).dialog('open');
+    } else {
+        
+        $.post("ajax/getActiveOrderResp", {start: minDateTime, end: maxDateTime}, postActiveOrderListHandler);
+    }
+    
+    
     
 }
 
@@ -171,11 +187,9 @@ function postActiveOrderListHandler(orderList) {
                                              "<th class='top' width='50%'> Azione  </th> </tr>");
         for(var i = 0; i < orderList.length; i++){
             var order = orderList[i];
-            var supplier=0;
-            $.get("ajax/getsupplier", {idSupplier: order.idMemberSupplier}, function(result) {supplier = result;});
             
             $("#activeOrderList").append("<tr> <td>" + order.idOrder +"</td>" +
-                                              "<td>" + supplier.companyName + "</td>" +
+                                              "<td>" + order.supplier.companyName + "</td>" +
                                               "<td>" + new Date(order.dateOpen) + "</td>" +
                                               "<td>" + new Date(order.dateClose) + "</td>" +
                                               "<td>" + "Da fare" + "</td></tr>");
@@ -184,6 +198,7 @@ function postActiveOrderListHandler(orderList) {
         $("#activeOrderList").fadeIn(1000);
     } else {
         
+        $("#activeOrderList").show();
         $("#errorDivActiveOrder").hide();
         $("#legendErrorActiveOrder").html("Comunicazione");
         $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");

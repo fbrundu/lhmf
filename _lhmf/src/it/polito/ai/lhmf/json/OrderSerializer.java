@@ -22,11 +22,13 @@ public class OrderSerializer extends JsonSerializer<Order>
 				ISO8601DateParser.toString(value.getDateOpen()));
 		jgen.writeStringField("dateClose",
 				ISO8601DateParser.toString(value.getDateClose()));
-		jgen.writeStringField("dateDelivery",
-				ISO8601DateParser.toString(value.getDateDelivery()));
-		jgen.writeNumberField("idMemberResp", value.getMember().getIdMember());
-		jgen.writeNumberField("idMemberSupplier", value.getSupplier()
-				.getIdMember());
+		if(value.getDateDelivery() != null)
+			jgen.writeStringField("dateDelivery",
+					ISO8601DateParser.toString(value.getDateDelivery()));
+		else 
+			jgen.writeStringField("dateDelivery", "null");
+		jgen.writeObjectField("memberResp", value.getMember());
+		jgen.writeObjectField("supplier", value.getSupplier());
 		jgen.writeEndObject();
 	}
 }
