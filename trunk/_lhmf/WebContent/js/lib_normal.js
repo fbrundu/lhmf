@@ -65,7 +65,7 @@
                                   "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +                  
                                   "<button type='submit' id='orderActiveRequest'> Visualizza Ordini Disponibili </button>" +
                                   
-                                    "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
+                                    "<button type='submit' id='newPurchaseSubmit'> Crea Scheda </button>" +
                                   "</fieldset>" +
                                   "<div id='errorDivPurchase' style='display:none;'>" +
                                       "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -141,12 +141,12 @@ function preparePurchaseForm(tab){
     $('#maxDate2').datepicker("setDate", Date.now());
     
     $('#orderActiveRequest').on("click", clickOrderActiveHandler);
-    $('#purchaseRequest').on("click", clickPurchaseHandler);
+    $('#newPurchaseSubmit').on("click", clickNewPurchaseHandler);
     $('#purchaseActiveRequest').on("click", clickPurchaseActiveHandler);
     $('#purchaseOldRequest').on("click", clickPurchaseOldHandler);
 }
 
-function clickPurchaseHandler(event) {
+function clickNewPurchaseHandler(event) {
     event.preventDefault();
     
     
