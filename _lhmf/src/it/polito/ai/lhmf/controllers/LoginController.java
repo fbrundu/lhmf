@@ -29,4 +29,18 @@ public class LoginController
 		model.addAttribute("client", "android");
 		return new ModelAndView("mobile/login");
 	}
+	
+	@RequestMapping("/android/loginSuccess")
+	public ModelAndView androidLoginSuccess(Model model, HttpSession session)
+	{
+		if(session != null){
+			try {
+				session.invalidate();
+			} catch (IllegalStateException e) {
+				//Session was already invalidated
+			}
+		}
+		model.addAttribute("client", "android");
+		return new ModelAndView("mobile/loginSuccess");
+	}
 }
