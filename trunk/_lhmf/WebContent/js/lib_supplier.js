@@ -407,58 +407,61 @@ function clickNewProductSearchHandler(event)
   var itemsPerPage = $("#itemsPerPageSearch").val();
   var myProducts = getMyProductsNoLocal();
   var productsString = "";
-  for ( var prodIndex = (page - 1) * itemsPerPage; prodIndex < myProducts.length
-      && prodIndex < (page * itemsPerPage); prodIndex++)
+  if (myProducts.length > 0)
   {
-    if (productCategory != "notSelected"
-        && productCategory != myProducts[prodIndex].idProductCategory)
-      continue;
-    productsString += "<tr id='listRow" + myProducts[prodIndex].idProduct
-        + "'>" + "<td>" + myProducts[prodIndex].name + "</td>" + "<td>"
-        + myProducts[prodIndex].description + "</td>";
-    if (myProducts[prodIndex].availability == 0)
+    for ( var prodIndex = (page - 1) * itemsPerPage; prodIndex < myProducts.length
+        && prodIndex < (page * itemsPerPage); prodIndex++)
     {
-      productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
-          + "' class='no'>Non in listino</td>";
-      productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
-          + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
-          + "' action=''>";
-      productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
-      productsString += "</form></td><td id='listDel"
-          + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
-          + myProducts[prodIndex].idProduct + "' action=''>";
-      productsString += "<input type='submit' class='button' value='Cancella' />";
-      productsString += "</form>";
+      if (productCategory != "notSelected"
+          && productCategory != myProducts[prodIndex].idProductCategory)
+        continue;
+      productsString += "<tr id='listRow" + myProducts[prodIndex].idProduct
+          + "'>" + "<td>" + myProducts[prodIndex].name + "</td>" + "<td>"
+          + myProducts[prodIndex].description + "</td>";
+      if (myProducts[prodIndex].availability == 0)
+      {
+        productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
+            + "' class='no'>Non in listino</td>";
+        productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
+            + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
+            + "' action=''>";
+        productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
+        productsString += "</form></td><td id='listDel"
+            + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
+            + myProducts[prodIndex].idProduct + "' action=''>";
+        productsString += "<input type='submit' class='button' value='Cancella' />";
+        productsString += "</form>";
+      }
+      else
+      {
+        productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
+            + "' class='yes'>In listino</td>";
+        productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
+            + "'><form id='prodNotAval' name='"
+            + myProducts[prodIndex].idProduct + "' action=''>";
+        productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
+        productsString += "</form></td><td id='listDel"
+            + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
+            + myProducts[prodIndex].idProduct + "' action=''>";
+        productsString += "<input type='submit' class='button' value='Cancella' />";
+        productsString += "</form>";
+      }
+      productsString += "</tr>";
     }
-    else
+    $('#productsListTable').html(productsString);
+    $('form').filter(function()
     {
-      productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
-          + "' class='yes'>In listino</td>";
-      productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
-          + "'><form id='prodNotAval' name='" + myProducts[prodIndex].idProduct
-          + "' action=''>";
-      productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
-      productsString += "</form></td><td id='listDel"
-          + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
-          + myProducts[prodIndex].idProduct + "' action=''>";
-      productsString += "<input type='submit' class='button' value='Cancella' />";
-      productsString += "</form>";
-    }
-    productsString += "</tr>";
+      return this.id.match(/prodAval/);
+    }).bind('submit', setProductAvailableHandler);
+    $('form').filter(function()
+    {
+      return this.id.match(/prodNotAval/);
+    }).bind('submit', setProductUnavailableHandler);
+    $('form').filter(function()
+    {
+      return this.id.match(/prodDel/);
+    }).bind('submit', deleteProductHandler);
   }
-  $('#productsListTable').html(productsString);
-  $('form').filter(function()
-  {
-    return this.id.match(/prodAval/);
-  }).bind('submit', setProductAvailableHandler);
-  $('form').filter(function()
-  {
-    return this.id.match(/prodNotAval/);
-  }).bind('submit', setProductUnavailableHandler);
-  $('form').filter(function()
-  {
-    return this.id.match(/prodDel/);
-  }).bind('submit', deleteProductHandler);
 }
 
 function deleteProductHandler(event)
