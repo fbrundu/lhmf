@@ -426,7 +426,11 @@ function clickNewProductSearchHandler(event)
           + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
           + "' action=''>";
       productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
-      productsString += "</form></td>";
+      productsString += "</form></td><td id='listDel"
+          + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
+          + myProducts[prodIndex].idProduct + "' action=''>";
+      productsString += "<input type='submit' class='button' value='Cancella' />";
+      productsString += "</form>";
     }
     else
     {
@@ -436,7 +440,11 @@ function clickNewProductSearchHandler(event)
           + "'><form id='prodNotAval' name='" + myProducts[prodIndex].idProduct
           + "' action=''>";
       productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
-      productsString += "</form></td>";
+      productsString += "</form></td><td id='listDel"
+          + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
+          + myProducts[prodIndex].idProduct + "' action=''>";
+      productsString += "<input type='submit' class='button' value='Cancella' />";
+      productsString += "</form>";
     }
     productsString += "</tr>";
   }
@@ -449,6 +457,45 @@ function clickNewProductSearchHandler(event)
   {
     return this.id.match(/prodNotAval/);
   }).bind('submit', setProductUnavailableHandler);
+  $('form').filter(function()
+  {
+    return this.id.match(/prodDel/);
+  }).bind('submit', deleteProductHandler);
+}
+
+function deleteProductHandler(event)
+{
+  event.preventDefault();
+  $("#dialog:ui-dialog").dialog("destroy");
+
+  $("#dialog-confirm").dialog({
+    resizable : false,
+    height : 140,
+    modal : true,
+    buttons : {
+      "Elimina" : function()
+      {
+        $(this).dialog("close");
+      },
+      "Annulla" : function()
+      {
+        $(this).dialog("close");
+      }
+    }
+  });
+  // var idProduct = $(this).attr('name');
+  // if (deleteProduct(idProduct) > 0)
+  // {
+  // $('#listHead' + idProduct).html('In listino');
+  // $('#listHead' + idProduct).attr('class', 'yes');
+  // $('#listCont' + idProduct).html(
+  // "<form id='prodNotAval' name='" + idProduct + "' action=''>"
+  // + "<input id='prodNotAval" + idProduct
+  // + "' type='submit' class='button'"
+  // + " value='Rimuovi da listino' />" + "</form>");
+  // }
+  //
+  return false; // don't post it automatically
 }
 
 function setProductAvailableHandler(event)

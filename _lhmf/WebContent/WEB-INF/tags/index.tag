@@ -4,6 +4,7 @@
 <%@attribute name="scripts" fragment="true"%>
 <%@attribute name="userMenu" fragment="true"%>
 <%@attribute name="bodyTitle" fragment="true"%>
+<%@attribute name="dialogs" fragment="true"%>
 <%-- End fragments declaration --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -31,7 +32,8 @@
 <title>Applicazioni Internet - GAS</title>
 </head>
 <body>
-	<div class="contenitore-pagina">
+	 <jsp:invoke fragment="dialogs" />
+      <div class="contenitore-pagina">
 		<header class="header">
 			<div class="header-middle"></div>
 		</header>

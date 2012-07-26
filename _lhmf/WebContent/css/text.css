@@ -116,6 +116,7 @@
 .listinoform table.list td {height:2.0em; border:solid 1px rgb(200,200,200); background-color:rgb(225,225,225); text-align:center; font-weight:normal; color:rgb(80,80,80);}
 .listinoform table.list td.yes {color:rgb(0,200,0);}
 .listinoform table.list td.no {color:rgb(255,0,0);}
+.gasDialog {display:none;}
 
 /********************/
 /*  COMMON CLASSES  */
