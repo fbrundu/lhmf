@@ -120,15 +120,17 @@ var numberOfMember;
 										"<th class='top' width='50%'> Testo  </th> </tr>");
 				for(var i = 0; i < logList.length; i++){
 					var log = logList[i];
+					var dateTemp = $.datepicker.formatDate('dd-mm-yy', new Date(log.logTimestamp));
 					$("#logs").append("<tr> <td>" + log.idLog +"</td>" +
 							               "<td>" + log.member.name + " " + log.member.surname + "</td>" +
-							               "<td>" + new Date(log.logTimestamp) + "</td>" +
+							               "<td>" + dateTemp + "</td>" +
 							               "<td>" + log.logtext + "</td></tr>");
 				}
 			
 				$("#logs").fadeIn(1000);
 			} else {
 			    
+			    $("#logs").show();
 			    $("#errorDivLog").hide();
 			    $("#legendErrorLog").html("Comunicazione");
 			    $("#errorsLog").append("Non ci sono Log  da visualizzare<br /><br />");
@@ -144,12 +146,6 @@ var numberOfMember;
 		$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Consulta Log</a></li></ul>" +
 		"<div id='tabs-1'></div></div>");
 		$('#tabs-1').html("<div class='logform'>" +
-            		        "<div id='errorDivLog' style='display:none;'>" +
-                                "<fieldset><legend id='legendErrorLog'>&nbsp;Errore&nbsp;</legend><br />" +
-                                 "<div id='errorsLog' style='padding-left: 40px'>" +
-                                  "</div>" +
-                                "</fieldset>" +
-                            "</div><br />" +
 						    "<form method='get' action='log'>" +
 						      "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
 						        "<label for='min' class='left'>Data iniziale: </label>" +
@@ -160,6 +156,12 @@ var numberOfMember;
 						      "<button type='submit' id='logsRequest'> Visualizza </button>" +
                             "</form>" +
 						    "<table id='logs' class='log'></table>" +
+						    "<div id='errorDivLog' style='display:none;'>" +
+                                "<fieldset><legend id='legendErrorLog'>&nbsp;Errore&nbsp;</legend><br />" +
+                                 "<div id='errorsLog' style='padding-left: 40px'>" +
+                                  "</div>" +
+                                "</fieldset>" +
+                            "</div>" +
 						  "</div>" +
 						  "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
 		$('#tabs').tabs();
@@ -489,9 +491,10 @@ function postMemberListHandler(result) {
         {
             if (typeof val.active === "undefined") {
                 //member
+                var dateTemp = $.datepicker.formatDate('dd-mm-yy', new Date(val.regDate));
                 output.push("<tr> <td>" + val.idMember +"</td>" +
                 		         "<td>" + val.name + " " + val.surname + "</td>" +
-                				 "<td>" + new Date(val.regDate) + "</td>" +
+                				 "<td>" + dateTemp + "</td>" +
                 				 "<td>" + val.email + "</td>" +
                 				 "<td>" + val.address + " " + val.cap+ ", " + val.city + " " + val.state + "</td>" +
                         		 "<td>" + val.tel + "</td></tr>");
