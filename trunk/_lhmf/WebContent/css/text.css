@@ -85,7 +85,7 @@
 
 .actionError { color: red; }
 
-.creazioneProdottoForm {width:450px; margin:2.0em 0 0 100px; padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
+.creazioneProdottoForm {text-align:center; width:450px; margin:2.0em 0 0 100px; padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
 .creazioneProdottoForm div.divresp {float:left; text-align:center; width:90%; margin:0 10px 0 10px; padding:10px; font-size:110%;}
 .creazioneProdottoForm fieldset {padding:20px 10px 20px 10px; margin:0 0 20px 0; border:solid 1px rgb(220,220,220);}
 .creazioneProdottoForm fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
@@ -98,9 +98,12 @@
 .creazioneProdottoForm input.field_valid {width:250px; padding:2px; border:solid 1px rgb(0,255,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .creazioneProdottoForm input.field_notvalid {width:250px; padding:2px; border:solid 1px rgb(255,0,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .creazioneProdottoForm textarea {width:400px; text-align:center; color:#666; padding:2px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240); font-family:verdana,arial,sans-serif; font-size:110%;}
+
+/*
 .creazioneProdottoForm button {float:right; width:15.0em; margin-right:150px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .creazioneProdottoForm input.button {float:right; width:9.0em; margin-right:150px; padding:1px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .creazioneProdottoForm input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+*/
 
 .listinoform {padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
 .listinoform div.divresp {float:left; text-align:center; width:90%; margin:0 10px 0 10px; padding:10px; font-size:110%;}
@@ -108,8 +111,10 @@
 .listinoform fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
 .listinoform label.left {width:100px; margin:0 0 0 10px; padding:2px; font-size:110%;}
 .listinoform input.field {width:150px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
+/*
 .listinoform button {float:right; width:100%; background:rgb(230,230,230); border:solid 1px black; text-align:center; margin: 10px 0; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .listinoform button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+*/
 
 .listinoform table.list {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
 .listinoform table.list th.top {height:2em; padding:0 2px 0 2px; border:solid 1px rgb(200,200,200); empty-cells:show; background-color:rgb(175,175,175); text-align:center; color:rgb(255,255,255); font-weight:bold; font-size:110%;}
@@ -130,9 +135,11 @@
 .modificaProdottoForm input.field_valid {width:250px; padding:2px; border:solid 1px rgb(0,255,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .modificaProdottoForm input.field_notvalid {width:250px; padding:2px; border:solid 1px rgb(255,0,0); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .modificaProdottoForm textarea {width:400px; text-align:center; color:#666; padding:2px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240); font-family:verdana,arial,sans-serif; font-size:110%;}
+/*
 .modificaProdottoForm button {float:right; width:15.0em; margin-right:150px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .modificaProdottoForm input.button {float:right; width:9.0em; margin-right:150px; padding:1px; background:rgb(230,230,230); border:solid 1px black; text-align:center; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
 .modificaProdottoForm input.button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+*/
 
 .gasDialog {display:none;}
 
