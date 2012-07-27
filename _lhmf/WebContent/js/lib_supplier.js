@@ -398,10 +398,9 @@ function writeSupplierPage(tab)
   $('#productCategorySearch').change(newProductSearch);
   $('#pageSearch').change(newProductSearch);
   $('#itemsPerPageSearch').change(newProductSearch);
-  newProductSearch();
+  newProductSearch(tab);
   // $('#productListRequest').on("click", clickNewProductSearchHandler);
-
-  prepareProductsForm(tab);
+  //prepareProductsForm(tab);
 }
 
 function checkCategorySelect()
@@ -427,9 +426,10 @@ function prepareProductsForm(tab)
   $('#tabs').tabs({
     selected : tab
   });
+  $('input:submit').button();
 }
 
-function newProductSearch()
+function newProductSearch(tab)
 {
   var productCategory = $("#productCategorySearch").val();
   var page = $("#pageSearch").val();
@@ -506,6 +506,7 @@ function newProductSearch()
       return this.id.match(/prodUpd/);
     }).bind('submit', updateProductHandler);
     $('.rowUpdClass').hide();
+    prepareProductsForm(tab);
   }
 }
 
@@ -720,7 +721,9 @@ function updateProductHandler(event)
   $('#updateProductSubmit').on("click", clickUpdateProductHandler);
 
   $('#rowUpd' + idProduct).show('slow');
-
+  
+  prepareProductsForm(1);
+  
   return false; // don't post it automatically
 }
 
