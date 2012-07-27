@@ -161,6 +161,23 @@ function loadAllProductsFromLocalStorage()
   return JSON.parse(window.localStorage.getItem('productsList'));
 }
 
+function getProduct(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var product = undefined;
+  $.getSync("ajax/getproduct", {
+    idProduct : idProduct
+  }, function(prod)
+  {
+    product = prod;
+  });
+  return product;
+}
+
 function getMyProducts()
 {
   $.getJSONsync("ajax/getmyproducts",
@@ -510,8 +527,25 @@ function updateProductHandler(event)
     $('#rowUpd' + idProduct).hide('slow');
     return;
   }
-  
+
   $('.rowUpdClass').hide('slow');
+
+  var prod = getProduct(idProduct);
+  if (prod == undefined)
+  {
+    $("#dialog-error-update").dialog({
+      resizable : false,
+      height : 140,
+      modal : true,
+      buttons : {
+        "Ok" : function()
+        {
+          $(this).dialog('close');
+        }
+      }
+    });
+    return;
+  }
   $('#divUpd' + idProduct)
       .html(
           "<div class='modificaProdottoForm' style='margin: 2em 0 0 65px;'>"
@@ -531,7 +565,9 @@ function updateProductHandler(event)
               + " id='productNameUpd"
               + idProduct
               + "' class='field'"
-              + "required='required' /><br><label"
+              + "required='required' value='"
+              + prod.name
+              + "'/><br><label"
               + " for='productDescriptionUpd"
               + idProduct
               + "' class='left'>"
@@ -541,7 +577,9 @@ function updateProductHandler(event)
               + "' id='productDescriptionUpd"
               + idProduct
               + "'"
-              + "class='field' required='required' />"
+              + "class='field' required='required' value='"
+              + prod.description
+              + "' />"
               + "<br><label for='productDimensionUpd"
               + idProduct
               + "' "
@@ -552,7 +590,9 @@ function updateProductHandler(event)
               + "id='productDimensionUpd"
               + idProduct
               + "'"
-              + "class='field' required='required' />"
+              + "class='field' required='required' value='"
+              + prod.dimension
+              + "' />"
               + "<br><label for='measure_unitUpd"
               + idProduct
               + "' "
@@ -563,7 +603,9 @@ function updateProductHandler(event)
               + "id='measure_unitUpd"
               + idProduct
               + "'"
-              + "class='field' required='required' />"
+              + "class='field' required='required' value='"
+              + prod.measureUnit
+              + "' />"
               + "<br><label for='unit_blockUpd"
               + idProduct
               + "' "
@@ -574,7 +616,9 @@ function updateProductHandler(event)
               + "id='unit_blockUpd"
               + idProduct
               + "'"
-              + "class='field' required='required' />"
+              + "class='field' required='required' value='"
+              + prod.unitBlock
+              + "' />"
               + "<br><label for='transport_costUpd"
               + idProduct
               + "' "
@@ -585,7 +629,9 @@ function updateProductHandler(event)
               + " id='transport_costUpd"
               + idProduct
               + "'"
-              + "class='field' required='required' />"
+              + "class='field' required='required' value='"
+              + prod.transportCost
+              + "' />"
               + "<br><label for='unit_costUpd"
               + idProduct
               + "' "
@@ -595,7 +641,9 @@ function updateProductHandler(event)
               + "' id='unit_costUpd"
               + idProduct
               + "'"
-              + "class='field' required='required' />"
+              + "class='field' required='required' value='"
+              + prod.unitCost
+              + "' />"
               + "<br><label for='min_buyUpd"
               + idProduct
               + "' class='left'>Minimo unità acquistabili: </label>"
@@ -603,7 +651,9 @@ function updateProductHandler(event)
               + idProduct
               + "' id='min_buyUpd"
               + idProduct
-              + "' class='field' />"
+              + "' class='field'  value='"
+              + prod.minBuy
+              + "'/>"
               + "<br><label for='max_buyUpd"
               + idProduct
               + "' class='left'>Massimo unità acquistabili: </label>"
@@ -612,7 +662,9 @@ function updateProductHandler(event)
               + "' id='max_buyUpd"
               + idProduct
               + "'"
-              + "class='field' />"
+              + "class='field' value='"
+              + prod.maxBuy
+              + "' />"
               + "<br><br><label for='productCategoryUpd"
               + idProduct
               + "' class='left'>Categoria: </label>"
@@ -645,10 +697,13 @@ function updateProductHandler(event)
               + "<input type='submit' class='button' value='Aggiorna prodotto' id='updateProductSubmit' name='"
               + idProduct + "' />" + "</p></form></div>");
   var categoriesList = getCategoriesNoLocal();
-  var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
+  var categoriesString = "";
   for ( var catIndex in categoriesList)
   {
-    categoriesString += "<option value='"
+    categoriesString += "<option";
+    if(prod.idProductCategory == categoriesList[catIndex].idProductCategory)
+      categoriesString += " selected='selected";
+    categoriesString +=" value='"
         + categoriesList[catIndex].idProductCategory + "'>"
         + categoriesList[catIndex].description + "</option>";
   }
@@ -780,7 +835,7 @@ function clickUpdateProductHandler(event)
       }
       else
       {
-        $("#dialog-error-insert").dialog({
+        $("#dialog-error-update").dialog({
           resizable : false,
           height : 140,
           modal : true,

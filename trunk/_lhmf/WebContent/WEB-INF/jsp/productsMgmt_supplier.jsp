@@ -56,6 +56,13 @@
           Errore nell'inserimento
       </p>
     </div>
+    <div class="gasDialog" id="dialog-error-update" title="Errore">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+          style="float: left; margin: 0 7px 20px 0;"></span>
+          Errore nell'aggiornamento
+      </p>
+    </div>
 	</jsp:attribute>
 
 
