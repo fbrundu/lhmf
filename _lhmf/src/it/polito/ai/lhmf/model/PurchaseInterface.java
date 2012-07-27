@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.model;
 
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
@@ -15,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class PurchaseInterface 
 {
-
+	
 	private SessionFactory sessionFactory;
 	
 	public void setSessionFactory(SessionFactory sf)
@@ -72,5 +73,27 @@ public class PurchaseInterface
 		}
 		else
 			return null;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Purchase> getPurchasesOnDate(Integer idMember, List<Order> orderTmp)
+	{
+		
+		Query query = sessionFactory.getCurrentSession().createQuery("from Purchase where idMember = :idMember " + 
+																	 "AND idOrder = :idOrder");
+		query.setParameter("idMember", idMember.intValue());
+		System.out.println("Member "+idMember.intValue());
+		List<Purchase> activePurchases = new LinkedList<Purchase>();
+		Purchase purTmp = new Purchase();
+		for(Order or : orderTmp)
+		{
+			System.out.println("Ordine "+or.getIdOrder());
+			query.setParameter("idOrder", or.getIdOrder());
+			if((purTmp = (Purchase)query.uniqueResult()) != null)
+			{
+				activePurchases.add(purTmp);
+			}
+		}		
+		return activePurchases;
 	}
 }
