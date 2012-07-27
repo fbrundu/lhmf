@@ -170,6 +170,10 @@ function clickPurchaseOldHandler(event) {
     
 }
 
+
+////////Schede Attive
+
+
 function postActivePurchaseListHandler(purchaseList) 
 {
     
@@ -177,20 +181,28 @@ function postActivePurchaseListHandler(purchaseList)
     $("#activePurchaseList").hide();
 
     if(purchaseList.length > 0){
-        $("#activePurchaseList").append("  <tr>  <th class='top' width='20%'> Ordine </th>" +
-        									 "<th class='top' width='20%'> Spedizione  </th>" +
-                                             "<th class='top' width='30%'> ID  </th>" +
-                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+        $("#activePurchaseList").append("<tr>  <th class='top' width='20%'> Scheda Numero </th>" +
+        									 "<th class='top' width='50%'> Spedizione  </th>" +
+                                             "<th class='top' width='50%'> Dettagli ordine  </th> </tr>");
         for(var i = 0; i < purchaseList.length; i++){
             var purchase = purchaseList[i];
             
-            $("#activePurchaseList").append("<tr> <td>" + purchase.order.idOrder + "</td>" +
-            								  "<td>" + purchase.isShipped + "</td>" +
-                                              "<td>" + purchase.idPurchase + "</td>" +
-                                              "<td>" + "Da fare" + "</td></tr>");
+            $("#activePurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
+					  							  "<td>" + purchase.isShipped + "</td>" +
+					  							  "<td> <form> <input type='hidden' value='" + purchase.idOrder + "'/>" +
+					  							  "<button type='submit' id='showDetails_" + purchase.idOrder + "'> Mostra Dettagli </button>" +
+					  							  "</form></td></tr>" +
+					  							  "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
+            $(".detailsOrder").hide();
         }
-    
+        $.each(purchaseList, function(index, val)
+        {
+        	$("#showDetails_" + val.order.idOrder).on("click", clickShowDetailsHandler);
+        });
+            
+        $("#activePurchaseList").show("slow");
         $("#activePurchaseList").fadeIn(1000);
+        $("#errorDivActivePurchase").hide();
     } else {
         
         $("#activePurchaseList").show();
@@ -210,20 +222,29 @@ function postOldPurchaseListHandler(purchaseList)
     $("#oldPurchaseList").hide();
 
     if(purchaseList.length > 0){
-        $("#oldPurchaseList").append("  <tr>  <th class='top' width='20%'> Ordine </th>" +
-        									 "<th class='top' width='20%'> Spedizione  </th>" +
-                                             "<th class='top' width='30%'> ID  </th>" +
-                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+        $("#oldPurchaseList").append("  <tr>  <th class='top' width='20%'> Scheda Numero </th>" +
+        									 "<th class='top' width='50%'> Spedizione  </th>" +
+                                             "<th class='top' width='50%'> Dettagli ordine  </th> </tr>");
         for(var i = 0; i < purchaseList.length; i++){
             var purchase = purchaseList[i];
             
-            $("#oldPurchaseList").append("<tr> <td>" + purchase.order.idOrder + "</td>" +
+            $("#oldPurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
             								  "<td>" + purchase.isShipped + "</td>" +
-                                              "<td>" + purchase.idPurchase + "</td>" +
-                                              "<td>" + "Da fare" + "</td></tr>");
+                                              "<td> <form> <input type='hidden' value='" + purchase.idOrder + "'/>" +
+                                         	   "<button type='submit' id='showDetails_" + purchase.idOrder + "'> Mostra Dettagli </button>" +
+                                         	   "</form></td></tr>" +
+                                    "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
+            $(".detailsOrder").hide();
         }
+        
+        $.each(purchaseList, function(index, val)
+        {
+        	$("#showDetails_" + val.order.idOrder).on("click", clickShowDetailsHandler);
+        });
     
+        $("#oldPurchaseList").show("slow");
         $("#oldPurchaseList").fadeIn(1000);
+        $("#errorDivOldPurchase").hide();
     } else {
         
         $("#oldPurchaseList").show();
@@ -277,7 +298,7 @@ function postActiveOrderListHandler(orderList) {
         $("#activeOrderList").show();
         $("#errorDivActiveOrder").hide();
         $("#legendErrorActiveOrder").html("Comunicazione");
-        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi da visualizzare<br /><br />");
         $("#errorDivActiveOrder").show("slow");
         $("#errorDivActiveOrder").fadeIn(1000);
     }
@@ -324,6 +345,7 @@ function postShowDetailsHandler(data) {
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
 }
+
 
 function newPurchase(purchase)
 {
