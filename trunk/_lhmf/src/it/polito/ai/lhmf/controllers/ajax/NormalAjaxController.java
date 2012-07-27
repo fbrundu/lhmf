@@ -19,7 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -37,15 +36,13 @@ public class NormalAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderNormal", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "start") long start,
-			@RequestParam(value = "end") long end) throws InvalidParametersException
+	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session) throws InvalidParametersException
 	{		
 		List<Order> listOrder = null;
 		listOrder = orderInterface.getOrdersNow();
 		return listOrder;
 	}
-	///////////////////////////////////
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
 	public @ResponseBody
