@@ -150,25 +150,8 @@ function clickNewPurchaseHandler(event) {
 function clickOrderActiveHandler(event) {
     event.preventDefault();
     
-    ///Visualizzazione ordini attivi per le schede
-    event.preventDefault();
-    
-    var minDateTime = $('#minDate').datepicker("getDate").getTime();
-    var maxDate = $('#maxDate').datepicker("getDate");
-    
-    maxDate.setHours(23);
-    maxDate.setMinutes(59);
-    maxDate.setSeconds(59);
-    maxDate.setMilliseconds(999);
-    
-    var maxDateTime = maxDate.getTime();
-    
-    if(minDateTime == null || maxDateTime == null || minDateTime > maxDateTime){
-        $( "#dialog" ).dialog('open');
-    } else {
-        
-        $.post("ajax/getActiveOrderNormal", {start: minDateTime, end: maxDateTime}, postActiveOrderListHandler);
-    }     
+    $.post("ajax/getActiveOrderNormal", postActiveOrderListHandler);
+      
 }
 
 function clickPurchaseActiveHandler(event) {
@@ -253,6 +236,44 @@ function postOldPurchaseListHandler(purchaseList)
     }
 }
 
+function postActiveOrderListHandler(orderList) {
+    
+    console.log("Ricevuti Ordini Attivi");
+    
+    $("#activeOrderList").html("");
+    $("#activeOrderList").hide();
+    //$("#logs").fadeOut(500, function() {
+    
+           
+    //});
+    if(orderList.length > 0){
+        $("#activeOrderList").append("  <tr>  <th class='top' width='20%'> Fornitore </th>" +
+                                                                                 "<th class='top' width='20%'> Nome Contatto  </th>" +
+                                             "<th class='top' width='30%'> Data Apertura  </th>" +
+                                             "<th class='top' width='30%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+        for(var i = 0; i < orderList.length; i++){
+            var order = orderList[i];
+            
+            $("#activeOrderList").append("<tr> <td>" + order.supplier.companyName + "</td>" +
+                                                                          "<td>" + order.supplier.contactName + "</td>" +
+                                              "<td>" + new Date(order.dateOpen) + "</td>" +
+                                              "<td>" + new Date(order.dateClose) + "</td>" +
+                                              "<td>" + "Da fare" + "</td></tr>");
+        }
+    
+        $("#activeOrderList").fadeIn(1000);
+    } else {
+        
+        $("#activeOrderList").show();
+        $("#errorDivActiveOrder").hide();
+        $("#legendErrorActiveOrder").html("Comunicazione");
+        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorDivActiveOrder").show("slow");
+        $("#errorDivActiveOrder").fadeIn(1000);
+    
+    }
+}
 
 function newPurchase(purchase)
 {
@@ -267,7 +288,7 @@ function newPurchase(purchase)
 	});
 }
   
-function getPastPurchases()
+/*function getPastPurchases()
 {
     $.getJSONsync("ajax/getpastpurchases", function(pastPurchasesList)
     {
@@ -275,7 +296,7 @@ function getPastPurchases()
     	console.debug("pastPurchasesList saved in localstorage");
     });
 }
-
+*/
 function loadAllPastPurchasesFromLocalStorage()
 {
 	return JSON.parse(window.localStorage.getItem('pastPurchasesList'));
