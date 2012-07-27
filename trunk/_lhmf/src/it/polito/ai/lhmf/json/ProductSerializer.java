@@ -30,16 +30,32 @@ public class ProductSerializer extends JsonSerializer<Product>
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeNumberField("dimension", value.getDimension());
 		jgen.writeStringField("measureUnit", value.getMeasureUnit());
-		jgen.writeNumberField("unitBlock", value.getUnitBlock());
+		
+		if(value.getUnitBlock() == null)
+			jgen.writeStringField("unitBlock", "null");
+		else
+			jgen.writeNumberField("unitBlock", value.getUnitBlock());
+		
 		jgen.writeBooleanField("availability", value.isAvailability());
 		jgen.writeNumberField("transportCost", value.getTransportCost());
 		jgen.writeNumberField("unitCost", value.getUnitCost());
-		jgen.writeNumberField("minBuy", value.getMinBuy());
-		jgen.writeNumberField("maxBuy", value.getMaxBuy());
+		
+		if(value.getMinBuy() == null)
+			jgen.writeStringField("minBuy", "no limit");
+		else
+			jgen.writeNumberField("minBuy", value.getMinBuy());
+		
+		if(value.getMaxBuy() == null)
+			jgen.writeStringField("maxBuy", "no limit");
+		else
+			jgen.writeNumberField("maxBuy", value.getMaxBuy());
+		
+		//TODO: aggiungere attributo path immagine
+		
 		jgen.writeNumberField("idMemberSupplier", value.getSupplier()
 				.getIdMember());
-		jgen.writeNumberField("idProductCategory", value.getProductCategory()
-				.getIdProductCategory());
+		jgen.writeStringField("category", value.getProductCategory()
+				.getDescription());
 		jgen.writeEndObject();
 	}
 
