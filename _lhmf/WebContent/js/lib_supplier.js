@@ -703,7 +703,7 @@ function updateProductHandler(event)
     categoriesString += "<option";
     if(prod.idProductCategory == categoriesList[catIndex].idProductCategory)
       categoriesString += " selected='selected";
-    categoriesString +=" value='"
+    categoriesString +="' value='"
         + categoriesList[catIndex].idProductCategory + "'>"
         + categoriesList[catIndex].description + "</option>";
   }
