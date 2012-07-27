@@ -109,7 +109,7 @@
                                 "</div><br />" +
                             "</div>");
         
-        $('#tabsPurchase-4').html("Schede in fase di Consegna");
+        $('#tabsPurchase-4').html("Da implementare?");
        
         preparePurchaseForm();
     }
@@ -242,27 +242,36 @@ function postActiveOrderListHandler(orderList) {
     
     $("#activeOrderList").html("");
     $("#activeOrderList").hide();
-    //$("#logs").fadeOut(500, function() {
-    
-           
-    //});
+
     if(orderList.length > 0){
-        $("#activeOrderList").append("  <tr>  <th class='top' width='20%'> Fornitore </th>" +
-                                                                                 "<th class='top' width='20%'> Nome Contatto  </th>" +
-                                             "<th class='top' width='30%'> Data Apertura  </th>" +
-                                             "<th class='top' width='30%'> Data Chiusura  </th>" +
-                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+        $("#activeOrderList").append("  <tr>  <th class='top' width='10%'> ID </th>" +
+                                             "<th class='top' width='20%'> Fornitore </th>" +
+                                             "<th class='top' width='15%'> Data Inizio  </th>" +
+                                             "<th class='top' width='15%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='40%'> Azione  </th> </tr>");
         for(var i = 0; i < orderList.length; i++){
             var order = orderList[i];
-            
-            $("#activeOrderList").append("<tr> <td>" + order.supplier.companyName + "</td>" +
-                                                                          "<td>" + order.supplier.contactName + "</td>" +
-                                              "<td>" + new Date(order.dateOpen) + "</td>" +
-                                              "<td>" + new Date(order.dateClose) + "</td>" +
-                                              "<td>" + "Da fare" + "</td></tr>");
+            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
+            $("#activeOrderList").append("<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder +"</td>" +
+                                              "<td>" + order.supplier.companyName + "</td>" +
+                                              "<td>" + dateOpen + "</td>" +
+                                              "<td>" + dateClose + "</td>" +
+                                              "<td> <form> <input type='hidden' value='" + order.idOrder + "'/>" +
+                                              	   "<button type='submit' id='showDetails_" + order.idOrder + "'> Mostra Dettagli </button>" +
+                                              	   "</form></td></tr>" +
+                                         "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + order.idOrder + "'></td></tr>");
+            $(".detailsOrder").hide();
         }
+        
+        $.each(orderList, function(index, val)
+        {
+            $("#showDetails_" + val.idOrder).on("click", clickShowDetailsHandler);
+        });
     
+        $("#activeOrderList").show("slow");
         $("#activeOrderList").fadeIn(1000);
+        $("#errorDivActiveOrder").hide();
     } else {
         
         $("#activeOrderList").show();
@@ -271,8 +280,49 @@ function postActiveOrderListHandler(orderList) {
         $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
         $("#errorDivActiveOrder").show("slow");
         $("#errorDivActiveOrder").fadeIn(1000);
-    
     }
+}
+
+var idOrder = 0;
+
+function clickShowDetailsHandler(event) {
+    event.preventDefault();
+    
+    $(".detailsOrder").hide();
+    var form = $(this).parents('form');
+    idOrder = $('input', form).val();
+    
+    $.post("ajax/getProductListFromOrderNormal", {idOrder: idOrder}, postShowDetailsHandler);
+}
+
+function postShowDetailsHandler(data) {
+
+    var trControl = "#TRdetailsOrder_" + idOrder;
+    var tdControl = "#TDdetailsOrder_" + idOrder;
+    
+    $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder + "' class='log'></table></div>");
+    
+    var tableControl = "#TABLEdetailsOrder_" + idOrder;
+    
+    $(tableControl).append("<tr>  <th class='top' width='15%'> Prodotto </th>" +
+                                 "<th class='top' width='15%'> Categoria </th>" +
+                                 "<th class='top' width='35%'> Descrizione  </th>" +
+                                 "<th class='top' width='15%'> Costo  </th>" +
+                                 "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
+    
+    $.each(data, function(index, val)
+    {
+        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+        		                       "<td>" + val.category + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + "</td>" +
+        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
+        
+        console.debug("Sono Entrato");
+    });
+    
+    $(trControl).show("slow");    
+    $(tdControl).fadeIn(1000);  
 }
 
 function newPurchase(purchase)

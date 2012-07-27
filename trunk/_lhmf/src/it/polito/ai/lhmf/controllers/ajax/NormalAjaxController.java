@@ -6,9 +6,11 @@ import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -71,6 +74,18 @@ public class NormalAjaxController
 		List<Purchase> listPurchase = null;
 		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
 		return listPurchase;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getProductListFromOrderNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getProductListFromOrder(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	{
+		Order order = orderInterface.getOrder(idOrder);
+		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
+
+		return listProduct;
 	}
 	
 }
