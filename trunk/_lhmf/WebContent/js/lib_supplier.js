@@ -692,7 +692,9 @@ function updateProductHandler(event)
               + idProduct
               + "' style='display: none;'>"
               + "<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />"
-              + "<div id='errors' style='padding-left: 40px'>"
+              + "<div id='errorsUpd"
+              + idProduct
+              + "' style='padding-left: 40px'>"
               + "</div></fieldset></div><p>"
               + "<input type='submit' class='button' value='Aggiorna prodotto' id='updateProductSubmit' name='"
               + idProduct + "' />" + "</p></form></div>");
@@ -701,9 +703,9 @@ function updateProductHandler(event)
   for ( var catIndex in categoriesList)
   {
     categoriesString += "<option";
-    if(prod.idProductCategory == categoriesList[catIndex].idProductCategory)
+    if (prod.idProductCategory == categoriesList[catIndex].idProductCategory)
       categoriesString += " selected='selected";
-    categoriesString +="' value='"
+    categoriesString += "' value='"
         + categoriesList[catIndex].idProductCategory + "'>"
         + categoriesList[catIndex].description + "</option>";
   }
@@ -865,7 +867,13 @@ function clickUpdateProductHandler(event)
       productCategory : productCategory,
     });
 
-    $('#rowUpd' + idProduct).hide('slow', newProductSearch());
+    $('#rowUpd' + idProduct).hide('slow', function()
+    {
+      $('#listRow' + idProduct).hide('slow', function()
+      {
+        newProductSearch();
+      });
+    });
   }
 }
 
