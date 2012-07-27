@@ -389,20 +389,10 @@ function clickMemberActivationHandler(event){
 	event.preventDefault();
 	
 	var form = $(this).parents('form');
-	var tmp = $('input', form).val().split(',');
-	var idMember = tmp[0];
-	var isSupplier = tmp[1];
+	var idMember = $('input', form).val();
 	
-	if(isSupplier != 'true') {
-		//member
-		$.post("ajax/activeMember", {idMember: idMember}, postMemberActivationHandler);
-	} else {
-		//supplier
-		$.post("ajax/activeSupplier", {idMember: idMember}, postMemberActivationHandler);
-	}
-	
-	
-	
+	$.post("ajax/activeMember", {idMember: idMember}, postMemberActivationHandler);
+
 }
 
 function postMemberActivationHandler(result) {
@@ -581,7 +571,7 @@ function postMemberToActivateHandler(result) {
 			} else  {
 				//supplier
 				output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td> Fornitore </td><td>" +
-						"<form method='post'><input type='hidden' value='" + val.idMember + ",true'/>" +
+						"<form method='post'><input type='hidden' value='" + val.idMember + "'/>" +
 						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
 			}
 		});

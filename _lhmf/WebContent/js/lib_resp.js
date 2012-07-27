@@ -189,13 +189,23 @@ function postActiveOrderListHandler(orderList) {
             var order = orderList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
-            $("#activeOrderList").append("<tr> <td>" + order.idOrder +"</td>" +
+            $("#activeOrderList").append("<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder +"</td>" +
                                               "<td>" + order.supplier.companyName + "</td>" +
                                               "<td>" + dateOpen + "</td>" +
                                               "<td>" + dateClose + "</td>" +
-                                              "<td>" + "Da fare" + "</td></tr>");
+                                              "<td> <form> <input type='hidden' value='" + order.idOrder + "'/>" +
+                                              	   "<button type='submit' id='showDetails_" + order.idOrder + "'> Mostra Dettagli </button>" +
+                                              	   "</form></td></tr>" +
+                                         "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + order.idOrder + "'></td></tr>");
+            $(".detailsOrder").hide();
         }
+        
+        $.each(orderList, function(index, val)
+        {
+            $("#showDetails_" + val.idOrder).on("click", clickShowDetailsHandler);
+        });
     
+        $("#activeOrderList").show("slow");
         $("#activeOrderList").fadeIn(1000);
         $("#errorDivActiveOrder").hide();
     } else {
@@ -211,12 +221,51 @@ function postActiveOrderListHandler(orderList) {
     
 }
 
-function clickOrderHandler(event) {
+var idOrder = 0;
+
+function clickShowDetailsHandler(event) {
     event.preventDefault();
     
-    //Recuperare la lista degli ordini attivi
-  
+    $(".detailsOrder").hide();
+    var form = $(this).parents('form');
+    idOrder = $('input', form).val();
     
+    $.post("ajax/getProductListFromOrder", {idOrder: idOrder}, postShowDetailsHandler);
+}
+
+function postShowDetailsHandler(data) {
+
+    var trControl = "#TRdetailsOrder_" + idOrder;
+    var tdControl = "#TDdetailsOrder_" + idOrder;
+    
+    $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder + "' class='log'></table></div>");
+    
+    var tableControl = "#TABLEdetailsOrder_" + idOrder;
+    
+    $(tableControl).append("<tr>  <th class='top' width='15%'> Prodotto </th>" +
+                                 "<th class='top' width='15%'> Categoria </th>" +
+                                 "<th class='top' width='35%'> Descrizione  </th>" +
+                                 "<th class='top' width='15%'> Costo  </th>" +
+                                 "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
+    
+    $.each(data, function(index, val)
+    {
+        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+        		                       "<td>" + val.category + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + "</td>" +
+        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
+        
+        console.debug("Sono Entrato");
+    });
+    
+    $(trControl).show("slow");    
+    $(tdControl).fadeIn(1000);  
+}
+
+function clickOrderHandler(event) {
+    event.preventDefault();
+        
 }
 
 function clickOrderOldHandler(event) {

@@ -5,8 +5,10 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +44,18 @@ public class RespAjaxController
 		List<Order> listOrder = null;
 		listOrder = orderInterface.getActiveOrders(start, end, memberResp);
 		return listOrder;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getProductListFromOrder", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getProductListFromOrder(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	{
+		Order order = orderInterface.getOrder(idOrder);
+		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
+
+		return listProduct;
 	}
 	
 }

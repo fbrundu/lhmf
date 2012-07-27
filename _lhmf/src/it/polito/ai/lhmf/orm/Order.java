@@ -156,7 +156,7 @@ public class Order implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "order_product", catalog = "malnati_project", joinColumns = { @JoinColumn(name = "idOrder", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "idProduct", nullable = false, updatable = false) })
+	@JoinTable(name = "order_product", joinColumns = { @JoinColumn(name = "idOrder", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "idProduct", nullable = false, updatable = false) })
 	public Set<Product> getProducts() {
 		return this.products;
 	}
