@@ -109,4 +109,71 @@ public class OrderInterface
 		return query.list();
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer updateOrder(Order order)
+			throws InvalidParametersException
+	{
+		if (order == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+						"update Order "
+						+ "set dateDelivery = :dateDelivery " +
+						"where idOrder = :idOrder");
+		query.setParameter("dateDelivery", order.getDateDelivery());
+		query.setParameter("idOrder", order.getIdOrder());
+
+		return (Integer) query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getOldOrders(Member memberResp, long start, long end) {
+		
+		Timestamp startDate = new Timestamp(start);
+		Timestamp endDate = new Timestamp(end);
+		
+		Query query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where idMember_resp = :id " +
+										  "AND dateClose < :endDate " +
+										  "AND dateOpen > :startDate");
+		
+		query.setParameter("id", memberResp.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getOldOrders(Member memberResp, long start, long end,
+			boolean settedDeliveryDate) {
+		
+		Timestamp startDate = new Timestamp(start);
+		Timestamp endDate = new Timestamp(end);
+		Query query;
+		if(settedDeliveryDate) {
+			query = sessionFactory.getCurrentSession()
+					.createQuery("from Order where idMember_resp = :id " +
+											  "AND dateClose < :endDate " +
+											  "AND dateOpen > :startDate" +
+											  "AND date_delivery is not null");
+		} else {
+			
+			query = sessionFactory.getCurrentSession()
+					.createQuery("from Order where idMember_resp = :id " +
+											  "AND dateClose < :endDate " +
+											  "AND dateOpen > :startDate" +
+											  "AND date_delivery is null");
+		}
+		
+				
+		query.setParameter("id", memberResp.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return query.list();
+	}
+	
 }

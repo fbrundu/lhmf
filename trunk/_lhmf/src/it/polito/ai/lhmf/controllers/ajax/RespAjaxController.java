@@ -9,6 +9,7 @@ import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,35 @@ public class RespAjaxController
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getOldOrderResp", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Order> getOldOrderResp(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "start") long start,
+			@RequestParam(value = "end") long end,
+			@RequestParam(value = "dateDeliveryType") int dateDeliveryType) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		
+		Member memberResp = memberInterface.getMember(username);
+		
+		List<Order> listOrder = null;
+		
+		if(dateDeliveryType == 2) {
+			//Ritornare tutti gli ordini passati
+			listOrder = orderInterface.getOldOrders(memberResp, start, end);
+		} else {
+			 boolean settedDeliveryDate = false;
+			 if (dateDeliveryType == 0)
+				 settedDeliveryDate = true;
+			 
+			 listOrder = orderInterface.getOldOrders(memberResp, start, end, settedDeliveryDate);
+			 
+		}
+		
+		return listOrder;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductListFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getProductListFromOrder(HttpServletRequest request, HttpSession session,
@@ -56,5 +86,23 @@ public class RespAjaxController
 
 		return listProduct;
 	}
+
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/setDeliveryDate", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setDeliveryDate(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder,
+			@RequestParam(value = "dateDelivery") long dateDelivery) throws InvalidParametersException
+	{
+		
+		Order order = orderInterface.getOrder(idOrder);
+		Date shipDate = new Date(dateDelivery);
+		
+		order.setDateDelivery(shipDate);
+		
+		return orderInterface.updateOrder(order);
+	}
+	
 	
 }
