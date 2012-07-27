@@ -84,44 +84,30 @@
         
         $('#tabsPurchase-2').html("<div class='logform'>" +
                 "<form method='post' action=''>" +
-                "<fieldset><legend>&nbsp;Opzioni di Ricerca Schede Attive:&nbsp;</legend><br />" +
-                    "<label for='minDate' class='left'>Data iniziale: </label>" +
-                    "<input type='text' id='minDate' class='field'/>" +
-                    "<label for='maxDate' class='left'>Data finale: </label>" +
-                    "<input type='text' id='maxDate' class='field'/>" +
-                "</fieldset>" +
                 "<button type='submit' id='purchaseActiveRequest'> Visualizza </button>" +
               "</form>" +
-              "<table id='activeOrderList' class='log'></table>" +
-                "<div id='errorDivActiveOrder' style='display:none;'>" +
-                  "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-                   "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
-                    "</div>" +
-                  "</fieldset>" +
-                "</div><br />" +
-            "</div>" +
-            "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+              "<table id='activePurchaseList' class='log'></table>" +
+              "<div id='errorDivActivePurchase' style='display:none;'>" +
+                "<fieldset><legend id='legendErrorActivePurchase'>&nbsp;Errore&nbsp;</legend><br />" +
+                 "<div id='errorsActivePurchase' style='padding-left: 40px'>" +
+                  "</div>" +
+                "</fieldset>" +
+              "</div><br />" +
+          "</div>");
         
         $('#tabsPurchase-3').html("<div class='logform'>" +
                                 "<form method='post' action=''>" +
-                                  "<fieldset><legend>&nbsp;Opzioni di Ricerca Schede Scadute:&nbsp;</legend><br />" +
-                                      "<label for='minDate2' class='left'>Data iniziale: </label>" +
-                                      "<input type='text' id='minDate2' class='field'/>" +
-                                      "<label for='maxDate2' class='left'>Data finale: </label>" +
-                                      "<input type='text' id='maxDate2' class='field'/>" +
-                                      "<br /><label for='toSetShipDate' class='left'>Ordini con Data di Consegna da impostare: </label>" +
-                                      "<input type='checkbox' id='toSetShipDate' />" +
-                                  "</fieldset>" +
                                   "<button type='submit' id='purchaseOldRequest'> Visualizza </button>" +
                                 "</form>" +
+                                "</form>" +
                                 "<table id='oldPurchaseList' class='log'></table>" +
-                                  "<div id='errorDivOldPurchase' style='display:none;'>" +
-                                    "<fieldset><legend id='legendErrorOldPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                                     "<div id='errorsOldPurchase' style='padding-left: 40px'>" +
-                                      "</div>" +
-                                    "</fieldset>" +
-                                  "</div><br />" +
-                              "</div>");
+                                "<div id='errorDivOldPurchase' style='display:none;'>" +
+                                  "<fieldset><legend id='legendErrorOldPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
+                                   "<div id='errorsOldPurchase' style='padding-left: 40px'>" +
+                                    "</div>" +
+                                  "</fieldset>" +
+                                "</div><br />" +
+                            "</div>");
         
         $('#tabsPurchase-4').html("Schede in fase di Consegna");
        
@@ -157,7 +143,7 @@ function preparePurchaseForm(tab){
 function clickNewPurchaseHandler(event) {
     event.preventDefault();
     
-    //Creazione nuove schede
+    //Creazione nuove schede (in attesa di Drag & drop)
     
 }
 
@@ -188,24 +174,8 @@ function clickOrderActiveHandler(event) {
 function clickPurchaseActiveHandler(event) {
     event.preventDefault();
     
-    //Schede attive visualizzazione
-  
-    //var minDateTime = $('#minDate').datepicker("getDate").getTime();
-    //var maxDate = $('#maxDate').datepicker("getDate");
+    $.post("ajax/getActivePurchase", postActivePurchaseListHandler);
     
-    //maxDate.setHours(23);
-    //maxDate.setMinutes(59);
-    //maxDate.setSeconds(59);
-    //maxDate.setMilliseconds(999);
-    
-    //var maxDateTime = maxDate.getTime();
-    
-    //if(minDateTime == null || maxDateTime == null || minDateTime > maxDateTime){
-        //$( "#dialog" ).dialog('open');
-    //} else {
-        
-    $.post("ajax/getActivePurchase", postActiveOrderListHandler);
-    //}
 }
 
 
@@ -213,48 +183,76 @@ function clickPurchaseActiveHandler(event) {
 function clickPurchaseOldHandler(event) {
     event.preventDefault();
   
-    //Schede passate visualizzazione
+    $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
     
 }
 
-function postActiveOrderListHandler(orderList) {
+function postActivePurchaseListHandler(purchaseList) 
+{
     
-    console.log("Ricevuti Ordini Attivi");
-    
-    $("#activeOrderList").html("");
-    $("#activeOrderList").hide();
-    //$("#logs").fadeOut(500, function() {
-    
-           
-    //});
-    if(orderList.length > 0){
-        $("#activeOrderList").append("  <tr>  <th class='top' width='20%'> Fornitore </th>" +
-        									 "<th class='top' width='20%'> Nome Contatto  </th>" +
-                                             "<th class='top' width='30%'> Data Apertura  </th>" +
-                                             "<th class='top' width='30%'> Data Chiusura  </th>" +
+    $("#activePurchaseList").html("");
+    $("#activePurchaseList").hide();
+
+    if(purchaseList.length > 0){
+        $("#activePurchaseList").append("  <tr>  <th class='top' width='20%'> Ordine </th>" +
+        									 "<th class='top' width='20%'> Spedizione  </th>" +
+                                             "<th class='top' width='30%'> ID  </th>" +
                                              "<th class='top' width='50%'> Azione  </th> </tr>");
-        for(var i = 0; i < orderList.length; i++){
-            var order = orderList[i];
+        for(var i = 0; i < purchaseList.length; i++){
+            var purchase = purchaseList[i];
             
-            $("#activeOrderList").append("<tr> <td>" + order.supplier.companyName + "</td>" +
-            								  "<td>" + order.supplier.contactName + "</td>" +
-                                              "<td>" + new Date(order.dateOpen) + "</td>" +
-                                              "<td>" + new Date(order.dateClose) + "</td>" +
+            $("#activePurchaseList").append("<tr> <td>" + purchase.order.idOrder + "</td>" +
+            								  "<td>" + purchase.isShipped + "</td>" +
+                                              "<td>" + purchase.idPurchase + "</td>" +
                                               "<td>" + "Da fare" + "</td></tr>");
         }
     
-        $("#activeOrderList").fadeIn(1000);
+        $("#activePurchaseList").fadeIn(1000);
     } else {
         
-        $("#activeOrderList").show();
-        $("#errorDivActiveOrder").hide();
-        $("#legendErrorActiveOrder").html("Comunicazione");
-        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
-        $("#errorDivActiveOrder").show("slow");
-        $("#errorDivActiveOrder").fadeIn(1000);
+        $("#activePurchaseList").show();
+        $("#errorDivActivePurchase").hide();
+        $("#legendErrorActivePurchase").html("Comunicazione");
+        $("#errorsActivePurchase").html("Non ci sono Schede attive da visualizzare<br /><br />");
+        $("#errorDivActivePurchase").show("slow");
+        $("#errorDivActivePurchase").fadeIn(1000);
     
     }
 }
+
+function postOldPurchaseListHandler(purchaseList) 
+{
+    
+    $("#oldPurchaseList").html("");
+    $("#oldPurchaseList").hide();
+
+    if(purchaseList.length > 0){
+        $("#oldPurchaseList").append("  <tr>  <th class='top' width='20%'> Ordine </th>" +
+        									 "<th class='top' width='20%'> Spedizione  </th>" +
+                                             "<th class='top' width='30%'> ID  </th>" +
+                                             "<th class='top' width='50%'> Azione  </th> </tr>");
+        for(var i = 0; i < purchaseList.length; i++){
+            var purchase = purchaseList[i];
+            
+            $("#oldPurchaseList").append("<tr> <td>" + purchase.order.idOrder + "</td>" +
+            								  "<td>" + purchase.isShipped + "</td>" +
+                                              "<td>" + purchase.idPurchase + "</td>" +
+                                              "<td>" + "Da fare" + "</td></tr>");
+        }
+    
+        $("#oldPurchaseList").fadeIn(1000);
+    } else {
+        
+        $("#oldPurchaseList").show();
+        $("#errorDivOldPurchase").hide();
+        $("#legendErrorOldPurchase").html("Comunicazione");
+        $("#errorsOldPurchase").html("Non ci sono Schede scadute da visualizzare<br /><br />");
+        $("#errorDivOldPurchase").show("slow");
+        $("#errorDivOldPurchase").fadeIn(1000);
+    
+    }
+}
+
 
 function newPurchase(purchase)
 {

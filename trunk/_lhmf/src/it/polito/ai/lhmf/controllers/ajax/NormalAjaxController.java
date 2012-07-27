@@ -40,30 +40,40 @@ public class NormalAjaxController
 	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "start") long start,
 			@RequestParam(value = "end") long end) throws InvalidParametersException
-	{
-		//String username = (String) session.getAttribute("username");
-		
-		//Member memberResp = memberInterface.getMember(username);
-		
+	{		
 		List<Order> listOrder = null;
 		listOrder = orderInterface.getOrdersNow();
 		return listOrder;
 	}
 	///////////////////////////////////
-	//@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
-	//@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
-	//public @ResponseBody
-	//List<Purchase> getActivePurchase(HttpServletRequest request, HttpSession session
-			/*,@RequestParam(value = "start") long start,
-			@RequestParam(value = "end") long end) throws InvalidParametersException*/
-	//{
-		//String username = (String) session.getAttribute("username");
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Purchase> getActivePurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
 		
-		//Member memberResp = memberInterface.getMember(username);
+		Member memberNormal = memberInterface.getMember(username);
+		List<Order> orderTmp = null;
+		orderTmp = orderInterface.getOrdersNow();
+		List<Purchase> listPurchase = null;
+		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
+		return listPurchase;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getOldPurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Purchase> getOldPurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
 		
-		//List<Purchase> listPurchase = null;
-		//listPurchase = purchaseInterface.getPurchasesByMember(memberResp.getUsername()); 
-		//return listPurchase;
-	//}
+		Member memberNormal = memberInterface.getMember(username);
+		List<Order> orderTmp = null;
+		orderTmp = orderInterface.getOrdersPast();
+		List<Purchase> listPurchase = null;
+		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
+		return listPurchase;
+	}
 	
 }

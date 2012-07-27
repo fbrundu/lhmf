@@ -25,8 +25,12 @@ public class PurchaseSerializer extends JsonSerializer<Purchase>{
 	{
 		jgen.writeStartObject();
 		jgen.writeNumberField("idPurchase", value.getIdPurchase());
-		jgen.writeBooleanField("isShipped", value.isIsShipped());
-		jgen.writeObjectField("memberResp", value.getMember());
+		if(value.isIsShipped() == true)
+			jgen.writeStringField("isShipped", "Spedizione Effettuata");
+		else
+			jgen.writeStringField("isShipped", "Spedizione Non Effettuata");
+		
+		jgen.writeObjectField("member", value.getMember());
 		jgen.writeObjectField("order", value.getOrder());
 		jgen.writeEndObject();
 	}
