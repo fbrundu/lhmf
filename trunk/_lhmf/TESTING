@@ -7,6 +7,10 @@ NON FUNZIONANTE
 la tabella si sfasa e non funziona più (problema simile a quello di ieri con la lista utenti). Il problema è
 solo a livello grafico, il tasto "Attiva" funziona correttamente
  - PROBLEMA "ERROR: Unknown column 'active' in 'where clause'"
+ 
+-In caso di registrazione con facebook e google, la prima volta vengono inseriti dei campi non modificabili.
+ In seguito a errori nell'inserimento degli altri campi, i campi non modificabili diventano modificabili.
+ - IN CASO DI ERRORE BISOGNA CONTINUARE A VISUALIZZARE COME NON MODIFICABILI CERTI CAMPI  
 
 FUNZIONANTE
 
