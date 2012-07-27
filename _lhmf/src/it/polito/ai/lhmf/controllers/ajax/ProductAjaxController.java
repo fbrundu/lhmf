@@ -80,16 +80,25 @@ public class ProductAjaxController
 		return idProduct;
 	}
 
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getproduct", method = RequestMethod.GET)
 	public @ResponseBody
-	Product getProduct(HttpServletRequest request,
-			@RequestBody Integer idProduct)
+	Product getProduct(
+			HttpServletRequest request,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct)
 	{
-		Product product = null;
-		product = productInterface.getProduct(idProduct);
-		return product;
+		Supplier s = supplierInterface.getSupplier((String) request
+				.getSession().getAttribute("username"));
+		Product p = productInterface.getProduct(idProduct);
+
+		if (s != null && p != null
+				&& p.getSupplier().getIdMember() == s.getIdMember())
+			return p;
+		else
+			return null;
 	}
 
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getproducts", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Product> getProducts(HttpServletRequest request)
