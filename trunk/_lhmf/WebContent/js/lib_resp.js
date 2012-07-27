@@ -77,10 +77,8 @@
         $('#tabsOrder-2').html("<div class='logform'>" +
                                 "<form method='post' action=''>" +
                                   "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Attivi:&nbsp;</legend><br />" +
-                                      "<label for='minDate' class='left'>Data iniziale: </label>" +
+                                      "<label for='minDate' class='left'>Creato dopo il: </label>" +
                                       "<input type='text' id='minDate' class='field'/>" +
-                                      "<label for='maxDate' class='left'>Data finale: </label>" +
-                                      "<input type='text' id='maxDate' class='field'/>" +
                                   "</fieldset>" +
                                   "<button type='submit' id='orderActiveRequest'> Visualizza </button>" +
                                 "</form>" +
@@ -133,8 +131,6 @@ function prepareOrderForm(tab){
     
     $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate').datepicker("setDate", Date.now());
-    $('#maxDate').datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#maxDate').datepicker("setDate", Date.now());
     $("#minDate2").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate2').datepicker("setDate", Date.now());
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
@@ -149,20 +145,12 @@ function clickOrderActiveHandler(event) {
     event.preventDefault();
   
     var minDateTime = $('#minDate').datepicker("getDate").getTime();
-    var maxDate = $('#maxDate').datepicker("getDate");
-    
-    maxDate.setHours(23);
-    maxDate.setMinutes(59);
-    maxDate.setSeconds(59);
-    maxDate.setMilliseconds(999);
-    
-    var maxDateTime = maxDate.getTime();
-    
-    if(minDateTime == null || maxDateTime == null || minDateTime > maxDateTime){
+
+    if(minDateTime == null){
         $( "#dialog" ).dialog('open');
     } else {
         
-        $.post("ajax/getActiveOrderResp", {start: minDateTime, end: maxDateTime}, postActiveOrderListHandler);
+        $.post("ajax/getActiveOrderResp", {start: minDateTime}, postActiveOrderListHandler);
     }
     
     

@@ -34,15 +34,14 @@ public class RespAjaxController
 	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "start") long start,
-			@RequestParam(value = "end") long end) throws InvalidParametersException
+			@RequestParam(value = "start") long start) throws InvalidParametersException
 	{
 		String username = (String) session.getAttribute("username");
 		
 		Member memberResp = memberInterface.getMember(username);
 		
 		List<Order> listOrder = null;
-		listOrder = orderInterface.getActiveOrders(start, end, memberResp);
+		listOrder = orderInterface.getActiveOrders(start, memberResp);
 		return listOrder;
 	}
 	
