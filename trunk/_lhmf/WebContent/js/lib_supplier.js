@@ -367,7 +367,9 @@ function writeSupplierPage(tab)
               + "<option value='25'> 25 </option>"
               + "<option value='50'> 50 </option>"
               + "</select>"
-              + "</fieldset><p><input type='submit' class='button' value='Visualizza' id='productListRequest' /></p>"
+              + "</fieldset>"
+              // + "<p><input type='submit' class='button' value='Visualizza'
+              // id='productListRequest' /></p>"
               + "</form>"
               + "<table id='productsListTable' class='list'></table>"
               + "<div id='errorDiv2' style='display:none;'>"
@@ -376,7 +378,11 @@ function writeSupplierPage(tab)
               + "</div>"
               + "</fieldset>" + "</div><br />" + "</div>");
 
-  $('#productListRequest').on("click", clickNewProductSearchHandler);
+  $('#productCategorySearch').change(newProductSearch);
+  $('#pageSearch').change(newProductSearch);
+  $('#itemsPerPageSearch').change(newProductSearch);
+  newProductSearch();
+  // $('#productListRequest').on("click", clickNewProductSearchHandler);
 
   prepareProductsForm(tab);
 }
@@ -499,6 +505,12 @@ function updateProductHandler(event)
 
   var idProduct = $(this).attr('name');
 
+  if ($('#rowUpd' + idProduct).is(':visible'))
+  {
+    $('#rowUpd' + idProduct).hide('slow');
+    return;
+  }
+  
   $('.rowUpdClass').hide('slow');
   $('#divUpd' + idProduct)
       .html(
@@ -889,7 +901,7 @@ function setProductUnavailableHandler(event)
   var idProduct = $(this).attr('name');
   if (setProductUnavailable(idProduct) > 0)
   {
-    $('#listHead' + idProduct).html('Non listino');
+    $('#listHead' + idProduct).html('Non in listino');
     $('#listHead' + idProduct).attr('class', 'no');
     $('#listCont' + idProduct).html(
         "<form id='prodAval' name='" + idProduct + "' action=''>"
