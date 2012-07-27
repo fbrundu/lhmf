@@ -83,4 +83,31 @@ public class OrderInterface
 		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getOrdersNow() 
+	{
+		
+		//Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();  
+		java.util.Date now = calendar.getTime();
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+		//Timestamp startDate = new Timestamp(start);
+		//Timestamp endDate = new Timestamp(end);
+		
+		/*Query query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where idMember_resp = :id " +
+										  "AND dateClose > :dateNow " +
+										  "AND dateOpen between :startDate and :endDate");*/
+		
+		Query query = sessionFactory.getCurrentSession().createQuery("from Order where dateClose > :dateNow");
+		
+		//query.setParameter("id", memberResp.getIdMember());
+		query.setTimestamp("dateNow", currentTimestamp);
+		//query.setTimestamp("startDate", startDate);
+		//query.setTimestamp("endDate", endDate);
+	
+		return query.list();
+	}
+	
 }
