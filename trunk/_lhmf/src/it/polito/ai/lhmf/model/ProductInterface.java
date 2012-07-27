@@ -81,7 +81,7 @@ public class ProductInterface
 						+ "transportCost = :transportCost,"
 						+ "unitCost = :unitCost," + "minBuy = :minBuy,"
 						+ "maxBuy = :maxBuy,"
-						+ "idMember_supplier = :idMember_supplier,"
+						+ "idSupplier = :idSupplier,"
 						+ "idCategory = :idCategory "
 						+ "where idProduct = :idProduct");
 		query.setParameter("name", product.getName());
@@ -94,7 +94,7 @@ public class ProductInterface
 		query.setParameter("unitCost", product.getUnitCost());
 		query.setParameter("minBuy", product.getMinBuy());
 		query.setParameter("maxBuy", product.getMaxBuy());
-		query.setParameter("idMember_supplier", product.getSupplier()
+		query.setParameter("idSupplier", product.getSupplier()
 				.getIdMember());
 		query.setParameter("idCategory", product.getProductCategory()
 				.getIdProductCategory());

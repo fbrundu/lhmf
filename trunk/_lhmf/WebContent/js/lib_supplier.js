@@ -126,17 +126,25 @@ function newProduct(productParameters)
   });
 }
 
-function updateProduct(product)
+function updateProduct(productParameters)
 {
-  if (product == undefined)
+  if (productParameters == undefined)
   {
     console.debug("Invalid parameters in " + displayFunctionName());
     return;
   }
-  $.postJSONsync("ajax/updateproduct", product, function(rowsAffected)
+  var returnRowsAffected = 0;
+  $.postSync("ajax/updateproduct", productParameters, function(rowsAffected)
   {
-    console.debug("Updated: " + rowsAffected);
+    if (rowsAffected > 0)
+    {
+      returnRowsAffected = rowsAffected;
+      $("#productFieldsetUpd").children("input").val("");
+    }
+    else
+      alert("Errore nella creazione di un nuovo prodotto");
   });
+  return returnRowsAffected;
 }
 
 function getAllProducts()
@@ -272,7 +280,7 @@ function writeSupplierPage(tab)
   $('#tabs-1')
       .html(
           "<div class='creazioneProdottoForm' style='margin: 2em 0 0 65px;'>"
-              + "<form id='newProdForm' action='newProduct' method='post'>"
+              + "<form id='newProdForm' action='' method='post'>"
               + "<fieldset id='productFieldset'><legend>&nbsp;Dati per la creazione prodotto&nbsp;</legend>"
               + "<br /><label for='productName' class='left'>Nome: </label>"
               + "<input type='text' name='productName' id='productName' class='field'"
@@ -325,6 +333,12 @@ function writeSupplierPage(tab)
 
   $('#productCategory').html(categoriesString);
 
+  // disabilitare fieldset category
+  $('#categoryFieldset').hide();
+  $('#categoryFieldset').children().attr("disabled", "disabled");
+
+  $('#newProductSubmit').on("click", clickNewProductHandler);
+
   var myProducts = getMyProductsNoLocal();
   var initialNumberOfPages = myProducts.length / 10;
   if (myProducts.length % 10 > 0)
@@ -362,6 +376,8 @@ function writeSupplierPage(tab)
               + "</div>"
               + "</fieldset>" + "</div><br />" + "</div>");
 
+  $('#productListRequest').on("click", clickNewProductSearchHandler);
+
   prepareProductsForm(tab);
 }
 
@@ -388,20 +404,10 @@ function prepareProductsForm(tab)
   $('#tabs').tabs({
     selected : tab
   });
-
-  // disabilitare fieldset resp
-  $('#categoryFieldset').hide();
-  $('#categoryFieldset').children().attr("disabled", "disabled");
-
-  $('#newProductSubmit').on("click", clickNewProductHandler);
-
-  $('#productListRequest').on("click", clickNewProductSearchHandler);
 }
 
-function clickNewProductSearchHandler(event)
+function newProductSearch()
 {
-  event.preventDefault();
-
   var productCategory = $("#productCategorySearch").val();
   var page = $("#pageSearch").val();
   var itemsPerPage = $("#itemsPerPageSearch").val();
@@ -454,9 +460,12 @@ function clickNewProductSearchHandler(event)
         productsString += "<input type='submit' class='button' value='Cancella' />";
         productsString += "</form></td>";
       }
-      productsString += "</tr>";
+      productsString += "</tr><tr class='rowUpdClass' id='rowUpd"
+          + myProducts[prodIndex].idProduct + "'><td id='divUpd"
+          + myProducts[prodIndex].idProduct + "' name='"
+          + myProducts[prodIndex].idProduct + "' colspan='6'></td></tr>";
     }
-    $('#productsListTable').html(productsString);
+    $('#productsListTable').html(productsString).show('slow');
     $('form').filter(function()
     {
       return this.id.match(/prodAval/);
@@ -473,7 +482,14 @@ function clickNewProductSearchHandler(event)
     {
       return this.id.match(/prodUpd/);
     }).bind('submit', updateProductHandler);
+    $('.rowUpdClass').hide();
   }
+}
+
+function clickNewProductSearchHandler(event)
+{
+  event.preventDefault();
+  newProductSearch();
 }
 
 function updateProductHandler(event)
@@ -483,41 +499,307 @@ function updateProductHandler(event)
 
   var idProduct = $(this).attr('name');
 
-//  $("#dialog-confirm").dialog({
-//    resizable : false,
-//    height : 140,
-//    modal : true,
-//    buttons : {
-//      "Elimina" : function()
-//      {
-//        $(this).dialog("close");
-//        if (deleteProduct(idProduct) > 0)
-//        {
-//          $("#listRow" + idProduct).hide('slow');
-//        }
-//        else
-//        {
-//          $("#dialog-error-remove").dialog({
-//            resizable : false,
-//            height : 140,
-//            modal : true,
-//            buttons : {
-//              "Ok" : function()
-//              {
-//                $(this).dialog('close');
-//              }
-//            }
-//          });
-//        }
-//
-//      },
-//      "Annulla" : function()
-//      {
-//        $(this).dialog("close");
-//      }
-//    }
-//  });
+  $('.rowUpdClass').hide('slow');
+  $('#divUpd' + idProduct)
+      .html(
+          "<div class='modificaProdottoForm' style='margin: 2em 0 0 65px;'>"
+              + "<form id='updateProdForm"
+              + idProduct
+              + "' action='' method='post'>"
+              + "<fieldset id='productFieldsetUpd"
+              + idProduct
+              + "'>"
+              + "<legend>&nbsp;Dati per la modifica prodotto&nbsp;</legend>"
+              + "<br /><label for='productNameUpd"
+              + idProduct
+              + "' class='left'>Nome: </label>"
+              + "<input type='text' name='productNameUpd"
+              + idProduct
+              + "'"
+              + " id='productNameUpd"
+              + idProduct
+              + "' class='field'"
+              + "required='required' /><br><label"
+              + " for='productDescriptionUpd"
+              + idProduct
+              + "' class='left'>"
+              + "Descrizione: </label><input type='text' "
+              + "name='productDescriptionUpd"
+              + idProduct
+              + "' id='productDescriptionUpd"
+              + idProduct
+              + "'"
+              + "class='field' required='required' />"
+              + "<br><label for='productDimensionUpd"
+              + idProduct
+              + "' "
+              + "class='left'>Dimensione: </label>"
+              + "<input type='text' name='productDimensionUpd"
+              + idProduct
+              + "' "
+              + "id='productDimensionUpd"
+              + idProduct
+              + "'"
+              + "class='field' required='required' />"
+              + "<br><label for='measure_unitUpd"
+              + idProduct
+              + "' "
+              + "class='left'>Unità di misura: </label>"
+              + "<input type='text' name='measure_unitUpd"
+              + idProduct
+              + "' "
+              + "id='measure_unitUpd"
+              + idProduct
+              + "'"
+              + "class='field' required='required' />"
+              + "<br><label for='unit_blockUpd"
+              + idProduct
+              + "' "
+              + "class='left'>Unità per blocco: </label>"
+              + "<input type='text' name='unit_blockUpd"
+              + idProduct
+              + "' "
+              + "id='unit_blockUpd"
+              + idProduct
+              + "'"
+              + "class='field' required='required' />"
+              + "<br><label for='transport_costUpd"
+              + idProduct
+              + "' "
+              + "class='left'>Costo trasporto: </label>"
+              + "<input type='text' name='transport_costUpd"
+              + idProduct
+              + "'"
+              + " id='transport_costUpd"
+              + idProduct
+              + "'"
+              + "class='field' required='required' />"
+              + "<br><label for='unit_costUpd"
+              + idProduct
+              + "' "
+              + "class='left'>Costo unità: </label>"
+              + "<input type='text' name='unit_costUpd"
+              + idProduct
+              + "' id='unit_costUpd"
+              + idProduct
+              + "'"
+              + "class='field' required='required' />"
+              + "<br><label for='min_buyUpd"
+              + idProduct
+              + "' class='left'>Minimo unità acquistabili: </label>"
+              + "<input type='text' name='min_buyUpd"
+              + idProduct
+              + "' id='min_buyUpd"
+              + idProduct
+              + "' class='field' />"
+              + "<br><label for='max_buyUpd"
+              + idProduct
+              + "' class='left'>Massimo unità acquistabili: </label>"
+              + "<input type='text' name='max_buyUpd"
+              + idProduct
+              + "' id='max_buyUpd"
+              + idProduct
+              + "'"
+              + "class='field' />"
+              + "<br><br><label for='productCategoryUpd"
+              + idProduct
+              + "' class='left'>Categoria: </label>"
+              + "<select name='productCategoryUpd"
+              + idProduct
+              + "' id='productCategoryUpd"
+              + idProduct
+              + "' class='field' onchange='checkCategorySelectUpd("
+              + idProduct
+              + ")'>"
+              + "</select></fieldset>"
+              + "<fieldset id='categoryFieldsetUpd"
+              + idProduct
+              + "' ><legend>&nbsp;Inserisci nuova categoria&nbsp;</legend><br />"
+              + "<br><label for='categoryDescriptionUpd"
+              + idProduct
+              + "' class='left'>Descrizione: </label>"
+              + "<input type='text' name='categoryDescriptionUpd"
+              + idProduct
+              + "' id='categoryDescriptionUpd"
+              + idProduct
+              + "' class='field' />"
+              + "</fieldset>"
+              + "<div id='errorDivUpd"
+              + idProduct
+              + "' style='display: none;'>"
+              + "<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />"
+              + "<div id='errors' style='padding-left: 40px'>"
+              + "</div></fieldset></div><p>"
+              + "<input type='submit' class='button' value='Aggiorna prodotto' id='updateProductSubmit' name='"
+              + idProduct + "' />" + "</p></form></div>");
+  var categoriesList = getCategoriesNoLocal();
+  var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
+  for ( var catIndex in categoriesList)
+  {
+    categoriesString += "<option value='"
+        + categoriesList[catIndex].idProductCategory + "'>"
+        + categoriesList[catIndex].description + "</option>";
+  }
+  var categoriesForListino = categoriesString;
+  categoriesString += "<option value='nuova'>Nuova categoria...</option>";
+
+  $('#productCategoryUpd' + idProduct).html(categoriesString);
+  // disabilitare fieldset category
+  $('#categoryFieldsetUpd' + idProduct).hide();
+  $('#categoryFieldsetUpd' + idProduct).children().attr("disabled", "disabled");
+
+  $('#updateProductSubmit').on("click", clickUpdateProductHandler);
+
+  $('#rowUpd' + idProduct).show('slow');
+
   return false; // don't post it automatically
+}
+
+function checkCategorySelectUpd(idProduct)
+{
+  var selected = $('#productCategoryUpd' + idProduct).val();
+  $("#errorDivUpd" + idProduct).hide('slow');
+
+  if (selected == 'nuova')
+  {
+    $('#categoryFieldsetUpd' + idProduct).show('slow');
+    $('#categoryFieldsetUpd' + idProduct).children().attr("disabled", false);
+  }
+  else
+  {
+    // Nuova categoria non selezionata
+    $('#categoryFieldsetUpd' + idProduct).hide('slow');
+    $('#categoryFieldsetUpd' + idProduct).children().attr("disabled", true);
+  }
+}
+
+function clickUpdateProductHandler(event)
+{
+  event.preventDefault();
+
+  var errors = new Array();
+
+  var idProduct = $(this).attr('name');
+  var productName = $('#productNameUpd' + idProduct).val();
+  var productDescription = $('#productDescriptionUpd' + idProduct).val();
+  var productDimension = $('#productDimensionUpd' + idProduct).val();
+  var measureUnit = $('#measure_unitUpd' + idProduct).val();
+  var unitBlock = $('#unit_blockUpd' + idProduct).val();
+  var transportCost = $('#transport_costUpd' + idProduct).val();
+  var unitCost = $('#unit_costUpd' + idProduct).val();
+  var minBuy = $('#min_buyUpd' + idProduct).val();
+  var maxBuy = $('#max_buyUpd' + idProduct).val();
+  var productCategory = $('#productCategoryUpd' + idProduct).val();
+  var categoryDescription = $('#categoryDescriptionUpd' + idProduct).val();
+
+  if (productName == "" || isNumber(productName))
+  {
+    errors.push("Nome prodotto: Formato non valido");
+  }
+  if (productDescription == "")
+  {
+    errors.push("Descrizione prodotto: Formato non valido");
+  }
+  if (productDimension == "" || !isPositiveNumber(productDimension))
+  {
+    errors.push("Dimensione: Formato non valido");
+  }
+  if (measureUnit == "" || isNumber(measureUnit))
+  {
+    errors.push("Unit&agrave; di misura: Formato non valido");
+  }
+  if (unitBlock == "" || !isPositiveNumber(unitBlock))
+  {
+    errors.push("Unit&agrave; per blocco: Formato non valido");
+  }
+  if (transportCost == "" || !isPositiveNumber(transportCost))
+  {
+    errors.push("Costo di trasporto: Formato non valido");
+  }
+  if (unitCost == "" || !isPositiveNumber(unitCost))
+  {
+    errors.push("Costo per unit&agrave;: Formato non valido");
+  }
+  if (minBuy == "" || !isPositiveNumber(minBuy))
+  {
+    errors.push("Minimo unit&agrave; acquistabili: Formato non valido");
+  }
+  if (maxBuy == "" || !isPositiveNumber(maxBuy))
+  {
+    errors.push("Massimo unit&agrave; acquistabili: Formato non valido");
+  }
+  if (minBuy > maxBuy)
+  {
+    errors.push("Massimo/minimo unit&agrave; acquistabili:"
+        + "Il minimo di unit&agrave; acquistabili deve essere minore"
+        + " o uguale al massimo unit&agrave; acquistabili");
+  }
+  if (!isPositiveNumber(productCategory))
+  {
+    if (categoryDescription == "" || isNumber(categoryDescription))
+      errors.push("Categoria di prodotto: Formato non valido");
+  }
+
+  if (errors.length > 0)
+  {
+    $("#errorsUpd" + idProduct).html("");
+    $("#errorDivUpd" + idProduct).hide();
+
+    for ( var i = 0; i < errors.length; i++)
+    {
+      var error = errors[i].split(":");
+      $("#errorsUpd" + idProduct).append(
+          "<strong>" + error[0] + "</strong>: " + error[1] + "<br />");
+    }
+
+    $("#errorDivUpd" + idProduct).show("slow");
+    // $("#errorDivUpd" + idProduct).fadeIn(1000);
+  }
+  else
+  {
+    // Creazione nuova categoria
+    if (!isPositiveNumber(productCategory))
+    {
+      var idProductCategory = newCategory(categoryDescription);
+      if (idProductCategory > 0)
+      {
+        productCategory = idProductCategory;
+        $("#categoryDescriptionUpd" + idProduct).val("");
+      }
+      else
+      {
+        $("#dialog-error-insert").dialog({
+          resizable : false,
+          height : 140,
+          modal : true,
+          buttons : {
+            "Ok" : function()
+            {
+              $(this).dialog('close');
+            }
+          }
+        });
+        return;
+      }
+    }
+
+    // Creazione nuovo prodotto
+    updateProduct({
+      productId : idProduct,
+      productName : productName,
+      productDescription : productDescription,
+      productDimension : productDimension,
+      measureUnit : measureUnit,
+      unitBlock : unitBlock,
+      transportCost : transportCost,
+      unitCost : unitCost,
+      minBuy : minBuy,
+      maxBuy : maxBuy,
+      productCategory : productCategory,
+    });
+
+    $('#rowUpd' + idProduct).hide('slow', newProductSearch());
+  }
 }
 
 function deleteProductHandler(event)

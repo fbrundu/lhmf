@@ -72,7 +72,7 @@ public class ProductAjaxController
 			p.setUnitCost(unitCost);
 			p.setMinBuy(minBuy);
 			p.setMaxBuy(maxBuy);
-			p.setAvailability(false);
+			p.setAvailability(true);
 			p.setSupplier(s);
 			p.setProductCategory(pc);
 			idProduct = productInterface.newProduct(p);
@@ -155,15 +155,49 @@ public class ProductAjaxController
 		return rowsAffected;
 	}
 
-	// TODO il prodotto può essere aggiornato solo dal suo supplier
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/updateproduct", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer updateProduct(HttpServletRequest request,
-			@RequestBody Product product) throws InvalidParametersException
+	Integer updateProduct(
+			HttpServletRequest request,
+			@RequestParam(value = "productId", required = true) Integer productId,
+			@RequestParam(value = "productName", required = true) String productName,
+			@RequestParam(value = "productDescription", required = true) String productDescription,
+			@RequestParam(value = "productDimension", required = true) int productDimension,
+			@RequestParam(value = "measureUnit", required = true) String measureUnit,
+			@RequestParam(value = "unitBlock", required = true) int unitBlock,
+			@RequestParam(value = "transportCost", required = true) float transportCost,
+			@RequestParam(value = "unitCost", required = true) float unitCost,
+			@RequestParam(value = "minBuy", required = true) int minBuy,
+			@RequestParam(value = "maxBuy", required = true) int maxBuy,
+			@RequestParam(value = "productCategory", required = true) int idProductCategory)
+			throws InvalidParametersException
 	{
 		Integer rowsAffected = -1;
-		rowsAffected = productInterface.updateProduct(product);
+		Supplier s = supplierInterface.getSupplier((String) request
+				.getSession().getAttribute("username"));
+		ProductCategory pc = productCategoryInterface
+				.getProductCategory(idProductCategory);
+		Product p = productInterface.getProduct(productId);
+		if (p != null && s != null && pc != null && !productName.equals("")
+				&& !productDescription.equals("") && productDimension > 0
+				&& !measureUnit.equals("") && unitBlock > 0
+				&& transportCost > 0 && unitCost > 0 && minBuy > 0
+				&& maxBuy >= minBuy)
+		{
+			p.setName(productName);
+			p.setDescription(productDescription);
+			p.setDimension(productDimension);
+			p.setMeasureUnit(measureUnit);
+			p.setUnitBlock(unitBlock);
+			p.setTransportCost(transportCost);
+			p.setUnitCost(unitCost);
+			p.setMinBuy(minBuy);
+			p.setMaxBuy(maxBuy);
+			p.setSupplier(s);
+			p.setProductCategory(pc);
+			rowsAffected = productInterface.updateProduct(p);
+		}
 		return rowsAffected;
 	}
 
