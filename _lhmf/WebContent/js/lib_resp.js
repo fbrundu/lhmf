@@ -95,11 +95,11 @@
         $('#tabsOrder-3').html("<div class='logform'>" +
                                 "<form method='post' action=''>" +
                                   "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Scaduti:&nbsp;</legend><br />" +
-                                      "<label for='minDate2' class='left'>Data iniziale: </label>" +
-                                      "<input type='text' id='minDate2' class='field'/>" +
-                                      "<label for='maxDate2' class='left'>Data finale: </label>" +
-                                      "<input type='text' id='maxDate2' class='field'/>" +
-                                      "<br /><label for='toSetShipDate' class='left'>Ordini con Data di Consegna da impostare: </label>" +
+                                      "<label for='minDate2' class='left'>Creato dopo il: </label>" +
+                                      "<input type='text' id='minDate2' class='field' style='width: 120px'/>" +
+                                      "<label for='maxDate2' class='left'>Chiuso prima del: </label>" +
+                                      "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
+                          "<br /><br /><label for='toSetShipDate' class='left'>Ordini con Data di Consegna da impostare: </label>" +
                                       "<input type='checkbox' id='toSetShipDate' />" +
                                   "</fieldset>" +
                                   "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
@@ -129,11 +129,11 @@ function prepareOrderForm(tab){
     $('#tabsOrder').tabs();
     $( "#dialog" ).dialog({ autoOpen: false });
     
-    $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
+    $("#minDate").datepicker();
     $('#minDate').datepicker("setDate", Date.now());
-    $("#minDate2").datepicker({ defaultDate: 0, maxDate: 0 });
+    $("#minDate2").datepicker();
     $('#minDate2').datepicker("setDate", Date.now());
-    $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
+    $('#maxDate2').datepicker();
     $('#maxDate2').datepicker("setDate", Date.now());
     
     $('#orderRequest').on("click", clickOrderHandler);
@@ -239,7 +239,7 @@ function postShowDetailsHandler(data) {
     $.each(data, function(index, val)
     {
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
-        		                       "<td>" + val.category + "</td>" +
+        		                       "<td>" + val.category.description + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + "</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
