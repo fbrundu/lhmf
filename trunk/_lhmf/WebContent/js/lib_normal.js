@@ -64,8 +64,15 @@
                                 "<form method='post' action='prder'>" +
                                   "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +                  
                                   "<button type='submit' id='orderActiveRequest'> Visualizza Ordini Disponibili </button>" +
-                                  
-                                    "<button type='submit' id='newPurchaseSubmit'> Crea Scheda </button>" +
+                                  "<table id='activeOrderList' class='log'></table>" +
+                                  "<div id='errorDivActiveOrder' style='display:none;'>" +
+                                    "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                                     "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
+                                      "</div>" +
+                                    "</fieldset>" +
+                                  "</div><br />" +
+                              "</div>" +
+                                   "<button type='submit' id='newPurchaseSubmit'> Crea Scheda </button>" +
                                   "</fieldset>" +
                                   "<div id='errorDivPurchase' style='display:none;'>" +
                                       "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -76,23 +83,24 @@
                               "</div>");
         
         $('#tabsPurchase-2').html("<div class='logform'>" +
-                                "<form method='post' action=''>" +
-                                  "<fieldset><legend>&nbsp;Opzioni di Ricerca Schede Attive:&nbsp;</legend><br />" +
-                                      "<label for='minDate' class='left'>Data iniziale: </label>" +
-                                      "<input type='text' id='minDate' class='field'/>" +
-                                      "<label for='maxDate' class='left'>Data finale: </label>" +
-                                      "<input type='text' id='maxDate' class='field'/>" +
-                                  "</fieldset>" +
-                                  "<button type='submit' id='purchaseActiveRequest'> Visualizza </button>" +
-                                "</form>" +
-                                "<table id='activePurchaseList' class='log'></table>" +
-                                  "<div id='errorDivActivePurchase' style='display:none;'>" +
-                                    "<fieldset><legend id='legendErrorActivePurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                                     "<div id='errorsActivePurchase' style='padding-left: 40px'>" +
-                                      "</div>" +
-                                    "</fieldset>" +
-                                  "</div><br />" +
-                              "</div>");
+                "<form method='post' action=''>" +
+                "<fieldset><legend>&nbsp;Opzioni di Ricerca Schede Attive:&nbsp;</legend><br />" +
+                    "<label for='minDate' class='left'>Data iniziale: </label>" +
+                    "<input type='text' id='minDate' class='field'/>" +
+                    "<label for='maxDate' class='left'>Data finale: </label>" +
+                    "<input type='text' id='maxDate' class='field'/>" +
+                "</fieldset>" +
+                "<button type='submit' id='purchaseActiveRequest'> Visualizza </button>" +
+              "</form>" +
+              "<table id='activeOrderList' class='log'></table>" +
+                "<div id='errorDivActiveOrder' style='display:none;'>" +
+                  "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                   "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
+                    "</div>" +
+                  "</fieldset>" +
+                "</div><br />" +
+            "</div>" +
+            "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
         
         $('#tabsPurchase-3').html("<div class='logform'>" +
                                 "<form method='post' action=''>" +
@@ -149,30 +157,16 @@ function preparePurchaseForm(tab){
 function clickNewPurchaseHandler(event) {
     event.preventDefault();
     
-    
-    //Creazione schede
-    
-    
-    
-    
+    //Creazione nuove schede
     
 }
 
 function clickOrderActiveHandler(event) {
     event.preventDefault();
     
-    
-    //Creazione schede
-    
-    
-    
-    
-    
-}
-
-function clickPurchaseActiveHandler(event) {
+    ///Visualizzazione ordini attivi per le schede
     event.preventDefault();
-  
+    
     var minDateTime = $('#minDate').datepicker("getDate").getTime();
     var maxDate = $('#maxDate').datepicker("getDate");
     
@@ -188,7 +182,39 @@ function clickPurchaseActiveHandler(event) {
     } else {
         
         $.post("ajax/getActiveOrderNormal", {start: minDateTime, end: maxDateTime}, postActiveOrderListHandler);
-    }
+    }     
+}
+
+function clickPurchaseActiveHandler(event) {
+    event.preventDefault();
+    
+    //Schede attive visualizzazione
+  
+    //var minDateTime = $('#minDate').datepicker("getDate").getTime();
+    //var maxDate = $('#maxDate').datepicker("getDate");
+    
+    //maxDate.setHours(23);
+    //maxDate.setMinutes(59);
+    //maxDate.setSeconds(59);
+    //maxDate.setMilliseconds(999);
+    
+    //var maxDateTime = maxDate.getTime();
+    
+    //if(minDateTime == null || maxDateTime == null || minDateTime > maxDateTime){
+        //$( "#dialog" ).dialog('open');
+    //} else {
+        
+    $.post("ajax/getActivePurchase", postActiveOrderListHandler);
+    //}
+}
+
+
+
+function clickPurchaseOldHandler(event) {
+    event.preventDefault();
+  
+    //Schede passate visualizzazione
+    
 }
 
 function postActiveOrderListHandler(orderList) {
@@ -202,16 +228,16 @@ function postActiveOrderListHandler(orderList) {
            
     //});
     if(orderList.length > 0){
-        $("#activeOrderList").append("  <tr>  <th class='top' width='10%'> ID </th>" +
-                                             "<th class='top' width='20%'> Fornitore </th>" +
-                                             "<th class='top' width='20%'> Data Inizio  </th>" +
-                                             "<th class='top' width='50%'> Data Chiusura  </th>" +
+        $("#activeOrderList").append("  <tr>  <th class='top' width='20%'> Fornitore </th>" +
+        									 "<th class='top' width='20%'> Nome Contatto  </th>" +
+                                             "<th class='top' width='30%'> Data Apertura  </th>" +
+                                             "<th class='top' width='30%'> Data Chiusura  </th>" +
                                              "<th class='top' width='50%'> Azione  </th> </tr>");
         for(var i = 0; i < orderList.length; i++){
             var order = orderList[i];
             
-            $("#activeOrderList").append("<tr> <td>" + order.idOrder +"</td>" +
-                                              "<td>" + order.supplier.companyName + "</td>" +
+            $("#activeOrderList").append("<tr> <td>" + order.supplier.companyName + "</td>" +
+            								  "<td>" + order.supplier.contactName + "</td>" +
                                               "<td>" + new Date(order.dateOpen) + "</td>" +
                                               "<td>" + new Date(order.dateClose) + "</td>" +
                                               "<td>" + "Da fare" + "</td></tr>");
@@ -228,13 +254,6 @@ function postActiveOrderListHandler(orderList) {
         $("#errorDivActiveOrder").fadeIn(1000);
     
     }
-}
-
-function clickPurchaseOldHandler(event) {
-    event.preventDefault();
-  
-    //Schede passate
-    
 }
 
 function newPurchase(purchase)
