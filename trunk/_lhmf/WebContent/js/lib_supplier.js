@@ -426,11 +426,15 @@ function clickNewProductSearchHandler(event)
             + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
             + "' action=''>";
         productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
+        productsString += "</form></td><td id='listUpd"
+            + myProducts[prodIndex].idProduct + "'><form id='prodUpd' name='"
+            + myProducts[prodIndex].idProduct + "' action=''>";
+        productsString += "<input type='submit' class='button' value='Modifica' />";
         productsString += "</form></td><td id='listDel"
             + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Cancella' />";
-        productsString += "</form>";
+        productsString += "</form></td>";
       }
       else
       {
@@ -440,11 +444,15 @@ function clickNewProductSearchHandler(event)
             + "'><form id='prodNotAval' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
+        productsString += "</form></td><td id='listUpd"
+            + myProducts[prodIndex].idProduct + "'><form id='prodUpd' name='"
+            + myProducts[prodIndex].idProduct + "' action=''>";
+        productsString += "<input type='submit' class='button' value='Modifica' />";
         productsString += "</form></td><td id='listDel"
             + myProducts[prodIndex].idProduct + "'><form id='prodDel' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Cancella' />";
-        productsString += "</form>";
+        productsString += "</form></td>";
       }
       productsString += "</tr>";
     }
@@ -461,7 +469,55 @@ function clickNewProductSearchHandler(event)
     {
       return this.id.match(/prodDel/);
     }).bind('submit', deleteProductHandler);
+    $('form').filter(function()
+    {
+      return this.id.match(/prodUpd/);
+    }).bind('submit', updateProductHandler);
   }
+}
+
+function updateProductHandler(event)
+{
+  event.preventDefault();
+  $("#dialog:ui-dialog").dialog("destroy");
+
+  var idProduct = $(this).attr('name');
+
+//  $("#dialog-confirm").dialog({
+//    resizable : false,
+//    height : 140,
+//    modal : true,
+//    buttons : {
+//      "Elimina" : function()
+//      {
+//        $(this).dialog("close");
+//        if (deleteProduct(idProduct) > 0)
+//        {
+//          $("#listRow" + idProduct).hide('slow');
+//        }
+//        else
+//        {
+//          $("#dialog-error-remove").dialog({
+//            resizable : false,
+//            height : 140,
+//            modal : true,
+//            buttons : {
+//              "Ok" : function()
+//              {
+//                $(this).dialog('close');
+//              }
+//            }
+//          });
+//        }
+//
+//      },
+//      "Annulla" : function()
+//      {
+//        $(this).dialog("close");
+//      }
+//    }
+//  });
+  return false; // don't post it automatically
 }
 
 function deleteProductHandler(event)
