@@ -114,16 +114,14 @@ function newProduct(productParameters)
     console.debug("Invalid parameters in " + displayFunctionName());
     return;
   }
+  var returnedIdProduct = -1;
   $.postSync("ajax/newproduct", productParameters, function(idProduct)
   {
+    returnedIdProduct = idProduct;
     if (idProduct > 0)
-    {
       console.debug("Inserted product: " + idProduct);
-      $("#productFieldset").children("input").val("");
-    }
-    else
-      alert("Errore nella creazione di un nuovo prodotto");
   });
+  return returnedIdProduct;
 }
 
 function updateProduct(productParameters)
@@ -400,7 +398,7 @@ function writeSupplierPage(tab)
   $('#itemsPerPageSearch').change(newProductSearch);
   newProductSearch(tab);
   // $('#productListRequest').on("click", clickNewProductSearchHandler);
-  //prepareProductsForm(tab);
+  // prepareProductsForm(tab);
 }
 
 function checkCategorySelect()
@@ -442,7 +440,7 @@ function newProductSearch(tab)
         && prodIndex < (page * itemsPerPage); prodIndex++)
     {
       if (productCategory != "notSelected"
-          && productCategory != myProducts[prodIndex].idProductCategory)
+          && productCategory != myProducts[prodIndex].category.idProductCategory)
         continue;
       productsString += "<tr id='listRow" + myProducts[prodIndex].idProduct
           + "'>" + "<td>" + myProducts[prodIndex].name + "</td>" + "<td>"
@@ -704,13 +702,12 @@ function updateProductHandler(event)
   for ( var catIndex in categoriesList)
   {
     categoriesString += "<option";
-    if (prod.idProductCategory == categoriesList[catIndex].idProductCategory)
-      categoriesString += " selected='selected";
-    categoriesString += "' value='"
+    if (prod.category.idProductCategory == categoriesList[catIndex].idProductCategory)
+      categoriesString += " selected='selected'";
+    categoriesString += " value='"
         + categoriesList[catIndex].idProductCategory + "'>"
         + categoriesList[catIndex].description + "</option>";
   }
-  var categoriesForListino = categoriesString;
   categoriesString += "<option value='nuova'>Nuova categoria...</option>";
 
   $('#productCategoryUpd' + idProduct).html(categoriesString);
@@ -721,9 +718,9 @@ function updateProductHandler(event)
   $('#updateProductSubmit').on("click", clickUpdateProductHandler);
 
   $('#rowUpd' + idProduct).show('slow');
-  
+
   prepareProductsForm(1);
-  
+
   return false; // don't post it automatically
 }
 
@@ -1145,7 +1142,7 @@ function clickNewProductHandler(event)
     }
 
     // Creazione nuovo prodotto
-    newProduct({
+    var idProduct = newProduct({
       productName : productName,
       productDescription : productDescription,
       productDimension : productDimension,
@@ -1157,6 +1154,35 @@ function clickNewProductHandler(event)
       maxBuy : maxBuy,
       productCategory : productCategory,
     });
+    if (idProduct > 0)
+    {
+      $("#productFieldset").children("input").val("");
+      $("#dialog-ok").dialog({
+        resizable : false,
+        height : 140,
+        modal : true,
+        buttons : {
+          "Ok" : function()
+          {
+            $(this).dialog('close');
+          }
+        }
+      });
+    }
+    else
+    {
+      $("#dialog-error-insert").dialog({
+        resizable : false,
+        height : 140,
+        modal : true,
+        buttons : {
+          "Ok" : function()
+          {
+            $(this).dialog('close');
+          }
+        }
+      });
+    }
 
     writeSupplierPage(0);
   }
