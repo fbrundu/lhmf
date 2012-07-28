@@ -6,8 +6,8 @@ import org.springframework.social.oauth2.OAuth2Template;
 public class GasServiceProvider extends AbstractOAuth2ServiceProvider<Gas>{
 	public GasServiceProvider(String clientId){
 		super(new OAuth2Template(clientId, "",
-				"http://10.0.2.2:8080/_lhmf/oauth/authorize",
-				"http://10.0.2.2:8080/_lhmf/oauth/token"));
+				"http://gasproject.net:8080/_lhmf/oauth/authorize",
+				"http://gasproject.net:8080/_lhmf/oauth/token"));
 	}
 
 	@Override

@@ -1,0 +1,13 @@
+$ adb shell
+$ su
+$ mount -o rw,remount /dev/block/stl9 /system
+$ cd /etc
+$ echo 127.0.0.1               localhost > hosts
+$ echo 192.168.0.2             gasproject.net >> hosts
+$ mount -o ro,remount /dev/block/stl9 /system
+
+
+RISULTATO:
+/etc/hosts
+127.0.0.1               localhost
+192.168.0.2             gasproject.net
