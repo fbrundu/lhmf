@@ -117,7 +117,24 @@
                                   "</div><br />" +
                               "</div>");
         
-        $('#tabsOrder-4').html("Ordini in fase di Consegna");
+        $('#tabsOrder-4').html("<div class='logform'>" +
+				                  "<form method='post' action=''>" +
+					                "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini In Consegna:&nbsp;</legend><br />" +
+					                    "<label for='minDate3' class='left'>Consegna dopo il: </label>" +
+					                    "<input type='text' id='minDate3' class='field' style='width: 100px'/>" +
+					                    "<label for='maxDate3' class='left'>Consegna prima del: </label>" +
+					                    "<input type='text' id='maxDate3' class='field' style='width: 100px'/>" +
+					                "</fieldset>" +
+					                "<button type='submit' id='orderShipRequest'> Visualizza </button>" +
+					              "</form>" +
+					              "<table id='shipOrderList' class='log'></table>" +
+					                "<div id='errorDivShipOrder' style='display:none;'>" +
+					                  "<fieldset><legend id='legendErrorShipOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+					                   "<div id='errorsShipOrder' style='padding-left: 40px'>" +
+					                    "</div>" +
+					                  "</fieldset>" +
+					                "</div><br />" +
+					            "</div>");
        
         prepareOrderForm();
     }
@@ -127,6 +144,8 @@
     }
     
 })(window);
+
+var idOrder = 0;
 
 function prepareOrderForm(tab){
     
@@ -140,12 +159,115 @@ function prepareOrderForm(tab){
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
     
+    $("#minDate3").datepicker();
+    $('#minDate3').datepicker("setDate", Date.now());
+    $('#maxDate3').datepicker({ defaultDate: 0, maxDate: 0 });
+    $('#maxDate3').datepicker("setDate", Date.now());
+    
     $('#orderRequest').on("click", clickOrderHandler);
     $('#orderActiveRequest').on("click", clickOrderActiveHandler);
     $('#orderOldRequest').on("click", clickOrderOldHandler);
+    $('#orderShipRequest').on("click", clickOrderShipHandler);
     
     $("button").button();
 }
+
+function clickOrderShipHandler(event) {
+	event.preventDefault();
+	
+	var minDateTime = $('#minDate3').datepicker("getDate").getTime();
+    var maxDate = $('#maxDate3').datepicker("getDate");
+    
+    maxDate.setHours(23);
+    maxDate.setMinutes(59);
+    maxDate.setSeconds(59);
+    maxDate.setMilliseconds(999);
+    
+    var maxDateTime = maxDate.getTime();
+    
+    if(minDateTime == null || maxDateTime == null || minDateTime >  maxDateTime){
+        $( "#dialog" ).dialog('open');
+    } else {
+        
+        $.post("ajax/getDeliveredOrderResp", {start: minDateTime, end: maxDateTime}, postShipOrderListHandler);
+    } 
+}
+
+function postShipOrderListHandler(orderList) {
+	
+	console.log("Ricevuti Ordini In Consegna");
+    
+    $("#shipOrderList").html("");
+    $("#shipOrderList").hide();
+    //$("#logs").fadeOut(500, function() {
+    
+           
+    //});
+    if(orderList.length > 0){
+        $("#shipOrderList").append(" <tr>  <th class='top' width='10%'> ID </th>" +
+                                          "<th class='top' width='40%'> Fornitore </th>" +
+                                          "<th class='top' width='25%'> Data Consegna  </th>" +
+                                          "<th class='top' width='25%'> Azione  </th> </tr>");
+        
+        for(var i = 0; i < orderList.length; i++){
+            var order = orderList[i];
+            
+            var dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery));
+            
+            $("#shipOrderList").append("<tr id='idOrderShip_" + order.idOrder + "'></tr>");
+            
+            $("#idOrderShip_" + order.idOrder).append(
+            										  "<td>" + order.idOrder +"</td>" +
+                                              		  "<td>" + order.supplier.companyName + "</td>" +
+                                              		  "<td>" + dateDelivery + "</td>" +
+                                              		  "<td> <form>" +
+            										  		 "<input type='hidden' value='" + order.idOrder + "'/>" +
+            										  	     "<button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "'> Mostra Schede </button>" +
+            										  	   "</form> </td>" );
+            
+            $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='4' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
+            $(".detailsOrder").hide();
+            
+            $("button").button();
+        }
+        
+        $.each(orderList, function(index, val)
+        {
+            $("#showDetailsShip_" + val.idOrder).on("click", clickShowDetailShipsHandler);
+        });
+    
+        $("#shipOrderList").show("slow");
+        $("#shipOrderList").fadeIn(1000);
+        $("#errorDivShipOrder").hide();
+    } else {
+        
+        $("#shipOrderList").show();
+        $("#errorDivShipOrder").hide();
+        $("#legendErrorShipOrder").html("Comunicazione");
+        $("#errorsShipOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorDivShipOrder").show("slow");
+        $("#errorDivShipOrder").fadeIn(1000);
+    
+    }
+	
+}
+
+function clickShowDetailShipsHandler(event) {
+	event.preventDefault();
+	
+	$(".detailsOrder").hide();
+    var form = $(this).parents('form');
+    idOrder = $('input', form).val();
+    
+    $.post("ajax/getPurchaseFromOrder", {idOrder: idOrder}, postShowPurchaseHandler);
+	
+}
+
+function postShowPurchaseHandler(data) {
+	
+	//TODO visualizzazione schede d'acquisto per ogni ordine.
+}
+
 
 function clickOrderActiveHandler(event) {
     event.preventDefault();
@@ -214,8 +336,6 @@ function postActiveOrderListHandler(orderList) {
     }
     
 }
-
-var idOrder = 0;
 
 function clickShowDetailsHandler(event) {
     event.preventDefault();
@@ -322,7 +442,7 @@ console.log("Ricevuti Ordini Vecchi");
                 dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery)); 
             }
             
-            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'><form id='FORMidOrder_" + order.idOrder + "'></form></tr>");
+            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'></tr>");
             
             $("#idOrder_" + order.idOrder).append(
             										  "<td>" + order.idOrder +"</td>" +
@@ -340,8 +460,11 @@ console.log("Ricevuti Ordini Vecchi");
             		
             $("#dateDelivery_"+ order.idOrder).datepicker();
             
-            if(dateDelivery != "null")
-                $("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
+            if(dateDelivery != "null") {
+            	$("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
+            	$("#dateDelivery_" + order.idOrder).css('background','#C7FFA8');
+            }
+                
 
             $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
             
@@ -369,7 +492,6 @@ console.log("Ricevuti Ordini Vecchi");
     }
     
 }
-
 
 function clickSetDateDeliveryHandler(event) {
     event.preventDefault();

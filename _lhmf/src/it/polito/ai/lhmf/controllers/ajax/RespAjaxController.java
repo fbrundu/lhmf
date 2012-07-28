@@ -6,6 +6,7 @@ import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.util.ArrayList;
@@ -76,6 +77,22 @@ public class RespAjaxController
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getDeliveredOrderResp", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Order> getDeliveredOrderResp(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "start") long start,
+			@RequestParam(value = "end") long end) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		Member memberResp = memberInterface.getMember(username);
+		
+		List<Order> listOrder = null;
+		listOrder = orderInterface.getOrdersToDelivery(memberResp, start, end);
+		
+		return listOrder;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductListFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getProductListFromOrder(HttpServletRequest request, HttpSession session,
@@ -102,6 +119,18 @@ public class RespAjaxController
 		order.setDateDelivery(shipDate);
 		
 		return orderInterface.updateOrder(order);
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getPurchaseFromOrder", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Purchase> getPurchaseFromOrder(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	{
+		Order order = orderInterface.getOrder(idOrder);
+		List<Purchase> listPurchase = new ArrayList<Purchase>(order.getPurchases());
+
+		return listPurchase;
 	}
 	
 	
