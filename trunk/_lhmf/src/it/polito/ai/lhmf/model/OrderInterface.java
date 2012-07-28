@@ -157,15 +157,15 @@ public class OrderInterface
 			query = sessionFactory.getCurrentSession()
 					.createQuery("from Order where idMember_resp = :id " +
 											  "AND dateClose < :endDate " +
-											  "AND dateOpen > :startDate" +
-											  "AND date_delivery is not null");
+											  "AND dateOpen > :startDate " +
+											  "AND dateDelivery is not null");
 		} else {
 			
 			query = sessionFactory.getCurrentSession()
 					.createQuery("from Order where idMember_resp = :id " +
 											  "AND dateClose < :endDate " +
-											  "AND dateOpen > :startDate" +
-											  "AND date_delivery is null");
+											  "AND dateOpen > :startDate " +
+											  "AND dateDelivery is null");
 		}
 		
 				
