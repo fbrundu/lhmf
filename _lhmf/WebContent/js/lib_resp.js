@@ -100,7 +100,7 @@
                                       "<label for='maxDate2' class='left'>Chiuso prima del: </label>" +
                                       "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
                           "<br /><br /><label for='toSetShipDate' class='left'>Data di Consegna: </label>" +
-                                      "<select name='toSetShipDate' id='toSetShipDate' class='field'>" +
+                                      "<select name='toSetShipDate' id='toSetShipDate' class='field' style='width: 200px'>" +
                                           "<option value='0'>Impostata</option>" +
                                           "<option value='1'>Da Impostare  </option>" +
                                           "<option value='2'>Entrambe </option>" +
@@ -137,12 +137,14 @@ function prepareOrderForm(tab){
     $('#minDate').datepicker("setDate", Date.now());
     $("#minDate2").datepicker();
     $('#minDate2').datepicker("setDate", Date.now());
-    $('#maxDate2').datepicker();
+    $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
     
     $('#orderRequest').on("click", clickOrderHandler);
     $('#orderActiveRequest').on("click", clickOrderActiveHandler);
     $('#orderOldRequest').on("click", clickOrderOldHandler);
+    
+    $("button").button();
 }
 
 function clickOrderActiveHandler(event) {
@@ -301,8 +303,8 @@ console.log("Ricevuti Ordini Vecchi");
            
     //});
     if(orderList.length > 0){
-        $("#oldOrderList").append("  <tr>  <th class='top' width='10%'> ID </th>" +
-                                          "<th class='top' width='20%'> Fornitore </th>" +
+        $("#oldOrderList").append("  <tr>  <th class='top' width='5%'> ID </th>" +
+                                          "<th class='top' width='25%'> Fornitore </th>" +
                                           "<th class='top' width='15%'> Data Inizio  </th>" +
                                           "<th class='top' width='15%'> Data Chiusura  </th>" +
                                           "<th class='top' width='15%'> Data Consegna  </th>" +
@@ -320,31 +322,33 @@ console.log("Ricevuti Ordini Vecchi");
                 dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery)); 
             }
             
-            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder +"</td>" +
-                                              "<td>" + order.supplier.companyName + "</td>" +
-                                              "<td>" + dateOpen + "</td>" +
-                                              "<td>" + dateClose + "</td>");
+            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'><form id='FORMidOrder_" + order.idOrder + "'></form></tr>");
             
-            $("#oldOrderList").append("<td> <form> <input type='hidden' value='" + order.idOrder + "'/>" +
-                                                    "<input type='text' id='dateDelivery_" + order.idOrder + "' class='field' style='width: 80px'/></td>");
-            $("dateDelivery_"+ order.idOrder).datepicker();
+            $("#idOrder_" + order.idOrder).append(
+            										  "<td>" + order.idOrder +"</td>" +
+                                              		  "<td>" + order.supplier.companyName + "</td>" +
+                                              		  "<td>" + dateOpen + "</td>" +
+                                              		  "<td>" + dateClose + "</td>" +
+                                              		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px'/> </td>" +   	
+            										  "<td> <form>" +
+            										  		 "<input type='hidden' value='" + order.idOrder + "'/>" +
+            										  		 "<button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "'> Set Consegna </button>" +
+            										  	     "<button style='margin: 0px' type='submit' id='showDetails_" + order.idOrder + "'> Mostra Dettagli </button>" +
+            										  	   "</form> </td>" );
+            
+            $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
+            		
+            $("#dateDelivery_"+ order.idOrder).datepicker();
             
             if(dateDelivery == "null")
-                $("dateDelivery_"+ order.idOrder).datepicker("setDate", Date.now());
-            else {
-                $("dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
-            }
+                $("#dateDelivery_"+ order.idOrder).datepicker("setDate", Date.now());
+            else 
+                $("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
 
-            $("#oldOrderList").append(    "<td> <button type='submit' id='setDateDelivery_" + order.idOrder + "'> Mostra Dettagli </button>" +
-                                                  "<button type='submit' id='showDetails_" + order.idOrder + "'> Mostra Dettagli </button>" +
-                                                   "</form></td></tr>" +
-                                         "<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
-
-            if(dateDelivery == "null") {
-                $("setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
-            }
+            $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
             
             $(".detailsOrder").hide();
+            $("button").button();
         }
         
         $.each(orderList, function(index, val)
@@ -360,7 +364,7 @@ console.log("Ricevuti Ordini Vecchi");
         $("#oldOrderList").show();
         $("#errorDivOldOrder").hide();
         $("#legendErrorOldOrder").html("Comunicazione");
-        $("#errorDivOldOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorsOldOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
         $("#errorDivOldOrder").show("slow");
         $("#errorDivOldOrder").fadeIn(1000);
     
