@@ -175,5 +175,23 @@ public class OrderInterface
 	
 		return query.list();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getOrdersToDelivery(Member memberResp, long start, long end) {
+		
+		Timestamp startDate = new Timestamp(start);
+		Timestamp endDate = new Timestamp(end);
+		
+		Query query = sessionFactory.getCurrentSession()
+					.createQuery("from Order where idMember_resp = :id " +
+											  "AND dateDelivery between :startDate and :endDate");
+		
+		query.setParameter("id", memberResp.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+
+		return query.list();
+	}
 	
 }
