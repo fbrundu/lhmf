@@ -57,32 +57,14 @@
                 <openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true"/>
                 <openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true"/>
                 <openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
-                <openid-attribute name="address" type="http://axschema.org/contact/postaladdress/home" required="true"/>
-                <openid-attribute name="city" type="http://axschema.org/contact/city/home" required="true"/>
-                <openid-attribute name="state" type="http://axschema.org/contact/state/home" required="true"/>
-                <openid-attribute name="country" type="http://axschema.org/contact/country/home" required="true"/>
-                <openid-attribute name="cap" type="http://axschema.org/contact/postalcode/home" required="true"/>
-                <openid-attribute name="phone" type="http://axschema.org/contact/phone/default" required="true"/>
                 
                 <openid-attribute name="firstname" type="http://schema.openid.net/namePerson/first" required="true"/>
                 <openid-attribute name="lastname" type="http://schema.openid.net/namePerson/last" required="true"/>
                 <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
-                <openid-attribute name="address" type="http://schema.openid.net/contact/postaladdress/home" required="true"/>
-                <openid-attribute name="city" type="http://schema.openid.net/contact/city/home" required="true"/>
-                <openid-attribute name="state" type="http://schema.openid.net/contact/state/home" required="true"/>
-                <openid-attribute name="country" type="http://schema.openid.net/contact/country/home" required="true"/>
-                <openid-attribute name="cap" type="http://schema.openid.net/contact/postalcode/home" required="true"/>
-                <openid-attribute name="phone" type="http://schema.openid.net/contact/phone/default" required="true"/>
                 
                 <openid-attribute name="firstname" type="http://openid.net/schema/namePerson/first" required="true"/>
                 <openid-attribute name="lastname" type="http://openid.net/schema/namePerson/last" required="true"/>
                 <openid-attribute name="email" type="http://openid.net/schema/contact/email" required="true"/>
-                <openid-attribute name="address" type="http://openid.net/schema/contact/postaladdress/home" required="true"/>
-                <openid-attribute name="city" type="http://openid.net/schema/contact/city/home" required="true"/>
-                <openid-attribute name="state" type="http://openid.net/schema/contact/state/home" required="true"/>
-                <openid-attribute name="country" type="http://openid.net/schema/contact/country/home" required="true"/>
-                <openid-attribute name="cap" type="http://openid.net/schema/contact/postalcode/home" required="true"/>
-                <openid-attribute name="phone" type="http://openid.net/schema/contact/phone/default" required="true"/>
             </attribute-exchange>
         </openid-login>
         <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
@@ -112,32 +94,14 @@
                 <openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true"/>
                 <openid-attribute name="lastname" type="http://axschema.org/namePerson/last" required="true"/>
                 <openid-attribute name="email" type="http://axschema.org/contact/email" required="true"/>
-                <openid-attribute name="address" type="http://axschema.org/contact/postaladdress/home" required="true"/>
-                <openid-attribute name="city" type="http://axschema.org/contact/city/home" required="true"/>
-                <openid-attribute name="state" type="http://axschema.org/contact/state/home" required="true"/>
-                <openid-attribute name="country" type="http://axschema.org/contact/country/home" required="true"/>
-                <openid-attribute name="cap" type="http://axschema.org/contact/postalcode/home" required="true"/>
-                <openid-attribute name="phone" type="http://axschema.org/contact/phone/default" required="true"/>
                 
                 <openid-attribute name="firstname" type="http://schema.openid.net/namePerson/first" required="true"/>
                 <openid-attribute name="lastname" type="http://schema.openid.net/namePerson/last" required="true"/>
                 <openid-attribute name="email" type="http://schema.openid.net/contact/email" required="true"/>
-                <openid-attribute name="address" type="http://schema.openid.net/contact/postaladdress/home" required="true"/>
-                <openid-attribute name="city" type="http://schema.openid.net/contact/city/home" required="true"/>
-                <openid-attribute name="state" type="http://schema.openid.net/contact/state/home" required="true"/>
-                <openid-attribute name="country" type="http://schema.openid.net/contact/country/home" required="true"/>
-                <openid-attribute name="cap" type="http://schema.openid.net/contact/postalcode/home" required="true"/>
-                <openid-attribute name="phone" type="http://schema.openid.net/contact/phone/default" required="true"/>
                 
                 <openid-attribute name="firstname" type="http://openid.net/schema/namePerson/first" required="true"/>
                 <openid-attribute name="lastname" type="http://openid.net/schema/namePerson/last" required="true"/>
                 <openid-attribute name="email" type="http://openid.net/schema/contact/email" required="true"/>
-                <openid-attribute name="address" type="http://openid.net/schema/contact/postaladdress/home" required="true"/>
-                <openid-attribute name="city" type="http://openid.net/schema/contact/city/home" required="true"/>
-                <openid-attribute name="state" type="http://openid.net/schema/contact/state/home" required="true"/>
-                <openid-attribute name="country" type="http://openid.net/schema/contact/country/home" required="true"/>
-                <openid-attribute name="cap" type="http://openid.net/schema/contact/postalcode/home" required="true"/>
-                <openid-attribute name="phone" type="http://openid.net/schema/contact/phone/default" required="true"/>
             </attribute-exchange>
         </openid-login>
         <logout logout-url="/logout" logout-success-url="/" delete-cookies="JSESSIONID" invalidate-session="true"/>

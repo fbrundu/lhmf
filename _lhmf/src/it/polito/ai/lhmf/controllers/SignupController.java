@@ -56,6 +56,11 @@ public class SignupController
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.GET)
 	public ModelAndView openIdSignupGet(Model model, HttpSession session)
 	{
+		session.removeAttribute("checkMail");
+		session.removeAttribute("openid_firstname_static");
+		session.removeAttribute("openid_lastname_static");
+		session.removeAttribute("openid_email_static");
+		
 		OpenIDAuthenticationToken token = (OpenIDAuthenticationToken) session
 				.getAttribute("OPENID_TOKEN");
 		session.setAttribute("OPENID_USERID", token.getIdentityUrl());
@@ -64,11 +69,6 @@ public class SignupController
 		String firstname = null;
 		String lastname = null;
 		String email = null;
-		/*String address = null;
-		String city = null;
-		String state = null;
-		String cap = null;
-		String phone = null;*/
 
 		for (OpenIDAttribute attribute : attributes)
 		{
@@ -78,48 +78,25 @@ public class SignupController
 				if (attribute.getName().equals("firstname")	&& firstname == null)
 				{
 					firstname = value;
-					model.addAttribute("firstname", firstname);
+					session.setAttribute("openid_firstname_static", firstname);
+					model.addAttribute("firstname_static", firstname);
 				}
 				else if (attribute.getName().equals("lastname")	&& lastname == null)
 				{
 					lastname = value;
-					model.addAttribute("lastname", lastname);
+					session.setAttribute("openid_lastname_static", lastname);
+					model.addAttribute("lastname_static", lastname);
 				}
 				else if (attribute.getName().equals("email") && email == null)
 				{
 					email = value;
 					session.setAttribute("checkMail", false);
-					model.addAttribute("email", email);
+					session.setAttribute("openid_email_static", email);
+					model.addAttribute("email_static", email);
 				}
-				/*else if (attribute.getName().equals("address") && address == null)
-				{
-					address = value;
-					model.addAttribute("address", address);
-				}
-				else if (attribute.getName().equals("city") && city == null)
-				{
-					city = value;
-					model.addAttribute("city", city);
-				}
-				else if (attribute.getName().equals("state") && state == null)
-				{
-					state = value;
-					model.addAttribute("state", state);
-				}
-				else if (attribute.getName().equals("cap") && cap == null)
-				{
-					cap = value;
-					model.addAttribute("cap", cap);
-				}
-				else if (attribute.getName().equals("phone") && phone == null)
-				{
-					phone = value;
-					model.addAttribute("phone", phone);
-				}*/
 			}
 		}
 		model.addAttribute("actionUrl", "/openid_signup");
-		model.addAttribute("fromOpenID", true);
 		return new ModelAndView("signup");
 	}
 
@@ -136,10 +113,31 @@ public class SignupController
 	{
 		
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		String firstname_static = (String) session.getAttribute("openid_firstname_static");
+		String lastname_static = (String) session.getAttribute("openid_lastname_static");
+		String email_static = (String) session.getAttribute("openid_email_static");
 		
-		model.addAttribute("firstname", firstname);
-		model.addAttribute("lastname", lastname);
-		model.addAttribute("email", email);
+		if(firstname_static != null){
+			firstname = firstname_static;
+			model.addAttribute("firstname_static", firstname_static);
+		}
+		else
+			model.addAttribute("firstname", firstname);
+		
+		if(lastname_static != null){
+			lastname = lastname_static;
+			model.addAttribute("lastname_static", lastname_static);
+		}
+		else
+			model.addAttribute("lastname", lastname);
+		
+		if(email_static != null){
+			email = email_static;
+			model.addAttribute("email_static", email_static);
+		}
+		else
+			model.addAttribute("email", email);
+		
 		model.addAttribute("address", address);
 		model.addAttribute("city", city);
 		model.addAttribute("state", state);
@@ -223,7 +221,6 @@ public class SignupController
 		
 			// Ci sono errori, rimandare alla pagina mostrandoli
 			model.addAttribute("errors", errors);
-			model.addAttribute("fromOpenID", false);
 			model.addAttribute("actionUrl", "/openid_signup");
 			return new ModelAndView("signup");
 			
@@ -280,41 +277,39 @@ public class SignupController
 			
 			if(checkMail) {
 				
-				//Inviare qui la mail con il codice di registrazione. 
+				//TODO Inviare qui la mail con il codice di registrazione. 
 				/*
 				SendEmail emailer = new SendEmail();
 				boolean isSupplier = false;
 				emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
 				*/
-			} 
-			
-			//Mandare messaggio all'admin
-			
-			//Ricavo il membro Admin
-			Member memberAdmin = memberInterface.getMemberAdmin();
-			
-			//Creo il Current timestamp
-			java.util.Date now = calendar.getTime();
-			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-			
-			String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-							"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-							"Email: " + member.getEmail() + "\n";  
-			
-			//Costruisco l'oggetto message	
-			Message message = new Message(memberAdmin, currentTimestamp, false, 0);
-			
-			message.setMemberByIdSender(member);
-			message.setText(text);
-			
-			try {
-				messageInterface.newMessage(message);
-			} catch (InvalidParametersException e) {
-				e.printStackTrace();
 			}
-			
-			
-	
+			else{
+				//Mandare messaggio all'admin
+				
+				//Ricavo il membro Admin
+				Member memberAdmin = memberInterface.getMemberAdmin();
+				
+				//Creo il Current timestamp
+				java.util.Date now = calendar.getTime();
+				java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+				
+				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+								"Email: " + member.getEmail() + "\n";  
+				
+				//Costruisco l'oggetto message	
+				Message message = new Message(memberAdmin, currentTimestamp, false, 0);
+				
+				message.setMemberByIdSender(member);
+				message.setText(text);
+				
+				try {
+					messageInterface.newMessage(message);
+				} catch (InvalidParametersException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		// Registrazione avvenuta con successo. Redirigere				
@@ -323,6 +318,11 @@ public class SignupController
 	
 	@RequestMapping(value = "/facebook_signup", method = RequestMethod.GET)
 	public ModelAndView facebookSignupGet(Model model, HttpSession session){
+		session.removeAttribute("checkMail");
+		session.removeAttribute("fb_firstname_static");
+		session.removeAttribute("fb_lastname_static");
+		session.removeAttribute("fb_email_static");
+		
 		ObjectNode values = (ObjectNode) session.getAttribute("FACEBOOK_VALUES");
 		JsonNode idNode = values.get("id");
 		JsonNode nameNode = values.get("first_name");
@@ -331,18 +331,22 @@ public class SignupController
 		
 		session.setAttribute("FACEBOOK_USERID", FacebookAuthenticationFilter.FACEBOOK_USERID_PREFIX + idNode.getTextValue());
 		
-		if(nameNode != null)
-			model.addAttribute("firstname", nameNode.getTextValue());
+		if(nameNode != null){
+			session.setAttribute("fb_firstname_static", nameNode.getTextValue());
+			model.addAttribute("firstname_static", nameNode.getTextValue());
+		}
 		
-		if(surnameNode != null)
-			model.addAttribute("lastname", surnameNode.getTextValue());
+		if(surnameNode != null){
+			session.setAttribute("fb_lastname_static", surnameNode.getTextValue());
+			model.addAttribute("lastname_static", surnameNode.getTextValue());
+		}
 		
 		if(emailNode != null) {
 			session.setAttribute("checkMail", false);
-			model.addAttribute("email", emailNode.getTextValue());
+			session.setAttribute("fb_email_static", emailNode.getTextValue());
+			model.addAttribute("email_static", emailNode.getTextValue());
 		}
 		
-		model.addAttribute("fromOpenID", true);
 		model.addAttribute("actionUrl", "/facebook_signup");
 		return new ModelAndView("signup");
 	}
@@ -360,10 +364,31 @@ public class SignupController
 	{
 		
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
+		String firstname_static = (String) session.getAttribute("fb_firstname_static");
+		String lastname_static = (String) session.getAttribute("fb_lastname_static");
+		String email_static = (String) session.getAttribute("fb_email_static");
 		
-		model.addAttribute("firstname", firstname);
-		model.addAttribute("lastname", lastname);
-		model.addAttribute("email", email);
+		if(firstname_static != null){
+			firstname = firstname_static;
+			model.addAttribute("firstname_static", firstname_static);
+		}
+		else
+			model.addAttribute("firstname", firstname);
+		
+		if(lastname_static != null){
+			lastname = lastname_static;
+			model.addAttribute("lastname_static", lastname_static);
+		}
+		else
+			model.addAttribute("lastname", lastname);
+		
+		if(email_static != null){
+			email = email_static;
+			model.addAttribute("email_static", email_static);
+		}
+		else
+			model.addAttribute("email", email);
+		
 		model.addAttribute("address", address);
 		model.addAttribute("city", city);
 		model.addAttribute("state", state);
@@ -446,7 +471,6 @@ public class SignupController
 		
 			// Ci sono errori, rimandare alla pagina mostrandoli
 			model.addAttribute("errors", errors);
-			model.addAttribute("fromOpenID", false);
 			model.addAttribute("actionUrl", "/facebook_signup");
 			return new ModelAndView("signup");
 			
@@ -505,40 +529,38 @@ public class SignupController
 			
 			if(checkMail) {
 				
-				//Inviare qui la mail con il codice di registrazione. 
+				//TODO Inviare qui la mail con il codice di registrazione. 
 				/*
 				SendEmail emailer = new SendEmail();
 				boolean isSupplier = false;
 				emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
 				*/
+			} else{
+				//Mandare messaggio all'admin
+				
+				//Ricavo il membro Admin
+				Member memberAdmin = memberInterface.getMemberAdmin();
+				
+				//Creo il Current timestamp
+				java.util.Date now = calendar.getTime();
+				java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+				
+				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+								"Email: " + member.getEmail() + "\n";  
+				
+				//Costruisco l'oggetto message	
+				Message message = new Message(memberAdmin, currentTimestamp, false, 0);
+				
+				message.setMemberByIdSender(member);
+				message.setText(text);
+				
+				try {
+					messageInterface.newMessage(message);
+				} catch (InvalidParametersException e) {
+					e.printStackTrace();
+				}
 			}
-			
-			//Mandare messaggio all'admin
-			
-			//Ricavo il membro Admin
-			Member memberAdmin = memberInterface.getMemberAdmin();
-			
-			//Creo il Current timestamp
-			java.util.Date now = calendar.getTime();
-			java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-			
-			String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-							"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-							"Email: " + member.getEmail() + "\n";  
-			
-			//Costruisco l'oggetto message	
-			Message message = new Message(memberAdmin, currentTimestamp, false, 0);
-			
-			message.setMemberByIdSender(member);
-			message.setText(text);
-			
-			try {
-				messageInterface.newMessage(message);
-			} catch (InvalidParametersException e) {
-				e.printStackTrace();
-			}
-			
-	
 		}
 		
 		// Registrazione avvenuta con successo. Redirigere 
@@ -692,7 +714,6 @@ public class SignupController
 		
 			// Ci sono errori, rimandare alla pagina mostrandoli
 			model.addAttribute("errors", errors);
-			model.addAttribute("fromOpenID", false);
 			model.addAttribute("actionUrl", "/normal_signup");
 			model.addAttribute("getUserCredentials", true);
 			return new ModelAndView("signup");
@@ -742,7 +763,7 @@ public class SignupController
 				e.printStackTrace();
 			}
 			
-			//Inviare qui la mail con il codice di registrazione. 
+			//TODO Inviare qui la mail con il codice di registrazione. 
 			/*
 			SendEmail emailer = new SendEmail();
 			boolean isSupplier = false;
