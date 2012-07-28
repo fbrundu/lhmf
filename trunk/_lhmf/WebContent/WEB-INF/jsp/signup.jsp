@@ -15,17 +15,17 @@
     	<fieldset><legend>&nbsp;Dati per la Registrazione&nbsp;</legend><br />
         	<label for="firstname" class="left">Nome: </label>
         	<c:choose>
-        		<c:when test="${fromOpenID == true && firstname != null}"><input type="text" name="firstname" id="firstname" class="field_readonly" readonly="readonly" value="${firstname}"/></c:when>
+        		<c:when test="${firstname_static != null}"><input type="text" name="firstname" id="firstname" class="field_readonly" readonly="readonly" value="${firstname_static}"/></c:when>
         		<c:otherwise><input type="text" name="firstname" id="firstname" class="field" required="required" value="${firstname}" onfocus="scrivi_help('firstname');"/></c:otherwise>
         	</c:choose>
         	<br><label for="lastname" class="left">Cognome: </label>
         	<c:choose>
-        		<c:when test="${fromOpenID == true && lastname != null}"><input type="text" name="lastname" id="lastname" class="field_readonly" readonly="readonly" value="${lastname}"/></c:when>
+        		<c:when test="${lastname_static != null}"><input type="text" name="lastname" id="lastname" class="field_readonly" readonly="readonly" value="${lastname_static}"/></c:when>
         		<c:otherwise><input type="text" name="lastname" id="lastname" class="field" required="required" value="${lastname}" onfocus="scrivi_help('lastname');"/></c:otherwise>
         	</c:choose>
         	<br><label for="email" class="left">Email: </label>
         	<c:choose>
-        		<c:when test="${fromOpenID == true && email != null}"><input type="text" name="email" id="email" class="field_readonly" readonly="readonly" value="${email}"/></c:when>
+        		<c:when test="${email_static != null}"><input type="text" name="email" id="email" class="field_readonly" readonly="readonly" value="${email_static}"/></c:when>
         		<c:otherwise><input type="text" name="email" id="email" class="field" required="required" value="${email}" onfocus="scrivi_help('email');"/></c:otherwise>
         	</c:choose>
         	<br><label for="address" class="left">Indirizzo: </label>
@@ -39,7 +39,7 @@
 	        <br><label for="phone" class="left">Telefono: </label>
 	          <input type="text" name="phone" id="phone" class="field" value="${phone}" onfocus="scrivi_help('phone');"/>
         </fieldset>
-        <c:if test="${fromOpenID == false}">
+        <c:if test="${errors != null}">
 	          <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
 	          <div style="padding-left: 40px">
 	          	<p><span class="actionError">
