@@ -329,20 +329,18 @@ console.log("Ricevuti Ordini Vecchi");
                                               		  "<td>" + order.supplier.companyName + "</td>" +
                                               		  "<td>" + dateOpen + "</td>" +
                                               		  "<td>" + dateClose + "</td>" +
-                                              		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px'/> </td>" +   	
+                                              		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
             										  "<td> <form>" +
             										  		 "<input type='hidden' value='" + order.idOrder + "'/>" +
             										  		 "<button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "'> Set Consegna </button>" +
             										  	     "<button style='margin: 0px' type='submit' id='showDetails_" + order.idOrder + "'> Mostra Dettagli </button>" +
             										  	   "</form> </td>" );
             
-            $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
+            $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
             		
             $("#dateDelivery_"+ order.idOrder).datepicker();
             
-            if(dateDelivery == "null")
-                $("#dateDelivery_"+ order.idOrder).datepicker("setDate", Date.now());
-            else 
+            if(dateDelivery != "null")
                 $("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
 
             $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
@@ -381,23 +379,30 @@ function clickSetDateDeliveryHandler(event) {
     
     var dateDelivery = $('#dateDelivery_' + idOrder).datepicker("getDate").getTime();
 
-    $.post("ajax/setDeliveryDate", {idOrder: idOrder, dateDelivery: dateDelivery}, postShowDetailsHandler);
+    $.post("ajax/setDeliveryDate", {idOrder: idOrder, dateDelivery: dateDelivery}, postSetDeliveryDateHandler);
 
 }
 
-function postShowDetailsHandler(result) {
+function postSetDeliveryDateHandler(result) {
     
     if(result == 0) {
         //Errore nell'attivazione
+    	$("#dateDelivery_" + idOrder).css('background','#FFBFA8');
     } else {
         //Modificare html
+    	$("#dateDelivery_" + idOrder).css('background','#C7FFA8');
     }
 }
 
 function getSelectedTabIndex() { 
-    return $tabs.tabs('option', 'selected');
+    return  $('#tabsOrder').tabs('option', 'selected');
 }
 
+function dataDeliveryChange(idOrder) {
+	
+	$("#dateDelivery_" + idOrder).css('background','#FFFFFF');
+	
+}
 
 
 
