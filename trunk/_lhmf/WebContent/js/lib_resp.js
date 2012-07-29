@@ -329,7 +329,7 @@ function postActiveOrderListHandler(orderList) {
         $("#activeOrderList").show();
         $("#errorDivActiveOrder").hide();
         $("#legendErrorActiveOrder").html("Comunicazione");
-        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi da visualizzare<br /><br />");
         $("#errorDivActiveOrder").show("slow");
         $("#errorDivActiveOrder").fadeIn(1000);
     
@@ -485,7 +485,7 @@ console.log("Ricevuti Ordini Vecchi");
         $("#oldOrderList").show();
         $("#errorDivOldOrder").hide();
         $("#legendErrorOldOrder").html("Comunicazione");
-        $("#errorsOldOrder").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorsOldOrder").html("Non ci sono Ordini Scaduti da visualizzare<br /><br />");
         $("#errorDivOldOrder").show("slow");
         $("#errorDivOldOrder").fadeIn(1000);
     
