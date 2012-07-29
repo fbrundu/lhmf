@@ -84,7 +84,6 @@ public class NormalAjaxController
 	{
 		Order order = orderInterface.getOrder(idOrder);
 		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
-
 		return listProduct;
 	}
 	

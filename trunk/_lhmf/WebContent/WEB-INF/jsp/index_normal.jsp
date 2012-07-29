@@ -19,7 +19,7 @@
       <div class="round-border-topright"></div>
 		<h1 class="first">Menu Utente</h1>
 		<dl class="menu-navigazione">
-		  <dt><a id="purchaseLink">Schede Di Acquisto</a></dt>
+		  <dt><a id="purchaseLink" href="">Schede Di Acquisto</a></dt>
 		  <dt><a href="">Notifiche (NN)</a></dt>
 	      <dt><a href="">Messaggi (NN)</a></dt>				
 		</dl> 
