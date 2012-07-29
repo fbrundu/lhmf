@@ -325,16 +325,14 @@ function postShowDetailsHandler(data) {
     
     var tableControl = "#TABLEdetailsOrder_" + idOrder;
     
-    $(tableControl).append("<tr>  <th class='top' width='15%'> Prodotto </th>" +
-                                 "<th class='top' width='15%'> Categoria </th>" +
+    $(tableControl).append("<tr>  <th class='top' width='25%'> Prodotto </th>" +
                                  "<th class='top' width='35%'> Descrizione  </th>" +
-                                 "<th class='top' width='15%'> Costo  </th>" +
+                                 "<th class='top' width='20%'> Costo  </th>" +
                                  "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
     
     $.each(data, function(index, val)
     {
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
-        		                       "<td>" + val.category + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + "</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
@@ -400,74 +398,4 @@ function getMyPurchase()
 function loadMyPurchasesFromLocalStorage()
 {
   return JSON.parse(window.localStorage.getItem('myPurchasesList'));
-}
-
-function getActiveOrdersAsRows(ordersList, respsList, suppliersList, idOrderIn)
-{
-	var returnedTableString = "";
-	if (ordersList == undefined || idOrderIn == undefined)
-	{
-		console.debug("Invalid parameters in " + displayFunctionName());
-		return returnedTableString;
-	}
-	for ( var orderIndex in ordersList)
-	{
-		if (ordersList[orderIndex].idOrder == idOrderIn)
-		{
-			returnedTableString += "<tr>";
-			returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
-			returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
-			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
-			returnedTableString += getRespAsTableRow(respsList, ordersList[orderIndex].idMemberResp);
-			returnedTableString += "</tr>";
-		}
-	}
-	return returnedTableString;
-}
-
-function getPastOrdersAsRows(ordersList, respsList, suppliersList, idOrderIn)
-{
-	var returnedTableString = "";
-	if (ordersList == undefined || idOrderIn == undefined)
-	{
-		console.debug("Invalid parameters in " + displayFunctionName());
-		return returnedTableString;
-	}
-	for ( var orderIndex in ordersList)
-	{
-		if (ordersList[orderIndex].idOrder == idOrderIn)
-		{
-			returnedTableString += "<tr>";
-			returnedTableString += "<td>" + ordersList[orderIndex].dateOpen + "</td>";
-			returnedTableString += "<td>" + ordersList[orderIndex].dateClose + "</td>";
-			returnedTableString += "<td>" + ordersList[orderIndex].dateDelivery + "</td>";
-			returnedTableString += getSupplierAsTableRow(suppliersList, ordersList[orderIndex].idMemberSupplier);
-			returnedTableString += getRespAsTableRow(respsList, ordersList[orderIndex].idMemberResp);
-			returnedTableString += "</tr>";
-		}
-	}
-	return returnedTableString;
-}
-
-function getPurchasesAsTableRows(purchasesList, respsList, orderList, page, itemsPerPage)
-{
-	var returnedTableString = "";
-	if (page < 1 || (page - 1) * itemsPerPage >= purchasesList.length
-		|| itemsPerPage < 1 || itemsPerPage > 100 || purchasesList == undefined
-		|| page == undefined || itemsPerPage == undefined)
-	{
-		console.debug("Invalid parameters in " + displayFunctionName());
-		return "";
-	}
-	for ( var purchaseIndex = (page - 1) * itemsPerPage; purchaseIndex < purchasesList.length
-      	&& purchaseIndex <= page * itemsPerPage; purchaseIndex++)
-	{
-	    returnedTableString += "<tr>";
-	    returnedTableString += getRespAsTableRow(respsList, ordersList[orderIndex].idMemberResp);
-	    returnedTableString += "<td>" + purchasesList[purchaseIndex].idMember + "</td>";
-	    returnedTableString += getActiveOrdersAsRows(ordersList, purchasesList[purchaseIndex].idOrder);
-	    returnedTableString += getPastOrdersAsRows(ordersList, purchasesList[purchaseIndex].idOrder);
-	    returnedTableString += "</tr>";
-	}
-	return returnedTableString;
 }
