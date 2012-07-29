@@ -1,8 +1,5 @@
 NON FUNZIONANTE
  
--Nella registrazione di un nuovo utente da parte dell'admin il telefono risulta sempre NULL nel database
- il resto va bene 
- 
 -Nella pagina dell'admin nella tag "Attiva utente", se si prova a visualizzare i fornitori da attivare,
 la tabella si sfasa e non funziona più (problema simile a quello di ieri con la lista utenti). Il problema è
 solo a livello grafico, il tasto "Attiva" funziona correttamente
@@ -31,3 +28,6 @@ fornitore.
  	Inserisci l'username 
  (ti servir- per accedere al sito)
   il resto va bene 
+  
+-Nella registrazione di un nuovo utente da parte dell'admin il telefono risulta sempre NULL nel database
+ il resto va bene 
