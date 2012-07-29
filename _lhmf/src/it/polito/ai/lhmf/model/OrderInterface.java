@@ -35,7 +35,7 @@ public class OrderInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Order getOrder(Integer idOrder)
+	public Order getOrder(int idOrder)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery("from Order " + "where idOrder = :idOrder");
 		query.setParameter("idOrder", idOrder);

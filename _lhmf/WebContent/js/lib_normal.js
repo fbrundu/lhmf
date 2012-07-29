@@ -180,7 +180,8 @@ function postActivePurchaseListHandler(purchaseList)
     $("#activePurchaseList").html("");
     $("#activePurchaseList").hide();
 
-    if(purchaseList.length > 0){
+    if(purchaseList.length > 0)
+    {
         $("#activePurchaseList").append("<tr>  <th class='top' width='20%'> Scheda Numero </th>" +
         									 "<th class='top' width='50%'> Spedizione  </th>" +
                                              "<th class='top' width='50%'> Dettagli ordine  </th> </tr>");
@@ -189,10 +190,10 @@ function postActivePurchaseListHandler(purchaseList)
             
             $("#activePurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
 					  							  "<td>" + purchase.isShipped + "</td>" +
-					  							  "<td> <form> <input type='hidden' value='" + purchase.idOrder + "'/>" +
-					  							  "<button type='submit' id='showDetails_" + purchase.idOrder + "'> Mostra Dettagli </button>" +
+					  							  "<td> <form> <input type='hidden' value='" + purchase.order.idOrder + "'/>" +
+					  							  "<button type='submit' id='showDetails_" + purchase.order.idOrder + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-					  							  "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
+					  							  "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
         }
         $.each(purchaseList, function(index, val)
@@ -203,7 +204,9 @@ function postActivePurchaseListHandler(purchaseList)
         $("#activePurchaseList").show("slow");
         $("#activePurchaseList").fadeIn(1000);
         $("#errorDivActivePurchase").hide();
-    } else {
+    }
+    else 
+    {
         
         $("#activePurchaseList").show();
         $("#errorDivActivePurchase").hide();
@@ -230,10 +233,10 @@ function postOldPurchaseListHandler(purchaseList)
             
             $("#oldPurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
             								  "<td>" + purchase.isShipped + "</td>" +
-                                              "<td> <form> <input type='hidden' value='" + purchase.idOrder + "'/>" +
-                                         	   "<button type='submit' id='showDetails_" + purchase.idOrder + "'> Mostra Dettagli </button>" +
+                                              "<td> <form> <input type='hidden' value='" + purchase.order.idOrder + "'/>" +
+                                         	   "<button type='submit' id='showDetails_" + purchase.order.idOrder + "'> Mostra Dettagli </button>" +
                                          	   "</form></td></tr>" +
-                                    "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
+                                    "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
         }
         
@@ -336,8 +339,6 @@ function postShowDetailsHandler(data) {
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + "</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
-        
-        console.debug("Sono Entrato");
     });
     
     $(trControl).show("slow");    
@@ -358,15 +359,6 @@ function newPurchase(purchase)
 	});
 }
   
-/*function getPastPurchases()
-{
-    $.getJSONsync("ajax/getpastpurchases", function(pastPurchasesList)
-    {
-    	window.localStorage.setItem('pastPurchasesList', JSON.stringify(pastPurchasesList));
-    	console.debug("pastPurchasesList saved in localstorage");
-    });
-}
-*/
 function loadAllPastPurchasesFromLocalStorage()
 {
 	return JSON.parse(window.localStorage.getItem('pastPurchasesList'));
