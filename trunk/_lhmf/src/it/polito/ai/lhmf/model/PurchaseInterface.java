@@ -1,13 +1,17 @@
 package it.polito.ai.lhmf.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
+import it.polito.ai.lhmf.orm.PurchaseProduct;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -95,5 +99,64 @@ public class PurchaseInterface
 			}
 		}		
 		return activePurchases;
+	}
+
+	@Transactional(readOnly = true)
+	public Purchase getPurchase(int idPurchase) {
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Purchase " + "where idPurchase = :idPurchase");
+		query.setParameter("idPurchase", idPurchase);
+		return (Purchase) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<Product> getProducts(int idPurchase) {
+		
+		Purchase purchase;
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Purchase " + "where idPurchase = :idPurchase");
+			query.setParameter("idPurchase", idPurchase);
+		purchase = (Purchase) query.uniqueResult();
+		
+		Set<PurchaseProduct> purchaseProducts = purchase.getPurchaseProducts();
+		
+		List<Product> listProduct = new ArrayList<Product>();
+		
+		java.util.Iterator<PurchaseProduct> iter = purchaseProducts.iterator();
+	    while (iter.hasNext())
+	      listProduct.add(iter.next().getProduct());
+		
+		return listProduct;
+	}
+
+	@Transactional(readOnly = true)
+	public Integer getAmount(int idPurchase, int idProduct) {
+		
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select amount from PurchaseProduct " + "where idPurchase = :idPurchase AND idProduct = :idProduct");
+			query.setParameter("idPurchase", idPurchase);
+			query.setParameter("idProduct", idProduct);
+			
+		Integer result = (Integer) query.uniqueResult();
+		return result;
+		
+	}
+
+	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException {
+		
+		if (purchase == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Purchase "
+						+ "set isShipped = :isShipped "
+						+ "where idPurchase = :idPurchase");
+		query.setParameter("isShipped", purchase.getIsShipped());
+		query.setParameter("idPurchase", purchase.getIdPurchase());
+
+		return (Integer) query.executeUpdate();
 	}
 }

@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
@@ -31,6 +32,8 @@ public class RespAjaxController
 	private OrderInterface orderInterface;
 	@Autowired
 	private MemberInterface memberInterface;
+	@Autowired
+	private PurchaseInterface purchaseInterface;
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
@@ -133,5 +136,37 @@ public class RespAjaxController
 		return listPurchase;
 	}
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getPurchaseProducts", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getPurchaseProducts(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	{
+		List<Product> listProducts = purchaseInterface.getProducts(idPurchase);
+		return listProducts;
+	}
 	
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getPurchaseAmount", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer getPurchaseAmount(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase,
+			@RequestParam(value = "idProduct") int idProduct) throws InvalidParametersException
+	{
+		return purchaseInterface.getAmount(idPurchase, idProduct);
+	}
+	
+	
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/setShip", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer getPurchaseAmount(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	{
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		purchase.setIsShipped(true);
+		return purchaseInterface.updatePurchase(purchase);
+	}
 }

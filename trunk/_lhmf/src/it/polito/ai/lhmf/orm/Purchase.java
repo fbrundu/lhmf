@@ -2,13 +2,13 @@ package it.polito.ai.lhmf.orm;
 
 // Generated 8-giu-2012 18.52.32 by Hibernate Tools 3.4.0.CR1
 
+import static javax.persistence.GenerationType.IDENTITY;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,8 +31,7 @@ public class Purchase implements java.io.Serializable
 	private Order order;
 	private Member member;
 	private boolean isShipped;
-	private Set<PurchaseProduct> purchaseProducts = new HashSet<PurchaseProduct>(
-			0);
+	private Set<PurchaseProduct> purchaseProducts = new HashSet<PurchaseProduct>(0);
 
 	public Purchase()
 	{
@@ -107,6 +106,11 @@ public class Purchase implements java.io.Serializable
 	public void setPurchaseProducts(Set<PurchaseProduct> purchaseProducts)
 	{
 		this.purchaseProducts = purchaseProducts;
+	}
+
+	public boolean getIsShipped() 
+	{	
+		return isShipped;
 	}
 
 }
