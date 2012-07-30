@@ -30,13 +30,7 @@ public class ProductSerializer extends JsonSerializer<Product>
 		jgen.writeStringField("description", value.getDescription());
 		jgen.writeNumberField("dimension", value.getDimension());
 		jgen.writeStringField("measureUnit", value.getMeasureUnit());
-		
-		// unitBlock non è più nullable, e vale 1 di default
-		//if(value.getUnitBlock() == null)
-		//	jgen.writeStringField("unitBlock", "null");
-		//else
 		jgen.writeNumberField("unitBlock", value.getUnitBlock());
-		
 		jgen.writeBooleanField("availability", value.isAvailability());
 		jgen.writeNumberField("transportCost", value.getTransportCost());
 		jgen.writeNumberField("unitCost", value.getUnitCost());
@@ -51,7 +45,10 @@ public class ProductSerializer extends JsonSerializer<Product>
 		else
 			jgen.writeNumberField("maxBuy", value.getMaxBuy());
 		
-		//TODO: aggiungere attributo path immagine
+		if(value.getImgPath() == null)
+			jgen.writeStringField("imgPath", "img/noproduct.jpg");
+		else
+			jgen.writeStringField("imgPath", value.getImgPath());
 		
 		jgen.writeNumberField("idMemberSupplier", value.getSupplier()
 				.getIdMember());

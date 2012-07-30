@@ -204,8 +204,9 @@ function postShipOrderListHandler(orderList) {
            
     //});
     if(orderList.length > 0){
-        $("#shipOrderList").append(" <tr>  <th class='top' width='10%'> ID </th>" +
-                                          "<th class='top' width='40%'> Fornitore </th>" +
+        $("#shipOrderList").append(" <tr>  <th class='top' width='5%'> ID </th>" +
+        								  "<th class='top' width='25%'> Nome </th>" +
+                                          "<th class='top' width='20%'> Fornitore </th>" +
                                           "<th class='top' width='25%'> Data Consegna  </th>" +
                                           "<th class='top' width='25%'> Azione  </th> </tr>");
         
@@ -218,6 +219,7 @@ function postShipOrderListHandler(orderList) {
             
             $("#idOrderShip_" + order.idOrder).append(
             										  "<td>" + order.idOrder +"</td>" +
+            										  "<td>" + order.orderName +"</td>" +
                                               		  "<td>" + order.supplier.companyName + "</td>" +
                                               		  "<td>" + dateDelivery + "</td>" +
                                               		  "<td> <form>" +
@@ -225,7 +227,7 @@ function postShipOrderListHandler(orderList) {
             										  	     "<button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "'> Mostra Schede </button>" +
             										  	   "</form> </td>" );
             
-            $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='4' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
+            $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
             
             $("button").button();
@@ -276,22 +278,23 @@ function postShowPurchaseHandler(data) {
 
 	var tableControl = "#TABLEdetailsOrderShip_" + idOrder;
 	
-	$(tableControl).append("<tr> <th class='top' width='10%'> Scheda </th>" +
-					            "<th class='top' width='15%'> Nome </th>" +
+	$(tableControl).append("<tr> <th class='top' width='5%'> Scheda </th>" +
+					            "<th class='top' width='25%'> Nome </th>" +
 					            "<th class='top' width='15%'> Totale (&euro;)</th>" +
-					            "<th class='top' width='35%'> Stato Consegna  </th>" +
+					            "<th class='top' width='30%'> Stato Consegna  </th>" +
 					            "<th class='top' width='25%'> Azione  </th> </tr>");
 	
 	$.each(data, function(index, val)
 	{
 		var total = 0;
 		var productTable = "<table id='TABLEdetailsPurchase_" + val.idPurchase + "' class='log'>" +
-							"<tr> <th class='top' width='15%'> Prodotto </th>" +
+							"<tr> <th class='top' width='15%'> Immagine </th>" +
+								 "<th class='top' width='15%'> Prodotto </th>" +
                                  "<th class='top' width='15%'> Categoria </th>" +
-                                 "<th class='top' width='25%'> Descrizione  </th>" +
-                                 "<th class='top' width='15%'> Blocchi  </th>" +
-                                 "<th class='top' width='10%'> Costo Unitario (&euro;) </th>" +
-                                 "<th class='top' width='10%'> N. Blocchi Acquistati </th>" +
+                                 "<th class='top' width='30%'> Descrizione  </th>" +
+                                 "<th class='top' width='5%'> Blocchi  </th>" +
+                                 "<th class='top' width='5%'> Costo Unitario (&euro;) </th>" +
+                                 "<th class='top' width='5%'> N. Blocchi Acquistati </th>" +
                                  "<th class='top' width='10%'> Parziale (&euro;)</th> </tr>";
 		
 		var products=0;
@@ -303,7 +306,8 @@ function postShowPurchaseHandler(data) {
 			$.postSync("ajax/getPurchaseAmount", {idPurchase: val.idPurchase, idProduct: val2.idProduct}, function(data) { amount = data; });
 			var temp = amount * (val2.unitBlock * val2.unitCost);
 			total += temp;
-			productTable += "<tr>   <td>" + val2.name + "</td>" +
+			productTable += "<tr>   <td> <img align='middle' height='45' src='" + val2.imgPath + "'></td> " +
+								   "<td>" + val2.name + "</td>" +
 			                       "<td>" + val2.category.description + "</td>" +
 			                       "<td>" + val2.description + "</td>" +
 			                       "<td>" + val2.unitBlock + "</td>" +
