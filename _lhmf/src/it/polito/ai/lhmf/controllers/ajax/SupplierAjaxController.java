@@ -184,7 +184,7 @@ public class SupplierAjaxController
 				String md5Password = CreateMD5.MD5(password);
 				
 				MemberType mType = new MemberType(MemberTypes.USER_SUPPLIER);
-				MemberStatus mStatus = new MemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				MemberStatus mStatus = new MemberStatus(MemberStatuses.NOT_VERIFIED);
 
 				Member memberSupplier = new Member(	mType, mStatus, firstname, lastname, username,
 													md5Password, regCode, regDate, email, address, 

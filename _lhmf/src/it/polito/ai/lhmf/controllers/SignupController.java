@@ -837,7 +837,7 @@ public class SignupController
 		if(errors.size() <= 0) {
 			
 			if(!fromAdmin) {
-					
+				model.addAttribute("active", false);	
 				//Mandare messaggio all'admin
 				
 				//Ricavo il membro Admin
@@ -863,7 +863,9 @@ public class SignupController
 				} catch (InvalidParametersException e) {
 					e.printStackTrace();
 				}
-			}		
+			}
+			else
+				model.addAttribute("active", true);
 		}	
 		return new ModelAndView("/authMail_confirmed");
 	}

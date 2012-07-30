@@ -31,7 +31,14 @@
 			        
 			        <div class="divresp">
 			        	Grazie <strong><c:out value="${firstname}" /></strong> per aver Autenticato la tua mail.<br /><br />
-			        	Il tuo account è quasi pronto.<br /> Dopo l'attivazione da parte di un admin potrai avere accesso ai nostri servizi.
+			        	<c:choose>
+			        		<c:when test='${active == true }'>
+			        			Il tuo account è stato abilitato per l'accesso al sistema.
+			        		</c:when>
+			        		<c:otherwise>
+			        			Il tuo account è quasi pronto.<br /> Dopo l'attivazione da parte di un admin potrai avere accesso ai nostri servizi.
+			        		</c:otherwise>
+			        	</c:choose>
 					</div>
 			        
 			    </c:otherwise>
