@@ -24,7 +24,8 @@ public class ProductCategoryAjaxController
 	@Autowired
 	private ProductCategoryInterface productCategoryInterface;
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
+			+ ", " + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/newproductcategory", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newProductCategory(HttpServletRequest request,

@@ -121,3 +121,406 @@ function getRespAsTableRow(respsList, idResp)
   }
   return "";
 }
+
+function getCategoriesNoLocal()
+{
+  var categoriesList;
+  $.getJSONsync("ajax/getproductcategories", function(productCategoriesList)
+  {
+    categoriesList = productCategoriesList;
+  });
+  return categoriesList;
+}
+
+function setProductAvailableHandler(event)
+{
+  event.preventDefault();
+  var idProduct = $(this).attr('name');
+  if (setProductAvailable(idProduct) > 0)
+  {
+    $('#listHead' + idProduct).html('In listino');
+    $('#listHead' + idProduct).attr('class', 'yes');
+    $('#listCont' + idProduct).html(
+        "<form id='prodNotAval' name='" + idProduct + "' action=''>"
+            + "<input id='prodNotAval" + idProduct
+            + "' type='submit' class='button'"
+            + " value='Rimuovi da listino' />" + "</form>");
+    $('input:submit').button();
+  }
+  else
+  {
+    $("#dialog-error-insert").dialog({
+      resizable : false,
+      height : 140,
+      modal : true,
+      buttons : {
+        "Ok" : function()
+        {
+          $(this).dialog('close');
+        }
+      }
+    });
+  }
+
+  $('form').filter(function()
+  {
+    return this.id.match(/prodNotAval/);
+  }).bind('submit', setProductUnavailableHandler);
+
+  return false; // don't post it automatically
+}
+
+function getProduct(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var product = undefined;
+  $.getSync("ajax/getproduct", {
+    idProduct : idProduct
+  }, function(prod)
+  {
+    product = prod;
+  });
+  return product;
+}
+
+function setProductUnavailableHandler(event)
+{
+  event.preventDefault();
+  var idProduct = $(this).attr('name');
+  if (setProductUnavailable(idProduct) > 0)
+  {
+    $('#listHead' + idProduct).html('Non in listino');
+    $('#listHead' + idProduct).attr('class', 'no');
+    $('#listCont' + idProduct).html(
+        "<form id='prodAval' name='" + idProduct + "' action=''>"
+            + "<input type='submit' class='button'"
+            + " value='Inserisci in listino' />" + "</form>");
+    $('input:submit').button();
+  }
+  else
+  {
+    $("#dialog-error-remove").dialog({
+      resizable : false,
+      height : 140,
+      modal : true,
+      buttons : {
+        "Ok" : function()
+        {
+          $(this).dialog('close');
+        }
+      }
+    });
+  }
+  $('form').filter(function()
+  {
+    return this.id.match(/prodAval/);
+  }).bind('submit', setProductAvailableHandler);
+
+  return false; // don't post it automatically
+}
+
+function setProductAvailable(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var returnedRowsAffected = undefined;
+  $.getSync("ajax/setproductavailable", {
+    idProduct : idProduct
+  }, function(rowsAffected)
+  {
+    returnedRowsAffected = rowsAffected;
+    if (rowsAffected > 0)
+      console.debug("Product inserted in list: " + idProduct);
+  });
+  return returnedRowsAffected;
+}
+
+function setProductUnavailable(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var returnedRowsAffected = undefined;
+  $.getSync("ajax/setproductunavailable", {
+    idProduct : idProduct
+  }, function(rowsAffected)
+  {
+    returnedRowsAffected = rowsAffected;
+    if (rowsAffected > 0)
+      console.debug("Product removed from list: " + idProduct);
+  });
+  return returnedRowsAffected;
+}
+
+
+function clickUpdateProductHandler(event)
+{
+  event.preventDefault();
+
+  var errors = new Array();
+
+  var idProduct = $(this).attr('name');
+  var productName = $('#productNameUpd' + idProduct).val();
+  var productDescription = $('#productDescriptionUpd' + idProduct).val();
+  var productDimension = $('#productDimensionUpd' + idProduct).val();
+  var measureUnit = $('#measure_unitUpd' + idProduct).val();
+  var unitBlock = $('#unit_blockUpd' + idProduct).val();
+  var transportCost = $('#transport_costUpd' + idProduct).val();
+  var unitCost = $('#unit_costUpd' + idProduct).val();
+  var minBuy = $('#min_buyUpd' + idProduct).val();
+  var maxBuy = $('#max_buyUpd' + idProduct).val();
+  var productCategory = $('#productCategoryUpd' + idProduct).val();
+  var categoryDescription = $('#categoryDescriptionUpd' + idProduct).val();
+
+  if (productName == "" || isNumber(productName))
+  {
+    errors.push("Nome prodotto: Formato non valido");
+  }
+  if (productDescription == "")
+  {
+    errors.push("Descrizione prodotto: Formato non valido");
+  }
+  if (productDimension == "" || !isPositiveNumber(productDimension))
+  {
+    errors.push("Dimensione: Formato non valido");
+  }
+  if (measureUnit == "" || isNumber(measureUnit))
+  {
+    errors.push("Unit&agrave; di misura: Formato non valido");
+  }
+  if (unitBlock == "" || !isPositiveNumber(unitBlock))
+  {
+    errors.push("Unit&agrave; per blocco: Formato non valido");
+  }
+  if (transportCost == "" || !isPositiveNumber(transportCost))
+  {
+    errors.push("Costo di trasporto: Formato non valido");
+  }
+  if (unitCost == "" || !isPositiveNumber(unitCost))
+  {
+    errors.push("Costo per unit&agrave;: Formato non valido");
+  }
+  if (minBuy == "" || !isPositiveNumber(minBuy))
+  {
+    errors.push("Minimo unit&agrave; acquistabili: Formato non valido");
+  }
+  if (maxBuy == "" || !isPositiveNumber(maxBuy))
+  {
+    errors.push("Massimo unit&agrave; acquistabili: Formato non valido");
+  }
+  if (minBuy > maxBuy)
+  {
+    errors.push("Massimo/minimo unit&agrave; acquistabili:"
+        + "Il minimo di unit&agrave; acquistabili deve essere minore"
+        + " o uguale al massimo unit&agrave; acquistabili");
+  }
+  if (!isPositiveNumber(productCategory))
+  {
+    if (categoryDescription == "" || isNumber(categoryDescription))
+      errors.push("Categoria di prodotto: Formato non valido");
+  }
+
+  if (errors.length > 0)
+  {
+    $("#errorsUpd" + idProduct).html("");
+    $("#errorDivUpd" + idProduct).hide();
+
+    for ( var i = 0; i < errors.length; i++)
+    {
+      var error = errors[i].split(":");
+      $("#errorsUpd" + idProduct).append(
+          "<strong>" + error[0] + "</strong>: " + error[1] + "<br />");
+    }
+
+    $("#errorDivUpd" + idProduct).show("slow");
+    // $("#errorDivUpd" + idProduct).fadeIn(1000);
+  }
+  else
+  {
+    // Creazione nuova categoria
+    if (!isPositiveNumber(productCategory))
+    {
+      var idProductCategory = newCategory(categoryDescription);
+      if (idProductCategory > 0)
+      {
+        productCategory = idProductCategory;
+        $("#categoryDescriptionUpd" + idProduct).val("");
+      }
+      else
+      {
+        $("#dialog-error-update").dialog({
+          resizable : false,
+          height : 140,
+          modal : true,
+          buttons : {
+            "Ok" : function()
+            {
+              $(this).dialog('close');
+            }
+          }
+        });
+        return;
+      }
+    }
+
+    // Creazione nuovo prodotto
+    updateProduct({
+      productId : idProduct,
+      productName : productName,
+      productDescription : productDescription,
+      productDimension : productDimension,
+      measureUnit : measureUnit,
+      unitBlock : unitBlock,
+      transportCost : transportCost,
+      unitCost : unitCost,
+      minBuy : minBuy,
+      maxBuy : maxBuy,
+      productCategory : productCategory,
+    });
+
+    $('#rowUpd' + idProduct).hide('slow', function()
+    {
+      $('#listRow' + idProduct).hide('slow', function()
+      {
+        newProductSearch();
+      });
+    });
+  }
+}
+
+function deleteProductHandler(event)
+{
+  event.preventDefault();
+  $("#dialog:ui-dialog").dialog("destroy");
+
+  var idProduct = $(this).attr('name');
+
+  $("#dialog-confirm").dialog({
+    resizable : false,
+    height : 140,
+    modal : true,
+    buttons : {
+      "Elimina" : function()
+      {
+        $(this).dialog("close");
+        if (deleteProduct(idProduct) > 0)
+        {
+          $("#listRow" + idProduct).hide('slow');
+        }
+        else
+        {
+          $("#dialog-error-remove").dialog({
+            resizable : false,
+            height : 140,
+            modal : true,
+            buttons : {
+              "Ok" : function()
+              {
+                $(this).dialog('close');
+              }
+            }
+          });
+        }
+
+      },
+      "Annulla" : function()
+      {
+        $(this).dialog("close");
+      }
+    }
+  });
+  return false; // don't post it automatically
+}
+
+
+function updateProduct(productParameters)
+{
+  if (productParameters == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var returnRowsAffected = 0;
+  $.postSync("ajax/updateproduct", productParameters, function(rowsAffected)
+  {
+    if (rowsAffected > 0)
+    {
+      returnRowsAffected = rowsAffected;
+      $("#productFieldsetUpd").children("input").val("");
+    }
+    else
+      alert("Errore nella creazione di un nuovo prodotto");
+  });
+  return returnRowsAffected;
+}
+
+function checkCategorySelectUpd(idProduct)
+{
+  var selected = $('#productCategoryUpd' + idProduct).val();
+  $("#errorDivUpd" + idProduct).hide('slow');
+
+  if (selected == 'nuova')
+  {
+    $('#categoryFieldsetUpd' + idProduct).show('slow');
+    $('#categoryFieldsetUpd' + idProduct).children().attr("disabled", false);
+  }
+  else
+  {
+    // Nuova categoria non selezionata
+    $('#categoryFieldsetUpd' + idProduct).hide('slow');
+    $('#categoryFieldsetUpd' + idProduct).children().attr("disabled", true);
+  }
+}
+
+function newCategory(pcDescription)
+{
+  if (pcDescription == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var idCategory = undefined;
+  $.postSync("ajax/newproductcategory", {
+    description : pcDescription
+  }, function(idProductCategory)
+  {
+    idCategory = idProductCategory;
+  });
+  return idCategory;
+}
+
+function deleteProduct(idProduct)
+{
+  if (idProduct == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var returnRowsAffected = undefined;
+  $.postSync("ajax/deleteproduct", {
+    idProduct : idProduct
+  }, function(rowsAffected)
+  {
+    returnRowsAffected = rowsAffected;
+  });
+  return returnRowsAffected;
+}
+
+function isNumber(n)
+{
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function isPositiveNumber(n)
+{
+  return !isNaN(parseFloat(n)) && isFinite(n) && n >= 0;
+}

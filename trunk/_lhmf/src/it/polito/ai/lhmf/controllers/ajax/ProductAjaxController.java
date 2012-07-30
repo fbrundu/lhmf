@@ -4,6 +4,7 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.orm.Supplier;
@@ -79,25 +80,34 @@ public class ProductAjaxController
 		return idProduct;
 	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
+			+ ", " + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getproduct", method = RequestMethod.GET)
 	public @ResponseBody
 	Product getProduct(
 			HttpServletRequest request,
 			@RequestParam(value = "idProduct", required = true) Integer idProduct)
 	{
-		Supplier s = supplierInterface.getSupplier((String) request
-				.getSession().getAttribute("username"));
-		Product p = productInterface.getProduct(idProduct);
-
-		if (s != null && p != null
-				&& p.getSupplier().getIdMember() == s.getIdMember())
+		if (idProduct != null && idProduct > 0)
+		{
+			Product p = productInterface.getProduct(idProduct);
+			if (p != null)
+			{
+				if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
+				{
+					Supplier s = supplierInterface.getSupplier((String) request
+							.getSession().getAttribute("username"));
+					if (s == null
+							|| p.getSupplier().getIdMember() != s.getIdMember())
+						return null;
+				}
+			}
 			return p;
-		else
-			return null;
+		}
+		return null;
 	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getproducts", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Product> getProducts(HttpServletRequest request)
@@ -118,7 +128,8 @@ public class ProductAjaxController
 		return productsList;
 	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
+			+ ", " + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/setproductavailable", method = RequestMethod.GET)
 	public @ResponseBody
 	Integer setProductAvailable(
@@ -129,18 +140,25 @@ public class ProductAjaxController
 		Integer rowsAffected = -1;
 		if (idProduct != null && idProduct > 0)
 		{
-			Supplier s = supplierInterface.getSupplier((String) request
-					.getSession().getAttribute("username"));
 			Product p = productInterface.getProduct(idProduct);
-
-			if (s != null && p != null
-					&& p.getSupplier().getIdMember() == s.getIdMember())
+			if (p != null)
+			{
+				if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
+				{
+					Supplier s = supplierInterface.getSupplier((String) request
+							.getSession().getAttribute("username"));
+					if (s == null
+							|| p.getSupplier().getIdMember() != s.getIdMember())
+						return rowsAffected;
+				}
 				rowsAffected = productInterface.setProductAvailable(idProduct);
+			}
 		}
 		return rowsAffected;
 	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
+			+ ", " + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/setproductunavailable", method = RequestMethod.GET)
 	public @ResponseBody
 	Integer setProductUnavailable(
@@ -151,19 +169,26 @@ public class ProductAjaxController
 		Integer rowsAffected = -1;
 		if (idProduct != null && idProduct > 0)
 		{
-			Supplier s = supplierInterface.getSupplier((String) request
-					.getSession().getAttribute("username"));
 			Product p = productInterface.getProduct(idProduct);
-
-			if (s != null && p != null
-					&& p.getSupplier().getIdMember() == s.getIdMember())
+			if (p != null)
+			{
+				if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
+				{
+					Supplier s = supplierInterface.getSupplier((String) request
+							.getSession().getAttribute("username"));
+					if (s == null
+							|| p.getSupplier().getIdMember() != s.getIdMember())
+						return rowsAffected;
+				}
 				rowsAffected = productInterface
 						.setProductUnavailable(idProduct);
+			}
 		}
 		return rowsAffected;
 	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
+			+ ", " + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/updateproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer updateProduct(
@@ -182,34 +207,44 @@ public class ProductAjaxController
 			throws InvalidParametersException
 	{
 		Integer rowsAffected = -1;
-		Supplier s = supplierInterface.getSupplier((String) request
-				.getSession().getAttribute("username"));
 		ProductCategory pc = productCategoryInterface
 				.getProductCategory(idProductCategory);
 		Product p = productInterface.getProduct(productId);
-		if (p != null && s != null && pc != null && !productName.equals("")
-				&& !productDescription.equals("") && productDimension > 0
-				&& !measureUnit.equals("") && unitBlock > 0
-				&& transportCost > 0 && unitCost > 0 && minBuy > 0
-				&& maxBuy >= minBuy)
+		if (p != null)
 		{
-			p.setName(productName);
-			p.setDescription(productDescription);
-			p.setDimension(productDimension);
-			p.setMeasureUnit(measureUnit);
-			p.setUnitBlock(unitBlock);
-			p.setTransportCost(transportCost);
-			p.setUnitCost(unitCost);
-			p.setMinBuy(minBuy);
-			p.setMaxBuy(maxBuy);
-			p.setSupplier(s);
-			p.setProductCategory(pc);
-			rowsAffected = productInterface.updateProduct(p);
+			if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
+			{
+				Supplier s = supplierInterface.getSupplier((String) request
+						.getSession().getAttribute("username"));
+				if (s == null
+						|| p.getSupplier().getIdMember() != s.getIdMember())
+					return rowsAffected;
+			}
+
+			if (pc != null && !productName.equals("")
+					&& !productDescription.equals("") && productDimension > 0
+					&& !measureUnit.equals("") && unitBlock > 0
+					&& transportCost > 0 && unitCost > 0 && minBuy > 0
+					&& maxBuy >= minBuy)
+			{
+				p.setName(productName);
+				p.setDescription(productDescription);
+				p.setDimension(productDimension);
+				p.setMeasureUnit(measureUnit);
+				p.setUnitBlock(unitBlock);
+				p.setTransportCost(transportCost);
+				p.setUnitCost(unitCost);
+				p.setMinBuy(minBuy);
+				p.setMaxBuy(maxBuy);
+				p.setProductCategory(pc);
+				rowsAffected = productInterface.updateProduct(p);
+			}
 		}
 		return rowsAffected;
 	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
+			+ ", " + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/deleteproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer deleteProduct(
@@ -220,15 +255,20 @@ public class ProductAjaxController
 		Integer rowsAffected = -1;
 		if (idProduct != null && idProduct > 0)
 		{
-			Supplier s = supplierInterface.getSupplier((String) request
-					.getSession().getAttribute("username"));
 			Product p = productInterface.getProduct(idProduct);
-
-			if (s != null && p != null
-					&& p.getSupplier().getIdMember() == s.getIdMember())
+			if (p != null)
+			{
+				if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
+				{
+					Supplier s = supplierInterface.getSupplier((String) request
+							.getSession().getAttribute("username"));
+					if (s == null
+							|| p.getSupplier().getIdMember() != s.getIdMember())
+						return rowsAffected;
+				}
 				rowsAffected = productInterface.deleteProduct(idProduct);
+			}
 		}
 		return rowsAffected;
 	}
-
 }
