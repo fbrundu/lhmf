@@ -73,9 +73,8 @@ public class SendEmail
 										String email) {
 		
 		String subject = "Conferma mail per GasProject.net";
-		String id = idMember + ":1";
 		
-		String link = "http://localhost:8080/_lhmf/authMail?id=" + id + "&regCode=" + regCode;
+		String link = "http://localhost:8080/_lhmf/authMail?id=" + idMember + "&regCode=" + regCode;
 		  
 		
 		String body = "Gentile " + contact + ",\n\n"
@@ -99,9 +98,8 @@ public class SendEmail
 										boolean isSupplier) {
 							
 		String subject = "Conferma mail per GasProject.net";
-		String id = idMember + ":0";
 		
-		String link = "http://localhost:8080/_lhmf/authMail?id=" + id + "&regCode=" + regCode;
+		String link = "http://localhost:8080/_lhmf/authMail?id=" + idMember + "&regCode=" + regCode;
 		
 		
 		String body = "Gentile " + contact + ",\n\n" +

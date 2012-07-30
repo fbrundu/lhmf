@@ -786,16 +786,9 @@ public class SignupController
 	{
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
-		//String temp[] = id.split(":");
-		
-		//int idMember = Integer.parseInt(temp[0]);
 		int idMember = Integer.parseInt(id);
 		
 		boolean fromAdmin = false;
-		//if(Integer.parseInt(temp[1]) == 1)
-		//	fromAdmin = true;
-		//else
-		//	fromAdmin = false;
 	
 		Member member = memberInterface.getMember(idMember);
 		
