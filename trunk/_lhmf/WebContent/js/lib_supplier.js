@@ -312,9 +312,9 @@ function writeSupplierPage(tab)
   $('#productCategorySearch').change(newProductSearch);
   $('#pageSearch').change(newProductSearch);
   $('#itemsPerPageSearch').change(newProductSearch);
+  prepareProductsForm(tab);
   newProductSearch(tab);
   // $('#productListRequest').on("click", clickNewProductSearchHandler);
-  // prepareProductsForm(tab);
 }
 
 function checkCategorySelect()

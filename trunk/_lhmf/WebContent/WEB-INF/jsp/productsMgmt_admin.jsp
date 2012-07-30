@@ -31,10 +31,27 @@
 	</jsp:attribute>
 
 	<jsp:attribute name="userMenu">
-    	<p>Menù di amministrazione</p>
-    	<p>Gestione utenti</p>
-    	<p>Log</p>
-    	<p>Gestione prodotti</p>
+	<div class="round-border-topright"></div>
+    	<h1 class="first">Menù di amministrazione</h1>
+    	<dl class="menu-navigazione">
+    <dt>
+				<a id="userLink"
+					href="<spring:url htmlEscape="true" value="/userMgmt"/>">Gestione Utenti</a>
+			</dt>
+    <dt>
+				<a id="logLink" href="<spring:url htmlEscape="true" value="/log"/>">Consultazione log</a>
+			</dt>
+    <dt>
+				<a id="productLink" class="linkSelected"
+					href="<spring:url htmlEscape="true" value="/productsMgmtAdmin"/>">Gestione Prodotti</a>
+			</dt>
+    <dt>
+				<a href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche (NN)</a>
+			</dt>
+    <dt>
+				<a href="<spring:url htmlEscape="true" value="/messaggi"/>">Messaggi (NN)</a>
+			</dt>
+  </dl>
 	</jsp:attribute>
 
 	<jsp:attribute name="dialogs">
@@ -54,21 +71,21 @@
     <div class="gasDialog" id="dialog-error-insert" title="Errore">
       <p>
         <span class="ui-icon ui-icon-alert"
-          style="float: left; margin: 0 7px 20px 0;"></span>
+					style="float: left; margin: 0 7px 20px 0;"></span>
           Errore nell'inserimento
       </p>
     </div>
     <div class="gasDialog" id="dialog-error-update" title="Errore">
       <p>
         <span class="ui-icon ui-icon-alert"
-          style="float: left; margin: 0 7px 20px 0;"></span>
+					style="float: left; margin: 0 7px 20px 0;"></span>
           Errore nell'aggiornamento
       </p>
     </div>
     <div class="gasDialog" id="dialog-ok" title="Ok">
       <p>
         <span class="ui-icon ui-icon-check"
-          style="float: left; margin: 0 7px 20px 0;"></span>
+					style="float: left; margin: 0 7px 20px 0;"></span>
           Operazione andata a buon fine
       </p>
     </div>
