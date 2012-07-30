@@ -188,7 +188,7 @@ public class SupplierAjaxController
 
 				Member memberSupplier = new Member(	mType, mStatus, firstname, lastname, username,
 													md5Password, regCode, regDate, email, address, 
-													city, state, cap);
+													city, state, cap, true);
 
 				Supplier supplier = new Supplier(memberSupplier, memberResp, payMethod);
 
@@ -219,6 +219,7 @@ public class SupplierAjaxController
 
 						// Inviare qui la mail con il codice di registrazione e la
 						// password generata
+						// TODO cambiare link di conferma mail. Togliere la parte relativa a admin, gestito lato server con Member.fromAdmin
 						/*
 						 * SendEmail emailer = new SendEmail(); boolean isSupplier =
 						 * true; emailer.sendAdminRegistration(firstname + " " +

@@ -31,10 +31,11 @@ public class ProductSerializer extends JsonSerializer<Product>
 		jgen.writeNumberField("dimension", value.getDimension());
 		jgen.writeStringField("measureUnit", value.getMeasureUnit());
 		
-		if(value.getUnitBlock() == null)
-			jgen.writeStringField("unitBlock", "null");
-		else
-			jgen.writeNumberField("unitBlock", value.getUnitBlock());
+		// unitBlock non è più nullable, e vale 1 di default
+		//if(value.getUnitBlock() == null)
+		//	jgen.writeStringField("unitBlock", "null");
+		//else
+		jgen.writeNumberField("unitBlock", value.getUnitBlock());
 		
 		jgen.writeBooleanField("availability", value.isAvailability());
 		jgen.writeNumberField("transportCost", value.getTransportCost());
