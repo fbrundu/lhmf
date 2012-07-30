@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 25-lug-2012 11.32.27 by Hibernate Tools 3.4.0.CR1
+// Generated 30-lug-2012 15.24.51 by Hibernate Tools 3.4.0.CR1
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,7 +30,7 @@ public class Product implements java.io.Serializable {
 	private String description;
 	private int dimension;
 	private String measureUnit;
-	private Integer unitBlock;
+	private int unitBlock;
 	private boolean availability;
 	private float transportCost;
 	private float unitCost;
@@ -46,13 +46,15 @@ public class Product implements java.io.Serializable {
 
 	public Product(ProductCategory productCategory, Supplier supplier,
 			String name, String description, int dimension, String measureUnit,
-			boolean availability, float transportCost, float unitCost) {
+			int unitBlock, boolean availability, float transportCost,
+			float unitCost) {
 		this.productCategory = productCategory;
 		this.supplier = supplier;
 		this.name = name;
 		this.description = description;
 		this.dimension = dimension;
 		this.measureUnit = measureUnit;
+		this.unitBlock = unitBlock;
 		this.availability = availability;
 		this.transportCost = transportCost;
 		this.unitCost = unitCost;
@@ -60,7 +62,7 @@ public class Product implements java.io.Serializable {
 
 	public Product(ProductCategory productCategory, Supplier supplier,
 			String name, String description, int dimension, String measureUnit,
-			Integer unitBlock, boolean availability, float transportCost,
+			int unitBlock, boolean availability, float transportCost,
 			float unitCost, Integer minBuy, Integer maxBuy, String imgPath,
 			Set purchaseProducts, Set orders, Set messages) {
 		this.productCategory = productCategory;
@@ -148,12 +150,12 @@ public class Product implements java.io.Serializable {
 		this.measureUnit = measureUnit;
 	}
 
-	@Column(name = "unit_block")
-	public Integer getUnitBlock() {
+	@Column(name = "unit_block", nullable = false)
+	public int getUnitBlock() {
 		return this.unitBlock;
 	}
 
-	public void setUnitBlock(Integer unitBlock) {
+	public void setUnitBlock(int unitBlock) {
 		this.unitBlock = unitBlock;
 	}
 
