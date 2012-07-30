@@ -441,7 +441,6 @@ function deleteProductHandler(event)
   return false; // don't post it automatically
 }
 
-
 function updateProduct(productParameters)
 {
   if (productParameters == undefined)
