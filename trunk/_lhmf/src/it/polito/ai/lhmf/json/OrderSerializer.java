@@ -18,6 +18,7 @@ public class OrderSerializer extends JsonSerializer<Order>
 	{
 		jgen.writeStartObject();
 		jgen.writeNumberField("idOrder", value.getIdOrder());
+		jgen.writeStringField("orderName", value.getOrderName());
 		jgen.writeStringField("dateOpen",
 				ISO8601DateParser.toString(value.getDateOpen()));
 		jgen.writeStringField("dateClose",

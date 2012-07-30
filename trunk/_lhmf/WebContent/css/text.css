@@ -81,8 +81,8 @@
 .logform select.field {width:275px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .logform select option {padding-left: 20px;}
 .logform table.log {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
-.logform table.log th.top {height:2em; padding:0 2px 0 2px; border:solid 1px rgb(200,200,200); empty-cells:show; background-color:rgb(175,175,175); text-align:center; color:rgb(255,255,255); font-weight:bold; font-size:110%;}
-.logform table.log td {height:2.0em; border:solid 1px rgb(200,200,200); background-color:rgb(225,225,225); text-align:center; font-weight:normal; color:rgb(80,80,80);}
+.logform table.log th.top {height:2em; padding:0 2px 0 2px; border:solid 1px rgb(200,200,200); empty-cells:show; background-color:rgb(175,175,175); text-align:center; color:rgb(255,255,255); font-weight:bold; font-size:90%;}
+.logform table.log td {height:1.5em; border:solid 1px rgb(200,200,200); background-color:rgb(225,225,225); text-align:center; font-weight:normal; color:rgb(80,80,80);}
 
 .actionError { color: red; }
 
