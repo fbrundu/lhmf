@@ -29,7 +29,7 @@ function historyStateChanged() {
   if (!stateData)
     showIndex();
   switch (stateData.action) {
-  case 'prodMgmt':
+  case 'productsMgmtAdmin':
     writeProductsPageAdmin();
     break;
   case 'log':
@@ -118,11 +118,11 @@ function productClicked(event) {
     var state = History.getState();
     var stateData = state.data;
     if (!!stateData && !!stateData.action
-        && stateData.action == 'prodMgmt')
+        && stateData.action == 'productsMgmtAdmin')
       return;
     History.pushState({
-      action : 'prodMgmt'
-    }, null, 'prodMgmt');
+      action : 'productsMgmtAdmin'
+    }, null, 'productsMgmtAdmin');
   }
 }
 
