@@ -267,7 +267,7 @@ public class SignupController
 			// Creo un nuovo utente 
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
-										email, address, city, state, cap);
+										email, address, city, state, cap, false);
 			
 			if(!phone.equals("")) 
 				member.setTel(phone);
@@ -519,7 +519,7 @@ public class SignupController
 			// Creo un nuovo utente 
 			Member member = new Member(	mType, mStatus, firstname, lastname, 
 										username, "not set", regCode, regDate, 
-										email, address, city, state, cap);
+										email, address, city, state, cap, false);
 			
 			if(!phone.equals("")) 
 				member.setTel(phone);
@@ -750,7 +750,7 @@ public class SignupController
 				// Creo un nuovo utente 
 				Member member = new Member(	mType, mStatus, firstname, lastname, 
 						username, md5Password, regCode, regDate, 
-						email, address, city, state, cap);
+						email, address, city, state, cap, false);
 				
 				if(!phone.equals("") && !phone.equals("not set")) 
 					member.setTel(phone);
@@ -786,15 +786,16 @@ public class SignupController
 	{
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
 		
-		String temp[] = id.split(":");
+		//String temp[] = id.split(":");
 		
-		int idMember = Integer.parseInt(temp[0]);
+		//int idMember = Integer.parseInt(temp[0]);
+		int idMember = Integer.parseInt(id);
 		
-		boolean fromAdmin;
-		if(Integer.parseInt(temp[1]) == 1)
-			fromAdmin = true;
-		else
-			fromAdmin = false;
+		boolean fromAdmin = false;
+		//if(Integer.parseInt(temp[1]) == 1)
+		//	fromAdmin = true;
+		//else
+		//	fromAdmin = false;
 	
 		Member member = memberInterface.getMember(idMember);
 		
@@ -815,6 +816,8 @@ public class SignupController
 		} else {
 			
 			//Account esistente e codice corretto.
+			fromAdmin = member.isFromAdmin();
+			
 			MemberStatus mStatus;
 			if(fromAdmin)
 				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED);

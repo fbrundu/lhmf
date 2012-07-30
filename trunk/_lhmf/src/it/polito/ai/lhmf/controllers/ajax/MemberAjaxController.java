@@ -148,7 +148,7 @@ public class MemberAjaxController
 			
 				Member member = new Member(mType, mStatus, firstname, lastname, 
 											username, md5Password, regCode, regDate, email,
-											address, city, state, cap);
+											address, city, state, cap, true);
 
 				if(!phone.equals("") && !phone.equals("not set")) 
 				member.setTel(phone);
@@ -159,7 +159,8 @@ public class MemberAjaxController
 				errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
 				else {
 				
-					//Inviare qui la mail con il codice di registrazione e la password generata
+					//Inviare qui la mail con il codice di registrazione e la password generata 
+					//TODO cambiare link di conferma mail. Togliere la parte relativa a admin, gestito lato server con Member.fromAdmin
 					/*
 					SendEmail emailer = new SendEmail();
 					boolean isSupplier = false;
