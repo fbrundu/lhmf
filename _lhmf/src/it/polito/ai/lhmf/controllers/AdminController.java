@@ -42,7 +42,15 @@ public class AdminController {
 		return new ModelAndView("userMgmt_admin");
 	}
 	
-	
-	
-	
+	@RequestMapping("/prodMgmt")
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	public ModelAndView productPage(Model model, HttpServletRequest request, HttpServletResponse response)
+	{
+		//TODO: bisogna aggiungere i parametri e reinserirli nel model.
+		model.addAttribute("user", request.getSession().getAttribute("user"));
+		
+		model.addAttribute("firstPage", "user");
+		
+		return new ModelAndView("productsMgmt_admin");
+	}
 }

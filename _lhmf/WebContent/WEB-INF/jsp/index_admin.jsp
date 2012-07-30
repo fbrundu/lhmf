@@ -58,7 +58,8 @@
 	<dl class="menu-navigazione">
 	  <dt><a id="userLink" href="<spring:url htmlEscape="true" value="/userMgmt"/>">Gestione Utenti</a></dt>
 	  <dt><a id="logLink" href="<spring:url htmlEscape="true" value="/log"/>">Log</a></dt>
-	  <dt><a href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche (NN)</a></dt>
+	  <dt><a id="productLink" href="<spring:url htmlEscape="true" value="/prodMgmt"/>">Gestione Prodotti</a></dt>
+    <dt><a href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche (NN)</a></dt>
 	  <dt><a href="<spring:url htmlEscape="true" value="/messaggi"/>">Messaggi (NN)</a></dt>
 	</dl> 
 	</jsp:attribute>
