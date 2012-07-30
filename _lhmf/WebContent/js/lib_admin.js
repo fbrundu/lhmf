@@ -943,7 +943,7 @@ function postMemberToActivateHandler(result) {
 				//member
 				output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td>" +
 						val.memberType + "</td><td>" +
-						"<form method='post'><input type='hidden' value='" + val.idMember + ",false'/>" +
+						"<form method='post'><input type='hidden' value='" + val.idMember + "'/>" +
 						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
 			} else  {
 				//supplier
