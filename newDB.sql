@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 24, 2012 alle 22:14
+-- Generato il: Lug 30, 2012 alle 15:07
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -60,10 +60,13 @@ CREATE TABLE IF NOT EXISTS `member` (
   `tel` varchar(45) DEFAULT NULL,
   `member_type` int(11) NOT NULL,
   `status` int(11) NOT NULL,
+  `from_admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idMember`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
   KEY `fk_Member_Member_Type1` (`member_type`),
   KEY `fk_Member_Member_Status1` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -155,16 +158,18 @@ CREATE TABLE IF NOT EXISTS `notify` (
 --
 
 CREATE TABLE IF NOT EXISTS `order` (
-  `idOrder` int(11) NOT NULL,
+  `idOrder` int(11) NOT NULL AUTO_INCREMENT,
+  `order_name` varchar(100) NOT NULL,
   `date_open` date NOT NULL,
   `date_close` date NOT NULL,
   `date_delivery` date DEFAULT NULL,
   `idMember_resp` int(11) NOT NULL,
   `idSupplier` int(11) NOT NULL,
   PRIMARY KEY (`idOrder`),
+  UNIQUE KEY `order_name` (`order_name`),
   KEY `fk_Order_Member1` (`idMember_resp`),
   KEY `fk_Order_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -192,7 +197,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `description` varchar(45) NOT NULL,
   `dimension` int(11) NOT NULL,
   `measure_unit` varchar(45) NOT NULL,
-  `unit_block` int(11) DEFAULT NULL,
+  `unit_block` int(11) NOT NULL DEFAULT '1',
   `availability` tinyint(1) NOT NULL DEFAULT '1',
   `transport_cost` float NOT NULL,
   `unit_cost` float NOT NULL,
@@ -305,8 +310,8 @@ ALTER TABLE `notify`
 -- Limiti per la tabella `order`
 --
 ALTER TABLE `order`
-  ADD CONSTRAINT `fk_Order_Supplier1` FOREIGN KEY (`idSupplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Order_Member1` FOREIGN KEY (`idMember_resp`) REFERENCES `member` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Order_Member1` FOREIGN KEY (`idMember_resp`) REFERENCES `member` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Order_Supplier1` FOREIGN KEY (`idSupplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `order_product`
@@ -319,8 +324,8 @@ ALTER TABLE `order_product`
 -- Limiti per la tabella `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `fk_Product_Supplier1` FOREIGN KEY (`idSupplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Product_Product_Category1` FOREIGN KEY (`idCategory`) REFERENCES `product_category` (`idProduct_Category`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Product_Product_Category1` FOREIGN KEY (`idCategory`) REFERENCES `product_category` (`idProduct_Category`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_Product_Supplier1` FOREIGN KEY (`idSupplier`) REFERENCES `supplier` (`idMember`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Limiti per la tabella `purchase`

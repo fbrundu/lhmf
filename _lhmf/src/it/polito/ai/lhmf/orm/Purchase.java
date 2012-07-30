@@ -108,9 +108,4 @@ public class Purchase implements java.io.Serializable
 		this.purchaseProducts = purchaseProducts;
 	}
 
-	public boolean getIsShipped() 
-	{	
-		return isShipped;
-	}
-
 }
