@@ -154,7 +154,7 @@ public class PurchaseInterface
 				"update Purchase "
 						+ "set isShipped = :isShipped "
 						+ "where idPurchase = :idPurchase");
-		query.setParameter("isShipped", purchase.getIsShipped());
+		query.setParameter("isShipped", purchase.isIsShipped());
 		query.setParameter("idPurchase", purchase.getIdPurchase());
 
 		return (Integer) query.executeUpdate();
