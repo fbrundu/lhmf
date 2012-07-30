@@ -42,7 +42,7 @@ public class AdminController {
 		return new ModelAndView("userMgmt_admin");
 	}
 	
-	@RequestMapping("/prodMgmt")
+	@RequestMapping("/productsMgmtAdmin")
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	public ModelAndView productPage(Model model, HttpServletRequest request, HttpServletResponse response)
 	{

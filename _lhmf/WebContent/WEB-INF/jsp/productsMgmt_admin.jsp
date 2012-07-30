@@ -15,10 +15,10 @@
         {
           var newState = {
             data : {
-              action : 'productsMgmt'
+              action : 'productsMgmtAdmin'
             },
             title : null,
-            url : './productsMgmt'
+            url : './productsMgmtAdmin'
           };
           History.replaceState({
             action : 'null'
