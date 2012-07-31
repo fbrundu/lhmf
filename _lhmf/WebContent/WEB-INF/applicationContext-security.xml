@@ -20,6 +20,7 @@
     <http pattern="/css/**" security="none"/>
     <http pattern="/img/**" security="none"/>
     <http pattern="/js/**" security="none"/>
+    <http pattern="/productPhoto" security="none"/>
     
     <!-- OAUTH 2 for android clients -->
 	<http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager"

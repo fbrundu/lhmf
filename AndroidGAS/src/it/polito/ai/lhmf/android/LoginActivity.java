@@ -31,7 +31,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-public class AndroidGASActivity extends Activity {
+public class LoginActivity extends Activity {
 	//TODO retrieve ConnectionRepository and GASConnectionFactory from custom extended Application
 	
     /** Called when the activity is first created. */
