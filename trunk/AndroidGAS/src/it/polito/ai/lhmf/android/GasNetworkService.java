@@ -47,7 +47,7 @@ public class GasNetworkService extends Service {
 			// Non c'è la connessione nel repo --> l'utente non ha fatto il login
 			NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 			Notification notification = new Notification(android.R.drawable.stat_notify_sync, "Gas: effettuare il login", System.currentTimeMillis());
-			Intent notificationIntent = new Intent(getApplicationContext(), AndroidGASActivity.class);
+			Intent notificationIntent = new Intent(getApplicationContext(), LoginActivity.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
 			notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "è necessario effettuare il login", contentIntent);
 			notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
@@ -61,7 +61,7 @@ public class GasNetworkService extends Service {
 			Gas api = conn.getApi();
 			NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 			Notification notification = new Notification(android.R.drawable.stat_notify_sync, "Gas: tutto ok", System.currentTimeMillis());
-			Intent notificationIntent = new Intent(getApplicationContext(), AndroidGASActivity.class);
+			Intent notificationIntent = new Intent(getApplicationContext(), LoginActivity.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
 			notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS 2", "okok", contentIntent);
 			notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
