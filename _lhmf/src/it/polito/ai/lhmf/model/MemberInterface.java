@@ -85,7 +85,7 @@ public class MemberInterface
 	@Transactional(readOnly = true)
 	public List<Member> getMembersResp()
 	{
-		//Recupero il memberType dell'admin
+		//Recupero il memberType del responsabile
 		MemberType mType = new MemberType(MemberTypes.USER_RESP);
 				
 		Query query = sessionFactory.getCurrentSession().createQuery(
@@ -199,6 +199,20 @@ public class MemberInterface
 		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberType = :memberType order by idMember");
 		
 		query.setParameter("memberType", memberType);
+		return (List<Member>) query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersSupplier() {
+		
+		//Recupero il memberType del supplier
+		MemberType mType = new MemberType(MemberTypes.USER_SUPPLIER);
+				
+		Query query = sessionFactory.getCurrentSession().createQuery(
+					"from Member where memberType = :memberType ");
+		
+		query.setParameter("memberType", mType);
 		return (List<Member>) query.list();
 	}
 }

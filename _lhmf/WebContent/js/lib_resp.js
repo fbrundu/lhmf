@@ -60,10 +60,39 @@
                                "</div>");
         
         $('#tabsOrder-1').html("<div class='logform'>" +
-                                "<form method='post' action='prder'>" +
-                                  "<fieldset><legend>&nbsp;Composizione del Nuovo Ordine:&nbsp;</legend><br />" +
-                                    " Fare qui roba drag and drop" +
-                                    "<button type='submit' id='orderRequest'> Crea Ordine </button>" +
+                                "<form method='post' action='order'>" +
+                                  "<fieldset><legend>&nbsp;Selezione del Fornitore:&nbsp;</legend><br />" +
+	                                  "<label for='memberSupplier' class='left'>Seleziona Fornitore: </label>" +
+	                                  "<select name='memberSupplier' id='memberSupplier' class='field' style='width: 400px'></select>" +
+	                                  "<button type='submit' id='productListRequest'> Carica i Prodotti </button>" +
+                                  "</fieldset>" +
+                                  "<fieldset id='orderCompositor'><legend>&nbsp;Composizione del Nuovo Ordine:&nbsp;</legend><br />" +
+	                              "<div id='products'>" +
+		                          	"<h1 class='ui-widget-header'>Prodotti</h1>" +
+		                          	"<div id='catalog'>" +
+		                          	"<h3><a href='#'>T-Shirts</a></h3>" +
+		                    		"<div>" +
+		                    			"<ul>" +
+		                    				"<li>Lolcat Shirt</li>" +
+		                    			"</ul>" +
+		                    		"</div>" +
+		                    		"<h3><a href='#'>Bags</a></h3>" +
+		                    		"<div>" +
+		                    			"<ul>" +
+		                    				"<li>Zebra Striped</li>" +
+		                    			"</ul>" +
+		                    		"</div>" +
+		                          	"</div>" +
+		                          "</div>" +
+		                          "<div id='orderCart'>" +
+	                              	"<h1 class='ui-widget-header'>Ordine</h1>" +
+	                              	"<div class='ui-widget-content'>" +
+	                              		"<ol>" +
+	                              			"<li class='placeholder'>Trascina qui i prodotti da includere nell'ordine</li>" +
+	                              		"</ol>" +
+	                              	"</div>" +
+	                              "</div>" +
+	                              "<button type='submit' id='orderRequest'> Crea Ordine </button>" +
                                   "</fieldset>" +
                                   "<div id='errorDivOrder' style='display:none;'>" +
                                       "<fieldset><legend id='legendErrorOrder'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -145,6 +174,7 @@
     
 })(window);
 
+
 var idOrder = 0;
 
 function prepareOrderForm(tab){
@@ -164,12 +194,118 @@ function prepareOrderForm(tab){
     $('#maxDate3').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate3').datepicker("setDate", Date.now());
     
-    $('#orderRequest').on("click", clickOrderHandler);
+    
     $('#orderActiveRequest').on("click", clickOrderActiveHandler);
     $('#orderOldRequest').on("click", clickOrderOldHandler);
     $('#orderShipRequest').on("click", clickOrderShipHandler);
     
+    //Drag and drop
+    $("#orderCompositor").hide();
+    
+    loadSupplier();
+    
+    $('#productListRequest').on("click", clickProductListRequest);
+    $('#orderRequest').on("click", clickOrderHandler);
+    
     $("button").button();
+}
+
+function clickProductListRequest(event) {
+	event.preventDefault();
+	
+	var idSupplier = $('#memberSupplier').val();
+	
+	$.post("ajax/getProductFromSupplier", {idSupplier: idSupplier}, postProductListRequest);
+	
+}
+
+function postProductListRequest(productList) {
+
+	if(productList.length <= 1) {
+		
+        $("#errorDivOrder").hide();
+        $("#legendErrorOrder").html("Comunicazione");
+        $("#errorsOrder").html("Non ci sono prodotti disponibili da visualizzare<br /><br />");
+        $("#errorDivOrder").show("slow");
+        $("#errorDivOrder").fadeIn(1000);
+		
+	} else {
+		
+		console.log("Lista prodotti ricevuta");
+		var category = 0;
+		var ncategory = 0;
+		var divToWork = 0;
+		
+		$("#catalog").html("");
+		
+		for(var i = 0; i < productList.length; i++) {
+            
+			var product = productList[i];
+			if(product.availability != true) 
+				continue;
+							
+			if(category != product.category.idProductCategory) {
+				//Nuova categoria, creare nuovo accordion
+				category = product.category.idProductCategory;
+				$("#catalog").append("<h3><a href='#'>" + product.category.description + "</a></h3>");
+				$("#catalog").append("<div><ul></ul></div>");
+				
+				var divToWork = $("#catalog div ul")[ncategory];
+				ncategory++;
+			}
+            
+			$(divToWork).append("<li>" + product.name + "" + product.description + "</li>");
+					
+        }
+		
+		$( "#catalog" ).accordion({
+			autoHeight: false,
+			navigation: true
+		});
+		$( "#catalog li" ).draggable({
+			appendTo: "body",
+			helper: "clone",
+			cursor: "move"
+		});
+		$( "#orderCart ol" ).droppable({
+			activeClass: "ui-state-default",
+			hoverClass: "ui-state-hover",
+			accept: ":not(.ui-sortable-helper)",
+			drop: function( event, ui ) {
+				$( this ).find( ".placeholder" ).remove();
+				$( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
+			}
+		}).sortable({
+			items: "li:not(.placeholder)",
+			sort: function() {
+				// gets added unintentionally by droppable interacting with sortable
+				// using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
+				$( this ).removeClass( "ui-state-default" );
+			}
+		});
+		
+		$( "#orderCompositor" ).show("slow");
+		
+	}
+}
+
+function loadSupplier() {
+	
+	$.post("ajax/getMembersSupplierString", function(data) {
+		
+		var output = [];
+		output.push('<option value="-1"> Seleziona Il Fornitore...</option>');
+
+		$.each(data, function(index, val)
+		{
+			var temp = val.split(","); 
+			output.push('<option value="'+ temp[0] +'">'+ temp[1] + ' | ' + temp[2] + '</option>');
+		});
+
+		$('#memberSupplier').html(output.join(''));
+
+		
+	}).error(function() { alert("error"); });
 }
 
 function clickOrderShipHandler(event) {
@@ -268,8 +404,6 @@ function clickShowDetailShipsHandler(event) {
 
 
 function postShowPurchaseHandler(data) {
-	
-	//TODO visualizzazione schede d'acquisto per ogni ordine.
 	
 	var trControl = "#TRdetailsOrderShip_" + idOrder;
 	var tdControl = "#TDdetailsOrderShip_" + idOrder;
