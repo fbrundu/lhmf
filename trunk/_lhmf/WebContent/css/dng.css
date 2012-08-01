@@ -1,0 +1,8 @@
+
+#products { float:left; width: 100%; margin-right: 2em; }
+
+#orderCart { width: 100%; float: left; }
+
+/* style the list to maximize the droppable hitarea */
+
+#orderCart ol { margin: 0; padding: 1em 0 1em 3em; }

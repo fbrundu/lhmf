@@ -3,11 +3,14 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
+import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
+import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.util.ArrayList;
@@ -33,7 +36,11 @@ public class RespAjaxController
 	@Autowired
 	private MemberInterface memberInterface;
 	@Autowired
+	private SupplierInterface supplierInterface;
+	@Autowired
 	private PurchaseInterface purchaseInterface;
+	@Autowired
+	private ProductInterface poductInterface;
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
@@ -169,4 +176,46 @@ public class RespAjaxController
 		purchase.setIsShipped(true);
 		return purchaseInterface.updatePurchase(purchase);
 	}
+	
+	
+	
+	@RequestMapping(value = "/ajax/getMembersSupplierString", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<String> getMembersSupplierString(HttpServletRequest request, HttpSession session)
+	{
+		String username = (String) session.getAttribute("username");
+		Member memberResp = memberInterface.getMember(username);
+		
+		ArrayList<String> respString = new ArrayList<String>();
+		
+		List<Member> listSupplier = new ArrayList<Member>();
+		listSupplier = memberInterface.getMembersSupplier();
+		
+		for (Member m : listSupplier) {
+		  
+			Supplier s = supplierInterface.getSupplier(m.getIdMember());
+			if(s.getMemberByIdMemberResp().getIdMember() == memberResp.getIdMember()) {
+				String temp = m.getIdMember() + "," + m.getName() + " " + m.getSurname() + "," + s.getCompanyName();
+				respString.add(temp);	
+			}
+		}
+		
+		return respString;
+	}
+	
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getProductFromSupplier", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getProductFromSupplier(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idSupplier") int idSupplier) throws InvalidParametersException
+	{
+		
+		Member supplier = memberInterface.getMember(idSupplier);
+		
+		List<Product> listProduct = poductInterface.getProductsBySupplier(supplier);
+		
+		return listProduct;
+	}
+	
 }

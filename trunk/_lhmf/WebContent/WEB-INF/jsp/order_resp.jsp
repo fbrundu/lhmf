@@ -7,6 +7,7 @@
 <t:index>
 	<jsp:attribute name="scripts">
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_resp.js"/>'></script>
+		<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/dng.css"/>'/>
 		<script type="text/javascript">
 			function drawPageCallback(){
 				if(History.enabled){

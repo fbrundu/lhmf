@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 
 import java.util.List;
@@ -49,18 +50,11 @@ public class ProductInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Product> getProductsBySupplier(String username)
+	public List<Product> getProductsBySupplier(Member memberSupplier)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"select idMember " + "from Member "
-						+ "where username = :username");
-		query.setParameter("username", username);
-		Integer idMember = (Integer) query.uniqueResult();
-		if (idMember <= 0)
-			return null;
-		query = sessionFactory.getCurrentSession().createQuery(
-				"from Product " + "where idSupplier = :idMember");
-		query.setParameter("idMember", idMember);
+				"from Product " + "where idSupplier = :idMember order by productCategory");
+		query.setParameter("idMember", memberSupplier.getIdMember());
 		return query.list();
 	}
 
