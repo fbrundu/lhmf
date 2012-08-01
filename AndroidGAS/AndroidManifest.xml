@@ -32,6 +32,9 @@
             </intent-filter>
         </receiver>
         <service android:name=".GasNetworkService"></service>
+        <activity android:name=".admin.LogActivity"></activity>
+        <activity android:name=".admin.UsersActivity"></activity>
+        <activity android:name=".admin.ProductsActivity"></activity>
     </application>
 
 </manifest>

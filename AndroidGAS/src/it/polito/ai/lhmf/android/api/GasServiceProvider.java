@@ -1,4 +1,6 @@
-package it.polito.ai.lhmf.android.binding;
+package it.polito.ai.lhmf.android.api;
+
+import it.polito.ai.lhmf.android.api.impl.GasTemplate;
 
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
