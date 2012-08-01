@@ -34,8 +34,7 @@ public class ProductInterface
 	@Transactional(readOnly = true)
 	public Product getProduct(Integer idProduct)
 	{
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Product " + "where idProduct = :idProduct");
+		Query query = sessionFactory.getCurrentSession().createQuery("from Product " + "where idProduct = :idProduct");
 		query.setParameter("idProduct", idProduct);
 		return (Product) query.uniqueResult();
 	}
