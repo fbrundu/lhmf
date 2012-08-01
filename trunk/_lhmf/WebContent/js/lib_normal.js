@@ -138,23 +138,27 @@ function preparePurchaseForm(tab){
     $('#newPurchaseSubmit').on("click", clickNewPurchaseHandler);
     $('#purchaseActiveRequest').on("click", clickPurchaseActiveHandler);
     $('#purchaseOldRequest').on("click", clickPurchaseOldHandler);
+    $('#purchaseDetailsRequest').on("click", clickPurchaseDetailsHandler);
 }
 
-function clickNewPurchaseHandler(event) {
+function clickNewPurchaseHandler(event) 
+{
     event.preventDefault();
     
     //Creazione nuove schede (in attesa di Drag & drop)
     
 }
 
-function clickOrderActiveHandler(event) {
+function clickOrderActiveHandler(event) 
+{
     event.preventDefault();
     
     $.post("ajax/getActiveOrderNormal", postActiveOrderListHandler);
       
 }
 
-function clickPurchaseActiveHandler(event) {
+function clickPurchaseActiveHandler(event) 
+{
     event.preventDefault();
     
     $.post("ajax/getActivePurchase", postActivePurchaseListHandler);
@@ -163,13 +167,21 @@ function clickPurchaseActiveHandler(event) {
 
 
 
-function clickPurchaseOldHandler(event) {
+function clickPurchaseOldHandler(event) 
+{
     event.preventDefault();
   
     $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
     
 }
 
+function clickPurchaseDetailsHandler(event)
+{
+    event.preventDefault();
+    
+    $.post("ajax/getPurchaseDetails", postPurchaseDetailsListHandler);
+	
+}
 
 ////////Schede Attive
 
@@ -190,10 +202,11 @@ function postActivePurchaseListHandler(purchaseList)
             
             $("#activePurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
 					  							  "<td>" + purchase.isShipped + "</td>" +
-					  							  "<td> <form> <input type='hidden' value='" + purchase.order.idOrder + "'/>" +
+					  							  "<td><button type='submit' id='purchaseDetailsRequest'> Visualizza </button></td></tr>"
+					  							  /*"<td> <form> <input type='hidden' value='" + purchase.order.idOrder + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.order.idOrder + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-					  							  "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
+					  							  "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>"*/);
             $(".detailsOrder").hide();
         }
         $.each(purchaseList, function(index, val)

@@ -87,4 +87,19 @@ public class NormalAjaxController
 		return listProduct;
 	}
 	
+	/*@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getPurchaseDetails", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	{
+		List<Integer> idTmp = purchaseInterface.
+		
+		
+		
+		Order order = orderInterface.getOrder(idOrder);
+		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
+		return listProduct;
+	}
+	*/
 }
