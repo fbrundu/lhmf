@@ -20,7 +20,7 @@ var numberOfMember;
 		drawPageCallback();
 	});
 
-	})(window);
+})(window);
 
 function historyStateChanged() {
   var History = window.History;
@@ -83,9 +83,9 @@ function historyStateChanged() {
 }
 
 function logClicked(event) {
-  if (histEnabled == true) {
+  var History = window.History;	
+  if (History.enabled == true) {
     event.preventDefault();
-    var History = window.History;
     var state = History.getState();
     var stateData = state.data;
     if (!!stateData && !!stateData.action && stateData.action == 'log')
@@ -97,9 +97,9 @@ function logClicked(event) {
 }
 
 function userClicked(event) {
-  if (histEnabled == true) {
+  var History = window.History;	
+  if (History.enabled == true) {
     event.preventDefault();
-    var History = window.History;
     var state = History.getState();
     var stateData = state.data;
     if (!!stateData && !!stateData.action
@@ -112,9 +112,9 @@ function userClicked(event) {
 }
 
 function productClicked(event) {
-  if (histEnabled == true) {
+  var History = window.History;	
+  if (History.enabled == true) {
     event.preventDefault();
-    var History = window.History;
     var state = History.getState();
     var stateData = state.data;
     if (!!stateData && !!stateData.action
