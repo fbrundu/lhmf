@@ -1,7 +1,7 @@
 package it.polito.ai.lhmf.android;
 
-import it.polito.ai.lhmf.android.binding.GASConnectionFactory;
-import it.polito.ai.lhmf.android.binding.Gas;
+import it.polito.ai.lhmf.android.api.GASConnectionFactory;
+import it.polito.ai.lhmf.android.api.Gas;
 
 import org.springframework.security.crypto.encrypt.AndroidEncryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;

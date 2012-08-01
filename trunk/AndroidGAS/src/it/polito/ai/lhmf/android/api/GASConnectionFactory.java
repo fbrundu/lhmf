@@ -1,4 +1,4 @@
-package it.polito.ai.lhmf.android.binding;
+package it.polito.ai.lhmf.android.api;
 
 
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
