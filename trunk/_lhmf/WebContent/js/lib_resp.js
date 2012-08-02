@@ -66,30 +66,17 @@
 	                                  "<select name='memberSupplier' id='memberSupplier' class='field' style='width: 400px'></select>" +
 	                                  "<button type='submit' id='productListRequest'> Carica i Prodotti </button>" +
                                   "</fieldset>" +
-                                  "<fieldset id='orderCompositor'><legend>&nbsp;Composizione del Nuovo Ordine:&nbsp;</legend><br />" +
-	                              "<div id='products'>" +
+                                  "<fieldset id='orderCompositor'><legend>&nbsp;Composizione Nuovo Ordine:&nbsp;</legend><br />" +
+	                              "<div id='productsList'>" +
 		                          	"<h1 class='ui-widget-header'>Prodotti</h1>" +
-		                          	"<div id='catalog'>" +
-		                          	"<h3><a href='#'>T-Shirts</a></h3>" +
-		                    		"<div>" +
-		                    			"<ul>" +
-		                    				"<li>Lolcat Shirt</li>" +
-		                    			"</ul>" +
-		                    		"</div>" +
-		                    		"<h3><a href='#'>Bags</a></h3>" +
-		                    		"<div>" +
-		                    			"<ul>" +
-		                    				"<li>Zebra Striped</li>" +
-		                    			"</ul>" +
-		                    		"</div>" +
-		                          	"</div>" +
+		                          	"<div id='catalog'></div>" +
 		                          "</div>" +
 		                          "<div id='orderCart'>" +
 	                              	"<h1 class='ui-widget-header'>Ordine</h1>" +
 	                              	"<div class='ui-widget-content'>" +
-	                              		"<ol>" +
-	                              			"<li class='placeholder'>Trascina qui i prodotti da includere nell'ordine</li>" +
-	                              		"</ol>" +
+	                              		"<ul id='products' class='list clearfix'>" +
+	                              			"<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nell'ordine<br /><br /></div>" +
+	                              		"</ul>" +
 	                              	"</div>" +
 	                              "</div>" +
 	                              "<button type='submit' id='orderRequest'> Crea Ordine </button>" +
@@ -213,11 +200,17 @@ function prepareOrderForm(tab){
 function clickProductListRequest(event) {
 	event.preventDefault();
 	
+	$("#orderCompositor").hide();
+	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti</h1>" +
+          					"<div id='catalog'></div>");
+	
 	var idSupplier = $('#memberSupplier').val();
 	
 	$.post("ajax/getProductFromSupplier", {idSupplier: idSupplier}, postProductListRequest);
 	
 }
+
+var addedIds = [];
 
 function postProductListRequest(productList) {
 
@@ -236,8 +229,6 @@ function postProductListRequest(productList) {
 		var ncategory = 0;
 		var divToWork = 0;
 		
-		$("#catalog").html("");
-		
 		for(var i = 0; i < productList.length; i++) {
             
 			var product = productList[i];
@@ -248,14 +239,32 @@ function postProductListRequest(productList) {
 				//Nuova categoria, creare nuovo accordion
 				category = product.category.idProductCategory;
 				$("#catalog").append("<h3><a href='#'>" + product.category.description + "</a></h3>");
-				$("#catalog").append("<div><ul></ul></div>");
+				$("#catalog").append("<div><ul id='products' class='list clearfix'></ul></div>");
 				
 				var divToWork = $("#catalog div ul")[ncategory];
 				ncategory++;
 			}
-            
-			$(divToWork).append("<li>" + product.name + "" + product.description + "</li>");
-					
+			            
+			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'>" +
+								   "<section class='left'>" +
+								       "<img src='" + product.imgPath + "' height='60' class='thumb'>" +
+								       "<h3>" + product.name + "</h3>" +
+								       "<span class='meta'>" + product.description + "</span>" +
+								   "</section>" +
+								   "<section class='right'>" +
+										"<span class='price'>&euro;" + product.unitCost + "</span>" +
+										"<span class='amount'>" +
+											"<label for='pz' class='left'>Quota:</label>" +
+											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
+										"</span>" +
+										"<span class='darkview'>" +
+											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
+											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
+										"</span>" +
+									"</section>" +
+									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
+								  "</li>");
+								
         }
 		
 		$( "#catalog" ).accordion({
@@ -265,29 +274,56 @@ function postProductListRequest(productList) {
 		$( "#catalog li" ).draggable({
 			appendTo: "body",
 			helper: "clone",
-			cursor: "move"
+			cursor: "move",
+			start: function(event, ui) {
+				$("#errorDivOrder").hide("slow");
+			}
 		});
-		$( "#orderCart ol" ).droppable({
+		$( "#orderCart ul" ).droppable({
 			activeClass: "ui-state-default",
 			hoverClass: "ui-state-hover",
 			accept: ":not(.ui-sortable-helper)",
 			drop: function( event, ui ) {
-				$( this ).find( ".placeholder" ).remove();
-				$( "<li></li>" ).text( ui.draggable.text() ).appendTo( this );
-			}
-		}).sortable({
-			items: "li:not(.placeholder)",
-			sort: function() {
-				// gets added unintentionally by droppable interacting with sortable
-				// using connectWithSortable fixes this, but doesn't allow you to customize active/hoverClass options
-				$( this ).removeClass( "ui-state-default" );
+				
+				//var idProduct = $(ui.draggable).find("input:hidden").val();
+				var idProduct = $(ui.draggable).data('productid');
+				
+				if($.inArray(idProduct, addedIds) === -1) {
+		            addedIds.push(idProduct);
+		            $( "#orderCart ul" ).append($(ui.draggable).clone());
+		            $( "#orderCart .delButton" ).on("click", deleteProductFromOrder);
+					$( "#orderCart .deleteButton" ).show();
+					$( "#orderCart .amount" ).show();
+		        } else {
+					$("#errorDivOrder").hide();
+			        $("#legendErrorOrder").html("Comunicazione");
+			        $("#errorsOrder").html("Questo prodotto &egrave gi&agrave presente nell'ordine<br /><br />");
+			        $("#errorDivOrder").show("slow");
+			        $("#errorDivOrder").fadeIn(1000);
+				}
 			}
 		});
 		
+		$( ".deleteButton" ).hide();
+		$( ".amount" ).hide();
 		$( "#orderCompositor" ).show("slow");
 		
 	}
 }
+
+function deleteProductFromOrder(event) {
+	event.preventDefault();
+	
+	$(this).parents("li").remove();
+	var idProduct = $(this).parents("li").data('productid');
+	addedIds = jQuery.removeFromArray(idProduct, addedIds);
+}
+
+jQuery.removeFromArray = function(value, arr) {
+    return jQuery.grep(arr, function(elem, index) {
+        return elem !== value;
+    });
+};
 
 function loadSupplier() {
 	
@@ -305,7 +341,7 @@ function loadSupplier() {
 		$('#memberSupplier').html(output.join(''));
 
 		
-	}).error(function() { alert("error"); });
+	});
 }
 
 function clickOrderShipHandler(event) {
@@ -440,7 +476,7 @@ function postShowPurchaseHandler(data) {
 			$.postSync("ajax/getPurchaseAmount", {idPurchase: val.idPurchase, idProduct: val2.idProduct}, function(data) { amount = data; });
 			var temp = amount * (val2.unitBlock * val2.unitCost);
 			total += temp;
-			productTable += "<tr>   <td> <img align='middle' height='45' src='" + val2.imgPath + "'></td> " +
+			productTable += "<tr>   <td> <img align='middle' height='60' src='" + val2.imgPath + "'></td> " +
 								   "<td>" + val2.name + "</td>" +
 			                       "<td>" + val2.category.description + "</td>" +
 			                       "<td>" + val2.description + "</td>" +
@@ -646,7 +682,47 @@ function postShowDetailsHandler(data) {
 
 function clickOrderHandler(event) {
     event.preventDefault();
-        
+    
+    $("#errorDivOrder").hide();
+    var idProducts = [];
+    var productsAmount = [];
+    var fail = false;
+    
+    //Controllo dei campi. //addedIds
+    var productDOMList = $("#orderCart ul li"); //oggetto jquery
+    
+    if(productDOMList.lenght == 0) {
+        $("#legendErrorOrder").html("Errore");
+        $("#errorsOrder").html("Non sono stati aggiunti prodotti all'ordine.<br /><br />");
+        fail = true;
+    }
+    
+    productDOMList.each(function(index, value) {
+    	
+    	var id = $(value).data('productid');
+    	var amount = $(value).find("input").val();
+    	
+    	if(amount === undefined || isNaN(amount)) {
+	        $("#legendErrorOrder").html("Errore");
+	        $("#errorsOrder").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
+	        fail = true;
+    	}
+    	idProducts.push(id);
+    	productsAmount.push(amount);
+  	
+    });
+   
+    if(fail == true) {
+    	$("#errorDivOrder").show("slow");
+        $("#errorDivOrder").fadeIn(1000);
+    } else {
+    	// TODO continuare con ajax e generazione ordine.
+    	 $("#legendErrorOrder").html("Comunicazione");
+	     $("#errorsOrder").html("Qui &egrave tutto ok zzio. Datemi un pochino di tempo altro e vi sparo l'ajax per la creazione ordini.<br /><br />");
+	     $("#errorDivOrder").show("slow");
+	     $("#errorDivOrder").fadeIn(1000);
+    }
+      
 }
 
 function clickOrderOldHandler(event) {
