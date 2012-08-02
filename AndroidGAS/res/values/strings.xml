@@ -1,7 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
-
     <string name="hello">Hello World, AndroidGASActivity!</string>
     <string name="app_name">AndroidGAS</string>
-
+    <string name="new_product_name">Nome:</string>
+    <string name="new_product_desc">Descrizione:</string>
+    <string name="new_product_dim">Dimensione:</string>
+    <string name="new_product_measure">Unità di misura:</string>
+    <string name="new_product_block_unit">Unità per blocco</string>
+    <string name="new_product_transport_cost">Costo trasporto:</string>
+    <string name="new_product_unit_cost">Costo unità</string>
+    <string name="new_product_min_units">Minimo unità acquistabili:</string>
+    <string name="new_product_max_units">Massimo unità acquistabili:</string>
+    <string name="new_product_confirm">Conferma</string>
+    <string name="supplier_new_product">Nuovo prodotto</string>
+    <string name="supplier_listino">Gestione listino</string>
+    <string name="new_product_its_category">Categoria:</string>
+    <string name="create_new_prod_cat">Crea nuova categoria</string>
+    <string name="new_product_category_descriprion_label">Descrizione categoria:</string>
+    <string name="logout">Logout</string>
 </resources>

@@ -4,12 +4,20 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 public class ProductInterface
 {
@@ -25,11 +33,49 @@ public class ProductInterface
 	public Integer newProduct(Product product)
 			throws InvalidParametersException
 	{
+		return newProduct(product, null, null);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer newProduct(Product product, MultipartFile picture, String pictureDirectoryPath) throws InvalidParametersException {
+		Integer newProductId = -1;
 		if (product == null)
 			throw new InvalidParametersException();
+		
+		newProductId = (Integer) sessionFactory.getCurrentSession().save(product);
+		
+		if(picture != null){
+			if(pictureDirectoryPath == null)
+				throw new InvalidParametersException();
+			String fileName = picture.getOriginalFilename();
+			String extension = null;
+			int i = fileName.lastIndexOf('.');
 
-		return (Integer) sessionFactory.getCurrentSession().save(product);
+			if (i > 0 && i < fileName.length() - 1)
+				extension = fileName.substring(i+1);
+
+			if(extension == null)
+				extension = "";
+			
+			String picturePath = pictureDirectoryPath + File.separator + newProductId + extension;
+			
+			File f = new File(picturePath);
+			OutputStream writer = null;
+			try {
+				writer = new BufferedOutputStream(new FileOutputStream(f));
+				writer.write(picture.getBytes());
+				writer.flush();
+				writer.close();
+				product.setImgPath(picturePath);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return newProductId;
 	}
+	
 
 	@Transactional(readOnly = true)
 	public Product getProduct(Integer idProduct)

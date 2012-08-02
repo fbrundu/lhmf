@@ -1,15 +1,9 @@
 package it.polito.ai.lhmf.android;
 
-import it.polito.ai.lhmf.android.api.GASConnectionFactory;
 import it.polito.ai.lhmf.android.api.Gas;
+import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 
-import org.springframework.security.crypto.encrypt.AndroidEncryptors;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.sqlite.SQLiteConnectionRepository;
-import org.springframework.social.connect.sqlite.support.SQLiteConnectionRepositoryHelper;
-import org.springframework.social.connect.support.ConnectionFactoryRegistry;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -17,7 +11,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.IBinder;
 
 public class GasNetworkService extends Service {
@@ -31,17 +24,8 @@ public class GasNetworkService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Context ctx = getApplicationContext();
-        SQLiteOpenHelper repositoryHelper = new SQLiteConnectionRepositoryHelper(ctx);
-        ConnectionFactoryRegistry connectionFactoryRegistry = new ConnectionFactoryRegistry();
-        String appId="androidGas";
-        final GASConnectionFactory factory = new GASConnectionFactory(appId);
-        connectionFactoryRegistry.addConnectionFactory(factory);
-        TextEncryptor enc = AndroidEncryptors.noOpText();
-		
-		final ConnectionRepository repo = new SQLiteConnectionRepository(repositoryHelper, connectionFactoryRegistry, enc);
-		
-		Connection<Gas> conn = repo.findPrimaryConnection(Gas.class);
+		GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
+		Connection<Gas> conn = holder.getConnection();
 		
 		if(conn == null){
 			// Non c'è la connessione nel repo --> l'utente non ha fatto il login
@@ -58,7 +42,6 @@ public class GasNetworkService extends Service {
 		}
 		else{
 			// La connessione c'è
-			Gas api = conn.getApi();
 			NotificationManager nm = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
 			Notification notification = new Notification(android.R.drawable.stat_notify_sync, "Gas: tutto ok", System.currentTimeMillis());
 			Intent notificationIntent = new Intent(getApplicationContext(), LoginActivity.class);
