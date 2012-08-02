@@ -54,24 +54,6 @@ public class PurchaseAjaxController
 		return idPurchase;
 	}
 	
-	@RequestMapping(value = "/ajax/getpastpurchase", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Purchase> getPastPurchase(HttpServletRequest request)
-	{
-		List<Purchase> purchaseList = null;
-		purchaseList = purchaseInterface.getPastPurchase(); 
-		return purchaseList;
-	}
-	
-	@RequestMapping(value = "/ajax/getactivepurchase", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Purchase> getActivePurchase(HttpServletRequest request)
-	{
-		List<Purchase> purchaseList = null;
-		purchaseList = purchaseInterface.getActivePurchase(); 
-		return purchaseList;
-	}
-	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getmypurchases", method = RequestMethod.GET)
 	public @ResponseBody
