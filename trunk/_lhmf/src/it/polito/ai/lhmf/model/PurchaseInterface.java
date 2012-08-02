@@ -1,7 +1,6 @@
 package it.polito.ai.lhmf.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -37,26 +36,6 @@ public class PurchaseInterface
 			throw new InvalidParametersException();
 		}
 		return (Integer) sessionFactory.getCurrentSession().save(purchase);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
-	public List<Purchase> getPastPurchase()
-	{ 
-		Query queryOrders = sessionFactory.getCurrentSession().createQuery("from Order " + "where date_close <= :date_close"); 
-		String dateToQuery = new String(Calendar.YEAR+""+Calendar.MONTH+""+Calendar.DAY_OF_MONTH);
-		List<Order> orders = queryOrders.setParameter("date_close", dateToQuery).list();
-		Query queryPurchase = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idPurchase = :idPurchase");
-		return queryPurchase.setParameterList("idPurchase", orders).list();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
-	public List<Purchase> getActivePurchase()
-	{
-		List<Order> orders = sessionFactory.getCurrentSession().createQuery("from Order " + "where date_delivery = 0").list();
-		Query queryPurchase = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idPurchase = :idPurchase");
-		return queryPurchase.setParameterList("idPurchase", orders).list();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -141,10 +120,11 @@ public class PurchaseInterface
 		return query.list();
 	}
 
+	
 	@Transactional(readOnly = true)
-	public Integer getAmount(int idPurchase, int idProduct) {
-		
-		
+	public Integer getAmount(int idPurchase, int idProduct) 
+	{	
+	
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"select amount from PurchaseProduct " + "where idPurchase = :idPurchase AND idProduct = :idProduct");
 			query.setParameter("idPurchase", idPurchase);
@@ -155,7 +135,8 @@ public class PurchaseInterface
 		
 	}
 
-	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException {
+	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
+	{
 		
 		if (purchase == null)
 			throw new InvalidParametersException();
