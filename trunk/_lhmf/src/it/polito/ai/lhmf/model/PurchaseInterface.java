@@ -130,17 +130,16 @@ public class PurchaseInterface
 		return listProduct;
 	}
 	
-	/*@Transactional(readOnly = true)
-	public List<Integer> getIdProducts(Integer idPurchase) throws InvalidParametersException 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<PurchaseProduct> getPurchaseProduct(Integer idPurchase) throws InvalidParametersException 
 	{
 		if (idPurchase == null || idPurchase < 0)
 			throw new InvalidParametersException();
-		Query query = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idPurchase = :idPurchase");
+		Query query = sessionFactory.getCurrentSession().createQuery("from PurchaseProduct " + "where idPurchase = :idPurchase");
 		query.setParameter("idPurchase", idPurchase);
-		List<Purchase> purchaseList = query.list();
-		
-		//List<Integer> idList = purchaseList.;
-	}*/
+		return query.list();
+	}
 
 	@Transactional(readOnly = true)
 	public Integer getAmount(int idPurchase, int idProduct) {

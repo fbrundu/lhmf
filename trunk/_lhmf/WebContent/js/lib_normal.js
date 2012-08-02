@@ -202,16 +202,15 @@ function postActivePurchaseListHandler(purchaseList)
             
             $("#activePurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
 					  							  "<td>" + purchase.isShipped + "</td>" +
-					  							  "<td><button type='submit' id='purchaseDetailsRequest'> Visualizza </button></td></tr>"
-					  							  /*"<td> <form> <input type='hidden' value='" + purchase.order.idOrder + "'/>" +
-					  							  "<button type='submit' id='showDetails_" + purchase.order.idOrder + "'> Mostra Dettagli </button>" +
+					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
+					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-					  							  "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>"*/);
-            $(".detailsOrder").hide();
+					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
+            $(".detailsPurchase").hide();
         }
         $.each(purchaseList, function(index, val)
         {
-        	$("#showDetails_" + val.order.idOrder).on("click", clickShowDetailsHandler);
+        	$("#showDetails_" + val.idPurchase).on("click", clickPurchaseDetailsHandler);
         });
             
         $("#activePurchaseList").show("slow");
@@ -246,17 +245,16 @@ function postOldPurchaseListHandler(purchaseList)
             
             $("#oldPurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
             								  "<td>" + purchase.isShipped + "</td>" +
-                                              "<td> <form> <input type='hidden' value='" + purchase.order.idOrder + "'/>" +
-                                         	   "<button type='submit' id='showDetails_" + purchase.order.idOrder + "'> Mostra Dettagli </button>" +
-                                         	   "</form></td></tr>" +
-                                    "<tr class='detailsOrder' id='TRdetailsOrder_" + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + purchase.idOrder + "'></td></tr>");
-            $(".detailsOrder").hide();
-        }
-        
-        $.each(purchaseList, function(index, val)
-        {
-        	$("#showDetails_" + val.order.idOrder).on("click", clickShowDetailsHandler);
-        });
+            								  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
+				  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
+				  							  "</form></td></tr>" +
+				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
+        $(".detailsPurchase").hide();
+    }
+    $.each(purchaseList, function(index, val)
+    {
+    	$("#showDetails_" + val.idPurchase).on("click", clickPurchaseDetailsHandler);
+    });
     
         $("#oldPurchaseList").show("slow");
         $("#oldPurchaseList").fadeIn(1000);
@@ -347,6 +345,45 @@ function postShowDetailsHandler(data) {
                                  "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
     
     $.each(data, function(index, val)
+    {
+        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + "</td>" +
+        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
+    });
+    
+    $(trControl).show("slow");    
+    $(tdControl).fadeIn(1000);  
+}
+
+
+var idPurchase = 0;
+
+function clickPurchaseDetailsHandler(event) {
+    event.preventDefault();
+    
+    $(".detailsPurchase").hide();
+    var form = $(this).parents('form');
+    idPurchase = $('input', form).val();
+    
+    $.post("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
+}
+
+function postPurchaseDetailsListHandler(productList) {
+
+    var trControl = "#TRdetailsPurchase_" + idPurchase;
+    var tdControl = "#TDdetailsPurchase_" + idPurchase;
+    
+    $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log'></table></div>");
+    
+    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    
+    $(tableControl).append("<tr>  <th class='top' width='25%'> Prodotto </th>" +
+                                 "<th class='top' width='35%'> Descrizione  </th>" +
+                                 "<th class='top' width='20%'> Costo  </th>" +
+                                 "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
+    
+    $.each(productList, function(index, val)
     {
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
