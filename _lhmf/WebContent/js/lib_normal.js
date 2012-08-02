@@ -139,6 +139,7 @@ function preparePurchaseForm(tab){
     $('#purchaseActiveRequest').on("click", clickPurchaseActiveHandler);
     $('#purchaseOldRequest').on("click", clickPurchaseOldHandler);
     $('#purchaseDetailsRequest').on("click", clickPurchaseDetailsHandler);
+    $("button").button();
 }
 
 function clickNewPurchaseHandler(event) 
@@ -207,6 +208,7 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "</form></td></tr>" +
 					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
+            $("button").button();
         }
         $.each(purchaseList, function(index, val)
         {
@@ -250,6 +252,7 @@ function postOldPurchaseListHandler(purchaseList)
 				  							  "</form></td></tr>" +
 				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
         $(".detailsPurchase").hide();
+        $("button").button();
     }
     $.each(purchaseList, function(index, val)
     {
@@ -297,6 +300,7 @@ function postActiveOrderListHandler(orderList) {
                                               	   "</form></td></tr>" +
                                          "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
+            $("button").button();
         }
         
         $.each(orderList, function(index, val)
