@@ -36,12 +36,12 @@ public class ProductSerializer extends JsonSerializer<Product>
 		jgen.writeNumberField("unitCost", value.getUnitCost());
 		
 		if(value.getMinBuy() == null)
-			jgen.writeStringField("minBuy", "no limit");
+			jgen.writeStringField("minBuy", "No");
 		else
 			jgen.writeNumberField("minBuy", value.getMinBuy());
 		
 		if(value.getMaxBuy() == null)
-			jgen.writeStringField("maxBuy", "no limit");
+			jgen.writeStringField("maxBuy", "No");
 		else
 			jgen.writeNumberField("maxBuy", value.getMaxBuy());
 		
