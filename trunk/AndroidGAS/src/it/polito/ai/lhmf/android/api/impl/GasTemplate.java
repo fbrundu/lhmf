@@ -1,7 +1,5 @@
 package it.polito.ai.lhmf.android.api.impl;
 
-import java.net.URI;
-
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.LogOperations;
 import it.polito.ai.lhmf.android.api.MessageOperations;
@@ -11,8 +9,9 @@ import it.polito.ai.lhmf.android.api.ProductOperations;
 import it.polito.ai.lhmf.android.api.PuchaseOperations;
 import it.polito.ai.lhmf.android.api.UserOperations;
 
+import java.net.URI;
+
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
-import org.springframework.web.client.RestTemplate;
 
 public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 	private LogOperations logOperations;
@@ -28,37 +27,33 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 		
 		//TODO construct templates
 		userOperations = new UserTemplate(getRestTemplate());
+		productOperations = new ProductsTemplate(getRestTemplate());
 		
 	}
 
 	@Override
 	public MessageOperations messageOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return messageOperations;
 	}
 
 	@Override
 	public NotifyOperations notifyOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return notifyOperations;
 	}
 
 	@Override
 	public PuchaseOperations purchaseOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return puchaseOperations;
 	}
 
 	@Override
 	public ProductOperations productOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return productOperations;
 	}
 
 	@Override
 	public OrderOperations orderOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return orderOperations;
 	}
 
 	@Override
@@ -68,8 +63,7 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 
 	@Override
 	public LogOperations logOperations() {
-		// TODO Auto-generated method stub
-		return null;
+		return logOperations;
 	}
 
 	@Override

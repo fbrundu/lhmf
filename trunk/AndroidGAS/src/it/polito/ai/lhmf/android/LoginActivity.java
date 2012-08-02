@@ -1,17 +1,7 @@
 package it.polito.ai.lhmf.android;
 
-import it.polito.ai.lhmf.android.api.GASConnectionFactory;
-import it.polito.ai.lhmf.android.api.Gas;
+import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 
-import org.springframework.security.crypto.encrypt.AndroidEncryptors;
-import org.springframework.security.crypto.encrypt.TextEncryptor;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.DuplicateConnectionException;
-import org.springframework.social.connect.sqlite.SQLiteConnectionRepository;
-import org.springframework.social.connect.sqlite.support.SQLiteConnectionRepositoryHelper;
-import org.springframework.social.connect.support.ConnectionFactoryRegistry;
-import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
@@ -21,7 +11,6 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +21,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 public class LoginActivity extends Activity {
-	//TODO retrieve ConnectionRepository and GASConnectionFactory from custom extended Application
+	private GasConnectionHolder holder;
 	
     /** Called when the activity is first created. */
     @Override
@@ -41,21 +30,14 @@ public class LoginActivity extends Activity {
         
         requestWindowFeature(Window.FEATURE_PROGRESS);
         //setContentView(R.layout.main);
-        Context ctx = getApplicationContext();
-        SQLiteOpenHelper repositoryHelper = new SQLiteConnectionRepositoryHelper(ctx);
-        ConnectionFactoryRegistry connectionFactoryRegistry = new ConnectionFactoryRegistry();
-        String appId="androidGas";
-        final GASConnectionFactory factory = new GASConnectionFactory(appId);
-        connectionFactoryRegistry.addConnectionFactory(factory);
-        TextEncryptor enc = AndroidEncryptors.noOpText();
-        
-        final ConnectionRepository repo = new SQLiteConnectionRepository(repositoryHelper, connectionFactoryRegistry, enc);
         
         String redirectUri = "http://gasproject.net:8080/_lhmf/android/loginSuccess";
         OAuth2Parameters params = new OAuth2Parameters();
         params.setRedirectUri(redirectUri);
         
-        OAuth2Operations oauth = factory.getOAuthOperations();
+        holder = new GasConnectionHolder(getApplicationContext());
+        
+        OAuth2Operations oauth = holder.getOAuthOperations();
         String authorizeUrl = oauth.buildAuthenticateUrl(GrantType.IMPLICIT_GRANT, params);
         
         WebView wv = new WebView(this);
@@ -82,19 +64,15 @@ public class LoginActivity extends Activity {
 						String accessToken = accessTokenParam[1];
 		
 						// create the connection and persist it to the repository
-						AccessGrant accessGrant = new AccessGrant(accessToken);
-						Connection<Gas> connection = factory.createConnection(accessGrant);
+						holder.createConnection(accessToken);
 		
-						try {
-							repo.addConnection(connection);
-							if(!isServiceRunning()){
-								Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
-								startService(intent);
-							}
-								
-						} catch (DuplicateConnectionException e) {
-						// connection already exists in repository!
+						if(!isServiceRunning()){
+							Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
+							startService(intent);
 						}
+						Intent main = new Intent(getApplicationContext(), MainActivity.class);
+						startActivity(main);
+						finish();
 	        		} catch (Exception e) {
 	        		// don't do anything if the parameters are not what is expected
 	        		}
