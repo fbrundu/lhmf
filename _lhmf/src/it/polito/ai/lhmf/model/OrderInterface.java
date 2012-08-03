@@ -202,5 +202,4 @@ public class OrderInterface
 		query.setParameter("idOrder", idOrder);
 		return query.list();
 	}
-	
 }

@@ -25,7 +25,6 @@ ul.list li section.left span.meta { color: #93989b; font-weight: normal; font-si
 
 ul.list li section.right span.price { font-weight: bold; display: block; margin-bottom: 5px; color: #3C3; font-size: 1.6em; text-align: right; }
 ul.list li section.right span.darkview { display: block; margin-bottom: 5px; color: #666666; font-size: 0.69em; text-align: right; }
-ul.list li section.right span.amount { display: block; margin-bottom: 5px; color: #666666; font-size: 0.69em; text-align: right; }
 
 ul.list li section.right a.firstbtn { margin-right: 7px; }
 
