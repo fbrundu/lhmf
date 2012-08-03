@@ -33,7 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewProductActivity extends Activity {
-	private static final String TAG = MainActivity.class.getSimpleName();
+	private static final String TAG = NewProductActivity.class.getSimpleName();
 	private static final int PRODUCT_CAMERA_REQUEST_CODE = 100;
 	private static final int PRODUCT_GALLERY_REQUEST_CODE = 200;
 	
@@ -128,8 +128,7 @@ public class NewProductActivity extends Activity {
 
 				@Override
 				public void onNothingSelected(AdapterView<?> arg0) {
-					// TODO Auto-generated method stub
-					
+					return;
 				}
 			});
 			
@@ -225,106 +224,21 @@ public class NewProductActivity extends Activity {
 						
 						if(!errors){
 							Integer newProductId = api.productOperations().newProduct(name.getText().toString(), desc.getText().toString(),
-									Integer.valueOf(dim.getText().toString()), measure.getText().toString(), Integer.valueOf(block.getText().toString()),
-									Float.valueOf(transportCost.getText().toString()), Float.valueOf(unitCost.getText().toString()),
-									Integer.valueOf(minUnits.getText().toString()), Integer.valueOf(maxUnits.getText().toString()), cat, fileUri);
+									dim.getText().toString(), measure.getText().toString(), block.getText().toString(),
+									transportCost.getText().toString(), unitCost.getText().toString(),
+									minUnits.getText().toString(), maxUnits.getText().toString(), cat, fileUri);
 							if(newProductId != -1)
 								Toast.makeText(NewProductActivity.this, "Prodotto creato correttamente: " + newProductId, Toast.LENGTH_LONG).show();
 							else
 								Toast.makeText(NewProductActivity.this, "Errori nella creazione prodotto!", Toast.LENGTH_LONG).show();
 						}
 					}
+					else
+						Toast.makeText(NewProductActivity.this, "Sono presenti errori nei campi!", Toast.LENGTH_LONG).show();
 					
 				}
 			});
 		}
-		
-//		Button sendButton = (Button) findViewById(R.id.sendButton);
-//		sendButton.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				if(fileUri != null){
-//					int bytesRead, bytesAvailable, bufferSize;
-//					byte[] buffer;
-//					int maxBufferSize = 1*1024*1024;
-//					
-//					DataOutputStream outputStream = null;
-//					DataInputStream inputStream = null;
-//					
-//					String lineEnd = "\r\n";
-//					String twoHyphens = "--";
-//					String boundary =  "*****";
-//					
-//					URL url = null;
-//					try {
-//						url = new URL("http://gasproject.net:8080/_lhmf/productPhoto");
-//					} catch (MalformedURLException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					}
-//					HttpURLConnection connection;
-//					try {
-//						File f = new File(new URI(fileUri.toString()));
-//						FileInputStream fileInputStream = new FileInputStream(f);
-//						
-//						connection = (HttpURLConnection)url.openConnection();
-//						connection.setDoInput(true);
-//						connection.setDoOutput(true);
-//						connection.setUseCaches(false);
-//						
-//						try {
-//							connection.setRequestMethod("POST");
-//						} catch (ProtocolException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//
-//						connection.setRequestProperty("Connection", "Keep-Alive");
-//						connection.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary);
-//						
-//						outputStream = new DataOutputStream( connection.getOutputStream() );
-//						outputStream.writeBytes(twoHyphens + boundary + lineEnd);
-//						outputStream.writeBytes("Content-Disposition: form-data; name=\"file\";filename=\"" + f.getName() +"\"" + lineEnd);
-//						outputStream.writeBytes(lineEnd);
-//						
-//						bytesAvailable = fileInputStream.available();
-//						bufferSize = Math.min(bytesAvailable, maxBufferSize);
-//						buffer = new byte[bufferSize];
-//						
-//						// Read file
-//						bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-//
-//						while (bytesRead > 0)
-//						{
-//							outputStream.write(buffer, 0, bufferSize);
-//							bytesAvailable = fileInputStream.available();
-//							bufferSize = Math.min(bytesAvailable, maxBufferSize);
-//							bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-//						}
-//
-//						outputStream.writeBytes(lineEnd);
-//						outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-//						
-//						// Responses from the server (code and message)
-//						int serverResponseCode = connection.getResponseCode();
-//						String serverResponseMessage = connection.getResponseMessage();
-//						
-//						fileInputStream.close();
-//						outputStream.flush();
-//						outputStream.close();
-//					} catch (IOException e1) {
-//						// TODO Auto-generated catch block
-//						e1.printStackTrace();
-//					} catch (URISyntaxException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//
-//				}
-//				
-//			}
-//		});
 	}
 	
 	protected boolean checkParameters() {
@@ -373,14 +287,6 @@ public class NewProductActivity extends Activity {
 				iv.setImageURI(fileUri);
 				fromGallery = false;
 			}
-			/*
-			else if(resultCode == RESULT_CANCELED){
-				// User cancelled the image capture
-			}
-			else{
-				// Image capture failed, advise user
-			}
-			*/
 		}
 		else if(requestCode == PRODUCT_GALLERY_REQUEST_CODE){
 			if(resultCode == RESULT_OK){
@@ -410,21 +316,13 @@ public class NewProductActivity extends Activity {
 		outState.putBoolean("newImage", capturedImage);
 	}
 	
-	/** Create a file Uri for saving an image or video */
 	private Uri getOutputMediaFileUri(){
 	      return Uri.fromFile(getOutputMediaFile());
 	}
 
-	/** Create a File for saving an image or video */
 	private File getOutputMediaFile(){
-	    // To be safe, you should check that the SDCard is mounted
-	    // using Environment.getExternalStorageState() before doing this.
-
 	    File mediaStorageDir = new File(getApplicationContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "GasProductsPictures");
-	    // This location works best if you want the created images to be shared
-	    // between applications and persist after your app has been uninstalled.
 
-	    // Create the storage directory if it does not exist
 	    if (! mediaStorageDir.exists()){
 	        if (! mediaStorageDir.mkdirs()){
 	            Log.d(TAG, "failed to create directory");

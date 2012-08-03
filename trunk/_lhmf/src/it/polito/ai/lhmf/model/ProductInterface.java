@@ -31,11 +31,11 @@ public class ProductInterface
 	public Integer newProduct(Product product)
 			throws InvalidParametersException
 	{
-		return newProduct(product, null, null);
+		return newProduct(product, null, null, null);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer newProduct(Product product, MultipartFile picture, String pictureDirectoryPath) throws InvalidParametersException {
+	public Integer newProduct(Product product, MultipartFile picture, String serverPath, String pictureDirectoryPath) throws InvalidParametersException {
 		Integer newProductId = -1;
 		if (product == null)
 			throw new InvalidParametersException();
@@ -43,7 +43,7 @@ public class ProductInterface
 		newProductId = (Integer) sessionFactory.getCurrentSession().save(product);
 		
 		if(picture != null){
-			if(pictureDirectoryPath == null)
+			if(pictureDirectoryPath == null || serverPath == null)
 				throw new InvalidParametersException();
 			String fileName = picture.getOriginalFilename();
 			String extension = null;
@@ -52,19 +52,26 @@ public class ProductInterface
 			if (i > 0 && i < fileName.length() - 1)
 				extension = fileName.substring(i+1);
 
-			if(extension == null)
-				extension = "";
+			String pictureFilePath = null;
+			String pictureServerPath = null;
+			if(extension == null){
+				pictureFilePath = pictureDirectoryPath + File.separator + newProductId;
+				pictureServerPath = serverPath + newProductId;
+			}
 			
-			String picturePath = pictureDirectoryPath + File.separator + newProductId + extension;
+			else{
+				pictureFilePath = pictureDirectoryPath + File.separator + newProductId + "." + extension;
+				pictureServerPath = serverPath + newProductId + "." + extension;
+			}
 			
-			File f = new File(picturePath);
+			File f = new File(pictureFilePath);
 			OutputStream writer = null;
 			try {
 				writer = new BufferedOutputStream(new FileOutputStream(f));
 				writer.write(picture.getBytes());
 				writer.flush();
 				writer.close();
-				product.setImgPath(picturePath);
+				product.setImgPath(pictureServerPath);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

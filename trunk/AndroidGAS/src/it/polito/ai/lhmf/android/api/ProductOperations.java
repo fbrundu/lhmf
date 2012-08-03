@@ -8,9 +8,9 @@ public interface ProductOperations {
 	
 	Integer newProductCategory(String description);
 	
-	Integer newProduct(String productName, String productDescription, Integer productDimension, String measureUnit,
-			Integer unitBlock, Float transportCost, Float unitCost, Integer minBuy, Integer maxBuy, ProductCategory category);
+	Integer newProduct(String productName, String productDescription, String productDimension, String measureUnit,
+			String unitBlock, String transportCost, String unitCost, String minBuy, String maxBuy, ProductCategory category);
 	
-	Integer newProduct(String productName, String productDescription, Integer productDimension, String measureUnit,
-			Integer unitBlock, Float transportCost, Float unitCost, Integer minBuy, Integer maxBuy, ProductCategory category, Uri fileUri);
+	Integer newProduct(String productName, String productDescription, String productDimension, String measureUnit,
+			String unitBlock, String transportCost, String unitCost, String minBuy, String maxBuy, ProductCategory category, Uri fileUri);
 }

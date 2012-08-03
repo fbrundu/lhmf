@@ -42,18 +42,18 @@ public class ProductsTemplate implements ProductOperations {
 
 	@Override
 	public Integer newProduct(String productName, String productDescription,
-			Integer productDimension, String measureUnit, Integer unitBlock,
-			Float transportCost, Float unitCost, Integer minBuy,
-			Integer maxBuy, ProductCategory category) {
+			String productDimension, String measureUnit, String unitBlock,
+			String transportCost, String unitCost, String minBuy,
+			String maxBuy, ProductCategory category) {
 		return newProduct(productName, productDescription, productDimension, measureUnit,
 				unitBlock, transportCost, unitCost, minBuy, maxBuy, category, null);
 	}
 
 	@Override
 	public Integer newProduct(String productName, String productDescription,
-			Integer productDimension, String measureUnit, Integer unitBlock,
-			Float transportCost, Float unitCost, Integer minBuy,
-			Integer maxBuy, ProductCategory category, Uri pictureUri) {
+			String productDimension, String measureUnit, String unitBlock,
+			String transportCost, String unitCost, String minBuy,
+			String maxBuy, ProductCategory category, Uri pictureUri) {
 		Integer newProductId = -1;
 		
 		MultiValueMap<String, Object> value = new LinkedMultiValueMap<String, Object>();
@@ -66,21 +66,20 @@ public class ProductsTemplate implements ProductOperations {
 		value.add("unitCost", unitCost);
 		value.add("minBuy", minBuy);
 		value.add("maxBuy", maxBuy);
-		value.add("productCategory", category.getIdProductCategory());
+		value.add("productCategory", Integer.toString(category.getIdProductCategory()));
 		if(pictureUri != null){
 			File f;
 			try {
 				f = new File(new URI(pictureUri.toString()));
 				Resource picture = new FileSystemResource(f);
 				value.add("picture", picture);
+				newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproductwithpicture"), value, Integer.class);
 			} catch (URISyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproduct"), value, Integer.class);
+		else
+			newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproduct"), value, Integer.class);
 		return newProductId;
 	}
-
 }
