@@ -254,52 +254,52 @@ function writeUserPage(tab){
   // TAB per attivazione utenti
   
   $('#tabs-2').html("<div class='logform'>" +
-              "<form method='post' action=''>" +
-                "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />" +
-                  "<label for='memberType' class='left'>Tipo Membro: </label>" +
-                  "<select name='memberType' id='memberType' class='field'>" +
-                    "<option value='0'> Normale </option>" +
-                    "<option value='1'> Responsabile </option>" +
-                    "<option value='3'> Fornitore </option>" +
-               "</select>" +
-                  "<label for='page' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
-                  "<select name='page' id='page' class='field'>" +
-                    "<option value='0'> ... </option>" +
-                  "</select>" +
-                  "<label for='itemsPerPage' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>" +
-                  "<select name='itemsPerPage' id='itemsPerPage' class='field'>" +
-                    "<option value='10'> 10 </option>" +
-                    "<option value='25'> 25 </option>" +
-                    "<option value='50'> 50 </option>" +
-                  "</select>" +
-                "</fieldset>" +
-                "<button type='submit' id='memberToActiveRequest'> Visualizza </button>" +
-              "</form>" +
-              "<table id='memberList' class='log'></table>" +
-              "<div id='errorDiv2' style='display:none;'>" +
-                  "<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />" +
-                   "<div id='errors2' style='padding-left: 40px'>" +
-                "</div>" +
-                  "</fieldset>" +
-                  "</div><br />" +
-                "</div>");
+		              "<form method='post' action=''>" +
+		                "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />" +
+		                  "<label for='memberType' class='left'>Tipo Membro: </label>" +
+		                  "<select name='memberType' id='memberType' class='field' style='width: 130px; padding: 2px 2px 2px 5px;'>" +
+		                    "<option value='0'> Normale </option>" +
+		                    "<option value='1'> Responsabile </option>" +
+		                    "<option value='3'> Fornitore </option>" +
+		               "</select>" +
+		                  "<label for='page' class='left'>&nbsp;&nbsp;Pagina: </label>" +
+		                  "<select name='page' id='page'>" +
+		                    "<option value='0'> ... </option>" +
+		                  "</select>" +
+		                  "<label for='itemsPerPage' class='left'>&nbsp;&nbsp;Risultati Per Pagina: </label>" +
+		                  "<select name='itemsPerPage' id='itemsPerPage'>" +
+		                    "<option value='10'> 10 </option>" +
+		                    "<option value='25'> 25 </option>" +
+		                    "<option value='50'> 50 </option>" +
+		                  "</select>" +
+		                "</fieldset>" +
+		                "<button type='submit' id='memberToActiveRequest'> Visualizza </button>" +
+		              "</form>" +
+		              "<table id='memberList' class='log'></table>" +
+		              "<div id='errorDiv2' style='display:none;'>" +
+		                  "<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />" +
+		                   "<div id='errors2' style='padding-left: 40px'>" +
+		                "</div>" +
+		                  "</fieldset>" +
+		                  "</div><br />" +
+		                "</div>");
   
   
   $('#tabs-3').html("<div class='logform'>" +
                               "<form method='post' action=''>" +
                               "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />" +
                                 "<label for='memberType2' class='left'>Tipo Membro: </label>" +
-                                "<select name='memberType2' id='memberType2' class='field'>" +
+                                "<select name='memberType2' id='memberType2' class='field' style='width: 130px; padding: 2px 2px 2px 5px;'>" +
                                     "<option value='0'> Normale </option>" +
                                     "<option value='1'> Responsabile </option>" +
                                     "<option value='3'> Fornitore </option>" +
                                  "</select>" +
-                                "<label for='page2' class='left'>&nbsp;&nbsp;&nbsp;Pagina: </label>" +
-                                "<select name='page2' id='page2' class='field'>" +
+                                "<label for='page2' class='left'>&nbsp;&nbsp;Pagina: </label>" +
+                                "<select name='page2' id='page2'>" +
                                     "<option value='0'> ... </option>" +
                                 "</select>" +
-                                "<label for='itemsPerPage2' class='left'>&nbsp;&nbsp;&nbsp;Risultati Per Pagina: </label>" +
-                                "<select name='itemsPerPage2' id='itemsPerPage2' class='field'>" +
+                                "<label for='itemsPerPage2' class='left'>&nbsp;&nbsp;Risultati Per Pagina: </label>" +
+                                "<select name='itemsPerPage2' id='itemsPerPage2'>" +
                                     "<option value='10'> 10 </option>" +
                                     "<option value='25'> 25 </option>" +
                                     "<option value='50'> 50 </option>" +
@@ -1022,10 +1022,6 @@ function clickRegHandler(event) {
 	}
 	if(cap == "" || !isNumber(cap)) {
 		errors.push("Cap: Formato non valido");
-	}
-	if(phone == "")
-		if(!isNumber(phone)) {
-		errors.push("Telefono: Formato non valido");
 	}
 	
 	if(mType == 3) {

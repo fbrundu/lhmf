@@ -7,9 +7,10 @@ Applicazioni Internet - Gas
  di abilitare anche utenti per i quali la mail non è stata verificata ma di cui lui si fida o sa per certo che l'indirizzo è giusto. Di conseguenza:
 -modificare il controller authMail per verificare che lo stato non sia già abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
 
--correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
-
--nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
+- [[RISOLTO]] correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
+		|_> Ora è possibile inserire i seguenti formati (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn; +CC NNNNNNNNNN, +CC-NNNNNNNNNN, +CCNNNNNNNNNN (va bene anche CCCC)
+	
+- [[RISOLTO]] nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
 
 -campo timestamp in purchase_product: settato quando viene inserito un prodotto in una scheda d'acquisto, e poi mai modificato.
  Serve a chiusura ordine per eliminare eventuali richieste di acquisto che eccedono le quantotà possibili del prodotto

@@ -208,7 +208,7 @@ public class SignupController
 		}
 		if(!phone.equals("") && !phone.equals("not set"))
 		{
-			if(!CheckNumber.isNumeric(phone)) {
+			if(!CheckNumber.isPhoneNumberValid(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
@@ -458,7 +458,7 @@ public class SignupController
 		}
 		if(!phone.equals("") && !phone.equals("not set"))
 		{
-			if(!CheckNumber.isNumeric(phone)) {
+			if(!CheckNumber.isPhoneNumberValid(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
@@ -669,7 +669,7 @@ public class SignupController
 		}
 		if(!phone.equals("") && !phone.equals("not set"))
 		{
-			if(!CheckNumber.isNumeric(phone)) {
+			if(!CheckNumber.isPhoneNumberValid(phone)) {
 				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
