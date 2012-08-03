@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Lug 30, 2012 alle 15:07
+-- Generato il: Ago 03, 2012 alle 17:29
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   UNIQUE KEY `email` (`email`),
   KEY `fk_Member_Member_Type1` (`member_type`),
   KEY `fk_Member_Member_Status1` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `fk_Message_Member2` (`id_receiver`),
   KEY `fk_Message_Product1` (`Product_idProduct`),
   KEY `fk_Message_Order1` (`Order_idOrder`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`idProduct`),
   KEY `fk_Product_Product_Category1` (`idCategory`),
   KEY `fk_Product_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 -- --------------------------------------------------------
 
@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   `idProduct_Category` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
   PRIMARY KEY (`idProduct_Category`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 -- --------------------------------------------------------
 
@@ -249,6 +249,7 @@ CREATE TABLE IF NOT EXISTS `purchase_product` (
   `idPurchase` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
   `amount` int(11) NOT NULL,
+  `inserted_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`idPurchase`,`idProduct`),
   KEY `fk_Purchase_has_Product_Product1` (`idProduct`),
   KEY `fk_Purchase_has_Product_Purchase1` (`idPurchase`)
