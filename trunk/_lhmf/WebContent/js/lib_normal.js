@@ -281,7 +281,6 @@ function postProductListRequest(productList)
 			accept: ":not(.ui-sortable-helper)",
 			drop: function( event, ui ) {
 				
-				//var idProduct = $(ui.draggable).find("input:hidden").val();
 				var idProduct = $(ui.draggable).data('productid');
 				
 				if($.inArray(idProduct, addedIds) === -1) {
@@ -362,7 +361,7 @@ function clickPurchaseHandler(event)
     } else {
     	// TODO continuare con ajax e generazione ordine.
     	 $("#legendErrorPurchase").html("Comunicazione");
-	     $("#errorsPurchase").html("Qui &egrave tutto ok zzio. Datemi un pochino di tempo altro e vi sparo l'ajax per la creazione ordini.<br /><br />");
+	     $("#errorsPurchase").html("Creazione schede in preparazione.<br /><br />");
 	     $("#errorDivPurchase").show("slow");
 	     $("#errorDivPurchase").fadeIn(1000);
     }
