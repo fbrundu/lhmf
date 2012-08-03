@@ -64,8 +64,13 @@ public class ProductsTemplate implements ProductOperations {
 		value.add("unitBlock", unitBlock);
 		value.add("transportCost", transportCost);
 		value.add("unitCost", unitCost);
-		value.add("minBuy", minBuy);
-		value.add("maxBuy", maxBuy);
+		
+		// Controllo solo se sono impostati. I controlli sugli eventuali valori sono già stati fatti prima di chiamare la funzione
+		if(minBuy != null && !minBuy.equals(""))
+			value.add("minBuy", minBuy);
+		if(maxBuy != null && !maxBuy.equals(""))
+			value.add("maxBuy", maxBuy);
+		
 		value.add("productCategory", Integer.toString(category.getIdProductCategory()));
 		if(pictureUri != null){
 			File f;

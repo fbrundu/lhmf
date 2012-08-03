@@ -521,5 +521,5 @@ function isNumber(n)
 
 function isPositiveNumber(n)
 {
-  return !isNaN(parseFloat(n)) && isFinite(n) && n >= 0;
+  return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
 }
