@@ -687,15 +687,15 @@ function clickNewProductHandler(event)
   {
     errors.push("Costo per unit&agrave;: Formato non valido");
   }
-  if (minBuy == "" || !isPositiveNumber(minBuy))
+  if (minBuy !== "" && !isPositiveNumber(minBuy))
   {
     errors.push("Minimo unit&agrave; acquistabili: Formato non valido");
   }
-  if (maxBuy == "" || !isPositiveNumber(maxBuy))
+  if (maxBuy !== "" && !isPositiveNumber(maxBuy))
   {
     errors.push("Massimo unit&agrave; acquistabili: Formato non valido");
   }
-  if (minBuy > maxBuy)
+  if (minBuy !== "" && maxBuy !== "" && minBuy > maxBuy)
   {
     errors.push("Massimo/minimo unit&agrave; acquistabili:"
         + "Il minimo di unit&agrave; acquistabili deve essere minore"

@@ -256,8 +256,10 @@ public class NewProductActivity extends Activity {
 			unitBlock = Integer.valueOf(block.getText().toString());
 			transCost = Double.valueOf(transportCost.getText().toString());
 			unCost = Double.valueOf(unitCost.getText().toString());
-			minBuy = Integer.valueOf(minUnits.getText().toString());
-			maxBuy = Integer.valueOf(maxUnits.getText().toString());
+			if(!minUnits.getText().toString().equals(""))
+				minBuy = Integer.valueOf(minUnits.getText().toString());
+			if(!maxUnits.getText().toString().equals(""))
+				maxBuy = Integer.valueOf(maxUnits.getText().toString());
 		} catch (NumberFormatException e) {
 			return false;
 		}
@@ -267,8 +269,7 @@ public class NewProductActivity extends Activity {
 		if(dimInt <= 0 || unitBlock <= 0 || transCost <= 0.0 || unCost <= 0.0)
 			return false;
 		
-		//TODO è giusto? sono obbligatori min e max units?
-		if(minBuy <= 0 || maxBuy <= 0 || minBuy > maxBuy)
+		if(!checkMinMaxBuy(minBuy, maxBuy))
 			return false;
 		
 		if(newCat){
@@ -277,6 +278,11 @@ public class NewProductActivity extends Activity {
 		}
 		
 		return true;
+	}
+	
+	private boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy) {
+		return (minBuy == null && (maxBuy == null || maxBuy > 0)) ||
+				(minBuy > 0 && (maxBuy == null || maxBuy >= minBuy));
 	}
 
 	@Override

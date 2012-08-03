@@ -72,8 +72,8 @@ public class AndroidProductsController {
 			@RequestParam(value = "unitBlock", required = true) int unitBlock,
 			@RequestParam(value = "transportCost", required = true) float transportCost,
 			@RequestParam(value = "unitCost", required = true) float unitCost,
-			@RequestParam(value = "minBuy", required = true) int minBuy,
-			@RequestParam(value = "maxBuy", required = true) int maxBuy,
+			@RequestParam(value = "minBuy", required = false) Integer minBuy,
+			@RequestParam(value = "maxBuy", required = false) Integer maxBuy,
 			@RequestParam(value = "productCategory", required = true) int idProductCategory )
 			throws InvalidParametersException {
 		Integer idProduct = -1;
@@ -83,8 +83,7 @@ public class AndroidProductsController {
 		if (s != null && pc != null && !productName.equals("")
 				&& !productDescription.equals("") && productDimension > 0
 				&& !measureUnit.equals("") && unitBlock > 0
-				&& transportCost > 0 && unitCost > 0 && minBuy > 0
-				&& maxBuy >= minBuy)
+				&& transportCost > 0 && unitCost > 0 && checkMinMaxBuy(minBuy, maxBuy))
 		{
 			Product p = new Product();
 			p.setName(productName);
@@ -117,8 +116,8 @@ public class AndroidProductsController {
 			@RequestParam(value = "unitBlock", required = true) int unitBlock,
 			@RequestParam(value = "transportCost", required = true) float transportCost,
 			@RequestParam(value = "unitCost", required = true) float unitCost,
-			@RequestParam(value = "minBuy", required = true) int minBuy,
-			@RequestParam(value = "maxBuy", required = true) int maxBuy,
+			@RequestParam(value = "minBuy", required = false) Integer minBuy,
+			@RequestParam(value = "maxBuy", required = false) Integer maxBuy,
 			@RequestParam(value = "productCategory", required = true) int idProductCategory,
 			@RequestParam(value = "picture", required=true) MultipartFile picture )
 			throws InvalidParametersException {
@@ -129,8 +128,7 @@ public class AndroidProductsController {
 		if (s != null && pc != null && !productName.equals("")
 				&& !productDescription.equals("") && productDimension > 0
 				&& !measureUnit.equals("") && unitBlock > 0
-				&& transportCost > 0 && unitCost > 0 && minBuy > 0
-				&& maxBuy >= minBuy)
+				&& transportCost > 0 && unitCost > 0 && checkMinMaxBuy(minBuy, maxBuy))
 		{
 			Product p = new Product();
 			p.setName(productName);
@@ -153,5 +151,10 @@ public class AndroidProductsController {
 			idProduct = productInterface.newProduct(p, picture, serverPath, realPath);
 		}
 		return idProduct;
+	}
+
+	private boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy) {
+		return (minBuy == null && (maxBuy == null || maxBuy > 0)) ||
+				(minBuy > 0 && (maxBuy == null || maxBuy >= minBuy));
 	}
 }
