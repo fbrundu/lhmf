@@ -752,12 +752,19 @@ function postSetNewOrderRequest(result) {
 	    $("#errorDivOrder").fadeIn(1000);
 	} else {
 		//tutto ok
+		ClearOrder();
 		$("#legendErrorOrder").html("Comunicazione");
 	    $("#errorsOrder").html("Ordine Creato Correttamente.<br /><br />");
 	    $("#errorDivOrder").show("slow");
 	    $("#errorDivOrder").fadeIn(1000);
 	}
 	
+}
+
+function ClearOrder() {
+	$('#orderCart ul').html("<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nell'ordine<br /><br /></div>");
+	addedIds = [];
+	$('#orderName').val("");
 }
 
 function clickOrderOldHandler(event) {
