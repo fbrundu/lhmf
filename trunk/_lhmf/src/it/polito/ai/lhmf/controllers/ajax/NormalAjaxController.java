@@ -82,9 +82,9 @@ public class NormalAjaxController
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
-	@RequestMapping(value = "/ajax/getProductListFromOrderNormal", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/getProductFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Product> getProductListFromOrder(HttpServletRequest request, HttpSession session,
+	List<Product> getProductFromOrder(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
 	{
 		Order order = orderInterface.getOrder(idOrder);
@@ -105,6 +105,24 @@ public class NormalAjaxController
 			listProduct.add(productInterface.getProduct(product.getId().getIdProduct()));
 		}
 		return listProduct;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getOrdersString", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<String> getOrdersString(HttpServletRequest request, HttpSession session)
+	{
+		ArrayList<String> orderString = new ArrayList<String>();
+		
+		List<Order> listOrders = new ArrayList<Order>();
+		listOrders = orderInterface.getOrdersNow();
+		
+		for (Order or : listOrders) 
+		{			
+			String temp = or.getIdOrder() + "," + or.getDateOpen() + " " + or.getDateClose() + "," + or.getDateDelivery();					
+			orderString.add(temp);		
+		}		
+		return orderString;
 	}
 	
 }
