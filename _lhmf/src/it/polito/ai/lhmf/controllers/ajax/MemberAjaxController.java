@@ -104,7 +104,7 @@ public class MemberAjaxController
 		}
 		if(!phone.equals("") && !phone.equals("not set"))
 		{
-			if(!CheckNumber.isNumeric(phone)) 
+			if(!CheckNumber.isPhoneNumberValid(phone)) 
 				errors.add("Telefono: Formato non Valido");
 		}
 		if(cap.equals("") || !CheckNumber.isNumeric(cap)) {
