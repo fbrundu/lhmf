@@ -150,4 +150,16 @@ public class PurchaseInterface
 
 		return (Integer) query.executeUpdate();
 	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer newPurchaseProduct(PurchaseProduct purchaseProduct)
+			throws InvalidParametersException
+	{
+		if (purchaseProduct == null)
+		{
+			throw new InvalidParametersException();
+		}
+		return (Integer) sessionFactory.getCurrentSession().save(purchaseProduct);
+	}
+
 }

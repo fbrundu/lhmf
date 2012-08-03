@@ -78,6 +78,13 @@
 	                              			"<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nell'ordine<br /><br /></div>" +
 	                              		"</ul>" +
 	                              	"</div>" +
+	                              	"<br />" +
+	                               "<fieldset><legend>&nbsp;Opzioni Ordine:&nbsp;</legend><br />" +
+	                               	  "<label for='orderName' class='left'>Nome Ordine: </label>" +
+	                                  "<input type='text' name='orderName' id='orderName' class='field' style='width: 145px'/>" +
+	                                  "<label for='closeData' class='left'>Data Chiusura: </label>" +
+	                                  "<input type='text' name='closeData' id='closeData' class='field' style='width: 145px'/>" +
+                                   "</fieldset>" +
 	                              "</div>" +
 	                              "<button type='submit' id='orderRequest'> Crea Ordine </button>" +
                                   "</fieldset>" +
@@ -181,21 +188,23 @@ function prepareOrderForm(tab){
     $('#maxDate3').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate3').datepicker("setDate", Date.now());
     
-    
     $('#orderActiveRequest').on("click", clickOrderActiveHandler);
     $('#orderOldRequest').on("click", clickOrderOldHandler);
     $('#orderShipRequest').on("click", clickOrderShipHandler);
     
     //Drag and drop
-    $("#orderCompositor").hide();
-    
     loadSupplier();
+    $("#orderCompositor").hide();
+    $("#closeData").datepicker();
     
     $('#productListRequest').on("click", clickProductListRequest);
     $('#orderRequest').on("click", clickOrderHandler);
     
     $("button").button();
 }
+
+var addedIds = [];
+var idSupplier = 0;
 
 function clickProductListRequest(event) {
 	event.preventDefault();
@@ -204,16 +213,24 @@ function clickProductListRequest(event) {
 	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti</h1>" +
           					"<div id='catalog'></div>");
 	
-	var idSupplier = $('#memberSupplier').val();
+	idSupplier = $('#memberSupplier').val();
 	
-	$.post("ajax/getProductFromSupplier", {idSupplier: idSupplier}, postProductListRequest);
-	
+	if(idSupplier == -1) {
+		$("#errorDivOrder").hide();
+        $("#legendErrorOrder").html("Comunicazione");
+        $("#errorsOrder").html("Non hai selezionato il Fornitore<br /><br />");
+        $("#errorDivOrder").show("slow");
+        $("#errorDivOrder").fadeIn(1000);
+		
+	} else {
+		$.post("ajax/getProductFromSupplier", {idSupplier: idSupplier}, postProductListRequest);
+	} 
 }
-
-var addedIds = [];
 
 function postProductListRequest(productList) {
 
+	$("#errorDivOrder").hide();
+	
 	if(productList.length <= 1) {
 		
         $("#errorDivOrder").hide();
@@ -253,10 +270,6 @@ function postProductListRequest(productList) {
 								   "</section>" +
 								   "<section class='right'>" +
 										"<span class='price'>&euro;" + product.unitCost + "</span>" +
-										"<span class='amount'>" +
-											"<label for='pz' class='left'>Quota:</label>" +
-											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
-										"</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
 											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
@@ -293,7 +306,6 @@ function postProductListRequest(productList) {
 		            $( "#orderCart ul" ).append($(ui.draggable).clone());
 		            $( "#orderCart .delButton" ).on("click", deleteProductFromOrder);
 					$( "#orderCart .deleteButton" ).show();
-					$( "#orderCart .amount" ).show();
 		        } else {
 					$("#errorDivOrder").hide();
 			        $("#legendErrorOrder").html("Comunicazione");
@@ -684,45 +696,68 @@ function clickOrderHandler(event) {
     event.preventDefault();
     
     $("#errorDivOrder").hide();
-    var idProducts = [];
-    var productsAmount = [];
+    $("#errorsOrder").html("");
     var fail = false;
+    var dataClose = $("#closeData").datepicker("getDate");
+    var orderName = $("#orderName").val();
     
-    //Controllo dei campi. //addedIds
-    var productDOMList = $("#orderCart ul li"); //oggetto jquery
-    
-    if(productDOMList.lenght == 0) {
-        $("#legendErrorOrder").html("Errore");
-        $("#errorsOrder").html("Non sono stati aggiunti prodotti all'ordine.<br /><br />");
+    if(orderName == "") {
+    	$("#legendErrorOrder").html("Errore");
+        $("#errorsOrder").append("Nome Ordine non inserito.<br />");
         fail = true;
     }
     
-    productDOMList.each(function(index, value) {
-    	
-    	var id = $(value).data('productid');
-    	var amount = $(value).find("input").val();
-    	
-    	if(amount === undefined || amount === "" || isNaN(amount)) {
-	        $("#legendErrorOrder").html("Errore");
-	        $("#errorsOrder").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
-	        fail = true;
-    	}
-    	idProducts.push(id);
-    	productsAmount.push(amount);
-  	
-    });
+    if(dataClose == "" || dataClose == null || dataClose.getTime() <= new Date().getTime()) {
+    	 $("#legendErrorOrder").html("Errore");
+         $("#errorsOrder").append("Data di chiusura non corretta.<br />");
+         fail = true;
+    } 
+    
+    if(addedIds.length == 0) {
+        $("#legendErrorOrder").html("Errore");
+        $("#errorsOrder").append("Non sono stati aggiunti prodotti all'ordine.<br />");
+        fail = true;
+    }
    
     if(fail == true) {
+    	$("#errorsOrder").append("<br />");
     	$("#errorDivOrder").show("slow");
         $("#errorDivOrder").fadeIn(1000);
     } else {
-    	// TODO continuare con ajax e generazione ordine.
-    	 $("#legendErrorOrder").html("Comunicazione");
-	     $("#errorsOrder").html("Qui &egrave tutto ok zzio. Datemi un pochino di tempo altro e vi sparo l'ajax per la creazione ordini.<br /><br />");
-	     $("#errorDivOrder").show("slow");
-	     $("#errorDivOrder").fadeIn(1000);
+    	
+    	var dataCloseTime = 0;
+    	
+    	if(dataClose != null) {
+        	dataClose.setHours(23);
+            dataClose.setMinutes(59);
+            dataClose.setSeconds(59);
+            dataClose.setMilliseconds(999);
+            
+            dataCloseTime = dataClose.getTime();
+        }
+    	var idString = addedIds.join(",");
+    	
+    	$.post("ajax/setNewOrder", {idSupplier: idSupplier, orderName: orderName, idString: idString, dataCloseTime: dataCloseTime}, postSetNewOrderRequest);
     }
       
+}
+
+function postSetNewOrderRequest(result) {
+	
+	if(result <= 0) {
+		//errore
+		$("#legendErrorOrder").html("Errore");
+	    $("#errorsOrder").html("Errore Interno. Non &egrave stato possibile creare l'ordine.<br /><br />");
+	    $("#errorDivOrder").show("slow");
+	    $("#errorDivOrder").fadeIn(1000);
+	} else {
+		//tutto ok
+		$("#legendErrorOrder").html("Comunicazione");
+	    $("#errorsOrder").html("Ordine Creato Correttamente.<br /><br />");
+	    $("#errorDivOrder").show("slow");
+	    $("#errorDivOrder").fadeIn(1000);
+	}
+	
 }
 
 function clickOrderOldHandler(event) {
