@@ -702,7 +702,7 @@ function clickOrderHandler(event) {
     	var id = $(value).data('productid');
     	var amount = $(value).find("input").val();
     	
-    	if(amount === undefined || isNaN(amount)) {
+    	if(amount === undefined || amount === "" || isNaN(amount)) {
 	        $("#legendErrorOrder").html("Errore");
 	        $("#errorsOrder").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
 	        fail = true;
