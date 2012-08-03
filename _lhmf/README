@@ -2,8 +2,29 @@ Applicazioni Internet - Gas
 
 # TODO
 
-- login (loginFormSubmitted.java)
-- mettere tutti i controller in un solo file?
+!!! Ultime modifiche che ci sono venute in mente!!!:
+-campo timestamp in purchase_product: settato quando viene inserito un prodotto in una scheda d'acquisto, e poi mai modificato.
+ Serve a chiusura ordine per eliminare eventuali richieste di acquisto che eccedono le quantotà possibili del prodotto
+
+-remapping hibernate per timestamp purchase_product
+
+-eliminare modifica prodotti: è fonte di grandi guai e nelle specifiche non è richiesto. Tenere solo possibilità di renderlo disponibile/non disponibile (ossia in listino/non in listino).
+ Se un prodtto diventa non disponibile, e c'è un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi è ancora chiaro)
+ 
+-thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine
+
+-rimpiazzare uso campi hidden con attributi data-*  (maggiori dettagli da Matteo)
+
+-Android:
+	-fornitore: gestione listino (mettere e togliere da listino)
+	-responsabile: gestione ordini in consegna, settaggio datad i consegna
+	-normale: nuova scheda, modifica scheda, visualizzazione stato scheda
+	-admin: attivazione utenti
+	
+-statistiche!!!!!!!!!
+
+---------------------------------------------
+
 - usare ajax per scaricare i dati (ex. i prodotti) solo una volta, salvarli nel
   session storage e modificarli con server side events se vengono modificati
   da altri
@@ -45,20 +66,7 @@ Francesco:
  
  MODIFICHE DA FARE AL DATABASE.
  
- Modificare tabella Supplier togliendo tutti gli attributi comuni con Member
- rendendola una tabella che estende le informazioni di un membro nel caso in cui
- sia un Supplier (ricavabile da Member_Type) quindi una relazione 1 -> 0:1.
- Si elimina active e membertype da supplier.
- Cap diventa varchar(5).
- 
- Aggiungere variabile booleana a Notifiche e messaggi per indicare letto-nonletto.
- 
  Aggiunta categorie Notifiche/Messaggi (da capire bene).
- Collegare la tabella Message con le tabelle: Product, Order.
- 
- Aggiungere attributo Path immagine in Product.
- 
- Modificare attributo id di product_category con auto_increment
  
  Tipi Messaggio (Categoria):
  	- Nuovo utente da attivare (quindi creare messaggio dopo authMail)
