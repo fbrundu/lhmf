@@ -3,6 +3,14 @@ Applicazioni Internet - Gas
 # TODO
 
 !!! Ultime modifiche che ci sono venute in mente!!!:
+-attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin può così decidere
+ di abilitare anche utenti per i quali la mail non è stata verificata ma di cui lui si fida o sa per certo che l'indirizzo è giusto. Di conseguenza:
+-modificare il controller authMail per verificare che lo stato non sia già abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
+
+-correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
+
+-nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
+
 -campo timestamp in purchase_product: settato quando viene inserito un prodotto in una scheda d'acquisto, e poi mai modificato.
  Serve a chiusura ordine per eliminare eventuali richieste di acquisto che eccedono le quantotà possibili del prodotto
 
