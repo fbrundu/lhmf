@@ -46,7 +46,7 @@ public class ProductSerializer extends JsonSerializer<Product>
 			jgen.writeNumberField("maxBuy", value.getMaxBuy());
 		
 		if(value.getImgPath() == null)
-			jgen.writeStringField("imgPath", "img/noproduct.jpg");
+			jgen.writeStringField("imgPath", "img/prd/noproduct.jpg");
 		else
 			jgen.writeStringField("imgPath", value.getImgPath());
 		
