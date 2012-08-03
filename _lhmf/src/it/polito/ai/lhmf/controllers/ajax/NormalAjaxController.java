@@ -41,7 +41,7 @@ public class NormalAjaxController
 	@Autowired
 	private ProductInterface productInterface;
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	/*@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session) throws InvalidParametersException
@@ -50,7 +50,7 @@ public class NormalAjaxController
 		listOrder = orderInterface.getOrdersNow();
 		return listOrder;
 	}
-
+	*/
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
 	public @ResponseBody
