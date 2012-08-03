@@ -194,4 +194,13 @@ public class OrderInterface
 		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getProducts(int idOrder) 
+	{			
+		Query query = sessionFactory.getCurrentSession().createQuery("from OrderProduct where idOrder = :idOrder");
+		query.setParameter("idOrder", idOrder);
+		return query.list();
+	}
+	
 }
