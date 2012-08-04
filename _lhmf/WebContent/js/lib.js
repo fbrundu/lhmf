@@ -29,6 +29,19 @@ $.postSync = function(url, data, callback) {
     });
 };
 
+$.postSyncFormData = function(url, data, callback) {
+    return jQuery.ajax({
+    	'async': false,
+        'type': 'POST',
+        'url': url,
+        'data': data,
+        'success': callback,
+        'processData': false,
+        'contentType': false
+        
+    });
+};
+
 $.postJSONsync = function(url, data, callback) {
   return jQuery.ajax({
       'async': false,

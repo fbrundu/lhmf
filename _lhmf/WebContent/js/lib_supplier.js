@@ -86,12 +86,27 @@ function newProduct(productParameters)
     return;
   }
   var returnedIdProduct = -1;
-  $.postSync("ajax/newproduct", productParameters, function(idProduct)
-  {
-    returnedIdProduct = idProduct;
-    if (idProduct > 0)
-      console.debug("Inserted product: " + idProduct);
-  });
+  if(!!window.FormData && productParameters.picture !== ""){
+	  var formData = new FormData();
+	  formData.append("picture", document.getElementById("picture").files[0]);
+	  for(var prop in productParameters){
+		  if(prop != "picture")
+			  formData.append(prop, productParameters[prop]);
+	  }
+	  $.postSyncFormData("ajax/newproductwithpicture", formData, function(idProduct){
+		  returnedIdProduct = idProduct;
+		  if (idProduct > 0)
+			  console.debug("Inserted product: " + idProduct);
+	  });
+  }
+  else{
+	  $.postSync("ajax/newproduct", productParameters, function(idProduct)
+	  {
+	    returnedIdProduct = idProduct;
+	    if (idProduct > 0)
+	      console.debug("Inserted product: " + idProduct);
+	  });
+  }
   return returnedIdProduct;
 }
 
@@ -208,49 +223,57 @@ function writeSupplierPage(tab)
           + "<li><a href='#tabs-2'>Gestione listino</a></li></ul>"
           + "<div id='tabs-1'></div><div id='tabs-2'></div>");
 
+  var newProductForm = "<div class='creazioneProdottoForm' style='margin: 2em 0 0 65px;'>"
+      + "<form id='newProdForm' action='' method='post'>"
+      + "<fieldset id='productFieldset'><legend>&nbsp;Dati per la creazione prodotto&nbsp;</legend>"
+      + "<br />";
+  
+  if(!!window.FormData)
+      newProductForm +=	"<label for='picture' class='left'>Immagine: </label>"
+    	  
+      + "<input type='file' name='picture' id='picture' class='field'/>";
+  newProductForm += "<label for='productName' class='left'>Nome: </label>"
+      + "<input type='text' name='productName' id='productName' class='field'"
+      + "required='required' /><br><label for='productDescription' class='left'>"
+      + "Descrizione: </label><input type='text' name='productDescription' id='productDescription'"
+      + "class='field' required='required' />"
+      + "<br><label for='productDimension' class='left'>Dimensione: </label>"
+      + "<input type='text' name='productDimension' id='productDimension'"
+      + "class='field' required='required' />"
+      + "<br><label for='measure_unit' class='left'>Unità di misura: </label>"
+      + "<input type='text' name='measure_unit' id='measure_unit'"
+      + "class='field' required='required' />"
+      + "<br><label for='unit_block' class='left'>Unità per blocco: </label>"
+      + "<input type='text' name='unit_block' id='unit_block'"
+      + "class='field' required='required' />"
+      + "<br><label for='transport_cost' class='left'>Costo trasporto: </label>"
+      + "<input type='text' name='transport_cost' id='transport_cost'"
+      + "class='field' required='required' />"
+      + "<br><label for='unit_cost' class='left'>Costo unità: </label>"
+      + "<input type='text' name='unit_cost' id='unit_cost'"
+      + "class='field' required='required' />"
+      + "<br><label for='min_buy' class='left'>Minimo unità acquistabili: </label>"
+      + "<input type='text' name='min_buy' id='min_buy' class='field' />"
+      + "<br><label for='max_buy' class='left'>Massimo unità acquistabili: </label>"
+      + "<input type='text' name='max_buy' id='max_buy'"
+      + "class='field' />"
+      + "<br><br><label for='productCategory' class='left'>Categoria: </label>"
+      + "<select name='productCategory' id='productCategory' class='field' onchange='checkCategorySelect()'>"
+      + "</select></fieldset>"
+      + "<fieldset id='categoryFieldset' ><legend>&nbsp;Inserisci nuova categoria&nbsp;</legend><br />"
+      + "<br><label for='categoryDescription' class='left'>Descrizione: </label>"
+      + "<input type='text' name='categoryDescription' id='categoryDescription' class='field' />"
+      + "</fieldset>"
+      + "<div id='errorDiv' style='display: none;'>"
+      + "<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />"
+      + "<div id='errors' style='padding-left: 40px'>"
+      + "</div></fieldset></div><p>"
+      + "<input type='submit' class='button' value='Crea prodotto' id='newProductSubmit' />"
+      + "</p></form></div>";
+  
   $('#tabs-1')
-      .html(
-          "<div class='creazioneProdottoForm' style='margin: 2em 0 0 65px;'>"
-              + "<form id='newProdForm' action='' method='post'>"
-              + "<fieldset id='productFieldset'><legend>&nbsp;Dati per la creazione prodotto&nbsp;</legend>"
-              + "<br /><label for='productName' class='left'>Nome: </label>"
-              + "<input type='text' name='productName' id='productName' class='field'"
-              + "required='required' /><br><label for='productDescription' class='left'>"
-              + "Descrizione: </label><input type='text' name='productDescription' id='productDescription'"
-              + "class='field' required='required' />"
-              + "<br><label for='productDimension' class='left'>Dimensione: </label>"
-              + "<input type='text' name='productDimension' id='productDimension'"
-              + "class='field' required='required' />"
-              + "<br><label for='measure_unit' class='left'>Unità di misura: </label>"
-              + "<input type='text' name='measure_unit' id='measure_unit'"
-              + "class='field' required='required' />"
-              + "<br><label for='unit_block' class='left'>Unità per blocco: </label>"
-              + "<input type='text' name='unit_block' id='unit_block'"
-              + "class='field' required='required' />"
-              + "<br><label for='transport_cost' class='left'>Costo trasporto: </label>"
-              + "<input type='text' name='transport_cost' id='transport_cost'"
-              + "class='field' required='required' />"
-              + "<br><label for='unit_cost' class='left'>Costo unità: </label>"
-              + "<input type='text' name='unit_cost' id='unit_cost'"
-              + "class='field' required='required' />"
-              + "<br><label for='min_buy' class='left'>Minimo unità acquistabili: </label>"
-              + "<input type='text' name='min_buy' id='min_buy' class='field' />"
-              + "<br><label for='max_buy' class='left'>Massimo unità acquistabili: </label>"
-              + "<input type='text' name='max_buy' id='max_buy'"
-              + "class='field' />"
-              + "<br><br><label for='productCategory' class='left'>Categoria: </label>"
-              + "<select name='productCategory' id='productCategory' class='field' onchange='checkCategorySelect()'>"
-              + "</select></fieldset>"
-              + "<fieldset id='categoryFieldset' ><legend>&nbsp;Inserisci nuova categoria&nbsp;</legend><br />"
-              + "<br><label for='categoryDescription' class='left'>Descrizione: </label>"
-              + "<input type='text' name='categoryDescription' id='categoryDescription' class='field' />"
-              + "</fieldset>"
-              + "<div id='errorDiv' style='display: none;'>"
-              + "<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />"
-              + "<div id='errors' style='padding-left: 40px'>"
-              + "</div></fieldset></div><p>"
-              + "<input type='submit' class='button' value='Crea prodotto' id='newProductSubmit' />"
-              + "</p></form></div>");
+      .html(newProductForm);
+  
   var categoriesList = getCategoriesNoLocal();
   var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
   for ( var catIndex in categoriesList)
@@ -647,6 +670,10 @@ function clickNewProductHandler(event)
 
   var errors = new Array();
 
+  var picture = "";
+  if(!!window.FormData)
+	  picture = $('#picture').val();
+  
   var productName = $('#productName').val();
   var productDescription = $('#productDescription').val();
   var productDimension = $('#productDimension').val();
@@ -753,6 +780,7 @@ function clickNewProductHandler(event)
 
     // Creazione nuovo prodotto
     var idProduct = newProduct({
+      picture : picture,
       productName : productName,
       productDescription : productDescription,
       productDimension : productDimension,
