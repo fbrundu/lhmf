@@ -32,6 +32,9 @@ Applicazioni Internet - Gas
 	
 -statistiche!!!!!!!!!
 
+-controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
+	     vecchio >=0
+
 ---------------------------------------------
 
 - usare ajax per scaricare i dati (ex. i prodotti) solo una volta, salvarli nel
