@@ -185,7 +185,7 @@ function prepareOrderForm(tab){
     
     $("#minDate3").datepicker();
     $('#minDate3').datepicker("setDate", Date.now());
-    $('#maxDate3').datepicker({ defaultDate: 0, maxDate: 0 });
+    $('#maxDate3').datepicker();
     $('#maxDate3').datepicker("setDate", Date.now());
     
     $('#orderActiveRequest').on("click", clickOrderActiveHandler);

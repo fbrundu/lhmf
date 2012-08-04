@@ -100,7 +100,7 @@ public class SupplierAjaxController
 			Member memberControl = memberInterface.getMemberByEmail(email);
 
 			if (memberControl != null)
-				errors.add("Email: Email gi� utilizzata da un altro account");
+				errors.add("Email: Email gi&agrave utilizzata da un altro account");
 		}
 		if (address.equals("") || CheckNumber.isNumeric(address))
 		{
@@ -108,7 +108,7 @@ public class SupplierAjaxController
 		}
 		if (city.equals("") || CheckNumber.isNumeric(city))
 		{
-			errors.add("Citt�: Formato non Valido");
+			errors.add("Citt&agrave: Formato non Valido");
 		}
 		if (state.equals("") || CheckNumber.isNumeric(state))
 		{
@@ -219,7 +219,6 @@ public class SupplierAjaxController
 
 						// Inviare qui la mail con il codice di registrazione e la
 						// password generata
-						// TODO cambiare link di conferma mail. Togliere la parte relativa a admin, gestito lato server con Member.fromAdmin
 						/*
 						 * SendEmail emailer = new SendEmail(); boolean isSupplier =
 						 * true; emailer.sendAdminRegistration(firstname + " " +

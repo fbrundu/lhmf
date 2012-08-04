@@ -4,7 +4,6 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.MemberStatusInterface;
 import it.polito.ai.lhmf.model.MemberTypeInterface;
-import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
@@ -39,8 +38,6 @@ public class MemberAjaxController
 {
 	@Autowired
 	private MemberInterface memberInterface;
-	@Autowired
-	private SupplierInterface supplierInterface;
 	@Autowired
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
@@ -229,10 +226,14 @@ public class MemberAjaxController
 	{
 		List<Member> membersList = null;
 		
-		//Richiesta di un tipo utente specifico
-			
-		MemberType mType = new MemberType(memberType);
-		membersList = memberInterface.getMembersToActivate(mType);
+		
+		if(memberType == 4) {
+			membersList = memberInterface.getMembersToActivate();
+		} else {
+			//Richiesta di un tipo utente specifico
+			MemberType mType = new MemberType(memberType);
+			membersList = memberInterface.getMembersToActivate(mType);
+		}
 		
 		List<Member> returnList = new ArrayList<Member>();
 		
@@ -280,12 +281,11 @@ public class MemberAjaxController
 	public @ResponseBody int getNumberItemsToActivate(HttpServletRequest request,
 			@RequestParam(value = "memberType", required = true) int memberType)
 	{
-		Long resultCall;
-		if(memberType == 3) {
-			//Fornitore
-			resultCall = supplierInterface.getNumberItemsToActivate();
+		Long resultCall = (long) 0;
+		
+		if(memberType == 4 ) {
+			resultCall = memberInterface.getNumberItemsToActivate();
 		} else {
-			//normali o responsabili
 			resultCall = memberInterface.getNumberItemsToActivate(memberType);
 		}
 		
