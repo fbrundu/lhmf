@@ -229,9 +229,9 @@ function writeSupplierPage(tab)
       + "<br />";
   
   if(!!window.FormData)
-      newProductForm +=	"<label for='picture' class='left'>Immagine: </label>"
-    	  
+      newProductForm +=	"<label for='picture' class='left'>Immagine: </label>"	  
       + "<input type='file' name='picture' id='picture' class='field'/>";
+	  
   newProductForm += "<label for='productName' class='left'>Nome: </label>"
       + "<input type='text' name='productName' id='productName' class='field'"
       + "required='required' /><br><label for='productDescription' class='left'>"
