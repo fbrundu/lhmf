@@ -1,16 +1,6 @@
 NON FUNZIONANTE
 
--Registrazione Nuovo utente con Admin - in caso di inserimento di Email già usata esce un messaggio di errore
-scritto in maniera errata - "Email: Email giï¿½ utilizzata da un altro account"
 
--Errore descritto anche su Facebook in Gruppo AI per la registrazione dell'utente da parte dell'Admin
-
--Nell'interfaccia responsabile sotto gli ordini in consegna ha senso che il campo "Consegna prima del"
- offra la possibilità di inserire solo date successive a quella odierna?
- 
--In caso di registrazione con facebook e google, la prima volta vengono inseriti dei campi non modificabili.
- In seguito a errori nell'inserimento degli altri campi, i campi non modificabili diventano modificabili.
- - IN CASO DI ERRORE BISOGNA CONTINUARE A VISUALIZZARE COME NON MODIFICABILI CERTI CAMPI  
 
 FUNZIONANTE
 
@@ -22,6 +12,16 @@ FUNZIONANTE
 
 
 PROBLEMI RISOLTI
+Alla registazione del fornitore da parte dell'admin vengono caricati anche i responsabili non ancora abilitati.
+
+-In caso di registrazione con facebook e google, la prima volta vengono inseriti dei campi non modificabili.
+ In seguito a errori nell'inserimento degli altri campi, i campi non modificabili diventano modificabili.
+ - IN CASO DI ERRORE BISOGNA CONTINUARE A VISUALIZZARE COME NON MODIFICABILI CERTI CAMPI  
+ 
+-Registrazione Nuovo utente con Admin - in caso di inserimento di Email già usata esce un messaggio di errore
+scritto in maniera errata - "Email: Email giï¿½ utilizzata da un altro account"
+
+-Errore descritto anche su Facebook in Gruppo AI per la registrazione dell'utente da parte dell'Admin
 
 -Quando viene registrato un nuovo fornitore, quest'ultimo viene aggiunto solamente alla tabella Member
 e non a quella Supplier. Questo crea un errore quando si prova a visualizzare i prodotti dalla pagina del

@@ -174,7 +174,7 @@ public class SignupController
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
-				error.put("error", "Email già utilizzata da un altro account");
+				error.put("error", "Email gi&agrave utilizzata da un altro account");
 				errors.add(error);
 			}
 		}
@@ -188,7 +188,7 @@ public class SignupController
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Cittïà");
+			error.put("id", "Citt&agrave");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
@@ -424,7 +424,7 @@ public class SignupController
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
-				error.put("error", "Email già utilizzata da un altro account");
+				error.put("error", "Email gi&agrave utilizzata da un altro account");
 				errors.add(error);
 			}		
 		}
@@ -634,7 +634,7 @@ public class SignupController
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
-				error.put("error", "Email già utilizzata da un altro account");
+				error.put("error", "Email gi&agrave utilizzata da un altro account");
 				errors.add(error);
 			}
 			
@@ -785,7 +785,7 @@ public class SignupController
 			@RequestParam(value = "regCode", required = true) String regCode)
 	{
 		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
-		
+		boolean preEnabled = false;
 		int idMember = Integer.parseInt(id);
 		
 		boolean fromAdmin = false;
@@ -811,62 +811,72 @@ public class SignupController
 			//Account esistente e codice corretto.
 			fromAdmin = member.isFromAdmin();
 			
-			MemberStatus mStatus;
-			if(fromAdmin)
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED);
-			else
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
 			
-			member.setMemberStatus(mStatus);
-			
-			model.addAttribute("firstname", member.getName());
-			
-			try {
-				memberInterface.updateMember(member);
-			} catch (InvalidParametersException e) {
+			if(member.getMemberStatus().equals(MemberStatuses.ENABLED)) {
+				preEnabled = true;
+			} else {
 				
-				Map<String, String> error = new HashMap<String, String>();
-				error.put("id", "InternalError");
-				error.put("error", "Non è stato possibile verificare l'email.");
-				errors.add(error);
-			}
-			
+				MemberStatus mStatus;
+				if(fromAdmin)
+					mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED);
+				else
+					mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				
+				member.setMemberStatus(mStatus);
+				
+				model.addAttribute("firstname", member.getName());
+				
+				try {
+					memberInterface.updateMember(member);
+				} catch (InvalidParametersException e) {
+					
+					Map<String, String> error = new HashMap<String, String>();
+					error.put("id", "InternalError");
+					error.put("error", "Non è stato possibile verificare l'email.");
+					errors.add(error);
+				}
+			}	
 		}
 		
 		// Ci sono errori, rimandare alla pagina mostrandoli
 		if(errors.size() <= 0) {
 			
-			if(!fromAdmin) {
-				model.addAttribute("active", false);	
-				//Mandare messaggio all'admin
-				
-				//Ricavo il membro Admin
-				Member memberAdmin = memberInterface.getMemberAdmin();
-				
-				//Creo il Current timestamp
-				Calendar calendar = Calendar.getInstance();
-				java.util.Date now = calendar.getTime();
-				java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-				
-				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-								"Email: " + member.getEmail() + "\n";  
-				
-				//Costruisco l'oggetto message	
-				Message message = new Message(memberAdmin, currentTimestamp, false, 0);
-				
-				message.setMemberByIdSender(member);
-				message.setText(text);
-				
-				try {
-					messageInterface.newMessage(message);
-				} catch (InvalidParametersException e) {
-					e.printStackTrace();
+			if(!preEnabled) {
+				if(!fromAdmin) {
+					model.addAttribute("active", false);	
+					//Mandare messaggio all'admin
+					
+					//Ricavo il membro Admin
+					Member memberAdmin = memberInterface.getMemberAdmin();
+					
+					//Creo il Current timestamp
+					Calendar calendar = Calendar.getInstance();
+					java.util.Date now = calendar.getTime();
+					java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+					
+					String text = 	"Utente richiede l'attivazione dell'account\n\n" +
+									"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
+									"Email: " + member.getEmail() + "\n";  
+					
+					//Costruisco l'oggetto message	
+					Message message = new Message(memberAdmin, currentTimestamp, false, 0);
+					
+					message.setMemberByIdSender(member);
+					message.setText(text);
+					
+					try {
+						messageInterface.newMessage(message);
+					} catch (InvalidParametersException e) {
+						e.printStackTrace();
+					}
 				}
+				else
+					model.addAttribute("active", true);
 			}
 			else
 				model.addAttribute("active", true);
-		}	
+		}
+		
 		return new ModelAndView("/authMail_confirmed");
 	}
 

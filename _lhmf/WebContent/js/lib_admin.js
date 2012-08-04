@@ -261,6 +261,7 @@ function writeUserPage(tab){
 		                    "<option value='0'> Normale </option>" +
 		                    "<option value='1'> Responsabile </option>" +
 		                    "<option value='3'> Fornitore </option>" +
+		                    "<option value='4'> Tutti </option>" +
 		               "</select>" +
 		                  "<label for='page' class='left'>&nbsp;&nbsp;Pagina: </label>" +
 		                  "<select name='page' id='page'>" +
@@ -786,7 +787,7 @@ function postMemberActivationHandler(result) {
 	if(result == 0) {
 		
 		//Errore nell'attivazione
-		
+		//TODO fare qualcosa?
 	} else {
 		var trControl = "#ActMember_" + result;
 		
@@ -909,12 +910,14 @@ function postMemberToActivateHandler(result) {
 		
 		var memberType = $('#memberType').val();
 		
+		if(memberType == 4) 
+			$("#errors2").append("Non ci sono Utenti da visualizzare<br /><br />");
 		if(memberType == 3) 
 			$("#errors2").append("Non ci sono Fornitori da visualizzare<br /><br />");
 		if(memberType == 1) 
 			$("#errors2").append("Non ci sono Responsabili  da visualizzare<br /><br />");
 		if(memberType == 0) 
-			$("#errors2").append("Non ci sono Membri  da visualizzare<br /><br />");
+			$("#errors2").append("Non ci sono Membri Normali da visualizzare<br /><br />");
 		
 		
 		$("#errorDiv2").show("slow");
@@ -939,28 +942,21 @@ function postMemberToActivateHandler(result) {
 		
 		//Costruzione tabella con utenti
 		var output = [];
-		output.push("	<tr>  <th class='top' width='10%'> ID </th>" +
-							 "<th class='top' width='40%'> Membro </th>" +
-							 "<th class='top' width='30%'> Tipo  </th>" +
-							 "<th class='top' width='20%'> Attiva  </th> </tr>");
+		output.push("	<tr>  <th class='top' width='5%'> ID </th>" +
+							 "<th class='top' width='30%'> Membro </th>" +
+							 "<th class='top' width='25%'> Tipo  </th>" +
+							 "<th class='top' width='25%'> Stato  </th>" +
+							 "<th class='top' width='25%'> Attiva  </th> </tr>");
 		
 		
 		
 		
 		$.each(data, function(index, val)
 		{
-			if (typeof val.active === "undefined") {
-				//member
 				output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td>" +
-						val.memberType + "</td><td>" +
+						val.memberType + "</td><td>" + val.memberStatus + "</td><td>" + 
 						"<form method='post'><input type='hidden' value='" + val.idMember + "'/>" +
 						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
-			} else  {
-				//supplier
-				output.push("<tr id='ActMember_" + val.idMember + "'><td>" + val.idMember +"</td><td>" + val.name + " " + val.surname + "</td><td> Fornitore </td><td>" +
-						"<form method='post'><input type='hidden' value='" + val.idMember + "'/>" +
-						"<button type='submit' id='memberActivation_" + val.idMember + "'> Attiva </button></form></td></tr>");
-			}
 		});
 
 		

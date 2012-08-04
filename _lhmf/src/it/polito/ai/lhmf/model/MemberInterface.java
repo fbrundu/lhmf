@@ -87,10 +87,13 @@ public class MemberInterface
 	{
 		//Recupero il memberType del responsabile
 		MemberType mType = new MemberType(MemberTypes.USER_RESP);
+		//Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
 				
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Member where memberType = :memberType");
-				
+				"from Member where memberType = :memberType AND memberStatus = :memberStatus");
+		
+		query.setParameter("memberStatus", mStatus);
 		query.setParameter("memberType", mType);
 		return (List<Member>) query.list();
 	}
@@ -149,12 +152,25 @@ public class MemberInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
+	public List<Member> getMembersToActivate() {
+		//Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+		
+		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberStatus != :memberStatus order by idMember");
+		
+		query.setParameter("memberStatus", mStatus);
+		
+		return (List<Member>) query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<Member> getMembersToActivate(MemberType memberType) {
 		
 		//Recupero il MemberStatus
-		MemberStatus mStatus = new MemberStatus(MemberStatuses.VERIFIED_DISABLED);
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
 		
-		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberStatus = :memberStatus AND " +
+		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberStatus != :memberStatus AND " +
 				"memberType = :memberType order by idMember");
 		
 		query.setParameter("memberStatus", mStatus);
@@ -164,13 +180,24 @@ public class MemberInterface
 	}
 
 	@Transactional(readOnly = true)
+	public Long getNumberItemsToActivate() {
+		//Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+		
+		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberStatus != :memberStatus");
+		query.setParameter("memberStatus", mStatus);
+		
+		return (Long) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
 	public Long getNumberItemsToActivate(int memberType) {
 		
 		//Recupero il MemberStatus
-		MemberStatus mStatus = new MemberStatus(MemberStatuses.VERIFIED_DISABLED);
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
 		MemberType mType = new MemberType(memberType);
 		
-		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberStatus = :memberStatus AND " +
+		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberStatus != :memberStatus AND " +
 				"memberType = :memberType");
 		
 		query.setParameter("memberStatus", mStatus);
@@ -215,4 +242,5 @@ public class MemberInterface
 		query.setParameter("memberType", mType);
 		return (List<Member>) query.list();
 	}
+
 }

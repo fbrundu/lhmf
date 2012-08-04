@@ -3,9 +3,10 @@ Applicazioni Internet - Gas
 # TODO
 
 !!! Ultime modifiche che ci sono venute in mente!!!:
--attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin può così decidere
+- [[RISOLTO]] attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin può così decidere
  di abilitare anche utenti per i quali la mail non è stata verificata ma di cui lui si fida o sa per certo che l'indirizzo è giusto. Di conseguenza:
--modificare il controller authMail per verificare che lo stato non sia già abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
+
+ - [[FATTP MA DA TESTARE]] modificare il controller authMail per verificare che lo stato non sia già abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
 
 - [[RISOLTO]] correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
 		|_> Ora è possibile inserire i seguenti formati (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn; +CC NNNNNNNNNN, +CC-NNNNNNNNNN, +CCNNNNNNNNNN (va bene anche CCCC)

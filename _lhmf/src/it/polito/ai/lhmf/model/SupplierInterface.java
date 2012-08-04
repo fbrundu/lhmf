@@ -131,17 +131,6 @@ public class SupplierInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Long getNumberItemsToActivate()
-	{
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"select count(*) from Supplier where active = :active");
-
-		query.setParameter("active", false);
-		return (Long) query.uniqueResult();
-	}
-
-	@Transactional(readOnly = true)
 	public Integer getIdSupplier(String username)
 	{
 		if (username == null)
