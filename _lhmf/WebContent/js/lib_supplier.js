@@ -259,16 +259,17 @@ function writeSupplierPage(tab)
       + "class='field' />"
       + "<br><br><label for='productCategory' class='left'>Categoria: </label>"
       + "<select name='productCategory' id='productCategory' class='field' onchange='checkCategorySelect()'>"
-      + "</select></fieldset>"
-      + "<fieldset id='categoryFieldset' ><legend>&nbsp;Inserisci nuova categoria&nbsp;</legend><br />"
+      + "</select><br /><br /><br /><br /><br /><br /><br />"
+      + "<fieldset id='categoryFieldset' style='padding: 5px'><legend>&nbsp;Inserisci nuova categoria&nbsp;</legend><br />"
       + "<br><label for='categoryDescription' class='left'>Descrizione: </label>"
       + "<input type='text' name='categoryDescription' id='categoryDescription' class='field' />"
+      + "</fieldset>"
+      + "<button type='submit' id='newProductSubmit'> Crea prodotto </button>"
       + "</fieldset>"
       + "<div id='errorDiv' style='display: none;'>"
       + "<fieldset><legend id='legendError'>&nbsp;Errore&nbsp;</legend><br />"
       + "<div id='errors' style='padding-left: 40px'>"
       + "</div></fieldset></div><p>"
-      + "<input type='submit' class='button' value='Crea prodotto' id='newProductSubmit' />"
       + "</p></form></div>";
   
   $('#tabs-1')
@@ -301,6 +302,14 @@ function writeSupplierPage(tab)
   var pagesForListino = "";
   for ( var page = 1; page <= initialNumberOfPages; page++)
     pagesForListino += "<option value='" + page + "'>" + page + "</option>";
+
+  $("#picture").filestyle({ 
+	     image: "img/browse.png",
+	     imageheight : 22,
+	     imagewidth : 34,
+	     width : 136
+	 });
+  $("button").button();
 
   $('#tabs-2')
       .html(
