@@ -394,7 +394,8 @@ function registerForProductsUpdates()
   var source = new EventSource('productsUpdatesAdmin');
   source.onmessage = function(event)
   {
-    console.debug(event.data);
+    console.debug("Reloading products..");
+    newProductSearch();
   };
 }
 
