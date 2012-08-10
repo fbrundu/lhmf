@@ -25,6 +25,7 @@
             </props>
         </property>
     </bean>
+    <bean id="modelState" class="it.polito.ai.lhmf.model.ModelState"></bean>
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
@@ -43,6 +44,7 @@
 
     <bean id="productDao" class="it.polito.ai.lhmf.model.ProductInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="modelState" ref="modelState"/>
     </bean>
     
     <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">

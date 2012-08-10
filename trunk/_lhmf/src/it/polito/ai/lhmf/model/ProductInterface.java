@@ -21,10 +21,16 @@ public class ProductInterface
 {
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
-
+	private ModelState modelState;
+	
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
+	}
+	
+	public void setModelState(ModelState ms)
+	{
+		this.modelState = ms;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -41,6 +47,7 @@ public class ProductInterface
 			throw new InvalidParametersException();
 		
 		newProductId = (Integer) sessionFactory.getCurrentSession().save(product);
+		modelState.setHaveNewProducts(true);
 		
 		if(picture != null){
 			if(pictureDirectoryPath == null || serverPath == null)
