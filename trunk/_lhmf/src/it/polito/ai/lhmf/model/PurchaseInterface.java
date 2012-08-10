@@ -70,7 +70,7 @@ public class PurchaseInterface
 		Purchase purTmp = new Purchase();
 		for(Order or : orderTmp)
 		{
-			System.out.println("Ordine "+or.getIdOrder());
+			System.out.println("Ordine " + or.getIdOrder());
 			query.setParameter("idOrder", or.getIdOrder());
 			if((purTmp = (Purchase)query.uniqueResult()) != null)
 			{
