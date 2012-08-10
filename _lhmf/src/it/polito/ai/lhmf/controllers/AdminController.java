@@ -82,12 +82,12 @@ public class AdminController
 			while (true)
 			{
 				// se ci sono nuovi prodotti scrive una notifica
-				if (modelState.isHaveNewProducts())
+				if (modelState.isToReloadProducts())
 				{
-					pw.write("data: new products available\n\n");
+					pw.write("data: products updated\n\n");
 					pw.flush();
-					System.out.println("New Products available sent");
-					modelState.setHaveNewProducts(false);
+					System.out.println("Products updated sent");
+					modelState.setToReloadProducts(false);
 				}
 				Thread.sleep(5000);
 			}

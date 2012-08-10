@@ -2,21 +2,21 @@ package it.polito.ai.lhmf.model;
 
 public class ModelState
 {
-	private boolean haveNewProducts;
+	private boolean toReloadProducts;
 
-	public boolean isHaveNewProducts()
+	public boolean isToReloadProducts()
 	{
 		synchronized (this)
 		{
-			return haveNewProducts;
+			return toReloadProducts;
 		}
 	}
 
-	public void setHaveNewProducts(boolean haveNewProducts)
+	public void setToReloadProducts(boolean toReloadProducts)
 	{
 		synchronized (this)
 		{
-			this.haveNewProducts = haveNewProducts;
+			this.toReloadProducts = toReloadProducts;
 		}
 	}
 }

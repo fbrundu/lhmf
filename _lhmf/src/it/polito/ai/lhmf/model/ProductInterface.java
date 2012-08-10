@@ -47,7 +47,7 @@ public class ProductInterface
 			throw new InvalidParametersException();
 		
 		newProductId = (Integer) sessionFactory.getCurrentSession().save(product);
-		modelState.setHaveNewProducts(true);
+		modelState.setToReloadProducts(true);
 		
 		if(picture != null){
 			if(pictureDirectoryPath == null || serverPath == null)
@@ -122,6 +122,8 @@ public class ProductInterface
 		if (product == null)
 			throw new InvalidParametersException();
 
+		modelState.setToReloadProducts(true);
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Product " + "set name = :name,"
 						+ "description = :description,"
@@ -150,7 +152,7 @@ public class ProductInterface
 		query.setParameter("idCategory", product.getProductCategory()
 				.getIdProductCategory());
 		query.setParameter("idProduct", product.getIdProduct());
-
+		
 		return (Integer) query.executeUpdate();
 	}
 
@@ -161,11 +163,13 @@ public class ProductInterface
 		if (idProduct == null || idProduct < 0)
 			throw new InvalidParametersException();
 
+		modelState.setToReloadProducts(true);
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Product " + "set availability = true "
 						+ "where idProduct = :idProduct");
 		query.setParameter("idProduct", idProduct);
-
+		
 		return (Integer) query.executeUpdate();
 	}
 
@@ -175,12 +179,14 @@ public class ProductInterface
 	{
 		if (idProduct == null || idProduct < 0)
 			throw new InvalidParametersException();
-
+		
+		modelState.setToReloadProducts(true);
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Product " + "set availability = false "
 						+ "where idProduct = :idProduct");
 		query.setParameter("idProduct", idProduct);
-
+		
 		return (Integer) query.executeUpdate();
 	}
 
@@ -191,6 +197,8 @@ public class ProductInterface
 		if (idProduct == null)
 			throw new InvalidParametersException();
 
+		modelState.setToReloadProducts(true);
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"delete from Product " + "where idProduct = :idProduct");
 
