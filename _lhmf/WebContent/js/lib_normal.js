@@ -60,28 +60,6 @@
                                     "<div id='tabsPurchase-4'></div>" +
                                "</div>");
         
-        /*$('#tabsPurchase-1').html("<div class='logform'>" +
-                                "<form method='post' action='prder'>" +
-                                  "<fieldset><legend>&nbsp;Composizione della Nuova Scheda:&nbsp;</legend><br />" +                  
-                                  "<button type='submit' id='orderActiveRequest'> Visualizza Ordini Disponibili </button>" +
-                                  "<table id='activeOrderList' class='log'></table>" +
-                                  "<div id='errorDivActiveOrder' style='display:none;'>" +
-                                    "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-                                     "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
-                                      "</div>" +
-                                    "</fieldset>" +
-                                  "</div><br />" +
-                              "</div>" +
-                                   "<button type='submit' id='newPurchaseSubmit'> Crea Scheda </button>" +
-                                  "</fieldset>" +
-                                  "<div id='errorDivPurchase' style='display:none;'>" +
-                                      "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                                       "<div id='errorsPurchase' style='padding-left: 40px'></div>" +
-                                      "</fieldset>" +
-                                  "</div>" +
-                                "</form>" +
-                              "</div>");*/
-        
         $('#tabsPurchase-1').html("<div class='logform'>" +
                 "<form method='post' action='purchase'>" +
                   "<fieldset><legend>&nbsp;Seleziona gli ordini:&nbsp;</legend><br />" +
@@ -165,8 +143,6 @@ function preparePurchaseForm(tab){
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
        
-    //$('#orderActiveRequest').on("click", clickOrderActiveHandler);
-    //$('#newPurchaseSubmit').on("click", clickNewPurchaseHandler);
     $('#purchaseActiveRequest').on("click", clickPurchaseActiveHandler);
     $('#purchaseOldRequest').on("click", clickPurchaseOldHandler);
     $('#purchaseDetailsRequest').on("click", clickPurchaseDetailsHandler);
@@ -180,14 +156,8 @@ function preparePurchaseForm(tab){
     $("button").button();
 }
 
-/*function clickNewPurchaseHandler(event) 
-{
-    event.preventDefault();
-    
-    //Creazione nuove schede (in attesa di Drag & drop)
-    
-}
-*/
+var idOrder = 0;	
+var addedIds = [];
 
 function clickProductListRequest(event) {
 	event.preventDefault();
@@ -196,17 +166,26 @@ function clickProductListRequest(event) {
 	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti</h1>" +
           					"<div id='catalog'></div>");
 	
-	var idOrder = $('#orderPurchase').val();
+	idOrder = $('#orderPurchase').val();
 	
-	$.post("ajax/getProductFromOrder", {idOrder: idOrder}, postProductListRequest);
+	if(idOrder == -1) 
+	{
+		$("#errorDivPurchase").hide();
+		$("#legendErrorPurchase").html("Comunicazione");
+		$("#errorsPurchase").html("Non hai selezionato l'Ordine<br /><br />");
+		$("#errorDivPurchase").show("slow");
+		$("#errorDivPurchase").fadeIn(1000);	
+	}
+	else
+	{
+		$.post("ajax/getProductFromOrder", {idOrder: idOrder}, postProductListRequest);
+	}
 	
 }
 
-var addedIds = [];
-
 function postProductListRequest(productList) 
 {
-
+	$("#errorDivPurchase").hide();
 	if(productList.length <= 1) 
 	{
 		
@@ -249,10 +228,10 @@ function postProductListRequest(productList)
 								   "</section>" +
 								   "<section class='right'>" +
 										"<span class='price'>&euro;" + product.unitCost + "</span>" +
-										"<span class='amount'>" +
-											"<label for='pz' class='left'>Quota:</label>" +
+										/*"<span class='amount'>" +
+											"<label for='pz' class='left'>Quantità desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
-										"</span>" +
+										"</span>" +*/
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
 											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
@@ -288,11 +267,11 @@ function postProductListRequest(productList)
 		            $( "#purchaseCart ul" ).append($(ui.draggable).clone());
 		            $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrder);
 					$( "#purchaseCart .deleteButton" ).show();
-					$( "#purchaseCart .amount" ).show();
+					//$( "#purchaseCart .amount" ).show();
 		        } else {
 					$("#errorDivPurchase").hide();
 			        $("#legendErrorPurchase").html("Comunicazione");
-			        $("#errorsPurchase").html("Questo prodotto &egrave gi&agrave presente nell'ordine<br /><br />");
+			        $("#errorsPurchase").html("Questo prodotto &egrave gi&agrave presente nella scheda<br /><br />");
 			        $("#errorDivPurchase").show("slow");
 			        $("#errorDivPurchase").fadeIn(1000);
 				}
@@ -327,12 +306,14 @@ function clickPurchaseHandler(event)
     event.preventDefault();
     
     $("#errorDivPurchase").hide();
-    var idProducts = [];
-    var productsAmount = [];
+    $("#errorsPurchase").html("");
+
+    /*var idProducts = [];
+    var productsAmount = [];*/
     var fail = false;
     
     //Controllo dei campi. //addedIds
-    var productDOMList = $("#purchaseCart ul li"); //oggetto jquery
+    /*var productDOMList = $("#purchaseCart ul li"); //oggetto jquery
     
     if(productDOMList.lenght == 0) {
         $("#legendErrorPurchase").html("Errore");
@@ -354,18 +335,47 @@ function clickPurchaseHandler(event)
     	productsAmount.push(amount);
   	
     });
-   
-    if(fail == true) {
+   */
+    if(addedIds.length == 0)
+    {
+        $("#legendErrorPurchase").html("Errore");
+        $("#errorsPurchase").append("Non sono stati aggiunti prodotti alla scheda.<br />");
+        fail = true;
+    }
+    
+    if(fail == true) 
+    {
+    	$("#errorsPurchase").append("<br />");
     	$("#errorDivPurchase").show("slow");
         $("#errorDivPurchase").fadeIn(1000);
-    } else {
-    	// TODO continuare con ajax e generazione ordine.
-    	 $("#legendErrorPurchase").html("Comunicazione");
-	     $("#errorsPurchase").html("Creazione schede in preparazione.<br /><br />");
-	     $("#errorDivPurchase").show("slow");
-	     $("#errorDivPurchase").fadeIn(1000);
+    }
+    else
+    {
+    	var idProducts = addedIds.join(",");
+    	
+    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts/*, productsAmount: productsAmount*/}, postSetNewPurchaseRequest);
     }
       
+}
+
+function postSetNewPurchaseRequest(result) 
+{
+	
+	if(result <= 0)
+	{
+		$("#legendErrorPurchase").html("Errore");
+	    $("#errorsPurchase").html("Errore Interno. Non &egrave stato possibile creare la scheda di acquisto.<br /><br />");
+	    $("#errorDivPurchase").show("slow");
+	    $("#errorDivPurchase").fadeIn(1000);
+	}
+	else
+	{
+		$("#legendErrorPurchase").html("Comunicazione");
+	    $("#errorsPurchase").html("Scheda di acquisto creata correttamente.<br /><br />");
+	    $("#errorDivPurchase").show("slow");
+	    $("#errorDivPurchase").fadeIn(1000);
+	}
+	
 }
 
 function clickPurchaseActiveHandler(event) 
@@ -405,7 +415,7 @@ function loadOrders()
 		$.each(data, function(index, val)
 		{
 			var temp = val.split(","); 
-			output.push('<option value="'+ temp[0] +'">'+ temp[1] + ' | ' + temp[2] + '</option>');
+			output.push('<option value="'+ temp[0] +'"> Date Apertura - Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
 		});
 		$('#orderPurchase').html(output.join(''));
 	
@@ -598,100 +608,3 @@ function loadMyPurchasesFromLocalStorage()
 {
   return JSON.parse(window.localStorage.getItem('myPurchasesList'));
 }
-
-
-/*function clickOrderActiveHandler(event) 
-{
-    event.preventDefault();
-    
-    $.post("ajax/getActiveOrderNormal", postActiveOrderListHandler);
-      
-}*/
-
-/*function postActiveOrderListHandler(orderList) {
-
-console.log("Ricevuti Ordini Attivi");
-
-$("#activeOrderList").html("");
-$("#activeOrderList").hide();
-
-if(orderList.length > 0){
-    $("#activeOrderList").append("  <tr>  <th class='top' width='10%'> ID </th>" +
-                                         "<th class='top' width='20%'> Fornitore </th>" +
-                                         "<th class='top' width='15%'> Data Inizio  </th>" +
-                                         "<th class='top' width='15%'> Data Chiusura  </th>" +
-                                         "<th class='top' width='40%'> Dettagli  </th> </tr>");
-    for(var i = 0; i < orderList.length; i++){
-        var order = orderList[i];
-        var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
-        var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
-        $("#activeOrderList").append("<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder +"</td>" +
-                                          "<td>" + order.supplier.companyName + "</td>" +
-                                          "<td>" + dateOpen + "</td>" +
-                                          "<td>" + dateClose + "</td>" +
-                                          "<td> <form> <input type='hidden' value='" + order.idOrder + "'/>" +
-                                          	   "<button type='submit' id='showDetails_" + order.idOrder + "'> Mostra Dettagli </button>" +
-                                          	   "</form></td></tr>" +
-                                     "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrder_" + order.idOrder + "'></td></tr>");
-        $(".detailsOrder").hide();
-        $("button").button();
-    }
-    
-    $.each(orderList, function(index, val)
-    {
-        $("#showDetails_" + val.idOrder).on("click", clickShowDetailsHandler);
-    });
-
-    $("#activeOrderList").show("slow");
-    $("#activeOrderList").fadeIn(1000);
-    $("#errorDivActiveOrder").hide();
-} else {
-    
-    $("#activeOrderList").show();
-    $("#errorDivActiveOrder").hide();
-    $("#legendErrorActiveOrder").html("Comunicazione");
-    $("#errorsActiveOrder").html("Non ci sono Ordini Attivi da visualizzare<br /><br />");
-    $("#errorDivActiveOrder").show("slow");
-    $("#errorDivActiveOrder").fadeIn(1000);
-}
-}
-
-var idOrder = 0;
-
-function clickShowDetailsHandler(event) {
-event.preventDefault();
-
-$(".detailsOrder").hide();
-var form = $(this).parents('form');
-idOrder = $('input', form).val();
-
-$.post("ajax/getProductListFromOrderNormal", {idOrder: idOrder}, postShowDetailsHandler);
-}
-
-function postShowDetailsHandler(data) {
-
-var trControl = "#TRdetailsOrder_" + idOrder;
-var tdControl = "#TDdetailsOrder_" + idOrder;
-
-$(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder + "' class='log'></table></div>");
-
-var tableControl = "#TABLEdetailsOrder_" + idOrder;
-
-$(tableControl).append("<tr>  <th class='top' width='25%'> Prodotto </th>" +
-                             "<th class='top' width='35%'> Descrizione  </th>" +
-                             "<th class='top' width='10%'> Costo  </th>" +
-                             "<th class='top' width='15%'> Min-Max Buy  </th>" +
-                             "<th class='top' width='20%'> Aggiungi Prodotto  </th> </tr>");
-
-$.each(data, function(index, val)
-{
-    $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
-    		                       "<td>" + val.description + "</td>" +
-    		                       "<td>" + val.unitCost + "</td>" +
-    		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
-});
-
-$(trControl).show("slow");    
-$(tdControl).fadeIn(1000);  
-}
-*/

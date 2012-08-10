@@ -19,9 +19,11 @@ public class PurchaseProductSerializer extends JsonSerializer<PurchaseProduct>
 			JsonProcessingException 
 	{
 		jgen.writeStartObject();
-		jgen.writeNumberField("idPurchase", value.getId().getIdPurchase());
-		jgen.writeNumberField("idProduct", value.getId().getIdProduct());
+		jgen.writeObjectField("id", value.getId());
+		jgen.writeObjectField("purchase", value.getPurchase());
+		jgen.writeObjectField("product", value.getProduct());
 		jgen.writeNumberField("amount", value.getAmount());
+		jgen.writeStringField("insertedTimestamp",ISO8601DateParser.toString(value.getInsertedTimestamp()));
 		jgen.writeEndObject();
 	}
 

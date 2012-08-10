@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.json;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.PurchaseProductId;
 
 import java.io.IOException;
 
@@ -35,6 +36,9 @@ public class PurchaseProductDeserializer extends JsonDeserializer<PurchaseProduc
 			ObjectCodec oc = jPar.getCodec();
 			JsonNode node = oc.readTree(jPar);
 			
+			PurchaseProductId id = new PurchaseProductId(node.get("idPurchase").getIntValue(), node.get("idProduct").getIntValue());
+			newPurchaseP.setId(id);
+			
 			Query queryPurchase = hibernateSession.createQuery("from Purchase where idPurchase = :idPurchase");
 			queryPurchase.setParameter("idPurchase", node.get("idPurchase").getNumberValue());
 			Purchase purchase = (Purchase) queryPurchase.uniqueResult();
@@ -46,6 +50,9 @@ public class PurchaseProductDeserializer extends JsonDeserializer<PurchaseProduc
 			queryProduct.setParameter("idProduct", node.get("idProduct").getNumberValue());
 			Product product = (Product) queryPurchase.uniqueResult();
 			newPurchaseP.setProduct(product);
+			
+			newPurchaseP.setInsertedTimestamp(ISO8601DateParser.parse(node.get("insertedTimestamp").getTextValue()));
+			
 		}
 		catch (Exception e)
 		{

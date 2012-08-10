@@ -10,9 +10,14 @@ import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.PurchaseProductId;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,16 +46,6 @@ public class NormalAjaxController
 	@Autowired
 	private ProductInterface productInterface;
 	
-	/*@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
-	@RequestMapping(value = "/ajax/getActiveOrderNormal", method = RequestMethod.POST)
-	public @ResponseBody
-	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session) throws InvalidParametersException
-	{		
-		List<Order> listOrder = null;
-		listOrder = orderInterface.getOrdersNow();
-		return listOrder;
-	}
-	*/
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
 	public @ResponseBody
@@ -123,6 +118,53 @@ public class NormalAjaxController
 			orderString.add(temp);		
 		}		
 		return orderString;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/setNewPurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder,
+			@RequestParam(value = "idProducts") String idProducts
+			/*,@RequestParam(value = "productsAmount") int idSupplier*/) throws InvalidParametersException, ParseException
+	{
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
+		
+		Order order = orderInterface.getOrder(idOrder);
+		
+		Purchase purchase = new Purchase(order, memberNormal, false);
+		
+		int result = -1;
+		
+		if((result = purchaseInterface.newPurchase(purchase)) <= 0)
+		{
+			return result;
+		}
+		
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String sDate = dateFormat.format(calendar.getTime());
+		Date insertedTimestamp = dateFormat.parse(sDate);
+		
+		String[] idTmp = idProducts.split(",");
+			
+		for(String element : idTmp)
+		{
+		
+			Product product = productInterface.getProduct(Integer.parseInt(element));
+			
+			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(element));
+			
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, 5, insertedTimestamp);
+			
+			/*if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
+			{
+				return result;
+			}*/	
+		}
+		return result;
 	}
 	
 }
