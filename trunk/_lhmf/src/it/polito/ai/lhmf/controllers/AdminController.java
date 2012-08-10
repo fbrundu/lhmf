@@ -84,7 +84,7 @@ public class AdminController
 				// se ci sono nuovi prodotti scrive una notifica
 				if (modelState.isHaveNewProducts())
 				{
-					pw.write("data: new products available \n\n");
+					pw.write("data: new products available\n\n");
 					pw.flush();
 					System.out.println("New Products available sent");
 					modelState.setHaveNewProducts(false);
