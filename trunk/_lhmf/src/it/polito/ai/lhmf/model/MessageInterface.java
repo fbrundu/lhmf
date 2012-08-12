@@ -34,7 +34,7 @@ public class MessageInterface
 	public Message getMessage(Integer idMessage)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Message" + "where idMessage = :idMessage");
+				"from Message " + "where idMessage = :idMessage");
 		query.setParameter("idMessage", idMessage);
 		return (Message) query.uniqueResult();
 	}
@@ -54,12 +54,11 @@ public class MessageInterface
 		if (message == null)
 			throw new InvalidParametersException();
 
-		// FIXME : ci vuole la virgola alla fine delle string?
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Message" + "set text = :text,"
+				"update Message " + "set text = :text,"
 						+ "message_timestamp = :message_timestamp,"
 						+ "idSender = :idSender," + "idReceiver = :idReceiver"
-						+ "where idMessage = :idMessage");
+						+ " where idMessage = :idMessage");
 		query.setParameter("idMessage", message.getIdMessage());
 		query.setParameter("text", message.getText());
 		query.setParameter("message_timestamp", new java.sql.Timestamp(message
@@ -80,9 +79,9 @@ public class MessageInterface
 			throw new InvalidParametersException();
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from Message" + "where idMessage = :idMessage");
+				"delete from Message " + "where idMessage = :idMessage");
 
-		query.setParameter("idMember", idMessage);
+		query.setParameter("idMessage", idMessage);
 
 		return (Integer) query.executeUpdate();
 	}
