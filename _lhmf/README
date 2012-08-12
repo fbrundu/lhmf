@@ -3,23 +3,23 @@ Applicazioni Internet - Gas
 # TODO
 
 !!! Ultime modifiche che ci sono venute in mente!!!:
-- [[RISOLTO]] attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin può così decidere
- di abilitare anche utenti per i quali la mail non è stata verificata ma di cui lui si fida o sa per certo che l'indirizzo è giusto. Di conseguenza:
+- [[RISOLTO]] attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin puï¿½ cosï¿½ decidere
+ di abilitare anche utenti per i quali la mail non ï¿½ stata verificata ma di cui lui si fida o sa per certo che l'indirizzo ï¿½ giusto. Di conseguenza:
 
- - [[FATTO MA DA TESTARE]] modificare il controller authMail per verificare che lo stato non sia già abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
+ - [[FATTO MA DA TESTARE]] modificare il controller authMail per verificare che lo stato non sia giï¿½ abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
 
 - [[RISOLTO]] correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
-		|_> Ora è possibile inserire i seguenti formati (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn; +CC NNNNNNNNNN, +CC-NNNNNNNNNN, +CCNNNNNNNNNN (va bene anche CCCC)
+		|_> Ora ï¿½ possibile inserire i seguenti formati (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn; +CC NNNNNNNNNN, +CC-NNNNNNNNNN, +CCNNNNNNNNNN (va bene anche CCCC)
 	
 - [[RISOLTO]] nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
 
 -campo timestamp in purchase_product: settato quando viene inserito un prodotto in una scheda d'acquisto, e poi mai modificato.
- Serve a chiusura ordine per eliminare eventuali richieste di acquisto che eccedono le quantotà possibili del prodotto
+ Serve a chiusura ordine per eliminare eventuali richieste di acquisto che eccedono le quantotï¿½ possibili del prodotto
 
 -remapping hibernate per timestamp purchase_product
 
--eliminare modifica prodotti: è fonte di grandi guai e nelle specifiche non è richiesto. Tenere solo possibilità di renderlo disponibile/non disponibile (ossia in listino/non in listino).
- Se un prodtto diventa non disponibile, e c'è un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi è ancora chiaro)
+-eliminare modifica prodotti: ï¿½ fonte di grandi guai e nelle specifiche non ï¿½ richiesto. Tenere solo possibilitï¿½ di renderlo disponibile/non disponibile (ossia in listino/non in listino).
+ Se un prodtto diventa non disponibile, e c'ï¿½ un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi ï¿½ ancora chiaro)
  
 -thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine
 
@@ -66,7 +66,7 @@ Luca:
     Visualizzazione log}
 Francesco: 
   - utente fornitore (index_supplier.jsp)
-  	-[TODO by hassan]quando nella creazione del prodotto Minimo quantità > massimo quantità, esce messaggio di errore
+  	-[TODO by hassan]quando nella creazione del prodotto Minimo quantitï¿½ > massimo quantitï¿½, esce messaggio di errore
   	e ricarica la pagina. Inserire errore all'atto della creazione del prodotto
     {Crea o modifica listino, Crea, Visualizza, Modifica, Elimina prodotti}
     
