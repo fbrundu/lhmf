@@ -186,7 +186,7 @@ function clickProductListRequest(event) {
 function postProductListRequest(productList) 
 {
 	$("#errorDivPurchase").hide();
-	if(productList.length <= 1) 
+	if(productList.length < 1) 
 	{
 		
         $("#errorDivPurchase").hide();

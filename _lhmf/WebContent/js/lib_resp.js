@@ -231,7 +231,7 @@ function postProductListRequest(productList) {
 
 	$("#errorDivOrder").hide();
 	
-	if(productList.length <= 1) {
+	if(productList.length < 1) {
 		
         $("#errorDivOrder").hide();
         $("#legendErrorOrder").html("Comunicazione");
