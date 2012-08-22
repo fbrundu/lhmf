@@ -540,7 +540,13 @@ function isPositiveNumber(n)
 
 function getMyNotifies()
 {
-  $.getSync("ajax/getmynotifies", undefined, function() {
-    alert('Ok');
+  $.getSync("ajax/getmynotifies", undefined, function(notifiesList) {
+    var tabellaNotifiche = "<table class='notifiche'>";
+    for (var notIndex in notifiesList)
+    {
+      tabellaNotifiche += "<tr><td>" + notifiesList[notIndex].text + "</td></tr>";
+    }
+    tabellaNotifiche += "</table>";
+    $(".centrale").html(tabellaNotifiche);
   });
 }
