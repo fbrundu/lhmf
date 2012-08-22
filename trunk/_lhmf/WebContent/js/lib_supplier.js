@@ -612,7 +612,9 @@ function newProductSearch(tab)
             + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
             + "' action=''>";
         productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
-        productsString += "</form></td><td id='listUpd"
+        productsString += "</form></td>";
+        /*
+        productsString += "<td id='listUpd"
             + myProducts[prodIndex].idProduct + "'><form id='prodUpd' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Modifica' />";
@@ -621,6 +623,7 @@ function newProductSearch(tab)
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Cancella' />";
         productsString += "</form></td>";
+        */
       }
       else
       {
@@ -630,7 +633,9 @@ function newProductSearch(tab)
             + "'><form id='prodNotAval' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
-        productsString += "</form></td><td id='listUpd"
+        productsString += "</form></td>";
+        /*
+        productsString += "<td id='listUpd"
             + myProducts[prodIndex].idProduct + "'><form id='prodUpd' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Modifica' />";
@@ -639,11 +644,14 @@ function newProductSearch(tab)
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Cancella' />";
         productsString += "</form></td>";
+        */
       }
+      /*
       productsString += "</tr><tr class='rowUpdClass' id='rowUpd"
           + myProducts[prodIndex].idProduct + "'><td id='divUpd"
           + myProducts[prodIndex].idProduct + "' name='"
           + myProducts[prodIndex].idProduct + "' colspan='6'></td></tr>";
+      */
     }
     $('#productsListTable').html(productsString).show('slow');
     $('form').filter(function()
@@ -654,6 +662,7 @@ function newProductSearch(tab)
     {
       return this.id.match(/prodNotAval/);
     }).bind('submit', setProductUnavailableHandler);
+    /*
     $('form').filter(function()
     {
       return this.id.match(/prodDel/);
@@ -663,6 +672,7 @@ function newProductSearch(tab)
       return this.id.match(/prodUpd/);
     }).bind('submit', updateProductHandler);
     $('.rowUpdClass').hide();
+    */
     prepareProductsForm(tab);
   }
 }
