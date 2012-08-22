@@ -6,6 +6,12 @@
 
 <t:index>
 	<jsp:attribute name="scripts">
+	<script type="text/javascript">
+  $(function()
+  {
+    getMyNotifies();  
+  });
+	</script>
 	</jsp:attribute>
 
 	<jsp:attribute name="userMenu">

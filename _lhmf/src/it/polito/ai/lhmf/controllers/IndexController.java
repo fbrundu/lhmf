@@ -1,13 +1,11 @@
 package it.polito.ai.lhmf.controllers;
 
 import it.polito.ai.lhmf.model.constants.MemberTypes;
-import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

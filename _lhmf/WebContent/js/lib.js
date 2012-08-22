@@ -537,3 +537,10 @@ function isPositiveNumber(n)
 {
   return !isNaN(parseFloat(n)) && isFinite(n) && n > 0;
 }
+
+function getMyNotifies()
+{
+  $.getSync("ajax/getmynotifies", undefined, function() {
+    alert('Ok');
+  });
+}
