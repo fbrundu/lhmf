@@ -78,4 +78,8 @@
     <bean id="messageDao" class="it.polito.ai.lhmf.model.MessageInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+    
+    <bean id="notifyDao" class="it.polito.ai.lhmf.model.NotifyInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>
