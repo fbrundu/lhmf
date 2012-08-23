@@ -552,4 +552,16 @@ function getMyNotifies()
     tabellaNotifiche += "</table>";
     $(".centrale").html(tabellaNotifiche);
   });
+  $('#notifiesCount').html("0");
+}
+
+function registerForNotifies()
+{
+  var source = new EventSource('ajax/newnotifies');
+  source.onmessage = function(event)
+  {
+    console.debug("New notifies..");
+    $('#notifiesCount').html(event.data);
+    $('#notifiesCount').css("color","red");
+  };
 }

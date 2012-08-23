@@ -18,6 +18,7 @@ var numberOfMember;
 			dateFormat : 'dd/mm/yy'
 		});
 		drawPageCallback();
+		registerForNotifies();
 	});
 
 })(window);
