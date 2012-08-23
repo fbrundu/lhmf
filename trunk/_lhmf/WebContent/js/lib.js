@@ -544,7 +544,10 @@ function getMyNotifies()
     var tabellaNotifiche = "<table class='notifiche'>";
     for (var notIndex in notifiesList)
     {
-      tabellaNotifiche += "<tr><td>" + notifiesList[notIndex].text + "</td></tr>";
+      tabellaNotifiche += "<tr><td";
+      if (!notifiesList[notIndex].isReaded)
+        tabellaNotifiche += " class='not_read' ";
+      tabellaNotifiche += "><p>" + notifiesList[notIndex].text + "</p></td></tr>";
     }
     tabellaNotifiche += "</table>";
     $(".centrale").html(tabellaNotifiche);

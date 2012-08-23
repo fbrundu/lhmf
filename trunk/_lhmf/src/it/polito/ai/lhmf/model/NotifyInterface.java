@@ -39,21 +39,25 @@ public class NotifyInterface
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
 	public List<Notify> getNotifiesByIdMember(Integer idMember)
 			throws InvalidParametersException
 	{
 		if (idMember == null)
 			throw new InvalidParametersException();
 
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Notify " + "where idMember = :idMember");
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from Notify "
+								+ "where idMember = :idMember order by notifyTimestamp desc");
 		query.setParameter("idMember", idMember);
-		return query.list();
+		
+		List<Notify> rNotifiesList = query.list();
+		setAllRead(idMember);
+		return rNotifiesList;
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
 	public List<Notify> getNotifiesByIdMemberAfter(Integer idMember,
 			Integer idNotify) throws InvalidParametersException
 	{
@@ -63,15 +67,30 @@ public class NotifyInterface
 		// FIXME : testare
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Notify " + "where idMember = :idMember"
-						+ "and idNotify > :idNotify");
+						+ "and idNotify > :idNotify order by notifyTimestamp desc");
 		query.setParameter("idMember", idMember);
 		query.setParameter("idNotify", idNotify);
 
-		return query.list();
+		List<Notify> rNotifiesList = query.list();
+		setAllRead(idMember);
+		return rNotifiesList;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer setReadBefore(Integer idNotify)
+	public Integer setAllRead(Integer idMember)
+			throws InvalidParametersException
+	{
+		// FIXME : testare
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Notify" + " set isReaded = true"
+						+ " where isReaded = false and idMember = :idMember");
+		query.setParameter("idMember", idMember);
+		
+		return (Integer) query.executeUpdate();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setReadBefore(Integer idNotify, Integer idMember)
 			throws InvalidParametersException
 	{
 		if (idNotify == null)
@@ -80,9 +99,10 @@ public class NotifyInterface
 		// FIXME : testare
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Notify" + " set isReaded = true"
-						+ " where idNotify <= :idNotify and isReaded = false");
+						+ " where idNotify <= :idNotify and isReaded = false and idMember = :idMember");
 		query.setParameter("idNotify", idNotify);
-
+		query.setParameter("idMember", idMember);
+		
 		return (Integer) query.executeUpdate();
 	}
 
