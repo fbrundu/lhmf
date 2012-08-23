@@ -15,6 +15,7 @@
             dateFormat : 'dd/mm/yy'
         });
         drawPageCallback();
+        registerForNotifies();
     });
 
     function historyStateChanged()
@@ -229,7 +230,7 @@ function postProductListRequest(productList)
 								   "<section class='right'>" +
 										"<span class='price'>&euro;" + product.unitCost + "</span>" +
 										/*"<span class='amount'>" +
-											"<label for='pz' class='left'>Quantità desiderata:</label>" +
+											"<label for='pz' class='left'>Quantitï¿½ desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
 										"</span>" +*/
 										"<span class='darkview'>" +

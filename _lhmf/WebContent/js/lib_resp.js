@@ -14,6 +14,7 @@
             dateFormat : 'dd/mm/yy'
         });
         drawPageCallback();
+        registerForNotifies();
     });
 
     function historyStateChanged() {

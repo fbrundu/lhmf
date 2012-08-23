@@ -44,11 +44,11 @@
 		    </ul>
 		    <ul>
 		      <li><a href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
-		      <li>NN</li>
+		      <li id='notifiesCount'>0</li>
 		    </ul>
 		    <ul>
 		      <li><a href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
-		      <li>NN</li>
+		      <li id='messageCount'>0</li>
 		    </ul>
 	    </c:if>
 		</nav>

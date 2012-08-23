@@ -209,6 +209,7 @@ $(function()
     dateFormat : 'dd/mm/yy'
   });
   drawPageCallback();
+  registerForNotifies();
 });
 
 function writeIndexPage()
