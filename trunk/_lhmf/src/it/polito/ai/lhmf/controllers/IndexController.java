@@ -44,4 +44,14 @@ public class IndexController
 
 		return new ModelAndView("notifies");
 	}
+	
+	@RequestMapping("/messaggi")
+	public ModelAndView messagesPage(Model model, HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
+		model.addAttribute("user", request.getSession().getAttribute("user"));
+
+		return new ModelAndView("messages");
+	}
 }

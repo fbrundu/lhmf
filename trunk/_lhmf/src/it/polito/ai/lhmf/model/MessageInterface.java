@@ -40,13 +40,40 @@ public class MessageInterface
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	public List<Message> getMessages()
+	public List<Message> getMessagesByIdMember(Integer idMember)
+			throws InvalidParametersException
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Message")
-				.list();
+		if (idMember == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from Message"
+								+ " where id_receiver = :idMember order by messageTimestamp desc");
+		query.setParameter("idMember", idMember);
+		List<Message> rMessagesList = query.list();
+		setAllRead(idMember);
+		return rMessagesList;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setAllRead(Integer idMember)
+			throws InvalidParametersException
+	{
+		if (idMember == null)
+			throw new InvalidParametersException();
+
+		// FIXME : testare
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Message" + " set isReaded = true"
+						+ " where isReaded = false and id_receiver = :idMember");
+		query.setParameter("idMember", idMember);
+
+		return (Integer) query.executeUpdate();
+	}
+
+	/*
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer updateMessage(Message message)
 			throws InvalidParametersException
@@ -70,7 +97,24 @@ public class MessageInterface
 
 		return (Integer) query.executeUpdate();
 	}
+*/
+	@Transactional(readOnly = true)
+	public Long getUnreadCount(Integer idMember)
+			throws InvalidParametersException
+	{
+		if (idMember == null)
+			throw new InvalidParametersException();
+		
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"select count(*) from Message"
+								+ " where isReaded = false and id_receiver = :idMember");
+		query.setParameter("idMember", idMember);
 
+		return (Long) query.uniqueResult();
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer deleteMessage(Integer idMessage)
 			throws InvalidParametersException

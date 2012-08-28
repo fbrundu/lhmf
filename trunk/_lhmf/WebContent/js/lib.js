@@ -565,3 +565,31 @@ function registerForNotifies()
     $('#notifiesCount').css("color","red");
   };
 }
+
+function getMyMessages()
+{
+  $.getSync("ajax/getmymessages", undefined, function(messagesList) {
+    var tabellaMessaggi = "<table class='messaggi'>";
+    for (var mesIndex in messagesList)
+    {
+      tabellaMessaggi += "<tr><td";
+      if (!messagesList[mesIndex].isReaded)
+        tabellaMessaggi += " class='not_read' ";
+      tabellaMessaggi += "><p>" + messagesList[mesIndex].text + "</p></td></tr>";
+    }
+    tabellaMessaggi += "</table>";
+    $(".centrale").html(tabellaMessaggi);
+  });
+  $('#messagesCount').html("0");
+}
+
+function registerForMessages()
+{
+  var source = new EventSource('ajax/newmessages');
+  source.onmessage = function(event)
+  {
+    console.debug("New messages..");
+    $('#messagesCount').html(event.data);
+    $('#messagesCount').css("color","red");
+  };
+}
