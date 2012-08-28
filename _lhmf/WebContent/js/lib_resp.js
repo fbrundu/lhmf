@@ -15,6 +15,7 @@
         });
         drawPageCallback();
         registerForNotifies();
+        registerForMessages();
     });
 
     function historyStateChanged() {

@@ -1,3 +1,13 @@
+$(function()
+{
+  $.datepicker.setDefaults({
+    dateFormat : 'dd/mm/yy'
+  });
+  drawPageCallback();
+  registerForNotifies();
+  registerForMessages();
+});
+
 function updateCategory(productCategory)
 {
   if (productCategory == undefined)
@@ -202,15 +212,6 @@ function getProductsAsTableRows(productsList, productCategoriesList, page,
   }
   return returnedTableString;
 }
-
-$(function()
-{
-  $.datepicker.setDefaults({
-    dateFormat : 'dd/mm/yy'
-  });
-  drawPageCallback();
-  registerForNotifies();
-});
 
 function writeIndexPage()
 {

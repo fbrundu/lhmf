@@ -19,6 +19,7 @@ var numberOfMember;
 		});
 		drawPageCallback();
 		registerForNotifies();
+		registerForMessages();
 	});
 
 })(window);

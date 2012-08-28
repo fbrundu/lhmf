@@ -73,7 +73,7 @@ public class Message implements java.io.Serializable {
 
 	
 	/**
-	 * Restituisce l'odrine oggeto di questo messaggio
+	 * Restituisce l'ordine oggetto di questo messaggio
 	 * @return
 	 */
 	@ManyToOne(fetch = FetchType.LAZY)
