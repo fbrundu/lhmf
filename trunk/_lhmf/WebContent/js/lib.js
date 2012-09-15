@@ -568,14 +568,16 @@ function registerForNotifies()
 
 function getMyMessages()
 {
-  $.getSync("ajax/getmymessages", undefined, function(messagesList) {
+  $.getSync("ajax/getmymessages", undefined, function(messagesList)
+  {
     var tabellaMessaggi = "<table class='messaggi'>";
-    for (var mesIndex in messagesList)
+    for ( var mesIndex in messagesList)
     {
       tabellaMessaggi += "<tr><td";
       if (!messagesList[mesIndex].isReaded)
         tabellaMessaggi += " class='not_read' ";
-      tabellaMessaggi += "><p>" + messagesList[mesIndex].text + "</p></td></tr>";
+      tabellaMessaggi += "><h3>From: " + messagesList[mesIndex].sender
+          + "</h3><p>" + messagesList[mesIndex].text + "</p></td></tr>";
     }
     tabellaMessaggi += "</table>";
     $(".centrale").html(tabellaMessaggi);
@@ -590,6 +592,6 @@ function registerForMessages()
   {
     console.debug("New messages..");
     $('#messagesCount').html(event.data);
-    $('#messagesCount').css("color","red");
+    $('#messagesCount').css("color", "red");
   };
 }

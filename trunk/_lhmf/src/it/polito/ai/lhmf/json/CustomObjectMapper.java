@@ -26,6 +26,8 @@ public class CustomObjectMapper extends ObjectMapper
 				new Version(1, 0, 0, null));
 
 		serializers.addSerializer(Member.class, new MemberSerializer());
+		serializers.addSerializer(Message.class, new MessageSerializer());
+		serializers.addSerializer(Notify.class, new NotifySerializer());
 		serializers.addSerializer(Order.class, new OrderSerializer());
 		serializers.addSerializer(Product.class, new ProductSerializer());
 		serializers.addSerializer(ProductCategory.class,
@@ -34,6 +36,8 @@ public class CustomObjectMapper extends ObjectMapper
 		serializers.addSerializer(Supplier.class, new SupplierSerializer());
 
 		serializers.addDeserializer(Member.class, new MemberDeserializer(sf));
+		serializers.addDeserializer(Message.class, new MessageDeserializer(sf));
+		serializers.addDeserializer(Notify.class, new NotifyDeserializer(sf));
 		serializers.addDeserializer(Order.class, new OrderDeserializer(sf));
 		serializers.addDeserializer(Product.class, new ProductDeserializer(sf));
 		serializers.addDeserializer(ProductCategory.class,
