@@ -14,12 +14,6 @@
 				<a id="productsLink"
 					href="<spring:url htmlEscape="true" value="/productsMgmt"/>">Gestione Prodotti</a>
 			</dt>
-		  <dt>
-				<a href="">Notifiche (NN)</a>
-			</dt>
-	      <dt>
-				<a href="">Messaggi (NN)</a>
-			</dt>			
 		</dl> 
     </jsp:attribute>
 

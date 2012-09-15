@@ -4,8 +4,6 @@ $(function()
     dateFormat : 'dd/mm/yy'
   });
   drawPageCallback();
-  registerForNotifies();
-  registerForMessages();
 });
 
 function updateCategory(productCategory)
