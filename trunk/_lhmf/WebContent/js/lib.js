@@ -1,3 +1,9 @@
+$(function()
+{
+  registerForNotifies();
+  registerForMessages();
+});
+
 (function($){$.fn.filestyle=function(options){var settings={width:250};if(options){$.extend(settings,options);};return this.each(function(){var self=this;var wrapper=$("<div>").css({"width":settings.imagewidth+"px","height":settings.imageheight+"px","background":"url("+settings.image+") 0 0 no-repeat","background-position":"right","display":"inline","position":"absolute","overflow":"hidden"});var filename=$('<input class="file">').addClass($(self).attr("class")).css({"display":"inline","width":settings.width+"px"});$(self).before(filename);$(self).wrap(wrapper);$(self).css({"position":"relative","height":settings.imageheight+"px","width":settings.width+"px","display":"inline","cursor":"pointer","opacity":"0.0"});if($.browser.mozilla){if(/Win/.test(navigator.platform)){$(self).css("margin-left","-142px");}else{$(self).css("margin-left","-168px");};}else{$(self).css("margin-left",settings.imagewidth-settings.width+"px");};$(self).bind("change",function(){filename.val($(self).val());});});};})(jQuery);
 $.postJSON = function(url, data, callback) {
     return jQuery.ajax({
@@ -541,7 +547,7 @@ function isPositiveNumber(n)
 function getMyNotifies()
 {
   $.getSync("ajax/getmynotifies", undefined, function(notifiesList) {
-    var tabellaNotifiche = "<table class='notifiche'>";
+    var tabellaNotifiche = "<div id='notificheDiv'><table class='notifiche'>";
     for (var notIndex in notifiesList)
     {
       tabellaNotifiche += "<tr><td";
@@ -553,6 +559,7 @@ function getMyNotifies()
     $(".centrale").html(tabellaNotifiche);
   });
   $('#notifiesCount').html("0");
+  $('#notifiesCount').css("color","");
 }
 
 function registerForNotifies()
@@ -570,7 +577,7 @@ function getMyMessages()
 {
   $.getSync("ajax/getmymessages", undefined, function(messagesList)
   {
-    var tabellaMessaggi = "<table class='messaggi'>";
+    var tabellaMessaggi = "<div id='messaggiDiv'><table class='messaggi'>";
     for ( var mesIndex in messagesList)
     {
       tabellaMessaggi += "<tr><td";
@@ -579,10 +586,11 @@ function getMyMessages()
       tabellaMessaggi += "><h3>From: " + messagesList[mesIndex].sender
           + "</h3><p>" + messagesList[mesIndex].text + "</p></td></tr>";
     }
-    tabellaMessaggi += "</table>";
+    tabellaMessaggi += "</table></div>";
     $(".centrale").html(tabellaMessaggi);
   });
   $('#messagesCount').html("0");
+  $('#messagesCount').css("color", "");
 }
 
 function registerForMessages()
