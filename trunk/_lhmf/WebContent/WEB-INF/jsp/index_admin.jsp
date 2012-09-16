@@ -7,7 +7,14 @@
 <t:index>
 	<jsp:attribute name="scripts">
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_admin.js"/>'></script>
-					
+		<script type="text/javascript">
+	   $(function()
+  	   {
+	     
+	       registerForMessages();
+	       registerForNotifies();
+  	   });
+		</script>			
 			<c:choose>
 				<c:when test="${firstPage == null}">
 					<script type="text/javascript">
