@@ -18,8 +18,6 @@ var numberOfMember;
 			dateFormat : 'dd/mm/yy'
 		});
 		drawPageCallback();
-		registerForMessages();
-		registerForNotifies();
 	});
 
 })(window);
@@ -30,23 +28,34 @@ function historyStateChanged() {
   var stateData = state.data;
   if (!stateData)
     showIndex();
-  switch (stateData.action) {
+  switch (stateData.action)
+  {
+  case 'notifiche':
+    getMyNotifies();
+    break;
+  case 'messaggi':
+    getMyMessages();
+    break;
   case 'productsMgmtAdmin':
     writeProductsPageAdmin();
     break;
   case 'log':
     writeLogPage();
-    if (!!stateData.min && !!stateData.max) {
+    if (!!stateData.min && !!stateData.max)
+    {
       $('#min').datepicker("setDate", new Date(stateData.min));
       $('#max').datepicker("setDate", new Date(stateData.max));
       showLogs(stateData.min, stateData.max);
-    } else {
+    }
+    else
+    {
       $('#min').datepicker("setDate", Date.now());
       $('#max').datepicker("setDate", Date.now());
     }
     break;
   case 'userMgmt':
-    switch (stateData.tab) {
+    switch (stateData.tab)
+    {
     case 1:
       // Tab registrazione
 
@@ -55,8 +64,7 @@ function historyStateChanged() {
       /*
        * if(!!stateData.username) {
        * 
-       * doRegistration(stateData);
-       *  }
+       * doRegistration(stateData); }
        */
 
       break;

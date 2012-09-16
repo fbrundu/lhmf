@@ -4,9 +4,27 @@ $(function()
     dateFormat : 'dd/mm/yy'
   });
   drawPageCallback();
-  registerForMessages();
-  registerForNotifies();
 });
+
+function historyStateChanged()
+{
+  var History = window.History;
+  var state = History.getState();
+  var stateData = state.data;
+  if (!stateData)
+    showIndex();
+  switch (stateData.action)
+  {
+  case 'notifiche':
+    getMyNotifies();
+    break;
+  case 'messaggi':
+    getMyMessages();
+    break;
+  default:
+    writeIndexPage();
+  }
+}
 
 function updateCategory(productCategory)
 {
