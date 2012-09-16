@@ -79,30 +79,20 @@ public class AdminController
 		try
 		{
 			pw = response.getWriter();
-			while (true)
+			// se ci sono nuovi prodotti scrive una notifica
+			if (modelState.isToReloadProducts())
 			{
-				// se ci sono nuovi prodotti scrive una notifica
-				if (modelState.isToReloadProducts())
-				{
-					pw.write("data: products updated\n\n");
-					pw.flush();
-					System.out.println("Products updated sent");
-					modelState.setToReloadProducts(false);
-				}
-				Thread.sleep(5000);
+				pw.write("data: products updated\n\n");
+				pw.flush();
+				System.out.println("Products updated sent");
+				modelState.setToReloadProducts(false);
 			}
-			//pw.close();
+			pw.close();
 		}
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 }
