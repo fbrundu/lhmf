@@ -544,8 +544,8 @@ function isPositiveNumber(n)
 
 function getMyNotifies()
 {
+  var tabellaNotifiche = "<div id='notificheDiv'><table class='notifiche'>";
   $.getSync("ajax/getmynotifies", undefined, function(notifiesList) {
-    var tabellaNotifiche = "<div id='notificheDiv'><table class='notifiche'>";
     for (var notIndex in notifiesList)
     {
       tabellaNotifiche += "<tr><td";
@@ -553,9 +553,9 @@ function getMyNotifies()
         tabellaNotifiche += " class='not_read' ";
       tabellaNotifiche += "><p>" + notifiesList[notIndex].text + "</p></td></tr>";
     }
-    tabellaNotifiche += "</table>";
-    $(".centrale").html(tabellaNotifiche);
   });
+  tabellaNotifiche += "</table></div>";
+  $(".centrale").html(tabellaNotifiche);
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color","");
 }
@@ -573,9 +573,9 @@ function registerForNotifies()
 
 function getMyMessages()
 {
+  var tabellaMessaggi = "<div id='messaggiDiv'><table class='messaggi'>";
   $.getSync("ajax/getmymessages", undefined, function(messagesList)
   {
-    var tabellaMessaggi = "<div id='messaggiDiv'><table class='messaggi'>";
     for ( var mesIndex in messagesList)
     {
       tabellaMessaggi += "<tr><td";
@@ -584,9 +584,9 @@ function getMyMessages()
       tabellaMessaggi += "><h3>From: " + messagesList[mesIndex].sender
           + "</h3><p>" + messagesList[mesIndex].text + "</p></td></tr>";
     }
-    tabellaMessaggi += "</table></div>";
-    $(".centrale").html(tabellaMessaggi);
   });
+  tabellaMessaggi += "</table></div>";
+  $(".centrale").html(tabellaMessaggi);
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
 }
@@ -600,4 +600,34 @@ function registerForMessages()
     $('#messagesCount').html(event.data);
     $('#messagesCount').css("color", "red");
   };
+}
+
+function messagesClicked(event) {
+  var History = window.History; 
+  if (History.enabled == true) {
+    event.preventDefault();
+    var state = History.getState();
+    var stateData = state.data;
+    if (!!stateData && !!stateData.action
+        && stateData.action == 'messaggi')
+      return;
+    History.pushState({
+      action : 'messaggi'
+    }, null, 'messaggi');
+  }
+}
+
+function notifiesClicked(event) {
+  var History = window.History; 
+  if (History.enabled == true) {
+    event.preventDefault();
+    var state = History.getState();
+    var stateData = state.data;
+    if (!!stateData && !!stateData.action
+        && stateData.action == 'notifiche')
+      return;
+    History.pushState({
+      action : 'notifiche'
+    }, null, 'notifiche');
+  }
 }

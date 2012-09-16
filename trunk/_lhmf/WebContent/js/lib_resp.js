@@ -14,8 +14,6 @@
             dateFormat : 'dd/mm/yy'
         });
         drawPageCallback();
-        registerForMessages();
-        registerForNotifies();
     });
 
     function historyStateChanged() {
@@ -25,6 +23,12 @@
         if (!stateData)
             showIndex();
         switch (stateData.action) {
+        case 'notifiche':
+          getMyNotifies();
+          break;
+        case 'messaggi':
+          getMyMessages();
+          break;
         case 'order':
             writeOrderPage();
             break;

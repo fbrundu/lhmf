@@ -15,8 +15,6 @@
             dateFormat : 'dd/mm/yy'
         });
         drawPageCallback();
-        registerForMessages();
-        registerForNotifies();
     });
 
     function historyStateChanged()
@@ -28,6 +26,12 @@
             showIndex();
         switch (stateData.action)
         {
+        case 'notifiche':
+          getMyNotifies();
+          break;
+        case 'messaggi':
+          getMyMessages();
+          break;
         case 'purchase':
             writePurchasePage();
             break;

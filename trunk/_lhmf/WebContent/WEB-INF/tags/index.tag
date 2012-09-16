@@ -43,11 +43,11 @@
 		    	<li>Ciao ${user} | <a href='<spring:url htmlEscape="true" value="/logout"/>'>Logout</a>
 		    </ul>
 		    <ul>
-		      <li><a href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
+		      <li><a id='notifiesLink' href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
 		      <li id='notifiesCount'>0</li>
 		    </ul>
 		    <ul>
-		      <li><a href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
+		      <li><a id='messagesLink' href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
 		      <li id='messagesCount'>0</li>
 		    </ul>
 	    </c:if>
