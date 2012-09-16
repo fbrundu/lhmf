@@ -18,6 +18,8 @@ var numberOfMember;
 			dateFormat : 'dd/mm/yy'
 		});
 		drawPageCallback();
+		registerForMessages();
+		registerForNotifies();
 	});
 
 })(window);

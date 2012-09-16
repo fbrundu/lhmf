@@ -48,7 +48,7 @@ public class MessageAjaxController
 	{
 		response.setContentType("text/event-stream; charset=utf-8");
 		response.setHeader("cache-control", "no-cache");
-		response.setHeader("connection", "keep-alive");
+		//response.setHeader("connection", "keep-alive");
 		PrintWriter pw;
 		try
 		{
@@ -58,26 +58,17 @@ public class MessageAjaxController
 			{
 				pw = response.getWriter();
 				Long unreadCount;
-				while (true)
+				unreadCount = messageInterface.getUnreadCount(m
+						.getIdMember());
+				if (unreadCount > 0)
 				{
-					unreadCount = messageInterface.getUnreadCount(m
-							.getIdMember());
-					if (unreadCount > 0)
-					{
-						pw.write("data: " + unreadCount + "\n\n");
-						pw.flush();
-					}
-					Thread.sleep(60000);
+					pw.write("data: " + unreadCount + "\n\n");
+					pw.flush();
 				}
-				// pw.close();
+				pw.close();
 			}
 		}
 		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
