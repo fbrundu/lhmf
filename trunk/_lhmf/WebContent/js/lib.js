@@ -544,7 +544,7 @@ function isPositiveNumber(n)
 
 function getMyNotifies()
 {
-  var tabellaNotifiche = "<div id='notificheDiv'><table class='notifiche'>";
+  var tabellaNotifiche = "<div class='contentDiv'><table class='notifiche'>";
   $.getSync("ajax/getmynotifies", undefined, function(notifiesList) {
     for (var notIndex in notifiesList)
     {
@@ -573,7 +573,7 @@ function registerForNotifies()
 
 function getMyMessages()
 {
-  var tabellaMessaggi = "<div id='messaggiDiv'><table class='messaggi'>";
+  var tabellaMessaggi = "<div class='contentDiv'><table class='messaggi'>";
   $.getSync("ajax/getmymessages", undefined, function(messagesList)
   {
     for ( var mesIndex in messagesList)
