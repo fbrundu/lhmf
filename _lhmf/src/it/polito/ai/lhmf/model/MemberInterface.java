@@ -7,6 +7,7 @@ import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -41,7 +42,7 @@ public class MemberInterface
 		query.setParameter("idMember", idMember);
 		return (Member) query.uniqueResult();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Member getMember(String username)
 	{
@@ -50,7 +51,7 @@ public class MemberInterface
 		query.setParameter("username", username);
 		return (Member) query.uniqueResult();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Member getMemberByEmail(String email)
 	{
@@ -59,16 +60,16 @@ public class MemberInterface
 		query.setParameter("email", email);
 		return (Member) query.uniqueResult();
 	}
-	
+
 	@Transactional(readOnly = true)
 	public Member getMemberAdmin()
 	{
-		//Recupero il memberType dell'admin
+		// Recupero il memberType dell'admin
 		MemberType mType = new MemberType(MemberTypes.USER_ADMIN);
-		
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Member where memberType = :memberType");
-		
+
 		query.setParameter("memberType", mType);
 		return (Member) query.uniqueResult();
 	}
@@ -80,19 +81,33 @@ public class MemberInterface
 		return sessionFactory.getCurrentSession().createQuery("from Member")
 				.list();
 	}
-	
+
+	@Transactional(readOnly = true)
+	public List<String> getUsernames()
+	{
+		List<String> rUsernames = new LinkedList<String>();
+		for (Object i : sessionFactory.getCurrentSession()
+				.createQuery("from Member").list())
+		{
+			rUsernames.add(((Member) i).getUsername());
+		}
+		return rUsernames;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Member> getMembersResp()
 	{
-		//Recupero il memberType del responsabile
+		// Recupero il memberType del responsabile
 		MemberType mType = new MemberType(MemberTypes.USER_RESP);
-		//Recupero il MemberStatus
+		// Recupero il MemberStatus
 		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-				
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Member where memberType = :memberType AND memberStatus = :memberStatus");
-		
+
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from Member where memberType = :memberType AND memberStatus = :memberStatus");
+
 		query.setParameter("memberStatus", mStatus);
 		query.setParameter("memberType", mType);
 		return (List<Member>) query.list();
@@ -113,9 +128,10 @@ public class MemberInterface
 						// + "password = :password"
 						// + "regCode = :regCode" + "regDate = :regDate"
 						+ "email = :email, " + "address = :address, "
-						+ "city = :city, " + "state = :state, " + "cap = :cap, "
-						+ "tel = :tel, " + "memberType = :memberType, "
-						+ "status = :status " + "where idMember = :idMember");
+						+ "city = :city, " + "state = :state, "
+						+ "cap = :cap, " + "tel = :tel, "
+						+ "memberType = :memberType, " + "status = :status "
+						+ "where idMember = :idMember");
 		query.setParameter("name", member.getName());
 		query.setParameter("surname", member.getSurname());
 		query.setParameter("username", member.getUsername());
@@ -152,93 +168,110 @@ public class MemberInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Member> getMembersToActivate() {
-		//Recupero il MemberStatus
+	public List<Member> getMembersToActivate()
+	{
+		// Recupero il MemberStatus
 		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-		
-		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberStatus != :memberStatus order by idMember");
-		
-		query.setParameter("memberStatus", mStatus);
-		
-		return (List<Member>) query.list();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	public List<Member> getMembersToActivate(MemberType memberType) {
-		
-		//Recupero il MemberStatus
-		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-		
-		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberStatus != :memberStatus AND " +
-				"memberType = :memberType order by idMember");
-		
-		query.setParameter("memberStatus", mStatus);
-		query.setParameter("memberType", memberType);
-		
-		return (List<Member>) query.list();
-	}
 
-	@Transactional(readOnly = true)
-	public Long getNumberItemsToActivate() {
-		//Recupero il MemberStatus
-		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-		
-		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberStatus != :memberStatus");
-		query.setParameter("memberStatus", mStatus);
-		
-		return (Long) query.uniqueResult();
-	}
-	
-	@Transactional(readOnly = true)
-	public Long getNumberItemsToActivate(int memberType) {
-		
-		//Recupero il MemberStatus
-		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-		MemberType mType = new MemberType(memberType);
-		
-		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberStatus != :memberStatus AND " +
-				"memberType = :memberType");
-		
-		query.setParameter("memberStatus", mStatus);
-		query.setParameter("memberType", mType);
-		
-		return (Long) query.uniqueResult();
-	}
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"from Member where memberStatus != :memberStatus order by idMember");
 
-	@Transactional(readOnly = true)
-	public Long getNumberItems(int memberType) {
-		
-		//Recupero il MemberStatus
-		MemberType mType = new MemberType(memberType);
-				
-		Query query = sessionFactory.getCurrentSession().createQuery("select count(*) from Member where memberType = :memberType");
-		
-		query.setParameter("memberType", mType);
-		
-		return (Long) query.uniqueResult();
+		query.setParameter("memberStatus", mStatus);
+
+		return (List<Member>) query.list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Member> getMembers(MemberType memberType) {
-				
-		Query query = sessionFactory.getCurrentSession().createQuery("from Member where memberType = :memberType order by idMember");
-		
-		query.setParameter("memberType", memberType);
-		return (List<Member>) query.list();
-	}
-	
-	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	public List<Member> getMembersSupplier() {
-		
-		//Recupero il memberType del supplier
-		MemberType mType = new MemberType(MemberTypes.USER_SUPPLIER);
-				
+	public List<Member> getMembersToActivate(MemberType memberType)
+	{
+
+		// Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
-					"from Member where memberType = :memberType ");
-		
+				"from Member where memberStatus != :memberStatus AND "
+						+ "memberType = :memberType order by idMember");
+
+		query.setParameter("memberStatus", mStatus);
+		query.setParameter("memberType", memberType);
+
+		return (List<Member>) query.list();
+	}
+
+	@Transactional(readOnly = true)
+	public Long getNumberItemsToActivate()
+	{
+		// Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"select count(*) from Member where memberStatus != :memberStatus");
+		query.setParameter("memberStatus", mStatus);
+
+		return (Long) query.uniqueResult();
+	}
+
+	@Transactional(readOnly = true)
+	public Long getNumberItemsToActivate(int memberType)
+	{
+
+		// Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+		MemberType mType = new MemberType(memberType);
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Member where memberStatus != :memberStatus AND "
+						+ "memberType = :memberType");
+
+		query.setParameter("memberStatus", mStatus);
+		query.setParameter("memberType", mType);
+
+		return (Long) query.uniqueResult();
+	}
+
+	@Transactional(readOnly = true)
+	public Long getNumberItems(int memberType)
+	{
+
+		// Recupero il MemberStatus
+		MemberType mType = new MemberType(memberType);
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Member where memberType = :memberType");
+
+		query.setParameter("memberType", mType);
+
+		return (Long) query.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembers(MemberType memberType)
+	{
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where memberType = :memberType order by idMember");
+
+		query.setParameter("memberType", memberType);
+		return (List<Member>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersSupplier()
+	{
+
+		// Recupero il memberType del supplier
+		MemberType mType = new MemberType(MemberTypes.USER_SUPPLIER);
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where memberType = :memberType ");
+
 		query.setParameter("memberType", mType);
 		return (List<Member>) query.list();
 	}

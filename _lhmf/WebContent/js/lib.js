@@ -2,80 +2,150 @@ $(function()
 {
 });
 
-(function($){$.fn.filestyle=function(options){var settings={width:250};if(options){$.extend(settings,options);};return this.each(function(){var self=this;var wrapper=$("<div>").css({"width":settings.imagewidth+"px","height":settings.imageheight+"px","background":"url("+settings.image+") 0 0 no-repeat","background-position":"right","display":"inline","position":"absolute","overflow":"hidden"});var filename=$('<input class="file">').addClass($(self).attr("class")).css({"display":"inline","width":settings.width+"px"});$(self).before(filename);$(self).wrap(wrapper);$(self).css({"position":"relative","height":settings.imageheight+"px","width":settings.width+"px","display":"inline","cursor":"pointer","opacity":"0.0"});if($.browser.mozilla){if(/Win/.test(navigator.platform)){$(self).css("margin-left","-142px");}else{$(self).css("margin-left","-168px");};}else{$(self).css("margin-left",settings.imagewidth-settings.width+"px");};$(self).bind("change",function(){filename.val($(self).val());});});};})(jQuery);
-$.postJSON = function(url, data, callback) {
-    return jQuery.ajax({
-        'type': 'POST',
-        'url': url,
-        'contentType': 'application/json',
-        'data': JSON.stringify(data),
-        'dataType': 'json',
-        'success': callback
-    });
-};
-
-$.getSync = function(url, data, callback) {
-  return jQuery.ajax({
-    'async': false,
-      'type': 'GET',
-      'url': url,
-      'data': data,
-      'success': callback
-  });
-};
-
-$.postSync = function(url, data, callback) {
-    return jQuery.ajax({
-    	'async': false,
-        'type': 'POST',
-        'url': url,
-        'data': data,
-        'success': callback
-    });
-};
-
-$.postSyncFormData = function(url, data, callback) {
-    return jQuery.ajax({
-    	'async': false,
-        'type': 'POST',
-        'url': url,
-        'data': data,
-        'success': callback,
-        'processData': false,
-        'contentType': false
-        
-    });
-};
-
-$.postJSONsync = function(url, data, callback) {
-  return jQuery.ajax({
-      'async': false,
-      'type': 'POST',
-      'url': url,
-      'contentType': 'application/json',
-      'data': JSON.stringify(data),
-      'dataType': 'json',
-      'success': callback
-  });
-};
-
-$.getJSONsync = function(url, callback) {
-  return jQuery.ajax({
-      'async': false,
-      'type': 'GET',
-      'url': url,
-      'contentType': 'application/json',
-      'success': callback
-  });
-};
-
-function displayFunctionName() 
+(function($)
 {
-   var functionName = arguments.callee.toString();
-   functionName = functionName.substr('function '.length);
-   functionName = functionName.substr(0, functionName.indexOf('('));
+  $.fn.filestyle = function(options)
+  {
+    var settings = {
+      width : 250
+    };
+    if (options)
+    {
+      $.extend(settings, options);
+    }
+    ;
+    return this
+        .each(function()
+        {
+          var self = this;
+          var wrapper = $("<div>").css({
+            "width" : settings.imagewidth + "px",
+            "height" : settings.imageheight + "px",
+            "background" : "url(" + settings.image + ") 0 0 no-repeat",
+            "background-position" : "right",
+            "display" : "inline",
+            "position" : "absolute",
+            "overflow" : "hidden"
+          });
+          var filename = $('<input class="file">').addClass(
+              $(self).attr("class")).css({
+            "display" : "inline",
+            "width" : settings.width + "px"
+          });
+          $(self).before(filename);
+          $(self).wrap(wrapper);
+          $(self).css({
+            "position" : "relative",
+            "height" : settings.imageheight + "px",
+            "width" : settings.width + "px",
+            "display" : "inline",
+            "cursor" : "pointer",
+            "opacity" : "0.0"
+          });
+          if ($.browser.mozilla)
+          {
+            if (/Win/.test(navigator.platform))
+            {
+              $(self).css("margin-left", "-142px");
+            }
+            else
+            {
+              $(self).css("margin-left", "-168px");
+            }
+            ;
+          }
+          else
+          {
+            $(self).css("margin-left",
+                settings.imagewidth - settings.width + "px");
+          }
+          ;
+          $(self).bind("change", function()
+          {
+            filename.val($(self).val());
+          });
+        });
+  };
+})(jQuery);
+$.postJSON = function(url, data, callback)
+{
+  return jQuery.ajax({
+    'type' : 'POST',
+    'url' : url,
+    'contentType' : 'application/json',
+    'data' : JSON.stringify(data),
+    'dataType' : 'json',
+    'success' : callback
+  });
+};
 
-   return functionName;
+$.getSync = function(url, data, callback)
+{
+  return jQuery.ajax({
+    'async' : false,
+    'type' : 'GET',
+    'url' : url,
+    'data' : data,
+    'success' : callback
+  });
+};
+
+$.postSync = function(url, data, callback)
+{
+  return jQuery.ajax({
+    'async' : false,
+    'type' : 'POST',
+    'url' : url,
+    'data' : data,
+    'success' : callback
+  });
+};
+
+$.postSyncFormData = function(url, data, callback)
+{
+  return jQuery.ajax({
+    'async' : false,
+    'type' : 'POST',
+    'url' : url,
+    'data' : data,
+    'success' : callback,
+    'processData' : false,
+    'contentType' : false
+
+  });
+};
+
+$.postJSONsync = function(url, data, callback)
+{
+  return jQuery.ajax({
+    'async' : false,
+    'type' : 'POST',
+    'url' : url,
+    'contentType' : 'application/json',
+    'data' : JSON.stringify(data),
+    'dataType' : 'json',
+    'success' : callback
+  });
+};
+
+$.getJSONsync = function(url, callback)
+{
+  return jQuery.ajax({
+    'async' : false,
+    'type' : 'GET',
+    'url' : url,
+    'contentType' : 'application/json',
+    'success' : callback
+  });
+};
+
+function displayFunctionName()
+{
+  var functionName = arguments.callee.toString();
+  functionName = functionName.substr('function '.length);
+  functionName = functionName.substr(0, functionName.indexOf('('));
+
+  return functionName;
 }
 
 function getAllSuppliers()
@@ -113,29 +183,30 @@ function getSupplierAsTableRow(suppliersList, idSupplier)
 
 function getAllResps()
 {
-	$.getJSONsync("ajax/getmembers", function(respsList)
-    {
-		window.sessionStorage.setItem('respsList', JSON.stringify(respsList));
-        console.debug("respsList saved in localstorage");
-    });
+  $.getJSONsync("ajax/getmembers", function(respsList)
+  {
+    window.sessionStorage.setItem('respsList', JSON.stringify(respsList));
+    console.debug("respsList saved in localstorage");
+  });
 }
 
 function loadAllRespsFromLocalStorage()
 {
-	return JSON.parse(window.sessionStorage.getItem('respsList'));
+  return JSON.parse(window.sessionStorage.getItem('respsList'));
 }
 
 function getRespAsTableRow(respsList, idResp)
 {
-	if (respsList == undefined || idResp == undefined)
-	{
-		console.debug("Invalid parameters in " + displayFunctionName());
-		return "";
-	}
-	for ( var respIndex in respsList)
-	{
-		if (respsList[respIndex].idMember == idResp)
-			return "<td>" + respsList[respIndex].name + respsList[respIndex].surname + /*respsList[respIndex].idMember +*/ "</td>";
+  if (respsList == undefined || idResp == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return "";
+  }
+  for ( var respIndex in respsList)
+  {
+    if (respsList[respIndex].idMember == idResp)
+      return "<td>" + respsList[respIndex].name + respsList[respIndex].surname
+          + /* respsList[respIndex].idMember + */"</td>";
   }
   return "";
 }
@@ -278,7 +349,6 @@ function setProductUnavailable(idProduct)
   });
   return returnedRowsAffected;
 }
-
 
 function clickUpdateProductHandler(event)
 {
@@ -545,19 +615,21 @@ function isPositiveNumber(n)
 function getMyNotifies()
 {
   var tabellaNotifiche = "<div class='contentDiv'><table class='notifiche'>";
-  $.getSync("ajax/getmynotifies", undefined, function(notifiesList) {
-    for (var notIndex in notifiesList)
+  $.getSync("ajax/getmynotifies", undefined, function(notifiesList)
+  {
+    for ( var notIndex in notifiesList)
     {
       tabellaNotifiche += "<tr><td";
       if (!notifiesList[notIndex].isReaded)
         tabellaNotifiche += " class='not_read' ";
-      tabellaNotifiche += "><p>" + notifiesList[notIndex].text + "</p></td></tr>";
+      tabellaNotifiche += "><p>" + notifiesList[notIndex].text
+          + "</p></td></tr>";
     }
   });
   tabellaNotifiche += "</table></div>";
   $(".centrale").html(tabellaNotifiche);
   $('#notifiesCount').html("0");
-  $('#notifiesCount').css("color","");
+  $('#notifiesCount').css("color", "");
 }
 
 function registerForNotifies()
@@ -567,7 +639,7 @@ function registerForNotifies()
   {
     console.debug("New notifies..");
     $('#notifiesCount').html(event.data);
-    $('#notifiesCount').css("color","red");
+    $('#notifiesCount').css("color", "red");
   };
 }
 
@@ -586,12 +658,110 @@ function getMyMessages()
     }
   });
   tabellaMessaggi += "</table></div>";
-  var formInvioMessaggio = "<div class='messageform'><form method='' action=''>"
-      + "<fieldset><legend>&nbsp;Invia un messaggio&nbsp;</legend></fieldset>"
-      + "</form></div>";
+  var users = "<option value='notSelected' selected='selected'>Seleziona...</option>";
+  var usersList = getUsers();
+  for ( var userIndex in usersList)
+  {
+    users += "<option value='" + usersList[userIndex] + "'>" 
+      + usersList[userIndex] + "</option>";
+  }
+  var formInvioMessaggio = "<div class='messageform'><form method='post' action=''>"
+      + "<fieldset><legend>&nbsp;Invia un messaggio&nbsp;</legend>"
+      + "<label for='usersSelect' class='left'>&nbsp;&nbsp;&nbsp;Destinatario: </label>"
+      + "<select name='usersSelect' id='usersSelect' class='field'>"
+      + users
+      + "</select><br>"
+      + "<label for='messageText' class='left'>Testo: </label>"
+      + "<textarea name='messageText' id='messageText' class='field' "
+      + "required='required' /><br>" 
+      + "<button type='submit' id='newMessageSubmit'> Crea prodotto </button>"
+      + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
+  $("button").button();
+  $('#newMessageSubmit').on("click", clickNewMessageHandler);
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
+}
+
+function getUsers()
+{
+  var usersList;
+  $.getJSONsync("ajax/getusernames", function(usernamesList)
+  {
+    usersList = usernamesList;
+  });
+  return usersList;
+}
+
+function clickNewMessageHandler()
+{
+  event.preventDefault();
+
+  var errors = new Array();
+
+  var username = $('#usersSelect').val();
+  var messageText = $('#messageText').val();
+
+  if(username == 'notSelected' || username == undefined || messageText == "")
+  {
+    $("#dialog-error-insert").dialog({
+      resizable : false,
+      height : 140,
+      modal : true,
+      buttons : {
+        "Ok" : function()
+        {
+          $(this).dialog('close');
+        }
+      }
+    });
+  }
+  else
+  {
+    // TODO Creazione nuovo messaggio
+//    var idProduct = newProduct({
+//      picture : picture,
+//      productName : productName,
+//      productDescription : productDescription,
+//      productDimension : productDimension,
+//      measureUnit : measureUnit,
+//      unitBlock : unitBlock,
+//      transportCost : transportCost,
+//      unitCost : unitCost,
+//      minBuy : minBuy,
+//      maxBuy : maxBuy,
+//      productCategory : productCategory,
+//    });
+//    if (idProduct > 0)
+//    {
+//      $("#productFieldset").children("input").val("");
+//      $("#dialog-ok").dialog({
+//        resizable : false,
+//        height : 140,
+//        modal : true,
+//        buttons : {
+//          "Ok" : function()
+//          {
+//            $(this).dialog('close');
+//          }
+//        }
+//      });
+//    }
+//    else
+//    {
+//      $("#dialog-error-insert").dialog({
+//        resizable : false,
+//        height : 140,
+//        modal : true,
+//        buttons : {
+//          "Ok" : function()
+//          {
+//            $(this).dialog('close');
+//          }
+//        }
+//      });
+//    }
+  }
 }
 
 function registerForMessages()
@@ -605,14 +775,15 @@ function registerForMessages()
   };
 }
 
-function messagesClicked(event) {
-  var History = window.History; 
-  if (History.enabled == true) {
+function messagesClicked(event)
+{
+  var History = window.History;
+  if (History.enabled == true)
+  {
     event.preventDefault();
     var state = History.getState();
     var stateData = state.data;
-    if (!!stateData && !!stateData.action
-        && stateData.action == 'messaggi')
+    if (!!stateData && !!stateData.action && stateData.action == 'messaggi')
       return;
     History.pushState({
       action : 'messaggi'
@@ -620,14 +791,15 @@ function messagesClicked(event) {
   }
 }
 
-function notifiesClicked(event) {
-  var History = window.History; 
-  if (History.enabled == true) {
+function notifiesClicked(event)
+{
+  var History = window.History;
+  if (History.enabled == true)
+  {
     event.preventDefault();
     var state = History.getState();
     var stateData = state.data;
-    if (!!stateData && !!stateData.action
-        && stateData.action == 'notifiche')
+    if (!!stateData && !!stateData.action && stateData.action == 'notifiche')
       return;
     History.pushState({
       action : 'notifiche'
