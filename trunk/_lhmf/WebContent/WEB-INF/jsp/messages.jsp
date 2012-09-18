@@ -9,7 +9,11 @@
 	<script type="text/javascript">
   $(function()
   {
-    getMyMessages();  
+     $("#notifiesLink").click(notifiesClicked);
+     $("#messagesLink").click(messagesClicked);
+     registerForMessages();
+     registerForNotifies();
+     getMyMessages();  
   });
 	</script>
 	</jsp:attribute>

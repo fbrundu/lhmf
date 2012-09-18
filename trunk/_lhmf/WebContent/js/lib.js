@@ -586,7 +586,10 @@ function getMyMessages()
     }
   });
   tabellaMessaggi += "</table></div>";
-  $(".centrale").html(tabellaMessaggi);
+  var formInvioMessaggio = "<div class='messageform'><form method='' action=''>"
+      + "<fieldset><legend>&nbsp;Invia un messaggio&nbsp;</legend></fieldset>"
+      + "</form></div>";
+  $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
 }
