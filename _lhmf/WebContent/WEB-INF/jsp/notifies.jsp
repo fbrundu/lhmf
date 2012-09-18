@@ -9,6 +9,10 @@
 	<script type="text/javascript">
   $(function()
   {
+    $("#notifiesLink").click(notifiesClicked);
+    $("#messagesLink").click(messagesClicked);
+    registerForMessages();
+    registerForNotifies();
     getMyNotifies();  
   });
 	</script>
