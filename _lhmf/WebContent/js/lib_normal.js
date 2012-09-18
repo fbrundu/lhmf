@@ -17,124 +17,127 @@
         drawPageCallback();
     });
 
-    function historyStateChanged()
+    
+    
+})(window);
+
+function historyStateChanged()
+{
+    var History = window.History;
+    var state = History.getState();
+    var stateData = state.data;
+    if (!stateData)
+        showIndex();
+    switch (stateData.action)
     {
+    case 'notifiche':
+      getMyNotifies();
+      break;
+    case 'messaggi':
+      getMyMessages();
+      break;
+    case 'purchase':
+        writePurchasePage();
+        break;
+    default:
+        writeIndexPage();
+    }
+}
+
+function purchaseClicked(event) {
+    if (histEnabled == true) {
+        event.preventDefault();
         var History = window.History;
         var state = History.getState();
         var stateData = state.data;
-        if (!stateData)
-            showIndex();
-        switch (stateData.action)
-        {
-        case 'notifiche':
-          getMyNotifies();
-          break;
-        case 'messaggi':
-          getMyMessages();
-          break;
-        case 'purchase':
-            writePurchasePage();
-            break;
-        default:
-            writeIndexPage();
-        }
+        if (!!stateData && !!stateData.action && stateData.action == 'purchase')
+            return;
+        History.pushState({action : 'purchase'}, null, 'purchase');
     }
+}
 
-    function purchaseClicked(event) {
-        if (histEnabled == true) {
-            event.preventDefault();
-            var History = window.History;
-            var state = History.getState();
-            var stateData = state.data;
-            if (!!stateData && !!stateData.action && stateData.action == 'purchase')
-                return;
-            History.pushState({action : 'purchase'}, null, 'purchase');
-        }
-    }
+function writePurchasePage(){
+    $(".centrale").html("<div id='tabsPurchase'>" +
+    		                    "<ul>" +
+    		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
+    		                     "<li><a href='#tabsPurchase-2'>Schede Attive</a></li>" +
+    		                     "<li><a href='#tabsPurchase-3'>Schede Scadute</a></li>" +
+    		                     "<li><a href='#tabsPurchase-4'>Schede In Consegna</a></li>" +
+    		                    "</ul>" +
+                                "<div id='tabsPurchase-1'></div>" +
+                                "<div id='tabsPurchase-2'></div>" +
+                                "<div id='tabsPurchase-3'></div>" +
+                                "<div id='tabsPurchase-4'></div>" +
+                           "</div>");
     
-    function writePurchasePage(){
-        $(".centrale").html("<div id='tabsPurchase'>" +
-        		                    "<ul>" +
-        		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
-        		                     "<li><a href='#tabsPurchase-2'>Schede Attive</a></li>" +
-        		                     "<li><a href='#tabsPurchase-3'>Schede Scadute</a></li>" +
-        		                     "<li><a href='#tabsPurchase-4'>Schede In Consegna</a></li>" +
-        		                    "</ul>" +
-                                    "<div id='tabsPurchase-1'></div>" +
-                                    "<div id='tabsPurchase-2'></div>" +
-                                    "<div id='tabsPurchase-3'></div>" +
-                                    "<div id='tabsPurchase-4'></div>" +
-                               "</div>");
-        
-        $('#tabsPurchase-1').html("<div class='logform'>" +
-                "<form method='post' action='purchase'>" +
-                  "<fieldset><legend>&nbsp;Seleziona gli ordini:&nbsp;</legend><br />" +
-                      "<label for='orderPurchase' class='left'>Selezione Ordine: </label>" +
-                      "<select name='orderPurchase' id='orderPurchase' class='field' style='width: 400px'></select>" +
-                      "<button type='submit' id='orderListRequest'> Carica i Prodotti </button>" +
+    $('#tabsPurchase-1').html("<div class='logform'>" +
+            "<form method='post' action='purchase'>" +
+              "<fieldset><legend>&nbsp;Seleziona gli ordini:&nbsp;</legend><br />" +
+                  "<label for='orderPurchase' class='left'>Selezione Ordine: </label>" +
+                  "<select name='orderPurchase' id='orderPurchase' class='field' style='width: 400px'></select>" +
+                  "<button type='submit' id='orderListRequest'> Carica i Prodotti </button>" +
+              "</fieldset>" +
+              "<fieldset id='purchaseCompositor'><legend>&nbsp;Composizione Nuova Scheda D'Acquisto:&nbsp;</legend><br />" +
+              "<div id='productsList'>" +
+              	"<h1 class='ui-widget-header'>Prodotti</h1>" +
+              	"<div id='catalog'></div>" +
+              "</div>" +
+              "<div id='purchaseCart'>" +
+              	"<h1 class='ui-widget-header'>Scheda Di Acquisto</h1>" +
+              	"<div class='ui-widget-content'>" +
+              		"<ul id='products' class='list clearfix'>" +
+              			"<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nella scheda<br /><br /></div>" +
+              		"</ul>" +
+              	"</div>" +
+              "</div>" +
+              "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
+              "</fieldset>" +
+              "<div id='errorDivPurchase' style='display:none;'>" +
+                  "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
+                   "<div id='errorsPurchase' stpurchasepadding-left: 40px'></div>" +
                   "</fieldset>" +
-                  "<fieldset id='purchaseCompositor'><legend>&nbsp;Composizione Nuova Scheda D'Acquisto:&nbsp;</legend><br />" +
-                  "<div id='productsList'>" +
-                  	"<h1 class='ui-widget-header'>Prodotti</h1>" +
-                  	"<div id='catalog'></div>" +
-                  "</div>" +
-                  "<div id='purchaseCart'>" +
-                  	"<h1 class='ui-widget-header'>Scheda Di Acquisto</h1>" +
-                  	"<div class='ui-widget-content'>" +
-                  		"<ul id='products' class='list clearfix'>" +
-                  			"<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nella scheda<br /><br /></div>" +
-                  		"</ul>" +
-                  	"</div>" +
-                  "</div>" +
-                  "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
-                  "</fieldset>" +
-                  "<div id='errorDivPurchase' style='display:none;'>" +
-                      "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                       "<div id='errorsPurchase' stpurchasepadding-left: 40px'></div>" +
-                      "</fieldset>" +
-                  "</div>" +
-                  
-                "</form>" +
-              "</div>");
-        
-        $('#tabsPurchase-2').html("<div class='logform'>" +
-                "<form method='post' action=''>" +
-                "<button type='submit' id='purchaseActiveRequest'> Visualizza </button>" +
-              "</form>" +
-              "<table id='activePurchaseList' class='log'></table>" +
-              "<div id='errorDivActivePurchase' style='display:none;'>" +
-                "<fieldset><legend id='legendErrorActivePurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                 "<div id='errorsActivePurchase' style='padding-left: 40px'>" +
-                  "</div>" +
-                "</fieldset>" +
-              "</div><br />" +
+              "</div>" +
+              
+            "</form>" +
           "</div>");
-        
-        $('#tabsPurchase-3').html("<div class='logform'>" +
-                                "<form method='post' action=''>" +
-                                  "<button type='submit' id='purchaseOldRequest'> Visualizza </button>" +
-                                "</form>" +
-                                "</form>" +
-                                "<table id='oldPurchaseList' class='log'></table>" +
-                                "<div id='errorDivOldPurchase' style='display:none;'>" +
-                                  "<fieldset><legend id='legendErrorOldPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                                   "<div id='errorsOldPurchase' style='padding-left: 40px'>" +
-                                    "</div>" +
-                                  "</fieldset>" +
-                                "</div><br />" +
-                            "</div>");
-        
-        $('#tabsPurchase-4').html("Da implementare?");
-       
-        preparePurchaseForm();
-    }
-
-    function writeIndexPage()
-    {
-        $('.centrale').html("<p>Interfaccia utente normale</p>");
-    }
     
-})(window);
+    $('#tabsPurchase-2').html("<div class='logform'>" +
+            "<form method='post' action=''>" +
+            "<button type='submit' id='purchaseActiveRequest'> Visualizza </button>" +
+          "</form>" +
+          "<table id='activePurchaseList' class='log'></table>" +
+          "<div id='errorDivActivePurchase' style='display:none;'>" +
+            "<fieldset><legend id='legendErrorActivePurchase'>&nbsp;Errore&nbsp;</legend><br />" +
+             "<div id='errorsActivePurchase' style='padding-left: 40px'>" +
+              "</div>" +
+            "</fieldset>" +
+          "</div><br />" +
+      "</div>");
+    
+    $('#tabsPurchase-3').html("<div class='logform'>" +
+                            "<form method='post' action=''>" +
+                              "<button type='submit' id='purchaseOldRequest'> Visualizza </button>" +
+                            "</form>" +
+                            "</form>" +
+                            "<table id='oldPurchaseList' class='log'></table>" +
+                            "<div id='errorDivOldPurchase' style='display:none;'>" +
+                              "<fieldset><legend id='legendErrorOldPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
+                               "<div id='errorsOldPurchase' style='padding-left: 40px'>" +
+                                "</div>" +
+                              "</fieldset>" +
+                            "</div><br />" +
+                        "</div>");
+    
+    $('#tabsPurchase-4').html("Da implementare?");
+   
+    preparePurchaseForm();
+}
+
+function writeIndexPage()
+{
+    $('.centrale').html("<p>Interfaccia utente normale</p>");
+}
+
 
 function preparePurchaseForm(tab){
     
