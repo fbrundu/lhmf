@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -29,6 +31,38 @@ public class MessageAjaxController
 	@Autowired
 	private MessageInterface messageInterface;
 
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/getusernames", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> getUsernames(HttpServletRequest request)
+	{
+		return memberInterface.getUsernames();
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/newmessage", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer newMessage(
+			HttpServletRequest request,
+			@RequestParam(value = "dest", required = true) String dest,
+			@RequestParam(value = "messageText", required = true) String messageText)
+	{
+		Integer idMessage = -1;
+		try
+		{
+			Message m = new Message();
+			//TODO
+			idMessage = messageInterface.newMessage(m);
+		}
+		catch (InvalidParametersException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return idMessage;
+	}
+
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/getmymessages", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Message> getMyMessages(HttpServletRequest request)
@@ -42,13 +76,14 @@ public class MessageAjaxController
 			return null;
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping("/ajax/newmessages")
 	public void newMessages(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
 		response.setContentType("text/event-stream; charset=utf-8");
 		response.setHeader("cache-control", "no-cache");
-		//response.setHeader("connection", "keep-alive");
+		// response.setHeader("connection", "keep-alive");
 		PrintWriter pw;
 		try
 		{
@@ -58,8 +93,7 @@ public class MessageAjaxController
 			{
 				pw = response.getWriter();
 				Long unreadCount;
-				unreadCount = messageInterface.getUnreadCount(m
-						.getIdMember());
+				unreadCount = messageInterface.getUnreadCount(m.getIdMember());
 				if (unreadCount > 0)
 				{
 					pw.write("data: " + unreadCount + "\n\n");
