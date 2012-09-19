@@ -47,14 +47,14 @@ function historyStateChanged() {
     writeLogPage();
     if (!!stateData.min && !!stateData.max)
     {
-      $('#min').datepicker("setDate", new Date(stateData.min));
-      $('#max').datepicker("setDate", new Date(stateData.max));
+      $('#logMin').datepicker("setDate", new Date(stateData.min));
+      $('#logMax').datepicker("setDate", new Date(stateData.max));
       showLogs(stateData.min, stateData.max);
     }
     else
     {
-      $('#min').datepicker("setDate", Date.now());
-      $('#max').datepicker("setDate", Date.now());
+      $('#logMin').datepicker("setDate", Date.now());
+      $('#logMax').datepicker("setDate", Date.now());
     }
     break;
   case 'userMgmt':
@@ -183,12 +183,11 @@ function writeLogPage(){
   $('#tabs-1').html("<div class='logform'>" +
               "<form method='get' action='log'>" +
                 "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
-                  "<label for='min' class='left'>Data iniziale: </label>" +
-                  "<input type='text' id='min' class='field'/>" +
-                  "<label for='max' class='left'>Data finale: </label>" +
-                  "<input type='text' id='max' class='field'/>" +
+                  "<label for='logMin' class='left'>Data iniziale: </label>" +
+                  "<input type='text' id='logMin' class='field'/>" +
+                  "<label for='logMax' class='left'>Data finale: </label>" +
+                  "<input type='text' id='logMax' class='field'/>" +
                 "</fieldset>" +
-                "<button type='submit' id='logsRequest'> Visualizza </button>" +
                           "</form>" +
               "<table id='logs' class='log'></table>" +
               "<div id='errorDivLog' style='display:none;'>" +
@@ -270,25 +269,24 @@ function writeUserPage(tab){
   $('#tabs-2').html("<div class='logform'>" +
 		              "<form method='post' action=''>" +
 		                "<fieldset><legend>&nbsp;Opzioni di Ricerca:&nbsp;</legend><br />" +
-		                  "<label for='memberType' class='left'>Tipo Membro: </label>" +
-		                  "<select name='memberType' id='memberType' class='field' style='width: 130px; padding: 2px 2px 2px 5px;'>" +
+		                  "<label for='memberTypeActive' class='left'>Tipo Membro: </label>" +
+		                  "<select name='memberTypeActive' id='memberTypeActive' class='field' style='width: 130px; padding: 2px 2px 2px 5px;'>" +
 		                    "<option value='0'> Normale </option>" +
 		                    "<option value='1'> Responsabile </option>" +
 		                    "<option value='3'> Fornitore </option>" +
 		                    "<option value='4'> Tutti </option>" +
 		               "</select>" +
-		                  "<label for='page' class='left'>&nbsp;&nbsp;Pagina: </label>" +
-		                  "<select name='page' id='page'>" +
+		                  "<label for='pageActive' class='left'>&nbsp;&nbsp;Pagina: </label>" +
+		                  "<select name='pageActive' id='pageActive'>" +
 		                    "<option value='0'> ... </option>" +
 		                  "</select>" +
-		                  "<label for='itemsPerPage' class='left'>&nbsp;&nbsp;Risultati Per Pagina: </label>" +
-		                  "<select name='itemsPerPage' id='itemsPerPage'>" +
+		                  "<label for='itemsPerPageActive' class='left'>&nbsp;&nbsp;Risultati Per Pagina: </label>" +
+		                  "<select name='itemsPerPageActive' id='itemsPerPageActive'>" +
 		                    "<option value='10'> 10 </option>" +
 		                    "<option value='25'> 25 </option>" +
 		                    "<option value='50'> 50 </option>" +
 		                  "</select>" +
 		                "</fieldset>" +
-		                "<button type='submit' id='memberToActiveRequest'> Visualizza </button>" +
 		              "</form>" +
 		              "<table id='memberList' class='log'></table>" +
 		              "<div id='errorDiv2' style='display:none;'>" +
@@ -714,44 +712,48 @@ function updateProductHandler(event)
   return false; // don't post it automatically
 }
 
-
 function prepareLogForm(){
-	$("#min").datepicker({
+	$("#logMin").datepicker({
 		defaultDate: 0,
 		maxDate: 0
 		});
-	$('#min').datepicker("setDate", Date.now());
-	$('#max').datepicker({
+	//$('#logMin').datepicker("setDate", Date.now());
+	$('#logMax').datepicker({
 		defaultDate: 0,
 		maxDate: 0
 		});
-	$('#max').datepicker("setDate", Date.now());
+	//$('#logMax').datepicker("setDate", Date.now());
 	
-	$('#logsRequest').on("click", function(event){
-		event.preventDefault();
-		var startDate = $('#min').datepicker("getDate");
-		var endDate = $('#max').datepicker("getDate");
-		if(startDate == null || endDate == null || startDate > endDate){
-			//$('body').append('<div id="dialog" title="Errore nell\'input delle date"> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>');
-			$( "#dialog" ).dialog('open');
-		}
-		else{
-			endDate.setHours(23);
-			endDate.setMinutes(59);
-			endDate.setSeconds(59);
-			endDate.setMilliseconds(999);
-		
-			var History = window.History;
-			if(History.enabled)
-				History.pushState({action: 'log', min: startDate.getTime(), max: endDate.getTime()}, null, "./log?min=" + startDate.getTime() + "&max=" + endDate.getTime());
-			else{
-				$("form #min").val(startDate.getTime());
-				$("form #max").val(endDate.getTime());
-				$("form").submit();
-			}
-			console.log("Date selezionate: " + JSON.stringify(startDate) + ", " + JSON.stringify(endDate) + ", (timestamps):" + startDate.getTime() + ", " + endDate.getTime());
-		}
-	});
+	$("#logMin").change(logRequestHandler);
+  $("#logMax").change(logRequestHandler);
+}
+
+function logRequestHandler()
+{
+  var startDate = $('#logMin').datepicker("getDate");
+  var endDate = $('#logMax').datepicker("getDate");
+  if(startDate == null || endDate == null || startDate > endDate){
+    // $('body').append('<div id="dialog" title="Errore nell\'input delle date">
+    // <p>Selezionale entrambe le date (o nel corretto ordine cronologico).
+    // </p></div>');
+    $( "#dialog" ).dialog('open');
+  }
+  else{
+    endDate.setHours(23);
+    endDate.setMinutes(59);
+    endDate.setSeconds(59);
+    endDate.setMilliseconds(999);
+  
+    var History = window.History;
+    if(History.enabled)
+      History.pushState({action: 'log', min: startDate.getTime(), max: endDate.getTime()}, null, "./log?min=" + startDate.getTime() + "&max=" + endDate.getTime());
+    else{
+      $("form #logMin").val(startDate.getTime());
+      $("form #logMax").val(endDate.getTime());
+      $("form").submit();
+    }
+    console.log("Date selezionate: " + JSON.stringify(startDate) + ", " + JSON.stringify(endDate) + ", (timestamps):" + startDate.getTime() + ", " + endDate.getTime());
+  }
 }
 
 function prepareUserForm(tab){
@@ -766,7 +768,9 @@ function prepareUserForm(tab){
 	
 	$('#regRequest').on("click", clickRegHandler);
 	
-	$('#memberToActiveRequest').on("click", clickActMemberHandler);
+	$('#memberTypeActive').change(clickActMemberHandler);
+	$('#pageActive').change(clickActMemberHandler);
+	$('#itemsPerPageActive').change(clickActMemberHandler);
 	
 	$('#getList').on("click", clickGetMemberHandler);
 }
@@ -787,9 +791,9 @@ function clickGetMemberHandler(event) {
 
 function clickActMemberHandler(event){
 	event.preventDefault();
-	var memberType = $('#memberType').val();
-	var page = $('#page').val();
-	var itemsPerPage = $('#itemsPerPage').val();
+	var memberType = $('#memberTypeActive').val();
+	var page = $('#pageActive').val();
+	var itemsPerPage = $('#itemsPerPageActive').val();
 	
 	//normale o responsabile
 	$.post("ajax/getMembersToActivate", {	memberType: memberType,
@@ -934,7 +938,7 @@ function postMemberToActivateHandler(result) {
 		$("#legendError2").html("");
 		$("#legendError2").append("Comunicazione");
 		
-		var memberType = $('#memberType').val();
+		var memberType = $('#memberTypeActive').val();
 		
 		if(memberType == 4) 
 			$("#errors2").append("Non ci sono Utenti da visualizzare<br /><br />");
@@ -953,18 +957,18 @@ function postMemberToActivateHandler(result) {
 		$("#memberList").hide();
 		
 		//Costruire le option delle pagine
-		var mtype = $('#memberType').val();
+		var mtype = $('#memberTypeActive').val();
 		$.postSync("ajax/getNumberItemsToActivate", {memberType: mtype}, function(numberItems){ numberOfMember = numberItems; });
 		
 		//qui c'� il numero di pagine. Generare le options del pageSelect
 		var out = [];
-		var itemsPerPage = $('#itemsPerPage').val();
+		var itemsPerPage = $('#itemsPerPageActive').val();
 		var npagine = Math.ceil(numberOfMember / itemsPerPage);
 		
 		for(var i = 0; i < npagine;)
 			out.push('<option value="'+ i +'"> ' + (++i) + '</option>');
 		
-		$('#page').html(out.join(''));
+		$('#pageActive').html(out.join(''));
 		
 		//Costruzione tabella con utenti
 		var output = [];
