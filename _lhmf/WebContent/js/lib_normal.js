@@ -45,9 +45,9 @@ function historyStateChanged()
 }
 
 function purchaseClicked(event) {
-    if (histEnabled == true) {
-        event.preventDefault();
-        var History = window.History;
+  var History = window.History; 
+  if (History.enabled == true) {
+      event.preventDefault();
         var state = History.getState();
         var stateData = state.data;
         if (!!stateData && !!stateData.action && stateData.action == 'purchase')
