@@ -16,164 +16,163 @@
         drawPageCallback();
     });
 
-    function historyStateChanged() {
-        var History = window.History;
-        var state = History.getState();
-        var stateData = state.data;
-        if (!stateData)
-            showIndex();
-        switch (stateData.action) {
-        case 'notifiche':
-          getMyNotifies();
-          break;
-        case 'messaggi':
-          getMyMessages();
-          break;
-        case 'order':
-            writeOrderPage();
-            break;
-        default:
-            writeIndexPage();
-        }
-    }
-
-    function orderClicked(event) {
-        if (histEnabled == true) {
-            event.preventDefault();
-            var History = window.History;
-            var state = History.getState();
-            var stateData = state.data;
-            if (!!stateData && !!stateData.action && stateData.action == 'order')
-                return;
-            History.pushState({
-                action : 'order'
-            }, null, 'order');
-        }
-    }
-    
-    function writeOrderPage(){
-        $(".centrale").html("   <div id='tabsOrder'>" +
-        		                    "<ul>" +
-        		                     "<li><a href='#tabsOrder-1'>Crea Ordine</a></li>" +
-        		                     "<li><a href='#tabsOrder-2'>Ordini Attivi</a></li>" +
-        		                     "<li><a href='#tabsOrder-3'>Ordini Scaduti</a></li>" +
-        		                     "<li><a href='#tabsOrder-4'>Ordini In Consegna</a></li>" +
-        		                    "</ul>" +
-                                    "<div id='tabsOrder-1'></div>" +
-                                    "<div id='tabsOrder-2'></div>" +
-                                    "<div id='tabsOrder-3'></div>" +
-                                    "<div id='tabsOrder-4'></div>" +
-                               "</div>");
-        
-        $('#tabsOrder-1').html("<div class='logform'>" +
-                                "<form method='post' action='order'>" +
-                                  "<fieldset><legend>&nbsp;Selezione del Fornitore:&nbsp;</legend><br />" +
-	                                  "<label for='memberSupplier' class='left'>Seleziona Fornitore: </label>" +
-	                                  "<select name='memberSupplier' id='memberSupplier' class='field' style='width: 400px'></select>" +
-	                                  "<button type='submit' id='productListRequest'> Carica i Prodotti </button>" +
-                                  "</fieldset>" +
-                                  "<fieldset id='orderCompositor'><legend>&nbsp;Composizione Nuovo Ordine:&nbsp;</legend><br />" +
-	                              "<div id='productsList'>" +
-		                          	"<h1 class='ui-widget-header'>Prodotti</h1>" +
-		                          	"<div id='catalog'></div>" +
-		                          "</div>" +
-		                          "<div id='orderCart'>" +
-	                              	"<h1 class='ui-widget-header'>Ordine</h1>" +
-	                              	"<div class='ui-widget-content'>" +
-	                              		"<ul id='products' class='list clearfix'>" +
-	                              			"<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nell'ordine<br /><br /></div>" +
-	                              		"</ul>" +
-	                              	"</div>" +
-	                              	"<br />" +
-	                               "<fieldset><legend>&nbsp;Opzioni Ordine:&nbsp;</legend><br />" +
-	                               	  "<label for='orderName' class='left'>Nome Ordine: </label>" +
-	                                  "<input type='text' name='orderName' id='orderName' class='field' style='width: 145px'/>" +
-	                                  "<label for='closeData' class='left'>Data Chiusura: </label>" +
-	                                  "<input type='text' name='closeData' id='closeData' class='field' style='width: 145px'/>" +
-                                   "</fieldset>" +
-	                              "</div>" +
-	                              "<button type='submit' id='orderRequest'> Crea Ordine </button>" +
-                                  "</fieldset>" +
-                                  "<div id='errorDivOrder' style='display:none;'>" +
-                                      "<fieldset><legend id='legendErrorOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-                                       "<div id='errorsOrder' style='padding-left: 40px'></div>" +
-                                      "</fieldset>" +
-                                  "</div>" +
-                                  
-                                "</form>" +
-                              "</div>");
-        
-        $('#tabsOrder-2').html("<div class='logform'>" +
-                                "<form method='post' action=''>" +
-                                  "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Attivi:&nbsp;</legend><br />" +
-                                      "<label for='minDate' class='left'>Creato dopo il: </label>" +
-                                      "<input type='text' id='minDate' class='field'/>" +
-                                  "</fieldset>" +
-                                  "<button type='submit' id='orderActiveRequest'> Visualizza </button>" +
-                                "</form>" +
-                                "<table id='activeOrderList' class='log'></table>" +
-                                  "<div id='errorDivActiveOrder' style='display:none;'>" +
-                                    "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-                                     "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
-                                      "</div>" +
-                                    "</fieldset>" +
-                                  "</div><br />" +
-                              "</div>" +
-                              "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
-        
-        $('#tabsOrder-3').html("<div class='logform'>" +
-                                "<form method='post' action=''>" +
-                                  "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Scaduti:&nbsp;</legend><br />" +
-                                      "<label for='minDate2' class='left'>Creato dopo il: </label>" +
-                                      "<input type='text' id='minDate2' class='field' style='width: 120px'/>" +
-                                      "<label for='maxDate2' class='left'>Chiuso prima del: </label>" +
-                                      "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
-                          "<br /><br /><label for='toSetShipDate' class='left'>Data di Consegna: </label>" +
-                                      "<select name='toSetShipDate' id='toSetShipDate' class='field' style='width: 200px'>" +
-                                          "<option value='0'>Impostata</option>" +
-                                          "<option value='1'>Da Impostare  </option>" +
-                                          "<option value='2'>Entrambe </option>" +
-                                       "</select>" +
-                                  "</fieldset>" +
-                                  "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
-                                "</form>" +
-                                "<table id='oldOrderList' class='log'></table>" +
-                                  "<div id='errorDivOldOrder' style='display:none;'>" +
-                                    "<fieldset><legend id='legendErrorOldOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-                                     "<div id='errorsOldOrder' style='padding-left: 40px'>" +
-                                      "</div>" +
-                                    "</fieldset>" +
-                                  "</div><br />" +
-                              "</div>");
-        
-        $('#tabsOrder-4').html("<div class='logform'>" +
-				                  "<form method='post' action=''>" +
-					                "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini In Consegna:&nbsp;</legend><br />" +
-					                    "<label for='minDate3' class='left'>Consegna dopo il: </label>" +
-					                    "<input type='text' id='minDate3' class='field' style='width: 100px'/>" +
-					                    "<label for='maxDate3' class='left'>Consegna prima del: </label>" +
-					                    "<input type='text' id='maxDate3' class='field' style='width: 100px'/>" +
-					                "</fieldset>" +
-					                "<button type='submit' id='orderShipRequest'> Visualizza </button>" +
-					              "</form>" +
-					              "<table id='shipOrderList' class='log'></table>" +
-					                "<div id='errorDivShipOrder' style='display:none;'>" +
-					                  "<fieldset><legend id='legendErrorShipOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-					                   "<div id='errorsShipOrder' style='padding-left: 40px'>" +
-					                    "</div>" +
-					                  "</fieldset>" +
-					                "</div><br />" +
-					            "</div>");
-       
-        prepareOrderForm();
-    }
-
-    function writeIndexPage(){
-        $('.centrale').html("<p>Body admin history state</p>");
-    }
-    
 })(window);
 
+function historyStateChanged() {
+  var History = window.History;
+  var state = History.getState();
+  var stateData = state.data;
+  if (!stateData)
+      showIndex();
+  switch (stateData.action) {
+  case 'notifiche':
+    getMyNotifies();
+    break;
+  case 'messaggi':
+    getMyMessages();
+    break;
+  case 'order':
+      writeOrderPage();
+      break;
+  default:
+      writeIndexPage();
+  }
+}
+
+function orderClicked(event) {
+  if (histEnabled == true) {
+      event.preventDefault();
+      var History = window.History;
+      var state = History.getState();
+      var stateData = state.data;
+      if (!!stateData && !!stateData.action && stateData.action == 'order')
+          return;
+      History.pushState({
+          action : 'order'
+      }, null, 'order');
+  }
+}
+
+function writeOrderPage(){
+  $(".centrale").html("   <div id='tabsOrder'>" +
+                          "<ul>" +
+                           "<li><a href='#tabsOrder-1'>Crea Ordine</a></li>" +
+                           "<li><a href='#tabsOrder-2'>Ordini Attivi</a></li>" +
+                           "<li><a href='#tabsOrder-3'>Ordini Scaduti</a></li>" +
+                           "<li><a href='#tabsOrder-4'>Ordini In Consegna</a></li>" +
+                          "</ul>" +
+                              "<div id='tabsOrder-1'></div>" +
+                              "<div id='tabsOrder-2'></div>" +
+                              "<div id='tabsOrder-3'></div>" +
+                              "<div id='tabsOrder-4'></div>" +
+                         "</div>");
+  
+  $('#tabsOrder-1').html("<div class='logform'>" +
+                          "<form method='post' action='order'>" +
+                            "<fieldset><legend>&nbsp;Selezione del Fornitore:&nbsp;</legend><br />" +
+                              "<label for='memberSupplier' class='left'>Seleziona Fornitore: </label>" +
+                              "<select name='memberSupplier' id='memberSupplier' class='field' style='width: 400px'></select>" +
+                              "<button type='submit' id='productListRequest'> Carica i Prodotti </button>" +
+                            "</fieldset>" +
+                            "<fieldset id='orderCompositor'><legend>&nbsp;Composizione Nuovo Ordine:&nbsp;</legend><br />" +
+                          "<div id='productsList'>" +
+                          "<h1 class='ui-widget-header'>Prodotti</h1>" +
+                          "<div id='catalog'></div>" +
+                        "</div>" +
+                        "<div id='orderCart'>" +
+                            "<h1 class='ui-widget-header'>Ordine</h1>" +
+                            "<div class='ui-widget-content'>" +
+                              "<ul id='products' class='list clearfix'>" +
+                                "<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nell'ordine<br /><br /></div>" +
+                              "</ul>" +
+                            "</div>" +
+                            "<br />" +
+                           "<fieldset><legend>&nbsp;Opzioni Ordine:&nbsp;</legend><br />" +
+                              "<label for='orderName' class='left'>Nome Ordine: </label>" +
+                              "<input type='text' name='orderName' id='orderName' class='field' style='width: 145px'/>" +
+                              "<label for='closeData' class='left'>Data Chiusura: </label>" +
+                              "<input type='text' name='closeData' id='closeData' class='field' style='width: 145px'/>" +
+                             "</fieldset>" +
+                          "</div>" +
+                          "<button type='submit' id='orderRequest'> Crea Ordine </button>" +
+                            "</fieldset>" +
+                            "<div id='errorDivOrder' style='display:none;'>" +
+                                "<fieldset><legend id='legendErrorOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                                 "<div id='errorsOrder' style='padding-left: 40px'></div>" +
+                                "</fieldset>" +
+                            "</div>" +
+                            
+                          "</form>" +
+                        "</div>");
+  
+  $('#tabsOrder-2').html("<div class='logform'>" +
+                          "<form method='post' action=''>" +
+                            "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Attivi:&nbsp;</legend><br />" +
+                                "<label for='minDate' class='left'>Creato dopo il: </label>" +
+                                "<input type='text' id='minDate' class='field'/>" +
+                            "</fieldset>" +
+                            "<button type='submit' id='orderActiveRequest'> Visualizza </button>" +
+                          "</form>" +
+                          "<table id='activeOrderList' class='log'></table>" +
+                            "<div id='errorDivActiveOrder' style='display:none;'>" +
+                              "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                               "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
+                                "</div>" +
+                              "</fieldset>" +
+                            "</div><br />" +
+                        "</div>" +
+                        "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+  
+  $('#tabsOrder-3').html("<div class='logform'>" +
+                          "<form method='post' action=''>" +
+                            "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Scaduti:&nbsp;</legend><br />" +
+                                "<label for='minDate2' class='left'>Creato dopo il: </label>" +
+                                "<input type='text' id='minDate2' class='field' style='width: 120px'/>" +
+                                "<label for='maxDate2' class='left'>Chiuso prima del: </label>" +
+                                "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
+                    "<br /><br /><label for='toSetShipDate' class='left'>Data di Consegna: </label>" +
+                                "<select name='toSetShipDate' id='toSetShipDate' class='field' style='width: 200px'>" +
+                                    "<option value='0'>Impostata</option>" +
+                                    "<option value='1'>Da Impostare  </option>" +
+                                    "<option value='2'>Entrambe </option>" +
+                                 "</select>" +
+                            "</fieldset>" +
+                            "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
+                          "</form>" +
+                          "<table id='oldOrderList' class='log'></table>" +
+                            "<div id='errorDivOldOrder' style='display:none;'>" +
+                              "<fieldset><legend id='legendErrorOldOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                               "<div id='errorsOldOrder' style='padding-left: 40px'>" +
+                                "</div>" +
+                              "</fieldset>" +
+                            "</div><br />" +
+                        "</div>");
+  
+  $('#tabsOrder-4').html("<div class='logform'>" +
+                    "<form method='post' action=''>" +
+                    "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini In Consegna:&nbsp;</legend><br />" +
+                        "<label for='minDate3' class='left'>Consegna dopo il: </label>" +
+                        "<input type='text' id='minDate3' class='field' style='width: 100px'/>" +
+                        "<label for='maxDate3' class='left'>Consegna prima del: </label>" +
+                        "<input type='text' id='maxDate3' class='field' style='width: 100px'/>" +
+                    "</fieldset>" +
+                    "<button type='submit' id='orderShipRequest'> Visualizza </button>" +
+                  "</form>" +
+                  "<table id='shipOrderList' class='log'></table>" +
+                    "<div id='errorDivShipOrder' style='display:none;'>" +
+                      "<fieldset><legend id='legendErrorShipOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                       "<div id='errorsShipOrder' style='padding-left: 40px'>" +
+                        "</div>" +
+                      "</fieldset>" +
+                    "</div><br />" +
+                "</div>");
+ 
+  prepareOrderForm();
+}
+
+function writeIndexPage(){
+  $('.centrale').html("<p>Body admin history state</p>");
+}
 
 var idOrder = 0;
 
