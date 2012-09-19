@@ -1,8 +1,8 @@
 (function(window, undefined) {
     var History = window.History;
     $ = window.jQuery;
-    var histEnabled = History.enabled;
-    if (!histEnabled)
+    //var histEnabled = History.enabled;
+    if (!(History.enabled))
         console.log("HTML 5 History API is disabled!");
     else
         History.Adapter.bind(window, 'statechange', historyStateChanged);
@@ -16,8 +16,6 @@
         });
         drawPageCallback();
     });
-
-    
     
 })(window);
 
