@@ -58,11 +58,11 @@
 				<h1 class="first">Menu</h1>
 				<dl class="menu-navigazione">
 					<dt><a href='<spring:url htmlEscape="true" value="/"/>'>Home</a></dt>
-					<dt><a href="">Relazione</a></dt>
+					<!-- <dt><a href="">Relazione</a></dt>
 					<dd><a href="">Struttura Web</a></dd>
 					<dd><a href="">Il DataBase</a></dd>
 					<dd><a href="">L'autenticazione</a></dd>
-					<dd><a href="">La Registrazione</a></dd>
+					<dd><a href="">La Registrazione</a></dd> -->
 				</dl>
 				<jsp:invoke fragment="userMenu" />
 			</div>

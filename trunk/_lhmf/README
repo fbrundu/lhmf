@@ -36,6 +36,10 @@ Applicazioni Internet - Gas
 -controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
 	     vecchio >=0
 
+- visualizzazione immagine e fornitore in gestione prodotti admin
+- visualizzazione automatica log e utenti
+- visualizzazione tutti gli utenti
+
 ---------------------------------------------
 
 - usare ajax per scaricare i dati (ex. i prodotti) solo una volta, salvarli nel
