@@ -1,7 +1,6 @@
 (function(window, undefined) {
     var History = window.History;
     $ = window.jQuery;
-    //var histEnabled = History.enabled;
     if (!(History.enabled))
         console.log("HTML 5 History API is disabled!");
     else
@@ -239,10 +238,10 @@ function postProductListRequest(productList)
 								   "</section>" +
 								   "<section class='right'>" +
 										"<span class='price'>&euro;" + product.unitCost + "</span>" +
-										/*"<span class='amount'>" +
+										"<span class='amount'>" +
 											"<label for='pz' class='left'>Quantit� desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
-										"</span>" +*/
+										"</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
 											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
