@@ -25,11 +25,6 @@
       {
         writeIndexPage();
       }
-      $(function()
-      {
-        registerForMessages();
-        registerForNotifies();
-      });
       </script>
     </jsp:attribute>
 

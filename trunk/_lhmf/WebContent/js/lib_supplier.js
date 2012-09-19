@@ -1,5 +1,11 @@
 $(function()
 {
+  // TODO aggiungere link per gestione prodotti
+  $("#notifiesLink").click(notifiesClicked);
+  $("#messagesLink").click(messagesClicked);
+  registerForMessages();
+  registerForNotifies();
+
   $.datepicker.setDefaults({
     dateFormat : 'dd/mm/yy'
   });

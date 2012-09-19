@@ -9,6 +9,10 @@
 
     $(function() {
         $("#orderLink").click(orderClicked);
+        $("#notifiesLink").click(notifiesClicked);
+        $("#messagesLink").click(messagesClicked);
+        registerForMessages();
+        registerForNotifies();
 
         $.datepicker.setDefaults({
             dateFormat : 'dd/mm/yy'
