@@ -258,10 +258,17 @@ public class MemberAjaxController
 	{
 		List<Member> membersList = null;
 		
-		//Richiesta di un tipo utente specifico
+		if(memberType == 4)
+		{
+			membersList = memberInterface.getMembers();
+		}
+		else
+		{
+			//Richiesta di un tipo utente specifico
 			
-		MemberType mType = new MemberType(memberType);
-		membersList = memberInterface.getMembers(mType);
+			MemberType mType = new MemberType(memberType);
+			membersList = memberInterface.getMembers(mType);
+		}
 		
 		List<Member> returnList = new ArrayList<Member>();
 		

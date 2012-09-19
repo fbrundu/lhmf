@@ -237,15 +237,22 @@ public class MemberInterface
 	@Transactional(readOnly = true)
 	public Long getNumberItems(int memberType)
 	{
+		Query query = null;
+		if(memberType == 4)
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"select count(*) from Member");
+		}
+		else
+		{
+			// Recupero il MemberStatus
+			MemberType mType = new MemberType(memberType);
 
-		// Recupero il MemberStatus
-		MemberType mType = new MemberType(memberType);
+			query = sessionFactory.getCurrentSession().createQuery(
+					"select count(*) from Member where memberType = :memberType");
 
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"select count(*) from Member where memberType = :memberType");
-
-		query.setParameter("memberType", mType);
-
+			query.setParameter("memberType", mType);
+		}
 		return (Long) query.uniqueResult();
 	}
 
