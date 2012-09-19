@@ -18,13 +18,15 @@
 
 })(window);
 
-function historyStateChanged() {
+function historyStateChanged()
+{
   var History = window.History;
   var state = History.getState();
   var stateData = state.data;
   if (!stateData)
-      showIndex();
-  switch (stateData.action) {
+    showIndex();
+  switch (stateData.action)
+  {
   case 'notifiche':
     getMyNotifies();
     break;
@@ -32,24 +34,25 @@ function historyStateChanged() {
     getMyMessages();
     break;
   case 'order':
-      writeOrderPage();
-      break;
+    writeOrderPage();
+    break;
   default:
-      writeIndexPage();
+    writeIndexPage();
   }
 }
 
-function orderClicked(event) {
-  if (histEnabled == true) {
-      event.preventDefault();
-      var History = window.History;
-      var state = History.getState();
-      var stateData = state.data;
-      if (!!stateData && !!stateData.action && stateData.action == 'order')
-          return;
-      History.pushState({
-          action : 'order'
-      }, null, 'order');
+function orderClicked(event)
+{
+  var History = window.History; 
+  if (History.enabled == true) {
+    event.preventDefault();
+    var state = History.getState();
+    var stateData = state.data;
+    if (!!stateData && !!stateData.action && stateData.action == 'order')
+      return;
+    History.pushState({
+      action : 'order'
+    }, null, 'order');
   }
 }
 
