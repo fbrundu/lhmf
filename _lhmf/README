@@ -42,7 +42,7 @@ Applicazioni Internet - Gas
 
 - visualizzazione immagine e fornitore in gestione prodotti admin [FRA]
 - visualizzazione automatica log e utenti [FRA] 
-- visualizzazione tutti gli utenti [HASS]
+- visualizzazione tutti gli utenti [HASS] -FATTO-
 - caricamento pagina singola su pagina fornitore + history (per la quale non 
   carica neppure notifiche e messaggi [FRA]
 - intestazione in tabella prodotti (fornitore / admin) [FRA]

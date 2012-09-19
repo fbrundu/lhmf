@@ -308,6 +308,7 @@ function writeUserPage(tab){
                                     "<option value='0'> Normale </option>" +
                                     "<option value='1'> Responsabile </option>" +
                                     "<option value='3'> Fornitore </option>" +
+                                    "<option value='4'> Tutti </option>" +
                                  "</select>" +
                                 "<label for='page2' class='left'>&nbsp;&nbsp;Pagina: </label>" +
                                 "<select name='page2' id='page2'>" +
