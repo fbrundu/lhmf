@@ -13,17 +13,21 @@ Applicazioni Internet - Gas
 	
 - [[RISOLTO]] nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
 
--campo timestamp in purchase_product: settato quando viene inserito un prodotto in una scheda d'acquisto, e poi mai modificato.
- Serve a chiusura ordine per eliminare eventuali richieste di acquisto che eccedono le quantot� possibili del prodotto
+-[[RISOLTO] eliminare modifica prodotti: � fonte di grandi guai e nelle specifiche 
+ non � richiesto. Tenere solo possibilit� di renderlo disponibile/non disponibile (ossia in listino/non in listino).
 
--remapping hibernate per timestamp purchase_product
+-campo timestamp in purchase_product: settato quando viene inserito un prodotto 
+ in una scheda d'acquisto, e poi mai modificato. 
+ Serve a chiusura ordine per eliminare eventuali richieste di acquisto 
+ che eccedono le quantot� possibili del prodotto [LUCA]
 
--eliminare modifica prodotti: � fonte di grandi guai e nelle specifiche non � richiesto. Tenere solo possibilit� di renderlo disponibile/non disponibile (ossia in listino/non in listino).
- Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
+-remapping hibernate per timestamp purchase_product [LUCA]
+
+- Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
  
--thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine
+-thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine 
 
--rimpiazzare uso campi hidden con attributi data-*  (maggiori dettagli da Matteo)
+-rimpiazzare uso campi hidden con attributi data-*  (maggiori dettagli da Matteo) [OPZIONALE]
 
 -Android:
 	-fornitore: gestione listino (mettere e togliere da listino)
@@ -31,21 +35,23 @@ Applicazioni Internet - Gas
 	-normale: nuova scheda, modifica scheda, visualizzazione stato scheda
 	-admin: attivazione utenti
 	
--statistiche!!!!!!!!!
+-statistiche!!!!!!!!! [MATTE]
 
 -controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
 	     vecchio >=0
 
-- visualizzazione immagine e fornitore in gestione prodotti admin
-- visualizzazione automatica log e utenti
-- visualizzazione tutti gli utenti
+- visualizzazione immagine e fornitore in gestione prodotti admin [FRA]
+- visualizzazione automatica log e utenti [FRA] 
+- visualizzazione tutti gli utenti [HASS]
+- caricamento pagina singola su pagina fornitore + history (per la quale non 
+  carica neppure notifiche e messaggi [FRA]
+- intestazione in tabella prodotti (fornitore / admin) [FRA]
+- aggiungere funzionalità utente per il responsabile [HASS]
+- notifiche e messaggi su pagina singola responsabile e normale [FRA]
+- creazione viste per messaggi e notifiche con menu per ogni utente + modifica sul controllore [HASS]
+- non cancellazione dati in errore di inserimento prodotto [FRA]
 
 ---------------------------------------------
-
-- usare ajax per scaricare i dati (ex. i prodotti) solo una volta, salvarli nel
-  session storage e modificarli con server side events se vengono modificati
-  da altri
-- usare il cache manifest per le immagini? (clientsidestorage)
 
 # STATUS UTENTE
 

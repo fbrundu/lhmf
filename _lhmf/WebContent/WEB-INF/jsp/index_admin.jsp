@@ -8,13 +8,6 @@
 	<jsp:attribute name="scripts">
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_admin.js"/>'></script>
 		<script type="text/javascript">
-	   $(function()
-  	   {
-	       $("#notifiesLink").click(notifiesClicked);
-	       $("#messagesLink").click(messagesClicked);
-	       registerForMessages();
-	       registerForNotifies();
-  	   });
 		</script>			
 			<c:choose>
 				<c:when test="${firstPage == null}">

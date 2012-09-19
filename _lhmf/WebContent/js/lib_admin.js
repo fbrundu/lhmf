@@ -13,7 +13,11 @@ var numberOfMember;
 		$("#logLink").click(logClicked);
 		$("#userLink").click(userClicked);
 		$("#productLink").click(productClicked);
-		
+		$("#notifiesLink").click(notifiesClicked);
+    $("#messagesLink").click(messagesClicked);
+    registerForMessages();
+    registerForNotifies();
+  
 		$.datepicker.setDefaults({
 			dateFormat : 'dd/mm/yy'
 		});
