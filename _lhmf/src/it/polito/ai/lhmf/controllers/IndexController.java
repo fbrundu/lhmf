@@ -36,22 +36,50 @@ public class IndexController
 	}
 	
 	@RequestMapping("/notifiche")
-	public ModelAndView notifiesPage(Model model, HttpServletRequest request,
-			HttpServletResponse response)
+	public ModelAndView notifiesPage(Model model, HttpSession session, 
+			HttpServletRequest request)
 	{
 		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
-		return new ModelAndView("notifies");
+		switch ((Integer) session.getAttribute("member_type"))
+		{
+		case MemberTypes.USER_NORMAL:
+			return new ModelAndView("notifies_normal");
+		case MemberTypes.USER_RESP:
+			return new ModelAndView("notifies_resp");
+		case MemberTypes.USER_SUPPLIER:
+			return new ModelAndView("notifies_supplier");
+		case MemberTypes.USER_ADMIN:
+			return new ModelAndView("notifies_admin");
+		default:
+			return new ModelAndView("error");
+		}
+		
+		//return new ModelAndView("notifies");
 	}
 	
 	@RequestMapping("/messaggi")
-	public ModelAndView messagesPage(Model model, HttpServletRequest request,
-			HttpServletResponse response)
+	public ModelAndView messagesPage(Model model, HttpSession session, 
+			HttpServletRequest request)
 	{
 		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
+		
+		switch ((Integer) session.getAttribute("member_type"))
+		{
+		case MemberTypes.USER_NORMAL:
+			return new ModelAndView("messages_normal");
+		case MemberTypes.USER_RESP:
+			return new ModelAndView("messages_resp");
+		case MemberTypes.USER_SUPPLIER:
+			return new ModelAndView("messages_supplier");
+		case MemberTypes.USER_ADMIN:
+			return new ModelAndView("messages_admin");
+		default:
+			return new ModelAndView("error");
+		}
 
-		return new ModelAndView("messages");
+		//return new ModelAndView("messages");
 	}
 }

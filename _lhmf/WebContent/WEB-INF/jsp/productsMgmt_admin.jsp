@@ -42,14 +42,8 @@
 				<a id="logLink" href="<spring:url htmlEscape="true" value="/log"/>">Consultazione log</a>
 			</dt>
     <dt>
-				<a id="productLink" class="linkSelected"
+				<a id="productLink" 
 					href="<spring:url htmlEscape="true" value="/productsMgmtAdmin"/>">Gestione Prodotti</a>
-			</dt>
-    <dt>
-				<a href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche (NN)</a>
-			</dt>
-    <dt>
-				<a href="<spring:url htmlEscape="true" value="/messaggi"/>">Messaggi (NN)</a>
 			</dt>
   </dl>
 	</jsp:attribute>
