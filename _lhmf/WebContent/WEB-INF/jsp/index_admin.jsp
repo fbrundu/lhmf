@@ -60,6 +60,7 @@
 	  <dt><a id="userLink" href="<spring:url htmlEscape="true" value="/userMgmt"/>">Gestione Utenti</a></dt>
 	  <dt><a id="logLink" href="<spring:url htmlEscape="true" value="/log"/>">Consultazione log</a></dt>
 	  <dt><a id="productLink" href="<spring:url htmlEscape="true" value="/productsMgmtAdmin"/>">Gestione Prodotti</a></dt>
+	  <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statAdmin"/>">Statistiche</a></dt>
 	</dl> 
 	</jsp:attribute>
 	

@@ -5,6 +5,7 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.MemberStatusInterface;
 import it.polito.ai.lhmf.model.MemberTypeInterface;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
@@ -359,5 +360,54 @@ public class MemberAjaxController
 		Integer rowsAffected = -1;
 		rowsAffected = memberInterface.deleteMember(idMember);
 		return rowsAffected;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/statMemberType", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Float> statMemberType(HttpServletRequest request) throws InvalidParametersException
+	{
+		ArrayList<Float> respStat = new ArrayList<Float>();
+		
+		Float normalUsers = (float) (long) memberInterface.getNumberItems(MemberTypes.USER_NORMAL);
+		Float respUsers = (float) (long) memberInterface.getNumberItems(MemberTypes.USER_RESP);
+		Float supplierUsers = (float) (long) memberInterface.getNumberItems(MemberTypes.USER_SUPPLIER);
+		Float totalUsers = (float) (long) memberInterface.getNumberItems(4)-1;
+		
+		normalUsers = (float) (normalUsers/totalUsers)*100;
+		respUsers = (respUsers/totalUsers)*100;
+		supplierUsers = ((supplierUsers/totalUsers)*100);
+		
+		respStat.add(normalUsers);
+		respStat.add(respUsers);
+		respStat.add(supplierUsers);
+
+		return respStat;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/statMemberReg", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Integer> statMemberReg(HttpServletRequest request,
+			@RequestParam(value = "year", required = true) int year) throws InvalidParametersException
+	{
+		ArrayList<Integer> respStat = new ArrayList<Integer>();
+		
+		Integer normalUsers;
+		Integer respUsers;
+		Integer supplierUsers;
+		
+		for(int i = 1; i <= 12; i++) {
+			
+			normalUsers = (int) (long) memberInterface.getNumberItemsPerMonth(MemberTypes.USER_NORMAL, i, year);
+			respUsers = (int) (long) memberInterface.getNumberItemsPerMonth(MemberTypes.USER_RESP, i, year);
+			supplierUsers = (int) (long) memberInterface.getNumberItemsPerMonth(MemberTypes.USER_SUPPLIER, i, year);
+			
+			respStat.add(normalUsers);
+			respStat.add(respUsers);
+			respStat.add(supplierUsers);
+		}
+		
+		return respStat;
 	}
 }

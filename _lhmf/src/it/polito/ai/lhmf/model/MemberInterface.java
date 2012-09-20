@@ -7,6 +7,8 @@ import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -253,6 +255,30 @@ public class MemberInterface
 
 			query.setParameter("memberType", mType);
 		}
+		return (Long) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public Long getNumberItemsPerMonth(int memberType, int month, int year) {
+		
+		Query query = null;
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, 1);
+		Date startDate = cal.getTime();
+		cal.set(year, month, 31);
+		Date endDate = cal.getTime();
+		
+		// Recupero il MemberStatus
+		MemberType mType = new MemberType(memberType);
+		
+		query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Member where memberType = :memberType and regDate between :startDate and :endDate ");
+		
+		query.setParameter("memberType", mType);
+		query.setDate("startDate", startDate);
+		query.setDate("endDate", endDate);
+		
 		return (Long) query.uniqueResult();
 	}
 
