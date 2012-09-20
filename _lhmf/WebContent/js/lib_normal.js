@@ -170,6 +170,7 @@ function preparePurchaseForm(tab){
 
 var idOrder = 0;	
 var addedIds = [];
+var addedPz = [];
 
 function clickProductListRequest(event) {
 	event.preventDefault();
@@ -321,6 +322,27 @@ function clickPurchaseHandler(event)
 
     var fail = false;
     
+    
+    //Ciclare per prendere quantità prodotti
+    
+    var productDOMList = $("#purchaseCart ul li"); //oggetto jquery
+    
+    productDOMList.each(function(index, value) 
+    {
+    	
+        var amount = $(value).find("pz").val();
+        
+        if(amount === undefined || isNaN(amount)) 
+        {
+                $("#legendErrorPurchase").html("Errore");
+                $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
+                fail = true;
+        }
+        addedPz.push(amount);
+    });
+    
+    
+    
     if(addedIds.length == 0)
     {
         $("#legendErrorPurchase").html("Errore");
@@ -337,8 +359,9 @@ function clickPurchaseHandler(event)
     else
     {
     	var idProducts = addedIds.join(",");
+    	var pzProducts = addedPz.join(",");
     	
-    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts/*, productsAmount: productsAmount*/}, postSetNewPurchaseRequest);
+    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts, 5: pzProducts}, postSetNewPurchaseRequest);
     }
       
 }
@@ -355,6 +378,7 @@ function postSetNewPurchaseRequest(result)
 	}
 	else
 	{
+		ClearPurchase();
 		$("#legendErrorPurchase").html("Comunicazione");
 	    $("#errorsPurchase").html("Scheda di acquisto creata correttamente.<br /><br />");
 	    $("#errorDivPurchase").show("slow");
@@ -363,12 +387,18 @@ function postSetNewPurchaseRequest(result)
 	
 }
 
+function ClearPurchase()
+{
+	$('#purchaseCart ul').html("<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nella scheda<br /><br /></div>");
+	addedIds = [];
+	addedPz = [];
+}
+
 function clickPurchaseActiveHandler(event) 
 {
     event.preventDefault();
     
-    $.post("ajax/getActivePurchase", postActivePurchaseListHandler);
-    
+    $.post("ajax/getActivePurchase", postActivePurchaseListHandler);  
 }
 
 

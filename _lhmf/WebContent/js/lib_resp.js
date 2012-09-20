@@ -619,10 +619,7 @@ function clickOrderActiveHandler(event) {
     } else {
         
         $.post("ajax/getActiveOrderResp", {start: minDateTime}, postActiveOrderListHandler);
-    }
-    
-    
-    
+    }   
 }
 
 function postActiveOrderListHandler(orderList) {
