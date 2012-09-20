@@ -1198,7 +1198,7 @@ function postProductListRequestNormal(productList)
 								   "<section class='right'>" +
 										"<span class='price'>&euro;" + product.unitCost + "</span>" +
 										"<span class='amount'>" +
-											"<label for='pz' class='left'>Quantità desiderata:</label>" +
+											"<label for='pz' class='left'>Quantit&agrave desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
 										"</span>" +
 										"<span class='darkview'>" +
