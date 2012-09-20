@@ -55,6 +55,7 @@ function historyStateChanged() {
     {
       $('#logMin').datepicker("setDate", Date.now());
       $('#logMax').datepicker("setDate", Date.now());
+      showLogs(Date.now(), Date.now());
     }
     break;
   case 'userMgmt':
@@ -773,6 +774,7 @@ function prepareUserForm(tab){
 	$('#itemsPerPageActive').change(clickActMemberHandler);
 	
 	$('#getList').on("click", clickGetMemberHandler);
+	userSearch();
 }
 
 function clickGetMemberHandler(event) {
@@ -791,15 +793,20 @@ function clickGetMemberHandler(event) {
 
 function clickActMemberHandler(event){
 	event.preventDefault();
-	var memberType = $('#memberTypeActive').val();
-	var page = $('#pageActive').val();
-	var itemsPerPage = $('#itemsPerPageActive').val();
 	
-	//normale o responsabile
-	$.post("ajax/getMembersToActivate", {	memberType: memberType,
-											page: page,
-											itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
+	userSearch();
+}
 
+function userSearch()
+{
+  var memberType = $('#memberTypeActive').val();
+  var page = $('#pageActive').val();
+  var itemsPerPage = $('#itemsPerPageActive').val();
+  
+  //normale o responsabile
+  $.post("ajax/getMembersToActivate", { memberType: memberType,
+                      page: page,
+                      itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
 }
 
 function clickMemberActivationHandler(event){
