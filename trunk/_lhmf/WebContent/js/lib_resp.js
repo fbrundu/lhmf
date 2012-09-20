@@ -9,6 +9,7 @@
 
     $(function() {
         $("#orderLink").click(orderClicked);
+        $("#purchaseLink").click(purchaseClicked);
         $("#notifiesLink").click(notifiesClicked);
         $("#messagesLink").click(messagesClicked);
         registerForMessages();
@@ -40,6 +41,9 @@ function historyStateChanged()
   case 'order':
     writeOrderPage();
     break;
+  case 'purchase':
+      writePurchasePage();
+      break;
   default:
     writeIndexPage();
   }
@@ -58,6 +62,19 @@ function orderClicked(event)
       action : 'order'
     }, null, 'order');
   }
+}
+
+function purchaseClicked(event) 
+{
+  var History = window.History; 
+  if (History.enabled == true) {
+      event.preventDefault();
+        var state = History.getState();
+        var stateData = state.data;
+        if (!!stateData && !!stateData.action && stateData.action == 'purchase')
+            return;
+        History.pushState({action : 'purchase'}, null, 'purchase');
+    }
 }
 
 function writeOrderPage(){
@@ -917,13 +934,6 @@ function dataDeliveryChange(idOrder) {
 }
 
 
-
-
-
-
-
-
-
 function newOrder(order)
 {
 	if (order == undefined)
@@ -1011,3 +1021,4 @@ function getPastOrdersAsTableRows(ordersList, respsList, suppliersList, page, it
 	}
 	return returnedTableString;
 }
+
