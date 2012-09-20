@@ -240,7 +240,7 @@ function postProductListRequest(productList)
 								   "<section class='right'>" +
 										"<span class='price'>&euro;" + product.unitCost + "</span>" +
 										"<span class='amount'>" +
-											"<label for='pz' class='left'>Quantità desiderata:</label>" +
+											"<label for='pz' class='left'>Quantit&agrave desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
 										"</span>" +
 										"<span class='darkview'>" +
@@ -319,34 +319,8 @@ function clickPurchaseHandler(event)
     $("#errorDivPurchase").hide();
     $("#errorsPurchase").html("");
 
-    /*var idProducts = [];
-    var productsAmount = [];*/
     var fail = false;
     
-    //Controllo dei campi. //addedIds
-    /*var productDOMList = $("#purchaseCart ul li"); //oggetto jquery
-    
-    if(productDOMList.lenght == 0) {
-        $("#legendErrorPurchase").html("Errore");
-        $("#errorsPurchase").html("Non sono stati aggiunti prodotti all'ordine.<br /><br />");
-        fail = true;
-    }
-    
-    productDOMList.each(function(index, value) {
-    	
-    	var id = $(value).data('productid');
-    	var amount = $(value).find("input").val();
-    	
-    	if(amount === undefined || isNaN(amount)) {
-	        $("#legendErrorPurchase").html("Errore");
-	        $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
-	        fail = true;
-    	}
-    	idProducts.push(id);
-    	productsAmount.push(amount);
-  	
-    });
-   */
     if(addedIds.length == 0)
     {
         $("#legendErrorPurchase").html("Errore");
