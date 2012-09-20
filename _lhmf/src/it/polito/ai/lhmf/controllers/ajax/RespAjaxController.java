@@ -10,6 +10,8 @@ import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
+import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.PurchaseProductId;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
@@ -258,6 +260,127 @@ public class RespAjaxController
 		
 		return result;
 		
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getOrdersStringNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<String> getOrdersString(HttpServletRequest request, HttpSession session)
+	{
+		ArrayList<String> orderString = new ArrayList<String>();
+		
+		List<Order> listOrders = new ArrayList<Order>();
+		listOrders = orderInterface.getOrdersNow();
+		
+		for (Order or : listOrders) 
+		{			
+			String temp = or.getIdOrder() + "," + or.getDateOpen() + " " + or.getDateClose() + "," + or.getDateDelivery();					
+			orderString.add(temp);		
+		}		
+		return orderString;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getProductFromOrderNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getProductFromOrderNormal(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrderNorm") int idOrder) throws InvalidParametersException
+	{
+		Order order = orderInterface.getOrder(idOrder);
+		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
+		return listProduct;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getActivePurchaseNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Purchase> getActivePurchaseNormal(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		
+		Member memberNormal = memberInterface.getMember(username);
+		List<Order> orderTmp = null;
+		orderTmp = orderInterface.getOrdersNow();
+		List<Purchase> listPurchase = null;
+		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
+		return listPurchase;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/setNewPurchaseNorm", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrderNorm") int idOrder,
+			@RequestParam(value = "idProducts") String idProducts
+			/*,@RequestParam(value = "productsAmount") int idSupplier*/) throws InvalidParametersException, ParseException
+	{
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
+		
+		Order order = orderInterface.getOrder(idOrder);
+		
+		Purchase purchase = new Purchase(order, memberNormal, false);
+		
+		int result = -1;
+		
+		if((result = purchaseInterface.newPurchase(purchase)) <= 0)
+		{
+			return result;
+		}
+		
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String sDate = dateFormat.format(calendar.getTime());
+		Date insertedTimestamp = dateFormat.parse(sDate);
+		
+		String[] idTmp = idProducts.split(",");
+			
+		for(String element : idTmp)
+		{
+		
+			Product product = poductInterface.getProduct(Integer.parseInt(element));
+			
+			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(element));
+			
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, 5, insertedTimestamp);
+			
+			/*if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
+			{
+				return result;
+			}*/	
+		}
+		return result;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getPurchaseDetailsNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	{
+		List<PurchaseProduct> productTmp = purchaseInterface.getPurchaseProduct(idPurchase);
+		List<Product> listProduct = new ArrayList<Product>();
+		for(PurchaseProduct product : productTmp)
+		{
+			listProduct.add(poductInterface.getProduct(product.getId().getIdProduct()));
+		}
+		return listProduct;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getOldPurchaseNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Purchase> getOldPurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		
+		Member memberNormal = memberInterface.getMember(username);
+		List<Order> orderTmp = null;
+		orderTmp = orderInterface.getOrdersPast();
+		List<Purchase> listPurchase = null;
+		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
+		return listPurchase;
 	}
 	
 }
