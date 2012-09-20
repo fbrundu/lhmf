@@ -18,6 +18,7 @@
 <meta charset="utf-8" />
 <meta name="copyright" content="Politecnico di Torino 2012" />
 <meta name="description" content="Applicazioni Internet" />
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
 <link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/jquery-ui-1.8.21.custom.css"/>'/>
 <link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/setup.css"/>'/>
 <link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/text.css"/>'/>
@@ -26,6 +27,9 @@
 <script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/jquery.history.js"/>'></script>
 <script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/modernizr-2.5.3.js"/>'></script>
 <script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib.js"/>'></script>
+<!--[if IE]><script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/canvasxpress/excanvas.js"/>'></script><![endif]-->
+<!--[if IE]><script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/canvasxpress/extext.js"/>'></script><![endif]-->
+<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/canvasxpress/canvasXpress.min.js"/>'></script>
 
 <jsp:invoke fragment="scripts" />
 
