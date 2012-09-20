@@ -45,7 +45,8 @@ function historyStateChanged()
     }
 }
 
-function purchaseClicked(event) {
+function purchaseClicked(event) 
+{
   var History = window.History; 
   if (History.enabled == true) {
       event.preventDefault();
@@ -57,7 +58,13 @@ function purchaseClicked(event) {
     }
 }
 
-function writePurchasePage(){
+function writeIndexPage()
+{
+    $('.centrale').html("<p>Interfaccia utente normale</p>");
+}
+/*
+function writePurchasePage()
+{
     $(".centrale").html("<div id='tabsPurchase'>" +
     		                    "<ul>" +
     		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
@@ -133,12 +140,6 @@ function writePurchasePage(){
    
     preparePurchaseForm();
 }
-
-function writeIndexPage()
-{
-    $('.centrale').html("<p>Interfaccia utente normale</p>");
-}
-
 
 function preparePurchaseForm(tab){
     
@@ -277,7 +278,7 @@ function postProductListRequest(productList)
 		            $( "#purchaseCart ul" ).append($(ui.draggable).clone());
 		            $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrder);
 					$( "#purchaseCart .deleteButton" ).show();
-					//$( "#purchaseCart .amount" ).show();
+					$( "#purchaseCart .amount" ).show();
 		        } else {
 					$("#errorDivPurchase").hide();
 			        $("#legendErrorPurchase").html("Comunicazione");
@@ -318,34 +319,7 @@ function clickPurchaseHandler(event)
     $("#errorDivPurchase").hide();
     $("#errorsPurchase").html("");
 
-    /*var idProducts = [];
-    var productsAmount = [];*/
     var fail = false;
-    
-    //Controllo dei campi. //addedIds
-    /*var productDOMList = $("#purchaseCart ul li"); //oggetto jquery
-    
-    if(productDOMList.lenght == 0) {
-        $("#legendErrorPurchase").html("Errore");
-        $("#errorsPurchase").html("Non sono stati aggiunti prodotti all'ordine.<br /><br />");
-        fail = true;
-    }
-    
-    productDOMList.each(function(index, value) {
-    	
-    	var id = $(value).data('productid');
-    	var amount = $(value).find("input").val();
-    	
-    	if(amount === undefined || isNaN(amount)) {
-	        $("#legendErrorPurchase").html("Errore");
-	        $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
-	        fail = true;
-    	}
-    	idProducts.push(id);
-    	productsAmount.push(amount);
-  	
-    });
-   */
     if(addedIds.length == 0)
     {
         $("#legendErrorPurchase").html("Errore");
@@ -363,7 +337,7 @@ function clickPurchaseHandler(event)
     {
     	var idProducts = addedIds.join(",");
     	
-    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts/*, productsAmount: productsAmount*/}, postSetNewPurchaseRequest);
+    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts}, postSetNewPurchaseRequest);
     }
       
 }
@@ -425,7 +399,7 @@ function loadOrders()
 		$.each(data, function(index, val)
 		{
 			var temp = val.split(","); 
-			output.push('<option value="'+ temp[0] +'"> Date Apertura - Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
+			output.push('<option value="'+ temp[0] +'"> Date Apertura - Chiusura:'+ temp[1] + '</option>');
 		});
 		$('#orderPurchase').html(output.join(''));
 	
@@ -617,4 +591,4 @@ function getMyPurchase()
 function loadMyPurchasesFromLocalStorage()
 {
   return JSON.parse(window.localStorage.getItem('myPurchasesList'));
-}
+}*/
