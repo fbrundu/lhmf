@@ -13,8 +13,9 @@ var numberOfMember;
 		$("#logLink").click(logClicked);
 		$("#userLink").click(userClicked);
 		$("#productLink").click(productClicked);
+		$("#statLink").click(statClicked);
 		$("#notifiesLink").click(notifiesClicked);
-    $("#messagesLink").click(messagesClicked);
+		$("#messagesLink").click(messagesClicked);
     registerForMessages();
     registerForNotifies();
   
@@ -42,6 +43,9 @@ function historyStateChanged() {
     break;
   case 'productsMgmtAdmin':
     writeProductsPageAdmin();
+    break;
+  case 'statAdmin':
+    writeStatPageAdmin();
     break;
   case 'log':
     writeLogPage();
@@ -126,6 +130,21 @@ function userClicked(event) {
   }
 }
 
+function statClicked(event) {
+	var History = window.History;	
+	  if (History.enabled == true) {
+	    event.preventDefault();
+	    var state = History.getState();
+	    var stateData = state.data;
+	    if (!!stateData && !!stateData.action
+	        && stateData.action == 'statAdmin')
+	      return;
+	    History.pushState({
+	      action : 'statAdmin'
+	    }, null, 'statAdmin');
+	  }
+}
+
 function productClicked(event) {
   var History = window.History;	
   if (History.enabled == true) {
@@ -176,6 +195,166 @@ function showLogs(startTime, endTime){
     }
     
   });
+}
+
+function writeStatPageAdmin() {
+	$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Utenti</a></li></ul>" +
+	  "<div id='tabs-1'></div></div>");
+	
+	var selectString = "<select name='yearS' id='yearS' class='field' onchange='refreshStat()'>";
+	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
+		selectString += "<option value='" + thisYear + "'>" + thisYear + "</option>";
+	selectString += "</select>";
+	
+	  $('#tabs-1').html("<table id='canvUtenti'>" +
+	  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
+	  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
+	  		"<tr><th> Distribuzione delle iscrizioni nell'anno " + selectString +"</th></tr>" +
+	  		"<tr><td id='canvasIscrizione'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");
+	  $('#tabs').tabs();
+	  
+	  writeStatistics();
+}
+
+function writeStatistics(){
+	
+	$('#canvUtenti').hide();
+	
+	var year = $("#yearS").val();
+	
+	$.postSync("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
+	
+	$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
+	
+	$('#canvUtenti').show('slow');
+}
+
+function refreshStat(){
+	
+	var year = $("#yearS").val();
+	
+	$("#canvasIscrizione").html("<canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas>");
+	
+	$.postSync("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
+}
+
+function postStatMemberRegHandler(data){
+	
+	new CanvasXpress("canvasIscrizioneUtenti", {
+        "y": {
+          "vars": [
+			"Utenti",
+			"Responsabili",
+			"Fornitori"
+          ],
+          "smps": [
+			"Gennaio",
+			"Febbraio",
+			"Marzo",
+			"Aprile",
+			"Maggio",
+			"Giugno",
+			"Luglio",
+			"Agosto",
+			"Settembre",
+			"Ottobre",
+			"Novembre",
+			"Dicembre"
+          ],
+          "desc": [
+            "Iscrizioni"
+          ],
+          "data": [
+            [
+              data[1],
+              data[4],
+              data[7],
+              data[10],
+              data[13],
+              data[16],
+              data[19],
+              data[22],
+              data[25],
+              data[28],
+              data[31],
+              data[34]
+            ],
+            [
+              data[2],
+              data[5],
+              data[8],
+              data[11],
+              data[14],
+              data[17],
+              data[20],
+              data[23],
+              data[26],
+              data[29],
+              data[32],
+              data[35]
+            ],
+            [
+              data[3],
+              data[6],
+              data[9],
+              data[12],
+              data[15],
+              data[18],
+              data[21],
+              data[24],
+              data[27],
+              data[30],
+              data[33],
+              data[36]
+            ]
+          ]
+        },
+        "t": {
+          "smps": ""
+        }
+      }, {
+        "graphType": "Bar",
+        "showAnimation": true,
+        "graphOrientation": "horizontal",
+        "showSmpDendrogram": true,
+        "smpDendrogramPosition": "right",
+        "title": "Distribuzione Iscrizioni",
+        "smpHairlineColor": false,
+        "smpTitle": "Mesi Dell'anno"
+      });
+	
+}
+
+function postStatMemberTypeHandler(data){
+	new CanvasXpress("canvasTipologiaUtenti", {
+        "y": {
+          "vars": [
+            "Utenti",
+            "Responsabili",
+            "Fornitori"
+          ],
+          "smps": [
+            "Tipologia Utenti"
+          ],
+          "data": [
+            [
+              data[0]
+            ],
+            [
+              data[1]
+            ],
+            [
+              data[2]
+            ]
+          ]
+        }
+      }, {
+        "graphType": "Pie",
+        "pieSegmentPrecision": 1,
+        "pieSegmentSeparation": 2,
+        "pieSegmentLabels": "outside",
+        "pieType": "solid",
+      });
 }
 
 function writeLogPage(){
