@@ -125,8 +125,8 @@ public class NormalAjaxController
 	public @ResponseBody
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder,
-			@RequestParam(value = "idProducts") String idProducts
-			/*,@RequestParam(value = "productsAmount") int idSupplier*/) throws InvalidParametersException, ParseException
+			@RequestParam(value = "idProducts") String idProducts,
+			@RequestParam(value = "pzProducts") int pzProduct) throws InvalidParametersException, ParseException
 	{
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
@@ -157,7 +157,7 @@ public class NormalAjaxController
 			
 			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(element));
 			
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, 5, insertedTimestamp);
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, pzProduct, insertedTimestamp);
 			
 			/*if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
 			{
