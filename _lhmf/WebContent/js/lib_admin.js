@@ -198,8 +198,11 @@ function showLogs(startTime, endTime){
 }
 
 function writeStatPageAdmin() {
-	$(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Utenti</a></li></ul>" +
-	  "<div id='tabs-1'></div></div>");
+	$(".centrale").html("<div id='tabs'><ul>" +
+			"<li><a href='#tabs-1'>Utenti</a></li>" +
+			"</ul>" +
+			"<div id='tabs-1'></div>" +
+	  		"</div>");
 	
 	var selectString = "<select name='yearS' id='yearS' class='field' onchange='refreshStat()'>";
 	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
@@ -266,10 +269,24 @@ function postStatMemberRegHandler(data){
           ],
           "data": [
             [
+              data[0],
+              data[3],
+              data[6],
+              data[9],
+              data[12],
+              data[15],
+              data[18],
+              data[21],
+              data[24],
+              data[27],
+              data[30],
+              data[33]
+            ],
+            [
               data[1],
               data[4],
               data[7],
-              data[10],
+              data[9],
               data[13],
               data[16],
               data[19],
@@ -292,20 +309,6 @@ function postStatMemberRegHandler(data){
               data[29],
               data[32],
               data[35]
-            ],
-            [
-              data[3],
-              data[6],
-              data[9],
-              data[12],
-              data[15],
-              data[18],
-              data[21],
-              data[24],
-              data[27],
-              data[30],
-              data[33],
-              data[36]
             ]
           ]
         },

@@ -37,10 +37,10 @@ public class Purchase implements java.io.Serializable
 	{
 	}
 
-	public Purchase(Order order, Member member, boolean isShipped) {
+	public Purchase(Order order, Member member) {
 		this.order = order;
 		this.member = member;
-		this.isShipped = isShipped;
+		this.isShipped = false;
 	}
 
 	public Purchase(Order order, Member member, boolean isShipped,
