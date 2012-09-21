@@ -3,13 +3,19 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.Supplier;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -205,5 +211,47 @@ public class ProductInterface
 		query.setParameter("idProduct", idProduct);
 
 		return (Integer) query.executeUpdate();
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Transactional(readOnly = true)
+	public Map<Product,Float> getProfitOnProducts(Supplier supplier) {
+		
+		Map<Product,Float> pList = new HashMap<Product,Float>();
+		
+		Calendar cal = Calendar.getInstance();
+		Date endDate = cal.getTime();
+		
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select pp.product, sum(pp.amount) " +
+				"from PurchaseProduct pp " +
+				  "join pp.purchase as purchase " +
+				  "join purchase.order as order " +
+				  "where order.supplier = :supp " +
+				  " AND order.dateClose <= :endDate " +
+				  " AND order.dateDelivery is NOT NULL " +
+				  "group by pp.product");
+		
+		query.setParameter("supp", supplier);
+		query.setDate("endDate", endDate);
+		Product tempProduct;
+		Integer tempAmount;
+		Float tempTot;
+		
+		for (Iterator it = query.iterate(); it.hasNext();) {
+			Object[] row = (Object[]) it.next();
+			
+			tempProduct = (Product) row[0];
+			tempAmount = (int) (long) row[1];
+			
+			tempTot =  tempAmount*(tempProduct.getUnitBlock()*tempProduct.getUnitCost());
+			
+			
+			pList.put(tempProduct, tempTot);
+		}
+		
+		return pList;
+
 	}
 }

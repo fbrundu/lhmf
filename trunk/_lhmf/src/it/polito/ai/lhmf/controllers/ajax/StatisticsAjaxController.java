@@ -3,17 +3,22 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.model.ProductInterface;
+import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +38,11 @@ public class StatisticsAjaxController
 	@Autowired
 	private MemberInterface memberInterface;
 	@Autowired
+	private SupplierInterface supplierInterface;
+	@Autowired
 	private OrderInterface orderInterface;
+	@Autowired
+	private ProductInterface productInterface;
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/statMemberType", method = RequestMethod.POST)
@@ -146,6 +155,41 @@ public class StatisticsAjaxController
 		
 		
 		return respStat;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/statSupplierMoneyProduct", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<String> statSupplierMoneyProduct(HttpServletRequest request, HttpSession session
+										) throws InvalidParametersException
+	{
+		
+		ArrayList<String> respStatName = new ArrayList<String>();
+		ArrayList<String> respStatFloat = new ArrayList<String>();
+		
+		// Mi ricavo il Supplier
+		String username = (String) session.getAttribute("username");
+		Supplier supplier = supplierInterface.getSupplier(username);
+		Product tempProduct;
+		Float tempAmount;
+		
+		// Mi ricavo la lista dei prodotti del Supplier con accanto l'amount totale ricavato dagli ordini chiusi
+		Map<Product, Float> listProduct = productInterface.getProfitOnProducts(supplier);
+		
+		Iterator it = listProduct.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry) it.next();
+	        tempProduct = (Product) pairs.getKey();
+	        tempAmount = (Float) pairs.getValue();
+	        		
+	        respStatName.add(tempProduct.getName());
+	        respStatFloat.add(tempAmount.toString());
+	    }
+	    
+	    respStatName.addAll(respStatFloat);
+
+		return respStatName;
 	}
 	
 	
