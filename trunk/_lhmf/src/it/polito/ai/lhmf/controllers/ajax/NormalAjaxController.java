@@ -126,14 +126,14 @@ public class NormalAjaxController
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder,
 			@RequestParam(value = "idProducts") String idProducts,
-			@RequestParam(value = "pzProducts") int pzProduct) throws InvalidParametersException, ParseException
+			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException, ParseException
 	{
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
 		
 		Order order = orderInterface.getOrder(idOrder);
 		
-		Purchase purchase = new Purchase(order, memberNormal, false);
+		Purchase purchase = new Purchase(order, memberNormal);
 		
 		int result = -1;
 		
@@ -149,22 +149,21 @@ public class NormalAjaxController
 		Date insertedTimestamp = dateFormat.parse(sDate);
 		
 		String[] idTmp = idProducts.split(",");
-			
-		for(String element : idTmp)
-		{
+		String[] amountTmp = amountProduct.split(",");
 		
-			Product product = productInterface.getProduct(Integer.parseInt(element));
+		for( int i = 0; i < idTmp.length; i++) {
 			
-			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(element));
+			Product product = productInterface.getProduct(Integer.parseInt(idTmp[i]));
+			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
 			
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, pzProduct, insertedTimestamp);
-			
-			/*if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
+			if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
 			{
 				return result;
-			}*/	
+			}
 		}
-		return result;
+		
+		return 1;
 	}
 	
 }

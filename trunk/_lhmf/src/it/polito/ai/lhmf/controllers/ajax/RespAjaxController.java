@@ -319,7 +319,7 @@ public class RespAjaxController
 		
 		Order order = orderInterface.getOrder(idOrder);
 		
-		Purchase purchase = new Purchase(order, memberNormal, false);
+		Purchase purchase = new Purchase(order, memberNormal);
 		
 		int result = -1;
 		

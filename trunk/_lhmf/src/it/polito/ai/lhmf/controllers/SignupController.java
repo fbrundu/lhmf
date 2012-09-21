@@ -18,6 +18,7 @@ import it.polito.ai.lhmf.util.SendEmail;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -292,7 +293,7 @@ public class SignupController
 				
 				//Creo il Current timestamp
 				java.util.Date now = calendar.getTime();
-				java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+				Timestamp currentTimestamp = new Timestamp(now.getTime());
 				
 				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
 								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
@@ -543,7 +544,7 @@ public class SignupController
 				
 				//Creo il Current timestamp
 				java.util.Date now = calendar.getTime();
-				java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+				Timestamp currentTimestamp = new Timestamp(now.getTime());
 				
 				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
 								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
@@ -852,7 +853,7 @@ public class SignupController
 					//Creo il Current timestamp
 					Calendar calendar = Calendar.getInstance();
 					java.util.Date now = calendar.getTime();
-					java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
+					Timestamp currentTimestamp = new Timestamp(now.getTime());
 					
 					String text = 	"Utente richiede l'attivazione dell'account\n\n" +
 									"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +

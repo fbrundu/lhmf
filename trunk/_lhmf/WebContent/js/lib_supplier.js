@@ -1,16 +1,27 @@
-$(function()
-{
-  // TODO aggiungere link per gestione prodotti
-  $("#notifiesLink").click(notifiesClicked);
-  $("#messagesLink").click(messagesClicked);
-  registerForMessages();
-  registerForNotifies();
+(function(window, undefined) {
+	var History = window.History;
+	$ = window.jQuery;
+	var histEnabled = History.enabled;
+	if (!histEnabled)
+		console.log("HTML 5 History API is disabled!");
+	else
+		History.Adapter.bind(window, 'statechange', historyStateChanged);
 
-  $.datepicker.setDefaults({
-    dateFormat : 'dd/mm/yy'
-  });
-  drawPageCallback();
-});
+	$(function() {
+		$("#productsLink").click(productsClicked);
+		$("#statLink").click(statClicked);
+		$("#notifiesLink").click(notifiesClicked);
+		$("#messagesLink").click(messagesClicked);
+    registerForMessages();
+    registerForNotifies();
+  
+		$.datepicker.setDefaults({
+			dateFormat : 'dd/mm/yy'
+		});
+		drawPageCallback();
+	});
+
+})(window);
 
 function historyStateChanged()
 {
@@ -21,6 +32,12 @@ function historyStateChanged()
     showIndex();
   switch (stateData.action)
   {
+  case 'productsMgmt':
+	  writeSupplierPage(0);
+	break;
+  case 'statSupplier':
+    writeStatPageSupplier();
+    break;
   case 'notifiche':
     getMyNotifies();
     break;
@@ -30,6 +47,152 @@ function historyStateChanged()
   default:
     writeIndexPage();
   }
+}
+
+function productsClicked(event) {
+	  var History = window.History;	
+	  if (History.enabled == true) {
+	    event.preventDefault();
+	    var state = History.getState();
+	    var stateData = state.data;
+	    if (!!stateData && !!stateData.action
+	        && stateData.action == 'productsMgmt')
+	      return;
+	    History.pushState({
+	      action : 'productsMgmt'
+	    }, null, 'productsMgmt');
+	  }
+	}
+
+function statClicked(event) {
+	var History = window.History;	
+	  if (History.enabled == true) {
+	    event.preventDefault();
+	    var state = History.getState();
+	    var stateData = state.data;
+	    if (!!stateData && !!stateData.action
+	        && stateData.action == 'statSupplier')
+	      return;
+	    History.pushState({
+	      action : 'statSupplier'
+	    }, null, 'statSupplier');
+	  }
+}
+
+function writeStatPageSupplier() {
+	$(".centrale").html("<div id='tabs'><ul>" +
+			"<li><a href='#tabs-1'>Incasso</a></li>" +
+			"<li><a href='#tabs-2'>Prodotti</a></li>" +
+			"<li><a href='#tabs-3'>Ordini</a></li>" +
+			"</ul>" +
+		    "<div id='tabs-1'></div>" +
+		    "<div id='tabs-2'></div>" +
+		    "<div id='tabs-3'></div>" +
+		    "</div>");
+	
+	var selectString1 = "<select name='yearS1' id='yearS1' class='field' onchange='refreshStat()'>";
+	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
+		selectString1 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
+	selectString1 += "</select>";
+	
+	  $('#tabs-1').html("<table id='canvSupplier-1'>" +
+	  		"<tr><th> Incasso mensile totale per anno " + selectString1 +"</th></tr>" +
+	  		"<tr><td id='canvasIncasso'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr><table>" +
+	  		"<tr><th> Incasso totale per prodotto </th></tr>" +
+	  		"<tr><td><canvas id='canvasIncassoProdotto' width='580' height='500'></canvas></td></tr><table>");
+	  /*$('#tabs-2').html("<table id='canvSupplier-2'>" +
+		  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
+		  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
+		  		"<tr><th> Distribuzione delle iscrizioni nell'anno " + selectString +"</th></tr>" +
+		  		"<tr><td id='canvasIscrizione'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");
+	  $('#tabs-3').html("<table id='canvSupplier-3'>" +
+		  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
+		  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
+		  		"<tr><th> Distribuzione delle iscrizioni nell'anno " + selectString +"</th></tr>" +
+		  		"<tr><td id='canvasIscrizione'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");*/
+	  $('#tabs').tabs();
+	  
+	  writeStatistics();
+}
+
+function writeStatistics() {
+	
+	$('#canvSupplier-1').hide();
+	//$('#canvSupplier-2').hide();
+	//$('#canvSupplier-3').hide();
+	
+	var year1 = $("#yearS1").val();
+	
+	$.postSync("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
+	
+	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
+	
+	$('#canvSupplier-1').show('slow');
+}
+
+function postStatSupplierMoneyMonthHandler(data){
+	
+	new CanvasXpress("canvasIncassoMensile", {
+        "x": {
+          "Response": [
+            "Sensitive",
+            "Sensitive",
+            "Sensitive",
+            "Sensitive",
+            "Sensitive",
+            "Sensitive",
+            "Sensitive",
+            "Sensitive"
+          ]
+        },
+        "y": {
+          "vars": [
+            "Incasso"
+          ],
+          "smps": [
+			"Gennaio",
+			"Febbraio",
+			"Marzo",
+			"Aprile",
+			"Maggio",
+			"Giugno",
+			"Luglio",
+			"Agosto",
+			"Settembre",
+			"Ottobre",
+			"Novembre",
+			"Dicembre"
+          ],
+          "desc": [
+            "Incasso"
+          ],
+          "data": [
+            [
+              data[0],
+              data[1],
+              data[2],
+              data[3],
+              data[4],
+              data[5],
+              data[6],
+              data[7],
+              data[8],
+              data[9],
+              data[10],
+              data[11]
+            ]
+          ]
+        }
+      }, {
+        "graphType": "Bar",
+        "colorBy": "Response",
+        "title": "Incasso Mensile",
+        "smpTitle": "Mesi Dell'anno",
+        "colorScheme": "basic",
+        "graphOrientation": "vertical",
+        "showLegend": false
+      });
+	
 }
 
 function updateCategory(productCategory)
@@ -759,15 +922,15 @@ function clickNewProductHandler(event)
   {
     errors.push("Costo per unit&agrave;: Formato non valido");
   }
-  if (minBuy !== "" && !isPositiveNumber(minBuy))
+  if (minBuy != "" && !isPositiveNumber(minBuy))
   {
     errors.push("Minimo unit&agrave; acquistabili: Formato non valido");
   }
-  if (maxBuy !== "" && !isPositiveNumber(maxBuy))
+  if (maxBuy != "" && !isPositiveNumber(maxBuy))
   {
     errors.push("Massimo unit&agrave; acquistabili: Formato non valido");
   }
-  if (minBuy !== "" && maxBuy !== "" && minBuy > maxBuy)
+  if (minBuy != "" && maxBuy != "" && parseInt(minBuy) > parseInt(maxBuy))
   {
     errors.push("Massimo/minimo unit&agrave; acquistabili:"
         + "Il minimo di unit&agrave; acquistabili deve essere minore"
@@ -866,7 +1029,5 @@ function clickNewProductHandler(event)
         }
       });
     }
-
-    writeSupplierPage(0);
   }
 }

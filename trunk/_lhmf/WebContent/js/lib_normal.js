@@ -325,12 +325,10 @@ function clickPurchaseHandler(event)
     
     //Ciclare per prendere quantità prodotti
     
-    var productDOMList = $("#purchaseCart ul li"); //oggetto jquery
-    
-    productDOMList.each(function(index, value) 
+    $("#purchaseCart ul li").each(function(index, value) 
     {
     	
-        var amount = $(value).find("pz").val();
+        var amount = $(this).find('input').val();
         
         if(amount === undefined || isNaN(amount)) 
         {
@@ -359,9 +357,9 @@ function clickPurchaseHandler(event)
     else
     {
     	var idProducts = addedIds.join(",");
-    	var pzProducts = addedPz.join(",");
+    	var amountProducts = addedPz.join(",");
     	
-    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts, 5: pzProducts}, postSetNewPurchaseRequest);
+    	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts, amountProducts: amountProducts}, postSetNewPurchaseRequest);
     }
       
 }

@@ -6,6 +6,7 @@ import it.polito.ai.lhmf.orm.Order;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -200,6 +201,33 @@ public class OrderInterface
 	{			
 		Query query = sessionFactory.getCurrentSession().createQuery("from OrderProduct where idOrder = :idOrder");
 		query.setParameter("idOrder", idOrder);
+		return query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getOldOrdersBySupplier(Member memberSupplier, int year) {
+		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, 1, 1);
+		Date startDateD = cal.getTime();
+		cal.set(year, 12, 31);
+		Date endDateD = cal.getTime();
+	
+		Timestamp startDate = new Timestamp(startDateD.getTime());
+		Timestamp endDate = new Timestamp(endDateD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession()
+					.createQuery("from Order where idSupplier = :id " +
+													"AND dateClose < :endDate " +
+													"AND dateOpen > :startDate " +
+													"AND dateDelivery is NOT NULL");
+			
+		query.setParameter("id", memberSupplier.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
 		return query.list();
 	}
 }

@@ -123,24 +123,24 @@ public class SupplierAjaxController
 		{
 			errors.add("Cap: Formato non Valido");
 		}
-		if (CheckNumber.isNumeric(company))
+		if (!company.equals("") && CheckNumber.isNumeric(company))
 		{
 			errors.add("Compagnia: Formato non Valido");
 		}
-		if (CheckNumber.isNumeric(description))
+		if (!description.equals("") && CheckNumber.isNumeric(description))
 		{
 			errors.add("Descrizione: Formato non Valido");
 		}
-		if (CheckNumber.isNumeric(contactName))
+		if (!contactName.equals("") && CheckNumber.isNumeric(contactName))
 		{
-			errors.add("Stato: Formato non Valido");
+			errors.add("Nome Contatto: Formato non Valido");
 		}
 		if (!fax.equals(""))
 		{
 			if (!CheckNumber.isNumeric(fax))
 				errors.add("Fax: Formato non Valido");
 		}
-		if (CheckNumber.isNumeric(website))
+		if (!website.equals("") && CheckNumber.isNumeric(website))
 		{
 			errors.add("Web Site: Formato non Valido");
 		}
