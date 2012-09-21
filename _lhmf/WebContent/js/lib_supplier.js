@@ -97,9 +97,9 @@ function writeStatPageSupplier() {
 	
 	  $('#tabs-1').html("<table id='canvSupplier-1'>" +
 	  		"<tr><th> Incasso mensile totale per anno " + selectString1 +"</th></tr>" +
-	  		"<tr><td id='canvasIncasso'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr><table>" +
+	  		"<tr><td id='canvasIncassoM'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr><table>" +
 	  		"<tr><th> Incasso totale per prodotto </th></tr>" +
-	  		"<tr><td><canvas id='canvasIncassoProdotto' width='580' height='500'></canvas></td></tr><table>");
+	  		"<tr><td id='canvasIncassoP'><canvas id='canvasIncassoProdotto' width='580' height='500'></canvas></td></tr><table>");
 	  /*$('#tabs-2').html("<table id='canvSupplier-2'>" +
 		  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
 		  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
@@ -124,6 +124,7 @@ function writeStatistics() {
 	var year1 = $("#yearS1").val();
 	
 	$.postSync("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
+	//$.postSync("ajax/statSupplierMoneyProduct", null, postStatSupplierMoneyProductHandler);
 	
 	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
 	
@@ -133,18 +134,6 @@ function writeStatistics() {
 function postStatSupplierMoneyMonthHandler(data){
 	
 	new CanvasXpress("canvasIncassoMensile", {
-        "x": {
-          "Response": [
-            "Sensitive",
-            "Sensitive",
-            "Sensitive",
-            "Sensitive",
-            "Sensitive",
-            "Sensitive",
-            "Sensitive",
-            "Sensitive"
-          ]
-        },
         "y": {
           "vars": [
             "Incasso"
@@ -192,6 +181,29 @@ function postStatSupplierMoneyMonthHandler(data){
         "graphOrientation": "vertical",
         "showLegend": false
       });
+	
+}
+
+function postStatSupplierMoneyProductHandler(data) {
+	
+	var json = '{ "y": { "vars": [ "Incasso" ], "smps": [';
+	var len = data.length/2;
+	var i = 0;
+	
+	for(i = 0; i < len; i++)
+		json += '"' + data[i] + '",';
+		
+	json += '],"desc": [ "Incasso" ], "data": [ [';
+	
+	for(i = 0; i < len-1; i++)
+		json += '"' + data[i+len] + '",';	
+	
+	json += '] ] } }, { "graphType": "Bar", "colorBy": "Response", "title": "Incasso Mensile",';
+    json += '"smpTitle": "Mesi", "colorScheme": "basic", "graphOrientation": "horizontal", "showLegend": false }';
+    
+    var obj = jQuery.parseJSON(json);
+    
+    new CanvasXpress("canvasIncassoMensile", obj);
 	
 }
 
