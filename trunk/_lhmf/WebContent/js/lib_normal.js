@@ -322,6 +322,8 @@ function clickPurchaseHandler(event)
 
     var fail = false;
     
+    addedPz = [];
+    
     
     //Ciclare per prendere quantità prodotti
     
@@ -330,7 +332,7 @@ function clickPurchaseHandler(event)
     	
         var amount = $(this).find('input').val();
         
-        if(amount === undefined || isNaN(amount)) 
+        if(amount === undefined || amount === "" || isNaN(amount)) 
         {
                 $("#legendErrorPurchase").html("Errore");
                 $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");

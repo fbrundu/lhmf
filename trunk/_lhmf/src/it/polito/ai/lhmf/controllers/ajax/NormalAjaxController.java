@@ -157,10 +157,8 @@ public class NormalAjaxController
 			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
 			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
 			
-			if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
-			{
-				return result;
-			}
+			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			purchaseInterface.newPurchaseProduct(purchaseproduct);
 		}
 		
 		return 1;

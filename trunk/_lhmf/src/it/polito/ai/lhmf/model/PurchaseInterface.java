@@ -6,6 +6,7 @@ import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.PurchaseProductId;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -152,14 +153,14 @@ public class PurchaseInterface
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer newPurchaseProduct(PurchaseProduct purchaseProduct)
+	public PurchaseProductId newPurchaseProduct(PurchaseProduct purchaseProduct)
 			throws InvalidParametersException
 	{
 		if (purchaseProduct == null)
 		{
 			throw new InvalidParametersException();
 		}
-		return (Integer) sessionFactory.getCurrentSession().save(purchaseProduct);
+		return (PurchaseProductId) sessionFactory.getCurrentSession().save(purchaseProduct); //TODO Non cast a Integer ma a PurchaseProductId!!!
 	}
 
 }
