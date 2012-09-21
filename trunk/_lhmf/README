@@ -2,6 +2,10 @@ Applicazioni Internet - Gas
 
 # TODO
 
+-in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date
+
+-in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server
+
 !!! Ultime modifiche che ci sono venute in mente!!!:
 - [[RISOLTO]] attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin pu� cos� decidere
  di abilitare anche utenti per i quali la mail non � stata verificata ma di cui lui si fida o sa per certo che l'indirizzo � giusto. Di conseguenza:
