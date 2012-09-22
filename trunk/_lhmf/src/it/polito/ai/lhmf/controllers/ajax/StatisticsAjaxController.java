@@ -177,17 +177,23 @@ public class StatisticsAjaxController
 		// Mi ricavo la lista dei prodotti del Supplier con accanto l'amount totale ricavato dagli ordini chiusi
 		Map<Product, Float> listProduct = productInterface.getProfitOnProducts(supplier);
 		
-		Iterator it = listProduct.entrySet().iterator();
-	    while (it.hasNext()) {
-	        Map.Entry pairs = (Map.Entry) it.next();
-	        tempProduct = (Product) pairs.getKey();
-	        tempAmount = (Float) pairs.getValue();
-	        		
-	        respStatName.add(tempProduct.getName());
-	        respStatFloat.add(tempAmount.toString());
-	    }
-	    
-	    respStatName.addAll(respStatFloat);
+		if(listProduct.size() > 0) {
+			
+			Iterator it = listProduct.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry) it.next();
+		        tempProduct = (Product) pairs.getKey();
+		        tempAmount = (Float) pairs.getValue();
+		        		
+		        respStatName.add(tempProduct.getName());
+		        respStatFloat.add(tempAmount.toString());
+		    }
+		    
+		    respStatName.addAll(respStatFloat);
+			
+		} else {
+			respStatName.add("errNoProduct");
+		}
 
 		return respStatName;
 	}
