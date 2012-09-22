@@ -30,6 +30,43 @@
       Interfaccia Fornitore
     </jsp:attribute>
 
+  <jsp:attribute name="dialogs">
+    <div class="gasDialog" id="dialog-confirm"
+      title="Cancellare il prodotto?">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+          style="float: left; margin: 0 7px 20px 0;"></span>Sei sicuro?</p>
+    </div>
+        <div class="gasDialog" id="dialog-error-remove" title="Errore">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+          style="float: left; margin: 0 7px 20px 0;"></span>
+          Errore nella cancellazione
+      </p>
+    </div>
+    <div class="gasDialog" id="dialog-error-insert" title="Errore">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+          style="float: left; margin: 0 7px 20px 0;"></span>
+          Errore nell'inserimento
+      </p>
+    </div>
+    <div class="gasDialog" id="dialog-error-update" title="Errore">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+          style="float: left; margin: 0 7px 20px 0;"></span>
+          Errore nell'aggiornamento
+      </p>
+    </div>
+    <div class="gasDialog" id="dialog-ok" title="Ok">
+      <p>
+        <span class="ui-icon ui-icon-check"
+          style="float: left; margin: 0 7px 20px 0;"></span>
+          Operazione andata a buon fine
+      </p>
+    </div>
+  </jsp:attribute>
+
 	<jsp:body>
     </jsp:body>
 
