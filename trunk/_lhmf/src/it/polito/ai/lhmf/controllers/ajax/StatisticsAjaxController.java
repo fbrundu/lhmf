@@ -105,8 +105,8 @@ public class StatisticsAjaxController
 		String username = (String) session.getAttribute("username");
 		Member memberSupplier = memberInterface.getMember(username);
 		
-		// Mi ricavo la lista degli ordini passati conclusi (con data consegna non impostata)
-		List<Order> listOrders = orderInterface.getOldOrdersBySupplier(memberSupplier, year);
+		// Mi ricavo la lista degli ordini passati conclusi (con data consegna impostata)
+		List<Order> listOrders = orderInterface.getOldOrdersShippedBySupplier(memberSupplier, year);
 		
 		// Inizializzo variabili
 		Calendar cal = Calendar.getInstance();
@@ -124,7 +124,7 @@ public class StatisticsAjaxController
 			cal.setTime(temp.getDateClose());
 			int month = cal.get(Calendar.MONTH);
 			// Recupero il prezzo salvato
-			price = respStat.get(month-1);
+			price = respStat.get(month);
 			//Azzero parziale
 			float partial = 0;
 			
@@ -149,7 +149,7 @@ public class StatisticsAjaxController
 				} // Fine prodotti di una scheda
 			} // Fine Schede di un ordine
 	
-			respStat.set(month-1, partial+price);
+			respStat.set(month, partial+price);
 			
 		} // fine Ordine di un responsabile
 		
@@ -190,6 +190,98 @@ public class StatisticsAjaxController
 	    respStatName.addAll(respStatFloat);
 
 		return respStatName;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/statSupplierProductList", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Float> statSupplierProductList(HttpServletRequest request, HttpSession session
+										) throws InvalidParametersException
+	{
+		
+		ArrayList<Float> respStat = new ArrayList<Float>();
+		
+		// Mi ricavo il Supplier
+		String username = (String) session.getAttribute("username");
+		Member memberSupplier = memberInterface.getMember(username);
+		
+		// Mi ricavo il numero dei prodotti totali 
+		Integer numberProductsTot = productInterface.getNumberOfProductsBySupplier(memberSupplier);
+		
+		// Mi ricavo il numero dei prodotti totali 
+		Integer numberProductsOnList = productInterface.getNumberOfProductsOnListBySupplier(memberSupplier);
+		
+		Float temp = (float) (numberProductsOnList/numberProductsTot)*100;
+		respStat.add(temp);
+		respStat.add(100-temp);
+		
+		return respStat;
+	}
+	
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/statSupplierOrderMonth", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Integer> statSupplierOrderMonth(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "year", required = true) int year	) throws InvalidParametersException
+	{
+		
+		ArrayList<Integer> respStat = new ArrayList<Integer>();
+		ArrayList<Integer> respStatNotShipped = new ArrayList<Integer>();
+		
+		// Mi ricavo il Supplier
+		String username = (String) session.getAttribute("username");
+		Member memberSupplier = memberInterface.getMember(username);
+		
+		
+		for(int i = 0; i < 12; i++) {
+			
+			// Mi ricavo il numero di ordini conclusi (con o senza data di consegna)
+			Integer numberOrdersTot = (int) (long) orderInterface.getNumberOldOrdersBySupplier(memberSupplier, year, i);
+			
+			// Mi ricavo il numero di ordini conclusi (con data di consegna impostata)
+			Integer numberOrderShipped = (int) (long) orderInterface.getNumberOldOrdersShippedBySupplier(memberSupplier, year, i);
+			
+			respStat.add(numberOrderShipped);
+			respStatNotShipped.add(numberOrdersTot-numberOrderShipped);
+			
+		}
+		
+		respStat.addAll(respStatNotShipped);
+		
+		return respStat;
+	}
+		
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/statSupplierOrderYear", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Float> statSupplierOrderYear(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "year", required = true) int year	) throws InvalidParametersException
+	{
+		
+		ArrayList<Float> respStat = new ArrayList<Float>();
+		
+		// Mi ricavo il Supplier
+		String username = (String) session.getAttribute("username");
+		Member memberSupplier = memberInterface.getMember(username);
+		
+		// Mi ricavo il numero di ordini conclusi (con o senza data di consegna)
+		Float numberOrdersTot = (float) (long) orderInterface.getNumberOldOrdersBySupplier(memberSupplier, year);
+
+		// Mi ricavo il numero di ordini conclusi (con data di consegna impostata
+		Float numberOrderShipped = (float) (long) orderInterface.getNumberOldOrdersShippedBySupplier(memberSupplier, year);
+				
+		if(numberOrdersTot != 0) {
+		Float temp = (numberOrderShipped/numberOrdersTot)*100;
+		
+		respStat.add(temp);
+		respStat.add(100-temp);
+		} else {
+			respStat.add((float) 0);
+			respStat.add((float) 0);
+		}
+		
+		return respStat;
 	}
 	
 	

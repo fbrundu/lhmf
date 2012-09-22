@@ -210,9 +210,9 @@ function writeStatPageAdmin() {
 	selectString += "</select>";
 	
 	  $('#tabs-1').html("<table id='canvUtenti'>" +
-	  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
-	  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
-	  		"<tr><th> Distribuzione delle iscrizioni nell'anno " + selectString +"</th></tr>" +
+	  		"<tr><th></th></tr>" +
+	  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr>" +
+	  		"<tr><th> Seleziona l'anno " + selectString +"</th></tr>" +
 	  		"<tr><td id='canvasIscrizione'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
 	  
@@ -236,9 +236,12 @@ function refreshStat(){
 	
 	var year = $("#yearS").val();
 	
+	$("#canvasIscrizione").hide("slow");
 	$("#canvasIscrizione").html("<canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas>");
 	
 	$.postSync("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
+	
+	$("#canvasIscrizione").show("slow");
 }
 
 function postStatMemberRegHandler(data){
@@ -321,7 +324,7 @@ function postStatMemberRegHandler(data){
         "graphOrientation": "horizontal",
         "showSmpDendrogram": true,
         "smpDendrogramPosition": "right",
-        "title": "Distribuzione Iscrizioni",
+        "title": "Distribuzione Iscritti",
         "smpHairlineColor": false,
         "smpTitle": "Mesi Dell'anno"
       });
@@ -329,6 +332,7 @@ function postStatMemberRegHandler(data){
 }
 
 function postStatMemberTypeHandler(data){
+	
 	new CanvasXpress("canvasTipologiaUtenti", {
         "y": {
           "vars": [
@@ -353,11 +357,13 @@ function postStatMemberTypeHandler(data){
         }
       }, {
         "graphType": "Pie",
+        "title": "Divisione, in percentuale, della tipologia degli utenti iscritti",
         "pieSegmentPrecision": 1,
         "pieSegmentSeparation": 2,
         "pieSegmentLabels": "outside",
         "pieType": "solid",
       });
+	
 }
 
 function writeLogPage(){
