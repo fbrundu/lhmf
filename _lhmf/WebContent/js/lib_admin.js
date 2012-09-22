@@ -508,7 +508,6 @@ function writeUserPage(tab){
                                     "<option value='50'> 50 </option>" +
                                 "</select>" +
                               "</fieldset>" +
-                              "<button type='submit' id='getList'> Visualizza </button>" +
                             "</form>" +
                             "<table id='memberList2' class='log'></table>" +
                               "<div id='errorDiv3' style='display:none;'>" +
@@ -965,31 +964,41 @@ function prepareUserForm(tab){
 	$('#pageActive').change(clickActMemberHandler);
 	$('#itemsPerPageActive').change(clickActMemberHandler);
 	
-	$('#getList').on("click", clickGetMemberHandler);
+	$('#memberType2').change(clickGetMemberHandler);
+  $('#page2').change(clickGetMemberHandler);
+  $('#itemsPerPage2').change(clickGetMemberHandler);
+  
+	activeUserSearch();
 	userSearch();
 }
 
-function clickGetMemberHandler(event) {
-    event.preventDefault();
-    var memberType = $('#memberType2').val();
-    var page = $('#page2').val();
-    var itemsPerPage = $('#itemsPerPage2').val();
-    
-    //normale o responsabile
-    $.post("ajax/getMembersList", {   memberType: memberType,
-                                      page: page,
-                                      itemsPerPage: itemsPerPage }, postMemberListHandler);
-
+function clickGetMemberHandler(event)
+{
+  event.preventDefault();
+  userSearch();
 }
 
+function userSearch()
+{
+  var memberType = $('#memberType2').val();
+  var page = $('#page2').val();
+  var itemsPerPage = $('#itemsPerPage2').val();
+
+  // normale o responsabile
+  $.post("ajax/getMembersList", {
+    memberType : memberType,
+    page : page,
+    itemsPerPage : itemsPerPage
+  }, postMemberListHandler);
+}
 
 function clickActMemberHandler(event){
 	event.preventDefault();
 	
-	userSearch();
+	activeUserSearch();
 }
 
-function userSearch()
+function activeUserSearch()
 {
   var memberType = $('#memberTypeActive').val();
   var page = $('#pageActive').val();
