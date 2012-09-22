@@ -577,7 +577,8 @@ function writeProductsPageAdmin()
               + "</select>"
               + "</fieldset>"
               + "</form>"
-              + "<table id='productsListTable' class='list'></table>"
+              + "<table id='productsListTable' class='list'>"
+              + "</table>"
               + "<div id='errorDiv2' style='display:none;'>"
               + "<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />"
               + "<div id='errors2' style='padding-left: 40px'>"
@@ -607,7 +608,10 @@ function newProductSearch()
   var page = $("#pageSearch").val();
   var itemsPerPage = $("#itemsPerPageSearch").val();
   var myProducts = getAllProductsNoLocal();
-  var productsString = "";
+  var productsString = "<tr><th class='top' width='10%'> Nome </th>"
+      + "<th class='top' width='25%'> Descrizione </th>"
+      + "<th class='top' width='20%'> Disponibilit&agrave; </th>"
+      + "<th class='top' width='20%'> Modifica disponibilit&agrave; </th></tr>";
   if (myProducts.length > 0)
   {
     for ( var prodIndex = (page - 1) * itemsPerPage; prodIndex < myProducts.length
