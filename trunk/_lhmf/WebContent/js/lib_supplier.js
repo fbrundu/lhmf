@@ -1218,7 +1218,7 @@ function clickNewProductHandler(event)
     });
     if (idProduct > 0)
     {
-      $("#productFieldset").children("input").val("");
+      newProductSearch(0);
       $("#dialog-ok").dialog({
         resizable : false,
         height : 140,
@@ -1230,6 +1230,7 @@ function clickNewProductHandler(event)
           }
         }
       });
+      $("#productFieldset").children("input").val("");
     }
     else
     {
