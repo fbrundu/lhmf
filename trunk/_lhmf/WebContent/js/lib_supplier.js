@@ -408,18 +408,6 @@ function postStatSupplierOrderYearHandler(data){
 	
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function updateCategory(productCategory)
 {
   if (productCategory == undefined)
@@ -1006,7 +994,10 @@ function newProductSearch(tab)
   var page = $("#pageSearch").val();
   var itemsPerPage = $("#itemsPerPageSearch").val();
   var myProducts = getMyProductsNoLocal();
-  var productsString = "";
+  var productsString = "<tr><th class='top' width='10%'> Nome </th>"
+    + "<th class='top' width='25%'> Descrizione </th>"
+    + "<th class='top' width='20%'> Disponibilit&agrave; </th>"
+    + "<th class='top' width='20%'> Modifica disponibilit&agrave; </th></tr>";
   if (myProducts.length > 0)
   {
     for ( var prodIndex = (page - 1) * itemsPerPage; prodIndex < myProducts.length
