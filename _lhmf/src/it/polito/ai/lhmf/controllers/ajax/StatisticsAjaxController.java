@@ -208,12 +208,17 @@ public class StatisticsAjaxController
 		// Mi ricavo il numero dei prodotti totali 
 		Integer numberProductsTot = productInterface.getNumberOfProductsBySupplier(memberSupplier);
 		
-		// Mi ricavo il numero dei prodotti totali 
+		// Mi ricavo il numero dei prodotti totali  in lista
 		Integer numberProductsOnList = productInterface.getNumberOfProductsOnListBySupplier(memberSupplier);
 		
-		Float temp = (float) (numberProductsOnList/numberProductsTot)*100;
-		respStat.add(temp);
-		respStat.add(100-temp);
+		if(numberProductsTot != 0) {
+			Float temp = (float) (numberProductsOnList/numberProductsTot)*100;
+			respStat.add(temp);
+			respStat.add(100-temp);
+		} else {
+			respStat.add((float) 0);
+			respStat.add((float) 0);
+		}
 		
 		return respStat;
 	}
