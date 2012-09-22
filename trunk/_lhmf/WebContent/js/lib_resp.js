@@ -1326,8 +1326,6 @@ function clickPurchaseActiveHandler(event)
     
 }
 
-
-
 function clickPurchaseOldHandler(event) 
 {
     event.preventDefault();
@@ -1347,7 +1345,8 @@ function clickPurchaseDetailsHandler(event)
 function loadOrders() 
 {
 	
-	$.post("ajax/getOrdersStringNormal", function(data) {
+	$.post("ajax/getOrdersStringNormal", function(data) 
+	{
 		
 		var output = [];
 		output.push('<option value="-1"> Seleziona...</option>');
@@ -1355,7 +1354,7 @@ function loadOrders()
 		$.each(data, function(index, val)
 		{
 			var temp = val.split(","); 
-			output.push('<option value="'+ temp[0] +'"> Date Apertura - Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
+			output.push('<option value="'+ temp[0] +'"> Nome - Data Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
 		});
 		$('#orderPurchase').html(output.join(''));
 	

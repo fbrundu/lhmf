@@ -114,7 +114,7 @@ public class NormalAjaxController
 		
 		for (Order or : listOrders) 
 		{			
-			String temp = or.getIdOrder() + "," + or.getDateOpen() + " " + or.getDateClose() + "," + or.getDateDelivery();					
+			String temp = or.getIdOrder() + ", " + or.getOrderName() + " - " + or.getDateClose() + "," + or.getDateDelivery();					
 			orderString.add(temp);		
 		}		
 		return orderString;
