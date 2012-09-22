@@ -254,4 +254,20 @@ public class ProductInterface
 		return pList;
 
 	}
+
+	@Transactional(readOnly = true)
+	public Integer getNumberOfProductsBySupplier(Member memberSupplier) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Product " + "where idSupplier = :idMember");
+		query.setParameter("idMember", memberSupplier.getIdMember());
+		return (int) (long) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public Integer getNumberOfProductsOnListBySupplier(Member memberSupplier) {
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Product " + "where idSupplier = :idMember and availability = true");
+		query.setParameter("idMember", memberSupplier.getIdMember());
+		return (int) (long) query.uniqueResult();
+	}
 }

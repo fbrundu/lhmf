@@ -206,13 +206,13 @@ public class OrderInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOldOrdersBySupplier(Member memberSupplier, int year) {
+	public List<Order> getOldOrdersShippedBySupplier(Member memberSupplier, int year) {
 		
 		
 		Calendar cal = Calendar.getInstance();
-		cal.set(year, 1, 1);
+		cal.set(year, 0, 1);
 		Date startDateD = cal.getTime();
-		cal.set(year, 12, 31);
+		cal.set(year, 11, 31);
 		Date endDateD = cal.getTime();
 	
 		Timestamp startDate = new Timestamp(startDateD.getTime());
@@ -220,8 +220,7 @@ public class OrderInterface
 		
 		Query query = sessionFactory.getCurrentSession()
 					.createQuery("from Order where idSupplier = :id " +
-													"AND dateClose < :endDate " +
-													"AND dateOpen > :startDate " +
+													"AND dateClose between :startDate and :endDate " +
 													"AND dateDelivery is NOT NULL");
 			
 		query.setParameter("id", memberSupplier.getIdMember());
@@ -229,5 +228,103 @@ public class OrderInterface
 		query.setTimestamp("endDate", endDate);
 	
 		return query.list();
+	}
+	
+	@Transactional(readOnly=true)
+	public Long getNumberOldOrdersShippedBySupplier(Member memberSupplier, int year) {
+		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, 0, 1);
+		Date startDateD = cal.getTime();
+		cal.set(year, 11, 31);
+		Date endDateD = cal.getTime();
+	
+		Timestamp startDate = new Timestamp(startDateD.getTime());
+		Timestamp endDate = new Timestamp(endDateD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession()
+					.createQuery("select count(*) from Order where idSupplier = :id " +
+													"AND dateClose between :startDate and :endDate " +
+													"AND dateDelivery is NOT NULL");
+			
+		query.setParameter("id", memberSupplier.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return (Long) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly=true)
+	public Long getNumberOldOrdersShippedBySupplier(Member memberSupplier, int year, int month) {
+		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, 1);
+		Date startDateD = cal.getTime();
+		cal.set(year, month, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Date endDateD = cal.getTime();
+	
+		Timestamp startDate = new Timestamp(startDateD.getTime());
+		Timestamp endDate = new Timestamp(endDateD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession()
+					.createQuery("select count(*) from Order where idSupplier = :id " +
+													"AND dateClose between :startDate and :endDate " +
+													"AND dateDelivery is NOT NULL");
+			
+		query.setParameter("id", memberSupplier.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return (Long) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly=true)
+	public Long getNumberOldOrdersBySupplier(Member memberSupplier, int year) {
+		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, 0, 1);
+		Date startDateD = cal.getTime();
+		cal.set(year, 11, 31);
+		Date endDateD = cal.getTime();
+	
+		Timestamp startDate = new Timestamp(startDateD.getTime());
+		Timestamp endDate = new Timestamp(endDateD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession()
+					.createQuery("select count(*) from Order where idSupplier = :id " +
+													"AND dateClose  between :startDate and :endDate ");
+			
+		query.setParameter("id", memberSupplier.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return (Long) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly=true)
+	public Long getNumberOldOrdersBySupplier(Member memberSupplier, int year, int month) {
+		
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, 1);
+		Date startDateD = cal.getTime();
+		cal.set(year, month, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Date endDateD = cal.getTime();
+	
+		Timestamp startDate = new Timestamp(startDateD.getTime());
+		Timestamp endDate = new Timestamp(endDateD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession()
+					.createQuery("select count(*) from Order where idSupplier = :id " +
+													"AND dateClose between :startDate and :endDate ");
+			
+		query.setParameter("id", memberSupplier.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+	
+		return (Long) query.uniqueResult();
 	}
 }

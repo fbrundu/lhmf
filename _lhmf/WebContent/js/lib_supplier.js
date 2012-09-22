@@ -90,45 +90,96 @@ function writeStatPageSupplier() {
 		    "<div id='tabs-3'></div>" +
 		    "</div>");
 	
-	var selectString1 = "<select name='yearS1' id='yearS1' class='field' onchange='refreshStat()'>";
+	var selectString1 = "<select name='yearS1' id='yearS1' class='field' onchange='refreshStatIncasso()'>";
 	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
 		selectString1 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
 	selectString1 += "</select>";
 	
+	var selectString2 = "<select name='yearS2' id='yearS2' class='field' onchange='refreshStatOrdiniMese()'>";
+	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
+		selectString2 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
+	selectString2 += "</select>";
+	
+	var selectString3 = "<select name='yearS3' id='yearS3' class='field' onchange='refreshStatOrdiniAnno()'>";
+	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
+		selectString3 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
+	selectString3 += "</select>";
+	
 	  $('#tabs-1').html("<table id='canvSupplier-1'>" +
-	  		"<tr><th> Incasso mensile totale per anno " + selectString1 +"</th></tr>" +
-	  		"<tr><td id='canvasIncassoM'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr><table>" +
-	  		"<tr><th> Incasso totale per prodotto </th></tr>" +
+	  		"<tr><th> Seleziona l'anno " + selectString1 +"</th></tr>" +
+	  		"<tr><td id='canvasIncassoM'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr>" +
+	  		"<tr><th></th></tr>" +
 	  		"<tr><td id='canvasIncassoP'><canvas id='canvasIncassoProdotto' width='580' height='500'></canvas></td></tr><table>");
-	  /*$('#tabs-2').html("<table id='canvSupplier-2'>" +
-		  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
-		  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
-		  		"<tr><th> Distribuzione delle iscrizioni nell'anno " + selectString +"</th></tr>" +
-		  		"<tr><td id='canvasIscrizione'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");
+	  $('#tabs-2').html("<table id='canvSupplier-2'>" +
+		  		"<tr><th></th></tr>" +
+		  		"<tr><td><canvas id='canvasProdottiListino' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs-3').html("<table id='canvSupplier-3'>" +
-		  		"<tr><th> Divisione, in percentuale, della tipologia degli utenti iscritti</th></tr>" +
-		  		"<tr><td><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr><table>" +
-		  		"<tr><th> Distribuzione delle iscrizioni nell'anno " + selectString +"</th></tr>" +
-		  		"<tr><td id='canvasIscrizione'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");*/
+		  		"<tr><th> Seleziona l'anno " + selectString2 + "</th></tr>" +
+		  		"<tr><td id='tdOrdiniMese'><canvas id='canvasOrdiniMese' width='580' height='400'></canvas></td></tr>" +
+		  		"<tr><th> Selezione l'anno " + selectString3 +"</th></tr>" +
+		  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
 	  
 	  writeStatistics();
 }
 
 function writeStatistics() {
-	
+	 
 	$('#canvSupplier-1').hide();
-	//$('#canvSupplier-2').hide();
-	//$('#canvSupplier-3').hide();
+	$('#canvSupplier-2').hide();
+	$('#canvSupplier-3').hide();
 	
 	var year1 = $("#yearS1").val();
+	var year2 = $("#yearS2").val();
+	var year3 = $("#yearS3").val();
 	
 	$.postSync("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
-	//$.postSync("ajax/statSupplierMoneyProduct", null, postStatSupplierMoneyProductHandler);
+	$.postSync("ajax/statSupplierMoneyProduct", null, postStatSupplierMoneyProductHandler);
+	$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
+	$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
+	$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
 	
 	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
 	
 	$('#canvSupplier-1').show('slow');
+	$('#canvSupplier-2').show('slow');
+	$('#canvSupplier-3').show('slow');
+}
+
+function refreshStatIncasso() {
+	
+	var year1 = $("#yearS1").val();
+	
+	$("#canvasIncassoM").hide("slow");
+	$("#canvasIncassoM").html("<canvas id='canvasIncassoMensile' width='580' height='400'></canvas>");
+	
+	$.postSync("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
+	
+	$("#canvasIncassoM").show("slow");
+}
+
+function refreshStatOrdiniMese() {
+	
+	var year2 = $("#yearS2").val();
+	
+	$("#tdOrdiniMese").hide("slow");
+	$("#tdOrdiniMese").html("<canvas id='canvasOrdiniMese' width='580' height='400'></canvas>");
+	
+	$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
+	
+	$("#tdOrdiniMese").show("slow");
+}
+
+function refreshStatOrdiniAnno() {
+	
+	var year3 = $("#yearS3").val();
+	
+	$("#tdOrdiniAnno").hide("slow");
+	$("#tdOrdiniAnno").html("<canvas id='canvasOrdiniAnno' width='580' height='400'></canvas>");
+	
+	$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
+	
+	$("#tdOrdiniAnno").show("slow");
 }
 
 function postStatSupplierMoneyMonthHandler(data){
@@ -186,26 +237,188 @@ function postStatSupplierMoneyMonthHandler(data){
 
 function postStatSupplierMoneyProductHandler(data) {
 	
-	var json = '{ "y": { "vars": [ "Incasso" ], "smps": [';
+	var json = '{ \"y\": { \"vars\": [ \"Incasso" ], \"smps\": [ ';
 	var len = data.length/2;
 	var i = 0;
 	
-	for(i = 0; i < len; i++)
-		json += '"' + data[i] + '",';
+	for(i = 0; i < len; i++) {
+		if (i == len-1)
+			json += '"' + data[i] + '" ';
+		else
+			json += '"' + data[i] + '", ';
+	}
 		
-	json += '],"desc": [ "Incasso" ], "data": [ [';
+		
+	json += '], \"desc\": [ \"Incasso\" ], \"data\": [ [ ';
 	
-	for(i = 0; i < len-1; i++)
-		json += '"' + data[i+len] + '",';	
+	for(i = len; i < data.length; i++) {
+		if (i == data.length-1)
+			json += '\"' + data[i] + '\" ';
+		else
+			json += '\"' + data[i] + '\", ';
+	}
 	
-	json += '] ] } }, { "graphType": "Bar", "colorBy": "Response", "title": "Incasso Mensile",';
-    json += '"smpTitle": "Mesi", "colorScheme": "basic", "graphOrientation": "horizontal", "showLegend": false }';
+	json += '] ] } }';
+    var json2 = '{ \"graphType\": \"Bar\",' + 
+    			'\"colorBy\": \"Response\", ' +
+    			'\"title\": \"Incasso Totale per Prodotto\", ' +
+    			'\"smpTitle\": \"Prodotti\", ' +
+    			'\"colorScheme\": \"basic\", ' +
+    			'\"graphOrientation\": \"horizontal\", ' +
+    			'\"showLegend\": false }';
     
     var obj = jQuery.parseJSON(json);
+    var obj2 = jQuery.parseJSON(json2);
     
-    new CanvasXpress("canvasIncassoMensile", obj);
+    new CanvasXpress("canvasIncassoProdotto", obj, obj2);
+
+}
+
+function postStatSupplierProductListHandler(data){
+	
+	new CanvasXpress("canvasProdottiListino", {
+        "y": {
+          "vars": [
+            "In Listino",
+            "Non Disponibili",
+          ],
+          "smps": [
+            "Tipologia Utenti"
+          ],
+          "data": [
+            [
+              data[0]
+            ],
+            [
+              data[1]
+            ]
+          ]
+        }
+      }, {
+        "graphType": "Pie",
+        "title": "Prodotti in Listino/Non in Listino",
+        "pieSegmentPrecision": 1,
+        "pieSegmentSeparation": 2,
+        "pieSegmentLabels": "outside",
+        "pieType": "solid",
+      });
 	
 }
+
+
+function postStatSupplierOrderMonthHandler(data){
+	
+	new CanvasXpress("canvasOrdiniMese", {
+        "y": {
+          "vars": [
+            "Conclusi",
+            "Falliti"
+          ],
+          "smps": [
+			"Gennaio",
+			"Febbraio",
+			"Marzo",
+			"Aprile",
+			"Maggio",
+			"Giugno",
+			"Luglio",
+			"Agosto",
+			"Settembre",
+			"Ottobre",
+			"Novembre",
+			"Dicembre"
+          ],
+          "desc": [
+            "Numero Ordini"
+          ],
+          "data": [
+            [
+              data[0],
+              data[1],
+              data[2],
+              data[3],
+              data[4],
+              data[5],
+              data[6],
+              data[7],
+              data[8],
+              data[9],
+              data[10],
+              data[11]
+            ],
+            [
+              data[12],
+              data[13],
+              data[14],
+              data[15],
+              data[16],
+              data[17],
+              data[18],
+              data[19],
+              data[20],
+              data[21],
+              data[22],
+              data[23]
+            ]
+          ]
+        }
+      }, {
+        "graphType": "Stacked",
+        "graphOrientation": "vertical",
+        "title": "Distribuzione Ordini Conclusi/Falliti Per Mese",
+        "colorScheme": "basic",
+        "legendBackgroundColor": false,
+        "fontSize": 10,
+        "maxTextSize": 12,
+        "blockSeparationFactor": 2
+      });
+	
+}
+
+function postStatSupplierOrderYearHandler(data){
+	
+	new CanvasXpress("canvasOrdiniAnno", {
+        "y": {
+          "vars": [
+            "Conclusi",
+            "Falliti",
+          ],
+          "smps": [
+            "Tipologia Utenti"
+          ],
+          "data": [
+            [
+              data[0]
+            ],
+            [
+              data[1]
+            ]
+          ]
+        }
+      }, {
+        "graphType": "Pie",
+        "title": "Prodotti Conclusi/Falliti",
+        "subtitle": "Se non compare il grafico non ci sono ordini da visualizzare",
+        "pieSegmentPrecision": 1,
+        "pieSegmentSeparation": 2,
+        "pieSegmentLabels": "outside",
+        "pieType": "solid",
+      });
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 function updateCategory(productCategory)
 {
