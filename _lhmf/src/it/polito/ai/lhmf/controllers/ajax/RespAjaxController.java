@@ -311,9 +311,9 @@ public class RespAjaxController
 	@RequestMapping(value = "/ajax/setNewPurchaseNorm", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrderNorm") int idOrder,
-			@RequestParam(value = "idProducts") String idProducts
-			/*,@RequestParam(value = "productsAmount") int idSupplier*/) throws InvalidParametersException, ParseException
+			@RequestParam(value = "idOrder") int idOrder,
+			@RequestParam(value = "idProducts") String idProducts,
+			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException, ParseException
 	{
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
@@ -336,22 +336,25 @@ public class RespAjaxController
 		Date insertedTimestamp = dateFormat.parse(sDate);
 		
 		String[] idTmp = idProducts.split(",");
-			
-		for(String element : idTmp)
-		{
+		String[] amountTmp = amountProduct.split(",");
 		
-			Product product = poductInterface.getProduct(Integer.parseInt(element));
+		for( int i = 0; i < idTmp.length; i++) {
 			
-			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(element));
-			
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, 5, insertedTimestamp);
-			
-			/*if((result = purchaseInterface.newPurchaseProduct(purchaseproduct)) <= 0)
+			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
+			if((Integer.parseInt(amountTmp[i]) < product.getMaxBuy()) && (Integer.parseInt(amountTmp[i]) > product.getMinBuy()))
 			{
-				return result;
-			}*/	
+				PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
+				PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
+				//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+				purchaseInterface.newPurchaseProduct(purchaseproduct);
+			}
+			else
+			{
+				return -1;
+			}
 		}
-		return result;
+		
+		return 1;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")

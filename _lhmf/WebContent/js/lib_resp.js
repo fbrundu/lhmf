@@ -1094,7 +1094,7 @@ function writePurchasePage()
                             "</div><br />" +
                         "</div>");
     
-    $('#tabsPurchase-4').html("Da implementare?");
+    //$('#tabsPurchase-4').html("Da implementare?");
    
     preparePurchaseForm();
 }
@@ -1127,6 +1127,7 @@ function preparePurchaseForm(tab){
 
 var idOrderNorm = 0;	
 var addedIdsNorm = [];
+var addedPz = [];
 
 function clickProductNormalListRequest(event) 
 {
@@ -1166,6 +1167,8 @@ function postProductListRequestNormal(productList)
 	}
 	else 
 	{
+		
+		console.log("Lista prodotti ricevuta");
 		var category = 0;
 		var ncategory = 0;
 		var divToWork = 0;
@@ -1246,8 +1249,7 @@ function postProductListRequestNormal(productList)
 		
 		$( ".deleteButton" ).hide();
 		$( ".amount" ).hide();
-		$( "#purchaseCompositor" ).show("slow");
-		
+		$( "#purchaseCompositor" ).show("slow");	
 	}
 }
 
@@ -1269,13 +1271,33 @@ jQuery.removeFromArray = function(value, arr)
 
 function clickPurchaseHandler(event) 
 {
-    event.preventDefault();
+	event.preventDefault();
     
     $("#errorDivPurchase").hide();
     $("#errorsPurchase").html("");
 
     var fail = false;
     
+    addedPz = [];
+     
+    //Ciclare per prendere quantità prodotti
+    
+    $("#purchaseCart ul li").each(function(index, value) 
+    {
+    	
+        var amount = $(this).find('input').val();
+        //var min = $(this).find('product.minBuy').val();
+        //var max = $(this).find('product.maxBuy').val();
+        
+        if(amount === undefined || amount === "" || isNaN(amount) /*|| amount < min || amount > max*/) 
+        {
+                $("#legendErrorPurchase").html("Errore");
+                $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
+                fail = true;
+        }
+        addedPz.push(amount);
+    });
+       
     if(addedIdsNorm.length == 0)
     {
         $("#legendErrorPurchase").html("Errore");
@@ -1292,10 +1314,10 @@ function clickPurchaseHandler(event)
     else
     {
     	var idProducts = addedIdsNorm.join(",");
+    	var amountProducts = addedPz.join(",");
     	
-    	$.post("ajax/setNewPurchaseNorm", {idOrderNorm: idOrderNorm, idProducts: idProducts/*, productsAmount: productsAmount*/}, postSetNewPurchaseRequest);
-    }
-      
+    	$.post("ajax/setNewPurchaseNorm", {idOrder: idOrder, idProducts: idProducts, amountProducts: amountProducts}, postSetNewPurchaseRequest);
+    } 
 }
 
 function postSetNewPurchaseRequest(result) 
@@ -1310,12 +1332,20 @@ function postSetNewPurchaseRequest(result)
 	}
 	else
 	{
+		ClearPurchase();
 		$("#legendErrorPurchase").html("Comunicazione");
 	    $("#errorsPurchase").html("Scheda di acquisto creata correttamente.<br /><br />");
 	    $("#errorDivPurchase").show("slow");
 	    $("#errorDivPurchase").fadeIn(1000);
 	}
 	
+}
+
+function ClearPurchase()
+{
+	$('#purchaseCart ul').html("<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nella scheda<br /><br /></div>");
+	addedIdsNorm = [];
+	addedPz = [];
 }
 
 function clickPurchaseActiveHandler(event) 

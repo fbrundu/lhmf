@@ -293,8 +293,7 @@ function postProductListRequest(productList)
 		
 		$( ".deleteButton" ).hide();
 		$( ".amount" ).hide();
-		$( "#purchaseCompositor" ).show("slow");
-		
+		$( "#purchaseCompositor" ).show("slow");	
 	}
 }
 
@@ -331,10 +330,10 @@ function clickPurchaseHandler(event)
     {
     	
         var amount = $(this).find('input').val();
-        var min = $(this).find('input').val();
-        var max = $(this).find('input').val();
+        //var min = $(this).attr("product.minBuy").val();
+        //var max = $(this).attr("product.maxBuy").val();
         		
-        if(amount === undefined || amount === "" || isNaN(amount) || amount < min || amount > max) 
+        if(amount === undefined || amount === "" || isNaN(amount) /*|| amount < min || amount > max*/) 
         {
                 $("#legendErrorPurchase").html("Errore");
                 $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
@@ -362,8 +361,7 @@ function clickPurchaseHandler(event)
     	var amountProducts = addedPz.join(",");
     	
     	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts, amountProducts: amountProducts}, postSetNewPurchaseRequest);
-    }
-      
+    } 
 }
 
 function postSetNewPurchaseRequest(result) 

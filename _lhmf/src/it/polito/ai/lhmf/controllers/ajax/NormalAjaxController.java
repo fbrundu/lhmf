@@ -154,11 +154,17 @@ public class NormalAjaxController
 		for( int i = 0; i < idTmp.length; i++) {
 			
 			Product product = productInterface.getProduct(Integer.parseInt(idTmp[i]));
-			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
-			
-			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
-			purchaseInterface.newPurchaseProduct(purchaseproduct);
+			if((Integer.parseInt(amountTmp[i]) < product.getMaxBuy()) && (Integer.parseInt(amountTmp[i]) > product.getMinBuy()))
+			{
+				PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
+				PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
+				//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+				purchaseInterface.newPurchaseProduct(purchaseproduct);
+			}
+			else
+			{
+				return -1;
+			}
 		}
 		
 		return 1;
