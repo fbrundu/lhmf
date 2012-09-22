@@ -131,7 +131,7 @@ function writePurchasePage()
                             "</div><br />" +
                         "</div>");
     
-    $('#tabsPurchase-4').html("Da implementare?");
+    //$('#tabsPurchase-4').html("Da implementare?");
    
     preparePurchaseForm();
 }
@@ -172,7 +172,8 @@ var idOrder = 0;
 var addedIds = [];
 var addedPz = [];
 
-function clickProductListRequest(event) {
+function clickProductListRequest(event) 
+{
 	event.preventDefault();
 	
 	$("#purchaseCompositor").hide();
@@ -323,16 +324,17 @@ function clickPurchaseHandler(event)
     var fail = false;
     
     addedPz = [];
-    
-    
+     
     //Ciclare per prendere quantità prodotti
     
     $("#purchaseCart ul li").each(function(index, value) 
     {
     	
         var amount = $(this).find('input').val();
-        
-        if(amount === undefined || amount === "" || isNaN(amount)) 
+        var min = $(this).find('input').val();
+        var max = $(this).find('input').val();
+        		
+        if(amount === undefined || amount === "" || isNaN(amount) || amount < min || amount > max) 
         {
                 $("#legendErrorPurchase").html("Errore");
                 $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
@@ -340,9 +342,7 @@ function clickPurchaseHandler(event)
         }
         addedPz.push(amount);
     });
-    
-    
-    
+       
     if(addedIds.length == 0)
     {
         $("#legendErrorPurchase").html("Errore");
@@ -422,7 +422,8 @@ function clickPurchaseDetailsHandler(event)
 function loadOrders() 
 {
 	
-	$.post("ajax/getOrdersString", function(data) {
+	$.post("ajax/getOrdersString", function(data) 
+	{
 		
 		var output = [];
 		output.push('<option value="-1"> Seleziona...</option>');
@@ -430,7 +431,7 @@ function loadOrders()
 		$.each(data, function(index, val)
 		{
 			var temp = val.split(","); 
-			output.push('<option value="'+ temp[0] +'"> Date Apertura - Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
+			output.push('<option value="'+ temp[0] +'"> Nome - Data Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
 		});
 		$('#orderPurchase').html(output.join(''));
 	

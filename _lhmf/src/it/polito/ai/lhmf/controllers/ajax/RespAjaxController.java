@@ -274,11 +274,12 @@ public class RespAjaxController
 		
 		for (Order or : listOrders) 
 		{			
-			String temp = or.getIdOrder() + "," + or.getDateOpen() + " " + or.getDateClose() + "," + or.getDateDelivery();					
+			String temp = or.getIdOrder() + ", " + or.getOrderName() + " - " + or.getDateClose() + "," + or.getDateDelivery();					
 			orderString.add(temp);		
 		}		
 		return orderString;
 	}
+	
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductFromOrderNormal", method = RequestMethod.POST)
