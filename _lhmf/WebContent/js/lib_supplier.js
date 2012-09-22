@@ -240,32 +240,57 @@ function postStatSupplierMoneyProductHandler(data) {
 	var json = '{ \"y\": { \"vars\": [ \"Incasso" ], \"smps\": [ ';
 	var len = data.length/2;
 	var i = 0;
+	var json2 = "";
 	
-	for(i = 0; i < len; i++) {
-		if (i == len-1)
-			json += '"' + data[i] + '" ';
-		else
-			json += '"' + data[i] + '", ';
-	}
+	if(data[0] != "errNoProduct") {
 		
+		for(i = 0; i < len; i++) {
+			if (i == len-1)
+				json += '"' + data[i] + '" ';
+			else
+				json += '"' + data[i] + '", ';
+		}
+			
+			
+		json += '], \"desc\": [ \"Incasso\" ], \"data\": [ [ ';
 		
-	json += '], \"desc\": [ \"Incasso\" ], \"data\": [ [ ';
-	
-	for(i = len; i < data.length; i++) {
-		if (i == data.length-1)
-			json += '\"' + data[i] + '\" ';
-		else
-			json += '\"' + data[i] + '\", ';
+		for(i = len; i < data.length; i++) {
+			if (i == data.length-1)
+				json += '\"' + data[i] + '\" ';
+			else
+				json += '\"' + data[i] + '\", ';
+		}
+		
+		json += '] ] } }';
+	    
+		json2 = '{ \"graphType\": \"Bar\",' + 
+	    			'\"colorBy\": \"Response\", ' +
+	    			'\"title\": \"Incasso Totale per Prodotto\", ' +
+	    			'\"smpTitle\": \"Prodotti\", ' +
+	    			'\"colorScheme\": \"basic\", ' +
+	    			'\"graphOrientation\": \"horizontal\", ' +
+	    			'\"showLegend\": false }';
+	} else {
+		
+		json += '""';		
+			
+		json += '], \"desc\": [ \"Incasso\" ], \"data\": [ [ ';
+		
+		json += '\"0\" ';
+
+		json += '] ] } }';
+	    
+		json2 = '{ \"graphType\": \"Bar\",' + 
+	    			'\"colorBy\": \"Response\", ' +
+	    			'\"title\": \"Incasso Totale per Prodotto\", ' +
+	    			'\"subtitle\": \"Non ci sono prodotti da visualizzare\", ' +
+	    			'\"smpTitle\": \"Prodotti\", ' +
+	    			'\"colorScheme\": \"basic\", ' +
+	    			'\"graphOrientation\": \"horizontal\", ' +
+	    			'\"showLegend\": false }';
+		
 	}
 	
-	json += '] ] } }';
-    var json2 = '{ \"graphType\": \"Bar\",' + 
-    			'\"colorBy\": \"Response\", ' +
-    			'\"title\": \"Incasso Totale per Prodotto\", ' +
-    			'\"smpTitle\": \"Prodotti\", ' +
-    			'\"colorScheme\": \"basic\", ' +
-    			'\"graphOrientation\": \"horizontal\", ' +
-    			'\"showLegend\": false }';
     
     var obj = jQuery.parseJSON(json);
     var obj2 = jQuery.parseJSON(json2);
