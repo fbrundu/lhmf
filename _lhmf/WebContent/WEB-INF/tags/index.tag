@@ -36,8 +36,22 @@
 <title>Applicazioni Internet - GAS</title>
 </head>
 <body>
-	 <jsp:invoke fragment="dialogs" />
-      <div class="contenitore-pagina">
+	<jsp:invoke fragment="dialogs" />
+	<div class="gasDialog" id="dialog-error-insert" title="Errore">
+		<p>
+			<span class="ui-icon ui-icon-alert"
+				style="float: left; margin: 0 7px 20px 0;"></span> Errore
+			nell'inserimento
+		</p>
+	</div>
+	<div class="gasDialog" id="dialog-ok" title="Ok">
+		<p>
+			<span class="ui-icon ui-icon-check"
+				style="float: left; margin: 0 7px 20px 0;"></span> Operazione andata
+			a buon fine
+		</p>
+	</div>
+	<div class="contenitore-pagina">
 		<header class="header">
 			<div class="header-middle"></div>
 		</header>

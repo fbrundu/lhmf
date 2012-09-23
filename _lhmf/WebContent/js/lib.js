@@ -67,6 +67,7 @@ $(function()
         });
   };
 })(jQuery);
+
 $.postJSON = function(url, data, callback)
 {
   return jQuery.ajax({
@@ -674,7 +675,7 @@ function getMyMessages()
       + "<label for='messageText' class='left'>Testo: </label>"
       + "<textarea name='messageText' id='messageText' class='field' "
       + "required='required' /><br>" 
-      + "<button type='submit' id='newMessageSubmit'> Crea prodotto </button>"
+      + "<button type='submit' id='newMessageSubmit'> Invia messaggio </button>"
       + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
   $("button").button();
@@ -693,7 +694,7 @@ function getUsers()
   return usersList;
 }
 
-function clickNewMessageHandler()
+function clickNewMessageHandler(event)
 {
   event.preventDefault();
 
@@ -718,49 +719,42 @@ function clickNewMessageHandler()
   }
   else
   {
-    // TODO Creazione nuovo messaggio
-//    var idProduct = newProduct({
-//      picture : picture,
-//      productName : productName,
-//      productDescription : productDescription,
-//      productDimension : productDimension,
-//      measureUnit : measureUnit,
-//      unitBlock : unitBlock,
-//      transportCost : transportCost,
-//      unitCost : unitCost,
-//      minBuy : minBuy,
-//      maxBuy : maxBuy,
-//      productCategory : productCategory,
-//    });
-//    if (idProduct > 0)
-//    {
-//      $("#productFieldset").children("input").val("");
-//      $("#dialog-ok").dialog({
-//        resizable : false,
-//        height : 140,
-//        modal : true,
-//        buttons : {
-//          "Ok" : function()
-//          {
-//            $(this).dialog('close');
-//          }
-//        }
-//      });
-//    }
-//    else
-//    {
-//      $("#dialog-error-insert").dialog({
-//        resizable : false,
-//        height : 140,
-//        modal : true,
-//        buttons : {
-//          "Ok" : function()
-//          {
-//            $(this).dialog('close');
-//          }
-//        }
-//      });
-//    }
+    // TODO idOrder e idProduct devono essere scelti tramite il form
+    var idMessage = newMessage({
+      dest : username,
+      messageText : messageText,
+      idOrder: -1,
+      idProduct: -1,
+    });
+    if (idMessage > 0)
+    {
+      $("#productFieldset").children("input").val("");
+      $("#dialog-ok").dialog({
+        resizable : false,
+        height : 140,
+        modal : true,
+        buttons : {
+          "Ok" : function()
+          {
+            $(this).dialog('close');
+          }
+        }
+      });
+    }
+    else
+    {
+      $("#dialog-error-insert").dialog({
+        resizable : false,
+        height : 140,
+        modal : true,
+        buttons : {
+          "Ok" : function()
+          {
+            $(this).dialog('close');
+          }
+        }
+      });
+    }
   }
 }
 
@@ -805,4 +799,21 @@ function notifiesClicked(event)
       action : 'notifiche'
     }, null, 'notifiche');
   }
+}
+
+function newMessage(messageParameters)
+{
+  if (messageParameters == undefined)
+  {
+    console.debug("Invalid parameters in " + displayFunctionName());
+    return;
+  }
+  var returnedIdMessage = -1;
+    $.postSync("ajax/newmessage", messageParameters, function(idMessage)
+    {
+      returnedIdMessage = idMessage;
+      if (idMessage > 0)
+        console.debug("Inserted message: " + idMessage);
+    });
+  return returnedIdMessage;
 }
