@@ -144,9 +144,9 @@ public class AndroidProductsController {
 			p.setSupplier(s);
 			p.setProductCategory(pc);
 			
-			String contentType = picture.getContentType();
-			if(!contentType.matches("image/.*"))
-				return -1;
+//			String contentType = picture.getContentType();
+//			if(!contentType.matches("image/.*"))
+//				return -1;
 			
 			ServletContext context = request.getServletContext();
 			String serverPath = "img/prd/";
