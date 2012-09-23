@@ -10,6 +10,7 @@ import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.social.connect.Connection;
 
@@ -17,6 +18,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -77,13 +79,8 @@ public class NewProductActivity extends Activity {
 			api = conn.getApi();
 			
 			categories = new ArrayList<ProductCategory>();
-			ProductCategory[] existingCategories = api.productOperations().getProductCategories();
-			for(int i = 0; i < existingCategories.length; i++)
-				categories.add(existingCategories[i]);
-			ProductCategory createNewProductCategory = new ProductCategory();
-			createNewProductCategory.setIdProductCategory(CREATE_NEW_PRODUCT_CATEGORY);
-			createNewProductCategory.setDescription(getResources().getString(R.string.create_new_prod_cat));
-			categories.add(createNewProductCategory);
+			
+			new GetCategoriesAsyncTask().execute(api);
 			
 			setContentView(R.layout.new_product);
 			
@@ -100,37 +97,6 @@ public class NewProductActivity extends Activity {
 			
 			newCategoryLabel = (TextView) findViewById(R.id.newProductCatDescriptionLabel);
 			newCategoryDescription = (EditText) findViewById(R.id.newProduct_CategoryDesciptionInput);
-			
-			catChoose = (Spinner) findViewById(R.id.newProduct_categoriesSpinner);
-			adapter = new ArrayAdapter<ProductCategory>(this, android.R.layout.simple_spinner_item, categories);
-			// Specify the layout to use when the list of choices appears
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			catChoose.setAdapter(adapter);
-			catChoose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-				@Override
-				public void onItemSelected(AdapterView<?> parent, View view,
-						int position, long id) {
-					ProductCategory selected = (ProductCategory) parent.getItemAtPosition(position);
-					if(selected.getIdProductCategory() == CREATE_NEW_PRODUCT_CATEGORY){
-						newCat = true;
-						newCategoryLabel.setVisibility(View.VISIBLE);
-						newCategoryDescription.setVisibility(View.VISIBLE);
-						newCategoryDescription.requestFocus();
-					}
-					else{
-						newCat = false;
-						newCategoryLabel.setVisibility(View.GONE);
-						newCategoryDescription.setVisibility(View.GONE);
-					}
-					
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-					return;
-				}
-			});
 			
 			iv = (ImageView) findViewById(R.id.newProductImage);
 			if(savedInstanceState != null){
@@ -203,35 +169,13 @@ public class NewProductActivity extends Activity {
 				public void onClick(View v) {
 					boolean check = checkParameters();
 					if(check == true){
-						ProductCategory cat = null;
-						boolean errors = false;
-						if(newCat){
-							Integer newCategoryId = api.productOperations().newProductCategory(newCategoryDescription.getText().toString());
-							if(newCategoryId != -1){
-								ProductCategory newCat = new ProductCategory();
-								newCat.setIdProductCategory(newCategoryId);
-								newCat.setDescription(newCategoryDescription.getText().toString());
-								adapter.insert(newCat, adapter.getCount() - 1);
-								
-								cat = newCat;
-							}
-							else
-								errors = true;
-						}
-						else{
-							cat = (ProductCategory) catChoose.getSelectedItem();
-						}
-						
-						if(!errors){
-							Integer newProductId = api.productOperations().newProduct(name.getText().toString(), desc.getText().toString(),
+						if(newCat)							
+							new NewCategoryAndProductTask().execute(api, newCategoryDescription.getText().toString());
+						else
+							new NewProductTask().execute(api, name.getText().toString(), desc.getText().toString(),
 									dim.getText().toString(), measure.getText().toString(), block.getText().toString(),
 									transportCost.getText().toString(), unitCost.getText().toString(),
-									minUnits.getText().toString(), maxUnits.getText().toString(), cat, fileUri);
-							if(newProductId != -1)
-								Toast.makeText(NewProductActivity.this, "Prodotto creato correttamente: " + newProductId, Toast.LENGTH_LONG).show();
-							else
-								Toast.makeText(NewProductActivity.this, "Errori nella creazione prodotto!", Toast.LENGTH_LONG).show();
-						}
+									minUnits.getText().toString(), maxUnits.getText().toString(), (ProductCategory) catChoose.getSelectedItem(), fileUri);
 					}
 					else
 						Toast.makeText(NewProductActivity.this, "Sono presenti errori nei campi!", Toast.LENGTH_LONG).show();
@@ -359,5 +303,127 @@ public class NewProductActivity extends Activity {
 				fileUri = null;
 			}
 		}
+	}
+	
+	private class GetCategoriesAsyncTask extends AsyncTask<Gas, Void, List<ProductCategory>>{
+
+		@Override
+		protected List<ProductCategory> doInBackground(Gas... params) {
+			ArrayList<ProductCategory> ret = new ArrayList<ProductCategory>();
+			
+			
+			ProductCategory[] existingCategories = api.productOperations().getProductCategories();
+			for(int i = 0; i < existingCategories.length; i++)
+				ret.add(existingCategories[i]);
+			
+			return ret;
+		}
+		
+		@Override
+		protected void onPostExecute(List<ProductCategory> result) {
+			categories.clear();
+			categories.addAll(result);
+			
+			ProductCategory createNewProductCategory = new ProductCategory();
+			createNewProductCategory.setIdProductCategory(CREATE_NEW_PRODUCT_CATEGORY);
+			createNewProductCategory.setDescription(getResources().getString(R.string.create_new_prod_cat));
+			categories.add(createNewProductCategory);
+			
+			catChoose = (Spinner) findViewById(R.id.newProduct_categoriesSpinner);
+			adapter = new ArrayAdapter<ProductCategory>(NewProductActivity.this, android.R.layout.simple_spinner_item, categories);
+			// Specify the layout to use when the list of choices appears
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			catChoose.setAdapter(adapter);
+			catChoose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view,
+						int position, long id) {
+					ProductCategory selected = (ProductCategory) parent.getItemAtPosition(position);
+					if(selected.getIdProductCategory() == CREATE_NEW_PRODUCT_CATEGORY){
+						newCat = true;
+						newCategoryLabel.setVisibility(View.VISIBLE);
+						newCategoryDescription.setVisibility(View.VISIBLE);
+						newCategoryDescription.requestFocus();
+					}
+					else{
+						newCat = false;
+						newCategoryLabel.setVisibility(View.GONE);
+						newCategoryDescription.setVisibility(View.GONE);
+					}
+					
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					return;
+				}
+			});
+		}
+	}
+	
+	private class NewCategoryAndProductTask extends AsyncTask<Object, Void, Integer>{
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			String catName = (String) params[1];
+			
+			return gas.productOperations().newProductCategory(catName);
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			Integer newCategoryId = result;
+			ProductCategory cat = null;
+			
+			if(newCategoryId != -1){
+				ProductCategory newCategory = new ProductCategory();
+				newCategory.setIdProductCategory(newCategoryId);
+				newCategory.setDescription(newCategoryDescription.getText().toString());
+				adapter.insert(newCategory, adapter.getCount() - 1);
+				
+				cat = newCategory;
+				
+				new NewProductTask().execute(api, name.getText().toString(), desc.getText().toString(),
+									dim.getText().toString(), measure.getText().toString(), block.getText().toString(),
+									transportCost.getText().toString(), unitCost.getText().toString(),
+									minUnits.getText().toString(), maxUnits.getText().toString(), cat, fileUri);
+			}
+			else
+				Toast.makeText(NewProductActivity.this, "Errori nella creazione categoria prodotto!", Toast.LENGTH_LONG).show();
+		}
+		
+	}
+	
+	private class NewProductTask extends AsyncTask<Object, Void, Integer>{
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			String name = (String) params[1];
+			String desc = (String) params[2];
+			String dim = (String) params[3];
+			String measure = (String) params[4];
+			String block = (String) params[5];
+			String transportCost = (String) params[6];
+			String unitCost = (String) params[7];
+			String minUnits = (String) params[8];
+			String maxUnits = (String) params[9];
+			ProductCategory cat = (ProductCategory) params[10];
+			Uri fileUri = (Uri) params[11];
+			
+			return gas.productOperations().newProduct(name, desc, dim, measure,
+					block, transportCost, unitCost,	minUnits, maxUnits, cat, fileUri);
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result != -1)
+				Toast.makeText(NewProductActivity.this, "Prodotto creato correttamente: " + result, Toast.LENGTH_LONG).show();
+			else
+				Toast.makeText(NewProductActivity.this, "Errori nella creazione prodotto!", Toast.LENGTH_LONG).show();
+		}
+		
 	}
 }

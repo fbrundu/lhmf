@@ -8,6 +8,7 @@ import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,19 +37,7 @@ public class MainActivity extends Activity {
 		}
 		else{
 			gasApi = conn.getApi();
-			memberType = gasApi.userOperations().getMemberType();
-			Toast.makeText(this, "Member type: " + memberType, Toast.LENGTH_LONG).show();
-			switch(memberType){
-				case MemberTypes.USER_NORMAL:
-					break;
-				case MemberTypes.USER_RESP:
-					break;
-				case MemberTypes.USER_ADMIN:
-					break;
-				case MemberTypes.USER_SUPPLIER:
-					prepareSupplierActivity();
-					break;
-			}
+			new MemberTypeAsyncTask().execute(gasApi);
 		}
 	}
 	
@@ -87,15 +76,52 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 			case R.id.logout:
-				if(gasApi != null){
-					gasApi.logout();
-					holder.destroy();
-					holder = null;
-					gasApi = null;
-				}
+				if(gasApi != null)
+					new LogoutAsyncTask().execute(gasApi);
+				
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private class MemberTypeAsyncTask extends AsyncTask<Gas, Void, Integer>{
+
+		@Override
+		protected Integer doInBackground(Gas... params) {
+			return params[0].userOperations().getMemberType();
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			memberType = result;
+			Toast.makeText(MainActivity.this, "Member type: " + memberType, Toast.LENGTH_LONG).show();
+			switch(memberType){
+				case MemberTypes.USER_NORMAL:
+					break;
+				case MemberTypes.USER_RESP:
+					break;
+				case MemberTypes.USER_ADMIN:
+					break;
+				case MemberTypes.USER_SUPPLIER:
+					prepareSupplierActivity();
+					break;
+			}
+		}
+	}
+	
+	private class LogoutAsyncTask extends AsyncTask<Gas, Void, Void>{
+
+		@Override
+		protected Void doInBackground(Gas... params) {
+			params[0].logout();
+			return null;
+		}
+		 @Override
+		protected void onPostExecute(Void result) {
+			holder.destroy();
+			holder = null;
+			gasApi = null;
 		}
 	}
 }
