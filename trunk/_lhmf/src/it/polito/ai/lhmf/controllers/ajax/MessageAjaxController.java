@@ -3,11 +3,16 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.MessageInterface;
+import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Message;
+import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.Product;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +32,12 @@ public class MessageAjaxController
 {
 	@Autowired
 	private MemberInterface memberInterface;
-
 	@Autowired
 	private MessageInterface messageInterface;
+	@Autowired
+	private OrderInterface orderInterface;
+	@Autowired
+	private ProductInterface productInterface;
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/getusernames", method = RequestMethod.GET)
@@ -45,13 +53,31 @@ public class MessageAjaxController
 	Integer newMessage(
 			HttpServletRequest request,
 			@RequestParam(value = "dest", required = true) String dest,
-			@RequestParam(value = "messageText", required = true) String messageText)
+			@RequestParam(value = "messageText", required = true) String messageText,
+			@RequestParam(value = "idOrder", required = true) Integer idOrder,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct
+			)
 	{
 		Integer idMessage = -1;
 		try
 		{
 			Message m = new Message();
-			//TODO
+			m.setIsReaded(false);
+			Member sender = memberInterface.getMember((String) request
+					.getSession().getAttribute("username"));
+			Member receiver = memberInterface.getMember(dest);
+			m.setMemberByIdReceiver(receiver);
+			m.setMemberByIdSender(sender);
+			m.setMessageTimestamp(new Date());
+			Order o = null;
+			if(idOrder > 0)
+				o = orderInterface.getOrder(idOrder);
+			m.setOrder(o);
+			Product p = null;
+			if(idProduct > 0)
+				p = productInterface.getProduct(idProduct);
+			m.setProduct(p);
+			m.setText(messageText);
 			idMessage = messageInterface.newMessage(m);
 		}
 		catch (InvalidParametersException e)
