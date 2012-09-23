@@ -44,7 +44,7 @@ Applicazioni Internet - Gas
 -controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
 	     vecchio >=0
 
-- visualizzazione immagine e fornitore in gestione prodotti admin e immagine in gestione prodotti fornitore [FRA]
+- [OK, da testare] visualizzazione immagine e fornitore in gestione prodotti admin e immagine in gestione prodotti fornitore [FRA]
 - [OK, da testare] visualizzazione automatica log e utenti [FRA] 
 - [OK, da testare] visualizzazione tutti gli utenti [HASS]
 - [OK, da testare] caricamento pagina singola su pagina fornitore + history (per la quale non 

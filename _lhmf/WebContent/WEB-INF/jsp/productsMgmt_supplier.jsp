@@ -31,9 +31,19 @@
 	</jsp:attribute>
 
 	<jsp:attribute name="userMenu">
-    	<p>Menù fornitore</p>
-    	<p>Gestione prodotti</p>
-	</jsp:attribute>
+      <div class="round-border-topright"></div>
+    <h1 class="first">Menu Fornitore</h1>
+    <dl class="menu-navigazione">
+      <dt>
+				<a id="productsLink"
+					href="<spring:url htmlEscape="true" value="/productsMgmt"/>">Gestione Prodotti</a>
+			</dt>
+      <dt>
+				<a id="statLink"
+					href="<spring:url htmlEscape="true" value="/statSupplier"/>">Statistiche</a>
+			</dt>
+    </dl> 
+    </jsp:attribute>
 
 	<jsp:attribute name="dialogs">
 		<div class="gasDialog" id="dialog-confirm"

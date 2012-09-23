@@ -1019,9 +1019,10 @@ function newProductSearch(tab)
   var page = $("#pageSearch").val();
   var itemsPerPage = $("#itemsPerPageSearch").val();
   var myProducts = getMyProductsNoLocal();
-  var productsString = "<tr><th class='top' width='10%'> Nome </th>"
+  var productsString = "<tr><th class='top' width='15%'></th>"
+    + "<th class='top' width='15%'> Nome </th>"
     + "<th class='top' width='25%'> Descrizione </th>"
-    + "<th class='top' width='20%'> Disponibilit&agrave; </th>"
+    + "<th class='top' width='25%'> Disponibilit&agrave; </th>"
     + "<th class='top' width='20%'> Modifica disponibilit&agrave; </th></tr>";
   if (myProducts.length > 0)
   {
@@ -1032,7 +1033,8 @@ function newProductSearch(tab)
           && productCategory != myProducts[prodIndex].category.idProductCategory)
         continue;
       productsString += "<tr id='listRow" + myProducts[prodIndex].idProduct
-          + "'>" + "<td>" + myProducts[prodIndex].name + "</td>" + "<td>"
+          + "'><td><img src='" + myProducts[prodIndex].imgPath
+          + "' height='60' class='thumb'></td><td>" + myProducts[prodIndex].name + "</td>" + "<td>"
           + myProducts[prodIndex].description + "</td>";
       if (myProducts[prodIndex].availability == 0)
       {
