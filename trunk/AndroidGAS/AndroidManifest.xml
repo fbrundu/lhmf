@@ -36,6 +36,7 @@
         <activity android:name=".admin.UsersActivity"></activity>
         <activity android:name=".admin.ProductsActivity"></activity>
         <activity android:name=".NewProductActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ProductDetails"></activity>
     </application>
 
 </manifest>

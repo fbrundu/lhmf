@@ -2,6 +2,7 @@ package it.polito.ai.lhmf.android.api.impl;
 
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.ProductOperations;
+import it.polito.ai.lhmf.model.Product;
 import it.polito.ai.lhmf.model.ProductCategory;
 
 import java.io.File;
@@ -86,5 +87,24 @@ public class ProductsTemplate implements ProductOperations {
 		else
 			newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproduct"), value, Integer.class);
 		return newProductId;
+	}
+
+	@Override
+	public Product getProduct(Integer idProduct) {
+		if(idProduct != null){
+			Product ret = template.getForObject(Gas.baseApiUrl + "getproduct?idProduct={id}", Product.class, idProduct);
+			
+			return ret;
+		}
+		return null;
+	}
+
+	@Override
+	public byte[] getProductImage(String url) {
+		if(url != null){
+			byte[] ret = template.getForObject(Gas.baseUrl + url, byte[].class);
+			return ret;
+		}
+		return null;
 	}
 }
