@@ -20,12 +20,12 @@ Applicazioni Internet - Gas
 -[[RISOLTO] eliminare modifica prodotti: � fonte di grandi guai e nelle specifiche 
  non � richiesto. Tenere solo possibilit� di renderlo disponibile/non disponibile (ossia in listino/non in listino).
 
--campo timestamp in purchase_product: settato quando viene inserito un prodotto 
+-[[RISOLTO]] campo timestamp in purchase_product: settato quando viene inserito un prodotto 
  in una scheda d'acquisto, e poi mai modificato. 
  Serve a chiusura ordine per eliminare eventuali richieste di acquisto 
  che eccedono le quantot� possibili del prodotto [LUCA]
 
--remapping hibernate per timestamp purchase_product [LUCA]
+-[[RISOLTO]] remapping hibernate per timestamp purchase_product [LUCA]
 
 - Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
  
