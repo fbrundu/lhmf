@@ -5,6 +5,7 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.orm.Supplier;
@@ -43,6 +44,28 @@ public class AndroidProductsController {
 		List<ProductCategory> productCategoriesList = null;
 		productCategoriesList = productCategoryInterface.getProductCategories();
 		return productCategoriesList;
+	}
+	
+	@RequestMapping(value = "/androidApi/getproduct", method = RequestMethod.GET)
+	public @ResponseBody
+	Product getProduct(HttpServletRequest request, @RequestParam(value = "idProduct", required = true) Integer idProduct){
+		if (idProduct != null && idProduct > 0)
+		{
+			Product p = productInterface.getProduct(idProduct);
+//			if (p != null)
+//			{
+//				if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
+//				{
+//					Supplier s = supplierInterface.getSupplier((String) request
+//							.getSession().getAttribute("username"));
+//					if (s == null
+//							|| p.getSupplier().getIdMember() != s.getIdMember())
+//						return null;
+//				}
+//			}
+			return p;
+		}
+		return null;
 	}
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER

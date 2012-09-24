@@ -37,7 +37,11 @@ public class MainActivity extends Activity {
 		}
 		else{
 			gasApi = conn.getApi();
-			new MemberTypeAsyncTask().execute(gasApi);
+			Intent dummyIntent = new Intent(getApplicationContext(), ProductDetails.class);
+			dummyIntent.putExtra("idProduct", 13);
+			startActivity(dummyIntent);
+			
+			//new MemberTypeAsyncTask().execute(gasApi);
 		}
 	}
 	

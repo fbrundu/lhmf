@@ -1,7 +1,8 @@
 package it.polito.ai.lhmf.android.api;
 
-import android.net.Uri;
+import it.polito.ai.lhmf.model.Product;
 import it.polito.ai.lhmf.model.ProductCategory;
+import android.net.Uri;
 
 public interface ProductOperations {
 	ProductCategory[] getProductCategories();
@@ -13,4 +14,10 @@ public interface ProductOperations {
 	
 	Integer newProduct(String productName, String productDescription, String productDimension, String measureUnit,
 			String unitBlock, String transportCost, String unitCost, String minBuy, String maxBuy, ProductCategory category, Uri fileUri);
+	
+	Product getProduct(Integer idProduct);
+	
+	byte[] getProductImage(String url);
+	
+	//Product[] getProducts();
 }
