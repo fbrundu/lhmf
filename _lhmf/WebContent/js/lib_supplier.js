@@ -12,8 +12,8 @@
 		$("#statLink").click(statClicked);
 		$("#notifiesLink").click(notifiesClicked);
 		$("#messagesLink").click(messagesClicked);
-		registerForMessages();
-		registerForNotifies();
+    registerForMessages();
+    registerForNotifies();
   
 		$.datepicker.setDefaults({
 			dateFormat : 'dd/mm/yy'
@@ -429,7 +429,6 @@ function postStatSupplierOrderYearHandler(data){
         "pieSegmentLabels": "outside",
         "pieType": "solid",
       });
-
 }
 
 function updateCategory(productCategory)
@@ -1029,7 +1028,8 @@ function newProductSearch(tab)
         && prodIndex < (page * itemsPerPage); prodIndex++)
     {
       if (productCategory != "notSelected"
-          && productCategory != myProducts[prodIndex].category.idProductCategory)
+          && productCategory != myProducts[prodIndex].category.idProductCategory
+          || myProducts[prodIndex] == undefined)
         continue;
       productsString += "<tr id='listRow" + myProducts[prodIndex].idProduct
           + "'><td><img src='" + myProducts[prodIndex].imgPath

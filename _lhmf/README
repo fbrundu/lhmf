@@ -2,62 +2,57 @@ Applicazioni Internet - Gas
 
 # TODO
 
--in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date
+## DA IMPLEMENTARE ##
 
--in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server
-
-!!! Ultime modifiche che ci sono venute in mente!!!:
-- [[RISOLTO]] attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin pu� cos� decidere
- di abilitare anche utenti per i quali la mail non � stata verificata ma di cui lui si fida o sa per certo che l'indirizzo � giusto. Di conseguenza:
-
- - [[FATTO MA DA TESTARE]] modificare il controller authMail per verificare che lo stato non sia gi� abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
-
-- [[RISOLTO]] correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
-		|_> Ora � possibile inserire i seguenti formati (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn; +CC NNNNNNNNNN, +CC-NNNNNNNNNN, +CCNNNNNNNNNN (va bene anche CCCC)
-	
-- [[RISOLTO]] nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
-
--[[RISOLTO] eliminare modifica prodotti: � fonte di grandi guai e nelle specifiche 
- non � richiesto. Tenere solo possibilit� di renderlo disponibile/non disponibile (ossia in listino/non in listino).
-
--[[RISOLTO]] campo timestamp in purchase_product: settato quando viene inserito un prodotto 
- in una scheda d'acquisto, e poi mai modificato. 
- Serve a chiusura ordine per eliminare eventuali richieste di acquisto 
- che eccedono le quantot� possibili del prodotto [LUCA]
-
--[[RISOLTO]] remapping hibernate per timestamp purchase_product [LUCA]
-
-- Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
- 
--thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine 
-
--rimpiazzare uso campi hidden con attributi data-*  (maggiori dettagli da Matteo) [OPZIONALE]
-
--Android:
-	-fornitore: gestione listino (mettere e togliere da listino)
-	-responsabile: gestione ordini in consegna, settaggio datad i consegna
-	-normale: nuova scheda, modifica scheda, visualizzazione stato scheda
-	-admin: attivazione utenti
-	
--statistiche!!!!!!!!! [MATTE]
-
--controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
-	     vecchio >=0
-
-- [OK, da testare] visualizzazione immagine e fornitore in gestione prodotti admin e immagine in gestione prodotti fornitore [FRA]
-- [OK, da testare] visualizzazione automatica log e utenti [FRA] 
-- [OK, da testare] visualizzazione tutti gli utenti [HASS]
-- [OK, da testare] caricamento pagina singola su pagina fornitore + history (per la quale non 
-  carica neppure notifiche e messaggi [MATTE]
-- [OK] intestazione in tabella prodotti (fornitore / admin) [FRA]
-- [OK, da testare] aggiungere funzionalità utente per il responsabile [HASS]
-- [OK, da testare] notifiche e messaggi su pagina singola responsabile e normale [FRA]
-- [OK, da testare] creazione viste per messaggi e notifiche con menu per ogni utente + modifica sul controllore [LUCA]
-- [OK, da testare] non cancellazione dati in errore di inserimento prodotto [FRA]
-- invio messaggi utente
+- reload automatico messaggi/notifiche in caso di arrivo di nuovi [FRA]
+- invio messaggi utente [FRA]
 - invio notifiche e messaggi sistema
 - logging
+- Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
+- thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine 
+- rimpiazzare uso campi hidden con attributi data-*  (maggiori dettagli da Matteo) [OPZIONALE]
+- Android:
+  -fornitore: gestione listino (mettere e togliere da listino)
+  -responsabile: gestione ordini in consegna, settaggio datad i consegna
+  -normale: nuova scheda, modifica scheda, visualizzazione stato scheda
+  -admin: attivazione utenti
+- statistiche!!!!!!!!! [MATTE]
+- in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date
+- in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server
+- 
 
+## DA TESTARE ##
+
+- attivazione utenti: visualizzare anche utenti con stato 0 (mail non verificata), magari evidenziando in qualche modo la cosa (un testo in rosso che dice: "Mail non verificata"). L'admin pu� cos� decidere
+ di abilitare anche utenti per i quali la mail non � stata verificata ma di cui lui si fida o sa per certo che l'indirizzo � giusto. Di conseguenza:
+- modificare il controller authMail per verificare che lo stato non sia gi� abilitato prima di inserire informazioni nel log e mettere lo stato a abilitato.
+- correggere controlo telefono in registrazione utenti. con il mio numero (3475273564) non funziona. e anche mettendo il prefisso +39 non funziona
+		|_> Ora � possibile inserire i seguenti formati (nnn)nnn-nnnn; nnnnnnnnnn; nnn-nnn-nnnn; +CC NNNNNNNNNN, +CC-NNNNNNNNNN, +CCNNNNNNNNNN (va bene anche CCCC)
+- nella registrazione utente da parte dell'admin, il telefono risulta obbligatorio. correggere
+- eliminare modifica prodotti: � fonte di grandi guai e nelle specifiche 
+ non � richiesto. Tenere solo possibilit� di renderlo disponibile/non disponibile (ossia in listino/non in listino).
+- visualizzazione immagine e fornitore in gestione prodotti admin e immagine in gestione prodotti fornitore [FRA]
+- visualizzazione automatica log e utenti [FRA] 
+- visualizzazione tutti gli utenti [HASS]
+- caricamento pagina singola su pagina fornitore + history (per la quale non 
+  carica neppure notifiche e messaggi [MATTE]
+- aggiungere funzionalità utente per il responsabile [HASS]
+- notifiche e messaggi su pagina singola responsabile e normale [FRA]
+- creazione viste per messaggi e notifiche con menu per ogni utente + modifica sul controllore [LUCA]
+- non cancellazione dati in errore di inserimento prodotto [FRA]
+- controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
+       vecchio >=0
+
+## OK ##
+
+- intestazione in tabella prodotti (fornitore / admin) [FRA]
+- campo timestamp in purchase_product: settato quando viene inserito un prodotto 
+  in una scheda d'acquisto, e poi mai modificato. 
+  Serve a chiusura ordine per eliminare eventuali richieste di acquisto 
+  che eccedono le quantot� possibili del prodotto [LUCA]
+- remapping hibernate per timestamp purchase_product [LUCA]
+
+###############################################################################
 ---------------------------------------------
 
 # STATUS UTENTE
