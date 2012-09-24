@@ -32,12 +32,17 @@
                 android:text="@string/new_product_name"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" >
-            </TextView>
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false">
+            </EditText>
 
             <TextView
                 android:id="@+id/textView2"
@@ -46,12 +51,17 @@
                 android:text="@string/new_product_desc"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" >
-            </TextView>
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false">
+            </EditText>
 
             <TextView
                 android:id="@+id/textView3"
@@ -60,11 +70,16 @@
                 android:text="@string/new_product_dim"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productDim"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView4"
@@ -73,11 +88,16 @@
                 android:text="@string/new_product_measure"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productMeasureUnit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView5"
@@ -86,11 +106,16 @@
                 android:text="@string/new_product_block_unit"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productBlockUnits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView6"
@@ -99,11 +124,16 @@
                 android:text="@string/new_product_transport_cost"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productTransportCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView7"
@@ -112,11 +142,16 @@
                 android:text="@string/new_product_unit_cost"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productUnitCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView8"
@@ -125,11 +160,16 @@
                 android:text="@string/new_product_min_units"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productMinUnits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView9"
@@ -138,11 +178,16 @@
                 android:text="@string/new_product_max_units"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
+            <EditText
                 android:id="@+id/productMaxUnits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
             <TextView
                 android:id="@+id/textView10"
@@ -151,11 +196,16 @@
                 android:text="@string/new_product_its_category"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
             
-            <TextView
+            <EditText
                 android:id="@+id/productCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge" 
+                android:inputType="none"
+                android:cursorVisible="false"
+				android:clickable="false"
+				android:longClickable="false"
+				android:focusable="false"/>
 
         </LinearLayout>
     </ScrollView>

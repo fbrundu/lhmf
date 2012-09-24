@@ -5,6 +5,7 @@ import it.polito.ai.lhmf.android.api.UserOperations;
 
 import java.net.URI;
 
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 public class UserTemplate implements UserOperations{
@@ -18,7 +19,12 @@ public class UserTemplate implements UserOperations{
 
 	@Override
 	public Integer getMemberType() {
-		return template.getForObject(URI.create(Gas.baseApiUrl + "member/role"), Integer.class);
+		try {
+			return template.getForObject(URI.create(Gas.baseApiUrl + "member/role"), Integer.class);
+		} catch (RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

@@ -19,5 +19,7 @@ public interface ProductOperations {
 	
 	byte[] getProductImage(String url);
 	
+	Product[] getMyProducts();
+	
 	//Product[] getProducts();
 }
