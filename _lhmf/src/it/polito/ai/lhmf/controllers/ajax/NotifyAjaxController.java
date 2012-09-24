@@ -61,6 +61,7 @@ public class NotifyAjaxController
 				unreadCount = notifyInterface.getUnreadCount(m.getIdMember());
 				if (unreadCount > 0)
 				{
+					pw.write("retry: 10000\n");
 					pw.write("data: " + unreadCount + "\n\n");
 					pw.flush();
 				}

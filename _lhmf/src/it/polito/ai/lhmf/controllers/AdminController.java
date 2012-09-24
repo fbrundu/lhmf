@@ -82,6 +82,7 @@ public class AdminController
 			// se ci sono nuovi prodotti scrive una notifica
 			if (modelState.isToReloadProducts())
 			{
+				pw.write("retry: 10000\n");
 				pw.write("data: products updated\n\n");
 				pw.flush();
 				System.out.println("Products updated sent");
