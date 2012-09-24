@@ -233,7 +233,8 @@ function postProductListRequest(productList)
 				ncategory++;
 			}
 			            
-			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'>" +
+			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'" +
+									"data-minB='" + product.minBuy + "'>" +
 								   "<section class='left'>" +
 								       "<img src='" + product.imgPath + "' height='60' class='thumb'>" +
 								       "<h3>" + product.name + "</h3>" +
@@ -249,6 +250,7 @@ function postProductListRequest(productList)
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
 											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
 										"</span>" +
+										//"<span data-minB='minB'>" + product.minBuy + "</span>" + 
 									"</section>" +
 									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
 								  "</li>");
@@ -330,7 +332,7 @@ function clickPurchaseHandler(event)
     {
     	
         var amount = $(this).find('input').val();
-        //var min = $(this).attr("product.minBuy").val();
+        //var min = $(this).data('data-minB');
         //var max = $(this).attr("product.maxBuy").val();
         		
         if(amount === undefined || amount === "" || isNaN(amount) /*|| amount < min || amount > max*/) 
@@ -366,12 +368,18 @@ function clickPurchaseHandler(event)
 
 function postSetNewPurchaseRequest(result) 
 {
-	
 	if(result <= 0)
 	{
 		$("#legendErrorPurchase").html("Errore");
-	    $("#errorsPurchase").html("Errore Interno. Non &egrave stato possibile creare la scheda di acquisto.<br /><br />");
-	    $("#errorDivPurchase").show("slow");
+		if(result == -2)
+		{
+			$("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
+		}
+		else
+		{
+			$("#errorsPurchase").html("Errore Interno. Non &egrave stato possibile creare la scheda di acquisto.<br /><br />");
+		}
+		$("#errorDivPurchase").show("slow");
 	    $("#errorDivPurchase").fadeIn(1000);
 	}
 	else
@@ -381,8 +389,7 @@ function postSetNewPurchaseRequest(result)
 	    $("#errorsPurchase").html("Scheda di acquisto creata correttamente.<br /><br />");
 	    $("#errorDivPurchase").show("slow");
 	    $("#errorDivPurchase").fadeIn(1000);
-	}
-	
+	}	
 }
 
 function ClearPurchase()
