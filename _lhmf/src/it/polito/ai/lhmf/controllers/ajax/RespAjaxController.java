@@ -210,6 +210,20 @@ public class RespAjaxController
 		return respString;
 	}
 	
+	@RequestMapping(value = "/ajax/getSupplierByResp", method = RequestMethod.POST)
+	public @ResponseBody
+	Set<Supplier> getSupplierByResp(HttpServletRequest request, HttpSession session)
+	{
+		String username = (String) session.getAttribute("username");
+		Member memberResp = memberInterface.getMember(username);
+		
+		Set<Supplier> respSupp = new HashSet<Supplier>();
+		
+		respSupp = memberResp.getSuppliersForIdMemberResp();
+		
+		return respSupp;
+	}
+	
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductFromSupplier", method = RequestMethod.POST)
