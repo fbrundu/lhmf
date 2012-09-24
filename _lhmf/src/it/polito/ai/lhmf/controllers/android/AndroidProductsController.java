@@ -13,6 +13,7 @@ import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -52,17 +53,7 @@ public class AndroidProductsController {
 		if (idProduct != null && idProduct > 0)
 		{
 			Product p = productInterface.getProduct(idProduct);
-//			if (p != null)
-//			{
-//				if (((Integer) request.getSession().getAttribute("member_type")) == MemberTypes.USER_SUPPLIER)
-//				{
-//					Supplier s = supplierInterface.getSupplier((String) request
-//							.getSession().getAttribute("username"));
-//					if (s == null
-//							|| p.getSupplier().getIdMember() != s.getIdMember())
-//						return null;
-//				}
-//			}
+
 			return p;
 		}
 		return null;
@@ -178,6 +169,13 @@ public class AndroidProductsController {
 			idProduct = productInterface.newProduct(p, picture, serverPath, realPath);
 		}
 		return idProduct;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/androidApi/getmyproducts", method = RequestMethod.GET)
+	List<Product> getMyProducts(HttpServletRequest request, Principal principal){
+		Supplier s = supplierInterface.getSupplier(principal.getName());
+		return productInterface.getProductsBySupplier(s.getMemberByIdMember());
 	}
 
 	private boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy) {
