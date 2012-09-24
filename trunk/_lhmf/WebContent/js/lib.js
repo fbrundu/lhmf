@@ -174,7 +174,6 @@ function getSupplierAsTableRow(suppliersList, idSupplier)
   }
   for ( var supplierIndex in suppliersList)
   {
-    // TODO return member resp name
     if (suppliersList[supplierIndex].idMember == idSupplier)
       return "<td>" + suppliersList[supplierIndex].name
           + suppliersList[supplierIndex].surname + "</td>";
@@ -629,6 +628,7 @@ function getMyNotifies()
   });
   tabellaNotifiche += "</table></div>";
   $(".centrale").html(tabellaNotifiche);
+  $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color", "");
 }
@@ -660,24 +660,47 @@ function getMyMessages()
   });
   tabellaMessaggi += "</table></div>";
   var users = "<option value='notSelected' selected='selected'>Seleziona...</option>";
-  var usersList = getUsers();
+  var usersList = getUsersExceptMe();
   for ( var userIndex in usersList)
   {
     users += "<option value='" + usersList[userIndex] + "'>" 
       + usersList[userIndex] + "</option>";
   }
+//  var orders = "<option value='-1' selected='selected'>Seleziona...</option>";
+//  var ordersList = getOrders();
+//  for ( var orderIndex in ordersList)
+//  {
+//    orders += "<option value='" + ordersList[orderIndex] + "'>" 
+//      + ordersList[orderIndex] + "</option>";
+//  }
+//  var products = "<option value='-1' selected='selected'>Seleziona...</option>";
+//  var productsList = getProducts();
+//  for ( var prodIndex in productsList)
+//  {
+//    products += "<option value='" + productsList[prodIndex] + "'>" 
+//      + productsList[prodIndex] + "</option>";
+//  }
   var formInvioMessaggio = "<div class='messageform'><form method='post' action=''>"
       + "<fieldset><legend>&nbsp;Invia un messaggio&nbsp;</legend>"
-      + "<label for='usersSelect' class='left'>&nbsp;&nbsp;&nbsp;Destinatario: </label>"
+      + "<br><label for='usersSelect' class='left'>Destinatario: </label>"
       + "<select name='usersSelect' id='usersSelect' class='field'>"
       + users
-      + "</select><br>"
+      + "</select><br><br>"
+//      + "<label for='ordersSelect' class='left'>Ordine (opzionale): </label>"
+//      + "<select name='ordersSelect' id='ordersSelect' class='field'>"
+//      + orders
+//      + "</select><br><br>"
+//      + "<label for='productsSelect' class='left'>Prodotto (opzionale): </label>"
+//      + "<select name='productsSelect' id='productsSelect' class='field'>"
+//      + products
+//      + "</select><br><br>"
       + "<label for='messageText' class='left'>Testo: </label>"
       + "<textarea name='messageText' id='messageText' class='field' "
       + "required='required' /><br>" 
       + "<button type='submit' id='newMessageSubmit'> Invia messaggio </button>"
       + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
+  $("#bodyTitleHeader").html("Messaggi");
   $("button").button();
   $('#newMessageSubmit').on("click", clickNewMessageHandler);
   $('#messagesCount').html("0");
@@ -692,6 +715,26 @@ function getUsers()
     usersList = usernamesList;
   });
   return usersList;
+}
+
+function getUsersExceptMe()
+{
+  var usersList;
+  $.getJSONsync("ajax/getusernamesexceptme", function(usernamesList)
+  {
+    usersList = usernamesList;
+  });
+  return usersList;
+}
+
+function getOrders()
+{
+  //TODO
+}
+
+function getProducts()
+{
+  //TODO
 }
 
 function clickNewMessageHandler(event)

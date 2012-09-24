@@ -5,7 +5,6 @@ Applicazioni Internet - Gas
 ## DA IMPLEMENTARE ##
 
 - reload automatico messaggi/notifiche in caso di arrivo di nuovi [FRA]
-- invio messaggi utente [FRA]
 - invio notifiche e messaggi sistema
 - logging
 - Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
@@ -19,7 +18,8 @@ Applicazioni Internet - Gas
 - statistiche!!!!!!!!! [MATTE]
 - in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date
 - in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server
-- 
+- cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
+  javascript
 
 ## DA TESTARE ##
 
@@ -42,6 +42,7 @@ Applicazioni Internet - Gas
 - non cancellazione dati in errore di inserimento prodotto [FRA]
 - controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
        vecchio >=0
+- invio messaggi utente [FRA]
 
 ## OK ##
 

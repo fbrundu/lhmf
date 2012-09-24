@@ -86,7 +86,7 @@
 			</div>
 			<div class="contenuto">
 				<!-- <h1 class="titolo">Applicazioni Internet</h1> -->
-				<h1 class="block"><jsp:invoke fragment="bodyTitle" /></h1>
+				<h1 id='bodyTitleHeader' class="block"><jsp:invoke fragment="bodyTitle" /></h1>
 				<div class="centrale"><jsp:doBody /></div>
 			</div>
 		</div>

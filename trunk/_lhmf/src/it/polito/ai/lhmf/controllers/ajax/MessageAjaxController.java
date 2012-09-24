@@ -46,6 +46,23 @@ public class MessageAjaxController
 	{
 		return memberInterface.getUsernames();
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/getusernamesexceptme", method = RequestMethod.GET)
+	public @ResponseBody
+	List<String> getUsernamesExceptMe(HttpServletRequest request)
+	{
+		List<String> usernames = memberInterface.getUsernames();
+		for (String u : usernames)
+		{
+			if (u.equals(request.getSession().getAttribute("username")))
+			{
+				usernames.remove(u);
+				break;
+			}
+		}
+		return usernames;
+	}
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/newmessage", method = RequestMethod.POST)
@@ -53,9 +70,9 @@ public class MessageAjaxController
 	Integer newMessage(
 			HttpServletRequest request,
 			@RequestParam(value = "dest", required = true) String dest,
-			@RequestParam(value = "messageText", required = true) String messageText,
-			@RequestParam(value = "idOrder", required = true) Integer idOrder,
-			@RequestParam(value = "idProduct", required = true) Integer idProduct
+			@RequestParam(value = "messageText", required = true) String messageText
+			//@RequestParam(value = "idOrder", required = true) Integer idOrder,
+			//@RequestParam(value = "idProduct", required = true) Integer idProduct
 			)
 	{
 		Integer idMessage = -1;
@@ -66,19 +83,22 @@ public class MessageAjaxController
 			Member sender = memberInterface.getMember((String) request
 					.getSession().getAttribute("username"));
 			Member receiver = memberInterface.getMember(dest);
-			m.setMemberByIdReceiver(receiver);
-			m.setMemberByIdSender(sender);
-			m.setMessageTimestamp(new Date());
-			Order o = null;
-			if(idOrder > 0)
-				o = orderInterface.getOrder(idOrder);
-			m.setOrder(o);
-			Product p = null;
-			if(idProduct > 0)
-				p = productInterface.getProduct(idProduct);
-			m.setProduct(p);
-			m.setText(messageText);
-			idMessage = messageInterface.newMessage(m);
+			if (sender.getIdMember() != receiver.getIdMember())
+			{
+				m.setMemberByIdReceiver(receiver);
+				m.setMemberByIdSender(sender);
+				m.setMessageTimestamp(new Date());
+//				Order o = null;
+//				if (idOrder > 0)
+//					o = orderInterface.getOrder(idOrder);
+//				m.setOrder(o);
+//				Product p = null;
+//				if (idProduct > 0)
+//					p = productInterface.getProduct(idProduct);
+//				m.setProduct(p);
+				m.setText(messageText);
+				idMessage = messageInterface.newMessage(m);
+			}
 		}
 		catch (InvalidParametersException e)
 		{
