@@ -325,18 +325,28 @@ public class RespAjaxController
 	@RequestMapping(value = "/ajax/setNewPurchaseNorm", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder,
+			@RequestParam(value = "idOrderNorm") int idOrder,
 			@RequestParam(value = "idProducts") String idProducts,
 			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException, ParseException
 	{
+		int result = -1;
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
+		
+		String[] idTmp = idProducts.split(",");
+		String[] amountTmp = amountProduct.split(",");
+		for( int i = 0; i < idTmp.length; i++) 
+		{
+			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
+			if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()))
+			{
+				return -2;
+			}
+		}
 		
 		Order order = orderInterface.getOrder(idOrder);
 		
 		Purchase purchase = new Purchase(order, memberNormal);
-		
-		int result = -1;
 		
 		if((result = purchaseInterface.newPurchase(purchase)) <= 0)
 		{
@@ -349,25 +359,14 @@ public class RespAjaxController
 		String sDate = dateFormat.format(calendar.getTime());
 		Date insertedTimestamp = dateFormat.parse(sDate);
 		
-		String[] idTmp = idProducts.split(",");
-		String[] amountTmp = amountProduct.split(",");
-		
-		for( int i = 0; i < idTmp.length; i++) {
-			
+		for( int i = 0; i < idTmp.length; i++) 
+		{
 			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
-			if((Integer.parseInt(amountTmp[i]) < product.getMaxBuy()) && (Integer.parseInt(amountTmp[i]) > product.getMinBuy()))
-			{
-				PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
-				PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
-				//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
-				purchaseInterface.newPurchaseProduct(purchaseproduct);
-			}
-			else
-			{
-				return -1;
-			}
-		}
-		
+			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
+			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			purchaseInterface.newPurchaseProduct(purchaseproduct);
+		}		
 		return 1;
 	}
 	

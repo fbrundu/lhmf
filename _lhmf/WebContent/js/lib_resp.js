@@ -1180,7 +1180,9 @@ console.log("Ricevuti Ordini Vecchi");
         $("#oldOrderList").show("slow");
         $("#oldOrderList").fadeIn(1000);
         $("#errorDivOldOrder").hide();
-    } else {
+    } 
+    else 
+    {
         
         $("#oldOrderList").show();
         $("#errorDivOldOrder").hide();
@@ -1612,18 +1614,24 @@ function clickPurchaseHandler(event)
     	var idProducts = addedIdsNorm.join(",");
     	var amountProducts = addedPz.join(",");
     	
-    	$.post("ajax/setNewPurchaseNorm", {idOrder: idOrder, idProducts: idProducts, amountProducts: amountProducts}, postSetNewPurchaseRequest);
+    	$.post("ajax/setNewPurchaseNorm", {idOrderNorm: idOrderNorm, idProducts: idProducts, amountProducts: amountProducts}, postSetNewPurchaseRequest);
     } 
 }
 
 function postSetNewPurchaseRequest(result) 
 {
-	
 	if(result <= 0)
 	{
 		$("#legendErrorPurchase").html("Errore");
-	    $("#errorsPurchase").html("Errore Interno. Non &egrave stato possibile creare la scheda di acquisto.<br /><br />");
-	    $("#errorDivPurchase").show("slow");
+		if(result == -2)
+		{
+			$("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
+		}
+		else
+		{
+			$("#errorsPurchase").html("Errore Interno. Non &egrave stato possibile creare la scheda di acquisto.<br /><br />");
+		}
+		$("#errorDivPurchase").show("slow");
 	    $("#errorDivPurchase").fadeIn(1000);
 	}
 	else
@@ -1634,7 +1642,6 @@ function postSetNewPurchaseRequest(result)
 	    $("#errorDivPurchase").show("slow");
 	    $("#errorDivPurchase").fadeIn(1000);
 	}
-	
 }
 
 function ClearPurchase()
