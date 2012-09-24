@@ -13,6 +13,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import android.net.Uri;
@@ -26,8 +27,13 @@ public class ProductsTemplate implements ProductOperations {
 
 	@Override
 	public ProductCategory[] getProductCategories() {
-		ProductCategory[] res = template.getForObject(URI.create(Gas.baseApiUrl + "getproductcategories"), ProductCategory[].class);
-		return res;
+		try {
+			ProductCategory[] res = template.getForObject(URI.create(Gas.baseApiUrl + "getproductcategories"), ProductCategory[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -37,8 +43,13 @@ public class ProductsTemplate implements ProductOperations {
 		MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
 		value.add("description", description);
 		
-		newCategoryId = template.postForObject(URI.create(Gas.baseApiUrl + "newproductcategory"), value, Integer.class);
-		return newCategoryId;
+		try {
+			newCategoryId = template.postForObject(URI.create(Gas.baseApiUrl + "newproductcategory"), value, Integer.class);
+			return newCategoryId;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -82,19 +93,34 @@ public class ProductsTemplate implements ProductOperations {
 				newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproductwithpicture"), value, Integer.class);
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
+				return null;
+			} catch(RestClientException e) {
+				e.printStackTrace();
+				return null;
 			}
 		}
-		else
-			newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproduct"), value, Integer.class);
+		else{
+			try {
+				newProductId = template.postForObject(URI.create(Gas.baseApiUrl + "newproduct"), value, Integer.class);
+			} catch (RestClientException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
 		return newProductId;
 	}
 
 	@Override
 	public Product getProduct(Integer idProduct) {
 		if(idProduct != null){
-			Product ret = template.getForObject(Gas.baseApiUrl + "getproduct?idProduct={id}", Product.class, idProduct);
+			try {
+				Product ret = template.getForObject(Gas.baseApiUrl + "getproduct?idProduct={id}", Product.class, idProduct);
 			
-			return ret;
+				return ret;
+			} catch(RestClientException e){
+				e.printStackTrace();
+				return null;
+			}
 		}
 		return null;
 	}
@@ -102,9 +128,25 @@ public class ProductsTemplate implements ProductOperations {
 	@Override
 	public byte[] getProductImage(String url) {
 		if(url != null){
-			byte[] ret = template.getForObject(Gas.baseUrl + url, byte[].class);
-			return ret;
+			try {
+				byte[] ret = template.getForObject(Gas.baseUrl + url, byte[].class);
+				return ret;
+			} catch (RestClientException e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
 		return null;
+	}
+
+	@Override
+	public Product[] getMyProducts() {
+		try {
+			Product[] res = template.getForObject(URI.create(Gas.baseApiUrl + "getmyproducts"), Product[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

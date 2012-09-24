@@ -29,8 +29,8 @@ public class NetworkStateBroadcastReceiver extends BroadcastReceiver {
 		    boolean isConnected = activeNetworkInfo.isConnected();
 		    if(isConnected){
 		    	Log.d("Receiver", "Network connected");
-		    	if(serviceRunning == false)
-		    		context.startService(serviceIntent);
+		    	//TODO if(serviceRunning == false)
+		    	//	context.startService(serviceIntent);
 		    }
 	    }
 	}

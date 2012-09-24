@@ -15,7 +15,7 @@
         android:label="@string/app_name" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:screenOrientation="portrait">
         </activity>
         <receiver android:name=".NetworkStateBroadcastReceiver" android:enabled="true">
             <intent-filter>
@@ -36,7 +36,8 @@
         <activity android:name=".admin.UsersActivity"></activity>
         <activity android:name=".admin.ProductsActivity"></activity>
         <activity android:name=".NewProductActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ProductDetails"></activity>
+        <activity android:name=".ProductDetails" android:screenOrientation="portrait"></activity>
+        <activity android:name=".Listino"></activity>
     </application>
 
 </manifest>

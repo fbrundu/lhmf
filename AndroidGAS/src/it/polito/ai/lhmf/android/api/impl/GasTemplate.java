@@ -12,6 +12,7 @@ import it.polito.ai.lhmf.android.api.UserOperations;
 import java.net.URI;
 
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
+import org.springframework.web.client.RestClientException;
 
 public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 	private LogOperations logOperations;
@@ -68,6 +69,10 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 
 	@Override
 	public void logout() {
-		getRestTemplate().postForObject(URI.create(baseApiUrl + "logout"), null, Void.class);
+		try {
+			getRestTemplate().postForObject(URI.create(baseApiUrl + "logout"), null, Void.class);
+		} catch(RestClientException e){
+			throw e;
+		}
 	}
 }

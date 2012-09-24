@@ -67,8 +67,8 @@ public class LoginActivity extends Activity {
 						holder.createConnection(accessToken);
 		
 						if(!isServiceRunning()){
-							Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
-							startService(intent);
+							//TODO Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
+							//startService(intent);
 						}
 						Intent main = new Intent(getApplicationContext(), MainActivity.class);
 						startActivity(main);

@@ -7,6 +7,7 @@ import it.polito.ai.lhmf.model.Product;
 import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 public class ProductDetails extends Activity {
 	private Gas api = null;
 	private ImageView iv = null;
+	private ProgressDialog pDialog = null;
 	
 	private TextView name = null, desc = null, dim = null, measureUnit = null, blockUnits = null, transportCost = null, unitCost = null,
 			minUnits = null, maxUnits = null, category = null;
@@ -44,8 +46,10 @@ public class ProductDetails extends Activity {
 			api  = conn.getApi();
 		
 			int idProduct = getIntent().getIntExtra("idProduct", -1);
-			if(idProduct != -1)
+			if(idProduct != -1){
+				pDialog = ProgressDialog.show(this, "", "Caricamento", true);
 				new GetProductTask().execute(api, idProduct);
+			}
 			
 		}
 	}
@@ -80,7 +84,7 @@ public class ProductDetails extends Activity {
 			if(!result.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
 				new GetProductPictureTask().execute(api, result.getImgPath());
 			}
-			super.onPostExecute(result);
+			//super.onPostExecute(result);
 		}
 	}
 	
@@ -95,9 +99,12 @@ public class ProductDetails extends Activity {
 		
 		@Override
 		protected void onPostExecute(byte[] result) {
-			Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
-			iv.setImageBitmap(bmp);
-			super.onPostExecute(result);
+			if(result != null){
+				Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
+				iv.setImageBitmap(bmp);
+			}
+			pDialog.dismiss();
+			//super.onPostExecute(result);
 		}
 		
 	}

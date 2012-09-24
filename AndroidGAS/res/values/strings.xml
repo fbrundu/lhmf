@@ -19,4 +19,5 @@
     <string name="new_product_category_descriprion_label">Descrizione categoria:</string>
     <string name="logout">Logout</string>
     <string name="back">Indietro</string>
+    <string name="gestione_listino">Gestione Listino</string>
 </resources>
