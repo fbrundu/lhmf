@@ -7,10 +7,18 @@ import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -307,6 +315,76 @@ public class MemberInterface
 
 		query.setParameter("memberType", mType);
 		return (List<Member>) query.list();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Transactional(readOnly = true)
+	public Map<Member, Float> getTopUsers(Member memberResp) {
+		
+		Map<Member,Float> mList = new HashMap<Member,Float>();
+		
+		Calendar cal = Calendar.getInstance();
+		Date endDate = cal.getTime();
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select purchase.member, pp.product, sum(pp.amount)*(prod.unitBlock * prod.unitCost)" +
+				"from Order as o " +
+				"join o.purchases as purchase " +
+				"join purchase.purchaseProducts as pp " +
+				"join pp.product as prod " +
+			    "where o.member = :memberResp " +
+				" AND o.dateClose <= :endDate " +
+				" AND o.dateDelivery is NOT NULL " +
+				"group by purchase.member, pp.product ").setMaxResults(10);
+		
+		query.setParameter("memberResp", memberResp);
+		query.setDate("endDate", endDate);
+		
+		Member tempMember = null;
+		Float tempTot = (float) 0;
+		boolean first = true;
+		
+		for (Iterator it = query.iterate(); it.hasNext();) {
+			Object[] row = (Object[]) it.next();
+			
+			if(first) {
+				tempMember = (Member) row[0];
+				first = false;
+			}
+			
+			if(tempMember.equals((Member) row[0])) {
+				//uguale
+				tempTot += (Float) row[2];
+				
+			} else {
+				//diverso
+				mList.put(tempMember, tempTot);
+				tempTot = (float) 0;
+				
+				tempMember = (Member) row[0];
+				tempTot += (Float) row[2];
+			}
+		}
+		
+		//Salvo l'ultimo elemento
+		mList.put(tempMember, tempTot);
+		
+		//Ordino la mappa
+		List<Entry<Member, Float>> entries = new ArrayList<Entry<Member, Float>>(mList.entrySet());
+		Collections.sort(entries, new Comparator<Entry<Member, Float>>() {
+		    public int compare(Entry<Member, Float> e1, Entry<Member, Float> e2) {
+		        return e1.getValue().compareTo(e2.getValue());
+		    }
+		});
+		Collections.reverse(entries);
+		
+		// Put entries back in an ordered map.
+		Map<Member, Float> orderedMap = new LinkedHashMap<Member, Float>();
+		for (Entry<Member, Float> entry : entries) {
+		    orderedMap.put(entry.getKey(), entry.getValue());
+		}	
+		
+		return orderedMap;
 	}
 
 }

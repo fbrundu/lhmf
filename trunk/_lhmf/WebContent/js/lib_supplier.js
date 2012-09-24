@@ -12,8 +12,8 @@
 		$("#statLink").click(statClicked);
 		$("#notifiesLink").click(notifiesClicked);
 		$("#messagesLink").click(messagesClicked);
-    registerForMessages();
-    registerForNotifies();
+		registerForMessages();
+		registerForNotifies();
   
 		$.datepicker.setDefaults({
 			dateFormat : 'dd/mm/yy'
@@ -422,15 +422,14 @@ function postStatSupplierOrderYearHandler(data){
         }
       }, {
         "graphType": "Pie",
-        "title": "Prodotti Conclusi/Falliti",
+        "title": "Prodotti Conclusi/Falliti per Anno",
         "subtitle": "Se non compare il grafico non ci sono ordini da visualizzare",
         "pieSegmentPrecision": 1,
         "pieSegmentSeparation": 2,
         "pieSegmentLabels": "outside",
         "pieType": "solid",
       });
-	
-	
+
 }
 
 function updateCategory(productCategory)
