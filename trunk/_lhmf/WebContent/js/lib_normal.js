@@ -413,8 +413,7 @@ function postProductListRequest(productList)
 				ncategory++;
 			}
 			            
-			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'" +
-									" data-maxB='" + product.maxBuy + "'>" +
+			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'>" +
 								   "<section class='left'>" +
 								       "<img src='" + product.imgPath + "' height='60' class='thumb'>" +
 								       "<h3>" + product.name + "</h3>" +
@@ -425,6 +424,7 @@ function postProductListRequest(productList)
 										"<span class='amount'>" +
 											"<label for='pz' class='left'>Quantit&agrave desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
+											 "<input type='hidden' id='pzMax' class='field' value='" + product.maxBuy + "' />" +
 										"</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
@@ -511,9 +511,9 @@ function clickPurchaseHandler(event)
     {
     	
         var amount = $(this).find('input').val();
-        var max = $(this).data('maxB');
+        var max =  $(this).find('input:hidden').val();
         		
-        if(amount === undefined || amount === "" || isNaN(amount) /*|| amount < min || amount > max*/) 
+        if(amount === undefined || amount === "" || isNaN(amount) || amount > max) 
         {
                 $("#legendErrorPurchase").html("Errore");
                 $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
