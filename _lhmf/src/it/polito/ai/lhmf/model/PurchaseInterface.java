@@ -8,7 +8,11 @@ import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.orm.PurchaseProductId;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -161,6 +165,62 @@ public class PurchaseInterface
 			throw new InvalidParametersException();
 		}
 		return (PurchaseProductId) sessionFactory.getCurrentSession().save(purchaseProduct); //TODO Non cast a Integer ma a PurchaseProductId!!!
+	}
+
+	//@SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes")
+	@Transactional(readOnly=true)
+	public ArrayList<Double> getSumAndAvgOfPurchasePerMonth(Member memberNormal, int year, int month) {
+		
+		ArrayList<Double> mList = new ArrayList<Double>();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(year, month, 1);
+		Date startDateD = cal.getTime();
+		cal.set(year, month, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		Date endDateD = cal.getTime();
+		
+		Timestamp startDate = new Timestamp(startDateD.getTime());
+		Timestamp endDate = new Timestamp(endDateD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select p.idPurchase, sum(pp.amount*(prod.unitBlock * prod.unitCost)) " +
+				"from Purchase as p " +
+				"join p.purchaseProducts as pp " +
+				"join p.member as m " +
+				"join p.order as o " +
+				"join pp.product as prod " +
+			    "where m.idMember = :memberNormal " +
+				" AND o.dateClose between :startDate and :endDate " +
+				" AND o.dateDelivery is NOT NULL " +
+				"group by p.idPurchase");
+		
+		query.setParameter("memberNormal", memberNormal.getIdMember());
+		query.setTimestamp("startDate", startDate);
+		query.setDate("endDate", endDate);
+		
+		int count = 0;
+		Double tempSum = (double) 0;
+		
+		for (Iterator it = query.iterate(); it.hasNext();) {
+			Object[] row = (Object[]) it.next();
+			
+			count++;
+			tempSum += (Double) row[1];
+			
+		}
+		
+		if(tempSum == 0)
+			mList.add(0.1); 
+		else
+			mList.add(tempSum);
+		
+		if(count == 0)
+			mList.add(0.1);
+		else
+			mList.add(tempSum/count);
+		
+		return mList;
 	}
 
 }

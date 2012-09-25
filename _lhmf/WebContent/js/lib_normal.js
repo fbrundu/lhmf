@@ -9,6 +9,7 @@
     $(function() 
     {
         $("#purchaseLink").click(purchaseClicked);
+        $("#statLink").click(statClicked);
         $("#notifiesLink").click(notifiesClicked);
         $("#messagesLink").click(messagesClicked);
         registerForMessages();
@@ -34,6 +35,9 @@ function historyStateChanged()
     case 'notifiche':
       getMyNotifies();
       break;
+    case 'statNormal':
+      writeStatPageNormal();
+      break;
     case 'messaggi':
       getMyMessages();
       break;
@@ -56,6 +60,21 @@ function purchaseClicked(event)
             return;
         History.pushState({action : 'purchase'}, null, 'purchase');
     }
+}
+
+function statClicked(event) {
+	var History = window.History;	
+	  if (History.enabled == true) {
+	    event.preventDefault();
+	    var state = History.getState();
+	    var stateData = state.data;
+	    if (!!stateData && !!stateData.action
+	        && stateData.action == 'statNormal')
+	      return;
+	    History.pushState({
+	      action : 'statNormal'
+	    }, null, 'statNormal');
+	  }
 }
 
 function writePurchasePage()
@@ -135,6 +154,167 @@ function writePurchasePage()
    
     preparePurchaseForm();
 }
+
+function writeStatPageNormal() {
+	
+	$(".centrale").html("<div id='tabs'><ul>" +
+						"<li><a href='#tabs-1'>Movimenti</a></li>" +
+						"<li><a href='#tabs-2'>Prodotti</a></li>" +
+						"</ul>" +
+					    "<div id='tabs-1'></div>" +
+					    "<div id='tabs-2'></div>" +
+					    "</div>");
+	
+	var selectString1 = "<select name='yearS1' id='yearS1' class='field' onchange='refreshStatMese()'>";
+	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
+		selectString1 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
+	selectString1 += "</select>";
+	
+	  $('#tabs-1').html("<table id='canvResp-1'>" +
+	  		"<tr><th> Anno " + selectString1 +"</th></tr>" +
+	  		"<tr><td id='tdNormSpesaMese'><canvas id='canvasNormSpesaMese' width='580' height='400'></canvas></td></tr>" +
+	  		"<tr><th></th></tr>" +
+	  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasRespOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");
+	  /*$('#tabs-2').html("<table id='canvResp-2'>" +
+		  		"<tr><th></th></tr>" +
+		  		"<tr><td><canvas id='canvasUtentiAttivi' width='580' height='400'></canvas></td></tr><table>");
+	  $('#tabs-3').html("<table id='canvResp-3'>" +
+		  		"<tr><th> Seleziona l'anno " + selectString2 + "</th></tr>" +
+		  		"<tr><td id='tdOrdiniMese'><canvas id='canvasOrdiniMese' width='580' height='400'></canvas></td></tr>" +
+		  		"<tr><th> Selezione l'anno " + selectString3 +"</th></tr>" +
+		  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");*/
+	  $('#tabs').tabs();
+	  
+	  writeStatistics();
+}
+
+function writeStatistics() {
+		
+	$('#canvResp-1').hide();
+	//$('#canvResp-2').hide();
+	//$('#canvResp-3').hide();
+	
+	var year1 = $("#yearS1").val();
+	//var year2 = $("#yearS2").val();
+	//var year3 = $("#yearS3").val();
+	
+	$.postSync("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
+	//$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	//$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
+	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
+	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
+	//$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
+	//$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
+	
+	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
+	
+	$('#canvResp-1').show('slow');
+	//$('#canvResp-2').show('slow');
+	//$('#canvResp-3').show('slow');
+}
+
+function refreshStatMese() {
+	
+	var year1 = $("#yearS1").val();
+	
+	$("#tdNormSpesaMese").hide("slow");
+	$("#tdNormSpesaMese").html("<canvas id='canvasNormSpesaMese' width='580' height='400'></canvas>");
+	
+	$.postSync("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
+	
+	$("#tdNormSpesaMese").show("slow");
+}
+
+function postStatNormMoneyMonthHandler(data) {
+	
+	new CanvasXpress("canvasNormSpesaMese", {
+        "y": {
+          "vars": [
+            "Spesa Totale",
+            "Spesa Media"
+          ],
+          "smps": [
+			"Gennaio",
+			"Febbraio",
+			"Marzo",
+			"Aprile",
+			"Maggio",
+			"Giugno",
+			"Luglio",
+			"Agosto",
+			"Settembre",
+			"Ottobre",
+			"Novembre",
+			"Dicembre"
+          ],
+          "desc": [
+            "Spesa Totale Mensile",
+            "Spesa Media Mensile"
+          ],
+          "data": [
+            [
+              data[0],
+              data[2],
+              data[4],
+              data[6],
+              data[8],
+              data[10],
+              data[12],
+              data[14],
+              data[16],
+              data[18],
+              data[20],
+              data[22]
+            ],
+            [
+              data[1],
+              data[3],
+              data[5],
+              data[7],
+              data[9],
+              data[11],
+              data[13],
+              data[15],
+              data[17],
+              data[19],
+              data[21],
+              data[23]
+            ]
+          ]
+        },
+        "a": {
+          "xAxis": [
+            "Spesa Totale"
+          ],
+          "xAxis2": [
+            "Spesa Media"
+          ]
+        }
+      }, {
+        "graphType": "BarLine",
+        "title": "Distribuzione della spesa Totale/Media in un Anno",
+        "graphOrientation": "vertical",
+        //"backgroundType": "gradient",
+        "legendBox": false,
+        //"backgroundGradient2Color": "rgb(112,179,222)",
+        //"backgroundGradient1Color": "rgb(226,236,248)",
+        "colorScheme": "basic",
+        "legendBackgroundColor": false,
+        "lineType": "spline",
+        "smpHairlineColor": "rgb(100,100,100)",
+        "xAxisTickColor": "rgb(100,100,100)",
+        "smpTitle": "Mesi"
+      });
+	
+}
+
+
+
+
+
+
+
+
 
 function writeIndexPage()
 {
