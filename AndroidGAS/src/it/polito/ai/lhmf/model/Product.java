@@ -1,6 +1,13 @@
 package it.polito.ai.lhmf.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static final String DEFAULT_PRODUCT_PICTURE = "img/prd/noproduct.jpg";
 	
 	private Integer idProduct;

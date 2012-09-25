@@ -1,13 +1,18 @@
 package it.polito.ai.lhmf.android;
 
-import org.springframework.social.connect.Connection;
-
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 import it.polito.ai.lhmf.model.Product;
+
+import org.springframework.social.connect.Connection;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -16,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -25,6 +29,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class Listino extends Activity {
+	private static final int CONFIRM_DIALOG_ID = 1;
+	
 	private ListView productListView = null;
 	private ProgressDialog pDialog = null;
 	
@@ -44,6 +50,64 @@ public class Listino extends Activity {
 			
 			new GetProductsTask().execute(api);
 		}
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id, Bundle args) {
+		if(id == CONFIRM_DIALOG_ID){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage("");
+			builder.setCancelable(false);
+			builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					
+				@Override
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.cancel();
+				}
+			});
+			
+			builder.setPositiveButton("Sì", null);
+			return builder.create();
+		}
+		else
+			return super.onCreateDialog(id, args);
+	}
+	
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+		if(id == CONFIRM_DIALOG_ID){
+			final Product product = (Product) args.get("product");
+			boolean available = args.getBoolean("available");
+			
+			AlertDialog confirmDialog = (AlertDialog)dialog;
+			
+			if(available){
+				confirmDialog.setMessage("Vuoi rendere disponibile il prodotto '" + product.getName() + "'?");
+				
+				confirmDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sì", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						new ProductAvailabilityTask().execute(api, product, true);
+						dialog.cancel();
+					}
+				});
+			}
+			else{
+				confirmDialog.setMessage("Vuoi rendere indisponibile il prodotto '" + product.getName() + "'?");
+				
+				confirmDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sì", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int id) {
+						new ProductAvailabilityTask().execute(api, product, false);
+						dialog.cancel();
+					}
+				});
+			}
+		}
+		else
+			super.onPrepareDialog(id, dialog, args);
 	}
 	
 	private class GetProductsTask extends AsyncTask<Gas, Void, Product[]>{
@@ -80,7 +144,7 @@ public class Listino extends Activity {
 			ImageView image;
 			CheckBox checkBox;
 			
-			Product product = getItem(position);
+			final Product product = getItem(position);
 			
 			if(row == null){
 				LayoutInflater inflater = getLayoutInflater();
@@ -93,11 +157,15 @@ public class Listino extends Activity {
 			checkBox.setChecked(product.getAvailability());
 			
 			checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				//TODO provare a usare onClickListener anzichè onCheckedChangedListener (pper evitare che se dal dialog si clicca "No"
+				//il checkbox risulti comunque cambiato.
 				
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					// TODO Change product availability
-					
+					Bundle dialogArgs = new Bundle();
+					dialogArgs.putBoolean("available", isChecked);
+					dialogArgs.putSerializable("product", product);
+					showDialog(CONFIRM_DIALOG_ID, dialogArgs);
 				}
 			});
 			
@@ -108,6 +176,18 @@ public class Listino extends Activity {
 			if(!product.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
 				new SingleProductImageTask().execute(api, product.getImgPath(), image);
 			}
+			
+			row.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					Intent i = new Intent(getApplicationContext(), ProductDetails.class);
+					i.putExtra("idProduct", product.getIdProduct());
+					
+					startActivity(i);
+					
+				}
+			});
 			
 			return row;
 		}
@@ -124,21 +204,91 @@ public class Listino extends Activity {
 			String url = (String) params[1];
 			ImageView iv = (ImageView) params[2];
 			
+			Bitmap bmp = null;
+			
+			byte[] imgBytes = gas.productOperations().getProductImage(url);
+			if(imgBytes != null){
+				BitmapFactory.Options bmpLoadOptions = new BitmapFactory.Options();
+				bmpLoadOptions.inJustDecodeBounds = true;
+				
+				BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, bmpLoadOptions);
+				int imgHeight = bmpLoadOptions.outHeight;
+				int imgWidth = bmpLoadOptions.outWidth;
+				
+				int reqHeight = iv.getHeight();
+				int reqWidth = iv.getWidth();
+				
+				int inSampleSize = 1;
+				
+				if (imgHeight > reqHeight || imgWidth > reqWidth) {
+			        if (imgWidth > imgHeight) {
+			            inSampleSize = Math.round((float)imgHeight / (float)reqHeight);
+			        } else {
+			            inSampleSize = Math.round((float)imgWidth / (float)reqWidth);
+			        }
+			    }
+				
+				bmpLoadOptions.inSampleSize = inSampleSize;
+				bmpLoadOptions.inJustDecodeBounds = false;
+				
+				bmp = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, bmpLoadOptions);
+				
+			}
+			
 			Object[] ret = new Object[2];
-			ret[0] = gas.productOperations().getProductImage(url);
+			ret[0] = bmp;
 			ret[1] = iv;
-			return null;
+			
+			
+			return ret;
 		}
 		
 		@Override
 		protected void onPostExecute(Object[] result) {
-			byte[] bytes = (byte[]) result[0];
+			Bitmap bmp = (Bitmap) result[0];
 			ImageView iv = (ImageView) result[1];
 			
-			if(bytes != null && iv != null){
-				Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, result.length);
+			if(bmp != null && iv != null){
+				//Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 				iv.setImageBitmap(bmp);
 			}
 		}
+	}
+	
+	private class ProductAvailabilityTask extends AsyncTask<Object, Void, Object[]>{
+
+		@Override
+		protected Object[] doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			Product product = (Product) params[1];
+			Boolean available = (Boolean) params[2];
+			
+			Object[] ret = new Object[3];
+			
+			ret[0] = product;
+			
+			
+			if(available == true)
+				ret[1] = gas.productOperations().setProductAvailable(product.getIdProduct());
+			else
+				ret[1] = gas.productOperations().setProductUnavailable(product.getIdProduct());
+			
+			ret[2] = available;
+			
+			return ret;
+		}
+		
+		@Override
+		protected void onPostExecute(Object[] result) {
+			Product product = (Product) result[0];
+			Integer retValue = (Integer) result[1];
+			Boolean available = (Boolean) result[2];
+			
+			//TODO Se retValue == null --> Fallito, sistemare checkbox
+
+			
+			super.onPostExecute(result);
+		}
+		
 	}
 }

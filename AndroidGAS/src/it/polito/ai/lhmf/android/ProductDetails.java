@@ -84,27 +84,56 @@ public class ProductDetails extends Activity {
 			if(!result.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
 				new GetProductPictureTask().execute(api, result.getImgPath());
 			}
-			//super.onPostExecute(result);
 		}
 	}
 	
-	private class GetProductPictureTask extends AsyncTask<Object, Void, byte[]>{
+	private class GetProductPictureTask extends AsyncTask<Object, Void, Bitmap>{
 
 		@Override
-		protected byte[] doInBackground(Object... params) {
+		protected Bitmap doInBackground(Object... params) {
 			Gas gas = (Gas) params[0];
 			String url = (String) params[1];
-			return gas.productOperations().getProductImage(url);
+			
+			Bitmap bmp = null;
+			
+			byte[] imgBytes = gas.productOperations().getProductImage(url);
+			if(imgBytes != null){
+				BitmapFactory.Options bmpLoadOptions = new BitmapFactory.Options();
+				bmpLoadOptions.inJustDecodeBounds = true;
+				
+				BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, bmpLoadOptions);
+				int imgHeight = bmpLoadOptions.outHeight;
+				int imgWidth = bmpLoadOptions.outWidth;
+				
+				int reqHeight = iv.getHeight();
+				int reqWidth = iv.getWidth();
+				
+				int inSampleSize = 1;
+				
+				if (imgHeight > reqHeight || imgWidth > reqWidth) {
+			        if (imgWidth > imgHeight) {
+			            inSampleSize = Math.round((float)imgHeight / (float)reqHeight);
+			        } else {
+			            inSampleSize = Math.round((float)imgWidth / (float)reqWidth);
+			        }
+			    }
+				
+				bmpLoadOptions.inSampleSize = inSampleSize;
+				bmpLoadOptions.inJustDecodeBounds = false;
+				
+				bmp = BitmapFactory.decodeByteArray(imgBytes, 0, imgBytes.length, bmpLoadOptions);
+				
+			}
+			
+			return bmp;
 		}
 		
 		@Override
-		protected void onPostExecute(byte[] result) {
+		protected void onPostExecute(Bitmap result) {
 			if(result != null){
-				Bitmap bmp = BitmapFactory.decodeByteArray(result, 0, result.length);
-				iv.setImageBitmap(bmp);
+				iv.setImageBitmap(result);
 			}
 			pDialog.dismiss();
-			//super.onPostExecute(result);
 		}
 		
 	}
