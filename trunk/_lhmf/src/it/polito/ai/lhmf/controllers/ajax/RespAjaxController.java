@@ -338,12 +338,11 @@ public class RespAjaxController
 		for( int i = 0; i < idTmp.length; i++) 
 		{
 			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
-			if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()))
+			if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()) || (Integer.parseInt(amountTmp[i])) <= 0)
 			{
 				return -2;
 			}
 		}
-		
 		Order order = orderInterface.getOrder(idOrder);
 		
 		Purchase purchase = new Purchase(order, memberNormal);
