@@ -166,6 +166,17 @@ public class PurchaseInterface
 		}
 		return (PurchaseProductId) sessionFactory.getCurrentSession().save(purchaseProduct); //TODO Non cast a Integer ma a PurchaseProductId!!!
 	}
+	
+	@Transactional(readOnly = true)
+	public PurchaseProduct getPurchaseProductFromId(Integer idPurchase, Integer idProduct)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from PurchaseProduct where idPurchase = :idPurchase " + 
+						"AND idProduct = :idProduct");
+		query.setParameter("idPurchase", idPurchase);
+		query.setParameter("idProduct", idProduct);
+		return (PurchaseProduct)query.uniqueResult();
+	}
 
 	//@SuppressWarnings("rawtypes")
 	@SuppressWarnings("rawtypes")
