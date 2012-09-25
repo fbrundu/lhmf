@@ -399,4 +399,16 @@ public class RespAjaxController
 		return listPurchase;
 	}
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getAmountfromPurchaseNorm", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer getAmountfromPurchaseNorm(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase,
+			@RequestParam(value = "idProduct") int idProduct) throws InvalidParametersException
+	{
+		PurchaseProduct tmpPP = null;
+		tmpPP = purchaseInterface.getPurchaseProductFromId(idPurchase,idProduct);
+		return tmpPP.getAmount();
+	}
+	
 }

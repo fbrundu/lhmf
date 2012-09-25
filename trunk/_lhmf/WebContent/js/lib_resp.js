@@ -1793,13 +1793,14 @@ function clickPurchaseOldHandler(event)
     
 }
 
-function clickPurchaseDetailsHandler(event)
+/*function clickPurchaseDetailsHandler(event)
 {
     event.preventDefault();
     
     $.post("ajax/getPurchaseDetailsNormal", postPurchaseDetailsListHandler);
 	
 }
+*/
 
 function loadOrders() 
 {
@@ -1928,8 +1929,10 @@ function clickPurchaseDetailsHandler(event)
     var form = $(this).parents('form');
     idPurchase = $('input', form).val();
     
-    $.post("ajax/getPurchaseDetailsNormal", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
+    $.postSync("ajax/getPurchaseDetailsNormal", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
 }
+
+var AmountTmp;
 
 function postPurchaseDetailsListHandler(productList) 
 {
@@ -1942,20 +1945,24 @@ function postPurchaseDetailsListHandler(productList)
     var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
     
     $(tableControl).append("<tr>  <th class='top' width='25%'> Prodotto </th>" +
-                                 "<th class='top' width='35%'> Descrizione  </th>" +
-                                 "<th class='top' width='20%'> Costo  </th>" +
-                                 "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
-    
+            "<th class='top' width='35%'> Descrizione  </th>" +
+            "<th class='top' width='20%'> Costo  </th>" +
+            "<th class='top' width='20%'> Quantit&agrave Desiderata  </th> </tr>");
+
     $.each(productList, function(index, val)
     {
-        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
-        		                       "<td>" + val.description + "</td>" +
-        		                       "<td>" + val.unitCost + "</td>" +
-        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
-    });
+    	$.postSync("ajax/getAmountfromPurchaseNorm", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+    	{
+    		AmountTmp = data;
+    	});
+    	$(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+    							"<td>" + val.description + "</td>" +
+    							"<td>" + val.unitCost + "</td>" +
+    							"<td>" + AmountTmp + "</td></tr>");
+    	});
     
-    $(trControl).show("slow");    
-    $(tdControl).fadeIn(1000);  
+    	$(trControl).show("slow");    
+    	$(tdControl).fadeIn(1000);  
 }
 
 

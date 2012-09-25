@@ -619,14 +619,14 @@ function clickPurchaseOldHandler(event)
     
 }
 
-function clickPurchaseDetailsHandler(event)
+/*function clickPurchaseDetailsHandler(event)
 {
     event.preventDefault();
     
     $.post("ajax/getPurchaseDetails", postPurchaseDetailsListHandler);
 	
 }
-
+*/
 function loadOrders() 
 {
 	
@@ -647,7 +647,6 @@ function loadOrders()
 }
 
 ////////Schede Attive
-
 
 function postActivePurchaseListHandler(purchaseList) 
 {
@@ -745,7 +744,6 @@ function postOldPurchaseListHandler(purchaseList)
     }
 }
 
-
 var idPurchase = 0;
 
 function clickPurchaseDetailsHandler(event) 
@@ -756,8 +754,10 @@ function clickPurchaseDetailsHandler(event)
     var form = $(this).parents('form');
     idPurchase = $('input', form).val();
     
-    $.post("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
+    $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
 }
+
+var AmountTmp;
 
 function postPurchaseDetailsListHandler(productList) 
 {
@@ -772,20 +772,23 @@ function postPurchaseDetailsListHandler(productList)
     $(tableControl).append("<tr>  <th class='top' width='25%'> Prodotto </th>" +
                                  "<th class='top' width='35%'> Descrizione  </th>" +
                                  "<th class='top' width='20%'> Costo  </th>" +
-                                 "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
+                                 "<th class='top' width='20%'> Quantit&agrave Desiderata  </th> </tr>");
     
     $.each(productList, function(index, val)
     {
+    	$.postSync("ajax/getAmountfromPurchase", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+        {
+    		AmountTmp = data;
+        });
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + "</td>" +
-        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td></tr>");
+        		                       "<td>" + AmountTmp + "</td></tr>");
     });
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
 }
-
 
 function newPurchase(purchase)
 {
