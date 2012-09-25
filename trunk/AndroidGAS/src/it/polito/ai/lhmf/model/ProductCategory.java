@@ -1,6 +1,12 @@
 package it.polito.ai.lhmf.model;
 
-public class ProductCategory {
+import java.io.Serializable;
+
+public class ProductCategory implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer idProductCategory;
 	private String description;
 	
