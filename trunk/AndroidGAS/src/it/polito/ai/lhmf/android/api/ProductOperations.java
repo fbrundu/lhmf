@@ -22,4 +22,8 @@ public interface ProductOperations {
 	Product[] getMyProducts();
 	
 	//Product[] getProducts();
+	
+	Integer setProductAvailable(Integer idProduct);
+	
+	Integer setProductUnavailable(Integer idProduct);
 }

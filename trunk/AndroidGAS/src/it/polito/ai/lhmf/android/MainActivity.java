@@ -37,11 +37,8 @@ public class MainActivity extends Activity {
 		}
 		else{
 			gasApi = conn.getApi();
-			Intent dummyIntent = new Intent(getApplicationContext(), Listino.class);
-			//dummyIntent.putExtra("idProduct", 13);
-			startActivity(dummyIntent);
 			
-			//new MemberTypeAsyncTask().execute(gasApi);
+			new MemberTypeAsyncTask().execute(gasApi);
 		}
 	}
 	
@@ -62,8 +59,8 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				Intent listinoIntent = new Intent(MainActivity.this, Listino.class);
+				startActivity(listinoIntent);
 			}
 		});
 		

@@ -5,7 +5,7 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
-import it.polito.ai.lhmf.model.constants.MemberTypes;
+import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.orm.Supplier;
@@ -13,7 +13,6 @@ import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -173,13 +172,67 @@ public class AndroidProductsController {
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/androidApi/getmyproducts", method = RequestMethod.GET)
-	List<Product> getMyProducts(HttpServletRequest request, Principal principal){
-		Supplier s = supplierInterface.getSupplier(principal.getName());
-		return productInterface.getProductsBySupplier(s.getMemberByIdMember());
+	public @ResponseBody
+	List<Product> getMyProducts(HttpServletRequest request, Principal principal)
+	{
+		String username = principal.getName();
+		Member memberSupplier = memberInterface.getMember(username);
+		
+		List<Product> productsList = null;
+		productsList = productInterface.getProductsBySupplier(memberSupplier);
+		return productsList;
 	}
 
 	private boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy) {
 		return (minBuy == null && (maxBuy == null || maxBuy > 0)) ||
 				(minBuy > 0 && (maxBuy == null || maxBuy >= minBuy));
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/androidApi/setproductavailable", method = RequestMethod.GET)
+	public @ResponseBody
+	Integer setProductAvailable(
+			HttpServletRequest request,
+			Principal principal,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct)
+			throws InvalidParametersException
+	{
+		Integer rowsAffected = -1;
+		if (idProduct != null && idProduct > 0)
+		{
+			Product p = productInterface.getProduct(idProduct);
+			if (p != null)
+			{
+				Supplier s = supplierInterface.getSupplier(principal.getName());
+				if (s == null || p.getSupplier().getIdMember() != s.getIdMember())
+					return rowsAffected;
+				rowsAffected = productInterface.setProductAvailable(idProduct);
+			}
+		}
+		return rowsAffected;
+	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/androidApi/setproductunavailable", method = RequestMethod.GET)
+	public @ResponseBody
+	Integer setProductUnavailable(
+			HttpServletRequest request,
+			Principal principal,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct)
+			throws InvalidParametersException
+	{
+		Integer rowsAffected = -1;
+		if (idProduct != null && idProduct > 0)
+		{
+			Product p = productInterface.getProduct(idProduct);
+			if (p != null)
+			{
+				Supplier s = supplierInterface.getSupplier(principal.getName());
+				if (s == null || p.getSupplier().getIdMember() != s.getIdMember())
+					return rowsAffected;
+				rowsAffected = productInterface.setProductUnavailable(idProduct);
+			}
+		}
+		return rowsAffected;
 	}
 }

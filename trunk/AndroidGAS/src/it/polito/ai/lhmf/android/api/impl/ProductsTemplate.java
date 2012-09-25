@@ -149,4 +149,32 @@ public class ProductsTemplate implements ProductOperations {
 			return null;
 		}
 	}
+
+	@Override
+	public Integer setProductAvailable(Integer idProduct) {
+		try {
+			Integer ret = template.getForObject(Gas.baseApiUrl + "setproductavailable?idProduct={id}", Integer.class, idProduct);
+			if(ret == -1)
+				return null;
+			else
+				return ret;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Integer setProductUnavailable(Integer idProduct) {
+		try {
+			Integer ret = template.getForObject(Gas.baseApiUrl + "setproductunavailable?idProduct={id}", Integer.class, idProduct);
+			if(ret == -1)
+				return null;
+			else
+				return ret;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
