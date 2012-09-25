@@ -414,7 +414,7 @@ function postProductListRequest(productList)
 			}
 			            
 			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'" +
-									"data-minB='" + product.minBuy + "'>" +
+									" data-maxB='" + product.maxBuy + "'>" +
 								   "<section class='left'>" +
 								       "<img src='" + product.imgPath + "' height='60' class='thumb'>" +
 								       "<h3>" + product.name + "</h3>" +
@@ -430,7 +430,6 @@ function postProductListRequest(productList)
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
 											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
 										"</span>" +
-										//"<span data-minB='minB'>" + product.minBuy + "</span>" + 
 									"</section>" +
 									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
 								  "</li>");
@@ -512,8 +511,7 @@ function clickPurchaseHandler(event)
     {
     	
         var amount = $(this).find('input').val();
-        //var min = $(this).data('data-minB');
-        //var max = $(this).attr("product.maxBuy").val();
+        var max = $(this).data('maxB');
         		
         if(amount === undefined || amount === "" || isNaN(amount) /*|| amount < min || amount > max*/) 
         {
