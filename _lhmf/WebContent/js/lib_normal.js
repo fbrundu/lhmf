@@ -428,7 +428,7 @@ function postProductListRequest(productList)
 										"</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
-											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
+											"Disponibilit&agrave: " + product.minBuy + " - " + product.maxBuy +
 										"</span>" +
 									"</section>" +
 									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
@@ -489,7 +489,8 @@ function deleteProductFromOrder(event)
 
 jQuery.removeFromArray = function(value, arr) 
 {
-    return jQuery.grep(arr, function(elem, index) {
+    return jQuery.grep(arr, function(elem, index) 
+    {
         return elem !== value;
     });
 };

@@ -1604,7 +1604,7 @@ function postProductListRequestNormal(productList)
 										"</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
-											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
+											"Disponibilit&agrave: " + product.minBuy + " - " + product.maxBuy +
 										"</span>" +
 									"</section>" +
 									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
