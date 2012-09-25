@@ -238,6 +238,11 @@ function writeStatPageResp() {
 		selectString2 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
 	selectString2 += "</select>";
 	
+	var selectString3 = "<select name='yearS3' id='yearS3' class='field' onchange='refreshStatMese()'>";
+	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
+		selectString3 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
+	selectString3 += "</select>";
+	
 	  $('#tabs-1').html("<table id='canvResp-1'>" +
 	  		"<tr><th> Fornitore <select id='SupList-1' onchange='refreshStatOrdiniMese()'></select> Anno " + selectString1 +"</th></tr>" +
 	  		"<tr><td id='tdRespOrdiniMese'><canvas id='canvasRespOrdiniMese' width='580' height='400'></canvas></td></tr>" +
@@ -246,11 +251,9 @@ function writeStatPageResp() {
 	  $('#tabs-2').html("<table id='canvResp-2'>" +
 		  		"<tr><th></th></tr>" +
 		  		"<tr><td><canvas id='canvasUtentiAttivi' width='580' height='400'></canvas></td></tr><table>");
-	  /*$('#tabs-3').html("<table id='canvResp-3'>" +
-		  		"<tr><th> Seleziona l'anno " + selectString2 + "</th></tr>" +
-		  		"<tr><td id='tdOrdiniMese'><canvas id='canvasOrdiniMese' width='580' height='400'></canvas></td></tr>" +
-		  		"<tr><th> Selezione l'anno " + selectString3 +"</th></tr>" +
-		  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");*/
+	  $('#tabs-3').html("<table id='canvResp-3'>" +
+		  		"<tr><th> Seleziona l'anno " + selectString3 + "</th></tr>" +
+		  		"<tr><td id='tdStatRespMese'><canvas id='canvasStatRespMese' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
 	  
 	  writeStatistics();
@@ -263,17 +266,18 @@ function writeStatistics() {
 	
 	$('#canvResp-1').hide();
 	$('#canvResp-2').hide();
-	//$('#canvResp-3').hide();
+	$('#canvResp-3').hide();
 	
 	var idSup1 = $("#SupList-1").val();
 	var idSup2 = $("#SupList-2").val();
 	var year1 = $("#yearS1").val();
 	var year2 = $("#yearS2").val();
-	//var year3 = $("#yearS3").val();
+	var year3 = $("#yearS3").val();
 	
 	$.postSync("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
 	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
 	$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
+	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
 	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
 	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
 	//$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
@@ -283,7 +287,7 @@ function writeStatistics() {
 	
 	$('#canvResp-1').show('slow');
 	$('#canvResp-2').show('slow');
-	//$('#canvResp-3').show('slow');
+	$('#canvResp-3').show('slow');
 }
 
 function postGetSupplierByRespHandler(data) {
@@ -325,6 +329,19 @@ function refreshStatOrdiniAnno() {
 	
 	$("#tdRespOrdiniAnno").show("slow");
 }
+
+function refreshStatMese() {
+	
+	var year3 = $("#yearS3").val();
+	
+	$("#tdStatRespMese").hide("slow");
+	$("#tdStatRespMese").html("<canvas id='canvasStatRespMese' width='580' height='400'></canvas>");
+	
+	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	
+	$("#tdStatRespMese").show("slow");
+}
+
 
 function postStatRespOrderMonthHandler(data) {
 	
@@ -484,7 +501,7 @@ function postStatRespTopUsersHandler(data) {
 			'\"smpTitle\": \"Utenti\", ' +
 			'\"colorScheme\": \"basic\", ' +
 			'\"graphOrientation\": \"horizontal\", ' +
-			'\"panningX": 10.0, ' +
+			'\"setMin\": 0, ' +
 			'\"showLegend\": false }';
     
     var obj = jQuery.parseJSON(json);
@@ -493,6 +510,91 @@ function postStatRespTopUsersHandler(data) {
     new CanvasXpress("canvasUtentiAttivi", obj, obj2);
 	
 }
+
+function postStatRespMoneyMonthHandler(data) {
+	
+	new CanvasXpress("canvasStatRespMese", {
+        "y": {
+          "vars": [
+            "Spesa Totale",
+            "Spesa Media"
+          ],
+          "smps": [
+			"Gennaio",
+			"Febbraio",
+			"Marzo",
+			"Aprile",
+			"Maggio",
+			"Giugno",
+			"Luglio",
+			"Agosto",
+			"Settembre",
+			"Ottobre",
+			"Novembre",
+			"Dicembre"
+          ],
+          "desc": [
+            "Spesa Totale Mensile",
+            "Spesa Media Mensile"
+          ],
+          "data": [
+            [
+              data[0],
+              data[2],
+              data[4],
+              data[6],
+              data[8],
+              data[10],
+              data[12],
+              data[14],
+              data[16],
+              data[18],
+              data[20],
+              data[22]
+            ],
+            [
+              data[1],
+              data[3],
+              data[5],
+              data[7],
+              data[9],
+              data[11],
+              data[13],
+              data[15],
+              data[17],
+              data[19],
+              data[21],
+              data[23]
+            ]
+          ]
+        },
+        "a": {
+          "xAxis": [
+            "Spesa Totale"
+          ],
+          "xAxis2": [
+            "Spesa Media"
+          ]
+        }
+      }, {
+        "graphType": "BarLine",
+        "title": "Distribuzione della spesa Totale/Media in un Anno",
+        "graphOrientation": "vertical",
+        //"backgroundType": "gradient",
+        "legendBox": false,
+        //"backgroundGradient2Color": "rgb(112,179,222)",
+        //"backgroundGradient1Color": "rgb(226,236,248)",
+        "colorScheme": "basic",
+        "legendBackgroundColor": false,
+        "lineType": "spline",
+        "smpHairlineColor": "rgb(100,100,100)",
+        "xAxisTickColor": "rgb(100,100,100)",
+        "smpTitle": "Mesi"
+      });
+	
+}
+
+
 
 var idOrder = 0;
 

@@ -4,6 +4,7 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
+import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
@@ -43,6 +44,9 @@ public class StatisticsAjaxController
 	private OrderInterface orderInterface;
 	@Autowired
 	private ProductInterface productInterface;
+	@Autowired
+	private PurchaseInterface purchaseInterface;
+	
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/statMemberType", method = RequestMethod.POST)
@@ -399,6 +403,58 @@ public class StatisticsAjaxController
 		}
 
 		return respStatName;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/statRespMoneyMonth", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Double> statRespMoneyMonth(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "year", required = true) int year) throws InvalidParametersException
+	{
+		
+		ArrayList<Double> respStat = new ArrayList<Double>();
+		ArrayList<Double> statPurchaseTemp = null;
+		// Mi ricavo il Membro
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
+		
+		for(int i = 0; i < 12; i++) {
+			
+			// Mi ricavo per ogni mese e la spesa totale e la spesaMedia
+			statPurchaseTemp = purchaseInterface.getSumAndAvgOfPurchasePerMonth(memberNormal, year, i);
+			
+			//Aggiungo alla lista totale
+			respStat.addAll(statPurchaseTemp);
+			
+		}
+		
+		return respStat;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/statNormMoneyMonth", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<Double> statNormMoneyMonth(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "year", required = true) int year) throws InvalidParametersException
+	{
+		
+		ArrayList<Double> respStat = new ArrayList<Double>();
+		ArrayList<Double> statPurchaseTemp = null;
+		// Mi ricavo il Membro
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
+		
+		for(int i = 0; i < 12; i++) {
+			
+			// Mi ricavo per ogni mese e la spesa totale e la spesaMedia
+			statPurchaseTemp = purchaseInterface.getSumAndAvgOfPurchasePerMonth(memberNormal, year, i);
+			
+			//Aggiungo alla lista totale
+			respStat.addAll(statPurchaseTemp);
+			
+		}
+		
+		return respStat;
 	}
 	
 	
