@@ -457,5 +457,42 @@ public class StatisticsAjaxController
 		return respStat;
 	}
 	
+	@SuppressWarnings("rawtypes")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+			+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/statProdTopSeller", method = RequestMethod.POST)
+	public @ResponseBody
+	ArrayList<String> statProdTopSeller(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	{
+		
+		ArrayList<String> respStatName = new ArrayList<String>();
+		ArrayList<String> respStatAmount = new ArrayList<String>();
+		
+		//Mi ricavo la lista dei prodotti più venduti
+		Map<Product, Long> topProduct = productInterface.getTopProduct();
+		
+		Product tempProduct;
+		Long tempAmount;
+		
+		if(topProduct.size() > 0) {
+			
+			Iterator it = topProduct.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry) it.next();
+		        tempProduct = (Product) pairs.getKey();
+		        tempAmount = (Long) pairs.getValue();
+		        		
+		        respStatName.add(tempProduct.getName());
+		        respStatAmount.add(tempAmount.toString());
+		    }
+		    
+		    respStatName.addAll(respStatAmount);
+			
+		} else {
+			respStatName.add("errNoProduct");
+		}
+
+		return respStatName;
+	}
 	
 }

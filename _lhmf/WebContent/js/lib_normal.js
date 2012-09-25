@@ -170,15 +170,13 @@ function writeStatPageNormal() {
 		selectString1 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
 	selectString1 += "</select>";
 	
-	  $('#tabs-1').html("<table id='canvResp-1'>" +
+	  $('#tabs-1').html("<table id='canvNorm-1'>" +
 	  		"<tr><th> Anno " + selectString1 +"</th></tr>" +
-	  		"<tr><td id='tdNormSpesaMese'><canvas id='canvasNormSpesaMese' width='580' height='400'></canvas></td></tr>" +
-	  		"<tr><th></th></tr>" +
-	  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasRespOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");
-	  /*$('#tabs-2').html("<table id='canvResp-2'>" +
+	  		"<tr><td id='tdNormSpesaMese'><canvas id='canvasNormSpesaMese' width='580' height='400'></canvas></td></tr><table>");
+	  $('#tabs-2').html("<table id='canvNorm-2'>" +
 		  		"<tr><th></th></tr>" +
-		  		"<tr><td><canvas id='canvasUtentiAttivi' width='580' height='400'></canvas></td></tr><table>");
-	  $('#tabs-3').html("<table id='canvResp-3'>" +
+		  		"<tr><td><canvas id='canvasProdTopSeller' width='580' height='400'></canvas></td></tr><table>");
+	  /*$('#tabs-3').html("<table id='canvResp-3'>" +
 		  		"<tr><th> Seleziona l'anno " + selectString2 + "</th></tr>" +
 		  		"<tr><td id='tdOrdiniMese'><canvas id='canvasOrdiniMese' width='580' height='400'></canvas></td></tr>" +
 		  		"<tr><th> Selezione l'anno " + selectString3 +"</th></tr>" +
@@ -190,16 +188,16 @@ function writeStatPageNormal() {
 
 function writeStatistics() {
 		
-	$('#canvResp-1').hide();
-	//$('#canvResp-2').hide();
-	//$('#canvResp-3').hide();
+	$('#canvNorm-1').hide();
+	$('#canvNorm-2').hide();
+	//$('#canvNorm-3').hide();
 	
 	var year1 = $("#yearS1").val();
 	//var year2 = $("#yearS2").val();
 	//var year3 = $("#yearS3").val();
 	
 	$.postSync("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
-	//$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	$.postSync("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
 	//$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
 	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
 	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
@@ -208,9 +206,9 @@ function writeStatistics() {
 	
 	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
 	
-	$('#canvResp-1').show('slow');
-	//$('#canvResp-2').show('slow');
-	//$('#canvResp-3').show('slow');
+	$('#canvNorm-1').show('slow');
+	$('#canvNorm-2').show('slow');
+	//$('#canvNorm-3').show('slow');
 }
 
 function refreshStatMese() {
@@ -309,7 +307,72 @@ function postStatNormMoneyMonthHandler(data) {
 }
 
 
+function postStatProdTopSellerHandler(data) {
+    
+    var json = ' { "x": { "Response": [ ' +
+                        '"Resistant",' +
+                        '"Resistant",' +
+                        '"Resistant",' +
+                        '"Sensitive",' +
+                        '"Sensitive",' +
+                        '"Sensitive",' +
+                        '"Sensitive",' +
+                        '"Sensitive" ] }, ';
 
+    json += ' "y": { "vars": [ "Prodotto" ], "smps": [ ';
+
+    var len = data.length/2;
+    var i = 0;
+    var json2 = "";
+    
+    if(data[0] != "errNoProduct") {
+    
+    for(i = 0; i < len; i++) {
+    if (i == len-1)
+    json += '"' + data[i] + '" ';
+    else
+    json += '"' + data[i] + '", ';
+    }
+    
+    
+    json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
+    
+    for(i = len; i < data.length; i++) {
+    if (i == data.length-1)
+    json += '\"' + data[i] + '\" ';
+    else
+    json += '\"' + data[i] + '\", ';
+    }
+    
+    json += '] ] } }';
+    
+    } else {
+    
+    json += '""';       
+    
+    json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
+    
+    json += '\"0\" ';
+    
+    json += '] ] } }';
+    
+    }
+    
+    json2 = '{ \"graphType\": \"Bar\",' + 
+    '\"colorBy\": \"Response\", ' +
+    '\"title\": \"Top 10 Prodotti Venduti\", ' +
+    '\"smpTitle\": \"Prodotti\", ' +
+    '\"colorScheme\": \"basic\", ' +
+    '\"graphOrientation\": \"vertical\", ' +
+    '\"setMin\": 0, ' +
+    '\"showLegend\": false }';
+    
+    var obj = jQuery.parseJSON(json);
+    var obj2 = jQuery.parseJSON(json2);
+    
+    new CanvasXpress("canvasProdTopSeller", obj, obj2);
+    
+}
 
 
 

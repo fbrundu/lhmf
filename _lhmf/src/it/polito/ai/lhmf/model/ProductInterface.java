@@ -10,12 +10,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -269,5 +274,49 @@ public class ProductInterface
 				"select count(*) from Product " + "where idSupplier = :idMember and availability = true");
 		query.setParameter("idMember", memberSupplier.getIdMember());
 		return (int) (long) query.uniqueResult();
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Transactional(readOnly = true)
+	public Map<Product, Long> getTopProduct() {
+		
+		Map<Product, Long> pList = new HashMap<Product,Long>();
+		
+		Calendar cal = Calendar.getInstance();
+		Date endDate = cal.getTime();
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select pp.product, sum(pp.amount)" +
+				"from PurchaseProduct as pp " +
+				"join pp.purchase as p " +
+				"join p.order as o " +
+			    "where o.dateClose <= :endDate " +
+				" AND o.dateDelivery is NOT NULL " +
+				"group by pp.product ").setMaxResults(10);
+		
+		query.setDate("endDate", endDate);
+		
+		for (Iterator it = query.iterate(); it.hasNext();) {
+			Object[] row = (Object[]) it.next();
+			
+			pList.put((Product) row[0], (Long) row[1]);
+		}
+		
+		//Ordino la mappa
+		List<Entry<Product, Long>> entries = new ArrayList<Entry<Product, Long>>(pList.entrySet());
+		Collections.sort(entries, new Comparator<Entry<Product, Long>>() {
+		    public int compare(Entry<Product, Long> e1, Entry<Product, Long> e2) {
+		        return e1.getValue().compareTo(e2.getValue());
+		    }
+		});
+		Collections.reverse(entries);
+		
+		// Put entries back in an ordered map.
+		Map<Product, Long> orderedMap = new LinkedHashMap<Product, Long>();
+		for (Entry<Product, Long> entry : entries) {
+		    orderedMap.put(entry.getKey(), entry.getValue());
+		}	
+		
+		return orderedMap;
 	}
 }
