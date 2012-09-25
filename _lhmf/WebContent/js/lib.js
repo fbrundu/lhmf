@@ -662,8 +662,9 @@ function getMyMessages()
       tabellaMessaggi += "<tr><td";
       if (!messagesList[mesIndex].isReaded)
         tabellaMessaggi += " class='not_read' ";
-      tabellaMessaggi += "><h3>From: " + messagesList[mesIndex].sender
-          + "</h3><p>" + messagesList[mesIndex].text + "</p></td></tr>";
+      tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
+          + "'><h3>From: " + messagesList[mesIndex].sender + "</h3><p>"
+          + messagesList[mesIndex].text + "</p></td></tr>";
     }
   });
   tabellaMessaggi += "</table></div>";
@@ -671,45 +672,49 @@ function getMyMessages()
   var usersList = getUsersExceptMe();
   for ( var userIndex in usersList)
   {
-    users += "<option value='" + usersList[userIndex] + "'>" 
-      + usersList[userIndex] + "</option>";
+    users += "<option value='" + usersList[userIndex] + "'>"
+        + usersList[userIndex] + "</option>";
   }
-//  var orders = "<option value='-1' selected='selected'>Seleziona...</option>";
-//  var ordersList = getOrders();
-//  for ( var orderIndex in ordersList)
-//  {
-//    orders += "<option value='" + ordersList[orderIndex] + "'>" 
-//      + ordersList[orderIndex] + "</option>";
-//  }
-//  var products = "<option value='-1' selected='selected'>Seleziona...</option>";
-//  var productsList = getProducts();
-//  for ( var prodIndex in productsList)
-//  {
-//    products += "<option value='" + productsList[prodIndex] + "'>" 
-//      + productsList[prodIndex] + "</option>";
-//  }
+  // var orders = "<option value='-1'
+  // selected='selected'>Seleziona...</option>";
+  // var ordersList = getOrders();
+  // for ( var orderIndex in ordersList)
+  // {
+  // orders += "<option value='" + ordersList[orderIndex] + "'>"
+  // + ordersList[orderIndex] + "</option>";
+  // }
+  // var products = "<option value='-1'
+  // selected='selected'>Seleziona...</option>";
+  // var productsList = getProducts();
+  // for ( var prodIndex in productsList)
+  // {
+  // products += "<option value='" + productsList[prodIndex] + "'>"
+  // + productsList[prodIndex] + "</option>";
+  // }
   var formInvioMessaggio = "<div class='messageform'><form method='post' action=''>"
       + "<fieldset><legend>&nbsp;Invia un messaggio&nbsp;</legend>"
       + "<br><label for='usersSelect' class='left'>Destinatario: </label>"
       + "<select name='usersSelect' id='usersSelect' class='field'>"
       + users
       + "</select><br><br>"
-//      + "<label for='ordersSelect' class='left'>Ordine (opzionale): </label>"
-//      + "<select name='ordersSelect' id='ordersSelect' class='field'>"
-//      + orders
-//      + "</select><br><br>"
-//      + "<label for='productsSelect' class='left'>Prodotto (opzionale): </label>"
-//      + "<select name='productsSelect' id='productsSelect' class='field'>"
-//      + products
-//      + "</select><br><br>"
+      // + "<label for='ordersSelect' class='left'>Ordine (opzionale): </label>"
+      // + "<select name='ordersSelect' id='ordersSelect' class='field'>"
+      // + orders
+      // + "</select><br><br>"
+      // + "<label for='productsSelect' class='left'>Prodotto (opzionale):
+      // </label>"
+      // + "<select name='productsSelect' id='productsSelect' class='field'>"
+      // + products
+      // + "</select><br><br>"
       + "<label for='messageText' class='left'>Testo: </label>"
       + "<textarea name='messageText' id='messageText' class='field' "
-      + "required='required' /><br>" 
+      + "required='required' /><br>"
       + "<button type='submit' id='newMessageSubmit'> Invia messaggio </button>"
       + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
   $("#bodyTitleHeader").html("Messaggi");
   $("button").button();
+  $(".not_read").click(setReadMessage);
   $('#newMessageSubmit').on("click", clickNewMessageHandler);
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
@@ -737,12 +742,12 @@ function getUsersExceptMe()
 
 function getOrders()
 {
-  //TODO
+  // TODO
 }
 
 function getProducts()
 {
-  //TODO
+  // TODO
 }
 
 function clickNewMessageHandler(event)
@@ -754,7 +759,7 @@ function clickNewMessageHandler(event)
   var username = $('#usersSelect').val();
   var messageText = $('#messageText').val();
 
-  if(username == 'notSelected' || username == undefined || messageText == "")
+  if (username == 'notSelected' || username == undefined || messageText == "")
   {
     $("#dialog-error-insert").dialog({
       resizable : false,
@@ -774,8 +779,8 @@ function clickNewMessageHandler(event)
     var idMessage = newMessage({
       dest : username,
       messageText : messageText,
-      idOrder: -1,
-      idProduct: -1,
+      idOrder : -1,
+      idProduct : -1,
     });
     if (idMessage > 0)
     {
@@ -844,6 +849,16 @@ function messagesClicked(event)
   }
 }
 
+function setReadMessage()
+{
+  var idMessage = $(this).attr("name");
+  $.postSync("ajax/setreadmessage", {
+    'idMessage' : idMessage
+  }, function()
+  {
+  });
+}
+
 function notifiesClicked(event)
 {
   var History = window.History;
@@ -868,11 +883,11 @@ function newMessage(messageParameters)
     return;
   }
   var returnedIdMessage = -1;
-    $.postSync("ajax/newmessage", messageParameters, function(idMessage)
-    {
-      returnedIdMessage = idMessage;
-      if (idMessage > 0)
-        console.debug("Inserted message: " + idMessage);
-    });
+  $.postSync("ajax/newmessage", messageParameters, function(idMessage)
+  {
+    returnedIdMessage = idMessage;
+    if (idMessage > 0)
+      console.debug("Inserted message: " + idMessage);
+  });
   return returnedIdMessage;
 }

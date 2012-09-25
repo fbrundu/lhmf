@@ -51,6 +51,8 @@ public class MessageDeserializer extends JsonDeserializer<Message>
 			Member receiver = (Member) query.uniqueResult();
 			newMessage.setMemberByIdReceiver(receiver);
 
+			newMessage.setIdMessage(node.get("idMessage").getNumberValue()
+					.intValue());
 			newMessage.setText(node.get("text").getTextValue());
 			newMessage.setIsReaded(node.get("isReaded").getBooleanValue());
 			if (node.get("idOrder") != null)

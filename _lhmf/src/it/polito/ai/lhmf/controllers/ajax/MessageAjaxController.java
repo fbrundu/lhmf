@@ -46,7 +46,7 @@ public class MessageAjaxController
 	{
 		return memberInterface.getUsernames();
 	}
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/getusernamesexceptme", method = RequestMethod.GET)
 	public @ResponseBody
@@ -71,9 +71,9 @@ public class MessageAjaxController
 			HttpServletRequest request,
 			@RequestParam(value = "dest", required = true) String dest,
 			@RequestParam(value = "messageText", required = true) String messageText
-			//@RequestParam(value = "idOrder", required = true) Integer idOrder,
-			//@RequestParam(value = "idProduct", required = true) Integer idProduct
-			)
+	// @RequestParam(value = "idOrder", required = true) Integer idOrder,
+	// @RequestParam(value = "idProduct", required = true) Integer idProduct
+	)
 	{
 		Integer idMessage = -1;
 		try
@@ -88,14 +88,14 @@ public class MessageAjaxController
 				m.setMemberByIdReceiver(receiver);
 				m.setMemberByIdSender(sender);
 				m.setMessageTimestamp(new Date());
-//				Order o = null;
-//				if (idOrder > 0)
-//					o = orderInterface.getOrder(idOrder);
-//				m.setOrder(o);
-//				Product p = null;
-//				if (idProduct > 0)
-//					p = productInterface.getProduct(idProduct);
-//				m.setProduct(p);
+				// Order o = null;
+				// if (idOrder > 0)
+				// o = orderInterface.getOrder(idOrder);
+				// m.setOrder(o);
+				// Product p = null;
+				// if (idProduct > 0)
+				// p = productInterface.getProduct(idProduct);
+				// m.setProduct(p);
 				m.setText(messageText);
 				idMessage = messageInterface.newMessage(m);
 			}
@@ -118,6 +118,22 @@ public class MessageAjaxController
 				.getAttribute("username"));
 		if (m != null)
 			return messageInterface.getMessagesByIdMember(m.getIdMember());
+		else
+			return null;
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/setreadmessage", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setRead(
+			HttpServletRequest request,
+			@RequestParam(value = "idMessage", required = true) Integer idMessage)
+			throws InvalidParametersException
+	{
+		Member m = memberInterface.getMember((String) request.getSession()
+				.getAttribute("username"));
+		if (m != null)
+			return messageInterface.setRead(m.getIdMember(), idMessage);
 		else
 			return null;
 	}
