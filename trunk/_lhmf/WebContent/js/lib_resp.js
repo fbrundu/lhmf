@@ -222,10 +222,12 @@ function writeStatPageResp() {
 						"<li><a href='#tabs-1'>Fornitori</a></li>" +
 						"<li><a href='#tabs-2'>Utenti</a></li>" +
 						"<li><a href='#tabs-3'>Movimenti</a></li>" +
+						"<li><a href='#tabs-4'>Prodotti</a></li>" +
 						"</ul>" +
 					    "<div id='tabs-1'></div>" +
 					    "<div id='tabs-2'></div>" +
 					    "<div id='tabs-3'></div>" +
+					    "<div id='tabs-4'></div>" +
 					    "</div>");
 	
 	var selectString1 = "<select name='yearS1' id='yearS1' class='field' onchange='refreshStatOrdiniMese()'>";
@@ -254,6 +256,9 @@ function writeStatPageResp() {
 	  $('#tabs-3').html("<table id='canvResp-3'>" +
 		  		"<tr><th> Seleziona l'anno " + selectString3 + "</th></tr>" +
 		  		"<tr><td id='tdStatRespMese'><canvas id='canvasStatRespMese' width='580' height='400'></canvas></td></tr><table>");
+	  $('#tabs-4').html("<table id='canvResp-4'>" +
+              "<tr><th></th></tr>" +
+              "<tr><td><canvas id='canvasProdTopSeller' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
 	  
 	  writeStatistics();
@@ -267,6 +272,7 @@ function writeStatistics() {
 	$('#canvResp-1').hide();
 	$('#canvResp-2').hide();
 	$('#canvResp-3').hide();
+	$('#canvResp-4').hide();
 	
 	var idSup1 = $("#SupList-1").val();
 	var idSup2 = $("#SupList-2").val();
@@ -278,6 +284,7 @@ function writeStatistics() {
 	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
 	$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
 	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	$.postSync("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
 	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
 	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
 	//$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
@@ -288,6 +295,7 @@ function writeStatistics() {
 	$('#canvResp-1').show('slow');
 	$('#canvResp-2').show('slow');
 	$('#canvResp-3').show('slow');
+	$('#canvResp-4').show('slow');
 }
 
 function postGetSupplierByRespHandler(data) {
@@ -487,7 +495,7 @@ function postStatRespTopUsersHandler(data) {
 		
 		json += '""';		
 			
-		json += '], \"desc\": [ \"Incasso\" ], \"data\": [ [ ';
+		json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
 		
 		json += '\"0\" ';
 
@@ -594,6 +602,72 @@ function postStatRespMoneyMonthHandler(data) {
 	
 }
 
+function postStatProdTopSellerHandler(data) {
+    
+    var json = ' { "x": { "Response": [ ' +
+                        '"Resistant",' +
+                        '"Resistant",' +
+                        '"Resistant",' +
+                        '"Sensitive",' +
+                        '"Sensitive",' +
+                        '"Sensitive",' +
+                        '"Sensitive",' +
+                        '"Sensitive" ] }, ';
+
+    json += ' "y": { "vars": [ "Prodotto" ], "smps": [ ';
+
+    var len = data.length/2;
+    var i = 0;
+    var json2 = "";
+    
+    if(data[0] != "errNoProduct") {
+    
+    for(i = 0; i < len; i++) {
+    if (i == len-1)
+    json += '"' + data[i] + '" ';
+    else
+    json += '"' + data[i] + '", ';
+    }
+    
+    
+    json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
+    
+    for(i = len; i < data.length; i++) {
+    if (i == data.length-1)
+    json += '\"' + data[i] + '\" ';
+    else
+    json += '\"' + data[i] + '\", ';
+    }
+    
+    json += '] ] } }';
+    
+    } else {
+    
+    json += '""';       
+    
+    json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
+    
+    json += '\"0\" ';
+    
+    json += '] ] } }';
+    
+    }
+    
+    json2 = '{ \"graphType\": \"Bar\",' + 
+    '\"colorBy\": \"Response\", ' +
+    '\"title\": \"Top 10 Prodotti Venduti\", ' +
+    '\"smpTitle\": \"Prodotti\", ' +
+    '\"colorScheme\": \"basic\", ' +
+    '\"graphOrientation\": \"vertical\", ' +
+    '\"setMin\": 0, ' +
+    '\"showLegend\": false }';
+    
+    var obj = jQuery.parseJSON(json);
+    var obj2 = jQuery.parseJSON(json2);
+    
+    new CanvasXpress("canvasProdTopSeller", obj, obj2);
+    
+}
 
 
 var idOrder = 0;
