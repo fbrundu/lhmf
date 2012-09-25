@@ -8,7 +8,6 @@ import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,15 +21,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class Listino extends Activity {
-	private static final int CONFIRM_DIALOG_ID = 1;
-	
 	private ListView productListView = null;
 	private ProgressDialog pDialog = null;
 	
@@ -52,64 +48,6 @@ public class Listino extends Activity {
 		}
 	}
 	
-	@Override
-	protected Dialog onCreateDialog(int id, Bundle args) {
-		if(id == CONFIRM_DIALOG_ID){
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage("");
-			builder.setCancelable(false);
-			builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-					
-				@Override
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.cancel();
-				}
-			});
-			
-			builder.setPositiveButton("Sì", null);
-			return builder.create();
-		}
-		else
-			return super.onCreateDialog(id, args);
-	}
-	
-	@Override
-	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
-		if(id == CONFIRM_DIALOG_ID){
-			final Product product = (Product) args.get("product");
-			boolean available = args.getBoolean("available");
-			
-			AlertDialog confirmDialog = (AlertDialog)dialog;
-			
-			if(available){
-				confirmDialog.setMessage("Vuoi rendere disponibile il prodotto '" + product.getName() + "'?");
-				
-				confirmDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sì", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						new ProductAvailabilityTask().execute(api, product, true);
-						dialog.cancel();
-					}
-				});
-			}
-			else{
-				confirmDialog.setMessage("Vuoi rendere indisponibile il prodotto '" + product.getName() + "'?");
-				
-				confirmDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Sì", new DialogInterface.OnClickListener() {
-					
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						new ProductAvailabilityTask().execute(api, product, false);
-						dialog.cancel();
-					}
-				});
-			}
-		}
-		else
-			super.onPrepareDialog(id, dialog, args);
-	}
-	
 	private class GetProductsTask extends AsyncTask<Gas, Void, Product[]>{
 
 		@Override
@@ -124,7 +62,6 @@ public class Listino extends Activity {
 				ListAdapter adapter = new CustomAdapter(Listino.this, R.layout.listino_item, R.id.productName, result);
 				productListView.setAdapter(adapter);
 			}
-			//super.onPostExecute(result);
 		}
 		
 	}
@@ -156,16 +93,53 @@ public class Listino extends Activity {
 			checkBox = (CheckBox) row.findViewById(R.id.prductItemCheckbox);
 			checkBox.setChecked(product.getAvailability());
 			
-			checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-				//TODO provare a usare onClickListener anzichè onCheckedChangedListener (pper evitare che se dal dialog si clicca "No"
-				//il checkbox risulti comunque cambiato.
+			checkBox.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
-				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					Bundle dialogArgs = new Bundle();
-					dialogArgs.putBoolean("available", isChecked);
-					dialogArgs.putSerializable("product", product);
-					showDialog(CONFIRM_DIALOG_ID, dialogArgs);
+				public void onClick(View v) {
+					final CheckBox checkBox = (CheckBox) v;
+					boolean isChecked = checkBox.isChecked();
+					
+					checkBox.setChecked(!isChecked);
+					
+					AlertDialog.Builder builder = new AlertDialog.Builder(Listino.this);
+					builder.setCancelable(false);
+					builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+							
+						@Override
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+							dialog.dismiss();
+						}
+					});
+					if(isChecked){
+						builder.setMessage("Vuoi rendere disponibile il prodotto '" + product.getName() + "'?");
+						
+						builder.setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								new ProductAvailabilityTask().execute(api, product, true, checkBox);
+								dialog.cancel();
+								dialog.dismiss();
+							}
+						});
+					}
+					else{
+						builder.setMessage("Vuoi rendere indisponibile il prodotto '" + product.getName() + "'?");
+						
+						builder.setPositiveButton("Sì", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								new ProductAvailabilityTask().execute(api, product, false, checkBox);
+								dialog.cancel();
+								dialog.dismiss();
+							}
+						});
+					}
+					builder.show();
+					
 				}
 			});
 			
@@ -249,7 +223,6 @@ public class Listino extends Activity {
 			ImageView iv = (ImageView) result[1];
 			
 			if(bmp != null && iv != null){
-				//Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 				iv.setImageBitmap(bmp);
 			}
 		}
@@ -262,8 +235,9 @@ public class Listino extends Activity {
 			Gas gas = (Gas) params[0];
 			Product product = (Product) params[1];
 			Boolean available = (Boolean) params[2];
+			CheckBox checkBox = (CheckBox) params[3];
 			
-			Object[] ret = new Object[3];
+			Object[] ret = new Object[4];
 			
 			ret[0] = product;
 			
@@ -275,6 +249,8 @@ public class Listino extends Activity {
 			
 			ret[2] = available;
 			
+			ret[3] = checkBox;
+			
 			return ret;
 		}
 		
@@ -283,11 +259,12 @@ public class Listino extends Activity {
 			Product product = (Product) result[0];
 			Integer retValue = (Integer) result[1];
 			Boolean available = (Boolean) result[2];
+			CheckBox checkBox = (CheckBox) result[3];
 			
-			//TODO Se retValue == null --> Fallito, sistemare checkbox
-
-			
-			super.onPostExecute(result);
+			if(retValue != null){
+				checkBox.setChecked(available);
+				product.setAvailability(available);
+			}
 		}
 		
 	}
