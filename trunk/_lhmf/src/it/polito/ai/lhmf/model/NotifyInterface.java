@@ -56,7 +56,7 @@ public class NotifyInterface
 		query.setParameter("idMember", idMember);
 
 		List<Notify> rNotifiesList = query.list();
-		setAllRead(idMember);
+		//setAllRead(idMember);
 		return rNotifiesList;
 	}
 
@@ -78,8 +78,26 @@ public class NotifyInterface
 		query.setParameter("idNotify", idNotify);
 
 		List<Notify> rNotifiesList = query.list();
-		setAllRead(idMember);
+		//setAllRead(idMember);
 		return rNotifiesList;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setRead(Integer idMember, Integer idNotify)
+			throws InvalidParametersException
+	{
+		if (idMember == null || idNotify == null)
+			throw new InvalidParametersException();
+
+		// FIXME : testare
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Notify" + " set isReaded = true"
+						+ " where isReaded = false and idMember = :idMember"
+						+ " and idNotify = :idNotify");
+		query.setParameter("idMember", idMember);
+		query.setParameter("idNotify", idNotify);
+
+		return (Integer) query.executeUpdate();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

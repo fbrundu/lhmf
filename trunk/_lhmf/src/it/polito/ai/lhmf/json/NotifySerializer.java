@@ -18,6 +18,7 @@ public class NotifySerializer extends JsonSerializer<Notify>
 			JsonProcessingException
 	{
 		jgen.writeStartObject();
+		jgen.writeNumberField("idNotify", value.getIdNotify());
 		jgen.writeStringField("member", value.getMember()
 				.getUsername());
 		jgen.writeStringField("text", value.getText());

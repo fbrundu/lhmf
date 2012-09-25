@@ -621,13 +621,15 @@ function getMyNotifies()
     {
       tabellaNotifiche += "<tr><td";
       if (!notifiesList[notIndex].isReaded)
-        tabellaNotifiche += " class='not_read' ";
-      tabellaNotifiche += "><p>" + notifiesList[notIndex].text
+        tabellaNotifiche += " class='not_read_n' ";
+      tabellaNotifiche += " name='" + notifiesList[notIndex].idNotify
+          + "'><p>" + notifiesList[notIndex].text
           + "</p></td></tr>";
     }
   });
   tabellaNotifiche += "</table></div>";
   $(".centrale").html(tabellaNotifiche);
+  $(".not_read_n").click(setReadNotify);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color", "");
@@ -661,7 +663,7 @@ function getMyMessages()
     {
       tabellaMessaggi += "<tr><td";
       if (!messagesList[mesIndex].isReaded)
-        tabellaMessaggi += " class='not_read' ";
+        tabellaMessaggi += " class='not_read_m' ";
       tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
           + "'><h3>From: " + messagesList[mesIndex].sender + "</h3><p>"
           + messagesList[mesIndex].text + "</p></td></tr>";
@@ -714,7 +716,7 @@ function getMyMessages()
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
   $("#bodyTitleHeader").html("Messaggi");
   $("button").button();
-  $(".not_read").click(setReadMessage);
+  $(".not_read_m").click(setReadMessage);
   $('#newMessageSubmit').on("click", clickNewMessageHandler);
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
@@ -847,6 +849,16 @@ function messagesClicked(event)
       action : 'messaggi'
     }, null, 'messaggi');
   }
+}
+
+function setReadNotify()
+{
+  var idNotify = $(this).attr("name");
+  $.postSync("ajax/setreadnotify", {
+    'idNotify' : idNotify
+  }, function()
+  {
+  });
 }
 
 function setReadMessage()

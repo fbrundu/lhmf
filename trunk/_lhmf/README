@@ -4,7 +4,6 @@ Applicazioni Internet - Gas
 
 ## DA IMPLEMENTARE ##
 
-- segnare messaggi e notifiche come già letti solo quando cliccati [FRA]
 - apertura pagina contestuale quando si clicca su una notifica [FRA]
 - invio notifiche e messaggi sistema
 - logging
@@ -44,6 +43,7 @@ Applicazioni Internet - Gas
 - invio messaggi utente [FRA]
 - reload automatico messaggi/notifiche in caso di arrivo di nuovi [FRA]
 - in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server [HAS]
+- segnare messaggi e notifiche come già letti solo quando cliccati [FRA]
 
 ## OK ##
 

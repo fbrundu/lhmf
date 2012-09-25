@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -42,6 +44,22 @@ public class NotifyAjaxController
 			return null;
 	}
 
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/setreadnotify", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setRead(
+			HttpServletRequest request,
+			@RequestParam(value = "idNotify", required = true) Integer idNotify)
+			throws InvalidParametersException
+	{
+		Member m = memberInterface.getMember((String) request.getSession()
+				.getAttribute("username"));
+		if (m != null)
+			return notifyInterface.setRead(m.getIdMember(), idNotify);
+		else
+			return null;
+	}
+	
 	@RequestMapping("/ajax/newnotifies")
 	public void newNotifies(Model model, HttpServletRequest request,
 			HttpServletResponse response)
