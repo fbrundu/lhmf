@@ -18,6 +18,7 @@ public class MessageSerializer extends JsonSerializer<Message>
 			JsonProcessingException
 	{
 		jgen.writeStartObject();
+		jgen.writeNumberField("idMessage", value.getIdMessage());
 		jgen.writeStringField("sender", value.getMemberByIdSender()
 				.getUsername());
 		jgen.writeStringField("receiver", value.getMemberByIdReceiver()

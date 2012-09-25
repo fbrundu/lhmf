@@ -53,8 +53,26 @@ public class MessageInterface
 								+ " where id_receiver = :idMember order by messageTimestamp desc");
 		query.setParameter("idMember", idMember);
 		List<Message> rMessagesList = query.list();
-		setAllRead(idMember);
+		// setAllRead(idMember);
 		return rMessagesList;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setRead(Integer idMember, Integer idMessage)
+			throws InvalidParametersException
+	{
+		if (idMember == null || idMessage == null)
+			throw new InvalidParametersException();
+
+		// FIXME : testare
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Message" + " set isReaded = true"
+						+ " where isReaded = false and id_receiver = :idMember"
+						+ " and idMessage = :idMessage");
+		query.setParameter("idMember", idMember);
+		query.setParameter("idMessage", idMessage);
+
+		return (Integer) query.executeUpdate();
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -65,46 +83,43 @@ public class MessageInterface
 			throw new InvalidParametersException();
 
 		// FIXME : testare
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Message" + " set isReaded = true"
-						+ " where isReaded = false and id_receiver = :idMember");
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"update Message"
+								+ " set isReaded = true"
+								+ " where isReaded = false and id_receiver = :idMember");
 		query.setParameter("idMember", idMember);
 
 		return (Integer) query.executeUpdate();
 	}
 
 	/*
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer updateMessage(Message message)
-			throws InvalidParametersException
-	{
-		if (message == null)
-			throw new InvalidParametersException();
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Message " + "set text = :text,"
-						+ "message_timestamp = :message_timestamp,"
-						+ "idSender = :idSender," + "idReceiver = :idReceiver"
-						+ " where idMessage = :idMessage");
-		query.setParameter("idMessage", message.getIdMessage());
-		query.setParameter("text", message.getText());
-		query.setParameter("message_timestamp", new java.sql.Timestamp(message
-				.getMessageTimestamp().getTime()));
-		query.setParameter("idSender", message.getMemberByIdSender()
-				.getIdMember());
-		query.setParameter("idReceiver", message.getMemberByIdReceiver()
-				.getIdMember());
-
-		return (Integer) query.executeUpdate();
-	}
-*/
+	 * @Transactional(propagation = Propagation.REQUIRED) public Integer
+	 * updateMessage(Message message) throws InvalidParametersException { if
+	 * (message == null) throw new InvalidParametersException();
+	 * 
+	 * Query query = sessionFactory.getCurrentSession().createQuery(
+	 * "update Message " + "set text = :text," +
+	 * "message_timestamp = :message_timestamp," + "idSender = :idSender," +
+	 * "idReceiver = :idReceiver" + " where idMessage = :idMessage");
+	 * query.setParameter("idMessage", message.getIdMessage());
+	 * query.setParameter("text", message.getText());
+	 * query.setParameter("message_timestamp", new java.sql.Timestamp(message
+	 * .getMessageTimestamp().getTime())); query.setParameter("idSender",
+	 * message.getMemberByIdSender() .getIdMember());
+	 * query.setParameter("idReceiver", message.getMemberByIdReceiver()
+	 * .getIdMember());
+	 * 
+	 * return (Integer) query.executeUpdate(); }
+	 */
 	@Transactional(readOnly = true)
 	public Long getUnreadCount(Integer idMember)
 			throws InvalidParametersException
 	{
 		if (idMember == null)
 			throw new InvalidParametersException();
-		
+
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
@@ -114,7 +129,7 @@ public class MessageInterface
 
 		return (Long) query.uniqueResult();
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer deleteMessage(Integer idMessage)
 			throws InvalidParametersException

@@ -5,6 +5,7 @@ Applicazioni Internet - Gas
 ## DA IMPLEMENTARE ##
 
 - segnare messaggi e notifiche come già letti solo quando cliccati [FRA]
+- apertura pagina contestuale quando si clicca su una notifica [FRA]
 - invio notifiche e messaggi sistema
 - logging
 - Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
@@ -41,11 +42,8 @@ Applicazioni Internet - Gas
 - controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
        vecchio >=0
 - invio messaggi utente [FRA]
-<<<<<<< .mine
 - reload automatico messaggi/notifiche in caso di arrivo di nuovi [FRA]
-=======
 - in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server [HAS]
->>>>>>> .r362
 
 ## OK ##
 
