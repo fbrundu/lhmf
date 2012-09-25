@@ -43,6 +43,8 @@ public class NotifyDeserializer extends JsonDeserializer<Notify>
 			Member member = (Member) query.uniqueResult();
 			newNotify.setMember(member);
 
+			newNotify.setIdNotify(node.get("idNotify").getNumberValue()
+					.intValue());
 			newNotify.setText(node.get("text").getTextValue());
 			newNotify.setIsReaded(node.get("isReaded").getBooleanValue());
 			newNotify.setNotifyTimestamp(ISO8601DateParser.parse(node.get(
