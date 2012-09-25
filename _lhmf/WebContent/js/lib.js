@@ -639,8 +639,16 @@ function registerForNotifies()
   source.onmessage = function(event)
   {
     console.debug("New notifies..");
-    $('#notifiesCount').html(event.data);
-    $('#notifiesCount').css("color", "red");
+    if (!window.History.enabled
+        || window.History.getState().data.action != 'notifiche')
+    {
+      $('#notifiesCount').html(event.data);
+      $('#notifiesCount').css("color", "red");
+    }
+    else
+    {
+      getMyNotifies();
+    }
   };
 }
 
@@ -806,9 +814,17 @@ function registerForMessages()
   var source = new EventSource('ajax/newmessages');
   source.onmessage = function(event)
   {
-    console.debug("New messages..");
-    $('#messagesCount').html(event.data);
-    $('#messagesCount').css("color", "red");
+    if (!window.History.enabled
+        || window.History.getState().data.action != 'messaggi')
+    {
+      console.debug("New messages..");
+      $('#messagesCount').html(event.data);
+      $('#messagesCount').css("color", "red");
+    }
+    else
+    {
+      getMyMessages();
+    }
   };
 }
 
