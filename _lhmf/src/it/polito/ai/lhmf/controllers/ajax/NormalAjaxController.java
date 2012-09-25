@@ -137,7 +137,7 @@ public class NormalAjaxController
 		for( int i = 0; i < idTmp.length; i++) 
 		{
 			Product product = productInterface.getProduct(Integer.parseInt(idTmp[i]));
-			if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()))
+			if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()) || (Integer.parseInt(amountTmp[i])) <= 0)
 			{
 				return -2;
 			}

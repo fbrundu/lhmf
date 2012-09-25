@@ -1600,6 +1600,7 @@ function postProductListRequestNormal(productList)
 										"<span class='amount'>" +
 											"<label for='pz' class='left'>Quantit&agrave desiderata:</label>" +
 											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
+											 "<input type='hidden' id='pzMax' class='field' value='" + product.maxBuy + "' />" +
 										"</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
@@ -1686,14 +1687,37 @@ function clickPurchaseHandler(event)
     {
     	
         var amount = $(this).find('input').val();
-        //var min = $(this).find('product.minBuy').val();
-        //var max = $(this).find('product.maxBuy').val();
+        var max =  $(this).find('input:hidden').val();
         
-        if(amount === undefined || amount === "" || isNaN(amount) /*|| amount < min || amount > max*/) 
+        if(amount === "") 
         {
-                $("#legendErrorPurchase").html("Errore");
-                $("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
-                fail = true;
+        	$("#legendErrorPurchase").html("Errore");
+            $("#errorsPurchase").html("Errore il campo quantit&agrave &egrave vuoto. Inserire un valore.<br /><br />");
+            fail = true;
+        }
+        else if(isNaN(amount))
+        {
+        	$("#legendErrorPurchase").html("Errore");
+            $("#errorsPurchase").html("Errore la quantit&agrave deve essere un numero.<br /><br />");
+            fail = true;
+        }
+        else if(amount <= 0) 
+        {
+        	$("#legendErrorPurchase").html("Errore");
+            $("#errorsPurchase").html("Errore la quantit&agrave deve avere un valore positivo.<br /><br />");
+            fail = true;
+        }
+        else if(amount > max)
+        {
+        	$("#legendErrorPurchase").html("Errore");
+            $("#errorsPurchase").html("Errore la quantit&agrave &egrave maggiore della effettiva disponibilit&agrave.<br /><br />");
+            fail = true;
+        }
+        else if(amount === undefined) 
+        {
+        	$("#legendErrorPurchase").html("Errore");
+            $("#errorsPurchase").html("Errore nel campo quantit&agrave. Compilare con un valore numerico intero.<br /><br />");
+            fail = true;
         }
         addedPz.push(amount);
     });
@@ -1727,7 +1751,7 @@ function postSetNewPurchaseRequest(result)
 		$("#legendErrorPurchase").html("Errore");
 		if(result == -2)
 		{
-			$("#errorsPurchase").html("Errore nei campi Quota. Compilare con un valore numerico intero.<br /><br />");
+			$("#errorsPurchase").html("Errore nel campo quantit&agrave. Compilare con un valore numerico corretto.<br /><br />");
 		}
 		else
 		{
