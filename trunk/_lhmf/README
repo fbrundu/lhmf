@@ -16,8 +16,6 @@ Applicazioni Internet - Gas
   -normale: nuova scheda, modifica scheda, visualizzazione stato scheda
   -admin: attivazione utenti
 - statistiche!!!!!!!!! [MATTE]
-- in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date
-- in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server
 - cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
   javascript
 
@@ -43,6 +41,7 @@ Applicazioni Internet - Gas
 - controllare che l'utilizzo di isPositiveNumber() sia sempre corretto per >0 invece che il
        vecchio >=0
 - invio messaggi utente [FRA]
+- in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server [HAS]
 
 ## OK ##
 
@@ -52,7 +51,7 @@ Applicazioni Internet - Gas
   Serve a chiusura ordine per eliminare eventuali richieste di acquisto 
   che eccedono le quantot� possibili del prodotto [LUCA]
 - remapping hibernate per timestamp purchase_product [LUCA]
-
+- in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date [HAS]
 ###############################################################################
 ---------------------------------------------
 
