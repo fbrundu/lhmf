@@ -280,11 +280,11 @@ function writeStatistics() {
 	var year2 = $("#yearS2").val();
 	var year3 = $("#yearS3").val();
 	
-	$.post("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
-	$.post("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
-	$.post("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
-	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
-	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
+	$.postSync("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
+	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
+	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	$.postSync("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
 	
 	$('#canvResp-1').show('slow');
 	$('#canvResp-2').show('slow');
@@ -324,7 +324,7 @@ function refreshStatOrdiniMese() {
 	$("#tdRespOrdiniMese").hide("slow");
 	$("#tdRespOrdiniMese").html("<canvas id='canvasRespOrdiniMese' width='580' height='400'></canvas>");
 	
-	$.post("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
+	$.postSync("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
 	
 	$("#tdRespOrdiniMese").show("slow");
 }
@@ -337,7 +337,7 @@ function refreshStatOrdiniAnno() {
 	$("#tdRespOrdiniAnno").hide("slow");
 	$("#tdRespOrdiniAnno").html("<canvas id='canvasRespOrdiniAnno' width='580' height='400'></canvas>");
 	
-	$.post("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
 	
 	$("#tdRespOrdiniAnno").show("slow");
 }
@@ -349,7 +349,7 @@ function refreshStatMese() {
 	$("#tdStatRespMese").hide("slow");
 	$("#tdStatRespMese").html("<canvas id='canvasStatRespMese' width='580' height='400'></canvas>");
 	
-	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
 	
 	$("#tdStatRespMese").show("slow");
 }
@@ -359,7 +359,7 @@ function refreshStatTopUser() {
 	$("#tdUtentiAttivi").hide("slow");
 	$("#tdUtentiAttivi").html("<canvas id='canvasUtentiAttivi' width='580' height='400'></canvas>");
 	
-	$.post("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
+	$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
 	
 	$("#tdUtentiAttivi").show("slow");
 }
@@ -369,7 +369,7 @@ function refreshStatTopProduct() {
 	$("#tdProdTopProduct").hide("slow");
 	$("#tdProdTopProduct").html("<canvas id='canvasProdTopProduct' width='580' height='400'></canvas>");
 	
-	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
 	
 	$("#tdProdTopProduct").show("slow");
 }
