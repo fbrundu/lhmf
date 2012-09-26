@@ -107,12 +107,12 @@ function writeStatPageSupplier() {
 	
 	  $('#tabs-1').html("<table id='canvSupplier-1'>" +
 	  		"<tr><th> Seleziona l'anno " + selectString1 +"</th></tr>" +
-	  		"<tr><td id='canvasIncassoM'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr>" +
+	  		"<tr><td id='tdIncassoMensile'><canvas id='canvasIncassoMensile' width='580' height='400'></canvas></td></tr>" +
 	  		"<tr><th></th></tr>" +
-	  		"<tr><td id='canvasIncassoP'><canvas id='canvasIncassoProdotto' width='580' height='500'></canvas></td></tr><table>");
+	  		"<tr><td id='tdIncassoProdotto'><canvas id='canvasIncassoProdotto' width='580' height='500'></canvas></td></tr><table>");
 	  $('#tabs-2').html("<table id='canvSupplier-2'>" +
 		  		"<tr><th></th></tr>" +
-		  		"<tr><td><canvas id='canvasProdottiListino' width='580' height='400'></canvas></td></tr><table>");
+		  		"<tr><td id='tdProdottiListino'><canvas id='canvasProdottiListino' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs-3').html("<table id='canvSupplier-3'>" +
 		  		"<tr><th> Seleziona l'anno " + selectString2 + "</th></tr>" +
 		  		"<tr><td id='tdOrdiniMese'><canvas id='canvasOrdiniMese' width='580' height='400'></canvas></td></tr>" +
@@ -133,29 +133,38 @@ function writeStatistics() {
 	var year2 = $("#yearS2").val();
 	var year3 = $("#yearS3").val();
 	
-	$.postSync("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
-	$.postSync("ajax/statSupplierMoneyProduct", null, postStatSupplierMoneyProductHandler);
-	$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
-	$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
-	$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
+	$.post("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
+	$.post("ajax/statSupplierMoneyProduct", null, postStatSupplierMoneyProductHandler);
+	$.post("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
+	$.post("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
+	$.post("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
 	
-	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
 	
 	$('#canvSupplier-1').show('slow');
 	$('#canvSupplier-2').show('slow');
 	$('#canvSupplier-3').show('slow');
 }
 
+function refreshAllStat() {
+	
+	refreshStatIncasso();
+	refreshStatOrdiniMese();
+	refreshStatOrdiniAnno();
+	refreshStatIncassoProdotto();
+	refreshStatProdottiListino();
+	
+}
+
 function refreshStatIncasso() {
 	
 	var year1 = $("#yearS1").val();
 	
-	$("#canvasIncassoM").hide("slow");
-	$("#canvasIncassoM").html("<canvas id='canvasIncassoMensile' width='580' height='400'></canvas>");
+	$("#tdIncassoMensile").hide("slow");
+	$("#tdIncassoMensile").html("<canvas id='canvasIncassoMensile' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
+	$.post("ajax/statSupplierMoneyMonth", {year: year1}, postStatSupplierMoneyMonthHandler);
 	
-	$("#canvasIncassoM").show("slow");
+	$("#tdIncassoMensile").show("slow");
 }
 
 function refreshStatOrdiniMese() {
@@ -165,7 +174,7 @@ function refreshStatOrdiniMese() {
 	$("#tdOrdiniMese").hide("slow");
 	$("#tdOrdiniMese").html("<canvas id='canvasOrdiniMese' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
+	$.post("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
 	
 	$("#tdOrdiniMese").show("slow");
 }
@@ -177,9 +186,30 @@ function refreshStatOrdiniAnno() {
 	$("#tdOrdiniAnno").hide("slow");
 	$("#tdOrdiniAnno").html("<canvas id='canvasOrdiniAnno' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
+	$.post("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
 	
 	$("#tdOrdiniAnno").show("slow");
+}
+
+function refreshStatIncassoProdotto() {
+	
+	$("#tdIncassoProdotto").hide("slow");
+	$("#tdIncassoProdotto").html("<canvas id='canvasIncassoProdotto' width='580' height='400'></canvas>");
+	
+	$.post("ajax/statSupplierMoneyProduct", null, postStatSupplierMoneyProductHandler);
+	
+	$("#tdIncassoProdotto").show("slow");
+}
+
+function refreshStatProdottiListino() {
+	
+	
+	$("#tdProdottiListino").hide("slow");
+	$("#tdProdottiListino").html("<canvas id='canvasProdottiListino' width='580' height='400'></canvas>");
+	
+	$.post("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
+	
+	$("#tdProdottiListino").show("slow");
 }
 
 function postStatSupplierMoneyMonthHandler(data){
