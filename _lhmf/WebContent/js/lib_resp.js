@@ -280,17 +280,11 @@ function writeStatistics() {
 	var year2 = $("#yearS2").val();
 	var year3 = $("#yearS3").val();
 	
-	$.postSync("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
-	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
-	$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
-	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
-	$.postSync("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
-	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
-	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
-	//$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
-	//$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
-	
-	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
+	$.post("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
+	$.post("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	$.post("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
+	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
 	
 	$('#canvResp-1').show('slow');
 	$('#canvResp-2').show('slow');
