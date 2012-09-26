@@ -21,7 +21,7 @@
 		<h1 class="first">Menu Utente</h1>
 		<dl class="menu-navigazione">
 		  <dt><a id="purchaseLink" href="">Schede Di Acquisto</a></dt>
-		  <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statSupplier"/>">Statistiche</a></dt>
+		  <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statNormal"/>">Statistiche</a></dt>
 		</dl> 
     </jsp:attribute>
     

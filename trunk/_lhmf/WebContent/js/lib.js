@@ -646,7 +646,6 @@ function registerForNotifies()
   var source = new EventSource('ajax/newnotifies');
   source.onmessage = function(event)
   {
-    console.debug("New notifies..");
     if (!window.History.enabled
         || window.History.getState().data.action != 'notifiche')
     {
@@ -836,7 +835,6 @@ function registerForMessages()
     if (!window.History.enabled
         || window.History.getState().data.action != 'messaggi')
     {
-      console.debug("New messages..");
       $('#messagesCount').html(event.data);
       $('#messagesCount').css("color", "red");
     }
