@@ -175,12 +175,7 @@ function writeStatPageNormal() {
 	  		"<tr><td id='tdNormSpesaMese'><canvas id='canvasNormSpesaMese' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs-2').html("<table id='canvNorm-2'>" +
 		  		"<tr><th></th></tr>" +
-		  		"<tr><td><canvas id='canvasProdTopSeller' width='580' height='400'></canvas></td></tr><table>");
-	  /*$('#tabs-3').html("<table id='canvResp-3'>" +
-		  		"<tr><th> Seleziona l'anno " + selectString2 + "</th></tr>" +
-		  		"<tr><td id='tdOrdiniMese'><canvas id='canvasOrdiniMese' width='580' height='400'></canvas></td></tr>" +
-		  		"<tr><th> Selezione l'anno " + selectString3 +"</th></tr>" +
-		  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");*/
+		  		"<tr><td id='tdProdTopSeller'><canvas id='canvasProdTopSeller' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
 	  
 	  writeStatistics();
@@ -190,25 +185,21 @@ function writeStatistics() {
 		
 	$('#canvNorm-1').hide();
 	$('#canvNorm-2').hide();
-	//$('#canvNorm-3').hide();
 	
 	var year1 = $("#yearS1").val();
-	//var year2 = $("#yearS2").val();
-	//var year3 = $("#yearS3").val();
 	
-	$.postSync("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
-	$.postSync("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
-	//$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
-	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
-	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
-	//$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
-	//$.postSync("ajax/statSupplierOrderYear", {year: year3}, postStatSupplierOrderYearHandler);
-	
-	//$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
+	$.post("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
+	$.post("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
 	
 	$('#canvNorm-1').show('slow');
 	$('#canvNorm-2').show('slow');
-	//$('#canvNorm-3').show('slow');
+}
+
+function refreshAllStat() {
+	
+	refreshStatMese();
+	refreshTopSeller();
+	
 }
 
 function refreshStatMese() {
@@ -218,9 +209,20 @@ function refreshStatMese() {
 	$("#tdNormSpesaMese").hide("slow");
 	$("#tdNormSpesaMese").html("<canvas id='canvasNormSpesaMese' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
+	$.post("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
 	
 	$("#tdNormSpesaMese").show("slow");
+}
+
+function refreshTopSeller() {
+	
+	
+	$("#tdProdTopSeller").hide("slow");
+	$("#tdProdTopSeller").html("<canvas id='canvasProdTopSeller' width='580' height='400'></canvas>");
+	
+	$.post("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
+	
+	$("#tdProdTopSeller").show("slow");
 }
 
 function postStatNormMoneyMonthHandler(data) {
