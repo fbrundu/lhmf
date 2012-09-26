@@ -44,6 +44,8 @@ Applicazioni Internet - Gas
 - reload automatico messaggi/notifiche in caso di arrivo di nuovi [FRA]
 - in creazione scheda, migliorare i controlli sulle quantità sia lato client che lato server [HAS]
 - segnare messaggi e notifiche come già letti solo quando cliccati [FRA]
+- mantenimento dello stato dello scroll quando vengono ricaricate messaggi
+  e notifiche [FRA]
 
 ## OK ##
 
