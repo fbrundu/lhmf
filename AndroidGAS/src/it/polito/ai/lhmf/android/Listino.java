@@ -2,13 +2,20 @@ package it.polito.ai.lhmf.android;
 
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
+import it.polito.ai.lhmf.android.util.SeparatedListAdapter;
 import it.polito.ai.lhmf.model.Product;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,13 +29,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class Listino extends Activity {
 	private ListView productListView = null;
-	private ProgressDialog pDialog = null;
+	
+	private SeparatedListAdapter adapter = null;
 	
 	private Gas api = null;
 	
@@ -43,6 +50,7 @@ public class Listino extends Activity {
 			setContentView(R.layout.listino);
 			
 			productListView = (ListView) findViewById(R.id.productList);
+			adapter = new SeparatedListAdapter(this);
 			
 			new GetProductsTask().execute(api);
 		}
@@ -58,8 +66,39 @@ public class Listino extends Activity {
 		
 		@Override
 		protected void onPostExecute(Product[] result) {
-			if(result != null){
-				ListAdapter adapter = new CustomAdapter(Listino.this, R.layout.listino_item, R.id.productName, result);
+			if(result != null && result.length > 0){
+				List<Product> productList = new ArrayList<Product>();
+				for(Product prod : result)
+					productList.add(prod);
+				
+				Collections.sort(productList, new Comparator<Product>() {
+
+					@Override
+					public int compare(Product lhs, Product rhs) {
+						return lhs.getName().compareToIgnoreCase(rhs.getName());
+					}
+				});
+				
+				Map<String, CustomAdapter> sections = new TreeMap<String, CustomAdapter>(new Comparator<String>() {
+
+					@Override
+					public int compare(String lhs, String rhs) {
+						return lhs.compareToIgnoreCase(rhs);
+					}
+				});
+				for(Product prod : productList){
+					CustomAdapter section = sections.get(prod.getCategory().getDescription());
+					if(section == null){
+						section = new CustomAdapter(Listino.this, R.layout.listino_item, R.id.productName);
+						sections.put(prod.getCategory().getDescription(), section);
+					}
+					section.add(prod);
+				}
+				
+				for(String sectionName : sections.keySet()){
+					adapter.addSection(sectionName, sections.get(sectionName));
+				}
+				
 				productListView.setAdapter(adapter);
 			}
 		}
@@ -73,6 +112,10 @@ public class Listino extends Activity {
 			super(context, resource, textViewResourceId, objects);
 		}
 		
+		public CustomAdapter(Context context, int resource, int textViewResourceId) {
+			super(context, resource, textViewResourceId);
+		}
+
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View row = convertView;

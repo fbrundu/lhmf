@@ -37,10 +37,6 @@
 	<http pattern="/androidApi/**" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
 		access-decision-manager-ref="accessDecisionManager">
 		<anonymous enabled="false" />
-<!-- 		<intercept-url pattern="/photos" access="ROLE_USER,SCOPE_READ" /> -->
-<!-- 		<intercept-url pattern="/photos/trusted/**" access="ROLE_CLIENT,SCOPE_TRUST" /> -->
-<!-- 		<intercept-url pattern="/photos/user/**" access="ROLE_USER,SCOPE_TRUST" /> -->
-<!-- 		<intercept-url pattern="/photos/**" access="ROLE_USER,SCOPE_READ" /> -->
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
@@ -51,7 +47,7 @@
 	    <intercept-url pattern="/android/loginSuccess.*" access="isAuthenticated()"/>
 	    <intercept-url pattern="/android/j_spring_facebook_security_check.*" access="permitAll"/>
 		<form-login login-page="/android/login" login-processing-url="/android/j_spring_security_check" authentication-failure-url="/android/login?form_error"/>
- 			<openid-login user-service-ref="myUserDetailsService" login-processing-url="/android/j_spring_openid_security_check" 
+		<openid-login user-service-ref="myUserDetailsService" login-processing-url="/android/j_spring_openid_security_check" 
  			    authentication-failure-handler-ref="androidOpenIdSuccessButNotRegistered">
             <attribute-exchange>
                 <openid-attribute name="firstname" type="http://axschema.org/namePerson/first" required="true"/>
@@ -70,11 +66,6 @@
         <custom-filter ref="oauth2ClientFilter" after="EXCEPTION_TRANSLATION_FILTER" />
         <custom-filter before="FILTER_SECURITY_INTERCEPTOR " ref="androidFbAuthFilter"/>
 	</http>
-	
-<!-- 	<http pattern="/mobile/**" use-expressions="true"> -->
-<!-- 	    <intercept-url pattern="/mobile/login*" access="permitAll"/> -->
-<!-- 	    <form-login login-page="/mobile/login" login-processing-url="/mobile/j_spring_security_check_mobile" authentication-success-handler-ref="loginSuccessfull" authentication-failure-url="/mobile/login?form_error"/> -->
-<!-- 	</http> -->
 
 	<!-- Normal security (not andorid clients OAuth) -->
 	<http use-expressions="true">
@@ -144,12 +135,6 @@
 		<beans:property name="authenticationManager" ref="authenticationManager"/>
 		<beans:property name="protectedResourceDetailsService" ref="androidFacebookResourceDetailsService"/>
 		<beans:property name="filterProcessesUrl" value="/android/j_spring_facebook_security_check"/>
-<!-- 		<beans:property name="authenticationSuccessHandler"> -->
-<!-- 		    <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler"> -->
-<!-- 		        <beans:constructor-arg value="/android/loginSuccess"/> -->
-<!-- 		        <beans:property name="alwaysUseDefaultTargetUrl" value="true"/> -->
-<!-- 		    </beans:bean> -->
-<!-- 		</beans:property> -->
 		<beans:property name="AuthenticationFailureHandler" ref="androidFbSuccessButNotRegistered"/>
 		<beans:property name="sessionFactory" ref="sessionFactory"/>
 	</beans:bean>
