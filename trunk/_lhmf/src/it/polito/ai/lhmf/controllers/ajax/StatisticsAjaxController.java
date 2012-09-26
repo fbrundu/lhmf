@@ -83,7 +83,7 @@ public class StatisticsAjaxController
 		Integer respUsers;
 		Integer supplierUsers;
 		
-		for(int i = 1; i <= 12; i++) {
+		for(int i = 0; i <= 11; i++) {
 			
 			normalUsers = (int) (long) memberInterface.getNumberItemsPerMonth(MemberTypes.USER_NORMAL, i, year);
 			respUsers = (int) (long) memberInterface.getNumberItemsPerMonth(MemberTypes.USER_RESP, i, year);

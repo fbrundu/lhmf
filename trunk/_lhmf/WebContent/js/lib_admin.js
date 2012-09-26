@@ -211,7 +211,7 @@ function writeStatPageAdmin() {
 	
 	  $('#tabs-1').html("<table id='canvAdmin-1'>" +
 	  		"<tr><th></th></tr>" +
-	  		"<tr><td id='tdTipologiaUtenti><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr>" +
+	  		"<tr><td id='tdTipologiaUtenti'><canvas id='canvasTipologiaUtenti' width='580' height='400'></canvas></td></tr>" +
 	  		"<tr><th> Seleziona l'anno " + selectString +"</th></tr>" +
 	  		"<tr><td id='tdIscrizioneUtenti'><canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
@@ -225,8 +225,8 @@ function writeStatistics(){
 	
 	var year = $("#yearS").val();
 	
-	$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
-	$.postSync("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
+	$.post("ajax/statMemberType", null, postStatMemberTypeHandler);
+	$.post("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
 	
 	$('#canvAdmin-1').show('slow');
 }
@@ -244,7 +244,7 @@ function refreshStatMemberType(){
 	$("#tdTipologiaUtenti").hide("slow");
 	$("#tdTipologiaUtenti").html("<canvas id='canvasTipologiaUtenti' width='580' height='500'></canvas>");
 	
-	$.postSync("ajax/statMemberType", null, postStatMemberTypeHandler);
+	$.post("ajax/statMemberType", null, postStatMemberTypeHandler);
 	
 	$("#tdTipologiaUtenti").show("slow");
 }
@@ -256,7 +256,7 @@ function refreshStatMemberReg(){
 	$("#tdIscrizioneUtenti").hide("slow");
 	$("#tdIscrizioneUtenti").html("<canvas id='canvasIscrizioneUtenti' width='580' height='500'></canvas>");
 	
-	$.postSync("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
+	$.post("ajax/statMemberReg", {year: year}, postStatMemberRegHandler);
 	
 	$("#tdIscrizioneUtenti").show("slow");
 }
