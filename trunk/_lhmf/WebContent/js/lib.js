@@ -615,6 +615,9 @@ function isPositiveNumber(n)
 function getMyNotifies()
 {
   var tabellaNotifiche = "<div class='contentDiv'><table class='notifiche'>";
+  if ($(".contentDiv") != undefined && $(".contentDiv").scrollTop() != 0)
+    var distanceFromBottom = $(".contentDiv").height()
+        - $(".contentDiv").scrollTop();
   $.getSync("ajax/getmynotifies", undefined, function(notifiesList)
   {
     for ( var notIndex in notifiesList)
@@ -629,6 +632,9 @@ function getMyNotifies()
   });
   tabellaNotifiche += "</table></div>";
   $(".centrale").html(tabellaNotifiche);
+  if (distanceFromBottom != undefined)
+    $(".contentDiv").scrollTop(
+        $(".contentDiv").height() - distanceFromBottom + 1);
   $(".not_read_n").click(setReadNotify);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
@@ -657,6 +663,9 @@ function registerForNotifies()
 function getMyMessages()
 {
   var tabellaMessaggi = "<div class='contentDiv'><table class='messaggi'>";
+  if ($(".contentDiv") != undefined && $(".contentDiv").scrollTop() != 0)
+    var distanceFromBottom = $(".contentDiv").height()
+        - $(".contentDiv").scrollTop();
   $.getSync("ajax/getmymessages", undefined, function(messagesList)
   {
     for ( var mesIndex in messagesList)
@@ -714,6 +723,9 @@ function getMyMessages()
       + "<button type='submit' id='newMessageSubmit'> Invia messaggio </button>"
       + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
+  if (distanceFromBottom != undefined)
+    $(".contentDiv").scrollTop(
+        $(".contentDiv").height() - distanceFromBottom + 1);
   $("#bodyTitleHeader").html("Messaggi");
   $("button").button();
   $(".not_read_m").click(setReadMessage);
