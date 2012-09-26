@@ -32,7 +32,6 @@ public class AndroidUserController {
 		return 0;
 	}
 	
-	//FIXME spostarlo in un altro controller
 	@RequestMapping("/androidApi/logout")
 	public void logout(OAuth2Authentication auth){
 		OAuth2AccessToken token = tokenStore.getAccessToken(auth);

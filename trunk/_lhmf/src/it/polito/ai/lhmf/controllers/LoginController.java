@@ -2,6 +2,7 @@ package it.polito.ai.lhmf.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class LoginController
 				//Session was already invalidated
 			}
 		}
+		SecurityContextHolder.getContext().setAuthentication(null);
 		model.addAttribute("client", "android");
 		return new ModelAndView("mobile/loginSuccess");
 	}
