@@ -252,13 +252,13 @@ function writeStatPageResp() {
 	  		"<tr><td id='tdOrdiniAnno'><canvas id='canvasRespOrdiniAnno' width='580' height='500'></canvas></td></tr><table>");
 	  $('#tabs-2').html("<table id='canvResp-2'>" +
 		  		"<tr><th></th></tr>" +
-		  		"<tr><td><canvas id='canvasUtentiAttivi' width='580' height='400'></canvas></td></tr><table>");
+		  		"<tr><td id='tdUtentiAttivi'><canvas id='canvasUtentiAttivi' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs-3').html("<table id='canvResp-3'>" +
 		  		"<tr><th> Seleziona l'anno " + selectString3 + "</th></tr>" +
 		  		"<tr><td id='tdStatRespMese'><canvas id='canvasStatRespMese' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs-4').html("<table id='canvResp-4'>" +
               "<tr><th></th></tr>" +
-              "<tr><td><canvas id='canvasProdTopSeller' width='580' height='400'></canvas></td></tr><table>");
+              "<tr><td id='tdProdTopProduct'><canvas id='canvasProdTopProduct' width='580' height='400'></canvas></td></tr><table>");
 	  $('#tabs').tabs();
 	  
 	  writeStatistics();
@@ -284,7 +284,7 @@ function writeStatistics() {
 	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
 	$.postSync("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
 	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
-	$.postSync("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
+	$.postSync("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
 	//$.postSync("ajax/statSupplierMoneyProduct", {year: year2}, postStatSupplierMoneyProductHandler);
 	//$.postSync("ajax/statSupplierProductList", null, postStatSupplierProductListHandler);
 	//$.postSync("ajax/statSupplierOrderMonth", {year: year2}, postStatSupplierOrderMonthHandler);
@@ -312,6 +312,16 @@ function postGetSupplierByRespHandler(data) {
 	
 }
 
+function refreshAllStat() {
+	
+	refreshStatOrdiniMese();
+	refreshStatOrdiniAnno();
+	refreshStatMese();
+	refreshStatTopUser();
+	refreshStatTopProduct();
+	
+}
+
 function refreshStatOrdiniMese() {
 	
 	var year1 = $("#yearS1").val();
@@ -320,7 +330,7 @@ function refreshStatOrdiniMese() {
 	$("#tdRespOrdiniMese").hide("slow");
 	$("#tdRespOrdiniMese").html("<canvas id='canvasRespOrdiniMese' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
+	$.post("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
 	
 	$("#tdRespOrdiniMese").show("slow");
 }
@@ -333,7 +343,7 @@ function refreshStatOrdiniAnno() {
 	$("#tdRespOrdiniAnno").hide("slow");
 	$("#tdRespOrdiniAnno").html("<canvas id='canvasRespOrdiniAnno' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	$.post("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
 	
 	$("#tdRespOrdiniAnno").show("slow");
 }
@@ -345,11 +355,30 @@ function refreshStatMese() {
 	$("#tdStatRespMese").hide("slow");
 	$("#tdStatRespMese").html("<canvas id='canvasStatRespMese' width='580' height='400'></canvas>");
 	
-	$.postSync("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
 	
 	$("#tdStatRespMese").show("slow");
 }
 
+function refreshStatTopUser() {
+	
+	$("#tdUtentiAttivi").hide("slow");
+	$("#tdUtentiAttivi").html("<canvas id='canvasUtentiAttivi' width='580' height='400'></canvas>");
+	
+	$.post("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
+	
+	$("#tdUtentiAttivi").show("slow");
+}
+
+function refreshStatTopProduct() {
+	
+	$("#tdProdTopProduct").hide("slow");
+	$("#tdProdTopProduct").html("<canvas id='canvasProdTopProduct' width='580' height='400'></canvas>");
+	
+	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
+	
+	$("#tdProdTopProduct").show("slow");
+}
 
 function postStatRespOrderMonthHandler(data) {
 	
@@ -602,7 +631,7 @@ function postStatRespMoneyMonthHandler(data) {
 	
 }
 
-function postStatProdTopSellerHandler(data) {
+function postStatProdTopProductHandler(data) {
     
     var json = ' { "x": { "Response": [ ' +
                         '"Resistant",' +
@@ -665,7 +694,7 @@ function postStatProdTopSellerHandler(data) {
     var obj = jQuery.parseJSON(json);
     var obj2 = jQuery.parseJSON(json2);
     
-    new CanvasXpress("canvasProdTopSeller", obj, obj2);
+    new CanvasXpress("canvasProdTopProduct", obj, obj2);
     
 }
 

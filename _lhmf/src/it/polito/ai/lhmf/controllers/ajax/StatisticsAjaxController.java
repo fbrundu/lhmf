@@ -460,9 +460,9 @@ public class StatisticsAjaxController
 	@SuppressWarnings("rawtypes")
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
 			+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/ajax/statProdTopSeller", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/statProdTopProduct", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<String> statProdTopSeller(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	ArrayList<String> statProdTopProduct(HttpServletRequest request, HttpSession session) throws InvalidParametersException
 	{
 		
 		ArrayList<String> respStatName = new ArrayList<String>();
