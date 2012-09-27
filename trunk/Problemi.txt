@@ -13,3 +13,6 @@ STATISTICHE RESPONSABILE ->
 
 RESPONSABILE ->
 	-notificare quando si provano a creare due ordini uguali
+
+UTENTE NORMALE ->
+	-in creazione scheda bisogna mostrare solo gli ordini per cui non sono già state create schede
