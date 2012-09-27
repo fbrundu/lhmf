@@ -189,7 +189,7 @@ function writeStatistics() {
 	var year1 = $("#yearS1").val();
 	
 	$.post("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
-	$.post("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
+	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
 	
 	$('#canvNorm-1').show('slow');
 	$('#canvNorm-2').show('slow');
@@ -198,7 +198,7 @@ function writeStatistics() {
 function refreshAllStat() {
 	
 	refreshStatMese();
-	refreshTopSeller();
+	refreshTopProduct();
 	
 }
 
@@ -214,13 +214,13 @@ function refreshStatMese() {
 	$("#tdNormSpesaMese").show("slow");
 }
 
-function refreshTopSeller() {
+function refreshTopProduct() {
 	
 	
 	$("#tdProdTopSeller").hide("slow");
 	$("#tdProdTopSeller").html("<canvas id='canvasProdTopSeller' width='580' height='400'></canvas>");
 	
-	$.post("ajax/statProdTopSeller", null, postStatProdTopSellerHandler);
+	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
 	
 	$("#tdProdTopSeller").show("slow");
 }
@@ -309,7 +309,7 @@ function postStatNormMoneyMonthHandler(data) {
 }
 
 
-function postStatProdTopSellerHandler(data) {
+function postStatProdTopProductHandler(data) {
     
     var json = ' { "x": { "Response": [ ' +
                         '"Resistant",' +
@@ -595,7 +595,7 @@ function clickPurchaseHandler(event)
             $("#errorsPurchase").html("Errore la quantit&agrave deve avere un valore positivo.<br /><br />");
             fail = true;
         }
-        else if(parseInt(amount) > parseInt(max))
+         else if(parseInt(amount) > parseInt(max))
         {
         	$("#legendErrorPurchase").html("Errore");
             $("#errorsPurchase").html("Errore la quantit&agrave &egrave maggiore della effettiva disponibilit&agrave.<br /><br />");
@@ -711,22 +711,22 @@ function postActivePurchaseListHandler(purchaseList)
 
     if(purchaseList.length > 0)
     {
-        $("#activePurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
-        									 "<th class='top' width='30%'> Spedizione  </th>" +
-        									 "<th class='top' width='15%'> Data Apertura  </th>" +
-                                             "<th class='top' width='15%'> Data Chiusura  </th>" +
-                                             "<th class='top' width='20%'> Dettagli ordine  </th> </tr>");
+        $("#activePurchaseList").append("<tr> <th class='top' width='30%'> Nome Ordine </th>" +
+        									 "<th class='top' width='20%'> Data Apertura  </th>" +
+                                             "<th class='top' width='20%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='30%'> Dettagli ordine  </th></tr>");
         for(var i = 0; i < purchaseList.length; i++){
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
             $("#activePurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
-					  							  "<td>" + purchase.isShipped + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
+					  							  "<tr><td colspan='4'> <strong>Progresso dell'ordine</strong> </td></tr>" +
+					  							  "<tr><td colspan='4'> Qui va la progress bar generale dell'ordine </td></tr>" +
 					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
             $("button").button();
@@ -776,8 +776,9 @@ function postOldPurchaseListHandler(purchaseList)
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");        $(".detailsPurchase").hide();
-        $("button").button();
+					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");       
+            $(".detailsPurchase").hide();
+            $("button").button();
     }
     $.each(purchaseList, function(index, val)
     {
@@ -819,14 +820,18 @@ function postPurchaseDetailsListHandler(productList)
     var trControl = "#TRdetailsPurchase_" + idPurchase;
     var tdControl = "#TDdetailsPurchase_" + idPurchase;
     
-    $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log'></table></div>");
+    $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log'></table></div>");
     
     var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    var divControl = "#DIVdetailsPurchase_" + idPurchase;
     
-    $(tableControl).append("<tr>  <th class='top' width='25%'> Prodotto </th>" +
-                                 "<th class='top' width='35%'> Descrizione  </th>" +
-                                 "<th class='top' width='20%'> Costo  </th>" +
-                                 "<th class='top' width='20%'> Quantit&agrave Desiderata  </th> </tr>");
+    $(tableControl).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
+                                 "<th class='top' width='25%'> Descrizione  </th>" +
+                                 "<th class='top' width='25%'> Stato Parziale  </th>" +
+                                 "<th class='top' width='10%'> Unit&agrave;*Blocchi (Limiti)  </th>" +
+                                 "<th class='top' width='5%'> Disp. </th>" +
+                                 "<th class='top' width='5%'> Qt. </th>" +
+                                 "<th class='top' width='10%'> Azioni </th> </tr>");
     
     $.each(productList, function(index, val)
     {
@@ -834,14 +839,84 @@ function postPurchaseDetailsListHandler(productList)
         {
     		AmountTmp = data;
         });
+    	
+    	var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
+    	var idAmount = "amountProduct_" + val.idProduct;
+    	
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
-        		                       "<td>" + val.unitCost + "</td>" +
-        		                       "<td>" + AmountTmp + "</td></tr>");
+        		                       "<td> progressbar" + "</td>" +
+        		                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + " (" + val.minBuy + "-" + val.maxBuy +")</td>" +
+        		                       "<td id='" + idDisp + "'> Da fare" + "</td>" +
+        		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' value='" + AmountTmp + "'/></td>" +
+        		                       "<td> <img src='img/refresh.png' class='refreshProductButton' height='22px'> " +
+        		                       "<img src='img/delete.png' class='delProductButton' height='22px'> </td></tr>");
     });
+   
+    $(divControl).append("<strong>Altri prodotti disponibili</strong>");
+    
+    $.postSync("ajax/getOtherProductsOfPurchase", {idPurchase: idPurchase}, function(productList) {
+        
+        var divControl = "#DIVdetailsPurchase_" + idPurchase;
+        
+        $(divControl).append("<table id='TABLE2detailsPurchase_" + idPurchase + "' class='log'></table>");
+        var table2Control = "#TABLE2detailsPurchase_" + idPurchase;
+        
+        $(table2Control).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
+                                "<th class='top' width='25%'> Descrizione  </th>" +
+                                "<th class='top' width='25%'> Stato Parziale  </th>" +
+                                "<th class='top' width='10%'> Unit&agrave;*Blocchi (Limiti)  </th>" +
+                                "<th class='top' width='5%'> Disp. </th>" +
+                                "<th class='top' width='5%'> Qt. </th> " +
+                                "<th class='top' width='10%'> Azioni </th></tr>");
+        
+        if(productList.length < 1) {
+            
+            $(table2Control).append("<tr><td colspan='7'> Non ci sono altri prodotti da aggiungere </td></tr>");
+            
+        } else {
+            
+            $.each(productList, function(index, val)
+                    {
+                                
+                                var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
+                                var idAmount = "amountProduct_" + val.idProduct;
+                                
+                                $(table2Control).append("<tr>   <td>" + val.name + "</td>" +
+                                                               "<td>" + val.description + "</td>" +
+                                                               "<td> progressbar" + "</td>" +
+                                                               "<td>" + val.unitCost + "&euro; * " + val.unitBlock + " (" + val.minBuy + "-" + val.maxBuy +")</td>" +
+                                                               "<td id='" + idDisp + "'> Da fare" + "</td>" +
+                                                               "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "'/></td>" +
+                                                               "<td> <img src='img/add.png' class='addProductButton' height='22px'> </td></tr>");
+                     });
+        }
+    });
+    
+    $( ".delProductButton" ).on("click", deleteProductFromPurchase);
+    $( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
+    $( ".addProductButton" ).on("click", addProductFromPurchase);
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
+}
+
+function deleteProductFromPurchase(event){
+    
+    event.preventDefault();
+    
+}
+
+function refreshProductFromPurchase(event){
+    
+    event.preventDefault();
+    
+}
+
+function addProductFromPurchase(event){
+    
+    event.preventDefault();
+    
 }
 
 function newPurchase(purchase)
