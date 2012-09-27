@@ -1040,7 +1040,6 @@ function updateProductHandler(event)
   return false; // don't post it automatically
 }
 
-
 function prepareProductsForm(tab)
 {
   $('#tabs').tabs({
@@ -1049,12 +1048,41 @@ function prepareProductsForm(tab)
   $('input:submit').button();
 }
 
+function filterProducts(myProducts, productCategory)
+{
+  if (productCategory == 'notSelected')
+    return myProducts;
+  var productsFiltered = new Array();
+  for (var prodIndex = 0; prodIndex < myProducts.length; prodIndex++)
+    if(myProducts[prodIndex].category.idProductCategory == productCategory)
+      productsFiltered.push(myProducts[prodIndex]);
+  return productsFiltered;
+}
+
 function newProductSearch(tab)
 {
   var productCategory = $("#productCategorySearch").val();
   var page = $("#pageSearch").val();
   var itemsPerPage = $("#itemsPerPageSearch").val();
-  var myProducts = getMyProductsNoLocal();
+  var myProductsUnfiltered = getMyProductsNoLocal();
+  var myProducts = filterProducts(myProductsUnfiltered, productCategory);
+  if(myProducts.length < page * itemsPerPage + 1)
+  {
+    page = Math.ceil(myProducts.length / itemsPerPage);
+    var pagesForListino = "";
+    for ( var i = 1; i <= page; i++)
+      pagesForListino += "<option value='" + i + "'>" + i + "</option>";
+  }
+  else
+  {
+    var p = Math.ceil(myProducts.length / itemsPerPage);
+    var pagesForListino = "";
+    for ( var i = 1; i <= p; i++)
+      pagesForListino += "<option value='" + i + "'>" + i + "</option>";
+  }
+  $("#pageSearch").html(pagesForListino);
+  $("#pageSearch").val(page);
+
   var productsString = "<tr><th class='top' width='15%'></th>"
     + "<th class='top' width='15%'> Nome </th>"
     + "<th class='top' width='25%'> Descrizione </th>"
