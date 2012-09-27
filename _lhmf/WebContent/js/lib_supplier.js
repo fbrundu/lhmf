@@ -1239,6 +1239,16 @@ function clickNewProductHandler(event)
       {
         productCategory = idProductCategory;
         $("#categoryDescription").val("");
+        var categoriesList = getCategoriesNoLocal();
+        var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
+        for ( var catIndex in categoriesList)
+        {
+          categoriesString += "<option value='"
+              + categoriesList[catIndex].idProductCategory + "'>"
+              + categoriesList[catIndex].description + "</option>";
+        }
+        $('#productCategorySearch').html(categoriesString);
+        $('#productCategory').html(categoriesString);
       }
       else
       {
