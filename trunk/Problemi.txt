@@ -1,0 +1,15 @@
+STATISTICHE ADMIN -> 
+	-Correggere Tipologia Utenti e percentuali che nella didascalia vengono tagliati
+	-Aggiungere una nota "Premi esc per ingrandire" in distribuzione iscritti
+
+STATISTICHE -> 
+	-Correggere didascalie grafici a torta
+
+STATISTICHE SUPPLIER -> 
+	-Nel grafico a torta la visualizzazione dei prodotti in/non listino non funziona correttamente
+
+STATISTICHE RESPONSABILE ->
+	-controllare numero utenti
+
+RESPONSABILE ->
+	-notificare quando si provano a creare due ordini uguali
