@@ -731,16 +731,24 @@ function writeSupplierPage(tab)
       .html(newProductForm);
   
   var categoriesList = getCategoriesNoLocal();
-  var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
+  var categoriesString = "<option value='notSelected' selected='selected'>Tutte</option>";
   for ( var catIndex in categoriesList)
   {
     categoriesString += "<option value='"
         + categoriesList[catIndex].idProductCategory + "'>"
         + categoriesList[catIndex].description + "</option>";
   }
-  var categoriesForListino = categoriesString;
   categoriesString += "<option value='nuova'>Nuova categoria...</option>";
 
+  categoriesList = getMyCategoriesNoLocal();
+  var categoriesForListino = "<option value='notSelected' selected='selected'>Tutte</option>";
+  for ( var catIndex in categoriesList)
+  {
+    categoriesForListino += "<option value='"
+        + categoriesList[catIndex].idProductCategory + "'>"
+        + categoriesList[catIndex].description + "</option>";
+  }
+  
   $('#productCategory').html(categoriesString);
 
   // disabilitare fieldset category
