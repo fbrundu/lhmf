@@ -18,7 +18,8 @@ Applicazioni Internet - Gas
 - statistiche!!!!!!!!! [MATTE]
 - cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
   javascript
-- Sistemare bug selezione pagina di fornitore......uscito in caso di più di 10 prodotti 
+- Sistemare bug selezione pagina di fornitore......uscito in caso di più di 10 prodotti
+- In gestione prodotti Admin, sistemare numerazione di pagine e renderla dinamica
 
 ## DA TESTARE ##
 
