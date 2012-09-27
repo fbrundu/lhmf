@@ -1,10 +1,15 @@
 package it.polito.ai.lhmf.controllers.ajax;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
+import it.polito.ai.lhmf.model.ProductInterface;
+import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ProductCategoryAjaxController
 {
+	@Autowired
+	private MemberInterface memberInterface;
+	@Autowired
+	private ProductInterface productInterface;
 	@Autowired
 	private ProductCategoryInterface productCategoryInterface;
 
@@ -56,6 +65,21 @@ public class ProductCategoryAjaxController
 	{
 		List<ProductCategory> productCategoriesList = null;
 		productCategoriesList = productCategoryInterface.getProductCategories();
+		return productCategoriesList;
+	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getmycategories", method = RequestMethod.GET)
+	public @ResponseBody
+	List<ProductCategory> getMyProductCategories(HttpServletRequest request)
+	{
+		List<ProductCategory> productCategoriesList = new LinkedList<ProductCategory>();
+		Member me = memberInterface.getMember((String) request.getSession()
+				.getAttribute("username"));
+
+		for (Product p : productInterface.getProductsBySupplier(me))
+			if (!productCategoriesList.contains(p.getProductCategory()))
+				productCategoriesList.add(p.getProductCategory());
 		return productCategoriesList;
 	}
 
