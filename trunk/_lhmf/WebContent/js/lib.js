@@ -681,7 +681,6 @@ function filterProducts(myProducts, productCategory)
   return productsFiltered;
 }
 
-
 function viewDetails(idProduct)
 {
   $.postSync("ajax/viewP", {
@@ -723,6 +722,43 @@ function registerForNotifies()
       getMyNotifies();
     }
   };
+}
+
+function registerForNews()
+{
+  var source = new EventSource('ajax/getnews');
+  source.addEventListener('mess', function(e)
+  {
+    if (e.data > 0)
+    {
+      if (!window.History.enabled
+          || window.History.getState().data.action != 'messaggi')
+      {
+        $('#messagesCount').html(event.data);
+        $('#messagesCount').css("color", "red");
+      }
+      else
+      {
+        getMyMessages();
+      }
+    }
+  }, false);
+  source.addEventListener('nots', function(e)
+  {
+    if (e.data > 0)
+    { 
+      if (!window.History.enabled
+          || window.History.getState().data.action != 'notifiche')
+      {
+        $('#notifiesCount').html(event.data);
+        $('#notifiesCount').css("color", "red");
+      }
+      else
+      {
+        getMyNotifies();
+      }
+    }
+  }, false);
 }
 
 function getMyMessages()
