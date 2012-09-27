@@ -623,12 +623,31 @@ function newProductSearch()
   var productCategory = $("#productCategorySearch").val();
   var page = $("#pageSearch").val();
   var itemsPerPage = $("#itemsPerPageSearch").val();
-  var myProducts = getAllProductsNoLocal();
+  var myProductsUnfiltered = getAllProductsNoLocal();
+  var myProducts = filterProducts(myProductsUnfiltered, productCategory);
+  if(myProducts.length < page * itemsPerPage + 1)
+  {
+    page = Math.ceil(myProducts.length / itemsPerPage);
+    var pagesForListino = "";
+    for ( var i = 1; i <= page; i++)
+      pagesForListino += "<option value='" + i + "'>" + i + "</option>";
+  }
+  else
+  {
+    var p = Math.ceil(myProducts.length / itemsPerPage);
+    var pagesForListino = "";
+    for ( var i = 1; i <= p; i++)
+      pagesForListino += "<option value='" + i + "'>" + i + "</option>";
+  }
+  $("#pageSearch").html(pagesForListino);
+  $("#pageSearch").val(page);
+
   var productsString = "<tr><th class='top' width='15%'></th>"
-      + "<th class='top' width='15%'> Nome </th>"
-      + "<th class='top' width='25%'> Descrizione </th>"
-      + "<th class='top' width='25%'> Disponibilit&agrave; </th>"
-      + "<th class='top' width='20%'> Modifica disponibilit&agrave; </th></tr>";
+    + "<th class='top' width='15%'> Nome </th>"
+    + "<th class='top' width='25%'> Descrizione </th>"
+    + "<th class='top' width='25%'> Disponibilit&agrave; </th>"
+    + "<th class='top' width='20%'> Modifica disponibilit&agrave; </th></tr>";
+  
   if (myProducts.length > 0)
   {
     for ( var prodIndex = (page - 1) * itemsPerPage; prodIndex < myProducts.length
