@@ -13,9 +13,10 @@
         $("#statLink").click(statClicked);
         $("#notifiesLink").click(notifiesClicked);
         $("#messagesLink").click(messagesClicked);
-        registerForMessages();
-        registerForNotifies();
-
+        //registerForMessages();
+        //registerForNotifies();
+        registerForNews();
+      
         $.datepicker.setDefaults({
             dateFormat : 'dd/mm/yy'
         });
