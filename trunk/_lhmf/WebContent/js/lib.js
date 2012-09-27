@@ -676,8 +676,8 @@ function viewDetails(idProduct)
     'idProduct' : idProduct
   }, function(product)
   {
-    var tabellaDetails = "<table class='productDetailsTable'><tr><td><img src='"
-        + product.imgPath + "' class='thumb'></td></tr>"
+    var details = "<table><tr><td><img src='" + product.imgPath + "' class='thumb' /></td>"
+     +"<td><table class='productDetailsTable'><tr><td></td></tr>"
     + "<tr><th class='top'>Nome</th><td>" + product.name + "</td></tr>"
     + "<tr><th class='top'>Descrizione</th><td>" + product.description + "</td></tr>"
     + "<tr><th class='top'>Dimensione</th><td>" + product.dimension + "</td></tr>"
@@ -690,10 +690,8 @@ function viewDetails(idProduct)
     + "<tr><th class='top'>Massimo unit&agrave; acquistabili</th><td>" + product.maxBuy + "</td></tr>"
     + "<tr><th class='top'>Fornitore</th><td>" + product.idMemberSupplier + "</td></tr>"
     + "<tr><th class='top'>Categoria</th><td>" + product.category.description + "</td></tr>";
-    tabellaDetails += "</table>";
-    var overlay = jQuery('<div id="overlay" />');
-    overlay.appendTo(document.body);
-    $("#overlay").html(tabellaDetails);
+    details += "</table></td></table>";
+    $.modal(details);
   });
 }
 

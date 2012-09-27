@@ -3,8 +3,11 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.NotifyInterface;
+import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Notify;
+import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,6 +33,8 @@ public class NotifyAjaxController
 
 	@Autowired
 	private NotifyInterface notifyInterface;
+	@Autowired
+	private ProductInterface productInterface;
 
 	@RequestMapping(value = "/ajax/getmynotifies", method = RequestMethod.GET)
 	public @ResponseBody
@@ -96,6 +101,16 @@ public class NotifyAjaxController
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/viewP", method = RequestMethod.POST)
+	public @ResponseBody
+	Product viewProd(
+			HttpServletRequest request,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct)
+			throws InvalidParametersException
+	{
+		return productInterface.getProduct(idProduct);
 	}
 }

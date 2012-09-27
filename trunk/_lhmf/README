@@ -4,6 +4,8 @@ Applicazioni Internet - Gas
 
 ## DA IMPLEMENTARE ##
 
+- gestione ordini da parte supplier [FRA]
+- gestione notifiche/messaggi etc con stream unico [FRA]
 - apertura pagina contestuale quando si clicca su una notifica [FRA]
 - invio notifiche e messaggi sistema
 - logging
@@ -18,7 +20,7 @@ Applicazioni Internet - Gas
 - statistiche!!!!!!!!! [MATTE]
 - cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
   javascript
-- Sistemare bug selezione pagina di fornitore......uscito in caso di più di 10 prodotti
+- Sistemare bug selezione pagina di fornitore......uscito in caso di piï¿½ di 10 prodotti
 - In gestione prodotti Admin, sistemare numerazione di pagine e renderla dinamica
 
 ## DA TESTARE ##
@@ -60,6 +62,19 @@ Applicazioni Internet - Gas
 - in creazione scheda, scelta ordine dovrebbe far vedere il nome dell'ordine oltre alle date [HAS]
 ###############################################################################
 ---------------------------------------------
+
+# TIPI DI NOTIFICHE
+
+0 Senza categoria [Tutti]
+1 Nuovo prodotto [Responsabile]
+2 Nuovo ordine [Normale, Resp]
+3 Modifica DisponibilitÃ  Prodotto in Listino [Resp]
+4 Chiusura Ordine [Normale, Resp]
+5 Data di consegna Settata [Normale, Resp]
+6 Nuovo utente [Admin]
+7 Ordine 50 % [Normale, Resp]
+8 Ordine 75 % [Normale, Resp]
+9 Ordine 90 % [Normale, Resp]
 
 # STATUS UTENTE
 
