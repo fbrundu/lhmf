@@ -1796,13 +1796,13 @@ function clickPurchaseHandler(event)
             $("#errorsPurchase").html("Errore la quantit&agrave deve essere un numero.<br /><br />");
             fail = true;
         }
-        else if(amount <= 0) 
+        else if(parseInt(amount) <= 0) 
         {
         	$("#legendErrorPurchase").html("Errore");
             $("#errorsPurchase").html("Errore la quantit&agrave deve avere un valore positivo.<br /><br />");
             fail = true;
         }
-        else if(amount > max)
+        else if(parseInt(amount) > parseInt(max))
         {
         	$("#legendErrorPurchase").html("Errore");
             $("#errorsPurchase").html("Errore la quantit&agrave &egrave maggiore della effettiva disponibilit&agrave.<br /><br />");
