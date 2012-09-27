@@ -9,6 +9,8 @@ Applicazioni Internet - Gas
 - apertura pagina contestuale quando si clicca su una notifica [FRA]
 - invio notifiche e messaggi sistema
 - logging
+- controllare che ogni metodo esposto sia accessibile solo da chi è almeno loggato (a parte il login),
+  o abbia un certo ruolo
 - Se un prodtto diventa non disponibile, e c'� un ordine aperto per quel prodotto, avvisare il ersponsabile. (Cosa fa poi il responsabile non mi � ancora chiaro)
 - thread schedulato ogni tot (tipo ogni giornoi a mezzanotte) per operazioni di chiusura ordine 
 - rimpiazzare uso campi hidden con attributi data-*  (maggiori dettagli da Matteo) [OPZIONALE]
@@ -20,7 +22,6 @@ Applicazioni Internet - Gas
 - statistiche!!!!!!!!! [MATTE]
 - cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
   javascript
-- In gestione prodotti Admin, sistemare numerazione di pagine e renderla dinamica
 
 ## DA TESTARE ##
 
@@ -50,6 +51,7 @@ Applicazioni Internet - Gas
 - mantenimento dello stato dello scroll quando vengono ricaricate messaggi
   e notifiche [FRA]
 - Sistemare bug selezione pagina di fornitore......uscito in caso di pi� di 10 prodotti [FRA]
+- In gestione prodotti Admin, sistemare numerazione di pagine e renderla dinamica [FRA]
 
 ## OK ##
 

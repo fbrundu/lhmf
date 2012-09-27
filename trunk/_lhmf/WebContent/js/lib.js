@@ -670,6 +670,18 @@ function viewDetailsClick(event)
   viewDetails(idProduct);
 }
 
+function filterProducts(myProducts, productCategory)
+{
+  if (productCategory == 'notSelected')
+    return myProducts;
+  var productsFiltered = new Array();
+  for (var prodIndex = 0; prodIndex < myProducts.length; prodIndex++)
+    if(myProducts[prodIndex].category.idProductCategory == productCategory)
+      productsFiltered.push(myProducts[prodIndex]);
+  return productsFiltered;
+}
+
+
 function viewDetails(idProduct)
 {
   $.postSync("ajax/viewP", {
