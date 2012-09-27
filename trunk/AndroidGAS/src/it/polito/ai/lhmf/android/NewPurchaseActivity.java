@@ -26,11 +26,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+//FIXME interrompere il task delle quantità già acquistate
 
 public class NewPurchaseActivity extends Activity {
 	private ListView purchaseListView = null;
@@ -248,6 +251,14 @@ public class NewPurchaseActivity extends Activity {
 			checkBox = (CheckBox) row.findViewById(R.id.purchaseItemCheckbox);
 			checkBox.setChecked(!product.getAvailability());
 			
+			checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					product.setAvailability(!isChecked);
+				}
+			});
+			
 			/*
 			checkBox.setOnClickListener(new View.OnClickListener() {
 				
@@ -307,13 +318,20 @@ public class NewPurchaseActivity extends Activity {
 			
 			if(!product.getMaxBuy().equals(Product.NO_MIN_MAX)){
 				availabilityLayout.setVisibility(View.VISIBLE);
-				//FIXME set available amount from async task
-				availabilityTextView.setText(product.getMaxBuy());
+				Integer available = productsAvailability.get(productsWithMaxBuy.indexOf(product.getIdProduct()));
+				availabilityTextView.setText(available.toString());
 			}
 			
 			if(!product.getMinBuy().equals(Product.NO_MIN_MAX)){
 				pb.setVisibility(View.VISIBLE);
-				pb.setMax(Integer.parseInt(product.getMinBuy()));
+				int boughtAmount = minBoughtAmounts.get(productsWithMinBuy.indexOf(product.getIdProduct()));
+				int minBuy = Integer.parseInt(product.getMinBuy());
+				pb.setMax(minBuy);
+				if(boughtAmount - minBuy > 0)
+					pb.setProgress(minBuy);
+				else
+					pb.setProgress(boughtAmount);
+				
 			}
 			
 			if(!product.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
@@ -397,44 +415,44 @@ public class NewPurchaseActivity extends Activity {
 		}
 	}
 	
-	private class ProductAvailabilityTask extends AsyncTask<Object, Void, Object[]>{
-
-		@Override
-		protected Object[] doInBackground(Object... params) {
-			Gas gas = (Gas) params[0];
-			Product product = (Product) params[1];
-			Boolean available = (Boolean) params[2];
-			CheckBox checkBox = (CheckBox) params[3];
-			
-			Object[] ret = new Object[4];
-			
-			ret[0] = product;
-			
-			
-			if(available == true)
-				ret[1] = gas.productOperations().setProductAvailable(product.getIdProduct());
-			else
-				ret[1] = gas.productOperations().setProductUnavailable(product.getIdProduct());
-			
-			ret[2] = available;
-			
-			ret[3] = checkBox;
-			
-			return ret;
-		}
-		
-		@Override
-		protected void onPostExecute(Object[] result) {
-			Product product = (Product) result[0];
-			Integer retValue = (Integer) result[1];
-			Boolean available = (Boolean) result[2];
-			CheckBox checkBox = (CheckBox) result[3];
-			
-			if(retValue != null){
-				checkBox.setChecked(available);
-				product.setAvailability(available);
-			}
-		}
-		
-	}
+//	private class ProductAvailabilityTask extends AsyncTask<Object, Void, Object[]>{
+//
+//		@Override
+//		protected Object[] doInBackground(Object... params) {
+//			Gas gas = (Gas) params[0];
+//			Product product = (Product) params[1];
+//			Boolean available = (Boolean) params[2];
+//			CheckBox checkBox = (CheckBox) params[3];
+//			
+//			Object[] ret = new Object[4];
+//			
+//			ret[0] = product;
+//			
+//			
+//			if(available == true)
+//				ret[1] = gas.productOperations().setProductAvailable(product.getIdProduct());
+//			else
+//				ret[1] = gas.productOperations().setProductUnavailable(product.getIdProduct());
+//			
+//			ret[2] = available;
+//			
+//			ret[3] = checkBox;
+//			
+//			return ret;
+//		}
+//		
+//		@Override
+//		protected void onPostExecute(Object[] result) {
+//			Product product = (Product) result[0];
+//			Integer retValue = (Integer) result[1];
+//			Boolean available = (Boolean) result[2];
+//			CheckBox checkBox = (CheckBox) result[3];
+//			
+//			if(retValue != null){
+//				checkBox.setChecked(available);
+//				product.setAvailability(available);
+//			}
+//		}
+//		
+//	}
 }
