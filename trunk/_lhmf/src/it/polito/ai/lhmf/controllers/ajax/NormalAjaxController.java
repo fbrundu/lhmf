@@ -18,7 +18,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -100,6 +102,30 @@ public class NormalAjaxController
 			listProduct.add(productInterface.getProduct(product.getId().getIdProduct()));
 		}
 		return listProduct;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getOtherProductsOfPurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	Set<Product> getOtherProductsOfPurchase(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	{
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		Order order = purchase.getOrder();
+		
+		Set<Product> returnList = new HashSet<Product>();
+		Set<Product> sProduct = order.getProducts();
+		
+		returnList.addAll(sProduct);
+		
+		Set<PurchaseProduct> ppList = purchase.getPurchaseProducts();
+		
+		for(PurchaseProduct product : ppList)
+		{
+			returnList.remove(product.getProduct());
+		}
+		
+		return returnList;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")

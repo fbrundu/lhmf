@@ -35,5 +35,5 @@ ul.list li section.right a.firstbtn { margin-right: 7px; }
 html[xmlns] .clearfix { display: block; }
 * html .clearfix { height: 1%; }
 
-.deleteButton {width:15px; height:15px; position:absolute; z-index:80; margin:18px 0 0 530px; }
+.deleteButton {width:15px; height:15px; position:absolute; z-index:80; margin:18px 0 0 530px; z-index: 0 }
 .placeholder {font-size: 15px; text-align: center; background-color: #dddddd}
