@@ -221,6 +221,16 @@ function getCategoriesNoLocal()
   return categoriesList;
 }
 
+function getMyCategoriesNoLocal()
+{
+  var categoriesList;
+  $.getJSONsync("ajax/getmycategories", function(productCategoriesList)
+  {
+    categoriesList = productCategoriesList;
+  });
+  return categoriesList;
+}
+
 function setProductAvailableHandler(event)
 {
   event.preventDefault();
@@ -626,8 +636,19 @@ function getMyNotifies()
       if (!notifiesList[notIndex].isReaded)
         tabellaNotifiche += " class='not_read_n' ";
       tabellaNotifiche += " name='" + notifiesList[notIndex].idNotify
-          + "'><p>" + notifiesList[notIndex].text
-          + "</p></td></tr>";
+          + "'><p>";
+      switch (notifiesList[notIndex].notifyCategory)
+      {
+      // Nuovo prodotto
+      case 1:
+        tabellaNotifiche += "Nuovo prodotto: <a href='' class='vL' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      default:
+        tabellaNotifiche += notifiesList[notIndex].text;
+        break;
+      }
+      tabellaNotifiche += "</p></td></tr>";
     }
   });
   tabellaNotifiche += "</table></div>";
@@ -636,9 +657,44 @@ function getMyNotifies()
     $(".contentDiv").scrollTop(
         $(".contentDiv").height() - distanceFromBottom + 1);
   $(".not_read_n").click(setReadNotify);
+  $(".vL").click(viewDetailsClick);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color", "");
+}
+
+function viewDetailsClick(event)
+{
+  event.preventDefault();
+  idProduct = $(this).attr('name');
+  viewDetails(idProduct);
+}
+
+function viewDetails(idProduct)
+{
+  $.postSync("ajax/viewP", {
+    'idProduct' : idProduct
+  }, function(product)
+  {
+    var tabellaDetails = "<table class='productDetailsTable'><tr><td><img src='"
+        + product.imgPath + "' class='thumb'></td></tr>"
+    + "<tr><th class='top'>Nome</th><td>" + product.name + "</td></tr>"
+    + "<tr><th class='top'>Descrizione</th><td>" + product.description + "</td></tr>"
+    + "<tr><th class='top'>Dimensione</th><td>" + product.dimension + "</td></tr>"
+    + "<tr><th class='top'>Unit&agrave; di misura</th><td>" + product.measureUnit + "</td></tr>"
+    + "<tr><th class='top'>Unit&agrave; per blocco</th><td>" + product.unitBlock + "</td></tr>"
+    + "<tr><th class='top'>Disponibilit&agrave;</th><td>" + product.availability + "</td></tr>"
+    + "<tr><th class='top'>Costo di trasporto</th><td>" + product.transportCost + "</td></tr>"
+    + "<tr><th class='top'>Costo per unit&agrave;</th><td>" + product.unitCost + "</td></tr>"
+    + "<tr><th class='top'>Minimo unit&agrave; acquistabili</th><td>" + product.minBuy + "</td></tr>"
+    + "<tr><th class='top'>Massimo unit&agrave; acquistabili</th><td>" + product.maxBuy + "</td></tr>"
+    + "<tr><th class='top'>Fornitore</th><td>" + product.idMemberSupplier + "</td></tr>"
+    + "<tr><th class='top'>Categoria</th><td>" + product.category.description + "</td></tr>";
+    tabellaDetails += "</table>";
+    var overlay = jQuery('<div id="overlay" />');
+    overlay.appendTo(document.body);
+    $("#overlay").html(tabellaDetails);
+  });
 }
 
 function registerForNotifies()
