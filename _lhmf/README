@@ -20,7 +20,6 @@ Applicazioni Internet - Gas
 - statistiche!!!!!!!!! [MATTE]
 - cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
   javascript
-- Sistemare bug selezione pagina di fornitore......uscito in caso di pi� di 10 prodotti
 - In gestione prodotti Admin, sistemare numerazione di pagine e renderla dinamica
 
 ## DA TESTARE ##
@@ -50,6 +49,7 @@ Applicazioni Internet - Gas
 - segnare messaggi e notifiche come già letti solo quando cliccati [FRA]
 - mantenimento dello stato dello scroll quando vengono ricaricate messaggi
   e notifiche [FRA]
+- Sistemare bug selezione pagina di fornitore......uscito in caso di pi� di 10 prodotti [FRA]
 
 ## OK ##
 
