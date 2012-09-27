@@ -36,9 +36,14 @@ public class MainActivity extends Activity {
 			this.finish();
 		}
 		else{
+			Intent dummyIntent = new Intent(getApplicationContext(), NewPurchaseActivity.class);
+			dummyIntent.putExtra("orderId", 2);
+			startActivity(dummyIntent);
+			/* TODO
 			gasApi = conn.getApi();
 			
 			new MemberTypeAsyncTask().execute(gasApi);
+			*/
 		}
 	}
 	
@@ -96,6 +101,7 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onPostExecute(Integer result) {
 			memberType = result;
+			//FIXME togliere il toast
 			Toast.makeText(MainActivity.this, "Member type: " + memberType, Toast.LENGTH_LONG).show();
 			switch(memberType){
 				case MemberTypes.USER_NORMAL:
@@ -123,6 +129,7 @@ public class MainActivity extends Activity {
 			holder.destroy();
 			holder = null;
 			gasApi = null;
+			MainActivity.this.finish();
 		}
 	}
 }

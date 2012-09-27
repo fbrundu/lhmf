@@ -1,5 +1,9 @@
 package it.polito.ai.lhmf.android.api;
 
-public interface OrderOperations {
+import it.polito.ai.lhmf.model.Product;
 
+public interface OrderOperations {
+	Product[] getOrderProducts(Integer orderId);
+
+	Integer[] getBoughtAmounts(Integer orderId, Integer[] productIds);
 }
