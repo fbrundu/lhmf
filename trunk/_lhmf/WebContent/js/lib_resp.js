@@ -1777,8 +1777,6 @@ function clickPurchaseHandler(event)
     var fail = false;
     
     addedPz = [];
-     
-    //Ciclare per prendere quantità prodotti
     
     $("#purchaseCart ul li").each(function(index, value) 
     {
@@ -1890,14 +1888,6 @@ function clickPurchaseOldHandler(event)
     
 }
 
-/*function clickPurchaseDetailsHandler(event)
-{
-    event.preventDefault();
-    
-    $.post("ajax/getPurchaseDetailsNormal", postPurchaseDetailsListHandler);
-	
-}
-*/
 
 function loadOrders() 
 {
@@ -1929,7 +1919,7 @@ function postActivePurchaseListHandler(purchaseList)
 
     if(purchaseList.length > 0)
     {
-        $("#activePurchaseList").append("<tr>  <th class='top' width='20%'> Numero Scheda </th>" +
+        $("#activePurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
         									 "<th class='top' width='30%'> Spedizione  </th>" +
         									 "<th class='top' width='15%'> Data Apertura  </th>" +
                                              "<th class='top' width='15%'> Data Chiusura  </th>" +
@@ -1938,7 +1928,7 @@ function postActivePurchaseListHandler(purchaseList)
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
-            $("#activePurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
+            $("#activePurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + purchase.isShipped + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
@@ -1977,7 +1967,7 @@ function postOldPurchaseListHandler(purchaseList)
     $("#oldPurchaseList").hide();
 
     if(purchaseList.length > 0){
-        $("#oldPurchaseList").append("<tr>  <th class='top' width='20%'> Numero Scheda </th>" +
+        $("#oldPurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
 				 							"<th class='top' width='30%'> Spedizione  </th>" +
 				 							"<th class='top' width='15%'> Data Apertura  </th>" +
 				 							"<th class='top' width='15%'> Data Chiusura  </th>" +
@@ -1986,7 +1976,7 @@ function postOldPurchaseListHandler(purchaseList)
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
-            $("#oldPurchaseList").append("<tr> <td>" + purchase.idPurchase + "</td>" +
+            $("#oldPurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + purchase.isShipped + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
@@ -2029,11 +2019,10 @@ function clickPurchaseDetailsHandler(event)
     $.postSync("ajax/getPurchaseDetailsNormal", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
 }
 
-var AmountTmp;
-
 function postPurchaseDetailsListHandler(productList) 
 {
 
+	var AmountTmp = 0;
     var trControl = "#TRdetailsPurchase_" + idPurchase;
     var tdControl = "#TDdetailsPurchase_" + idPurchase;
     

@@ -136,8 +136,7 @@ public class PurchaseInterface
 			query.setParameter("idProduct", idProduct);
 			
 		Integer result = (Integer) query.uniqueResult();
-		return result;
-		
+		return result;	
 	}
 
 	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
