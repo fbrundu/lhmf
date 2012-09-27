@@ -3,8 +3,10 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.Product;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -195,13 +197,14 @@ public class OrderInterface
 		return query.list();
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getProducts(int idOrder) 
-	{			
-		Query query = sessionFactory.getCurrentSession().createQuery("from OrderProduct where idOrder = :idOrder");
-		query.setParameter("idOrder", idOrder);
-		return query.list();
+	public List<Product> getProducts(Integer idOrder) 
+	{
+		Order order = getOrder(idOrder);
+		if(order != null){
+			return new ArrayList<Product>(order.getProducts());
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")

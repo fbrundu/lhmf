@@ -29,6 +29,7 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 		//TODO construct templates
 		userOperations = new UserTemplate(getRestTemplate());
 		productOperations = new ProductsTemplate(getRestTemplate());
+		orderOperations = new OrderTemplate(getRestTemplate());
 		
 	}
 

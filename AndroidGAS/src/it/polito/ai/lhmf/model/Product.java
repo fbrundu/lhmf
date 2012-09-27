@@ -9,6 +9,7 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String DEFAULT_PRODUCT_PICTURE = "img/prd/noproduct.jpg";
+	public static final String NO_MIN_MAX = "No";
 	
 	private Integer idProduct;
 	private String name;
