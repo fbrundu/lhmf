@@ -4,6 +4,8 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.Purchase;
+import it.polito.ai.lhmf.orm.PurchaseProduct;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -329,5 +331,34 @@ public class OrderInterface
 		query.setTimestamp("endDate", endDate);
 	
 		return (Long) query.uniqueResult();
+	}
+
+	@Transactional(readOnly=true)
+	public List<Integer> getBoughtAmounts(Integer idOrder, List<Integer> productIds) {
+		// retrieve bought amounts. idOrder è l'ordine, productIds sono gli id dei prodotti di quell'ordine di cui si vuole ottenere la quantità acquistata
+		// Prendere tutte le schede dell'ordine, guardare se contengono i prodotti, e aumentare la quantità acquistata dei singoli prodotti, messa in un array nello stesso
+		// ordine degli id.
+		Order order = getOrder(idOrder);
+		if(order != null){
+			List<Integer> ret = new ArrayList<Integer>(productIds.size());
+			for(int i = 0; i < productIds.size(); i++)
+				ret.add(Integer.valueOf(0));
+			
+			for(Purchase purchase : order.getPurchases()){
+				for(PurchaseProduct purchaseProduct : purchase.getPurchaseProducts()){
+					Integer idProduct = purchaseProduct.getProduct().getIdProduct();
+					if(productIds.contains(idProduct)){
+						int amount = purchaseProduct.getAmount();
+						int index = productIds.indexOf(idProduct);
+						
+						int oldAmount = ret.get(index);
+						ret.remove(index);
+						ret.add(index, Integer.valueOf(oldAmount + amount));
+					}
+				}
+			}
+			return ret;
+		}
+		return null;
 	}
 }
