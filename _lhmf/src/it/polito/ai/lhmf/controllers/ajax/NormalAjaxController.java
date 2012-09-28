@@ -90,6 +90,16 @@ public class NormalAjaxController
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getProductNormal", method = RequestMethod.POST)
+	public @ResponseBody
+	Product getProductNormal(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idProduct") int idProduct) throws InvalidParametersException
+	{
+		Product product = productInterface.getProduct(idProduct);
+		return product;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getPurchaseDetails", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
@@ -193,6 +203,139 @@ public class NormalAjaxController
 			purchaseInterface.newPurchaseProduct(purchaseproduct);
 		}		
 		return 1;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getDispOfProduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer getDispOfProduct(HttpServletRequest request,
+			@RequestParam(value = "idPurchase") int idPurchase,
+			@RequestParam(value = "idProduct") int idProduct	) throws InvalidParametersException, ParseException
+	{
+		
+		// -1 Disponibilità infinita
+		// 0 Non Disponibile
+		// xx Quantità disponibile
+		
+		Integer result = -1;
+	
+		Product product = productInterface.getProduct(idProduct);
+		
+		Integer maxBuy = product.getMaxBuy();
+		
+		if(maxBuy == null)
+			return 0;
+		
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		Order order = purchase.getOrder();
+		
+		Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
+		
+		result = maxBuy - totAmount;
+		
+		return result;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/newPurchaseProduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer newPurchaseProduct(HttpServletRequest request,
+			@RequestParam(value = "idPurchase") int idPurchase,
+			@RequestParam(value = "idProduct") int idProduct,
+			@RequestParam(value = "amount") int amountProduct) throws InvalidParametersException, ParseException
+	{
+		int result = 0;
+	
+		Product product = productInterface.getProduct(idProduct);
+		if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
+		{
+			return -2;
+		}
+		
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String sDate = dateFormat.format(calendar.getTime());
+		Date insertedTimestamp = dateFormat.parse(sDate);
+		
+		PurchaseProductId id = new PurchaseProductId(idPurchase, idProduct);
+		PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amountProduct, insertedTimestamp);	
+		PurchaseProductId res = purchaseInterface.newPurchaseProduct(purchaseproduct);	
+		
+		if(res == null)
+			result = -1;
+		
+		return result;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/updatePurchaseProduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer updatePurchaseProduct(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase,
+			@RequestParam(value = "idProduct") int idProduct,
+			@RequestParam(value = "amount") int amountProduct) throws InvalidParametersException, ParseException
+	{
+		
+		// 1 = prenotazione aggiornata
+		// 0 = prodotto non trovato
+		// -1 = Quantità non disponibile
+		// -2 = valore non idoneo
+		
+		int result = 0;
+	
+		Product product = productInterface.getProduct(idProduct);
+		
+		Integer disp = getDispOfProduct(request, idPurchase, idProduct);
+		
+		
+		
+		if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
+			return -2;
+
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		
+		Set<PurchaseProduct> ppSet = purchase.getPurchaseProducts();
+		Product pTemp;
+		
+		for (PurchaseProduct ppTemp : ppSet) {
+			
+			pTemp = ppTemp.getProduct();
+			
+			if(pTemp.equals(product)) {
+				
+				Integer actualAmount = ppTemp.getAmount();
+				
+				if(amountProduct - actualAmount > disp)
+					return -1;
+
+				ppTemp.setAmount(amountProduct);
+				result = purchaseInterface.updatePurchaseProduct(ppTemp);
+				break;
+			}
+			
+		}
+		
+		return result;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/delPurchaseProduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer delPurchaseProduct(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase,
+			@RequestParam(value = "idProduct") int idProduct ) throws InvalidParametersException, ParseException
+	{
+		
+		// 1 = prenotazione aggiornata
+		// 0 = prodotto non trovato
+	
+		Product product = productInterface.getProduct(idProduct);
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+
+		return purchaseInterface.deletePurchaseProduct(purchase, product);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
