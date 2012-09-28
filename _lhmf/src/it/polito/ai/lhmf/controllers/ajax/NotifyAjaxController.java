@@ -3,9 +3,11 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.NotifyInterface;
+import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Notify;
+import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
@@ -30,9 +32,10 @@ public class NotifyAjaxController
 {
 	@Autowired
 	private MemberInterface memberInterface;
-
 	@Autowired
 	private NotifyInterface notifyInterface;
+	@Autowired
+	private OrderInterface orderInterface;
 	@Autowired
 	private ProductInterface productInterface;
 
@@ -112,5 +115,27 @@ public class NotifyAjaxController
 			throws InvalidParametersException
 	{
 		return productInterface.getProduct(idProduct);
+	}
+	
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/viewO", method = RequestMethod.POST)
+	public @ResponseBody
+	Order viewOrder(HttpServletRequest request,
+			@RequestParam(value = "idOrder", required = true) Integer idOrder)
+			throws InvalidParametersException
+	{
+		return orderInterface.getOrder(idOrder);
+	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/viewM", method = RequestMethod.POST)
+	public @ResponseBody
+	Member viewMember(
+			HttpServletRequest request,
+			@RequestParam(value = "idMember", required = true) Integer idMember)
+			throws InvalidParametersException
+	{
+		return memberInterface.getMember(idMember);
 	}
 }

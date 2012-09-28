@@ -641,8 +641,18 @@ function getMyNotifies()
       {
       // Nuovo prodotto
       case 1:
-        tabellaNotifiche += "Nuovo prodotto: <a href='' class='vL' name='"
+        tabellaNotifiche += "Nuovo prodotto: <a href='' class='newProdNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Nuovo ordine
+      case 2:
+        tabellaNotifiche += "Nuovo ordine: <a href='' class='newOrderNot' name='"
+          + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Nuovo utente
+      case 6:
+        tabellaNotifiche += "Nuovo utente: <a href='' class='newMemberNot' name='"
+          + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         break;
       default:
         tabellaNotifiche += notifiesList[notIndex].text;
@@ -657,17 +667,33 @@ function getMyNotifies()
     $(".contentDiv").scrollTop(
         $(".contentDiv").height() - distanceFromBottom + 1);
   $(".not_read_n").click(setReadNotify);
-  $(".vL").click(viewDetailsClick);
+  $(".newProdNot").click(viewProductClick);
+  $(".newOrderNot").click(viewOrderClick);
+  $(".newMemberNot").click(viewMemberClick);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color", "");
 }
 
-function viewDetailsClick(event)
+function viewProductClick(event)
 {
   event.preventDefault();
   idProduct = $(this).attr('name');
-  viewDetails(idProduct);
+  viewProductDetails(idProduct);
+}
+
+function viewOrderClick(event)
+{
+  event.preventDefault();
+  idOrder = $(this).attr('name');
+  viewOrderDetails(idOrder);
+}
+
+function viewMemberClick(event)
+{
+  event.preventDefault();
+  idMember = $(this).attr('name');
+  viewMemberDetails(idMember);
 }
 
 function filterProducts(myProducts, productCategory)
@@ -681,14 +707,14 @@ function filterProducts(myProducts, productCategory)
   return productsFiltered;
 }
 
-function viewDetails(idProduct)
+function viewProductDetails(idProduct)
 {
   $.postSync("ajax/viewP", {
     'idProduct' : idProduct
   }, function(product)
   {
     var details = "<table><tr><td><img src='" + product.imgPath + "' class='thumb' /></td>"
-     +"<td><table class='productDetailsTable'><tr><td></td></tr>"
+     +"<td><table class='productDetailsTable'>"
     + "<tr><th class='top'>Nome</th><td>" + product.name + "</td></tr>"
     + "<tr><th class='top'>Descrizione</th><td>" + product.description + "</td></tr>"
     + "<tr><th class='top'>Dimensione</th><td>" + product.dimension + "</td></tr>"
@@ -702,6 +728,48 @@ function viewDetails(idProduct)
     + "<tr><th class='top'>Fornitore</th><td>" + product.idMemberSupplier + "</td></tr>"
     + "<tr><th class='top'>Categoria</th><td>" + product.category.description + "</td></tr>";
     details += "</table></td></table>";
+    $.modal(details);
+  });
+}
+
+function viewOrderDetails(idOrder)
+{
+  $.postSync("ajax/viewO", {
+    'idOrder' : idOrder
+  }, function(order)
+  {
+    var details = "<table class='orderDetailsTable'>"
+    + "<tr><th class='top'>Nome ordine</th><td>" + order.orderName + "</td></tr>"
+    + "<tr><th class='top'>Nome responsabile</th><td>" + order.memberResp.name + "</td></tr>"
+    + "<tr><th class='top'>Nome fornitore</th><td>" + order.supplier + "</td></tr>"
+    + "<tr><th class='top'>Data apertura</th><td>" + order.dateOpen + "</td></tr>"
+    + "<tr><th class='top'>Data chiusura</th><td>" + order.dateClose + "</td></tr>"
+    + "<tr><th class='top'>Data consegna</th><td>" + order.dateDelivery + "</td></tr>";
+    details += "</table>";
+    $.modal(details);
+  });
+}
+
+function viewMemberDetails(idMember)
+{
+  $.postSync("ajax/viewM", {
+    'idMember' : idMember
+  }, function(member)
+  {
+    var details = "<table class='memberDetailsTable'>"
+    + "<tr><th class='top'>Nome</th><td>" + member.name + "</td></tr>"
+    + "<tr><th class='top'>Cognome</th><td>" + member.surname + "</td></tr>"
+    + "<tr><th class='top'>Username</th><td>" + member.username + "</td></tr>"
+    + "<tr><th class='top'>Data di registrazione</th><td>" + member.regDate + "</td></tr>"
+    + "<tr><th class='top'>Email</th><td>" + member.email + "</td></tr>"
+    + "<tr><th class='top'>Indirizzo</th><td>" + member.address + "</td></tr>"
+    + "<tr><th class='top'>Citt&agrave;</th><td>" + member.city + "</td></tr>"
+    + "<tr><th class='top'>Stato</th><td>" + member.state + "</td></tr>"
+    + "<tr><th class='top'>CAP</th><td>" + member.cap + "</td></tr>"
+    + "<tr><th class='top'>Telefono</th><td>" + member.tel + "</td></tr>"
+    + "<tr><th class='top'>Tipo di utente</th><td>" + member.memberType + "</td></tr>"
+    + "<tr><th class='top'>Status utente</th><td>" + member.memberStatus + "</td></tr>";
+    details += "</table>";
     $.modal(details);
   });
 }

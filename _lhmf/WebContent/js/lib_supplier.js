@@ -8,6 +8,7 @@
 		History.Adapter.bind(window, 'statechange', historyStateChanged);
 
 	$(function() {
+	  $("#orderLink").click(orderClicked);
 		$("#productsLink").click(productsClicked);
 		$("#statLink").click(statClicked);
 		$("#notifiesLink").click(notifiesClicked);
