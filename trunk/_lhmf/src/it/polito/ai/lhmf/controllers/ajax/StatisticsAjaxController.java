@@ -205,29 +205,29 @@ public class StatisticsAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/statSupplierProductList", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<Float> statSupplierProductList(HttpServletRequest request, HttpSession session
+	ArrayList<Double> statSupplierProductList(HttpServletRequest request, HttpSession session
 										) throws InvalidParametersException
 	{
 		
-		ArrayList<Float> respStat = new ArrayList<Float>();
+		ArrayList<Double> respStat = new ArrayList<Double>();
 		
 		// Mi ricavo il Supplier
 		String username = (String) session.getAttribute("username");
 		Member memberSupplier = memberInterface.getMember(username);
 		
 		// Mi ricavo il numero dei prodotti totali 
-		Integer numberProductsTot = productInterface.getNumberOfProductsBySupplier(memberSupplier);
+		Double numberProductsTot = (double) (long) productInterface.getNumberOfProductsBySupplier(memberSupplier);
 		
 		// Mi ricavo il numero dei prodotti totali  in lista
-		Integer numberProductsOnList = productInterface.getNumberOfProductsOnListBySupplier(memberSupplier);
+		Double numberProductsOnList = (double) (long) productInterface.getNumberOfProductsOnListBySupplier(memberSupplier);
 		
 		if(numberProductsTot != 0) {
-			Float temp = (float) (numberProductsOnList/numberProductsTot)*100;
+			Double temp = (numberProductsOnList/numberProductsTot)*100;
 			respStat.add(temp);
 			respStat.add(100-temp);
 		} else {
-			respStat.add((float) 0);
-			respStat.add((float) 0);
+			respStat.add((double) 0);
+			respStat.add((double) 0);
 		}
 		
 		return respStat;

@@ -339,7 +339,7 @@ function postStatSupplierProductListHandler(data){
             "Non Disponibili",
           ],
           "smps": [
-            "Tipologia Utenti"
+            "Tipologia Prodotti"
           ],
           "data": [
             [

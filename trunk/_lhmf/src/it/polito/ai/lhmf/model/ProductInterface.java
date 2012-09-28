@@ -261,19 +261,19 @@ public class ProductInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Integer getNumberOfProductsBySupplier(Member memberSupplier) {
+	public Long getNumberOfProductsBySupplier(Member memberSupplier) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"select count(*) from Product " + "where idSupplier = :idMember");
 		query.setParameter("idMember", memberSupplier.getIdMember());
-		return (int) (long) query.uniqueResult();
+		return (Long) query.uniqueResult();
 	}
 	
 	@Transactional(readOnly = true)
-	public Integer getNumberOfProductsOnListBySupplier(Member memberSupplier) {
+	public Long getNumberOfProductsOnListBySupplier(Member memberSupplier) {
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"select count(*) from Product " + "where idSupplier = :idMember and availability = true");
 		query.setParameter("idMember", memberSupplier.getIdMember());
-		return (int) (long) query.uniqueResult();
+		return (Long) query.uniqueResult();
 	}
 
 	@SuppressWarnings("rawtypes")
