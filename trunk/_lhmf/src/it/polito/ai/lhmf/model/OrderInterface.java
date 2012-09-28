@@ -361,4 +361,32 @@ public class OrderInterface
 		}
 		return null;
 	}
+
+	@Transactional(readOnly=true)
+	public Integer getTotalAmountOfProduct(Order order, Product product) {
+		
+		Query query = sessionFactory.getCurrentSession()
+				.createQuery("select pp.product, sum(pp.amount) " +
+						     "from Order as o " +
+						     "join o.purchases as pur " +
+						     "join pur.purchaseProducts as pp " +
+						     "join pp.product as prod " +
+						     "where prod.idProduct = :product " +
+						     "AND o.idOrder = :id " +
+							 "group by pp.product");
+		
+		query.setParameter("id", order.getIdOrder());
+		query.setParameter("product", product.getIdProduct());
+		
+		Object[] row = (Object[]) query.uniqueResult();
+		
+		Integer sumAmount;
+		
+		if (row == null)
+			sumAmount = 0;
+		else 
+			sumAmount = (int) (long) row[1];
+		
+		return sumAmount;
+	}
 }

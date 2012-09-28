@@ -233,4 +233,42 @@ public class PurchaseInterface
 		return mList;
 	}
 
+	public Integer updatePurchaseProduct(PurchaseProduct purchaseProduct) throws InvalidParametersException {
+	
+		if (purchaseProduct == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update PurchaseProduct "
+						+ "set amount = :amount, " +
+						  "insertedTimestamp = :insertedTimestamp "
+						+ "where purchase = :purchase " +
+						  "AND product = :product");
+		
+		query.setParameter("amount", purchaseProduct.getAmount());
+		query.setParameter("insertedTimestamp", purchaseProduct.getInsertedTimestamp());
+		query.setParameter("purchase", purchaseProduct.getPurchase());
+		query.setParameter("product", purchaseProduct.getProduct());
+
+
+		return (Integer) query.executeUpdate();
+		
+	}
+
+	public Integer deletePurchaseProduct(Purchase purchase, Product product) throws InvalidParametersException {
+		
+		if (purchase == null || product == null )
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+						  "delete from PurchaseProduct " +
+						  "where purchase = :purchase " +
+						  "AND product = :product");
+		
+		query.setParameter("purchase", purchase);
+		query.setParameter("product", product);
+
+		return (Integer) query.executeUpdate();
+	}
+
 }

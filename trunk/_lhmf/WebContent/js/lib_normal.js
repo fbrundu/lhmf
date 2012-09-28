@@ -497,7 +497,7 @@ function postProductListRequest(productList)
 											"Disponibilit&agrave: " + product.minBuy + " - " + product.maxBuy +
 										"</span>" +
 									"</section>" +
-									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
+									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='12px'></a></div>" +
 								  "</li>");
 								
         }
@@ -783,7 +783,7 @@ function postOldPurchaseListHandler(purchaseList)
     }
     $.each(purchaseList, function(index, val)
     {
-    	$("#showDetails_" + val.idPurchase).on("click", clickPurchaseDetailsHandler);
+    	$("#showDetails_" + val.idPurchase).on("click", clickOldPurchaseDetailsHandler);
     });
     
         $("#oldPurchaseList").show("slow");
@@ -803,6 +803,64 @@ function postOldPurchaseListHandler(purchaseList)
 
 var idPurchase = 0;
 
+function clickOldPurchaseDetailsHandler(event) 
+{
+    event.preventDefault();
+    
+    $(".detailsPurchase").hide();
+    var form = $(this).parents('form');
+    idPurchase = $('input', form).val();
+    
+    $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postOldPurchaseDetailsListHandler);
+}
+
+function postOldPurchaseDetailsListHandler(productList) 
+{
+	
+	var AmountTmp = 0;
+    var trControl = "#TRdetailsPurchase_" + idPurchase;
+    var tdControl = "#TDdetailsPurchase_" + idPurchase;
+    
+    $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log2'></table></div>");
+    
+    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    
+    $(tableControl).append("<tr>  <th class='top' width='30%'> Prodotto </th>" +
+                                 "<th class='top' width='35%'> Descrizione  </th>" +
+                                 "<th class='top' width='25%'> Costo Unit&agrave;*Blocchi (Limiti)  </th>" +
+                                 "<th class='top' width='10%'> Qt. </th>" +
+                                 "<th class='top' width='10%'> Parziale </th></tr>");
+    
+    var tot = 0;
+    var parziale = 0;
+    
+    $.each(productList, function(index, val)
+    {
+    	$.postSync("ajax/getAmountfromPurchase", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+        {
+    		AmountTmp = data;
+        });
+    	
+    	
+    	parziale += AmountTmp * (val.unitCost * val.unitBlock);
+    	tot += parziale;
+    	
+        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + " (" + val.minBuy + "-" + val.maxBuy +")</td>" +
+        		                       "<td>" + AmountTmp + "</td>" +
+        		                       "<td>" + parziale + " &euro;</td></tr>");
+    });
+    
+    $(tableControl).append("<tr><td colspan='4' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;</strong> </td>" +
+            "<td>" + tot + " &euro;</td></tr>");
+    
+    
+    $(trControl).show("slow");    
+    $(tdControl).fadeIn(1000);  
+}
+
+
 function clickPurchaseDetailsHandler(event) 
 {
     event.preventDefault();
@@ -818,10 +876,11 @@ function postPurchaseDetailsListHandler(productList)
 {
 	
 	var AmountTmp = 0;
+	var DispTmp = 0;
     var trControl = "#TRdetailsPurchase_" + idPurchase;
     var tdControl = "#TDdetailsPurchase_" + idPurchase;
     
-    $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log'></table></div>");
+    $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log2'></table></div>");
     
     var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
     var divControl = "#DIVdetailsPurchase_" + idPurchase;
@@ -829,30 +888,47 @@ function postPurchaseDetailsListHandler(productList)
     $(tableControl).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
                                  "<th class='top' width='25%'> Descrizione  </th>" +
                                  "<th class='top' width='25%'> Stato Parziale  </th>" +
-                                 "<th class='top' width='10%'> Unit&agrave;*Blocchi (Limiti)  </th>" +
+                                 "<th class='top' width='10%'> Unit&agrave;*Blocchi<br />(Limiti)  </th>" +
                                  "<th class='top' width='5%'> Disp. </th>" +
                                  "<th class='top' width='5%'> Qt. </th>" +
-                                 "<th class='top' width='10%'> Azioni </th> </tr>");
+                                 "<th class='top' width='5%'> Azioni </th>" +
+                                 "<th class='top' width='10%'> Parziale </th> </tr>");
+    
+    var tot = 0;
     
     $.each(productList, function(index, val)
     {
+    	var parziale = 0;
+    	
     	$.postSync("ajax/getAmountfromPurchase", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
         {
     		AmountTmp = data;
         });
     	
-    	var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
-    	var idAmount = "amountProduct_" + val.idProduct;
+    	$.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+        {
+    		DispTmp = data;
+        });
     	
-        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+    	parziale += AmountTmp * (val.unitCost * val.unitBlock);
+    	tot += parziale;
+    	
+    	var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
+    	var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
+    	
+        $(tableControl).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td> progressbar" + "</td>" +
-        		                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + " (" + val.minBuy + "-" + val.maxBuy +")</td>" +
-        		                       "<td id='" + idDisp + "'> Da fare" + "</td>" +
-        		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' value='" + AmountTmp + "'/></td>" +
-        		                       "<td> <img src='img/refresh.png' class='refreshProductButton' height='22px'> " +
-        		                       "<img src='img/delete.png' class='delProductButton' height='22px'> </td></tr>");
+        		                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + "<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
+        		                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
+        		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' data-oldamount='" + AmountTmp + "' value='" + AmountTmp + "'/></td>" +
+        		                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
+        		                       "<img data-productid='" + val.idProduct + "' src='img/delete.png' class='delProductButton' height='12px'> </td>" +
+        		                       "<td id='tdPartial_" + idPurchase +"_" + val.idProduct + "'>" + parziale + " &euro;</td></tr>");
     });
+    
+    $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + tot + "'><td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+            "<td>" + tot + " &euro;</td></tr>");
    
     $(divControl).append("<strong>Altri prodotti disponibili</strong>");
     
@@ -860,13 +936,13 @@ function postPurchaseDetailsListHandler(productList)
         
         var divControl = "#DIVdetailsPurchase_" + idPurchase;
         
-        $(divControl).append("<table id='TABLE2detailsPurchase_" + idPurchase + "' class='log'></table>");
+        $(divControl).append("<table id='TABLE2detailsPurchase_" + idPurchase + "' class='log2'></table>");
         var table2Control = "#TABLE2detailsPurchase_" + idPurchase;
         
         $(table2Control).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
                                 "<th class='top' width='25%'> Descrizione  </th>" +
                                 "<th class='top' width='25%'> Stato Parziale  </th>" +
-                                "<th class='top' width='10%'> Unit&agrave;*Blocchi (Limiti)  </th>" +
+                                "<th class='top' width='10%'> Unit&agrave;*Blocchi<br />(Limiti)  </th>" +
                                 "<th class='top' width='5%'> Disp. </th>" +
                                 "<th class='top' width='5%'> Qt. </th> " +
                                 "<th class='top' width='10%'> Azioni </th></tr>");
@@ -877,19 +953,26 @@ function postPurchaseDetailsListHandler(productList)
             
         } else {
             
+        	var DispTmp = 0;
+        	
             $.each(productList, function(index, val)
                     {
+            	
+            			$.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+            	        {
+            	    		DispTmp = data;
+            	        });
                                 
-                                var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
-                                var idAmount = "amountProduct_" + val.idProduct;
-                                
-                                $(table2Control).append("<tr>   <td>" + val.name + "</td>" +
-                                                               "<td>" + val.description + "</td>" +
-                                                               "<td> progressbar" + "</td>" +
-                                                               "<td>" + val.unitCost + "&euro; * " + val.unitBlock + " (" + val.minBuy + "-" + val.maxBuy +")</td>" +
-                                                               "<td id='" + idDisp + "'> Da fare" + "</td>" +
-                                                               "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "'/></td>" +
-                                                               "<td> <img src='img/add.png' class='addProductButton' height='22px'> </td></tr>");
+                        var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
+                        var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
+                        
+                        $(table2Control).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>   <td>" + val.name + "</td>" +
+                                                       "<td>" + val.description + "</td>" +
+                                                       "<td> progressbar" + "</td>" +
+                                                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + "<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
+                                                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
+                                                       "<td> <input type='text' style='width: 35px; text-align: center;' data-oldamount='0' id='" + idAmount + "'/></td>" +
+                                                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
                      });
         }
     });
@@ -906,17 +989,245 @@ function deleteProductFromPurchase(event){
     
     event.preventDefault();
     
+    var idProduct = $(this).data("productid");
+    
+    var result = 0;
+    
+    //Aggiungo il nuovo prodotto alla scheda
+    $.postSync("ajax/delPurchaseProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
+    {
+    	 result = data;
+    });
+    
+    if(result < 1) {
+		// TODO errore
+    	return -1;
+	} 
+    
+    //mi ricavo il prodotto
+	var product = null;
+    $.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data)
+    {
+    	product = data;
+    });
+    
+    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    var table2Control = "#TABLE2detailsPurchase_" + idPurchase;
+    var trProduct = "#tr_" + idPurchase + "_" + idProduct;
+    var trTotal = "#trTotalRow_" + idPurchase;
+    var inputAmount = "#amountProduct_" + idPurchase + "_" + idProduct;
+  
+    //Ricavo il nuovo totale
+    var totale = $(trTotal).data('total');
+    var oldAmount = $(inputAmount).data('oldamount');
+    var oldparziale = oldAmount*(product.unitCost*product.unitBlock);
+    totale -= oldparziale;
+    
+    //Tolgo la riga del totale
+    $(trTotal).remove();    
+    
+    //Sposto la riga del prodotto alla tabella degli ordini
+    
+    
+    //Se non ci sono altri prodotti che si possono aggiungere scriverlo
+    if($(table2Control).find('input').length == 0)
+    	$(table2Control + ' tr:last').remove();
+   
+    $(table2Control).append($(trProduct).remove());
+    
+    //Aggiorno il data-oldAmount
+    $(inputAmount).data('oldamount', 0);
+    
+    //Aggiorno disponibilità
+    var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+    var DispTmp = 0;
+    $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
+    {
+		DispTmp = data;
+    });
+    
+    $(idDisp).html(DispTmp);
+    
+    //Modifico la riga aggiungendo togliendo colonna del parziale
+    $(trProduct+ " td:last").remove();
+    //Modifico la riga cambiando i controlli delle azioni
+    var actionControl = "#action_" + idPurchase + "_" + idProduct;
+    $(actionControl).html("<img src='img/add.png' class='addProductButton' height='12px'> ");
+    
+    //Aggiungo la riga con il nuovo totale
+    $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
+    					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+    					   "<td>" + totale + " &euro;</td></tr>");
+    
+    $( ".addProductButton" ).on("click", addProductFromPurchase);
 }
 
 function refreshProductFromPurchase(event){
     
     event.preventDefault();
     
+    var idProduct = $(this).data("productid");
+    
+    //Ricavo l'amount
+    var inputAmount = "#amountProduct_" + idPurchase + "_" + idProduct;
+    var amount = $(inputAmount).val();
+    
+    //Ricavo la disponibilità
+    var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+    var disp = $(idDisp).data('disp');
+    
+    var oldAmount = $(inputAmount).data('oldamount');
+    
+    if(parseInt(amount) <= 0 || parseInt(amount)-parseInt(oldAmount) > parseInt(disp))
+    {
+    	// TODO errore inserimento
+    	
+    	return -1;
+   	}
+    
+    var result = 0;
+    
+    //Aggiungo il nuovo prodotto alla scheda
+    $.postSync("ajax/updatePurchaseProduct", {idPurchase: idPurchase, idProduct: idProduct, amount: amount}, function(data)
+    {
+    	 result = data;
+    });
+    
+    if(result != 1) {
+    	// TODO errore
+    } else {
+    	
+    	//aggiorno il valore del parziale e del totale
+    	
+    	//mi ricavo il prodotto
+    	var product = null;
+        $.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data)
+        {
+        	product = data;
+        });	
+        
+        var tdPartial = "#tdPartial_" + idPurchase + "_" + idProduct;
+        var trTotal = "#trTotalRow_" + idPurchase;
+        var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+        
+        // mi calcolo il parziale e il totale
+        var totale = $(trTotal).data('total'); 
+        var oldparziale = oldAmount*(product.unitCost*product.unitBlock);
+        var parziale = amount*(product.unitCost*product.unitBlock);
+        totale -= oldparziale;
+        totale += parziale;
+    	
+        //Aggiorno il data-oldAmount
+        $(inputAmount).data('oldamount', amount);
+        
+        //Aggiorno disponibilità
+        var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+        var DispTmp = 0;
+        $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
+        {
+    		DispTmp = data;
+        });
+        
+        $(idDisp).html(DispTmp);
+        
+        
+        //aggiorno i campi
+        $(tdPartial).html(parziale + " &euro;");
+        $(trTotal).remove();
+        //Aggiungo la riga con il nuovo totale
+        $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
+        					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+        					   "<td>" + totale + " &euro;</td></tr>");
+        
+    }
+    
+    
 }
 
 function addProductFromPurchase(event){
     
     event.preventDefault();
+    
+    var idProduct = $(this).data("productid");
+    
+    //Ricavo l'amount
+    var inputAmount = "#amountProduct_" + idPurchase + "_" + idProduct;
+    var amount = $(inputAmount).val();
+    
+    var product = null;
+    $.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data)
+    {
+    	product = data;
+    });	
+    
+
+    //Controllo valore amount //Da continuare con la disponibilità 
+    if(parseInt(amount) < 0) {
+    	// TODO errore
+    	return -1;
+    }
+    
+    var result = 0;
+    
+    //Aggiungo il nuovo prodotto alla scheda
+    $.postSync("ajax/newPurchaseProduct", {idPurchase: idPurchase, idProduct: idProduct, amount: amount}, function(data)
+    {
+    	 result = data;
+    });
+    
+    if(result < 0) {
+		// TODO errore
+    	return -1;
+	} 
+		
+    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    var table2Control = "#TABLE2detailsPurchase_" + idPurchase;
+    var trProduct = "#tr_" + idPurchase + "_" + idProduct;
+    var trTotal = "#trTotalRow_" + idPurchase;
+  
+    //Ricavo il nuovo totale
+    var totale = $(trTotal).data('total');
+    var parziale = amount*(product.unitCost*product.unitBlock);
+    totale += parziale;
+    
+    //Tolgo la riga del totale
+    $(trTotal).remove();    
+    
+    //Sposto la riga del prodotto alla tabella degli ordini
+    $(tableControl).append($(trProduct).remove());
+    
+    //Se non ci sono altri prodotti che si possono aggiungere scriverlo
+    if($(table2Control + ' tr').length == 1) {
+    	$(table2Control).append("<tr><td colspan='7'> Non ci sono altri prodotti da aggiungere </td></tr>");
+    }
+    
+    //Aggiorno il data-oldAmount
+    $(inputAmount).data('oldamount', amount);
+    
+    //Aggiorno disponibilità
+    var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+    var DispTmp = 0;
+    $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
+    {
+		DispTmp = data;
+    });
+    
+    $(idDisp).html(DispTmp);
+    
+    //Modifico la riga aggiungendo la colonna del parziale
+    $(trProduct).append("<td>" + parziale + " &euro;</td>");
+    //Modifico la riga cambiando i controlli delle azioni
+    var actionControl = "#action_" + idPurchase + "_" + idProduct;
+    $(actionControl).html("<img src='img/refresh.png' class='refreshProductButton' height='12px'> " +
+        		          "<img src='img/delete.png' class='delProductButton' height='12px'>");
+    
+    //Aggiungo la riga con il nuovo totale
+    $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
+    					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+    					   "<td>" + totale + " &euro;</td></tr>");
+    
+    $( ".delProductButton" ).on("click", deleteProductFromPurchase);
+    $( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
     
 }
 
