@@ -76,8 +76,8 @@
 .logform fieldset legend {margin:0 0 0 5px; padding:0 2px 0 2px; color:rgb(80,80,80); font-weight:bold; font-size:130%;}
 .logform label.left {width:100px; margin:0 0 0 10px; padding:2px; font-size:100%;}
 .logform input.field {width:150px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
-.logform button {float:right; width:100%; background:rgb(230,230,230); border:solid 1px black; text-align:center; margin: 10px 0; font-family:verdana,arial,sans-serif; color: black; font-size:110%;}
-.logform button:hover {cursor: pointer; border:solid 1px rgb(80,80,80); background:rgb(220,220,220); color:rgb(80,80,80);}
+.logform button {float:right; width:100%; /*background:rgb(230,230,230); border:solid 1px black;*/ text-align:center; margin: 10px 0; font-family:verdana,arial,sans-serif; /*color: black;*/ font-size:110%;}
+.logform button:hover {cursor: pointer; /*border:solid 1px rgb(80,80,80); background:rgb(220,220,220);*/ color:rgb(80,80,80);}
 .logform select.field {width:275px; padding:2px; border:solid 1px rgb(200,200,200); font-family:verdana,arial,sans-serif; font-size:110%; padding-left: 20px;}
 .logform select option {padding-left: 20px;}
 .logform table.log {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
