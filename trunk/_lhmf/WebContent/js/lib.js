@@ -658,13 +658,41 @@ function getMyNotifies()
       case 4:
         tabellaNotifiche += "L'ordine "
             + notifiesList[notIndex].text
-            + " &eacute; stato chiuso: <a href='' class='newOrderNot' name='"
+            + " &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Data di consegna settata
+      case 5:
+        tabellaNotifiche += "L'ordine "
+            + notifiesList[notIndex].text
+            + " &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         break;
       // Nuovo utente
       case 6:
         tabellaNotifiche += "Nuovo utente: <a href='' class='newMemberNot' name='"
           + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Ordine 50%
+      case 7:
+        tabellaNotifiche += "L'ordine "
+            + notifiesList[notIndex].text
+            + " &eacute; al 50%: <a href='' class='ongoingOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Ordine 75%
+      case 8:
+        tabellaNotifiche += "L'ordine "
+            + notifiesList[notIndex].text
+            + " &eacute; al 75%: <a href='' class='ongoingOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Ordine 90%
+      case 9:
+        tabellaNotifiche += "L'ordine "
+            + notifiesList[notIndex].text
+            + " &eacute; al 90%: <a href='' class='ongoingOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         break;
       default:
         tabellaNotifiche += notifiesList[notIndex].text;
@@ -683,6 +711,8 @@ function getMyNotifies()
   $(".newOrderNot").click(viewOrderClick);
   $(".chAvailNot").click(viewProductClick);
   $(".newMemberNot").click(viewMemberClick);
+  $(".closedOrderNot").click(viewOrderClick);
+  $(".ongoingOrderNot").click(viewOrderClick);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color", "");
