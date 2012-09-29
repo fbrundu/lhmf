@@ -649,6 +649,18 @@ function getMyNotifies()
         tabellaNotifiche += "Nuovo ordine: <a href='' class='newOrderNot' name='"
           + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         break;
+      // Modifica disponibilita' di un prodotto in listino
+      case 3:
+        tabellaNotifiche += "&Eacute; cambiata la disponibilit&agrave; di un prodotto: <a href='' class='chAvailNot' name='"
+          + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
+      // Ordine chiuso
+      case 4:
+        tabellaNotifiche += "L'ordine "
+            + notifiesList[notIndex].text
+            + " &eacute; stato chiuso: <a href='' class='newOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        break;
       // Nuovo utente
       case 6:
         tabellaNotifiche += "Nuovo utente: <a href='' class='newMemberNot' name='"
@@ -669,6 +681,7 @@ function getMyNotifies()
   $(".not_read_n").click(setReadNotify);
   $(".newProdNot").click(viewProductClick);
   $(".newOrderNot").click(viewOrderClick);
+  $(".chAvailNot").click(viewProductClick);
   $(".newMemberNot").click(viewMemberClick);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
@@ -720,7 +733,12 @@ function viewProductDetails(idProduct)
     + "<tr><th class='top'>Dimensione</th><td>" + product.dimension + "</td></tr>"
     + "<tr><th class='top'>Unit&agrave; di misura</th><td>" + product.measureUnit + "</td></tr>"
     + "<tr><th class='top'>Unit&agrave; per blocco</th><td>" + product.unitBlock + "</td></tr>"
-    + "<tr><th class='top'>Disponibilit&agrave;</th><td>" + product.availability + "</td></tr>"
+    + "<tr><th class='top'>Disponibilit&agrave;</th><td>";
+    if (product.availability)
+      details += "Disponibile";
+    else
+      details += "Non disponibile";
+    details += "</td></tr>";
     + "<tr><th class='top'>Costo di trasporto</th><td>" + product.transportCost + "</td></tr>"
     + "<tr><th class='top'>Costo per unit&agrave;</th><td>" + product.unitCost + "</td></tr>"
     + "<tr><th class='top'>Minimo unit&agrave; acquistabili</th><td>" + product.minBuy + "</td></tr>"
