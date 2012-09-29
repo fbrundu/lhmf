@@ -403,6 +403,9 @@ function preparePurchaseForm(tab){
     $('#tabsPurchase').tabs();
     
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    $("body").delegate(".delProductButton", "click", deleteProductFromPurchase);
+    $("body").delegate(".refreshProductButton", "click", refreshProductFromPurchase);
+    $("body").delegate(".addProductButton", "click", addProductFromPurchase);
     
     $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate').datepicker("setDate", Date.now());
@@ -732,7 +735,7 @@ function postActivePurchaseListHandler(purchaseList)
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
-            var idProgressBar = "progressbarOrder_" + purchase.order.idOrder;
+            var idProgressBar = "progressbarOrder_" + purchase.idPurchase;
             
             var valProgress = 0;
             $.postSync("ajax/getProgressOrder", {idOrder: purchase.order.idOrder}, function(data)
@@ -748,9 +751,9 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <strong>Progresso dell'ordine: " + valProgress + "%</strong> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress + "%</strong> </td></tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <div id='" + idProgressBar + "'></div> </td></tr>" +
-				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
+				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "' data-idorder=' " + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
             $( "#" + idProgressBar ).progressbar({	value: valProgress	});
             $("button").button();
@@ -1006,9 +1009,9 @@ function postPurchaseDetailsListHandler(productList)
         }
     });
     
-    $( ".delProductButton" ).on("click", deleteProductFromPurchase);
+    /*$( ".delProductButton" ).on("click", deleteProductFromPurchase);
     $( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
-    $( ".addProductButton" ).on("click", addProductFromPurchase);
+    $( ".addProductButton" ).on("click", addProductFromPurchase);*/
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
@@ -1131,7 +1134,10 @@ function removeProduct(idProduct, lastProduct) {
     					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
     					   "<td>" + totale + " &euro;</td></tr>");
     
-    $( ".addProductButton" ).on("click", addProductFromPurchase);
+    //$( ".addProductButton" ).on("click", addProductFromPurchase);
+    
+    //aggiorno progressbar ordine
+    refreshProgressBarOrder(idPurchase);
     
     if(lastProduct == 1) {
     	
@@ -1286,6 +1292,8 @@ function refreshProductFromPurchase(event){
         					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
         					   "<td>" + totale + " &euro;</td></tr>");
         
+        //aggiorno progressbar ordine
+        refreshProgressBarOrder(idPurchase);
     }
     
     
@@ -1413,15 +1421,36 @@ function addProductFromPurchase(event){
     $(actionControl).html("<img data-productid='" + idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
         		          "<img data-productid='" + idProduct + "' src='img/delete.png' class='delProductButton' height='12px'>");
     
+    //aggiorno progressbar ordine
+    refreshProgressBarOrder(idPurchase);
+    
     //Aggiungo la riga con il nuovo totale
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
     					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
     					   "<td>" + totale + " &euro;</td></tr>");
     
-    $( ".delProductButton" ).on("click", deleteProductFromPurchase);
-    $( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
+    //$( ".delProductButton" ).on("click", deleteProductFromPurchase);
+    //$( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
     
 }
+
+function refreshProgressBarOrder(idPurchase) {
+	
+	var idTrDetails = "#TRdetailsPurchase_" + idPurchase;
+	var idOrder = $(idTrDetails).data('idorder');
+	
+	var valProgress = 0;
+    $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
+    {
+    	valProgress = data;
+    });
+    
+    var idProgressBar = "#progressbarOrder_" + idPurchase;
+    var idTextProgressBar = "#Text_progressbarOrder_" + idPurchase;
+	
+    $(idProgressBar).progressbar('value', valProgress);
+    $(idTextProgressBar).html("<strong>Progresso dell'ordine: " + valProgress + "%</strong>")
+} 
 
 function newPurchase(purchase)
 {
