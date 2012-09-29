@@ -135,6 +135,16 @@ function writePurchasePage()
               "</div>" +
             "</fieldset>" +
           "</div><br />" +
+      "</div>" +
+      "<div id='dialog-confirm' title='Eliminazione Scheda D'acquisto' style='display:none;'>" +
+		  "<p><span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 20px 0;'></span>" +
+		  "Annullando l'ordine dell'ultimo prodotto si proceder&agrave; all'eliminazione dell'intera scheda. Continuare?</p>" +
+      "</div>" +
+      "<div id='dialog-error' title='Errore' style='display:none;'>" +
+      	"<p>Errore nell'inserimento dei dati. Non puoi inserire una quantit&agrave; negativa o non dosponibile.</p>" +
+      "</div>" +
+      "<div id='dialog-internal-error' title='Errore Interno' style='display:none;'>" +
+      	"<p>Errore interno. Non &egrave; stato possibile eseguire l'operazione.</p>" +
       "</div>");
     
     $('#tabsPurchase-3').html("<div class='logform'>" +
@@ -391,6 +401,8 @@ function writeIndexPage()
 function preparePurchaseForm(tab){
     
     $('#tabsPurchase').tabs();
+    
+    $( "#dialog:ui-dialog" ).dialog( "destroy" );
     
     $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate').datepicker("setDate", Date.now());
@@ -720,15 +732,15 @@ function postActivePurchaseListHandler(purchaseList)
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
-            $("#activePurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
+            $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "'> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-					  							  "<tr><td colspan='4'> <strong>Progresso dell'ordine</strong> </td></tr>" +
-					  							  "<tr><td colspan='4'> Qui va la progress bar generale dell'ordine </td></tr>" +
-					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <strong>Progresso dell'ordine</strong> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> Qui va la progress bar generale dell'ordine </td></tr>" +
+				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
             $("button").button();
         }
@@ -989,18 +1001,57 @@ function deleteProductFromPurchase(event){
     
     event.preventDefault();
     
+    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    
     var idProduct = $(this).data("productid");
     
+    if($(tableControl + ' tr').length == 3) { // 3 perchè intestazione + ultimo prodotto + totale = 3
+    	
+    	//Si sta cancellando l'ultimo prodotto della scheda
+    	$( "#dialog-confirm" ).dialog({
+			resizable: false,
+			height:140,
+			modal: true,
+			buttons: {
+				"Rimuovi scheda d'acquisto": function() {
+					
+					removeProduct(idProduct, 1);
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+    } else {
+    	removeProduct(idProduct, 0);
+    }
+}
+   
+function removeProduct(idProduct, lastProduct) {
+	
     var result = 0;
-    
-    //Aggiungo il nuovo prodotto alla scheda
+	
+	//Tolgo il prodotto alla scheda
     $.postSync("ajax/delPurchaseProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
     {
     	 result = data;
     });
     
     if(result < 1) {
-		// TODO errore
+    	
+		 $("#dialog-internal-error").dialog({
+	        resizable : false,
+	        height : 140,
+	        modal : true,
+	        buttons : {
+	          "Ok" : function()
+	          {
+	            $(this).dialog('close');
+	          }
+	        }
+	      });
+		 
     	return -1;
 	} 
     
@@ -1026,17 +1077,19 @@ function deleteProductFromPurchase(event){
     //Tolgo la riga del totale
     $(trTotal).remove();    
     
-    //Sposto la riga del prodotto alla tabella degli ordini
-    
-    
     //Se non ci sono altri prodotti che si possono aggiungere scriverlo
     if($(table2Control).find('input').length == 0)
     	$(table2Control + ' tr:last').remove();
    
+    //Modifico la riga aggiungendo togliendo colonna del parziale
+    $(trProduct+ " td:last").remove();
+    
+    //Sposto la riga alla tabella in basso
     $(table2Control).append($(trProduct).remove());
     
-    //Aggiorno il data-oldAmount
+    //Aggiorno il data-oldAmount e pulisco l'input
     $(inputAmount).data('oldamount', 0);
+    $(inputAmount).val(' ');
     
     //Aggiorno disponibilità
     var idDisp = "#disp_" + idPurchase + "_" + idProduct;
@@ -1048,11 +1101,10 @@ function deleteProductFromPurchase(event){
     
     $(idDisp).html(DispTmp);
     
-    //Modifico la riga aggiungendo togliendo colonna del parziale
-    $(trProduct+ " td:last").remove();
+    
     //Modifico la riga cambiando i controlli delle azioni
     var actionControl = "#action_" + idPurchase + "_" + idProduct;
-    $(actionControl).html("<img src='img/add.png' class='addProductButton' height='12px'> ");
+    $(actionControl).html("<img data-productid='" + idProduct + "' src='img/add.png' class='addProductButton' height='12px'> ");
     
     //Aggiungo la riga con il nuovo totale
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
@@ -1060,6 +1112,46 @@ function deleteProductFromPurchase(event){
     					   "<td>" + totale + " &euro;</td></tr>");
     
     $( ".addProductButton" ).on("click", addProductFromPurchase);
+    
+    if(lastProduct == 1) {
+    	
+    	//Eliminazione Intera scheda
+    	
+    	$.postSync("ajax/delPurchase", {idPurchase: idPurchase}, function(data)
+    	{
+    		   result = data;
+    	});
+    	
+    	if(result < 1) {
+        	
+	   		 $("#dialog-internal-error").dialog({
+	   	        resizable : false,
+	   	        height : 140,
+	   	        modal : true,
+	   	        buttons : {
+	   	          "Ok" : function()
+	   	          {
+	   	            $(this).dialog('close');
+	   	          }
+	   	        }
+	   	      });
+	   		 
+	       	return -1;
+	   	} else {
+	   		
+	   		// Eliminazione ordine dalla tabella
+	   		var classTrOrder = ".orderPurchase_" + idPurchase;
+	   		var idTrDetails = "#TRdetailsPurchase_" + idPurchase;
+	   		var idTableOrder = "#activePurchaseList";
+	   		
+	   		$(classTrOrder).remove();
+	   		$(idTrDetails).remove();
+	   		
+	   		//Se era l'unico ordine cancellare tutta la tabella
+	   		if($(idTableOrder + ' tr').length == 1) 
+	   	    	$(idTableOrder + ' tr').remove();
+	   	}
+    }
 }
 
 function refreshProductFromPurchase(event){
@@ -1078,9 +1170,21 @@ function refreshProductFromPurchase(event){
     
     var oldAmount = $(inputAmount).data('oldamount');
     
-    if(parseInt(amount) <= 0 || parseInt(amount)-parseInt(oldAmount) > parseInt(disp))
+    if(!isPositiveNumber(amount) || parseInt(amount)-parseInt(oldAmount) > parseInt(disp))
     {
-    	// TODO errore inserimento
+    	$("#dialog-error").dialog({
+	        resizable : false,
+	        height : 140,
+	        modal : true,
+	        buttons : {
+	          "Ok" : function()
+	          {
+	            $(this).dialog('close');
+	          }
+	        }
+	      });
+    	
+    	$(inputAmount).val(oldAmount);
     	
     	return -1;
    	}
@@ -1094,7 +1198,19 @@ function refreshProductFromPurchase(event){
     });
     
     if(result != 1) {
-    	// TODO errore
+    	
+    	$("#dialog-internal-error").dialog({
+	        resizable : false,
+	        height : 140,
+	        modal : true,
+	        buttons : {
+	          "Ok" : function()
+	          {
+	            $(this).dialog('close');
+	          }
+	        }
+	      });
+    	
     } else {
     	
     	//aggiorno il valore del parziale e del totale
@@ -1129,7 +1245,7 @@ function refreshProductFromPurchase(event){
         });
         
         $(idDisp).html(DispTmp);
-        
+        $(idDisp).data('disp', DispTmp);
         
         //aggiorno i campi
         $(tdPartial).html(parziale + " &euro;");
@@ -1160,10 +1276,27 @@ function addProductFromPurchase(event){
     	product = data;
     });	
     
+    //Ricavo la disponibilità
+    var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+    var disp = $(idDisp).data('disp');
 
-    //Controllo valore amount //Da continuare con la disponibilità 
-    if(parseInt(amount) < 0) {
-    	// TODO errore
+    //Controllo valore amount 
+    if(!isPositiveNumber(amount) || parseInt(amount) > parseInt(disp) ) {
+    	
+    	$("#dialog-error").dialog({
+	        resizable : false,
+	        height : 140,
+	        modal : true,
+	        buttons : {
+	          "Ok" : function()
+	          {
+	            $(this).dialog('close');
+	          }
+	        }
+	      });
+    	
+    	$(inputAmount).val(' ');
+    	
     	return -1;
     }
     
@@ -1176,7 +1309,21 @@ function addProductFromPurchase(event){
     });
     
     if(result < 0) {
-		// TODO errore
+
+    	$("#dialog-internal-error").dialog({
+	        resizable : false,
+	        height : 140,
+	        modal : true,
+	        buttons : {
+	          "Ok" : function()
+	          {
+	            $(this).dialog('close');
+	          }
+	        }
+	      });
+    	
+    	$(inputAmount).val(' ');
+    	
     	return -1;
 	} 
 		
@@ -1213,13 +1360,15 @@ function addProductFromPurchase(event){
     });
     
     $(idDisp).html(DispTmp);
+    $(idDisp).data('disp', DispTmp);
+    
     
     //Modifico la riga aggiungendo la colonna del parziale
     $(trProduct).append("<td>" + parziale + " &euro;</td>");
     //Modifico la riga cambiando i controlli delle azioni
     var actionControl = "#action_" + idPurchase + "_" + idProduct;
-    $(actionControl).html("<img src='img/refresh.png' class='refreshProductButton' height='12px'> " +
-        		          "<img src='img/delete.png' class='delProductButton' height='12px'>");
+    $(actionControl).html("<img data-productid='" + idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
+        		          "<img data-productid='" + idProduct + "' src='img/delete.png' class='delProductButton' height='12px'>");
     
     //Aggiungo la riga con il nuovo totale
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
