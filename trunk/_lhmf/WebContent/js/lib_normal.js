@@ -732,16 +732,27 @@ function postActivePurchaseListHandler(purchaseList)
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
+            var idProgressBar = "progressbarOrder_" + purchase.order.idOrder;
+            
+            var valProgress = 0;
+            $.postSync("ajax/getProgressOrder", {idOrder: purchase.order.idOrder}, function(data)
+    	    {
+            	valProgress = data;
+    	    });
+            
+            
+            
             $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "'> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <strong>Progresso dell'ordine</strong> </td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> Qui va la progress bar generale dell'ordine </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <strong>Progresso dell'ordine: " + valProgress + "%</strong> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <div id='" + idProgressBar + "'></div> </td></tr>" +
 				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
+            $( "#" + idProgressBar ).progressbar({	value: valProgress	});
             $("button").button();
         }
         $.each(purchaseList, function(index, val)

@@ -11,7 +11,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Query;
@@ -410,5 +413,63 @@ public class OrderInterface
 				ret.add(order);
 		}
 		return ret;
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Transactional(readOnly=true)
+	public Float getProgress(int idOrder) {
+
+		Map<Product, Integer> mapProduct = new HashMap<Product, Integer>();
+		Map<Product, Integer> mapProductMod = new HashMap<Product, Integer>();
+		
+		Integer totMinBuy = 0;
+		
+		Order order = getOrder(idOrder);
+
+		for(Purchase pTemp : order.getPurchases()) 
+			for(PurchaseProduct ppTemp : pTemp.getPurchaseProducts()) {
+				
+				Product productTemp = ppTemp.getProduct();
+				Integer amount = ppTemp.getAmount();
+				Integer minBuy = productTemp.getMinBuy();
+				
+				if(minBuy == null)
+					minBuy = 1;
+				
+				if (mapProduct.containsKey((Product) productTemp)) 
+					amount += mapProduct.get((Product) productTemp);
+				else
+					totMinBuy += minBuy;
+				
+				mapProduct.put(productTemp, amount);
+				
+			}
+		
+		// Controllare ogni prodotto
+		
+		Integer totBought = 0;
+		
+		Iterator it = mapProduct.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        
+	        Product product = (Product) pairs.getKey();
+	        Integer totAmount = (Integer) pairs.getValue();
+	        Integer minBuy = product.getMinBuy();
+	        
+	        if(minBuy == null)
+				minBuy = 1;
+	        
+	        if(totAmount >= minBuy) {
+	        	mapProductMod.put(product, product.getMinBuy());
+	        	totBought += minBuy;
+	        } else {
+	        	mapProductMod.put(product, totAmount);
+	        	totBought += totAmount;
+	        }  
+	    }
+		
+		return ((float) totBought) / totMinBuy * 100;
+		
 	}
 }
