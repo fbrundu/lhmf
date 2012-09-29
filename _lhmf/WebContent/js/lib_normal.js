@@ -900,7 +900,7 @@ function postPurchaseDetailsListHandler(productList)
     $(tableControl).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
                                  "<th class='top' width='25%'> Descrizione  </th>" +
                                  "<th class='top' width='25%'> Stato Parziale  </th>" +
-                                 "<th class='top' width='10%'> Unit&agrave;*Blocchi<br />(Limiti)  </th>" +
+                                 "<th class='top' width='10%'> Costo [Blocco]<br />(Limiti)  </th>" +
                                  "<th class='top' width='5%'> Disp. </th>" +
                                  "<th class='top' width='5%'> Qt. </th>" +
                                  "<th class='top' width='5%'> Azioni </th>" +
@@ -919,10 +919,13 @@ function postPurchaseDetailsListHandler(productList)
     	
     	$.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
         {
-    		DispTmp = data;
+    		if(data == -1)
+    			DispTmp = "Inf.";
+    		else
+    			DispTmp = data;
         });
     	
-    	parziale += AmountTmp * (val.unitCost * val.unitBlock);
+    	parziale += AmountTmp * (val.unitCost);
     	tot += parziale;
     	
     	var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
@@ -931,7 +934,7 @@ function postPurchaseDetailsListHandler(productList)
         $(tableControl).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td> progressbar" + "</td>" +
-        		                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + "<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
+        		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
         		                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
         		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' data-oldamount='" + AmountTmp + "' value='" + AmountTmp + "'/></td>" +
         		                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
@@ -954,7 +957,7 @@ function postPurchaseDetailsListHandler(productList)
         $(table2Control).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
                                 "<th class='top' width='25%'> Descrizione  </th>" +
                                 "<th class='top' width='25%'> Stato Parziale  </th>" +
-                                "<th class='top' width='10%'> Unit&agrave;*Blocchi<br />(Limiti)  </th>" +
+                                "<th class='top' width='10%'> Costo [Blocco]<br />(Limiti)  </th>" +
                                 "<th class='top' width='5%'> Disp. </th>" +
                                 "<th class='top' width='5%'> Qt. </th> " +
                                 "<th class='top' width='10%'> Azioni </th></tr>");
@@ -972,7 +975,10 @@ function postPurchaseDetailsListHandler(productList)
             	
             			$.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
             	        {
-            	    		DispTmp = data;
+            				if(data == -1)
+            	    			DispTmp = "Inf.";
+            	    		else
+            	    			DispTmp = data;
             	        });
                                 
                         var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
@@ -981,7 +987,7 @@ function postPurchaseDetailsListHandler(productList)
                         $(table2Control).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>   <td>" + val.name + "</td>" +
                                                        "<td>" + val.description + "</td>" +
                                                        "<td> progressbar" + "</td>" +
-                                                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + "<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
+                                                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
                                                        "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
                                                        "<td> <input type='text' style='width: 35px; text-align: center;' data-oldamount='0' id='" + idAmount + "'/></td>" +
                                                        "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
@@ -1071,7 +1077,7 @@ function removeProduct(idProduct, lastProduct) {
     //Ricavo il nuovo totale
     var totale = $(trTotal).data('total');
     var oldAmount = $(inputAmount).data('oldamount');
-    var oldparziale = oldAmount*(product.unitCost*product.unitBlock);
+    var oldparziale = oldAmount*(product.unitCost);
     totale -= oldparziale;
     
     //Tolgo la riga del totale
@@ -1096,7 +1102,10 @@ function removeProduct(idProduct, lastProduct) {
     var DispTmp = 0;
     $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
     {
-		DispTmp = data;
+    	if(data == -1)
+			DispTmp = "Inf.";
+		else
+			DispTmp = data;
     });
     
     $(idDisp).html(DispTmp);
@@ -1170,8 +1179,17 @@ function refreshProductFromPurchase(event){
     
     var oldAmount = $(inputAmount).data('oldamount');
     
-    if(!isPositiveNumber(amount) || parseInt(amount)-parseInt(oldAmount) > parseInt(disp))
-    {
+    var error = 0;
+    if(disp == 'Inf.') {
+    	if(!isPositiveNumber(amount))
+    		error = 1;
+    } else if(!isPositiveNumber(amount) || parseInt(amount)-parseInt(oldAmount) > parseInt(disp))
+	    {
+    		error = 1;
+	   	}
+    
+    if(error == 1) {
+    	
     	$("#dialog-error").dialog({
 	        resizable : false,
 	        height : 140,
@@ -1185,9 +1203,8 @@ function refreshProductFromPurchase(event){
 	      });
     	
     	$(inputAmount).val(oldAmount);
-    	
     	return -1;
-   	}
+    }
     
     var result = 0;
     
@@ -1228,8 +1245,8 @@ function refreshProductFromPurchase(event){
         
         // mi calcolo il parziale e il totale
         var totale = $(trTotal).data('total'); 
-        var oldparziale = oldAmount*(product.unitCost*product.unitBlock);
-        var parziale = amount*(product.unitCost*product.unitBlock);
+        var oldparziale = oldAmount*(product.unitCost);
+        var parziale = amount*(product.unitCost);
         totale -= oldparziale;
         totale += parziale;
     	
@@ -1241,7 +1258,10 @@ function refreshProductFromPurchase(event){
         var DispTmp = 0;
         $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
         {
-    		DispTmp = data;
+        	if(data == -1)
+    			DispTmp = "Inf.";
+    		else
+    			DispTmp = data;
         });
         
         $(idDisp).html(DispTmp);
@@ -1281,7 +1301,16 @@ function addProductFromPurchase(event){
     var disp = $(idDisp).data('disp');
 
     //Controllo valore amount 
-    if(!isPositiveNumber(amount) || parseInt(amount) > parseInt(disp) ) {
+    var error = 0;
+    if(disp == 'Inf.') {
+    	if(!isPositiveNumber(amount))
+    		error = 1;
+    } else if(!isPositiveNumber(amount) || parseInt(amount) > parseInt(disp))
+	    {
+    		error = 1;
+	   	}
+    
+    if(error == 1) {
     	
     	$("#dialog-error").dialog({
 	        resizable : false,
@@ -1334,7 +1363,7 @@ function addProductFromPurchase(event){
   
     //Ricavo il nuovo totale
     var totale = $(trTotal).data('total');
-    var parziale = amount*(product.unitCost*product.unitBlock);
+    var parziale = amount*(product.unitCost);
     totale += parziale;
     
     //Tolgo la riga del totale
@@ -1356,7 +1385,10 @@ function addProductFromPurchase(event){
     var DispTmp = 0;
     $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
     {
-		DispTmp = data;
+    	if(data == -1)
+			DispTmp = "Inf.";
+		else
+			DispTmp = data;
     });
     
     $(idDisp).html(DispTmp);
