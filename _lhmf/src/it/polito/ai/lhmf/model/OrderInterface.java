@@ -444,6 +444,9 @@ public class OrderInterface
 				
 			}
 		
+		if(mapProduct.size() == 0)
+			return 0.0f;
+		
 		// Controllare ogni prodotto
 		
 		Integer totBought = 0;
