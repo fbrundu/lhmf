@@ -271,4 +271,19 @@ public class PurchaseInterface
 		return (Integer) query.executeUpdate();
 	}
 
+	public Integer deletePurchase(Purchase purchase) throws InvalidParametersException {
+		
+		if (purchase == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+						  "delete from Purchase " +
+						  "where idPurchase = :idPurchase");
+		
+		query.setParameter("idPurchase", purchase.getIdPurchase());
+
+		return (Integer) query.executeUpdate();
+		
+	}
+
 }
