@@ -224,7 +224,7 @@ public class NormalAjaxController
 		Integer maxBuy = product.getMaxBuy();
 		
 		if(maxBuy == null)
-			return 0;
+			return -1;
 		
 		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
 		Order order = purchase.getOrder();
@@ -247,10 +247,19 @@ public class NormalAjaxController
 		int result = 0;
 	
 		Product product = productInterface.getProduct(idProduct);
-		if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
-		{
+		
+		Integer disp = getDispOfProduct(request, idPurchase, idProduct);
+		
+		int error = 0;
+		
+		if(disp == -1) {
+			if(amountProduct <= 0)
+				error = 1;
+		} else if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
+				error = 1;
+			
+		if(error == 1)	
 			return -2;
-		}
 		
 		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
 		
@@ -290,9 +299,15 @@ public class NormalAjaxController
 		
 		Integer disp = getDispOfProduct(request, idPurchase, idProduct);
 		
+		int error = 0;
 		
-		
-		if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
+		if(disp == -1) {
+			if(amountProduct <= 0)
+				error = 1;
+		} else if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
+				error = 1;
+			
+		if(error == 1)	
 			return -2;
 
 		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
@@ -308,8 +323,9 @@ public class NormalAjaxController
 				
 				Integer actualAmount = ppTemp.getAmount();
 				
-				if(amountProduct - actualAmount > disp)
-					return -1;
+				if (disp != -1)
+					if(amountProduct - actualAmount > disp)
+						return -1;
 
 				ppTemp.setAmount(amountProduct);
 				result = purchaseInterface.updatePurchaseProduct(ppTemp);
