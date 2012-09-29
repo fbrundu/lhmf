@@ -9,4 +9,8 @@ public interface OrderOperations {
 	Integer[] getBoughtAmounts(Integer orderId, Integer[] productIds);
 	
 	Order[] getAvailableOrdersForPurchase();
+	
+	Float[] getOrdersProgresses(Integer[] orderIds);
+	
+	Float getOrderProgress(Integer idOrder);
 }

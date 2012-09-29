@@ -471,4 +471,15 @@ public class OrderInterface
 		return ((float) totBought) / totMinBuy * 100;
 		
 	}
+
+	@Transactional(readOnly = true)
+	public List<Float> getProgresses(List<Integer> orderIds) {
+		if(orderIds.size() > 0){
+			List<Float> ret = new ArrayList<Float>(orderIds.size());
+			for(Integer id : orderIds)
+				ret.add(getProgress(id));
+			return ret;
+		}
+		return null;
+	}
 }

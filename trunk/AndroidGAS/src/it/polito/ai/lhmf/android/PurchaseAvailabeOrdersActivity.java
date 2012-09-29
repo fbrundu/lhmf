@@ -2,8 +2,10 @@ package it.polito.ai.lhmf.android;
 
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
-import it.polito.ai.lhmf.android.util.SeparatedListAdapter;
 import it.polito.ai.lhmf.model.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.social.connect.Connection;
 
@@ -16,15 +18,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
+//TODO cancel progress task when starting new activity/exiting
 public class PurchaseAvailabeOrdersActivity extends Activity {
 	private Gas api = null;
-	private ListAdapter adapter = null;
+	private CustomAdapter adapter = null;
 	
 	private ListView orderListView = null;
+	
+	private List<Integer> orderIds = null;
+	private float[] ordersProgress = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,6 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			setContentView(R.layout.normal_available_orders);
 			
 			orderListView = (ListView) findViewById(R.id.ordersList);
-			adapter = new SeparatedListAdapter(this);
 			
 			new GetAvailableOrdersTask().execute(api);
 		}
@@ -53,10 +59,59 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(Order[] result) {
-			if(result != null){
-				adapter = new CustomAdapter(PurchaseAvailabeOrdersActivity.this, R.layout.order_item, R.id.orderName, result);
+			if(result != null && result.length > 0){
+				orderIds = new ArrayList<Integer>(result.length);
+				ordersProgress = new float[result.length];
+				for(int i = 0; i < result.length; i++){
+					orderIds.add(result[i].getIdOrder());
+					ordersProgress[i] = 0.0f;
+				}
+				
+				new OrdersProgressesTask().execute(api, new ArrayList<Integer>(orderIds));
+				
+				adapter = new CustomAdapter(PurchaseAvailabeOrdersActivity.this, R.layout.order_available_item, R.id.orderName, result);
 				orderListView.setAdapter(adapter);
 			}
+			//TODO else mostrare che non ci sono ordini disponibili
+		}
+		
+	}
+	
+	private class OrdersProgressesTask extends AsyncTask<Object, Float[], Void>{
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected Void doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			List<Integer> ids = (List<Integer>) params[1];
+			
+			Integer[] orderIds = new Integer[ids.size()];
+			for(int i = 0; i < ids.size(); i++)
+				orderIds[i] = ids.get(i);
+			
+			while(!isCancelled()){
+				Float[] progresses = gas.orderOperations().getOrdersProgresses(orderIds);
+				if(progresses != null && progresses.length == orderIds.length){
+					this.publishProgress(progresses);
+				}
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					break;
+				}
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onProgressUpdate(Float[]... values) {
+			Float[] newProgress = values[0];
+			if(newProgress.length == ordersProgress.length){
+				for(int i = 0; i < newProgress.length; i++)
+					ordersProgress[i] = newProgress[i];
+			}
+			adapter.notifyDataSetChanged();
 		}
 		
 	}
@@ -80,24 +135,27 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			TextView orderResp;
 			TextView orderOpenDate;
 			TextView orderCloseDate;
+			ProgressBar orderPb;
 			
 			Order order = getItem(position);
 			
 			if(row == null){
 				LayoutInflater inflater = getLayoutInflater();
-				row = inflater.inflate(R.layout.order_item, parent, false);
+				row = inflater.inflate(R.layout.order_available_item, parent, false);
 			}
 			orderName = (TextView) row.findViewById(R.id.orderName);
 			orderSupplier = (TextView) row.findViewById(R.id.orderSupplier);
 			orderResp = (TextView) row.findViewById(R.id.orderResp);
 			orderOpenDate = (TextView) row.findViewById(R.id.orderOpenDate);
 			orderCloseDate = (TextView) row.findViewById(R.id.orderCloseDate);
+			orderPb = (ProgressBar) row.findViewById(R.id.order_progress_bar);
 			
 			orderName.setText(order.getOrderName());
 			orderSupplier.setText(order.getSupplier().getCompanyName());
 			orderResp.setText(order.getMemberResp().getName() + " " + order.getMemberResp().getSurname());
 			orderOpenDate.setText(DateFormat.format("dd/MM/yyyy", order.getDateOpen()));
 			orderCloseDate.setText(DateFormat.format("dd/MM/yyyy", order.getDateClose()));
+			orderPb.setProgress((int) ordersProgress[orderIds.indexOf(order.getIdOrder())]);
 			
 			return row;
 		}

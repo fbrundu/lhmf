@@ -27,4 +27,5 @@
     <string name="orderResp">"Responsabile: "</string>
     <string name="orderOpenDate">"Apertura: "</string>
     <string name="orderCloseDate">"Chiusura: "</string>
+    <string name="order_progress">Completamento quote minime</string>
 </resources>
