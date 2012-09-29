@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -388,5 +389,26 @@ public class OrderInterface
 			sumAmount = (int) (long) row[1];
 		
 		return sumAmount;
+	}
+
+	//TODO usare anche per creazione scheda sul sito. Restituisce gli ordini attivi per cui l'utente normale richiedente non ha ancora compilato schede
+	@Transactional(readOnly=true)
+	public List<Order> getAvailableOrders(Member normalMember) {
+		List<Order> ret = new ArrayList<Order>();
+		
+		List<Order> activeOrders = getOrdersNow();
+		for(Order order : activeOrders){
+			Set<Purchase> purchases = order.getPurchases();
+			boolean alreadyPurchased = false;
+			for(Purchase purchase : purchases){
+				if(purchase.getMember().getIdMember() == normalMember.getIdMember()){
+					alreadyPurchased = true;
+					break;
+				}
+			}
+			if(!alreadyPurchased)
+				ret.add(order);
+		}
+		return ret;
 	}
 }

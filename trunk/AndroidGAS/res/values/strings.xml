@@ -22,4 +22,9 @@
     <string name="gestione_listino">Gestione Listino</string>
     <string name="purchase_item_availability">"Disponibilità: "</string>
     <string name="new_purchase_title">Creazione nuova scheda</string>
+    <string name="available_orders">Ordini disponibili</string>
+    <string name="orderSupplier">"Fornitore: "</string>
+    <string name="orderResp">"Responsabile: "</string>
+    <string name="orderOpenDate">"Apertura: "</string>
+    <string name="orderCloseDate">"Chiusura: "</string>
 </resources>

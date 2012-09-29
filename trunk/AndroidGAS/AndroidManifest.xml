@@ -32,13 +32,11 @@
             </intent-filter>
         </receiver>
         <service android:name=".GasNetworkService"></service>
-        <activity android:name=".admin.LogActivity"></activity>
-        <activity android:name=".admin.UsersActivity"></activity>
-        <activity android:name=".admin.ProductsActivity"></activity>
         <activity android:name=".NewProductActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".ProductDetails" android:screenOrientation="portrait"></activity>
-        <activity android:name=".Listino" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ProductDetailsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ListinoActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".NewPurchaseActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".PurchaseAvailabeOrdersActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

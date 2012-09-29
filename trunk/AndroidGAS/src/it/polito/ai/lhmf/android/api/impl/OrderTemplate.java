@@ -2,6 +2,7 @@ package it.polito.ai.lhmf.android.api.impl;
 
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.OrderOperations;
+import it.polito.ai.lhmf.model.Order;
 import it.polito.ai.lhmf.model.Product;
 
 import org.springframework.web.client.RestClientException;
@@ -43,6 +44,17 @@ public class OrderTemplate implements OrderOperations {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Order[] getAvailableOrdersForPurchase() {
+		try {
+			Order[] res = template.getForObject(Gas.baseApiUrl + "getavailableordersforpurchase", Order[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
