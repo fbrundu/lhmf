@@ -22,13 +22,13 @@
 	    <script type="text/javascript">
       function drawPageCallback()
       {
-        writeIndexPage();
+        writeOrderPage();
       }
       </script>
     </jsp:attribute>
 
 	<jsp:attribute name="bodyTitle">
-      Interfaccia Fornitore
+      Gestione ordini
     </jsp:attribute>
 
   <jsp:attribute name="dialogs">

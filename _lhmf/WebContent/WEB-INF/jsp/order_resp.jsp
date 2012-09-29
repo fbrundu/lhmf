@@ -29,8 +29,13 @@
 	</jsp:attribute>
 	
 	<jsp:attribute name="userMenu">
-    	<p>Menù di Responsabile</p>
-    	<p>Ordini</p>
+   <div class="round-border-topright"></div>
+    <h1 class="first">Menu Responsabile</h1>
+    <dl class="menu-navigazione">
+      <dt><a id="orderLink" href="">Ordini</a></dt>
+      <dt><a id="purchaseLink" href="">Schede Di Acquisto</a></dt>
+      <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statSupplier"/>">Statistiche</a></dt>
+    </dl> 
 	</jsp:attribute>
 	
 	<jsp:attribute name="bodyTitle">Interfaccia Responsabile</jsp:attribute>

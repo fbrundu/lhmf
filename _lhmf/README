@@ -5,7 +5,6 @@ Applicazioni Internet - Gas
 ## DA IMPLEMENTARE ##
 
 - gestione ordini da parte supplier [FRA]
-- apertura pagina contestuale quando si clicca su una notifica [FRA]
 - admin deve ricevere gli aggiornamenti dei prodotti come fa per le notifiche? [FRA]
 - invio notifiche e messaggi sistema
 - logging
@@ -53,6 +52,7 @@ Applicazioni Internet - Gas
 - Sistemare bug selezione pagina di fornitore......uscito in caso di pi� di 10 prodotti [FRA]
 - In gestione prodotti Admin, sistemare numerazione di pagine e renderla dinamica [FRA]
 - gestione notifiche/messaggi etc con stream unico [FRA]
+- apertura pagina contestuale quando si clicca su una notifica [FRA]
 
 ## OK ##
 

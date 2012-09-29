@@ -41,14 +41,14 @@ function historyStateChanged()
     getMyMessages();
     break;
   case 'statResp':
-	writeStatPageResp();
-	break;
+    writeStatPageResp();
+    break;
   case 'order':
     writeOrderPage();
     break;
   case 'purchase':
-      writePurchasePage();
-      break;
+    writePurchasePage();
+    break;
   default:
     writeIndexPage();
   }
@@ -165,7 +165,7 @@ function writeOrderPage(){
                               "</fieldset>" +
                             "</div><br />" +
                         "</div>" +
-                        "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+                        "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
   
   $('#tabsOrder-3').html("<div class='logform'>" +
                           "<form method='post' action=''>" +
