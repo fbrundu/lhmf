@@ -32,7 +32,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Listino extends Activity {
+public class ListinoActivity extends Activity {
 	private ListView productListView = null;
 	
 	private SeparatedListAdapter adapter = null;
@@ -89,7 +89,7 @@ public class Listino extends Activity {
 				for(Product prod : productList){
 					CustomAdapter section = sections.get(prod.getCategory().getDescription());
 					if(section == null){
-						section = new CustomAdapter(Listino.this, R.layout.listino_item, R.id.productName);
+						section = new CustomAdapter(ListinoActivity.this, R.layout.listino_item, R.id.productName);
 						sections.put(prod.getCategory().getDescription(), section);
 					}
 					section.add(prod);
@@ -145,7 +145,7 @@ public class Listino extends Activity {
 					
 					checkBox.setChecked(!isChecked);
 					
-					AlertDialog.Builder builder = new AlertDialog.Builder(Listino.this);
+					AlertDialog.Builder builder = new AlertDialog.Builder(ListinoActivity.this);
 					builder.setCancelable(false);
 					builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 							
@@ -198,7 +198,7 @@ public class Listino extends Activity {
 				
 				@Override
 				public void onClick(View arg0) {
-					Intent i = new Intent(getApplicationContext(), ProductDetails.class);
+					Intent i = new Intent(getApplicationContext(), ProductDetailsActivity.class);
 					i.putExtra("idProduct", product.getIdProduct());
 					
 					startActivity(i);

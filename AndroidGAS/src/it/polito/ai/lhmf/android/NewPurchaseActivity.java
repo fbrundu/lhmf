@@ -342,7 +342,7 @@ public class NewPurchaseActivity extends Activity {
 				
 				@Override
 				public void onClick(View arg0) {
-					Intent i = new Intent(getApplicationContext(), ProductDetails.class);
+					Intent i = new Intent(getApplicationContext(), ProductDetailsActivity.class);
 					i.putExtra("idProduct", product.getIdProduct());
 					
 					startActivity(i);

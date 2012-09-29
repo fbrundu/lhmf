@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ProductDetails extends Activity {
+public class ProductDetailsActivity extends Activity {
 	private Gas api = null;
 	private ImageView iv = null;
 	private ProgressDialog pDialog = null;

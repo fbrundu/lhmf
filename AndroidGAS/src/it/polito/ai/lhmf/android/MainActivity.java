@@ -36,8 +36,7 @@ public class MainActivity extends Activity {
 			this.finish();
 		}
 		else{
-			Intent dummyIntent = new Intent(getApplicationContext(), NewPurchaseActivity.class);
-			dummyIntent.putExtra("orderId", 2);
+			Intent dummyIntent = new Intent(getApplicationContext(), PurchaseAvailabeOrdersActivity.class);
 			startActivity(dummyIntent);
 			/* TODO
 			gasApi = conn.getApi();
@@ -64,7 +63,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent listinoIntent = new Intent(MainActivity.this, Listino.class);
+				Intent listinoIntent = new Intent(MainActivity.this, ListinoActivity.class);
 				startActivity(listinoIntent);
 			}
 		});

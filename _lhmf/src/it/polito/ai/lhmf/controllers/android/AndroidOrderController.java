@@ -1,8 +1,12 @@
 package it.polito.ai.lhmf.controllers.android;
 
+import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AndroidOrderController {
 	@Autowired
 	private OrderInterface orderInterface;
+	
+	@Autowired
+	private MemberInterface memberInterface;
 	
 	@RequestMapping(value = "/androidApi/getorderproducts", method = RequestMethod.GET)
 	public @ResponseBody
@@ -44,5 +51,21 @@ public class AndroidOrderController {
 			return boughtAmounts;
 		}
 		return  null;
+	}
+	
+	@RequestMapping(value = "/androidApi/getavailableordersforpurchase", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getOrdersString(HttpServletRequest request, Principal principal)
+	{
+		String userName = principal.getName();
+		Member member = memberInterface.getMember(userName);
+		if(member != null){
+			List<Order> listOrders = null;
+			listOrders = orderInterface.getAvailableOrders(member);
+			
+			return listOrders;
+		}
+		else
+			return null;
 	}
 }
