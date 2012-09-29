@@ -57,4 +57,35 @@ public class OrderTemplate implements OrderOperations {
 		}
 	}
 
+	@Override
+	public Float[] getOrdersProgresses(Integer[] orderIds) {
+		if(orderIds.length > 0){
+			StringBuilder sb = new StringBuilder();
+			for(int i = 0; i < orderIds.length; i++){
+				sb.append(orderIds[i].intValue());
+				if(i != orderIds.length - 1)
+					sb.append(',');
+			}
+			try {
+				Float[] res = template.getForObject(Gas.baseApiUrl + "getordersprogresses?orderIds={oIds}", Float[].class, sb.toString());
+				return res;
+			} catch(RestClientException e){
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public Float getOrderProgress(Integer idOrder) {
+		try {
+			Float res = template.getForObject(Gas.baseApiUrl + "getorderprogress?idOrder={idOrder}", Float.class, idOrder);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

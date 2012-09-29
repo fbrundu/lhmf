@@ -55,7 +55,7 @@ public class AndroidOrderController {
 	
 	@RequestMapping(value = "/androidApi/getavailableordersforpurchase", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Order> getOrdersString(HttpServletRequest request, Principal principal)
+	List<Order> getAvailableOrdersForPurchase(HttpServletRequest request, Principal principal)
 	{
 		String userName = principal.getName();
 		Member member = memberInterface.getMember(userName);
@@ -67,5 +67,27 @@ public class AndroidOrderController {
 		}
 		else
 			return null;
+	}
+	
+	@RequestMapping(value = "/androidApi/getorderprogress", method = RequestMethod.GET)
+	public @ResponseBody
+	Float getOrderProgress(HttpServletRequest request, @RequestParam(value="idOrder", required=true) Integer idOrder){
+		return orderInterface.getProgress(idOrder);
+	}
+	
+	@RequestMapping(value = "/androidApi/getordersprogresses", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Float> getOrdersProgresses(HttpServletRequest request, @RequestParam(value="orderIds", required=true) String orderIdsString){
+		if(orderIdsString != null && orderIdsString.length() > 0){
+			String[] splittedIds = orderIdsString.split(",");
+			List<Integer> orderIds = new ArrayList<Integer>();
+			for(int i = 0; i < splittedIds.length; i++)
+				orderIds.add(Integer.valueOf(splittedIds[i]));
+			
+			List<Float> progresses = null;
+			progresses = orderInterface.getProgresses(orderIds);
+			return progresses;
+		}
+		return  null;
 	}
 }
