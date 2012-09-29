@@ -420,7 +420,6 @@ public class OrderInterface
 	public Float getProgress(int idOrder) {
 
 		Map<Product, Integer> mapProduct = new HashMap<Product, Integer>();
-		Map<Product, Integer> mapProductMod = new HashMap<Product, Integer>();
 		
 		Integer totMinBuy = 0;
 		
@@ -460,13 +459,10 @@ public class OrderInterface
 	        if(minBuy == null)
 				minBuy = 1;
 	        
-	        if(totAmount >= minBuy) {
-	        	mapProductMod.put(product, product.getMinBuy());
+	        if(totAmount >= minBuy) 
 	        	totBought += minBuy;
-	        } else {
-	        	mapProductMod.put(product, totAmount);
+	        else 
 	        	totBought += totAmount;
-	        }  
 	    }
 		
 		return ((float) totBought) / totMinBuy * 100;
