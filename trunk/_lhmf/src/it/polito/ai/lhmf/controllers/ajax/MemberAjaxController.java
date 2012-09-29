@@ -182,7 +182,16 @@ public class MemberAjaxController
 	Member getMember(HttpServletRequest request,
 			@RequestBody Integer idMember)
 	{
-		
+		Member member = null;
+		member = memberInterface.getMember(idMember);
+		return member;
+	}
+	
+	@RequestMapping(value = "/ajax/getmemberurlencoded", method = RequestMethod.GET)
+	public @ResponseBody
+	Member getMemberUrlEncoded(HttpServletRequest request,
+			@RequestParam Integer idMember)
+	{
 		Member member = null;
 		member = memberInterface.getMember(idMember);
 		return member;

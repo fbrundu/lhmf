@@ -724,9 +724,15 @@ function viewProductDetails(idProduct)
     + "<tr><th class='top'>Costo di trasporto</th><td>" + product.transportCost + "</td></tr>"
     + "<tr><th class='top'>Costo per unit&agrave;</th><td>" + product.unitCost + "</td></tr>"
     + "<tr><th class='top'>Minimo unit&agrave; acquistabili</th><td>" + product.minBuy + "</td></tr>"
-    + "<tr><th class='top'>Massimo unit&agrave; acquistabili</th><td>" + product.maxBuy + "</td></tr>"
-    + "<tr><th class='top'>Fornitore</th><td>" + product.idMemberSupplier + "</td></tr>"
-    + "<tr><th class='top'>Categoria</th><td>" + product.category.description + "</td></tr>";
+    + "<tr><th class='top'>Massimo unit&agrave; acquistabili</th><td>" + product.maxBuy + "</td></tr>";
+    $.getSync("ajax/getmemberurlencoded", {
+      'idMember' : product.idMemberSupplier
+    }, function(member)
+    {
+      details += "<tr><th class='top'>Fornitore</th><td>" + member.name + " "
+          + member.surname + "</td></tr>";
+    });
+    details += "<tr><th class='top'>Categoria</th><td>" + product.category.description + "</td></tr>";
     details += "</table></td></table>";
     $.modal(details);
   });
@@ -740,9 +746,15 @@ function viewOrderDetails(idOrder)
   {
     var details = "<table class='orderDetailsTable'>"
     + "<tr><th class='top'>Nome ordine</th><td>" + order.orderName + "</td></tr>"
-    + "<tr><th class='top'>Nome responsabile</th><td>" + order.memberResp.name + "</td></tr>"
-    + "<tr><th class='top'>Nome fornitore</th><td>" + order.supplier + "</td></tr>"
-    + "<tr><th class='top'>Data apertura</th><td>" + order.dateOpen + "</td></tr>"
+    + "<tr><th class='top'>Nome responsabile</th><td>" + order.memberResp.name + "</td></tr>";
+    $.getSync("ajax/getmemberurlencoded", {
+      'idMember' : order.supplier.idMember
+    }, function(member)
+    {
+      details += "<tr><th class='top'>Nome fornitore</th><td>" +  member.name + " "
+      + member.surname + "</td></tr>";
+    });
+    details += "<tr><th class='top'>Data apertura</th><td>" + order.dateOpen + "</td></tr>"
     + "<tr><th class='top'>Data chiusura</th><td>" + order.dateClose + "</td></tr>"
     + "<tr><th class='top'>Data consegna</th><td>" + order.dateDelivery + "</td></tr>";
     details += "</table>";
