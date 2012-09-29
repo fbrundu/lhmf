@@ -27,4 +27,17 @@ public class SupplierController
 		return new ModelAndView("productsMgmt_supplier");
 	}
 
+	@RequestMapping("/orderSup")
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	public ModelAndView orderPage(Model model, HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
+		model.addAttribute("user", request.getSession().getAttribute("user"));
+
+		//model.addAttribute("firstPage", "products");
+
+		return new ModelAndView("order_supplier");
+	}
+
 }

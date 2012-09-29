@@ -34,9 +34,12 @@ function historyStateChanged()
     showIndex();
   switch (stateData.action)
   {
+  case 'orderSup':
+    writeOrderPage();
+    break;
   case 'productsMgmt':
 	  writeSupplierPage(0);
-	break;
+	  break;
   case 'statSupplier':
     writeStatPageSupplier();
     break;
@@ -51,20 +54,37 @@ function historyStateChanged()
   }
 }
 
-function productsClicked(event) {
-	  var History = window.History;	
-	  if (History.enabled == true) {
-	    event.preventDefault();
-	    var state = History.getState();
-	    var stateData = state.data;
-	    if (!!stateData && !!stateData.action
-	        && stateData.action == 'productsMgmt')
-	      return;
-	    History.pushState({
-	      action : 'productsMgmt'
-	    }, null, 'productsMgmt');
-	  }
-	}
+function productsClicked(event)
+{
+  var History = window.History;
+  if (History.enabled == true)
+  {
+    event.preventDefault();
+    var state = History.getState();
+    var stateData = state.data;
+    if (!!stateData && !!stateData.action && stateData.action == 'productsMgmt')
+      return;
+    History.pushState({
+      action : 'productsMgmt'
+    }, null, 'productsMgmt');
+  }
+}
+
+function orderClicked(event)
+{
+  var History = window.History;
+  if (History.enabled == true)
+  {
+    event.preventDefault();
+    var state = History.getState();
+    var stateData = state.data;
+    if (!!stateData && !!stateData.action && stateData.action == 'orderSup')
+      return;
+    History.pushState({
+      action : 'orderSup'
+    }, null, 'orderSup');
+  }
+}
 
 function statClicked(event) {
 	var History = window.History;	
@@ -81,7 +101,35 @@ function statClicked(event) {
 	  }
 }
 
+function writeOrderPage()
+{
+  $("#bodyTitleHeader").html("Gestione ordini");
+  $(".centrale").html("<div class='logform'>" +
+      "<form method='post' action=''>" +
+      "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Ricevuti:&nbsp;</legend><br />" +
+          "<label for='minDate' class='left'>Creato dopo il: </label>" +
+          "<input type='text' id='minDate' class='field'/>" +
+      "</fieldset>" +
+      "<button type='submit' id='orderActiveRequest'> Visualizza </button>" +
+    "</form>" +
+    "<table id='activeOrderList' class='log'></table>" +
+      "<div id='errorDivActiveOrder' style='display:none;'>" +
+        "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+         "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
+          "</div>" +
+        "</fieldset>" +
+      "</div><br />" +
+  "</div>" +
+  "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
+
+  $("#minDate").datepicker();
+  $('#minDate').datepicker("setDate", Date.now());
+  $("#dialog").dialog({ autoOpen: false });
+  $("button").button();
+}
+
 function writeStatPageSupplier() {
+  $("#bodyTitleHeader").html("Statistiche fornitore");
 	$(".centrale").html("<div id='tabs'><ul>" +
 			"<li><a href='#tabs-1'>Incasso</a></li>" +
 			"<li><a href='#tabs-2'>Prodotti</a></li>" +
@@ -675,6 +723,7 @@ function writeIndexPage()
 
 function writeSupplierPage(tab)
 {
+  $("#bodyTitleHeader").html("Gestione prodotti");
   $(".centrale").html(
       "<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi prodotto</a></li>"
           + "<li><a href='#tabs-2'>Gestione listino</a></li></ul>"
