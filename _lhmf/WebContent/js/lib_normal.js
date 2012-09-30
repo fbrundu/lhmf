@@ -20,6 +20,7 @@
             dateFormat : 'dd/mm/yy'
         });
         drawPageCallback();
+        
     });
     
 })(window);
@@ -95,32 +96,33 @@ function writePurchasePage()
     
     $('#tabsPurchase-1').html("<div class='logform'>" +
             "<form method='post' action='purchase'>" +
-              "<fieldset><legend>&nbsp;Seleziona gli ordini:&nbsp;</legend><br />" +
-                  "<label for='orderPurchase' class='left'>Selezione Ordine: </label>" +
-                  "<select name='orderPurchase' id='orderPurchase' class='field' style='width: 400px'></select>" +
-                  "<button type='submit' id='orderListRequest'> Carica i Prodotti </button>" +
+              "<fieldset><legend>&nbsp;Seleziona l'ordine per creare una scheda d'acquisto:&nbsp;</legend><br />" +
+              	  "<table id='TABLEorderPurchase' class='log'></table>" +
               "</fieldset>" +
+              "<br />" +
               "<fieldset id='purchaseCompositor'><legend>&nbsp;Composizione Nuova Scheda D'Acquisto:&nbsp;</legend><br />" +
               "<div id='productsList'>" +
-              	"<h1 class='ui-widget-header'>Prodotti</h1>" +
+              	"<h1 class='ui-widget-header'>Prodotti in Listino</h1>" +
               	"<div id='catalog'></div>" +
               "</div>" +
               "<div id='purchaseCart'>" +
-              	"<h1 class='ui-widget-header'>Scheda Di Acquisto</h1>" +
+              	"<h1 class='ui-widget-header'>Scheda D'Acquisto</h1>" +
               	"<div class='ui-widget-content'>" +
               		"<ul id='products' class='list clearfix'>" +
               			"<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nella scheda<br /><br /></div>" +
               		"</ul>" +
               	"</div>" +
               "</div>" +
+              "<br /><br /><br />" +
+              "<div id='divTotal' data-total='0' class='price' style='text-align:center;'> Totale: <strong style='color: #3C3'>0 &euro;</strong></div>" +
               "<button type='submit' id='purchaseRequest'> Crea Scheda </button>" +
               "</fieldset>" +
               "<div id='errorDivPurchase' style='display:none;'>" +
                   "<fieldset><legend id='legendErrorPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
-                   "<div id='errorsPurchase' stpurchasepadding-left: 40px'></div>" +
+                   "<div id='errorsPurchase' style='padding-left: 40px'></div>" +
                   "</fieldset>" +
               "</div>" +
-              
+              "<br />" +
             "</form>" +
           "</div>");
     
@@ -387,11 +389,6 @@ function postStatProdTopProductHandler(data) {
     
 }
 
-
-
-
-
-
 function writeIndexPage()
 {
     $('.centrale').html("<p>Interfaccia utente normale</p>");
@@ -403,9 +400,11 @@ function preparePurchaseForm(tab){
     $('#tabsPurchase').tabs();
     
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
+    
     $("body").delegate(".delProductButton", "click", deleteProductFromPurchase);
     $("body").delegate(".refreshProductButton", "click", refreshProductFromPurchase);
     $("body").delegate(".addProductButton", "click", addProductFromPurchase);
+    $("body").delegate(".inputAmount", "change", updateAmount);
     
     $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate').datepicker("setDate", Date.now());
@@ -423,7 +422,6 @@ function preparePurchaseForm(tab){
     
     loadOrders();
     
-    $('#orderListRequest').on("click", clickProductListRequest);
     $('#purchaseRequest').on("click", clickPurchaseHandler);
     
     $("button").button();
@@ -433,28 +431,18 @@ var idOrder = 0;
 var addedIds = [];
 var addedPz = [];
 
-function clickProductListRequest(event) 
+function productListRequest(idO) 
 {
 	event.preventDefault();
 	
+	idOrder = idO;
+	
 	$("#purchaseCompositor").hide();
-	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti</h1>" +
+	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti in Listino</h1>" +
           					"<div id='catalog'></div>");
+		
+	$.post("ajax/getProductFromOrder", {idOrder: idOrder}, postProductListRequest);
 	
-	idOrder = $('#orderPurchase').val();
-	
-	if(idOrder == -1) 
-	{
-		$("#errorDivPurchase").hide();
-		$("#legendErrorPurchase").html("Comunicazione");
-		$("#errorsPurchase").html("Non hai selezionato l'Ordine<br /><br />");
-		$("#errorDivPurchase").show("slow");
-		$("#errorDivPurchase").fadeIn(1000);	
-	}
-	else
-	{
-		$.post("ajax/getProductFromOrder", {idOrder: idOrder}, postProductListRequest);
-	}	
 }
 
 function postProductListRequest(productList) 
@@ -472,18 +460,23 @@ function postProductListRequest(productList)
 	}
 	else 
 	{
-		
-		console.log("Lista prodotti ricevuta");
 		var category = 0;
 		var ncategory = 0;
 		var divToWork = 0;
+		var DispTmp = 0;
 		
 		for(var i = 0; i < productList.length; i++) {
             
 			var product = productList[i];
-			if(product.availability != true) 
-				continue;
 							
+			$.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: product.idProduct}, function(data)
+	        {
+	    		if(data == -1)
+	    			DispTmp = "Inf.";
+	    		else
+	    			DispTmp = data;
+	        });
+			
 			if(category != product.category.idProductCategory) {
 				//Nuova categoria, creare nuovo accordion
 				category = product.category.idProductCategory;
@@ -494,26 +487,33 @@ function postProductListRequest(productList)
 				ncategory++;
 			}
 			            
-			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "'>" +
+			var idProgressBar = "pbProduct_" + idOrder + "_" + product.idProduct;
+			 
+			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "' data-amount='1' data-price='" + product.unitCost + "'>" +
 								   "<section class='left'>" +
 								       "<img src='" + product.imgPath + "' height='60' class='thumb'>" +
 								       "<h3>" + product.name + "</h3>" +
 								       "<span class='meta'>" + product.description + "</span>" +
+								       "<div id='" + idProgressBar + "'></div>" +
 								   "</section>" +
 								   "<section class='right'>" +
-										"<span class='price'>&euro;" + product.unitCost + "</span>" +
-										"<span class='amount'>" +
-											"<label for='pz' class='left'>Quantit&agrave desiderata:</label>" +
-											 "<input type='text' id='pz' class='field' style='width: 40px' />" +
-											 "<input type='hidden' id='pzMax' class='field' value='" + product.maxBuy + "' />" +
+										"<span class='amount' >" +
+											"Qt. &nbsp;&nbsp;" +
+											 "<input type='text' id='pz' class='inputAmount' style='width: 20px' value='1' />" +
+											 "<input type='hidden' id='pzMax' value='" + DispTmp + "' />&nbsp;&nbsp;" +
+											 "<strong style='color: green;'>&euro;" + product.unitCost + "</strong>" +
 										"</span>" +
+										"<span class='price' >&euro;" + product.unitCost + "</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
-											"Disponibilit&agrave: " + product.minBuy + " - " + product.maxBuy +
+											"Disponibilit&agrave: " + DispTmp +
 										"</span>" +
 									"</section>" +
 									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='12px'></a></div>" +
 								  "</li>");
+			
+			$( "#" + idProgressBar ).progressbar({	value: 0 });
+			$( "#" + idProgressBar ).css('height', '1em');
 								
         }
 		
@@ -543,6 +543,18 @@ function postProductListRequest(productList)
 		            $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrder);
 					$( "#purchaseCart .deleteButton" ).show();
 					$( "#purchaseCart .amount" ).show();
+					$( "#purchaseCart .price" ).hide();
+					
+					//Aggiorno il totale
+					var total = $('#divTotal').data('total');
+					var price = $(ui.draggable).data('price');
+					
+					total += price;
+					
+					//Aggiorno il totale
+					$('#divTotal').html("Totale: <strong style='color: #3C3'>" + total + " &euro;</strong>");
+					$('#divTotal').data('total', total);
+					
 		        } else {
 					$("#errorDivPurchase").hide();
 			        $("#legendErrorPurchase").html("Comunicazione");
@@ -555,17 +567,77 @@ function postProductListRequest(productList)
 		
 		$( ".deleteButton" ).hide();
 		$( ".amount" ).hide();
+		
+		refreshProgressBar(idOrder);
+		
 		$( "#purchaseCompositor" ).show("slow");	
 	}
+}
+
+function updateAmount() {
+	
+	var amount = $(this).val();
+	var max =  $(this).parents("li").find('input:hidden').val();
+	var price = $(this).parents("li").data('price');
+	var oldamount = $(this).parents("li").data('amount');
+	
+	if(max != "Inf." && parseInt(amount) > parseInt(max)) {
+		$(this).val(oldamount);
+		
+		$("#errorDivPurchase").hide();
+        $("#legendErrorPurchase").html("Errore");
+        $("#errorsPurchase").html("Quantit&agrave; non disponibile<br /><br />");
+        $("#errorDivPurchase").show("slow");
+        $("#errorDivPurchase").fadeIn(1000);
+		
+		return;
+	}
+	if(parseInt(amount) <= 0) {
+		$(this).val(oldamount);
+		
+		$("#errorDivPurchase").hide();
+        $("#legendErrorPurchase").html("Errore");
+        $("#errorsPurchase").html("Valori negativi non sono permessi. Premere la 'x' per eliminare l'ordine dalla scheda<br /><br />");
+        $("#errorDivPurchase").show("slow");
+        $("#errorDivPurchase").fadeIn(1000);
+		
+		return;
+	}
+	
+	
+	var total = $('#divTotal').data('total');
+	
+	total -= oldamount*price;
+	total+= amount*price;
+	
+	$(this).parents("li").data('amount', amount);
+	
+	//Aggiorno il totale
+	$('#divTotal').html("Totale: <strong style='color: #3C3'>" + total + " &euro;</strong>");
+	$('#divTotal').data('total', total);
+	
 }
 
 function deleteProductFromOrder(event) 
 {
 	event.preventDefault();
 	
-	$(this).parents("li").remove();
+	
 	var idProduct = $(this).parents("li").data('productid');
 	addedIds = jQuery.removeFromArray(idProduct, addedIds);
+	
+	var price = $(this).parents("li").data('price');
+	var oldamount = $(this).parents("li").data('amount');
+	var total = $('#divTotal').data('total');
+	
+	total -= oldamount*price;
+	
+	//Aggiorno il totale
+	$('#divTotal').html("Totale: <strong style='color: #3C3'>" + total + " &euro;</strong>");
+	$('#divTotal').data('total', total);
+	
+	$(this).parents("li").remove();
+	
 }
 
 jQuery.removeFromArray = function(value, arr) 
@@ -575,6 +647,38 @@ jQuery.removeFromArray = function(value, arr)
         return elem !== value;
     });
 };
+
+function refreshProgressBar(idOrder) {
+		
+	var valProgress = 0;
+    $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
+    {
+    	valProgress = data;
+    });
+    
+    var idProgressBar = "#pbOrder_" + idOrder;
+	
+    $(idProgressBar).progressbar('value', valProgress);
+    
+    //Aggiorno le progressbar dei prodotti.
+    var allProgress = "";
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
+    {
+    	allProgress = data;
+    });
+    
+    $.each(allProgress, function(index, val)
+    {
+    	var temp = val.split(',');
+    	var idProduct = temp[0];
+    	var progress = parseFloat(temp[1]);
+    	
+    	var idProgressBarProduct =  "#pbProduct_" + val.idOrder + "_" + idProduct;
+    		
+    	$(idProgressBarProduct).progressbar('value', progress);
+    });
+    
+} 
 
 function clickPurchaseHandler(event) 
 {
@@ -611,7 +715,7 @@ function clickPurchaseHandler(event)
             $("#errorsPurchase").html("Errore la quantit&agrave deve avere un valore positivo.<br /><br />");
             fail = true;
         }
-         else if(parseInt(amount) > parseInt(max))
+         else if(max != "Inf." && parseInt(amount) > parseInt(max))
         {
         	$("#legendErrorPurchase").html("Errore");
             $("#errorsPurchase").html("Errore la quantit&agrave &egrave maggiore della effettiva disponibilit&agrave.<br /><br />");
@@ -667,6 +771,19 @@ function postSetNewPurchaseRequest(result)
 	else
 	{
 		ClearPurchase();
+		
+		//Eliminare riga dell'ordine 
+		$("#order_" + idOrder).remove();
+		
+		//Se non ci sono altri ordini scriverlo
+		if($('#TABLEorderPurchase tr').length == 1) {
+	    	$('#TABLEorderPurchase').append("<tr><td colspan='6'> Non ci sono altri ordini. </td></tr>");
+	    }
+		
+		
+		//Chiudere composizione scheda
+		$( "#purchaseCompositor" ).hide("slow");
+		
 		$("#legendErrorPurchase").html("Comunicazione");
 	    $("#errorsPurchase").html("Scheda di acquisto creata correttamente.<br /><br />");
 	    $("#errorDivPurchase").show("slow");
@@ -704,16 +821,45 @@ function loadOrders()
 	$.post("ajax/getOrdersString", function(data) 
 	{
 		
-		var output = [];
-		output.push('<option value="-1"> Seleziona...</option>');
+		$('#TABLEorderPurchase').append("<tr> <th class='top' width='20%'> Nome Ordine </th>" +
+											 "<th class='top' width='15%'> Responsabile </th>" +
+											 "<th class='top' width='15%'> Fornitore </th>" +
+											 "<th class='top' width='15%'> Data Apertura </th>" +
+				 							 "<th class='top' width='15%'> Data Chiusura </th>" +
+				 							 "<th class='top' width='20%'> Progresso </th></tr>");
 
+		if(data.length == 0)
+			$('#TABLEorderPurchase').append("<tr><td colspan='6'> Non ci sono ordini da selezionare. </td></tr>");
+		
 		$.each(data, function(index, val)
 		{
-			var temp = val.split(","); 
-			output.push('<option value="'+ temp[0] +'"> Nome - Data Chiusura:'+ temp[1] /*+ ' | ' + temp[2]*/ + '</option>');
+			var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(val.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(val.dateClose));
+            
+            var idProgressBar = "pbOrder_" + val.idOrder;
+            
+            var valProgress = 0;
+            $.postSync("ajax/getProgressOrder", {idOrder: val.idOrder}, function(data)
+    	    {
+            	valProgress = data;
+    	    });
+            
+			$('#TABLEorderPurchase').append("<tr id='order_" + val.idOrder + "' onclick='productListRequest(" + val.idOrder + ")'> " +
+												"<td>" + val.orderName + "</td>" +
+												"<td>" + val.memberResp.name + " " + val.memberResp.surname + "</td>" +
+												"<td>" + val.supplier.companyName + "</td>" +
+												"<td>" + dateOpen + "</td>" +
+												"<td>" + dateClose + "</td>" +
+												"<td style='padding: 5px' ><div id='" + idProgressBar + "'></div></td>" +
+											"</tr>");
+			
+			$( "#" + idProgressBar ).progressbar({	value: valProgress	});
+			$( "#" + idProgressBar ).css('height', '1.5em');
+			
 		});
-		$('#orderPurchase').html(output.join(''));
-	
+		
+		
+		
 	});
 }
 
@@ -751,7 +897,7 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress + "%</strong> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong> </td></tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' style='padding: 5px'> <div id='" + idProgressBar + "'></div> </td></tr>" +
 				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "' data-idorder=' " + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
@@ -1442,9 +1588,6 @@ function addProductFromPurchase(event){
     					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
     					   "<td>" + totale + " &euro;</td></tr>");
     
-    //$( ".delProductButton" ).on("click", deleteProductFromPurchase);
-    //$( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
-    
 }
 
 function refreshProgressBarOrder(idPurchase) {
@@ -1462,7 +1605,7 @@ function refreshProgressBarOrder(idPurchase) {
     var idTextProgressBar = "#Text_progressbarOrder_" + idPurchase;
 	
     $(idProgressBar).progressbar('value', valProgress);
-    $(idTextProgressBar).html("<strong>Progresso dell'ordine: " + valProgress + "%</strong>");
+    $(idTextProgressBar).html("<strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong>");
     
     //Aggiorno le progressbar dei prodotti.
     var allProgress = "";
