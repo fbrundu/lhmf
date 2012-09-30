@@ -110,9 +110,9 @@ function writeOrderPage()
           "<label for='minDate' class='left'>Creato dopo il: </label>" +
           "<input type='text' id='minDate' class='field'/>" +
       "</fieldset>" +
-      "<button type='submit' id='orderActiveRequest'> Visualizza </button>" +
+      "<button type='submit' id='orderRequest'> Visualizza </button>" +
     "</form>" +
-    "<table id='activeOrderList' class='log'></table>" +
+    "<table id='orderList' class='log'></table>" +
       "<div id='errorDivActiveOrder' style='display:none;'>" +
         "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
          "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
@@ -124,8 +124,134 @@ function writeOrderPage()
 
   $("#minDate").datepicker();
   $('#minDate').datepicker("setDate", Date.now());
+  $('#orderRequest').on("click", clickOrderHandler);
+  
   $("#dialog").dialog({ autoOpen: false });
   $("button").button();
+}
+
+function clickOrderHandler(event)
+{
+  event.preventDefault();
+
+  var minDateTime = $('#minDate').datepicker("getDate").getTime();
+
+  if (minDateTime == null)
+    $("#dialog").dialog('open');
+  else
+  {
+    $.post("ajax/getOrderSupplier", {
+      start : minDateTime
+    }, postOrderListHandler);
+  }
+}
+
+function postOrderListHandler(orderList)
+{
+  console.log("Ricevuti Ordini");
+
+  $("#orderList").html("");
+  $("#orderList").hide();
+
+  if (orderList.length > 0)
+  {
+    $("#orderList").append(
+        "  <tr>  <th class='top' width='10%'> ID </th>"
+            + "<th class='top' width='20%'> Data Inizio  </th>"
+            + "<th class='top' width='20%'> Data Chiusura  </th>"
+            + "<th class='top' width='20%'> Data Consegna  </th>"
+            + "<th class='top' width='30%'> Azione  </th> </tr>");
+    for ( var i = 0; i < orderList.length; i++)
+    {
+      var order = orderList[i];
+      var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(
+          order.dateOpen));
+      var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(
+          order.dateClose));
+      if (order.dateDelivery != "null")
+        var dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(
+            order.dateDelivery));
+      else
+        var dateDelivery = "Non decisa";
+      $("#orderList").append(
+          "<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder
+              + "</td>" + "<td>" + dateOpen + "</td>" + "<td>" + dateClose
+              + "</td>" + "<td>" + dateDelivery + "</td>"
+              + "<td> <form> <input type='hidden' value='" + order.idOrder
+              + "'/>" + "<button type='submit' id='showDetails_"
+              + order.idOrder + "'> Dettagli </button>" + "</form></td></tr>"
+              + "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder
+              + "'><td colspan='5' id='TDdetailsOrder_" + order.idOrder
+              + "'></td></tr>");
+      $(".detailsOrder").hide();
+    }
+
+    $.each(orderList, function(index, val)
+    {
+      $("#showDetails_" + val.idOrder).on("click", clickShowDetailsHandler);
+    });
+
+    $("#orderList").show("slow");
+    $("#orderList").fadeIn(1000);
+    $("#errorDivActiveOrder").hide();
+  }
+  else
+  {
+    $("#orderList").show();
+    $("#errorDivActiveOrder").hide();
+    $("#legendErrorActiveOrder").html("Comunicazione");
+    $("#errorsActiveOrder").html(
+        "Non ci sono Ordini da visualizzare<br /><br />");
+    $("#errorDivActiveOrder").show("slow");
+    $("#errorDivActiveOrder").fadeIn(1000);
+  }
+}
+
+function clickShowDetailsHandler(event)
+{
+  event.preventDefault();
+
+  $(".detailsOrder").hide();
+  var form = $(this).parents('form');
+  idOrder = $('input', form).val();
+
+  $.post("ajax/getProductListFromOrder", {
+    idOrder : idOrder
+  }, postShowDetailsHandler);
+}
+
+function postShowDetailsHandler(data)
+{
+  var trControl = 0;
+  var tdControl = 0;
+
+  trControl = "#TRdetailsOrder_" + idOrder;
+  tdControl = "#TDdetailsOrder_" + idOrder;
+
+  $(tdControl).html(
+      "<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder
+          + "' class='log'></table></div>");
+
+  var tableControl = "#TABLEdetailsOrder_" + idOrder;
+
+  $(tableControl).append(
+      "<tr>  <th class='top' width='15%'> Prodotto </th>"
+          + "<th class='top' width='15%'> Categoria </th>"
+          + "<th class='top' width='35%'> Descrizione  </th>"
+          + "<th class='top' width='15%'> Costo  </th>"
+          + "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
+
+  $.each(data, function(index, val)
+  {
+    $(tableControl).append(
+        "<tr>    <td>" + val.name + "</td>" + "<td>" + val.category.description
+            + "</td>" + "<td>" + val.description + "</td>" + "<td>"
+            + val.unitCost + "</td>" + "<td>" + val.minBuy + " - " + val.maxBuy
+            + "</td></tr>");
+  });
+
+  $(trControl).show("slow");
+  $(tdControl).fadeIn(1000);
 }
 
 function writeStatPageSupplier() {

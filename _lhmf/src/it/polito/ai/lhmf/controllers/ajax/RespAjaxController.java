@@ -109,14 +109,22 @@ public class RespAjaxController
 		return listOrder;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.RESP + ","
+			+ MyUserDetailsService.UserRoles.SUPPLIER +"')")
 	@RequestMapping(value = "/ajax/getProductListFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Product> getProductListFromOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	List<Product> getProductListFromOrder(HttpServletRequest request,
+			HttpSession session, @RequestParam(value = "idOrder") int idOrder)
+			throws InvalidParametersException
 	{
+		String username = (String) session.getAttribute("username");
+		Member member = memberInterface.getMember(username);
 		Order order = orderInterface.getOrder(idOrder);
-		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
+		List<Product> listProduct = null;
+		
+		if (order.getSupplier().getIdMember() == member.getIdMember()
+				|| order.getMember().getIdMember() == member.getIdMember())
+			listProduct = new ArrayList<Product>(order.getProducts());
 
 		return listProduct;
 	}
@@ -363,7 +371,7 @@ public class RespAjaxController
 			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
 			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
 			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
-			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non ï¿½ generato ma giï¿½ passato, se ci sono errori lancia un'eccezione
 			purchaseInterface.newPurchaseProduct(purchaseproduct);
 		}		
 		return 1;

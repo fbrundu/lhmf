@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,7 +51,16 @@ public class OrderInterface
 		query.setParameter("idOrder", idOrder);
 		return (Order) query.uniqueResult();
 	}
-	
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Order> getAllOrders()
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order");
+		return query.list();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Order> getPastOrders()
@@ -339,8 +349,8 @@ public class OrderInterface
 
 	@Transactional(readOnly=true)
 	public List<Integer> getBoughtAmounts(Integer idOrder, List<Integer> productIds) {
-		// retrieve bought amounts. idOrder è l'ordine, productIds sono gli id dei prodotti di quell'ordine di cui si vuole ottenere la quantità acquistata
-		// Prendere tutte le schede dell'ordine, guardare se contengono i prodotti, e aumentare la quantità acquistata dei singoli prodotti, messa in un array nello stesso
+		// retrieve bought amounts. idOrder ï¿½ l'ordine, productIds sono gli id dei prodotti di quell'ordine di cui si vuole ottenere la quantitï¿½ acquistata
+		// Prendere tutte le schede dell'ordine, guardare se contengono i prodotti, e aumentare la quantitï¿½ acquistata dei singoli prodotti, messa in un array nello stesso
 		// ordine degli id.
 		Order order = getOrder(idOrder);
 		if(order != null){
@@ -525,5 +535,22 @@ public class OrderInterface
 	    }
 	    
 	    return returnString;
+	}
+
+	@Transactional(readOnly = true)
+	public List<Order> getOrdersBySupplier(long start, Member supplier)
+	{
+		// Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		Date startDate = new Date(start);
+
+		List<Order> orders = new LinkedList<Order>();
+		for (Order o : getAllOrders())
+			if (o.getSupplier().getIdMember() == supplier.getIdMember()
+					&& o.getDateClose().after(now)
+					&& o.getDateOpen().after(startDate))
+				orders.add(o);
+		return orders;
 	}
 }

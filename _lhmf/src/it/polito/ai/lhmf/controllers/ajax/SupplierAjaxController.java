@@ -2,12 +2,14 @@ package it.polito.ai.lhmf.controllers.ajax;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
+import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
+import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 import it.polito.ai.lhmf.util.CheckNumber;
@@ -24,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,7 +44,9 @@ public class SupplierAjaxController
 	private SupplierInterface supplierInterface;
 	@Autowired
 	private MemberInterface memberInterface;
-
+	@Autowired
+	private OrderInterface orderInterface;
+	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/newSupplier", method = RequestMethod.POST)
 	public @ResponseBody
@@ -95,7 +100,7 @@ public class SupplierAjaxController
 		}
 		else
 		{
-			// Controllo email già in uso
+			// Controllo email giï¿½ in uso
 
 			Member memberControl = memberInterface.getMemberByEmail(email);
 
@@ -240,6 +245,22 @@ public class SupplierAjaxController
 		return errors;
 	}
 
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getOrderSupplier", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Order> getOrderSupplier(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "start") long start)
+			throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+
+		Member supplier = memberInterface.getMember(username);
+
+		List<Order> listOrder = null;
+		listOrder = orderInterface.getOrdersBySupplier(start, supplier);
+		return listOrder;
+	}
+	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getmyidsupplier", method = RequestMethod.GET)
 	public @ResponseBody
