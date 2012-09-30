@@ -141,19 +141,13 @@ public class NormalAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getOrdersString", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<String> getOrdersString(HttpServletRequest request, HttpSession session)
+	List<Order> getOrdersString(HttpServletRequest request, HttpSession session)
 	{
-		ArrayList<String> orderString = new ArrayList<String>();
 		
-		List<Order> listOrders = new ArrayList<Order>();
-		listOrders = orderInterface.getOrdersNow();
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
 		
-		for (Order or : listOrders) 
-		{			
-			String temp = or.getIdOrder() + ", " + or.getOrderName() + " - " + or.getDateClose() + "," + or.getDateDelivery();					
-			orderString.add(temp);		
-		}		
-		return orderString;
+		return orderInterface.getAvailableOrders(memberNormal);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
@@ -237,6 +231,36 @@ public class NormalAjaxController
 		
 		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
 		Order order = purchase.getOrder();
+		
+		Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
+		
+		result = maxBuy - totAmount;
+		
+		return result;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getDispOfProductOrder", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer getDispOfProductOrder(HttpServletRequest request,
+			@RequestParam(value = "idOrder") int idOrder,
+			@RequestParam(value = "idProduct") int idProduct	) throws InvalidParametersException, ParseException
+	{
+		
+		// -1 Disponibilità infinita
+		// 0 Non Disponibile
+		// xx Quantità disponibile
+		
+		Integer result = -1;
+	
+		Product product = productInterface.getProduct(idProduct);
+		
+		Integer maxBuy = product.getMaxBuy();
+		
+		if(maxBuy == null)
+			return -1;
+
+		Order order = orderInterface.getOrder(idOrder);
 		
 		Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
 		

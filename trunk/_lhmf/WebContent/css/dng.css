@@ -9,7 +9,7 @@
 
 /** list view **/
 ul.list { list-style: none; width: 100%; }
-ul.list li { display: block; background: #dddddd; padding: 10px 15px; }
+ul.list li { display: block; background: #FFF; padding: 8px; border: solid 1px; border-color: #EEE; }
 
 ul.list li.alt { background: #d7dfe0; }
 
@@ -24,9 +24,12 @@ ul.list li section.left span.meta { color: #93989b; font-weight: normal; font-si
 
 
 ul.list li section.right span.price { font-weight: bold; display: block; margin-bottom: 5px; color: #3C3; font-size: 1.6em; text-align: right; }
+ul.list li section.right span.amount { font-weight: bold; display: block; margin-bottom: 5px; font-size: 1em; text-align: right; }
 ul.list li section.right span.darkview { display: block; margin-bottom: 5px; color: #666666; font-size: 0.69em; text-align: right; }
 
 ul.list li section.right a.firstbtn { margin-right: 7px; }
+
+.price { font-weight: bold; display: block; margin-bottom: 5px; color: #AAA; font-size: 1.6em; text-align: right; }
 
 /** clearfix **/
 .clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
@@ -35,5 +38,5 @@ ul.list li section.right a.firstbtn { margin-right: 7px; }
 html[xmlns] .clearfix { display: block; }
 * html .clearfix { height: 1%; }
 
-.deleteButton {width:15px; height:15px; position:absolute; z-index:80; margin:18px 0 0 530px; z-index: 0 }
-.placeholder {font-size: 15px; text-align: center; background-color: #dddddd}
+.deleteButton {width:18px; height:18px; position:absolute; margin:4px 0 0 540px; z-index: 0 }
+.placeholder {font-size: 17px; text-align: center; background-color: #FFF}
