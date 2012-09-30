@@ -756,7 +756,7 @@ function viewProductDetails(idProduct)
     'idProduct' : idProduct
   }, function(product)
   {
-    var details = "<table><tr><td class='imageTD'><img src='" + product.imgPath + "' class='thumb' /></td>"
+    var details = "<table><tr><td class='imageTD'><img src='" + product.imgPath + "'/></td>"
      +"<td class='dataTD'><table class='productDetailsTable'>"
     + "<tr><td>Nome</td><td>" + product.name + "</td></tr>"
     + "<tr><td>Descrizione</td><td>" + product.description + "</td></tr>"
@@ -817,7 +817,7 @@ function viewMemberDetails(idMember)
     'idMember' : idMember
   }, function(member)
   {
-    var details = "<table><tr><td class='imageTD'></td>"
+    var details = "<table><tr><td class='imageTD'><img src='img/user.png' /></td>"
       +"<td class='dataTD'><table class='memberDetailsTable'>"
     + "<tr><td>Nome</td><td>" + member.name + "</td></tr>"
     + "<tr><td>Cognome</td><td>" + member.surname + "</td></tr>"
