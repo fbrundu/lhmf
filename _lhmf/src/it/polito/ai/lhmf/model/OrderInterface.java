@@ -482,4 +482,48 @@ public class OrderInterface
 		}
 		return null;
 	}
+
+	@SuppressWarnings("rawtypes")
+	@Transactional(readOnly = true)
+	public List<String> getProgressProduct(int idOrder) {
+		
+		Map<Product, Integer> mapProduct = new HashMap<Product, Integer>();
+		List<String> returnString = new ArrayList<String>();
+		Order order = getOrder(idOrder);
+		
+		for(Purchase pTemp : order.getPurchases()) 
+			for(PurchaseProduct ppTemp : pTemp.getPurchaseProducts()) {
+				
+				Product productTemp = ppTemp.getProduct();
+				Integer amount = ppTemp.getAmount();
+				
+				if (mapProduct.containsKey((Product) productTemp)) 
+					amount += mapProduct.get((Product) productTemp);
+				
+				mapProduct.put(productTemp, amount);
+				
+			}
+		
+		Iterator it = mapProduct.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        
+	        Product product = (Product) pairs.getKey();
+	        Integer totAmount = (Integer) pairs.getValue();
+	        Integer minBuy = product.getMinBuy();
+	        Float temp;
+	        
+	        if(minBuy == null)
+				minBuy = 1;
+	        
+	        if(totAmount >= minBuy)
+	        	temp = 100f;
+	        else
+	        	temp = ((float) totAmount) / minBuy * 100;
+	        
+	       returnString.add(product.getIdProduct() + "," + temp.toString());
+	    }
+	    
+	    return returnString;
+	}
 }
