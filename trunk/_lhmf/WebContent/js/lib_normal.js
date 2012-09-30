@@ -752,7 +752,7 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
 					  							  "</form></td></tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress + "%</strong> </td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4'> <div id='" + idProgressBar + "'></div> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' style='padding: 5px'> <div id='" + idProgressBar + "'></div> </td></tr>" +
 				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "' data-idorder=' " + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             $(".detailsPurchase").hide();
             $( "#" + idProgressBar ).progressbar({	value: valProgress	});
@@ -944,16 +944,19 @@ function postPurchaseDetailsListHandler(productList)
     	
     	var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
     	var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
+    	var idProgressBarProduct = "progressbarProduct_" + idPurchase + "_" + val.idProduct;
     	
         $(tableControl).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
-        		                       "<td> progressbar" + "</td>" +
+        		                       "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "'></div></td>" +
         		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
         		                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
         		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' data-oldamount='" + AmountTmp + "' value='" + AmountTmp + "'/></td>" +
         		                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
         		                       "<img data-productid='" + val.idProduct + "' src='img/delete.png' class='delProductButton' height='12px'> </td>" +
         		                       "<td id='tdPartial_" + idPurchase +"_" + val.idProduct + "'>" + parziale + " &euro;</td></tr>");
+        
+        $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
     });
     
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + tot + "'><td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
@@ -985,36 +988,39 @@ function postPurchaseDetailsListHandler(productList)
         	var DispTmp = 0;
         	
             $.each(productList, function(index, val)
-                    {
-            	
-            			$.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
-            	        {
-            				if(data == -1)
-            	    			DispTmp = "Inf.";
-            	    		else
-            	    			DispTmp = data;
-            	        });
-                                
-                        var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
-                        var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
+            {
+    	
+    			$.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+    	        {
+    				if(data == -1)
+    	    			DispTmp = "Inf.";
+    	    		else
+    	    			DispTmp = data;
+    	        });
                         
-                        $(table2Control).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>   <td>" + val.name + "</td>" +
-                                                       "<td>" + val.description + "</td>" +
-                                                       "<td> progressbar" + "</td>" +
-                                                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
-                                                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
-                                                       "<td> <input type='text' style='width: 35px; text-align: center;' data-oldamount='0' id='" + idAmount + "'/></td>" +
-                                                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
-                     });
+                var idDisp = "disp_" + idPurchase + "_" + val.idProduct;
+                var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
+                var idProgressBarProduct = "progressbarProduct_" + idPurchase + "_" + val.idProduct;
+                
+                $(table2Control).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>   <td>" + val.name + "</td>" +
+                                               "<td>" + val.description + "</td>" +
+                                               "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "'></td>" +
+                                               "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
+                                               "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
+                                               "<td> <input type='text' style='width: 35px; text-align: center;' data-oldamount='0' id='" + idAmount + "'/></td>" +
+                                               "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
+                
+                $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
+             });
         }
     });
     
-    /*$( ".delProductButton" ).on("click", deleteProductFromPurchase);
-    $( ".refreshProductButton" ).on("click", refreshProductFromPurchase);
-    $( ".addProductButton" ).on("click", addProductFromPurchase);*/
+    refreshProgressBarOrder(idPurchase);
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
+
+    
 }
 
 function deleteProductFromPurchase(event){
@@ -1107,6 +1113,10 @@ function removeProduct(idProduct, lastProduct) {
     //Sposto la riga alla tabella in basso
     $(table2Control).append($(trProduct).remove());
     
+    //Ricreo la progressbar
+    var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
+	$(idProgressBarProduct).progressbar( { value: 0 });
+    
     //Aggiorno il data-oldAmount e pulisco l'input
     $(inputAmount).data('oldamount', 0);
     $(inputAmount).val(' ');
@@ -1134,10 +1144,9 @@ function removeProduct(idProduct, lastProduct) {
     					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
     					   "<td>" + totale + " &euro;</td></tr>");
     
-    //$( ".addProductButton" ).on("click", addProductFromPurchase);
-    
     //aggiorno progressbar ordine
     refreshProgressBarOrder(idPurchase);
+    
     
     if(lastProduct == 1) {
     	
@@ -1391,6 +1400,10 @@ function addProductFromPurchase(event){
     //Sposto la riga del prodotto alla tabella degli ordini
     $(tableControl).append($(trProduct).remove());
     
+    //Ricreo la progressbar
+    var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
+	$(idProgressBarProduct).progressbar( { value: 0 });
+    
     //Se non ci sono altri prodotti che si possono aggiungere scriverlo
     if($(table2Control + ' tr').length == 1) {
     	$(table2Control).append("<tr><td colspan='7'> Non ci sono altri prodotti da aggiungere </td></tr>");
@@ -1421,7 +1434,7 @@ function addProductFromPurchase(event){
     $(actionControl).html("<img data-productid='" + idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
         		          "<img data-productid='" + idProduct + "' src='img/delete.png' class='delProductButton' height='12px'>");
     
-    //aggiorno progressbar ordine
+    //aggiorno progressbar
     refreshProgressBarOrder(idPurchase);
     
     //Aggiungo la riga con il nuovo totale
@@ -1449,7 +1462,26 @@ function refreshProgressBarOrder(idPurchase) {
     var idTextProgressBar = "#Text_progressbarOrder_" + idPurchase;
 	
     $(idProgressBar).progressbar('value', valProgress);
-    $(idTextProgressBar).html("<strong>Progresso dell'ordine: " + valProgress + "%</strong>")
+    $(idTextProgressBar).html("<strong>Progresso dell'ordine: " + valProgress + "%</strong>");
+    
+    //Aggiorno le progressbar dei prodotti.
+    var allProgress = "";
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
+    {
+    	allProgress = data;
+    });
+    
+    $.each(allProgress, function(index, val)
+    {
+    	var temp = val.split(',');
+    	var idProduct = temp[0];
+    	var progress = parseFloat(temp[1]);
+    	
+    	var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
+    		
+    	$(idProgressBarProduct).progressbar('value', progress);
+    });
+    
 } 
 
 function newPurchase(purchase)

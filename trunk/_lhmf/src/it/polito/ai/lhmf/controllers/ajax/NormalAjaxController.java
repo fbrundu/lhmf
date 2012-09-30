@@ -399,4 +399,12 @@ public class NormalAjaxController
 		return orderInterface.getProgress(idOrder);
 	}
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getProgressProductOfOrder", method = RequestMethod.POST)
+	public @ResponseBody
+	List<String> getProgressProductOfOrder(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder		) throws InvalidParametersException
+	{
+		return orderInterface.getProgressProduct(idOrder);
+	}
 }
