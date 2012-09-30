@@ -756,31 +756,31 @@ function viewProductDetails(idProduct)
     'idProduct' : idProduct
   }, function(product)
   {
-    var details = "<table><tr><td><img src='" + product.imgPath + "' class='thumb' /></td>"
-     +"<td><table class='productDetailsTable'>"
-    + "<tr><th class='top'>Nome</th><td>" + product.name + "</td></tr>"
-    + "<tr><th class='top'>Descrizione</th><td>" + product.description + "</td></tr>"
-    + "<tr><th class='top'>Dimensione</th><td>" + product.dimension + "</td></tr>"
-    + "<tr><th class='top'>Unit&agrave; di misura</th><td>" + product.measureUnit + "</td></tr>"
-    + "<tr><th class='top'>Unit&agrave; per blocco</th><td>" + product.unitBlock + "</td></tr>"
-    + "<tr><th class='top'>Disponibilit&agrave;</th><td>";
+    var details = "<table><tr><td class='imageTD'><img src='" + product.imgPath + "' class='thumb' /></td>"
+     +"<td class='dataTD'><table class='productDetailsTable'>"
+    + "<tr><td>Nome</td><td>" + product.name + "</td></tr>"
+    + "<tr><td>Descrizione</td><td>" + product.description + "</td></tr>"
+    + "<tr><td>Dimensione</td><td>" + product.dimension + "</td></tr>"
+    + "<tr><td>Unit&agrave; di misura</td><td>" + product.measureUnit + "</td></tr>"
+    + "<tr><td>Unit&agrave; per blocco</td><td>" + product.unitBlock + "</td></tr>"
+    + "<tr><td>Disponibilit&agrave;</td><td>";
     if (product.availability)
       details += "Disponibile";
     else
       details += "Non disponibile";
     details += "</td></tr>";
-    + "<tr><th class='top'>Costo di trasporto</th><td>" + product.transportCost + "</td></tr>"
-    + "<tr><th class='top'>Costo per unit&agrave;</th><td>" + product.unitCost + "</td></tr>"
-    + "<tr><th class='top'>Minimo unit&agrave; acquistabili</th><td>" + product.minBuy + "</td></tr>"
-    + "<tr><th class='top'>Massimo unit&agrave; acquistabili</th><td>" + product.maxBuy + "</td></tr>";
+    + "<tr><td>Costo di trasporto</td><td>" + product.transportCost + "</td></tr>"
+    + "<tr><td>Costo per unit&agrave;</td><td>" + product.unitCost + "</td></tr>"
+    + "<tr><td>Minimo unit&agrave; acquistabili</td><td>" + product.minBuy + "</td></tr>"
+    + "<tr><td>Massimo unit&agrave; acquistabili</td><td>" + product.maxBuy + "</td></tr>";
     $.getSync("ajax/getmemberurlencoded", {
       'idMember' : product.idMemberSupplier
     }, function(member)
     {
-      details += "<tr><th class='top'>Fornitore</th><td>" + member.name + " "
+      details += "<tr><td>Fornitore</td><td>" + member.name + " "
           + member.surname + "</td></tr>";
     });
-    details += "<tr><th class='top'>Categoria</th><td>" + product.category.description + "</td></tr>";
+    details += "<tr><td>Categoria</td><td>" + product.category.description + "</td></tr>";
     details += "</table></td></table>";
     $.modal(details);
   });
@@ -792,20 +792,21 @@ function viewOrderDetails(idOrder)
     'idOrder' : idOrder
   }, function(order)
   {
-    var details = "<table class='orderDetailsTable'>"
-    + "<tr><th class='top'>Nome ordine</th><td>" + order.orderName + "</td></tr>"
-    + "<tr><th class='top'>Nome responsabile</th><td>" + order.memberResp.name + "</td></tr>";
+    var details = "<table><tr><td class='imageTD'></td>"
+    +"<td class='dataTD'><table class='orderDetailsTable'>"
+    + "<tr><td>Nome ordine</th><td>" + order.orderName + "</td></tr>"
+    + "<tr><td>Nome responsabile</td><td>" + order.memberResp.name + "</td></tr>";
     $.getSync("ajax/getmemberurlencoded", {
       'idMember' : order.supplier.idMember
     }, function(member)
     {
-      details += "<tr><th class='top'>Nome fornitore</th><td>" +  member.name + " "
+      details += "<tr><td>Nome fornitore</td><td>" +  member.name + " "
       + member.surname + "</td></tr>";
     });
-    details += "<tr><th class='top'>Data apertura</th><td>" + order.dateOpen + "</td></tr>"
-    + "<tr><th class='top'>Data chiusura</th><td>" + order.dateClose + "</td></tr>"
-    + "<tr><th class='top'>Data consegna</th><td>" + order.dateDelivery + "</td></tr>";
-    details += "</table>";
+    details += "<tr><td>Data apertura</td><td>" + order.dateOpen + "</td></tr>"
+    + "<tr><td>Data chiusura</td><td>" + order.dateClose + "</td></tr>"
+    + "<tr><td>Data consegna</td><td>" + order.dateDelivery + "</td></tr>";
+    details += "</table></td></tr></table>";
     $.modal(details);
   });
 }
@@ -816,20 +817,21 @@ function viewMemberDetails(idMember)
     'idMember' : idMember
   }, function(member)
   {
-    var details = "<table class='memberDetailsTable'>"
-    + "<tr><th class='top'>Nome</th><td>" + member.name + "</td></tr>"
-    + "<tr><th class='top'>Cognome</th><td>" + member.surname + "</td></tr>"
-    + "<tr><th class='top'>Username</th><td>" + member.username + "</td></tr>"
-    + "<tr><th class='top'>Data di registrazione</th><td>" + member.regDate + "</td></tr>"
-    + "<tr><th class='top'>Email</th><td>" + member.email + "</td></tr>"
-    + "<tr><th class='top'>Indirizzo</th><td>" + member.address + "</td></tr>"
-    + "<tr><th class='top'>Citt&agrave;</th><td>" + member.city + "</td></tr>"
-    + "<tr><th class='top'>Stato</th><td>" + member.state + "</td></tr>"
-    + "<tr><th class='top'>CAP</th><td>" + member.cap + "</td></tr>"
-    + "<tr><th class='top'>Telefono</th><td>" + member.tel + "</td></tr>"
-    + "<tr><th class='top'>Tipo di utente</th><td>" + member.memberType + "</td></tr>"
-    + "<tr><th class='top'>Status utente</th><td>" + member.memberStatus + "</td></tr>";
-    details += "</table>";
+    var details = "<table><tr><td class='imageTD'></td>"
+      +"<td class='dataTD'><table class='memberDetailsTable'>"
+    + "<tr><td>Nome</td><td>" + member.name + "</td></tr>"
+    + "<tr><td>Cognome</td><td>" + member.surname + "</td></tr>"
+    + "<tr><td>Username</td><td>" + member.username + "</td></tr>"
+    + "<tr><td>Data di registrazione</td><td>" + member.regDate + "</td></tr>"
+    + "<tr><td>Email</td><td>" + member.email + "</td></tr>"
+    + "<tr><td>Indirizzo</td><td>" + member.address + "</td></tr>"
+    + "<tr><td>Citt&agrave;</td><td>" + member.city + "</td></tr>"
+    + "<tr><td>Stato</td><td>" + member.state + "</td></tr>"
+    + "<tr><td>CAP</td><td>" + member.cap + "</td></tr>"
+    + "<tr><td>Telefono</td><td>" + member.tel + "</td></tr>"
+    + "<tr><td>Tipo di utente</td><td>" + member.memberType + "</td></tr>"
+    + "<tr><td>Status utente</td><td>" + member.memberStatus + "</td></tr>";
+    details += "</table></td></tr></table>";
     $.modal(details);
   });
 }
