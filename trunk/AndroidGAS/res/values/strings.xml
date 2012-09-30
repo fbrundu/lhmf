@@ -28,4 +28,14 @@
     <string name="orderOpenDate">"Apertura: "</string>
     <string name="orderCloseDate">"Chiusura: "</string>
     <string name="order_progress">Completamento quote minime</string>
+    <string name="percent_symbol"> %</string>
+    <string name="order_purchase_details">Dettagli</string>
+    <string name="new_purchase_order_name">"Ordine: "</string>
+    <string name="new_purchase_confirm">Conferma</string>
+    <string name="product_progress_separator">/</string>
+    <string name="new_purchase_desired_amount">"Quantità desiderata: "</string>
+    <string name="purchase_item_progress">"Raggiungimento quantità minima: "</string>
+    <string name="purchase_item_cost">"Costo parziale: "</string>
+    <string name="euro_symbol">" €"</string>
+    <string name="new_purchase_tot_cost">"Costo totale: "</string>
 </resources>

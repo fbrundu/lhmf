@@ -11,6 +11,7 @@ import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -18,12 +19,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-//TODO cancel progress task when starting new activity/exiting
+//FIXME cancel progress task when starting new activity/exiting
 public class PurchaseAvailabeOrdersActivity extends Activity {
 	private Gas api = null;
 	private CustomAdapter adapter = null;
@@ -136,8 +138,10 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			TextView orderOpenDate;
 			TextView orderCloseDate;
 			ProgressBar orderPb;
+			TextView orderProgressText;
+			Button createPurchase;
 			
-			Order order = getItem(position);
+			final Order order = getItem(position);
 			
 			if(row == null){
 				LayoutInflater inflater = getLayoutInflater();
@@ -149,13 +153,30 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			orderOpenDate = (TextView) row.findViewById(R.id.orderOpenDate);
 			orderCloseDate = (TextView) row.findViewById(R.id.orderCloseDate);
 			orderPb = (ProgressBar) row.findViewById(R.id.order_progress_bar);
+			orderProgressText = (TextView) row.findViewById(R.id.order_progress_percent);
+			createPurchase = (Button) row.findViewById(R.id.order_purchase_button);
 			
 			orderName.setText(order.getOrderName());
 			orderSupplier.setText(order.getSupplier().getCompanyName());
 			orderResp.setText(order.getMemberResp().getName() + " " + order.getMemberResp().getSurname());
 			orderOpenDate.setText(DateFormat.format("dd/MM/yyyy", order.getDateOpen()));
 			orderCloseDate.setText(DateFormat.format("dd/MM/yyyy", order.getDateClose()));
-			orderPb.setProgress((int) ordersProgress[orderIds.indexOf(order.getIdOrder())]);
+			
+			float progress = ordersProgress[orderIds.indexOf(order.getIdOrder())];
+			int progressInt = (int) progress; 
+			orderPb.setProgress(progressInt);
+			orderProgressText.setText(String.format("%.2f", progress));
+			
+			createPurchase.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(getApplicationContext(), NewPurchaseActivity.class);
+					intent.putExtra("order", order);
+					startActivity(intent);
+					
+				}
+			});
 			
 			return row;
 		}
