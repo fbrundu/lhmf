@@ -81,6 +81,7 @@ function statClicked(event) {
 
 function writePurchasePage()
 {
+  $("#bodyTitleHeader").html("Gestione schede");
     $(".centrale").html("<div id='tabsPurchase'>" +
     		                    "<ul>" +
     		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
@@ -169,7 +170,7 @@ function writePurchasePage()
 }
 
 function writeStatPageNormal() {
-	
+  $("#bodyTitleHeader").html("Statistiche utente");
 	$(".centrale").html("<div id='tabs'><ul>" +
 						"<li><a href='#tabs-1'>Movimenti</a></li>" +
 						"<li><a href='#tabs-2'>Prodotti</a></li>" +
@@ -391,9 +392,9 @@ function postStatProdTopProductHandler(data) {
 
 function writeIndexPage()
 {
-    $('.centrale').html("<p>Interfaccia utente normale</p>");
+  $("#bodyTitleHeader").html("Interfaccia utente");
+  $('.centrale').html("<p>Interfaccia utente normale</p>");
 }
-
 
 function preparePurchaseForm(tab){
     
@@ -1012,7 +1013,7 @@ function postOldPurchaseDetailsListHandler(productList)
         });
     	
     	
-    	parziale += AmountTmp * (val.unitCost * val.unitBlock);
+    	parziale += AmountTmp * val.unitCost;
     	tot += parziale;
     	
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
@@ -1175,7 +1176,7 @@ function deleteProductFromPurchase(event){
     
     var idProduct = $(this).data("productid");
     
-    if($(tableControl + ' tr').length == 3) { // 3 perchè intestazione + ultimo prodotto + totale = 3
+    if($(tableControl + ' tr').length == 3) { // 3 perchï¿½ intestazione + ultimo prodotto + totale = 3
     	
     	//Si sta cancellando l'ultimo prodotto della scheda
     	$( "#dialog-confirm" ).dialog({
@@ -1265,7 +1266,7 @@ function removeProduct(idProduct, lastProduct) {
     $(inputAmount).data('oldamount', 0);
     $(inputAmount).val(' ');
     
-    //Aggiorno disponibilità
+    //Aggiorno disponibilitï¿½
     var idDisp = "#disp_" + idPurchase + "_" + idProduct;
     var DispTmp = 0;
     $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
@@ -1343,7 +1344,7 @@ function refreshProductFromPurchase(event){
     var inputAmount = "#amountProduct_" + idPurchase + "_" + idProduct;
     var amount = $(inputAmount).val();
     
-    //Ricavo la disponibilità
+    //Ricavo la disponibilitï¿½
     var idDisp = "#disp_" + idPurchase + "_" + idProduct;
     var disp = $(idDisp).data('disp');
     
@@ -1423,7 +1424,7 @@ function refreshProductFromPurchase(event){
         //Aggiorno il data-oldAmount
         $(inputAmount).data('oldamount', amount);
         
-        //Aggiorno disponibilità
+        //Aggiorno disponibilitï¿½
         var idDisp = "#disp_" + idPurchase + "_" + idProduct;
         var DispTmp = 0;
         $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
@@ -1468,7 +1469,7 @@ function addProductFromPurchase(event){
     	product = data;
     });	
     
-    //Ricavo la disponibilità
+    //Ricavo la disponibilitï¿½
     var idDisp = "#disp_" + idPurchase + "_" + idProduct;
     var disp = $(idDisp).data('disp');
 
@@ -1556,7 +1557,7 @@ function addProductFromPurchase(event){
     //Aggiorno il data-oldAmount
     $(inputAmount).data('oldamount', amount);
     
-    //Aggiorno disponibilità
+    //Aggiorno disponibilitï¿½
     var idDisp = "#disp_" + idPurchase + "_" + idProduct;
     var DispTmp = 0;
     $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)

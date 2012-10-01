@@ -250,7 +250,7 @@ public class ProductInterface
 			tempProduct = (Product) row[0];
 			tempAmount = (int) (long) row[1];
 			
-			tempTot =  tempAmount*(tempProduct.getUnitBlock()*tempProduct.getUnitCost());
+			tempTot =  tempAmount*(tempProduct.getUnitCost());
 			
 			
 			pList.put(tempProduct, tempTot);
