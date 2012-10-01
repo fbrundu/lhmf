@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.PuchaseOperations;
+import it.polito.ai.lhmf.model.PurchaseProduct;
 import it.polito.ai.lhmf.model.Purchase;
 
 public class PurchaseTemplate implements PuchaseOperations {
@@ -80,6 +81,38 @@ public class PurchaseTemplate implements PuchaseOperations {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public PurchaseProduct[] getPurchaseProductsForNormal(Integer idPurchase) { 
+		try{
+			PurchaseProduct[] ret = template.getForObject(Gas.baseApiUrl + "getpurchaseproductsnormal?idPurchase={id}", PurchaseProduct[].class, idPurchase);
+			return ret;
+			
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Integer newPurchaseProduct(Integer idPurchase, Integer idProduct,
+			Integer amount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updatePurchaseProduct(Integer idPurchase, Integer idProduct,
+			Integer amount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer removePurchaseProduct(Integer idPurchase, Integer idProduct) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

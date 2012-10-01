@@ -1,7 +1,5 @@
 package it.polito.ai.lhmf.android.util;
 
-import it.polito.ai.lhmf.android.R;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -18,9 +16,9 @@ public class SeparatedListAdapter extends BaseAdapter
 		public final ArrayAdapter<String> headers;
 		public final static int TYPE_SECTION_HEADER = 0;
 
-		public SeparatedListAdapter(Context context)
+		public SeparatedListAdapter(Context context, int headerLayout)
 			{
-				headers = new ArrayAdapter<String>(context, R.layout.list_header);
+				headers = new ArrayAdapter<String>(context, headerLayout);
 			}
 
 		public void addSection(String section, Adapter adapter)

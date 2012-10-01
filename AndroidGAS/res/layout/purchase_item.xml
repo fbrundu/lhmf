@@ -102,9 +102,9 @@
                 android:text="5"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
-
+
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/purchase_item_bought_amount_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/textView2"
+            android:layout_toRightOf="@id/purchase_item_bought_amount_label"
             android:text="0"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -125,8 +125,8 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_below="@id/textView2"
+            android:layout_alignLeft="@id/purchase_item_bought_amount_label"
+            android:layout_below="@id/purchase_item_bought_amount_label"
             android:text="@string/purchase_item_cost"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 

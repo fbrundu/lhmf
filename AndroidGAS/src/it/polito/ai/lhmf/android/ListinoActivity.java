@@ -50,7 +50,7 @@ public class ListinoActivity extends Activity {
 			setContentView(R.layout.listino);
 			
 			productListView = (ListView) findViewById(R.id.productList);
-			adapter = new SeparatedListAdapter(this);
+			adapter = new SeparatedListAdapter(this, R.layout.list_header);
 			
 			new GetProductsTask().execute(api);
 		}
