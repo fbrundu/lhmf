@@ -156,56 +156,35 @@ public class NormalAjaxController
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder,
 			@RequestParam(value = "idProducts") String idProducts,
-			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException, ParseException
+			@RequestParam(value = "amountProducts") String amountProducts) throws InvalidParametersException, ParseException
 	{
-		int result = -1;
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
 		
 		String[] idTmp = idProducts.split(",");
-		String[] amountTmp = amountProduct.split(",");
-		for( int i = 0; i < idTmp.length; i++) 
-		{
-			Product product = productInterface.getProduct(Integer.parseInt(idTmp[i]));
-			
-			Integer maxBuy = product.getMaxBuy();
-			Integer error = 0;
-			
-			if(maxBuy == null) {
-				if(Integer.parseInt(amountTmp[i]) <= 0)
-					error = 1;
-			} else if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()) || (Integer.parseInt(amountTmp[i])) <= 0)
-				error = 1;
-			
-			if(error == 1) {
-				return -2;
+		String[] amountTmp = amountProducts.split(",");
+		
+		if(idTmp.length > 0 && idTmp.length == amountTmp.length){
+			Integer[] ids = new Integer[idTmp.length];
+			Integer[] amounts = new Integer[idTmp.length];
+			for( int i = 0; i < idTmp.length; i++) 
+			{
+				try {
+					ids[i] = Integer.parseInt(idTmp[i]);
+				
+					amounts[i] = Integer.parseInt(amountTmp[i]);
+					if(amounts[i] <= 0)
+						return -1;
+				} catch(NumberFormatException e){
+					e.printStackTrace();
+					return -1;
+				}
 			}
+			
+			return purchaseInterface.createPurchase(memberNormal, idOrder, ids, amounts);
 		}
-		
-		Order order = orderInterface.getOrder(idOrder);
-		
-		Purchase purchase = new Purchase(order, memberNormal);
-		
-		if((result = purchaseInterface.newPurchase(purchase)) <= 0)
-		{
-			return result;
-		}
-		
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String sDate = dateFormat.format(calendar.getTime());
-		Date insertedTimestamp = dateFormat.parse(sDate);
-		
-		for( int i = 0; i < idTmp.length; i++) 
-		{
-			Product product = productInterface.getProduct(Integer.parseInt(idTmp[i]));
-			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
-			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
-			purchaseInterface.newPurchaseProduct(purchaseproduct);
-		}		
-		return 1;
+		else
+			return -1;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
