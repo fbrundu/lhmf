@@ -20,7 +20,7 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 	private NotifyOperations notifyOperations;
 	private OrderOperations orderOperations;
 	private ProductOperations productOperations;
-	private PuchaseOperations puchaseOperations;
+	private PuchaseOperations purchaseOperations;
 	private UserOperations userOperations;
 	
 	public GasTemplate(String accessToken){
@@ -30,6 +30,7 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 		userOperations = new UserTemplate(getRestTemplate());
 		productOperations = new ProductsTemplate(getRestTemplate());
 		orderOperations = new OrderTemplate(getRestTemplate());
+		purchaseOperations = new PurchaseTemplate(getRestTemplate());
 		
 	}
 
@@ -45,7 +46,7 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 
 	@Override
 	public PuchaseOperations purchaseOperations() {
-		return puchaseOperations;
+		return purchaseOperations;
 	}
 
 	@Override

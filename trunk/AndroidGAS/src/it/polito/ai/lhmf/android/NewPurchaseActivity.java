@@ -34,6 +34,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,8 +42,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//FIXME interrompere i task delle quantità già acquistate e del progresso generale dell'ordine
 
 public class NewPurchaseActivity extends Activity {
 	private static final int PURCHASE_ITEM_DIALOG = 0;
@@ -54,6 +53,7 @@ public class NewPurchaseActivity extends Activity {
 	private TextView orderProgressText = null;
 	private ProgressBar orderProgressBar = null;
 	private ListView purchaseListView = null;
+	private Button confirmButton = null;
 	
 	private List<Integer> productsWithMinBuy = new ArrayList<Integer>();
 	private List<Integer> minBoughtAmounts = new ArrayList<Integer>();
@@ -64,13 +64,14 @@ public class NewPurchaseActivity extends Activity {
 	
 	private SeparatedListAdapter adapter = null;
 	
-	private Product[] orderProducts;
+	private Product[] orderProducts = null;
 	
 	private Gas api = null;
 	
 	private Order order;
 	
 	private OrderProgressTask orderProgressTask = null;
+	private GetBoughtAmountsTask boughtAmountsTask = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +98,77 @@ public class NewPurchaseActivity extends Activity {
 				orderProgressText.setText("" + 0);
 				orderProgressBar.setProgress(0);
 				
+				confirmButton = (Button) findViewById(R.id.purchase_confirm);
+				
+				confirmButton.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						if(boughtAmounts.size() > 0){
+							List<Integer> ids = new ArrayList<Integer>();
+							List<Integer> amounts = new ArrayList<Integer>();
+							for(Entry<Integer, Integer> entry : boughtAmounts.entrySet()){
+								Integer idProduct = entry.getKey();
+								Integer amount = entry.getValue();
+								
+								if(productsWithMaxBuy.contains(idProduct)){
+									int index = productsWithMaxBuy.indexOf(idProduct);
+									Integer availability = productsAvailability.get(index);
+									
+									if(amount > availability){
+										Toast.makeText(NewPurchaseActivity.this, "Quantità selezionata maggiore della disponibilità", Toast.LENGTH_LONG).show();
+										return;
+									}
+								}
+								ids.add(idProduct);
+								amounts.add(amount);
+							}
+							new NewPurchaseAsyncTask().execute(api, order.getIdOrder(), ids, amounts);
+						}
+						else{
+							Toast.makeText(NewPurchaseActivity.this, "Acquistare almeno un prodotto", Toast.LENGTH_LONG).show();
+						}
+						
+					}
+				});
+				
 				orderProgressTask= new OrderProgressTask();
 				orderProgressTask.execute(api, order.getIdOrder());
 				
 				new GetOrderProductsTask().execute(api, order.getIdOrder());
 			}
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		if(api != null){
+			if(orderProgressTask == null){
+				orderProgressTask= new OrderProgressTask();
+				orderProgressTask.execute(api, order.getIdOrder());
+			}
+			
+			if(boughtAmountsTask == null && orderProducts != null && orderProducts.length > 0){
+				boughtAmountsTask = new GetBoughtAmountsTask();
+				boughtAmountsTask.execute(api, orderProducts, order.getIdOrder());
+			}
+		}
+			
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		if(orderProgressTask != null){
+			orderProgressTask.cancel(false);
+			orderProgressTask = null;
+		}
+		
+		if(boughtAmountsTask != null){
+			boughtAmountsTask.cancel(false);
+			boughtAmountsTask = null;
+		}
+		super.onPause();
 	}
 	
 	@Override
@@ -217,6 +283,32 @@ public class NewPurchaseActivity extends Activity {
 		}
 		return ret;
 	}
+	
+	private class NewPurchaseAsyncTask extends AsyncTask<Object, Void, Integer>{
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected Integer doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			Integer idOrder = (Integer) params[1];
+			List<Integer> ids = (List<Integer>) params[2];
+			List<Integer> amounts = (List<Integer>) params[3];
+			
+			return gas.purchaseOperations().newPurchase(idOrder, ids, amounts);
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == null || result <= 0){
+				Toast.makeText(NewPurchaseActivity.this, "Errori nella creazione della scheda", Toast.LENGTH_LONG).show();
+			}
+			else{
+				Toast.makeText(getApplicationContext(), "Scheda creata correttamente", Toast.LENGTH_LONG).show();
+				NewPurchaseActivity.this.finish();
+			}
+		}
+		
+	}
 
 	private class OrderProgressTask extends AsyncTask<Object, Float, Void>{
 
@@ -257,9 +349,6 @@ public class NewPurchaseActivity extends Activity {
 			List<Product> productList = new ArrayList<Product>();
 			
 			for(Product prod : products){
-				// Availability = TRUE in questo caso significa che il prodotto è acquistabile (non è ancora inserito nella scheda) --> corrisponde al contrario del valore delle checkBox.
-				// quando l'utente aggiunge un prodotto cliccando sulla checkBox la disponibilità cambia
-				prod.setAvailability(true);
 				productList.add(prod);
 				
 				if(!prod.getMinBuy().equals(Product.NO_MIN_MAX)){
@@ -315,7 +404,10 @@ public class NewPurchaseActivity extends Activity {
 				
 				purchaseListView.setAdapter(adapter);
 				
-				new GetBoughtAmountsTask().execute(api, orderProducts, order.getIdOrder());
+				if(boughtAmountsTask == null){
+					boughtAmountsTask = new GetBoughtAmountsTask();
+					boughtAmountsTask.execute(api, orderProducts, order.getIdOrder());
+				}
 			}
 		}
 		
@@ -470,6 +562,7 @@ public class NewPurchaseActivity extends Activity {
 			else{
 				editPurchaseContainer.setVisibility(View.GONE);
 				addButton.setVisibility(View.VISIBLE);
+				addButton.setEnabled(true);
 				desiredAmount.setText("0");
 				desiredAmount.setTextColor(defaultTextViewColor);
 				partialCost.setText("0");
@@ -482,6 +575,8 @@ public class NewPurchaseActivity extends Activity {
 				
 				if(bought != null && bought > available)
 					desiredAmount.setTextColor(Color.RED);
+				else if(bought == null && available == 0)
+					addButton.setEnabled(false);
 			}
 			
 			final Integer finalAvailable = available;
