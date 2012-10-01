@@ -25,7 +25,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-//FIXME cancel progress task when starting new activity/exiting
 public class PurchaseAvailabeOrdersActivity extends Activity {
 	private Gas api = null;
 	private CustomAdapter adapter = null;
@@ -34,6 +33,8 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 	
 	private List<Integer> orderIds = null;
 	private float[] ordersProgress = null;
+	
+	private OrdersProgressesTask orderProgressesTask = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,23 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			
 			new GetAvailableOrdersTask().execute(api);
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		if(api != null){
+			new GetAvailableOrdersTask().execute(api);
+		}
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		if(orderProgressesTask != null){
+			orderProgressesTask.cancel(false);
+			orderProgressesTask = null;
+		}
+		super.onPause();
 	}
 	
 	private class GetAvailableOrdersTask extends AsyncTask<Gas, Void, Order[]>{
@@ -69,7 +87,10 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 					ordersProgress[i] = 0.0f;
 				}
 				
-				new OrdersProgressesTask().execute(api, new ArrayList<Integer>(orderIds));
+				if(orderProgressesTask == null){
+					orderProgressesTask = new OrdersProgressesTask();
+					orderProgressesTask.execute(api, new ArrayList<Integer>(orderIds));
+				}
 				
 				adapter = new CustomAdapter(PurchaseAvailabeOrdersActivity.this, R.layout.order_available_item, R.id.orderName, result);
 				orderListView.setAdapter(adapter);
