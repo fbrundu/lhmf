@@ -646,8 +646,13 @@ function getMyNotifies()
         break;
       // Nuovo ordine
       case 2:
-        tabellaNotifiche += "Nuovo ordine: <a href='' class='newOrderNot' name='"
-          + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "Nuovo ordine: <a href='' class='newOrderNot' name='"
+            + orderName + "'>Visualizza dettagli</a>";
+        });
         break;
       // Modifica disponibilita' di un prodotto in listino
       case 3:
@@ -656,17 +661,27 @@ function getMyNotifies()
         break;
       // Ordine chiuso
       case 4:
-        tabellaNotifiche += "L'ordine "
-            + notifiesList[notIndex].text
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine "
+            + orderName
             + " &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
         break;
       // Data di consegna settata
       case 5:
-        tabellaNotifiche += "L'ordine "
-            + notifiesList[notIndex].text
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine "
+            + orderName
             + " &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
         break;
       // Nuovo utente
       case 6:
@@ -675,24 +690,39 @@ function getMyNotifies()
         break;
       // Ordine 50%
       case 7:
-        tabellaNotifiche += "L'ordine "
-            + notifiesList[notIndex].text
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine "
+            + orderName
             + " &eacute; al 50%: <a href='' class='ongoingOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
         break;
       // Ordine 75%
       case 8:
-        tabellaNotifiche += "L'ordine "
-            + notifiesList[notIndex].text
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine "
+            + orderName
             + " &eacute; al 75%: <a href='' class='ongoingOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
         break;
       // Ordine 90%
       case 9:
-        tabellaNotifiche += "L'ordine "
-            + notifiesList[notIndex].text
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine "
+            + orderName
             + " &eacute; al 90%: <a href='' class='ongoingOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
         break;
       default:
         tabellaNotifiche += notifiesList[notIndex].text;
@@ -837,10 +867,6 @@ function printOrderPie(progress)
       "smps": [
         "Percentuale completamento"
       ],
-      "colorRGB": [
-        "rgb(0,255,0)",
-        "rgb(255,0,0)"
-      ],
       "data": [
         [
           progress
@@ -848,7 +874,11 @@ function printOrderPie(progress)
         [
           100-progress
         ]
-      ]
+      ],
+      "fill": [
+               "rgb(0,255,0)",
+               "rgb(255,0,0)"
+               ]
     }
   }, {
     "graphType": "Pie",
@@ -856,7 +886,13 @@ function printOrderPie(progress)
     "pieSegmentSeparation": 2,
     "pieSegmentLabels": "outside",
     "pieType": "solid",
-    "showLegend": false
+    "showLegend": false,
+    "background" : "rgb(100,140,160)",
+    "colorRGB": [
+                 "rgb(0,255,0)",
+                 "rgb(255,0,0)"
+               ],
+              
   });
 }
 
