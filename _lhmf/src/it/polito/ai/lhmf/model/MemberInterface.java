@@ -104,6 +104,17 @@ public class MemberInterface
 		return rUsernames;
 	}
 
+	@Transactional(readOnly = true)
+	public Map<String, String> getUsersForMessage()
+	{
+		Map<String, String> rUsernames = new HashMap<String, String>();
+		for (Object i : sessionFactory.getCurrentSession()
+				.createQuery("from Member").list())
+			rUsernames.put(((Member) i).getUsername(), ((Member) i).getName()
+					+ " " + ((Member) i).getSurname());
+		return rUsernames;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Member> getMembersResp()

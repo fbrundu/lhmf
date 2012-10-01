@@ -899,13 +899,15 @@ function getMyMessages()
         - $(".contentDiv").scrollTop();
   $.getSync("ajax/getmymessages", undefined, function(messagesList)
   {
+    var sendersList = getUsersExceptMe();
     for ( var mesIndex in messagesList)
     {
       tabellaMessaggi += "<tr><td";
       if (!messagesList[mesIndex].isReaded)
         tabellaMessaggi += " class='not_read_m' ";
       tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
-          + "'><h3>From: " + messagesList[mesIndex].sender + "</h3><p>"
+          + "'><h3>From:" + sendersList[messagesList[mesIndex].sender] + "("
+          + messagesList[mesIndex].sender + ")</h3><p>"
           + messagesList[mesIndex].text + "</p></td></tr>";
     }
   });
@@ -914,8 +916,8 @@ function getMyMessages()
   var usersList = getUsersExceptMe();
   for ( var userIndex in usersList)
   {
-    users += "<option value='" + usersList[userIndex] + "'>"
-        + usersList[userIndex] + "</option>";
+    users += "<option value='" + userIndex + "'>"
+        + usersList[userIndex]+ "</option>";
   }
   // var orders = "<option value='-1'
   // selected='selected'>Seleziona...</option>";
@@ -965,7 +967,7 @@ function getMyMessages()
   $('#messagesCount').css("color", "");
 }
 
-function getUsers()
+function getUsernames()
 {
   var usersList;
   $.getJSONsync("ajax/getusernames", function(usernamesList)
@@ -975,12 +977,22 @@ function getUsers()
   return usersList;
 }
 
-function getUsersExceptMe()
+function getUsernamesExceptMe()
 {
   var usersList;
   $.getJSONsync("ajax/getusernamesexceptme", function(usernamesList)
   {
     usersList = usernamesList;
+  });
+  return usersList;
+}
+
+function getUsersExceptMe()
+{
+  var usersList;
+  $.getJSONsync("ajax/getusersexceptme", function(rusersList)
+  {
+    usersList = rusersList;
   });
   return usersList;
 }

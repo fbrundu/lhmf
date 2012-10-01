@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,6 +63,23 @@ public class MessageAjaxController
 			}
 		}
 		return usernames;
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/getusersexceptme", method = RequestMethod.GET)
+	public @ResponseBody
+	Map<String,String> getUsersExceptMe(HttpServletRequest request)
+	{
+		Map<String,String> users = memberInterface.getUsersForMessage();
+		for (Map.Entry<String, String> u : users.entrySet())
+		{
+			if (u.getKey().equals(request.getSession().getAttribute("username")))
+			{
+				users.remove(u.getKey());
+				break;
+			}
+		}
+		return users;
 	}
 
 	@PreAuthorize("isAuthenticated()")
