@@ -27,9 +27,23 @@ public class PurchaseInterface
 	
 	private SessionFactory sessionFactory;
 	
+	
+	private ProductInterface productInterface;
+	private OrderInterface orderInterface;
+	
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
+	}
+	
+	public void setProductInterface(ProductInterface pi)
+	{
+		this.productInterface = pi;
+	}
+	
+	public void setOrderInterface(OrderInterface oi)
+	{
+		this.orderInterface = oi;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -139,6 +153,7 @@ public class PurchaseInterface
 		return result;	
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
 	{
 		
@@ -163,7 +178,7 @@ public class PurchaseInterface
 		{
 			throw new InvalidParametersException();
 		}
-		return (PurchaseProductId) sessionFactory.getCurrentSession().save(purchaseProduct); //TODO Non cast a Integer ma a PurchaseProductId!!!
+		return (PurchaseProductId) sessionFactory.getCurrentSession().save(purchaseProduct);
 	}
 	
 	@Transactional(readOnly = true)
@@ -233,6 +248,7 @@ public class PurchaseInterface
 		return mList;
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer updatePurchaseProduct(PurchaseProduct purchaseProduct) throws InvalidParametersException {
 	
 		if (purchaseProduct == null)
@@ -255,6 +271,7 @@ public class PurchaseInterface
 		
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer deletePurchaseProduct(Purchase purchase, Product product) throws InvalidParametersException {
 		
 		if (purchase == null || product == null )
@@ -271,6 +288,7 @@ public class PurchaseInterface
 		return (Integer) query.executeUpdate();
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer deletePurchase(Purchase purchase) throws InvalidParametersException {
 		
 		if (purchase == null)
@@ -284,6 +302,69 @@ public class PurchaseInterface
 
 		return (Integer) query.executeUpdate();
 		
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer createPurchase(Member memberNormal, Integer idOrder,
+			Integer[] ids, Integer[] amounts) throws InvalidParametersException {
+		Order order = orderInterface.getOrder(idOrder);
+		
+		if(order == null)
+			return -1;
+		
+		boolean available = false;
+		List<Order> availableOrders = orderInterface.getAvailableOrders(memberNormal);
+		
+		//Verifica che l'utente non abbia già compilato una scheda per quest'ordine
+		for(Order tmp : availableOrders){
+			if(tmp.getIdOrder() == order.getIdOrder()){
+				available = true;
+				break;
+			}
+		}
+		
+		if(!available)
+			return -1;
+		
+		for( int i = 0; i < ids.length; i++) 
+		{	
+			Product product = productInterface.getProduct(ids[i]);
+			Integer amount = amounts[i];
+			
+			if(product == null || amount == null || amount <= 0)
+				return -1;
+			
+			Integer maxBuy = product.getMaxBuy();
+			
+			//Controllo disponibilità quantità richiesta
+			if(maxBuy != null){
+				Integer alreadyBought = orderInterface.getTotalAmountOfProduct(order, product);//orderInterface.getBoughtAmounts(order.getIdOrder(), Collections.singletonList(product.getIdProduct())).get(0);
+				if(amount > maxBuy - alreadyBought)
+					return -1;
+			}
+		}
+		
+		Purchase purchase = new Purchase(order, memberNormal);
+		
+		int result;
+		if((result = newPurchase(purchase)) <= 0)
+		{
+			return result;
+		}
+		
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		Date insertedTimestamp = calendar.getTime();
+		
+		for( int i = 0; i < ids.length; i++) 
+		{
+			Product product = productInterface.getProduct(ids[i]);
+			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), product.getIdProduct());
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amounts[i], insertedTimestamp);				
+			//In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			newPurchaseProduct(purchaseproduct);
+		}		
+		return 1;
 	}
 
 }
