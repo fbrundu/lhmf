@@ -39,6 +39,7 @@ public class NotifyAjaxController
 	@Autowired
 	private ProductInterface productInterface;
 
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/getmynotifies", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Notify> getMyNotifies(HttpServletRequest request)
@@ -52,6 +53,21 @@ public class NotifyAjaxController
 			return null;
 	}
 
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getordername", method = RequestMethod.GET)
+	public @ResponseBody
+	String getOrderName(HttpServletRequest request,
+			@RequestParam(value = "idOrder", required = true) Integer idOrder)
+			throws InvalidParametersException
+	{
+		Member m = memberInterface.getMember((String) request.getSession()
+				.getAttribute("username"));
+		if (m != null)
+			return orderInterface.getOrder(idOrder).getOrderName();
+		return null;
+	}
+	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/setreadnotify", method = RequestMethod.POST)
 	public @ResponseBody
@@ -67,7 +83,8 @@ public class NotifyAjaxController
 		else
 			return null;
 	}
-	
+
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping("/ajax/newnotifies")
 	public void newNotifies(Model model, HttpServletRequest request,
 			HttpServletResponse response)
