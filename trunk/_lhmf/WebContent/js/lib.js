@@ -723,6 +723,7 @@ function viewProductClick(event)
   event.preventDefault();
   idProduct = $(this).attr('name');
   viewProductDetails(idProduct);
+  $(".simplemodal-container").css("width", "auto");
 }
 
 function viewOrderClick(event)
@@ -730,6 +731,7 @@ function viewOrderClick(event)
   event.preventDefault();
   idOrder = $(this).attr('name');
   viewOrderDetails(idOrder);
+  $(".simplemodal-container").css("width", "auto");
 }
 
 function viewMemberClick(event)
@@ -737,6 +739,7 @@ function viewMemberClick(event)
   event.preventDefault();
   idMember = $(this).attr('name');
   viewMemberDetails(idMember);
+  $(".simplemodal-container").css("width", "auto");
 }
 
 function filterProducts(myProducts, productCategory)
@@ -792,6 +795,13 @@ function viewOrderDetails(idOrder)
     'idOrder' : idOrder
   }, function(order)
   {
+    var progress = 0.0;
+    $.postSync("ajax/getProgressOrderResp", {
+      'idOrder' : idOrder
+    }, function(p)
+    {
+      progress = p;
+    });
     var details = "<table><tr><td class='imageTD'><canvas id='orderProgressCanvas'/></td>"
     +"<td class='dataTD'><table class='orderDetailsTable'>"
     + "<tr><td>Nome ordine</th><td class='fieldTD'>" + order.orderName + "</td></tr>"
@@ -803,12 +813,61 @@ function viewOrderDetails(idOrder)
       details += "<tr><td>Nome fornitore</td><td class='fieldTD'>" +  member.name + " "
       + member.surname + "</td></tr>";
     });
-
     details += "<tr><td>Data apertura</td><td class='fieldTD'>" + (new Date(order.dateOpen)).toLocaleDateString() + "</td></tr>"
     + "<tr><td>Data chiusura</td><td class='fieldTD'>" + (new Date(order.dateClose)).toLocaleDateString() + "</td></tr>"
-    + "<tr><td>Data consegna</td><td class='fieldTD'>" + (new Date(order.dateDelivery)).toLocaleDateString() + "</td></tr>";
-    details += "</table></td></tr></table>";
+    + "<tr><td>Data consegna</td><td class='fieldTD'>";
+    if (order.dateDelivery != "null")
+      details += (new Date(order.dateDelivery)).toLocaleDateString();
+    else
+      details += "Non decisa";
+    details += "</td></tr></table></td></tr></table>";
     $.modal(details);
+    $("#orderProgressCanvas").html($("#tempCanvas"));
+  });
+}
+
+function printOrderPie(progress)
+{
+  new CanvasXpress("tempCanvas", {
+    "y": {
+      "vars": [
+        "Gene1",
+        "Gene2",
+        "Gene3",
+        "Gene4",
+        "Gene5",
+        "Gene6"
+      ],
+      "smps": [
+        "Smp1"
+      ],
+      "data": [
+        [
+          6.1
+        ],
+        [
+          7.3
+        ],
+        [
+          4.2
+        ],
+        [
+          12.7
+        ],
+        [
+          9.1
+        ],
+        [
+          60.6
+        ]
+      ]
+    }
+  }, {
+    "graphType": "Pie",
+    "pieSegmentPrecision": 1,
+    "pieSegmentSeparation": 2,
+    "pieSegmentLabels": "outside",
+    "pieType": "solid"
   });
 }
 

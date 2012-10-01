@@ -419,4 +419,12 @@ public class RespAjaxController
 		return tmpPP.getAmount();
 	}
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getProgressOrderResp", method = RequestMethod.POST)
+	public @ResponseBody
+	Float getProgressOrder(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder		) throws InvalidParametersException
+	{
+		return orderInterface.getProgress(idOrder);
+	}
 }
