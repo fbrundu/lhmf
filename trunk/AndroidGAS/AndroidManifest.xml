@@ -38,6 +38,7 @@
         <activity android:name=".NewPurchaseActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".PurchaseAvailabeOrdersActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".ActivePurchasesActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".EditPurchaseActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

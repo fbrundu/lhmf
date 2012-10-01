@@ -38,4 +38,5 @@
     <string name="purchase_item_cost">"Costo parziale: "</string>
     <string name="euro_symbol">" €"</string>
     <string name="new_purchase_tot_cost">"Costo totale: "</string>
+    <string name="edit_purchase_title">Modifica scheda</string>
 </resources>

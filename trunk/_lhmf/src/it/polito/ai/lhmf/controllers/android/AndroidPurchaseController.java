@@ -12,6 +12,7 @@ import it.polito.ai.lhmf.orm.PurchaseProduct;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -98,5 +99,82 @@ public class AndroidPurchaseController {
 		}
 		return ret;
 	}
+	
+	@RequestMapping(value = "/androidApi/getpurchaseproductsnormal", method = RequestMethod.GET)
+	public @ResponseBody
+	Set<PurchaseProduct> getPurchaseProductsForNormal(HttpServletRequest request, Principal principal, 
+			@RequestParam(value="idPurchase", required = true)Integer idPurchase) throws InvalidParametersException {
+		String username = principal.getName();
+		Member memberNormal = memberInterface.getMember(username);
+		
+		Purchase p = purchaseInterface.getPurchase(idPurchase);
+		if(p == null || p.getMember().getIdMember() != memberNormal.getIdMember())
+			return null;
+		
+		return p.getPurchaseProducts();
+	}
+	
+	@RequestMapping(value = "/androidApi/newpurchaseproduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer newPurchaseProduct(HttpServletRequest request, Principal principal,
+			@RequestParam(value = "idPurchase") Integer idPurchase,
+			@RequestParam(value = "idProduct") Integer idProduct,
+			@RequestParam(value = "amount") Integer amountProduct) throws InvalidParametersException {
+		String username = principal.getName();
+		
+		Member memberNormal = memberInterface.getMember(username);
+		
+		return purchaseInterface.insertProduct(memberNormal, idPurchase, idProduct, amountProduct);
+	}
+	
+	@RequestMapping(value = "/ajax/updatepurchaseproduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer updatePurchaseProduct(HttpServletRequest request, Principal principal,
+			@RequestParam(value = "idPurchase") Integer idPurchase,
+			@RequestParam(value = "idProduct") Integer idProduct,
+			@RequestParam(value = "amount") Integer amountProduct) throws InvalidParametersException {
+		
+		// 1 = prenotazione aggiornata
+		// 0 = prodotto non trovato
+		// -1 = Quantità non disponibile
+		// -2 = valore non idoneo
+		
+		String username = principal.getName();
+		Member memberNormal = memberInterface.getMember(username);
+		
+		return purchaseInterface.updateProduct(memberNormal, idPurchase, idProduct, amountProduct);
+	}
+	
+	@RequestMapping(value = "/ajax/delpurchaseproduct", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer delPurchaseProduct(HttpServletRequest request, Principal principal,
+			@RequestParam(value = "idPurchase") Integer idPurchase,
+			@RequestParam(value = "idProduct") Integer idProduct ) throws InvalidParametersException
+	{
+		
+		// 1 = prenotazione aggiornata
+		// 0 = prodotto non trovato
+		String username = principal.getName();
+		Member memberNormal = memberInterface.getMember(username);
+		
+		return purchaseInterface.deletePurchaseProduct(memberNormal, idPurchase, idProduct);
+	}
+	
+	/** FIXME implementare cancellazione scheda dopo eliminazione ultimo prodotto da android (l'originale è in NormalAjaxController)
+	 * @PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/delPurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer delPurchase(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase			 ) throws InvalidParametersException, ParseException
+	{
+		
+		// 1 = scheda eliminata
+		// 0 = scheda non trovata
+		
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		
+		return purchaseInterface.deletePurchase(purchase);
+	}
+	 */
 	
 }

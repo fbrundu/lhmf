@@ -372,4 +372,137 @@ public class PurchaseInterface
 		return 1;
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	public Integer insertProduct(Member memberNormal, Integer idPurchase,
+			Integer idProduct, Integer amountProduct) throws InvalidParametersException {
+		Integer disp = null;
+		
+		Product product = productInterface.getProduct(idProduct);
+		
+		if(product == null)
+			return -1;
+		
+		Integer maxBuy = product.getMaxBuy();
+		
+		if(maxBuy == null)
+			disp = -1;
+		
+		Purchase purchase = getPurchase(idPurchase);
+		if(purchase == null)
+			return -1;
+		
+		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
+			return -1;
+		
+		Order order = purchase.getOrder();
+		
+		sessionFactory.getCurrentSession().buildLockRequest(new LockOptions(LockMode.PESSIMISTIC_WRITE)).lock(order);
+		
+		if(disp == null){
+			Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
+			disp = maxBuy - totAmount;
+		}
+		
+		int error = 0;
+		
+		if(disp == -1) {
+			if(amountProduct <= 0)
+				error = 1;
+		} else if(amountProduct > disp || amountProduct <= 0)
+				error = 1;
+			
+		if(error == 1)	
+			return -2;
+		
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		Date insertedTimestamp = calendar.getTime();
+		
+		PurchaseProductId id = new PurchaseProductId(idPurchase, idProduct);
+		PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amountProduct, insertedTimestamp);	
+		newPurchaseProduct(purchaseproduct);
+		
+		return 1;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+	public Integer updateProduct(Member memberNormal, Integer idPurchase,
+			Integer idProduct, Integer amountProduct) throws InvalidParametersException {
+		// 1 = prenotazione aggiornata
+		// 0 = prodotto non trovato
+		// -1 = Quantità non disponibile
+		// -2 = valore non idoneo
+		
+		int result = 0;
+		
+		Integer disp = null;
+		
+		Product product = productInterface.getProduct(idProduct);
+		
+		if(product == null)
+			return -1;
+		
+		Integer maxBuy = product.getMaxBuy();
+		
+		if(maxBuy == null)
+			disp = -1;
+		
+		Purchase purchase = getPurchase(idPurchase);
+		if(purchase == null)
+			return -1;
+		
+		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
+			return -1;
+		
+		Order order = purchase.getOrder();
+		
+		sessionFactory.getCurrentSession().buildLockRequest(new LockOptions(LockMode.PESSIMISTIC_WRITE)).lock(order);
+		
+		if(disp == null){
+			Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
+			disp = maxBuy - totAmount;
+		}
+		
+		if(amountProduct <= 0)
+			return -2;
+			
+		Set<PurchaseProduct> ppSet = purchase.getPurchaseProducts();
+		Product pTemp;
+		
+		for (PurchaseProduct ppTemp : ppSet) {
+			
+			pTemp = ppTemp.getProduct();
+			
+			if(pTemp.equals(product)) {
+				
+				Integer actualAmount = ppTemp.getAmount();
+				
+				if (disp != -1)
+					if(amountProduct - actualAmount > disp)
+						return -1;
+
+				ppTemp.setAmount(amountProduct);
+				result = updatePurchaseProduct(ppTemp);
+				break;
+			}
+			
+		}
+		
+		return result;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer deletePurchaseProduct(Member memberNormal,
+			Integer idPurchase, Integer idProduct) throws InvalidParametersException {
+		// 1 = prenotazione aggiornata
+		// 0 = prodotto non trovato
+		Product product = productInterface.getProduct(idProduct);
+		Purchase purchase = getPurchase(idPurchase);
+		
+		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
+			return -1;
+
+		return deletePurchaseProduct(purchase, product);
+	}
+
 }

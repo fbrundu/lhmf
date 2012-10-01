@@ -10,14 +10,10 @@ import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
-import it.polito.ai.lhmf.orm.PurchaseProductId;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -256,39 +252,10 @@ public class NormalAjaxController
 			@RequestParam(value = "idProduct") int idProduct,
 			@RequestParam(value = "amount") int amountProduct) throws InvalidParametersException, ParseException
 	{
-		int result = 0;
-	
-		Product product = productInterface.getProduct(idProduct);
+		String username = (String) request.getSession().getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
 		
-		Integer disp = getDispOfProduct(request, idPurchase, idProduct);
-		
-		int error = 0;
-		
-		if(disp == -1) {
-			if(amountProduct <= 0)
-				error = 1;
-		} else if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
-				error = 1;
-			
-		if(error == 1)	
-			return -2;
-		
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String sDate = dateFormat.format(calendar.getTime());
-		Date insertedTimestamp = dateFormat.parse(sDate);
-		
-		PurchaseProductId id = new PurchaseProductId(idPurchase, idProduct);
-		PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amountProduct, insertedTimestamp);	
-		PurchaseProductId res = purchaseInterface.newPurchaseProduct(purchaseproduct);	
-		
-		if(res == null)
-			result = -1;
-		
-		return result;
+		return purchaseInterface.insertProduct(memberNormal, idPurchase, idProduct, amountProduct);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
@@ -305,48 +272,10 @@ public class NormalAjaxController
 		// -1 = Quantità non disponibile
 		// -2 = valore non idoneo
 		
-		int result = 0;
-	
-		Product product = productInterface.getProduct(idProduct);
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
 		
-		Integer disp = getDispOfProduct(request, idPurchase, idProduct);
-		
-		int error = 0;
-		
-		if(disp == -1) {
-			if(amountProduct <= 0)
-				error = 1;
-		} else if(amountProduct > product.getMaxBuy() || amountProduct <= 0)
-				error = 1;
-			
-		if(error == 1)	
-			return -2;
-
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		
-		Set<PurchaseProduct> ppSet = purchase.getPurchaseProducts();
-		Product pTemp;
-		
-		for (PurchaseProduct ppTemp : ppSet) {
-			
-			pTemp = ppTemp.getProduct();
-			
-			if(pTemp.equals(product)) {
-				
-				Integer actualAmount = ppTemp.getAmount();
-				
-				if (disp != -1)
-					if(amountProduct - actualAmount > disp)
-						return -1;
-
-				ppTemp.setAmount(amountProduct);
-				result = purchaseInterface.updatePurchaseProduct(ppTemp);
-				break;
-			}
-			
-		}
-		
-		return result;
+		return purchaseInterface.updateProduct(memberNormal, idPurchase, idProduct, amountProduct);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
@@ -359,11 +288,10 @@ public class NormalAjaxController
 		
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-	
-		Product product = productInterface.getProduct(idProduct);
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-
-		return purchaseInterface.deletePurchaseProduct(purchase, product);
+		String username = (String) session.getAttribute("username");
+		Member memberNormal = memberInterface.getMember(username);
+		
+		return purchaseInterface.deletePurchaseProduct(memberNormal, idPurchase, idProduct);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")

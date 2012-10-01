@@ -12,6 +12,7 @@ import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -164,7 +165,7 @@ public class ActivePurchasesActivity extends Activity {
 			TextView orderProgressText;
 			Button purchaseDetails;
 			
-			Purchase purchase = getItem(position);
+			final Purchase purchase = getItem(position);
 			Order order = purchase.getOrder();
 			
 			if(row == null){
@@ -197,12 +198,9 @@ public class ActivePurchasesActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					//TODO start purchase edit activity
-					/*
-					Intent intent = new Intent(getApplicationContext(), NewPurchaseActivity.class);
-					intent.putExtra("order", order);
+					Intent intent = new Intent(getApplicationContext(), EditPurchaseActivity.class);
+					intent.putExtra("purchase", purchase);
 					startActivity(intent);
-					*/
 					
 				}
 			});
