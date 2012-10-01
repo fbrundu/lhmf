@@ -157,6 +157,7 @@
 
 .notifiche {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
 .notifiche td.not_read_n {background-color:rgb(253,252,254);}
+.notifiche p {padding-left: 5px;}
 
 .messaggi {clear:both; width:100%; margin: 5px 0 5px 0; border:solid 1px rgb(200,200,200); border-collapse:collapse; empty-cells:show; background-color:rgb(233,232,244);}
 .messaggi td.not_read_m {background-color:rgb(253,252,254);}

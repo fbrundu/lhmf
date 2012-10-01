@@ -792,7 +792,7 @@ function viewOrderDetails(idOrder)
     'idOrder' : idOrder
   }, function(order)
   {
-    var details = "<table><tr><td class='imageTD'></td>"
+    var details = "<table><tr><td class='imageTD'><canvas id='orderProgressCanvas'/></td>"
     +"<td class='dataTD'><table class='orderDetailsTable'>"
     + "<tr><td>Nome ordine</th><td class='fieldTD'>" + order.orderName + "</td></tr>"
     + "<tr><td>Nome responsabile</td><td class='fieldTD'>" + order.memberResp.name + "</td></tr>";
@@ -803,9 +803,10 @@ function viewOrderDetails(idOrder)
       details += "<tr><td>Nome fornitore</td><td class='fieldTD'>" +  member.name + " "
       + member.surname + "</td></tr>";
     });
-    details += "<tr><td>Data apertura</td><td class='fieldTD'>" + order.dateOpen + "</td></tr>"
-    + "<tr><td>Data chiusura</td><td class='fieldTD'>" + order.dateClose + "</td></tr>"
-    + "<tr><td>Data consegna</td><td class='fieldTD'>" + order.dateDelivery + "</td></tr>";
+
+    details += "<tr><td>Data apertura</td><td class='fieldTD'>" + (new Date(order.dateOpen)).toLocaleDateString() + "</td></tr>"
+    + "<tr><td>Data chiusura</td><td class='fieldTD'>" + (new Date(order.dateClose)).toLocaleDateString() + "</td></tr>"
+    + "<tr><td>Data consegna</td><td class='fieldTD'>" + (new Date(order.dateDelivery)).toLocaleDateString() + "</td></tr>";
     details += "</table></td></tr></table>";
     $.modal(details);
   });
