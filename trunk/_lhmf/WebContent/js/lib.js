@@ -650,14 +650,16 @@ function getMyNotifies()
           'idOrder' : notifiesList[notIndex].text
         }, function(orderName)
         {
-          tabellaNotifiche += "Nuovo ordine: <a href='' class='newOrderNot' name='"
-            + orderName + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "Nuovo ordine: '" + orderName
+              + "' <a href='' class='newOrderNot' name='"
+              + notifiesList[notIndex].text
+              + "'>Visualizza dettagli</a>";
         });
         break;
       // Modifica disponibilita' di un prodotto in listino
       case 3:
         tabellaNotifiche += "&Eacute; cambiata la disponibilit&agrave; di un prodotto: <a href='' class='chAvailNot' name='"
-          + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         break;
       // Ordine chiuso
       case 4:
@@ -665,9 +667,9 @@ function getMyNotifies()
           'idOrder' : notifiesList[notIndex].text
         }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine "
+          tabellaNotifiche += "L'ordine '"
             + orderName
-            + " &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
+            + "' &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
@@ -677,9 +679,9 @@ function getMyNotifies()
           'idOrder' : notifiesList[notIndex].text
         }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine "
+          tabellaNotifiche += "L'ordine '"
             + orderName
-            + " &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
+            + "' &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
@@ -694,9 +696,9 @@ function getMyNotifies()
           'idOrder' : notifiesList[notIndex].text
         }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine "
+          tabellaNotifiche += "L'ordine '"
             + orderName
-            + " &eacute; al 50%: <a href='' class='ongoingOrderNot' name='"
+            + "' &eacute; al 50%: <a href='' class='ongoingOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
@@ -706,9 +708,9 @@ function getMyNotifies()
           'idOrder' : notifiesList[notIndex].text
         }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine "
+          tabellaNotifiche += "L'ordine '"
             + orderName
-            + " &eacute; al 75%: <a href='' class='ongoingOrderNot' name='"
+            + "' &eacute; al 75%: <a href='' class='ongoingOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
@@ -718,9 +720,9 @@ function getMyNotifies()
           'idOrder' : notifiesList[notIndex].text
         }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine "
+          tabellaNotifiche += "L'ordine '"
             + orderName
-            + " &eacute; al 90%: <a href='' class='ongoingOrderNot' name='"
+            + "' &eacute; al 90%: <a href='' class='ongoingOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
@@ -852,7 +854,146 @@ function viewOrderDetails(idOrder)
       details += "Non decisa";
     details += "</td></tr></table></td></tr></table>";
     $.modal(details);
-    printOrderPie(progress);
+    //printOrderPie(progress);
+    p();
+  });
+}
+
+function p ()
+{
+  new CanvasXpress("orderProgressCanvas", {
+    "x": {
+      "Tissue": [
+        "Kidney",
+        "Liver",
+        "Kidney",
+        "Liver",
+        "Kidney",
+        "Liver",
+        "Kidney",
+        "Liver"
+      ],
+      "Donor": [
+        "D1",
+        "D1",
+        "D1",
+        "D1",
+        "D2",
+        "D2",
+        "D2",
+        "D2"
+      ],
+      "Time": [
+        "1hour",
+        "1hour",
+        "2hour",
+        "2hour",
+        "1hour",
+        "1hour",
+        "2hour",
+        "2hour"
+      ]
+    },
+    "y": {
+      "vars": [
+        "Gene1",
+        "Gene2",
+        "Gene3",
+        "Gene4",
+        "Gene5",
+        "Gene6"
+      ],
+      "smps": [
+        "Smp1",
+        "Smp2",
+        "Smp3",
+        "Smp4",
+        "Smp5",
+        "Smp6",
+        "Smp7",
+        "Smp8"
+      ],
+      "desc": [
+        "Intensity"
+      ],
+      "data": [
+        [
+          10,
+          12,
+          3,
+          4,
+          100,
+          73,
+          42,
+          64
+        ],
+        [
+          12,
+          4,
+          60,
+          5,
+          24,
+          14,
+          32,
+          13
+        ],
+        [
+          7,
+          12,
+          20,
+          13,
+          49,
+          52,
+          42,
+          92
+        ],
+        [
+          21,
+          10,
+          30,
+          8,
+          65,
+          166,
+          47,
+          58
+        ],
+        [
+          15,
+          14,
+          100,
+          5,
+          34,
+          30,
+          82,
+          51
+        ],
+        [
+          100,
+          82,
+          73,
+          4,
+          3,
+          4,
+          5,
+          2
+        ]
+      ]
+    }
+  }, {
+    "graphType": "Line",
+    "smpOverlays": [
+      "Tissue",
+      "Donor",
+      "Time"
+    ],
+    "title": "Random Data",
+    "graphOrientation": "horizontal",
+    "blockContrast": true,
+    "smpHairlineColor": "rgb(0,0,0)",
+    "evenColor": "rgb(226,236,248)",
+    "background": "rgb(226,236,248)",
+    "backgroundType": "window",
+    "legendPosition": "right"
   });
 }
 
