@@ -17,8 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.LockMode;
+import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -304,13 +307,15 @@ public class PurchaseInterface
 		
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public Integer createPurchase(Member memberNormal, Integer idOrder,
 			Integer[] ids, Integer[] amounts) throws InvalidParametersException {
 		Order order = orderInterface.getOrder(idOrder);
 		
 		if(order == null)
 			return -1;
+		
+		sessionFactory.getCurrentSession().buildLockRequest(new LockOptions(LockMode.PESSIMISTIC_WRITE)).lock(order);
 		
 		boolean available = false;
 		List<Order> availableOrders = orderInterface.getAvailableOrders(memberNormal);
