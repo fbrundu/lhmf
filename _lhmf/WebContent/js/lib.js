@@ -822,43 +822,31 @@ function viewOrderDetails(idOrder)
       details += "Non decisa";
     details += "</td></tr></table></td></tr></table>";
     $.modal(details);
-    $("#orderProgressCanvas").html($("#tempCanvas"));
+    printOrderPie(progress);
   });
 }
 
 function printOrderPie(progress)
 {
-  new CanvasXpress("tempCanvas", {
+  new CanvasXpress("orderProgressCanvas", {
     "y": {
       "vars": [
-        "Gene1",
-        "Gene2",
-        "Gene3",
-        "Gene4",
-        "Gene5",
-        "Gene6"
+        "Ok",
+        "No"
       ],
       "smps": [
-        "Smp1"
+        "Percentuale completamento"
+      ],
+      "colorRGB": [
+        "rgb(0,255,0)",
+        "rgb(255,0,0)"
       ],
       "data": [
         [
-          6.1
+          progress
         ],
         [
-          7.3
-        ],
-        [
-          4.2
-        ],
-        [
-          12.7
-        ],
-        [
-          9.1
-        ],
-        [
-          60.6
+          100-progress
         ]
       ]
     }
@@ -867,7 +855,8 @@ function printOrderPie(progress)
     "pieSegmentPrecision": 1,
     "pieSegmentSeparation": 2,
     "pieSegmentLabels": "outside",
-    "pieType": "solid"
+    "pieType": "solid",
+    "showLegend": false
   });
 }
 
