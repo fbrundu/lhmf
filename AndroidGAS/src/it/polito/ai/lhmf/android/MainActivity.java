@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 			this.finish();
 		}
 		else{
-			Intent dummyIntent = new Intent(getApplicationContext(), PurchaseAvailabeOrdersActivity.class);
+			Intent dummyIntent = new Intent(getApplicationContext(), ActivePurchasesActivity.class);
 			startActivity(dummyIntent);
 			/* TODO
 			gasApi = conn.getApi();
