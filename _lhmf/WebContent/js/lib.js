@@ -758,29 +758,29 @@ function viewProductDetails(idProduct)
   {
     var details = "<table><tr><td class='imageTD'><img src='" + product.imgPath + "'/></td>"
      +"<td class='dataTD'><table class='productDetailsTable'>"
-    + "<tr><td>Nome</td><td>" + product.name + "</td></tr>"
-    + "<tr><td>Descrizione</td><td>" + product.description + "</td></tr>"
-    + "<tr><td>Dimensione</td><td>" + product.dimension + "</td></tr>"
-    + "<tr><td>Unit&agrave; di misura</td><td>" + product.measureUnit + "</td></tr>"
-    + "<tr><td>Unit&agrave; per blocco</td><td>" + product.unitBlock + "</td></tr>"
-    + "<tr><td>Disponibilit&agrave;</td><td>";
+    + "<tr><td>Nome</td><td class='fieldTD'>" + product.name + "</td></tr>"
+    + "<tr><td>Descrizione</td><td class='fieldTD'>" + product.description + "</td></tr>"
+    + "<tr><td>Dimensione</td><td class='fieldTD'>" + product.dimension + "</td></tr>"
+    + "<tr><td>Unit&agrave; di misura</td><td class='fieldTD'>" + product.measureUnit + "</td></tr>"
+    + "<tr><td>Unit&agrave; per blocco</td><td class='fieldTD'>" + product.unitBlock + "</td></tr>"
+    + "<tr><td>Disponibilit&agrave;</td><td class='fieldTD'>";
     if (product.availability)
       details += "Disponibile";
     else
       details += "Non disponibile";
     details += "</td></tr>";
-    + "<tr><td>Costo di trasporto</td><td>" + product.transportCost + "</td></tr>"
-    + "<tr><td>Costo per unit&agrave;</td><td>" + product.unitCost + "</td></tr>"
-    + "<tr><td>Minimo unit&agrave; acquistabili</td><td>" + product.minBuy + "</td></tr>"
-    + "<tr><td>Massimo unit&agrave; acquistabili</td><td>" + product.maxBuy + "</td></tr>";
+    + "<tr><td>Costo di trasporto</td><td class='fieldTD'>" + product.transportCost + "</td></tr>"
+    + "<tr><td>Costo per unit&agrave;</td><td class='fieldTD'>" + product.unitCost + "</td></tr>"
+    + "<tr><td>Minimo unit&agrave; acquistabili</td><td class='fieldTD'>" + product.minBuy + "</td></tr>"
+    + "<tr><td>Massimo unit&agrave; acquistabili</td><td class='fieldTD'>" + product.maxBuy + "</td></tr>";
     $.getSync("ajax/getmemberurlencoded", {
       'idMember' : product.idMemberSupplier
     }, function(member)
     {
-      details += "<tr><td>Fornitore</td><td>" + member.name + " "
+      details += "<tr><td>Fornitore</td><td class='fieldTD'>" + member.name + " "
           + member.surname + "</td></tr>";
     });
-    details += "<tr><td>Categoria</td><td>" + product.category.description + "</td></tr>";
+    details += "<tr><td>Categoria</td><td class='fieldTD'>" + product.category.description + "</td></tr>";
     details += "</table></td></table>";
     $.modal(details);
   });
@@ -794,18 +794,18 @@ function viewOrderDetails(idOrder)
   {
     var details = "<table><tr><td class='imageTD'></td>"
     +"<td class='dataTD'><table class='orderDetailsTable'>"
-    + "<tr><td>Nome ordine</th><td>" + order.orderName + "</td></tr>"
-    + "<tr><td>Nome responsabile</td><td>" + order.memberResp.name + "</td></tr>";
+    + "<tr><td>Nome ordine</th><td class='fieldTD'>" + order.orderName + "</td></tr>"
+    + "<tr><td>Nome responsabile</td><td class='fieldTD'>" + order.memberResp.name + "</td></tr>";
     $.getSync("ajax/getmemberurlencoded", {
       'idMember' : order.supplier.idMember
     }, function(member)
     {
-      details += "<tr><td>Nome fornitore</td><td>" +  member.name + " "
+      details += "<tr><td>Nome fornitore</td><td class='fieldTD'>" +  member.name + " "
       + member.surname + "</td></tr>";
     });
-    details += "<tr><td>Data apertura</td><td>" + order.dateOpen + "</td></tr>"
-    + "<tr><td>Data chiusura</td><td>" + order.dateClose + "</td></tr>"
-    + "<tr><td>Data consegna</td><td>" + order.dateDelivery + "</td></tr>";
+    details += "<tr><td>Data apertura</td><td class='fieldTD'>" + order.dateOpen + "</td></tr>"
+    + "<tr><td>Data chiusura</td><td class='fieldTD'>" + order.dateClose + "</td></tr>"
+    + "<tr><td>Data consegna</td><td class='fieldTD'>" + order.dateDelivery + "</td></tr>";
     details += "</table></td></tr></table>";
     $.modal(details);
   });
@@ -819,18 +819,18 @@ function viewMemberDetails(idMember)
   {
     var details = "<table><tr><td class='imageTD'><img src='img/user.png' /></td>"
       +"<td class='dataTD'><table class='memberDetailsTable'>"
-    + "<tr><td>Nome</td><td>" + member.name + "</td></tr>"
-    + "<tr><td>Cognome</td><td>" + member.surname + "</td></tr>"
-    + "<tr><td>Username</td><td>" + member.username + "</td></tr>"
-    + "<tr><td>Data di registrazione</td><td>" + member.regDate + "</td></tr>"
-    + "<tr><td>Email</td><td>" + member.email + "</td></tr>"
-    + "<tr><td>Indirizzo</td><td>" + member.address + "</td></tr>"
-    + "<tr><td>Citt&agrave;</td><td>" + member.city + "</td></tr>"
-    + "<tr><td>Stato</td><td>" + member.state + "</td></tr>"
-    + "<tr><td>CAP</td><td>" + member.cap + "</td></tr>"
-    + "<tr><td>Telefono</td><td>" + member.tel + "</td></tr>"
-    + "<tr><td>Tipo di utente</td><td>" + member.memberType + "</td></tr>"
-    + "<tr><td>Status utente</td><td>" + member.memberStatus + "</td></tr>";
+    + "<tr><td>Nome</td><td class='fieldTD'>" + member.name + "</td></tr>"
+    + "<tr><td>Cognome</td><td class='fieldTD'>" + member.surname + "</td></tr>"
+    + "<tr><td>Username</td><td class='fieldTD'>" + member.username + "</td></tr>"
+    + "<tr><td>Data di registrazione</td><td class='fieldTD'>" + member.regDate + "</td></tr>"
+    + "<tr><td>Email</td><td class='fieldTD'>" + member.email + "</td></tr>"
+    + "<tr><td>Indirizzo</td><td class='fieldTD'>" + member.address + "</td></tr>"
+    + "<tr><td>Citt&agrave;</td><td class='fieldTD'>" + member.city + "</td></tr>"
+    + "<tr><td>Stato</td><td class='fieldTD'>" + member.state + "</td></tr>"
+    + "<tr><td>CAP</td><td class='fieldTD'>" + member.cap + "</td></tr>"
+    + "<tr><td>Telefono</td><td class='fieldTD'>" + member.tel + "</td></tr>"
+    + "<tr><td>Tipo di utente</td><td class='fieldTD'>" + member.memberType + "</td></tr>"
+    + "<tr><td>Status utente</td><td class='fieldTD'>" + member.memberStatus + "</td></tr>";
     details += "</table></td></tr></table>";
     $.modal(details);
   });
@@ -906,7 +906,7 @@ function getMyMessages()
       if (!messagesList[mesIndex].isReaded)
         tabellaMessaggi += " class='not_read_m' ";
       tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
-          + "'><h3>From:" + sendersList[messagesList[mesIndex].sender] + "("
+          + "'><h3>" + sendersList[messagesList[mesIndex].sender] + " ("
           + messagesList[mesIndex].sender + ")</h3><p>"
           + messagesList[mesIndex].text + "</p></td></tr>";
     }
