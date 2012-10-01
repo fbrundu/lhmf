@@ -183,9 +183,8 @@
 #simplemodal-container #basic-modal-content {padding:8px;}
 #simplemodal-container table {width: 100%;}
 #simplemodal-container td.imageTD {width: 50%;}
-#simplemodal-container td.imageTD img {width: 100%;}
+#simplemodal-container td.imageTD img {width: 90%;}
 #simplemodal-container td.dataTD {width: 50%; font-size: 150%;}
-
 
 .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
 

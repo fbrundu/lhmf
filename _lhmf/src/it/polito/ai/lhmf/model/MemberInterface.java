@@ -327,7 +327,7 @@ public class MemberInterface
 		Date endDate = cal.getTime();
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"select purchase.member, pp.product, sum(pp.amount)*(prod.unitBlock * prod.unitCost)" +
+				"select purchase.member, pp.product, sum(pp.amount)*(prod.unitCost)" +
 				"from Order as o " +
 				"join o.purchases as purchase " +
 				"join purchase.purchaseProducts as pp " +

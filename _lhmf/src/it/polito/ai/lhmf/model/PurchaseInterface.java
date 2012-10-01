@@ -194,7 +194,7 @@ public class PurchaseInterface
 		Timestamp endDate = new Timestamp(endDateD.getTime());
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"select p.idPurchase, sum(pp.amount*(prod.unitBlock * prod.unitCost)) " +
+				"select p.idPurchase, sum(pp.amount*(prod.unitCost)) " +
 				"from Purchase as p " +
 				"join p.purchaseProducts as pp " +
 				"join p.member as m " +

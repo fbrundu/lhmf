@@ -199,6 +199,7 @@ function showLogs(startTime, endTime){
 }
 
 function writeStatPageAdmin() {
+  $("#bodyTitleHeader").html("Statistiche amministratore");
 	$(".centrale").html("<div id='tabs'><ul>" +
 			"<li><a href='#tabs-1'>Utenti</a></li>" +
 			"</ul>" +
@@ -385,6 +386,7 @@ function postStatMemberTypeHandler(data){
 }
 
 function writeLogPage(){
+  $("#bodyTitleHeader").html("Consultazione log");
   $(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Consulta Log</a></li></ul>" +
   "<div id='tabs-1'></div></div>");
   $('#tabs-1').html("<div class='logform'>" +
@@ -411,6 +413,7 @@ function writeLogPage(){
 }
 
 function writeUserPage(tab){
+  $("#bodyTitleHeader").html("Gestione utenti");
   $(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Attiva utente</a></li>" +
       "<li><a href='#tabs-3'>Lista utenti</a></li></ul>" +
       "<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div></div>");
@@ -555,6 +558,7 @@ function getAllProductsNoLocal()
 
 function writeProductsPageAdmin()
 {
+  $("#bodyTitleHeader").html("Gestione prodotti");
   var categoriesList = getCategoriesNoLocal();
   var categoriesString = "<option value='notSelected' selected='selected'>Seleziona...</option>";
   for ( var catIndex in categoriesList)

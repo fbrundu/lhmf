@@ -18,8 +18,6 @@ Applicazioni Internet - Gas
   -normale: nuova scheda, modifica scheda, visualizzazione stato scheda
   -admin: attivazione utenti
 - statistiche!!!!!!!!! [MATTE]
-- cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
-  javascript
 
 ## DA TESTARE ##
 
@@ -53,6 +51,8 @@ Applicazioni Internet - Gas
 - gestione notifiche/messaggi etc con stream unico [FRA]
 - apertura pagina contestuale quando si clicca su una notifica [FRA]
 - gestione ordini da parte supplier [FRA]
+- cambiare titolo bodyTitleHeader a seconda del contenuto che si carica tramite
+  javascript
 
 ## OK ##
 

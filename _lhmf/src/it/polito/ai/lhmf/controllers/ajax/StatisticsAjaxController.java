@@ -137,7 +137,7 @@ public class StatisticsAjaxController
 			
 			Set<PurchaseProduct> listPurchaseProduct;
 			
-			//Per ogni scheda d'acquisto mi ricavo il prodotto e relativa quantità
+			//Per ogni scheda d'acquisto mi ricavo il prodotto e relativa quantitï¿½
 			for (Purchase tempPurchase : listPurchase) {
 				
 				listPurchaseProduct = tempPurchase.getPurchaseProducts();
@@ -148,7 +148,7 @@ public class StatisticsAjaxController
 					tempProduct = tempPP.getProduct();
 					tempAmount = tempPP.getAmount();
 					
-					partial += tempAmount*(tempProduct.getUnitBlock()*tempProduct.getUnitCost());
+					partial += tempAmount*(tempProduct.getUnitCost());
 				
 				} // Fine prodotti di una scheda
 			} // Fine Schede di un ordine
@@ -381,7 +381,7 @@ public class StatisticsAjaxController
 		Member tempMember;
 		Float tempAmount;
 		
-		//Mi ricavo la lista degli utenti più attivi
+		//Mi ricavo la lista degli utenti piï¿½ attivi
 		Map<Member, Float> topUsers = memberInterface.getTopUsers(memberResp);
 		
 		if(topUsers.size() > 0) {
@@ -468,7 +468,7 @@ public class StatisticsAjaxController
 		ArrayList<String> respStatName = new ArrayList<String>();
 		ArrayList<String> respStatAmount = new ArrayList<String>();
 		
-		//Mi ricavo la lista dei prodotti più venduti
+		//Mi ricavo la lista dei prodotti piï¿½ venduti
 		Map<Product, Long> topProduct = productInterface.getTopProduct();
 		
 		Product tempProduct;

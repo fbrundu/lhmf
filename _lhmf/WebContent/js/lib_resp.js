@@ -98,6 +98,7 @@ function statClicked(event) {
 }
 
 function writeOrderPage(){
+  $("#bodyTitleHeader").html("Gestione ordini");
   $(".centrale").html("   <div id='tabsOrder'>" +
                           "<ul>" +
                            "<li><a href='#tabsOrder-1'>Crea Ordine</a></li>" +
@@ -214,11 +215,14 @@ function writeOrderPage(){
   prepareOrderForm();
 }
 
-function writeIndexPage(){
+function writeIndexPage()
+{
+  $("#bodyTitleHeader").html("Interfaccia responsabile");
   $('.centrale').html("<p>Body admin history state</p>");
 }
 
 function writeStatPageResp() {
+  $("#bodyTitleHeader").html("Statistiche responsabile");
 	$(".centrale").html("<div id='tabs'><ul>" +
 						"<li><a href='#tabs-1'>Fornitori</a></li>" +
 						"<li><a href='#tabs-2'>Utenti</a></li>" +
@@ -974,8 +978,6 @@ function clickShowDetailShipsHandler(event) {
 	
 }
 
-
-
 function postShowPurchaseHandler(data) {
 	
 	var trControl = "#TRdetailsOrderShip_" + idOrder;
@@ -1011,7 +1013,7 @@ function postShowPurchaseHandler(data) {
 		$.each(products, function(index, val2) {
 			var amount = 0;
 			$.postSync("ajax/getPurchaseAmount", {idPurchase: val.idPurchase, idProduct: val2.idProduct}, function(data) { amount = data; });
-			var temp = amount * (val2.unitBlock * val2.unitCost);
+			var temp = amount * val2.unitCost;
 			total += temp;
 			productTable += "<tr>   <td> <img align='middle' height='60' src='" + val2.imgPath + "'></td> " +
 								   "<td>" + val2.name + "</td>" +
