@@ -433,8 +433,6 @@ var addedPz = [];
 
 function productListRequest(idO) 
 {
-	event.preventDefault();
-	
 	idOrder = idO;
 	
 	$("#purchaseCompositor").hide();
