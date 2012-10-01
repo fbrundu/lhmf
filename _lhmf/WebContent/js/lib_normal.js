@@ -490,7 +490,7 @@ function postProductListRequest(productList)
 			 
 			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "' data-amount='1' data-price='" + product.unitCost + "'>" +
 								   "<section class='left'>" +
-								       "<img src='" + product.imgPath + "' height='60' class='thumb'>" +
+								       "<div ><img src='" + product.imgPath + "' height='60' class='thumb'></div>" +
 								       "<h3>" + product.name + "</h3>" +
 								       "<span class='meta'>" + product.description + "</span>" +
 								       "<div id='" + idProgressBar + "'></div>" +
@@ -513,6 +513,8 @@ function postProductListRequest(productList)
 			
 			$( "#" + idProgressBar ).progressbar({	value: 0 });
 			$( "#" + idProgressBar ).css('height', '1em');
+			
+			ClearPurchase();
 								
         }
 		
@@ -545,14 +547,7 @@ function postProductListRequest(productList)
 					$( "#purchaseCart .price" ).hide();
 					
 					//Aggiorno il totale
-					var total = $('#divTotal').data('total');
-					var price = $(ui.draggable).data('price');
-					
-					total += price;
-					
-					//Aggiorno il totale
-					$('#divTotal').html("Totale: <strong style='color: #3C3'>" + total + " &euro;</strong>");
-					$('#divTotal').data('total', total);
+					computeTotal();
 					
 		        } else {
 					$("#errorDivPurchase").hide();
@@ -577,8 +572,6 @@ function updateAmount() {
 	
 	var amount = $(this).val();
 	var max =  $(this).parents("li").find('input:hidden').val();
-	var price = $(this).parents("li").data('price');
-	var oldamount = $(this).parents("li").data('amount');
 	
 	if(max != "Inf." && parseInt(amount) > parseInt(max)) {
 		$(this).val(oldamount);
@@ -603,17 +596,10 @@ function updateAmount() {
 		return;
 	}
 	
-	
-	var total = $('#divTotal').data('total');
-	
-	total -= oldamount*price;
-	total+= amount*price;
-	
 	$(this).parents("li").data('amount', amount);
 	
 	//Aggiorno il totale
-	$('#divTotal').html("Totale: <strong style='color: #3C3'>" + total + " &euro;</strong>");
-	$('#divTotal').data('total', total);
+	computeTotal();
 	
 }
 
@@ -621,21 +607,19 @@ function deleteProductFromOrder(event)
 {
 	event.preventDefault();
 	
-	
 	var idProduct = $(this).parents("li").data('productid');
 	addedIds = jQuery.removeFromArray(idProduct, addedIds);
 	
-	var price = $(this).parents("li").data('price');
-	var oldamount = $(this).parents("li").data('amount');
-	var total = $('#divTotal').data('total');
-	
-	total -= oldamount*price;
-	
-	//Aggiorno il totale
-	$('#divTotal').html("Totale: <strong style='color: #3C3'>" + total + " &euro;</strong>");
-	$('#divTotal').data('total', total);
-	
 	$(this).parents("li").remove();
+	
+	computeTotal();
+	
+	if($('#purchaseCart ul li').length == 0) {
+	    
+	    $('#divTotal').html("Totale: <strong style='color: #3C3'>0 &euro;</strong>");
+	    $('#divTotal').data('total', 0);
+	    
+	}
 	
 }
 
@@ -672,7 +656,7 @@ function refreshProgressBar(idOrder) {
     	var idProduct = temp[0];
     	var progress = parseFloat(temp[1]);
     	
-    	var idProgressBarProduct =  "#pbProduct_" + val.idOrder + "_" + idProduct;
+    	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     		
     	$(idProgressBarProduct).progressbar('value', progress);
     });
@@ -693,7 +677,7 @@ function clickPurchaseHandler(event)
     $("#purchaseCart ul li").each(function(index, value) 
     {
     	
-        var amount = $(this).find('input').val();
+        var amount = $(this).find('input:text').val();
         var max =  $(this).find('input:hidden').val();
       
         if(amount === "") 
@@ -793,8 +777,27 @@ function postSetNewPurchaseRequest(result)
 function ClearPurchase()
 {
 	$('#purchaseCart ul').html("<div align='center' class='placeholder'><br />Trascina qui i prodotti da includere nella scheda<br /><br /></div>");
+	$('#divTotal').html("Totale: <strong style='color: #3C3'>0 &euro;</strong>");
+	$('#divTotal').data('total', 0);
 	addedIds = [];
 	addedPz = [];
+}
+
+function computeTotal(){
+    
+    var total = 0;
+    
+    $("#purchaseCart ul li").each(function(index, value) 
+    {
+        var amount = $(this).find('input:text').val();
+        var price = $(this).data('price');
+        
+        total += amount*price;
+    });
+    
+    $('#divTotal').html("Totale: <strong style='color: #3C3'>" + total  + " &euro;</strong>");
+    $('#divTotal').data('total', total);
+    
 }
 
 function clickPurchaseActiveHandler(event) 
@@ -820,7 +823,7 @@ function loadOrders()
 	$.post("ajax/getOrdersString", function(data) 
 	{
 		
-		$('#TABLEorderPurchase').append("<tr> <th class='top' width='20%'> Nome Ordine </th>" +
+		$('#TABLEorderPurchase').html("<tr> <th class='top' width='20%'> Nome Ordine </th>" +
 											 "<th class='top' width='15%'> Responsabile </th>" +
 											 "<th class='top' width='15%'> Fornitore </th>" +
 											 "<th class='top' width='15%'> Data Apertura </th>" +
@@ -998,7 +1001,7 @@ function postOldPurchaseDetailsListHandler(productList)
     
     $(tableControl).append("<tr>  <th class='top' width='30%'> Prodotto </th>" +
                                  "<th class='top' width='35%'> Descrizione  </th>" +
-                                 "<th class='top' width='25%'> Costo Unit&agrave;*Blocchi (Limiti)  </th>" +
+                                 "<th class='top' width='25%'> Costo [Blocchi]</th>" +
                                  "<th class='top' width='10%'> Qt. </th>" +
                                  "<th class='top' width='10%'> Parziale </th></tr>");
     
@@ -1018,7 +1021,7 @@ function postOldPurchaseDetailsListHandler(productList)
     	
         $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
-        		                       "<td>" + val.unitCost + "&euro; * " + val.unitBlock + " (" + val.minBuy + "-" + val.maxBuy +")</td>" +
+        		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]</td>" +
         		                       "<td>" + AmountTmp + "</td>" +
         		                       "<td>" + parziale + " &euro;</td></tr>");
     });
@@ -1330,6 +1333,9 @@ function removeProduct(idProduct, lastProduct) {
 	   		//Se era l'unico ordine cancellare tutta la tabella
 	   		if($(idTableOrder + ' tr').length == 1) 
 	   	    	$(idTableOrder + ' tr').remove();
+	   		
+	   		//aggiornare tabella ordini in creazione scheda
+	   		loadOrders();
 	   	}
     }
 }
