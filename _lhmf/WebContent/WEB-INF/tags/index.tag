@@ -39,7 +39,7 @@
 </head>
 <body>
 	<jsp:invoke fragment="dialogs" />
-	<div id="overlay"></div>
+	<div id="canvas"><canvas id='tempCanvas'></canvas></div>
 	<div class="gasDialog" id="dialog-error-insert" title="Errore">
 		<p>
 			<span class="ui-icon ui-icon-alert"
