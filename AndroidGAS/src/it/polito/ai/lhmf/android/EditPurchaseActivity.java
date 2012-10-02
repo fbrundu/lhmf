@@ -46,7 +46,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditPurchaseActivity extends Activity {
-	private static final int PURCHASE_ITEM_DIALOG = 0;
+	private static final int EDIT_PURCHASE_ITEM_DIALOG = 0;
+	private static final int REMOVE_PURCHASE_CONFIRM_DIALOG = EDIT_PURCHASE_ITEM_DIALOG + 1;
 	
 	private Map<Integer, Integer> myBoughtAmounts = new HashMap<Integer, Integer>();
 	
@@ -223,7 +224,7 @@ public class EditPurchaseActivity extends Activity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		if(id == PURCHASE_ITEM_DIALOG){
+		if(id == EDIT_PURCHASE_ITEM_DIALOG){
 			LayoutInflater inflater = getLayoutInflater();
 			View content = inflater.inflate(R.layout.purchase_item_dialog, null);
 			
@@ -236,7 +237,6 @@ public class EditPurchaseActivity extends Activity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();
-					
 				}
 			});
 			
@@ -246,6 +246,25 @@ public class EditPurchaseActivity extends Activity {
 			
 			return dialog;
 		}
+		else if(id == REMOVE_PURCHASE_CONFIRM_DIALOG){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			
+			builder.setTitle("Conferma eliminazione scheda");
+			
+			builder.setMessage("");
+			
+			builder.setPositiveButton("Ok", null);
+			
+			builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+			
+			return builder.create();
+		}
 		else
 			return super.onCreateDialog(id);
 	}
@@ -253,7 +272,7 @@ public class EditPurchaseActivity extends Activity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		
-		if(id == PURCHASE_ITEM_DIALOG){
+		if(id == EDIT_PURCHASE_ITEM_DIALOG){
 			final Product product = (Product) args.getSerializable("product");
 			final int availability = args.getInt("availability", -1);
 			
@@ -295,7 +314,7 @@ public class EditPurchaseActivity extends Activity {
 							if(amount > 0){
 								Integer requiredChange = 0;
 								if(alreadyBought != null)
-									requiredChange = alreadyBought - amount;
+									requiredChange = amount - alreadyBought;
 								else
 									requiredChange = amount;
 								
@@ -319,6 +338,25 @@ public class EditPurchaseActivity extends Activity {
 				});
 			}
 		}
+		else if(id == REMOVE_PURCHASE_CONFIRM_DIALOG){
+			Product product = (Product) args.getSerializable("product");
+			
+			AlertDialog aDialog = (AlertDialog) dialog;
+			aDialog.setMessage("Rimuovendo il prodotto '" + product.getName() + "' si procedera all'eliminazione dell'intera scheda." +
+					" Continuare?");
+			
+			final Integer idProduct = product.getIdProduct();
+			final Integer idPurchase = purchase.getIdPurchase();
+			
+			aDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					new RemovePurchaseProductAsyncTask().execute(api, idPurchase, idProduct, true);
+					dialog.cancel();
+				}
+			});
+		}
 		else
 			super.onPrepareDialog(id, dialog, args);
 	}
@@ -341,30 +379,85 @@ public class EditPurchaseActivity extends Activity {
 		return ret;
 	}
 	
-	private class UpdatePurchaseProductAsyncTask extends AsyncTask<Object, Void, Integer[]>{
+	private class RemovePurchaseProductAsyncTask extends AsyncTask<Object, Void, Integer[]>{
 
 		@Override
 		protected Integer[] doInBackground(Object... params) {
 			Gas gas = (Gas) params[0];
 			Integer idPurchase = (Integer) params[1];
 			Integer idProduct = (Integer) params[2];
+			
+			Integer ret[] = new Integer[2];
+			ret[0] = idProduct;
+			ret[1] = gas.purchaseOperations().removePurchaseProduct(idPurchase, idProduct);
+			
+			return ret;
+		}
+		
+		@Override
+		protected void onPostExecute(Integer[] result) {
+			Integer idProduct = result[0];
+			Integer res = result[1];
+			
+			if(res == null || res < 1){
+				Toast.makeText(EditPurchaseActivity.this, "Errore durante la modifica della scheda", Toast.LENGTH_LONG).show();
+			}
+			else{
+				myBoughtAmounts.remove(idProduct);
+				if(myBoughtAmounts.size() == 0)
+					EditPurchaseActivity.this.finish();
+				else{
+					purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
+				
+					createListAdapters();
+				}
+			}
+		}
+		
+	}
+	
+	private class UpdatePurchaseProductAsyncTask extends AsyncTask<Object, Void, Object[]>{
+
+		@Override
+		protected Object[] doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			Integer idPurchase = (Integer) params[1];
+			Integer idProduct = (Integer) params[2];
 			Integer amount = (Integer) params[3];
 			Boolean createNew = (Boolean) params[4];
 			
-			Integer[] retValue = new Integer[3];
+			Object[] retValue = new Object[4];
 			retValue[0] = idProduct;
 			retValue[1] = amount;
+			retValue[2] = createNew;
 			
 			if(createNew)
-				retValue[2] = gas.purchaseOperations().newPurchaseProduct(idPurchase, idProduct, amount);
+				retValue[3] = gas.purchaseOperations().newPurchaseProduct(idPurchase, idProduct, amount);
 			else
-				retValue[2] = gas.purchaseOperations().updatePurchaseProduct(idPurchase, idProduct, amount);
+				retValue[3] = gas.purchaseOperations().updatePurchaseProduct(idPurchase, idProduct, amount);
 			
 			return retValue;
 		}
 		
 		@Override
-		protected void onPostExecute(Integer[] result) {
+		protected void onPostExecute(Object[] result) {
+			Integer idProduct = (Integer) result[0];
+			Integer amount = (Integer) result[1];
+			Boolean createNew = (Boolean) result[2];
+			Integer res = (Integer) result[3];
+			
+			if(res == null || res < 1){
+				Toast.makeText(EditPurchaseActivity.this, "Errore durante la modifica della scheda", Toast.LENGTH_LONG).show();
+			}
+			else{
+				myBoughtAmounts.put(idProduct, amount);
+				purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
+				if(createNew)
+					createListAdapters();
+				else
+					adapter.notifyDataSetChanged();
+			}
+			
 			// FIXME A seconda del risultato modificare quantità acquistata o mostrare errore!!!
 			/*
 			//myBoughtAmounts.put(product.getIdProduct(), amount);
@@ -697,7 +790,7 @@ public class EditPurchaseActivity extends Activity {
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
-					showDialog(PURCHASE_ITEM_DIALOG, args);
+					showDialog(EDIT_PURCHASE_ITEM_DIALOG, args);
 					
 				}
 			});
@@ -712,7 +805,7 @@ public class EditPurchaseActivity extends Activity {
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
-					showDialog(PURCHASE_ITEM_DIALOG, args);
+					showDialog(EDIT_PURCHASE_ITEM_DIALOG, args);
 				}
 			});
 			
@@ -720,13 +813,15 @@ public class EditPurchaseActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					myBoughtAmounts.remove(product.getIdProduct());
-					
-					purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
-					
-					//TODO net operation to remove product. If it is the last one, ask to delete whole purchase
-					
-					createListAdapters();
+					if(myBoughtAmounts.size() == 1){
+						//This is the last product. Ask user if he wants to remove the purchase
+						Bundle args = new Bundle();
+						
+						args.putSerializable("product", product);
+						showDialog(REMOVE_PURCHASE_CONFIRM_DIALOG, args);
+					}
+					else
+						new RemovePurchaseProductAsyncTask().execute(api, purchase.getIdPurchase(), product.getIdProduct());
 					
 				}
 			});
