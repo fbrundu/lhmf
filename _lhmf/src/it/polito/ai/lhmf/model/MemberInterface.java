@@ -418,7 +418,9 @@ public class MemberInterface
 		Member tempMember = null;
 		Float tempTot = (float) 0;
 		boolean first = true;
-		
+		if (query.list().size() == 0)
+			return null;
+
 		for (Iterator it = query.iterate(); it.hasNext();) {
 			Object[] row = (Object[]) it.next();
 			
