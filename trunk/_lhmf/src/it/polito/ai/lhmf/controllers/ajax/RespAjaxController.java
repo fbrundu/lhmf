@@ -8,6 +8,8 @@ import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.OrderProduct;
+import it.polito.ai.lhmf.orm.OrderProductId;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
@@ -124,7 +126,7 @@ public class RespAjaxController
 		
 		if (order.getSupplier().getIdMember() == member.getIdMember()
 				|| order.getMember().getIdMember() == member.getIdMember())
-			listProduct = new ArrayList<Product>(order.getProducts());
+			listProduct = orderInterface.getProducts(order.getIdOrder());
 
 		return listProduct;
 	}
@@ -269,6 +271,10 @@ public class RespAjaxController
 		Order order = new Order(supplier, Resp, orderName, dateOpen, dateClose);
 		
 		int result = -1;
+		if((result = orderInterface.newOrder(order)) <= 0)
+		{
+			return result;
+		}
 	
 		String[] temp = idString.split(",");
 		Set<Product> setProduct = new HashSet<Product>();
@@ -276,11 +282,15 @@ public class RespAjaxController
 		for(String element:temp) 
 			setProduct.add(poductInterface.getProduct(Integer.parseInt(element)));
 		
-		order.setProducts(setProduct);
+		for(Product product : setProduct){
+			OrderProductId id = new OrderProductId(order.getIdOrder(), product.getIdProduct());
+			OrderProduct orderproduct = new OrderProduct(id, order, product);
+			
+			//In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			orderInterface.newOrderProduct(orderproduct);
+		}
 		
-		result = orderInterface.newOrder(order);
-		
-		return result;
+		return 1;
 		
 	}
 	
@@ -309,9 +319,9 @@ public class RespAjaxController
 	List<Product> getProductFromOrderNormal(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrderNorm") int idOrder) throws InvalidParametersException
 	{
-		Order order = orderInterface.getOrder(idOrder);
-		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
-		return listProduct;
+		List<Product> ret = null;
+		ret = orderInterface.getProducts(idOrder);
+		return ret;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")

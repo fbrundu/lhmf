@@ -7,6 +7,7 @@ import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
@@ -80,9 +81,9 @@ public class NormalAjaxController
 	List<Product> getProductFromOrder(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
 	{
-		Order order = orderInterface.getOrder(idOrder);
-		List<Product> listProduct = new ArrayList<Product>(order.getProducts());
-		return listProduct;
+		List<Product> ret = null;
+		ret = orderInterface.getProducts(idOrder);
+		return ret;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
@@ -120,9 +121,10 @@ public class NormalAjaxController
 		Order order = purchase.getOrder();
 		
 		Set<Product> returnList = new HashSet<Product>();
-		Set<Product> sProduct = order.getProducts();
+		Set<OrderProduct> sProduct = order.getOrderProducts();
 		
-		returnList.addAll(sProduct);
+		for(OrderProduct op : sProduct)
+			returnList.add(op.getProduct());
 		
 		Set<PurchaseProduct> ppList = purchase.getPurchaseProducts();
 		
