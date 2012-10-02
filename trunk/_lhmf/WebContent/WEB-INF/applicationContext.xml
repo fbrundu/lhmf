@@ -25,7 +25,7 @@
             </props>
         </property>
     </bean>
-    <bean id="modelState" class="it.polito.ai.lhmf.model.ModelState"></bean>
+    <bean id="modelState" class="it.polito.ai.lhmf.util.ModelState"></bean>
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
