@@ -2,7 +2,14 @@ Applicazioni Internet - Gas
 
 # TODO
 
+
 ## DA IMPLEMENTARE ##
+
+-booleano 'failed' in order_product: default a false. alla data di chiusura dell'ordine, si 
+ il thread verifica il raggiungimento delle quote minime dei prodotti, e per quelli che non lo raggiungono si setta failed a true.
+ In questo modo un ordine è fallito se TUTTI gli order_product hanno failed a true.
+-modificare stat ordine di conseguenza
+ 
 
 - admin deve ricevere gli aggiornamenti dei prodotti come fa per le notifiche? [FRA]
 - invio notifiche e messaggi sistema
