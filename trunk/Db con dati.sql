@@ -19,6 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `malnati_project`
 --
+DROP DATABASE `malnati_project`;
+CREATE DATABASE `malnati_project` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `malnati_project`;
 
 -- --------------------------------------------------------
 
@@ -200,6 +203,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 CREATE TABLE IF NOT EXISTS `order_product` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
+  `failed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idOrder`,`idProduct`),
   KEY `fk_Order_has_ProductList_ProductList1` (`idProduct`),
   KEY `fk_Order_has_ProductList_Order1` (`idOrder`)
