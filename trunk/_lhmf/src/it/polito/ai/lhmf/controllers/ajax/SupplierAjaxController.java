@@ -210,7 +210,8 @@ public class SupplierAjaxController
 				if (!website.equals(""))
 					supplier.setWebsite(website);
 				
-				idMember = memberInterface.newMember(memberSupplier);
+				// second argument is not used here
+				idMember = memberInterface.newMember(memberSupplier, false, true);
 				if(idMember < 0) {
 					errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
 				} else {

@@ -166,12 +166,8 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		} else {
-			
-			//Controllo email già in uso
-			
-			Member memberControl = memberInterface.getMemberByEmail(email);
-			
-			if(memberControl != null)
+			//Controllo email giï¿½ in uso
+			if(memberInterface.isMemberPresentByEmail(email))
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
@@ -239,21 +235,25 @@ public class SignupController
 			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));
 			
 			boolean checkMail;
-			
-			if(session.getAttribute("checkMail") == null)
+
+			if (session.getAttribute("checkMail") == null)
 				checkMail = true;
-			else {
+			else
+			{
 				checkMail = false;
 				session.removeAttribute("checkMail");
-			}			
-				
-			if(checkMail) {
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-				model.addAttribute("checkMail", true);
-				
-			} else
+			}
+
+			if (checkMail)
 			{
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);		
+				mStatus = memberStatusInterface
+						.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+				model.addAttribute("checkMail", true);
+			}
+			else
+			{
+				mStatus = memberStatusInterface
+						.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
 			}
 			
 			//setto la data odierna
@@ -274,43 +274,7 @@ public class SignupController
 				member.setTel(phone);
 			
 			@SuppressWarnings("unused")
-			int memberId = memberInterface.newMember(member);
-			
-			if(checkMail) {
-				
-				//TODO Inviare qui la mail con il codice di registrazione. 
-				/*
-				SendEmail emailer = new SendEmail();
-				boolean isSupplier = false;
-				emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
-				*/
-			}
-			else{
-				//Mandare messaggio all'admin
-				
-				//Ricavo il membro Admin
-				Member memberAdmin = memberInterface.getMemberAdmin();
-				
-				//Creo il Current timestamp
-				java.util.Date now = calendar.getTime();
-				Timestamp currentTimestamp = new Timestamp(now.getTime());
-				
-				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-								"Email: " + member.getEmail() + "\n";  
-				
-				//Costruisco l'oggetto message	
-				Message message = new Message(memberAdmin, currentTimestamp, false, 0);
-				
-				message.setMemberByIdSender(member);
-				message.setText(text);
-				
-				try {
-					messageInterface.newMessage(message);
-				} catch (InvalidParametersException e) {
-					e.printStackTrace();
-				}
-			}
+			int memberId = memberInterface.newMember(member, checkMail, false);
 		}
 		
 		// Registrazione avvenuta con successo. Redirigere				
@@ -416,18 +380,18 @@ public class SignupController
 			error.put("id", "Email");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
-		} else {
-			
-			//Controllo email già in uso
-			Member memberControl = memberInterface.getMemberByEmail(email);
-			
-			if(memberControl != null)
+		}
+		else
+		{
+			// Controllo email giï¿½ in uso
+			if (memberInterface.isMemberPresentByEmail(email))
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
-				error.put("error", "Email gi&agrave utilizzata da un altro account");
+				error.put("error",
+						"Email gi&agrave utilizzata da un altro account");
 				errors.add(error);
-			}		
+			}
 		}
 		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
@@ -498,15 +462,17 @@ public class SignupController
 				session.removeAttribute("checkMail");
 			}
 			
-			if(checkMail) {
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-				model.addAttribute("checkMail", true);		
-			} else
+			if (checkMail)
 			{
-				mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+				mStatus = memberStatusInterface
+						.getMemberStatus(MemberStatuses.NOT_VERIFIED);
+				model.addAttribute("checkMail", true);
 			}
-			
-			
+			else
+			{
+				mStatus = memberStatusInterface
+						.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
+			}
 			
 			//setto la data odierna
 			Calendar calendar = Calendar.getInstance();     
@@ -526,42 +492,7 @@ public class SignupController
 				member.setTel(phone);
 			
 			@SuppressWarnings("unused")
-			int memberId = memberInterface.newMember(member);
-			
-			if(checkMail) {
-				
-				//TODO Inviare qui la mail con il codice di registrazione. 
-				/*
-				SendEmail emailer = new SendEmail();
-				boolean isSupplier = false;
-				emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
-				*/
-			} else{
-				//Mandare messaggio all'admin
-				
-				//Ricavo il membro Admin
-				Member memberAdmin = memberInterface.getMemberAdmin();
-				
-				//Creo il Current timestamp
-				java.util.Date now = calendar.getTime();
-				Timestamp currentTimestamp = new Timestamp(now.getTime());
-				
-				String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-								"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-								"Email: " + member.getEmail() + "\n";  
-				
-				//Costruisco l'oggetto message	
-				Message message = new Message(memberAdmin, currentTimestamp, false, 0);
-				
-				message.setMemberByIdSender(member);
-				message.setText(text);
-				
-				try {
-					messageInterface.newMessage(message);
-				} catch (InvalidParametersException e) {
-					e.printStackTrace();
-				}
-			}
+			int memberId = memberInterface.newMember(member, checkMail, false);
 		}
 		
 		// Registrazione avvenuta con successo. Redirigere 
@@ -626,19 +557,19 @@ public class SignupController
 			error.put("id", "Email");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
-		} else {
-			
-			//Controllo email già in uso
-			Member memberControl = memberInterface.getMemberByEmail(email);
-			
-			if(memberControl != null)
+		}
+		else
+		{
+			// Controllo email giï¿½ in uso
+			if (memberInterface.isMemberPresentByEmail(email))
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
-				error.put("error", "Email gi&agrave utilizzata da un altro account");
+				error.put("error",
+						"Email gi&agrave utilizzata da un altro account");
 				errors.add(error);
 			}
-			
+
 		}
 		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			
@@ -671,7 +602,6 @@ public class SignupController
 		if(!phone.equals("") && !phone.equals("not set"))
 		{
 			if(!CheckNumber.isPhoneNumberValid(phone)) {
-				
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Telefono");
 				error.put("error", "Formato non Valido");
@@ -684,17 +614,16 @@ public class SignupController
 			error.put("id", "Username");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
-		} else {
-						
-			Member memberControl = memberInterface.getMember(username);
-			
-			if(memberControl != null)
+		}
+		else
+		{
+			if (memberInterface.isMemberPresentByUsername(username))
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Username");
 				error.put("error", "Username non disponibile");
 				errors.add(error);
-			}		
+			}
 		}
 		if(password.equals("")) {
 					
@@ -729,7 +658,9 @@ public class SignupController
 			
 			//Mi ricavo il memberStatus 
 			MemberStatus mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.NOT_VERIFIED);
-			model.addAttribute("checkMail", true);	
+			
+			boolean checkmail = true;
+			model.addAttribute("checkMail", checkmail);	
 			
 			//genero un regCode
 			String regCode = Long.toHexString(Double.doubleToLongBits(Math.random()));					
@@ -756,28 +687,17 @@ public class SignupController
 				if(!phone.equals("") && !phone.equals("not set")) 
 					member.setTel(phone);
 				
-				memberId = memberInterface.newMember(member);
+				memberId = memberInterface.newMember(member, checkmail, false);
 				
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-			
-			//TODO Inviare qui la mail con il codice di registrazione. 
-			/*
-			SendEmail emailer = new SendEmail();
-			boolean isSupplier = false;
-			emailer.sendNormalRegistration(firstname + " " + lastname, regCode, memberId, email, isSupplier);
-			*/
-			
-					
-			
 		}
 		
 		// Registrazione avvenuta con successo. Redirigere 
 		return new ModelAndView("/signup_confirmed");
-		
 	}
 	
 	@RequestMapping(value ="/authMail", method = RequestMethod.GET)
@@ -833,7 +753,7 @@ public class SignupController
 					
 					Map<String, String> error = new HashMap<String, String>();
 					error.put("id", "InternalError");
-					error.put("error", "Non è stato possibile verificare l'email.");
+					error.put("error", "Non ï¿½ stato possibile verificare l'email.");
 					errors.add(error);
 				}
 			}	
@@ -880,5 +800,4 @@ public class SignupController
 		
 		return new ModelAndView("/authMail_confirmed");
 	}
-
 }

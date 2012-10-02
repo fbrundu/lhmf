@@ -3,8 +3,8 @@ package it.polito.ai.lhmf.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import it.polito.ai.lhmf.model.ModelState;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
+import it.polito.ai.lhmf.util.ModelState;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

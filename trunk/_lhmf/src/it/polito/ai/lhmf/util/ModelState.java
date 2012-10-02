@@ -1,4 +1,4 @@
-package it.polito.ai.lhmf.model;
+package it.polito.ai.lhmf.util;
 
 public class ModelState
 {
