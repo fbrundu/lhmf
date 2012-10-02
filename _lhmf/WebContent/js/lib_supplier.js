@@ -736,6 +736,7 @@ function newProduct(productParameters)
 		  returnedIdProduct = idProduct;
 		  if (idProduct > 0)
 			  console.debug("Inserted product: " + idProduct);
+		  $("#picture").val("");
 	  });
   }
   else{
@@ -908,7 +909,7 @@ function writeSupplierPage(tab)
       .html(newProductForm);
   
   var categoriesList = getCategoriesNoLocal();
-  var categoriesString = "<option value='notSelected' selected='selected'>Tutte</option>";
+  var categoriesString = "<option value='notSelected' selected='selected'>Seleziona..</option>";
   for ( var catIndex in categoriesList)
   {
     categoriesString += "<option value='"
