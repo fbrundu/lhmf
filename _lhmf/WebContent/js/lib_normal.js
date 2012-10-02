@@ -86,13 +86,11 @@ function writePurchasePage()
     		                    "<ul>" +
     		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
     		                     "<li><a href='#tabsPurchase-2'>Schede Attive</a></li>" +
-    		                     "<li><a href='#tabsPurchase-3'>Schede Scadute</a></li>" +
-    		                     "<li><a href='#tabsPurchase-4'>Schede In Consegna</a></li>" +
+    		                     "<li><a href='#tabsPurchase-3'>Schede In Consegna</a></li>" +
     		                    "</ul>" +
                                 "<div id='tabsPurchase-1'></div>" +
                                 "<div id='tabsPurchase-2'></div>" +
                                 "<div id='tabsPurchase-3'></div>" +
-                                "<div id='tabsPurchase-4'></div>" +
                            "</div>");
     
     $('#tabsPurchase-1').html("<div class='logform'>" +
@@ -128,9 +126,6 @@ function writePurchasePage()
           "</div>");
     
     $('#tabsPurchase-2').html("<div class='logform'>" +
-            "<form method='post' action=''>" +
-            "<button type='submit' id='purchaseActiveRequest'> Visualizza </button>" +
-          "</form>" +
           "<table id='activePurchaseList' class='log'></table>" +
           "<div id='errorDivActivePurchase' style='display:none;'>" +
             "<fieldset><legend id='legendErrorActivePurchase'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -151,10 +146,6 @@ function writePurchasePage()
       "</div>");
     
     $('#tabsPurchase-3').html("<div class='logform'>" +
-                            "<form method='post' action=''>" +
-                              "<button type='submit' id='purchaseOldRequest'> Visualizza </button>" +
-                            "</form>" +
-                            "</form>" +
                             "<table id='oldPurchaseList' class='log'></table>" +
                             "<div id='errorDivOldPurchase' style='display:none;'>" +
                               "<fieldset><legend id='legendErrorOldPurchase'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -163,8 +154,6 @@ function writePurchasePage()
                               "</fieldset>" +
                             "</div><br />" +
                         "</div>");
-    
-    //$('#tabsPurchase-4').html("Da implementare?");
    
     preparePurchaseForm();
 }
@@ -416,12 +405,11 @@ function preparePurchaseForm(tab){
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
        
-    $('#purchaseActiveRequest').on("click", clickPurchaseActiveHandler);
-    $('#purchaseOldRequest').on("click", clickPurchaseOldHandler);
-    $('#purchaseDetailsRequest').on("click", clickPurchaseDetailsHandler);
-    $("#purchaseCompositor").hide();
-    
     loadOrders();
+    loadPurchaseActive();
+    loadPurchaseOld();
+    
+    $("#purchaseCompositor").hide();
     
     $('#purchaseRequest').on("click", clickPurchaseHandler);
     
@@ -771,6 +759,9 @@ function postSetNewPurchaseRequest(result)
 	    $("#errorsPurchase").html("Scheda di acquisto creata correttamente.<br /><br />");
 	    $("#errorDivPurchase").show("slow");
 	    $("#errorDivPurchase").fadeIn(1000);
+	    
+	    //Ricaricare pagina schede attive
+	    loadPurchaseActive();
 	}	
 }
 
@@ -800,19 +791,16 @@ function computeTotal(){
     
 }
 
-function clickPurchaseActiveHandler(event) 
+function loadPurchaseActive() 
 {
-    event.preventDefault();
     
     $.post("ajax/getActivePurchase", postActivePurchaseListHandler);  
 }
 
 
 
-function clickPurchaseOldHandler(event) 
-{
-    event.preventDefault();
-  
+function loadPurchaseOld() 
+{  
     $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
     
 }
@@ -1330,9 +1318,18 @@ function removeProduct(idProduct, lastProduct) {
 	   		$(classTrOrder).remove();
 	   		$(idTrDetails).remove();
 	   		
-	   		//Se era l'unico ordine cancellare tutta la tabella
-	   		if($(idTableOrder + ' tr').length == 1) 
-	   	    	$(idTableOrder + ' tr').remove();
+	   		//Se era l'unico ordine cancellare tutta la tabella e mostrare messaggio
+	   		if($(idTableOrder + ' tr').length == 1) {
+	   		    
+	   		     $(idTableOrder + ' tr').remove();
+	   		 
+    	   		 $("#errorDivActivePurchase").hide();
+    	         $("#legendErrorActivePurchase").html("Comunicazione");
+    	         $("#errorsActivePurchase").html("Non ci sono Schede attive da visualizzare<br /><br />");
+    	         $("#errorDivActivePurchase").show("slow");
+    	         $("#errorDivActivePurchase").fadeIn(1000);
+	   		}
+	   	    	
 	   		
 	   		//aggiornare tabella ordini in creazione scheda
 	   		loadOrders();
