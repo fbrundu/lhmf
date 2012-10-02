@@ -29,7 +29,6 @@ function facebook_click() {
         <div class="logo">
             <a href="<spring:url htmlEscape='true' value='/'></spring:url>"><img src="<spring:url htmlEscape='true' value='/img/logo.png'/>" alt="GasProject.it"/></a>
         </div>
-        <div align="center"><button id="show">Menu <span>+</span> <span style="display:none;">-</span></button></div>
         <div class="clear"></div>
     </div>
     <div class="nav">
