@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,7 +37,7 @@ public class Product implements java.io.Serializable {
 	private Integer maxBuy;
 	private String imgPath;
 	private Set purchaseProducts = new HashSet(0);
-	private Set orders = new HashSet(0);
+	private Set orderProducts = new HashSet(0);
 	private Set messages = new HashSet(0);
 
 	public Product() {
@@ -64,7 +63,7 @@ public class Product implements java.io.Serializable {
 			String name, String description, int dimension, String measureUnit,
 			int unitBlock, boolean availability, float transportCost,
 			float unitCost, Integer minBuy, Integer maxBuy, String imgPath,
-			Set purchaseProducts, Set orders, Set messages) {
+			Set purchaseProducts, Set orderProducts, Set messages) {
 		this.productCategory = productCategory;
 		this.supplier = supplier;
 		this.name = name;
@@ -79,7 +78,7 @@ public class Product implements java.io.Serializable {
 		this.maxBuy = maxBuy;
 		this.imgPath = imgPath;
 		this.purchaseProducts = purchaseProducts;
-		this.orders = orders;
+		this.orderProducts = orderProducts;
 		this.messages = messages;
 	}
 
@@ -222,13 +221,13 @@ public class Product implements java.io.Serializable {
 		this.purchaseProducts = purchaseProducts;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "products")
-	public Set getOrders() {
-		return this.orders;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	public Set getOrderProducts() {
+		return this.orderProducts;
 	}
 
-	public void setOrders(Set orders) {
-		this.orders = orders;
+	public void setOrderProducts(Set orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")

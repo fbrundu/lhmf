@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -37,7 +35,7 @@ public class Order implements java.io.Serializable {
 	private Date dateDelivery;
 	private Set purchases = new HashSet(0);
 	private Set messages = new HashSet(0);
-	private Set products = new HashSet(0);
+	private Set orderProducts = new HashSet(0);
 
 	public Order() {
 	}
@@ -53,7 +51,7 @@ public class Order implements java.io.Serializable {
 
 	public Order(Supplier supplier, Member member, String orderName,
 			Date dateOpen, Date dateClose, Date dateDelivery, Set purchases,
-			Set messages, Set products) {
+			Set messages, Set orderProducts) {
 		this.supplier = supplier;
 		this.member = member;
 		this.orderName = orderName;
@@ -62,7 +60,7 @@ public class Order implements java.io.Serializable {
 		this.dateDelivery = dateDelivery;
 		this.purchases = purchases;
 		this.messages = messages;
-		this.products = products;
+		this.orderProducts = orderProducts;
 	}
 
 	@Id
@@ -153,14 +151,13 @@ public class Order implements java.io.Serializable {
 		this.messages = messages;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "order_product", catalog = "malnati_project", joinColumns = { @JoinColumn(name = "idOrder", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "idProduct", nullable = false, updatable = false) })
-	public Set getProducts() {
-		return this.products;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+	public Set getOrderProducts() {
+		return this.orderProducts;
 	}
 
-	public void setProducts(Set products) {
-		this.products = products;
+	public void setOrderProducts(Set orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
 }
