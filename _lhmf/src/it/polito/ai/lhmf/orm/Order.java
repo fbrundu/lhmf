@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 30-lug-2012 15.24.51 by Hibernate Tools 3.4.0.CR1
+
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -41,7 +39,7 @@ public class Order implements java.io.Serializable {
 	private Date dateDelivery;
 	private Set<Purchase> purchases = new HashSet<Purchase>(0);
 	private Set<Message> messages = new HashSet<Message>(0);
-	private Set<Product> products = new HashSet<Product>(0);
+	private Set<OrderProduct> orderProducts = new HashSet<OrderProduct>(0);
 
 	public Order() {
 	}
@@ -57,7 +55,7 @@ public class Order implements java.io.Serializable {
 
 	public Order(Supplier supplier, Member member, String orderName,
 			Date dateOpen, Date dateClose, Date dateDelivery, Set<Purchase> purchases,
-			Set<Message> messages, Set<Product> products) {
+			Set<Message> messages, Set<OrderProduct> orderProducts) {
 		this.supplier = supplier;
 		this.member = member;
 		this.orderName = orderName;
@@ -66,7 +64,7 @@ public class Order implements java.io.Serializable {
 		this.dateDelivery = dateDelivery;
 		this.purchases = purchases;
 		this.messages = messages;
-		this.products = products;
+		this.orderProducts = orderProducts;
 	}
 
 	@Id
@@ -165,14 +163,13 @@ public class Order implements java.io.Serializable {
 		this.messages = messages;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "order_product", joinColumns = { @JoinColumn(name = "idOrder", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "idProduct", nullable = false, updatable = false) })
-	public Set<Product> getProducts() {
-		return this.products;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+	public Set<OrderProduct> getOrderProducts() {
+		return this.orderProducts;
 	}
 
-	public void setProducts(Set<Product> products) {
-		this.products = products;
+	public void setOrderProducts(Set<OrderProduct> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
 }

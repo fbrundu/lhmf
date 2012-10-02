@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.orm;
 
-// Generated 30-lug-2012 15.24.51 by Hibernate Tools 3.4.0.CR1
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -42,7 +41,7 @@ public class Product implements java.io.Serializable {
 	private Integer maxBuy;
 	private String imgPath;
 	private Set<PurchaseProduct> purchaseProducts = new HashSet<PurchaseProduct>(0);
-	private Set<Order> orders = new HashSet<Order>(0);
+	private Set<OrderProduct> orderProducts = new HashSet<OrderProduct>(0);
 	private Set<Message> messages = new HashSet<Message>(0);
 
 	public Product() {
@@ -68,7 +67,7 @@ public class Product implements java.io.Serializable {
 			String name, String description, int dimension, String measureUnit,
 			int unitBlock, boolean availability, float transportCost,
 			float unitCost, Integer minBuy, Integer maxBuy, String imgPath,
-			Set<PurchaseProduct> purchaseProducts, Set<Order> orders, Set<Message> messages) {
+			Set<PurchaseProduct> purchaseProducts, Set<OrderProduct> orderProducts, Set<Message> messages) {
 		this.productCategory = productCategory;
 		this.supplier = supplier;
 		this.name = name;
@@ -83,7 +82,7 @@ public class Product implements java.io.Serializable {
 		this.maxBuy = maxBuy;
 		this.imgPath = imgPath;
 		this.purchaseProducts = purchaseProducts;
-		this.orders = orders;
+		this.orderProducts = orderProducts;
 		this.messages = messages;
 	}
 
@@ -226,13 +225,13 @@ public class Product implements java.io.Serializable {
 		this.purchaseProducts = purchaseProducts;
 	}
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "products")
-	public Set<Order> getOrders() {
-		return this.orders;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+	public Set<OrderProduct> getOrderProducts() {
+		return this.orderProducts;
 	}
 
-	public void setOrders(Set<Order> orders) {
-		this.orders = orders;
+	public void setOrderProducts(Set<OrderProduct> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product")

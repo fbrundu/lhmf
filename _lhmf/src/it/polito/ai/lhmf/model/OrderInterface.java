@@ -3,6 +3,8 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.OrderProduct;
+import it.polito.ai.lhmf.orm.OrderProductId;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
@@ -218,7 +220,10 @@ public class OrderInterface
 	{
 		Order order = getOrder(idOrder);
 		if(order != null){
-			return new ArrayList<Product>(order.getProducts());
+			List<Product> ret = new ArrayList<Product>();
+			for(OrderProduct op : order.getOrderProducts())
+				ret.add(op.getProduct());
+			return ret;
 		}
 		return null;
 	}
@@ -552,5 +557,16 @@ public class OrderInterface
 					&& o.getDateOpen().after(startDate))
 				orders.add(o);
 		return orders;
+	}
+	
+	@Transactional(propagation=Propagation.REQUIRED)
+	public OrderProductId newOrderProduct(OrderProduct orderProduct)
+			throws InvalidParametersException
+	{
+		if (orderProduct == null)
+		{
+			throw new InvalidParametersException();
+		}
+		return (OrderProductId) sessionFactory.getCurrentSession().save(orderProduct);
 	}
 }
