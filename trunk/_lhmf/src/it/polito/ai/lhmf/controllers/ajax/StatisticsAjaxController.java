@@ -384,7 +384,7 @@ public class StatisticsAjaxController
 		//Mi ricavo la lista degli utenti pi� attivi
 		Map<Member, Float> topUsers = memberInterface.getTopUsers(memberResp);
 		
-		if(topUsers.size() > 0) {
+		if(topUsers != null) {
 			
 			Iterator it = topUsers.entrySet().iterator();
 		    while (it.hasNext()) {
