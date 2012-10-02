@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 	
 	private Integer memberType = null;
 	private GasConnectionHolder holder;
-	private Gas gasApi = null;
+	private Gas api = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +36,11 @@ public class MainActivity extends Activity {
 			this.finish();
 		}
 		else{
-			Intent dummyIntent = new Intent(getApplicationContext(), ActivePurchasesActivity.class);
-			startActivity(dummyIntent);
-			/* TODO
-			gasApi = conn.getApi();
+			//Intent dummyIntent = new Intent(getApplicationContext(), ActivePurchasesActivity.class);
+			//startActivity(dummyIntent);
+			api = conn.getApi();
 			
-			new MemberTypeAsyncTask().execute(gasApi);
-			*/
+			new MemberTypeAsyncTask().execute(api);
 		}
 	}
 	
@@ -70,6 +68,30 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	private void prepareNormalActivity() {
+		setContentView(R.layout.normal);
+		
+		Button newPurchase = (Button) findViewById(R.id.newPurchaseButton);
+		newPurchase.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent availableOrdersIntent = new Intent(MainActivity.this, PurchaseAvailabeOrdersActivity.class);
+				startActivity(availableOrdersIntent);
+			}
+		});
+		
+		Button activePurchases = (Button) findViewById(R.id.activePurchasesButton);
+		activePurchases.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent activePurchasesIntent = new Intent(MainActivity.this, ActivePurchasesActivity.class);
+				startActivity(activePurchasesIntent);
+			}
+		});
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -81,8 +103,8 @@ public class MainActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 			case R.id.logout:
-				if(gasApi != null)
-					new LogoutAsyncTask().execute(gasApi);
+				if(api != null)
+					new LogoutAsyncTask().execute(api);
 				
 				return true;
 			default:
@@ -104,6 +126,7 @@ public class MainActivity extends Activity {
 			Toast.makeText(MainActivity.this, "Member type: " + memberType, Toast.LENGTH_LONG).show();
 			switch(memberType){
 				case MemberTypes.USER_NORMAL:
+					prepareNormalActivity();
 					break;
 				case MemberTypes.USER_RESP:
 					break;
@@ -127,7 +150,7 @@ public class MainActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			holder.destroy();
 			holder = null;
-			gasApi = null;
+			api = null;
 			MainActivity.this.finish();
 		}
 	}

@@ -103,18 +103,11 @@ public class EditPurchaseActivity extends Activity {
 				orderProgressBar.setProgress(0);
 				
 				backButton = (Button) findViewById(R.id.purchase_confirm);
-				backButton.setText(R.string.back);
+				backButton.setEnabled(false);
+				backButton.setVisibility(View.INVISIBLE);
 				
 				TextView title = (TextView) findViewById(R.id.title);
 				title.setText(R.string.edit_purchase_title);
-				
-				backButton.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						//TODO close activity						
-					}
-				});
 				
 				new GetPurchaseAndOrderProductsTask().execute(api, purchase.getIdPurchase(), order.getIdOrder());
 			}
@@ -458,12 +451,6 @@ public class EditPurchaseActivity extends Activity {
 					adapter.notifyDataSetChanged();
 			}
 			
-			// FIXME A seconda del risultato modificare quantità acquistata o mostrare errore!!!
-			/*
-			//myBoughtAmounts.put(product.getIdProduct(), amount);
-			//purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
-			//adapter.notifyDataSetChanged();
-			 */
 			super.onPostExecute(result);
 		}
 		
@@ -691,7 +678,7 @@ public class EditPurchaseActivity extends Activity {
 			
 			availabilityTextView = (TextView) row.findViewById(R.id.purchaseItemAvailability);
 			
-			progressLayout = row.findViewById(R.id.product_progress_layout);
+			progressLayout = row.findViewById(R.id.purchaseProductProgressLayout);
 			pb = (ProgressBar) row.findViewById(R.id.purchaseItemMinProgress);
 			productProgress = (TextView) row.findViewById(R.id.product_progress_text);
 			maxProductProgress = (TextView) row.findViewById(R.id.product_max_progress);

@@ -27,5 +27,13 @@
         tools:listitem="@layout/order_available_item" >
 
 	</ListView>
+
+    <TextView
+        android:id="@+id/no_orders_available"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_orders"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="gone" />
         
 </LinearLayout>

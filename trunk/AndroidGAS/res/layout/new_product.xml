@@ -157,7 +157,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_product_min_units"
+                android:text="@string/new_product_min_blocks"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -171,7 +171,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/new_product_max_units"
+                android:text="@string/new_product_max_blocks"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
