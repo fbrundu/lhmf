@@ -62,15 +62,16 @@ public class MemberAjaxController
 		
 		ArrayList<String> errors = new ArrayList<String>();
 		
-		if(username.equals("")) {
+		if (username.equals(""))
+		{
 			errors.add("Username: Formato non Valido");
-		} else {
-						
+		}
+		else
+		{
 			Member memberControl = memberInterface.getMember(username);
-			
-			if(memberControl != null)
+
+			if (memberControl != null)
 				errors.add("Username: non disponibile");
-			
 		}
 		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
 			errors.add("Nome: Formato non Valido");
@@ -81,14 +82,9 @@ public class MemberAjaxController
 		if(!SendEmail.isValidEmailAddress(email)) {
 			errors.add("Email: Formato non Valido");
 		} else {
-			
-			//Controllo email gi� in uso
-			
-			Member memberControl = memberInterface.getMemberByEmail(email);
-			
-			if(memberControl != null)
+			// Controllo mail gia' in uso
+			if(memberInterface.isMemberPresentByEmail(email))
 				errors.add("Email: Email gi&agrave utilizzata da un altro account");
-			
 		}
 		if(address.equals("") || CheckNumber.isNumeric(address)) {
 			errors.add("Indirizzo: Formato non Valido");
@@ -148,30 +144,37 @@ public class MemberAjaxController
 											address, city, state, cap, true);
 
 				if(!phone.equals("") && !phone.equals("not set")) 
-				member.setTel(phone);
+					member.setTel(phone);
 				
-				idMember = memberInterface.newMember(member);
+				// Checkmail argument (second parameter) is not used here
+				idMember = memberInterface.newMember(member, false, true);
 				
-				if(idMember < 1)
-				errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
-				else {
-				
-					//Inviare qui la mail con il codice di registrazione e la password generata 
-					//TODO cambiare link di conferma mail. Togliere la parte relativa a admin, gestito lato server con Member.fromAdmin
-					/*
-					SendEmail emailer = new SendEmail();
-					boolean isSupplier = false;
-					emailer.sendAdminRegistration(firstname + " " + lastname, username, password, regCode, idMember, email, isSupplier);
-					*/
-				}
+				if (idMember < 1)
+					errors.add("Errore Interno: la registrazione non &egrave andata a buon fine");
+				else
+				{
 
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
+					// Inviare qui la mail con il codice di registrazione e la
+					// password generata
+					// TODO cambiare link di conferma mail. Togliere la parte
+					// relativa a admin, gestito lato server con
+					// Member.fromAdmin
+					/*
+					 * SendEmail emailer = new SendEmail(); boolean isSupplier =
+					 * false; emailer.sendAdminRegistration(firstname + " " +
+					 * lastname, username, password, regCode, idMember, email,
+					 * isSupplier);
+					 */
+				}
+			}
+			catch (NoSuchAlgorithmException e)
+			{
 				e.printStackTrace();
 			}
-			
-			
+			catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
+			}
 		}
 		return errors;
 	}

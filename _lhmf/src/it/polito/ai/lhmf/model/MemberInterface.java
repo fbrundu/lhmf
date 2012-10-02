@@ -6,7 +6,9 @@ import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
+import it.polito.ai.lhmf.orm.Message;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -22,6 +24,7 @@ import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,18 +33,61 @@ public class MemberInterface
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
 
+	@Autowired
+	private MessageInterface messageInterface;	
+
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer newMember(Member member) throws InvalidParametersException
+	public Integer newMember(Member member, boolean checkMail, boolean byAdmin)
+			throws InvalidParametersException
 	{
 		if (member == null)
 			throw new InvalidParametersException();
 
-		return (Integer) sessionFactory.getCurrentSession().save(member);
+		Integer memberId = (Integer) sessionFactory.getCurrentSession().save(
+				member);
+		if (!byAdmin)
+		{
+			if (checkMail)
+			{
+				// TODO Inviare qui la mail con il codice di registrazione.
+				/*
+				 * SendEmail emailer = new SendEmail(); boolean isSupplier =
+				 * false; emailer.sendNormalRegistration(firstname + " " +
+				 * lastname, regCode, memberId, email, isSupplier);
+				 */
+			}
+			else
+			{
+				// Mandare messaggio all'admin
+
+				// Ricavo il membro Admin
+				Member memberAdmin = this.getMemberAdmin();
+
+				// Creo il Current timestamp
+				Calendar calendar = Calendar.getInstance();
+				java.util.Date now = calendar.getTime();
+				Timestamp currentTimestamp = new Timestamp(now.getTime());
+
+				String text = "Utente richiede l'attivazione dell'account\n\n"
+						+ "Id: " + member.getIdMember() + " - "
+						+ member.getName() + " " + member.getSurname() + "\n"
+						+ "Email: " + member.getEmail() + "\n";
+
+				// Costruisco l'oggetto message
+				Message message = new Message(memberAdmin, currentTimestamp,
+						false, 0);
+
+				message.setMemberByIdSender(member);
+				message.setText(text);
+				messageInterface.newMessage(message);
+			}
+		}
+		return memberId;
 	}
 
 	@Transactional(readOnly = true)
@@ -69,6 +115,24 @@ public class MemberInterface
 				"from Member " + "where email = :email");
 		query.setParameter("email", email);
 		return (Member) query.uniqueResult();
+	}
+	
+	@Transactional(readOnly = true)
+	public boolean isMemberPresentByEmail(String email)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member " + "where email = :email");
+		query.setParameter("email", email);
+		return query.uniqueResult() != null;
+	}
+
+	@Transactional(readOnly = true)
+	public boolean isMemberPresentByUsername(String username)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member " + "where username = :username");
+		query.setParameter("username", username);
+		return query.uniqueResult() != null;
 	}
 
 	@Transactional(readOnly = true)

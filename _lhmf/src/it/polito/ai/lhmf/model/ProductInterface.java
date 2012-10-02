@@ -4,6 +4,7 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Supplier;
+import it.polito.ai.lhmf.util.ModelState;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
