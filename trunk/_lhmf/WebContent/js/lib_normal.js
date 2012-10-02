@@ -1047,9 +1047,10 @@ function postPurchaseDetailsListHandler(productList)
     var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
     var divControl = "#DIVdetailsPurchase_" + idPurchase;
     
-    $(tableControl).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
-                                 "<th class='top' width='25%'> Descrizione  </th>" +
-                                 "<th class='top' width='25%'> Stato Parziale  </th>" +
+    $(tableControl).append("<tr>  <th class='top' width='5%'> Immagine </th>" +
+    		                     "<th class='top' width='20%'> Prodotto </th>" +
+                                 "<th class='top' width='20%'> Descrizione  </th>" +
+                                 "<th class='top' width='20%'> Stato Parziale  </th>" +
                                  "<th class='top' width='10%'> Costo [Blocco]<br />(Limiti)  </th>" +
                                  "<th class='top' width='5%'> Disp. </th>" +
                                  "<th class='top' width='5%'> Qt. </th>" +
@@ -1082,7 +1083,9 @@ function postPurchaseDetailsListHandler(productList)
     	var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
     	var idProgressBarProduct = "progressbarProduct_" + idPurchase + "_" + val.idProduct;
     	
-        $(tableControl).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>    <td>" + val.name + "</td>" +
+        $(tableControl).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>  " +
+        		                       "<td><img src='" + val.imgPath + "' height='30' class='thumb'></td>" +
+        		                       "<td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "'></div></td>" +
         		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
@@ -1095,7 +1098,7 @@ function postPurchaseDetailsListHandler(productList)
         $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
     });
     
-    $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + tot + "'><td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+    $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + tot + "'><td colspan='8' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
             "<td>" + tot + " &euro;</td></tr>");
    
     $(divControl).append("<strong>Altri prodotti disponibili</strong>");
@@ -1107,7 +1110,8 @@ function postPurchaseDetailsListHandler(productList)
         $(divControl).append("<table id='TABLE2detailsPurchase_" + idPurchase + "' class='log2'></table>");
         var table2Control = "#TABLE2detailsPurchase_" + idPurchase;
         
-        $(table2Control).append("<tr>  <th class='top' width='20%'> Prodotto </th>" +
+        $(table2Control).append("<tr> <th class='top' width='5%'> Immagine </th> " +
+        		                "<th class='top' width='15%'> Prodotto </th>" +
                                 "<th class='top' width='25%'> Descrizione  </th>" +
                                 "<th class='top' width='25%'> Stato Parziale  </th>" +
                                 "<th class='top' width='10%'> Costo [Blocco]<br />(Limiti)  </th>" +
@@ -1117,7 +1121,7 @@ function postPurchaseDetailsListHandler(productList)
         
         if(productList.length < 1) {
             
-            $(table2Control).append("<tr><td colspan='7'> Non ci sono altri prodotti da aggiungere </td></tr>");
+            $(table2Control).append("<tr><td colspan='8'> Non ci sono altri prodotti da aggiungere </td></tr>");
             
         } else {
             
@@ -1138,7 +1142,9 @@ function postPurchaseDetailsListHandler(productList)
                 var idAmount = "amountProduct_" + idPurchase + "_" + val.idProduct;
                 var idProgressBarProduct = "progressbarProduct_" + idPurchase + "_" + val.idProduct;
                 
-                $(table2Control).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>   <td>" + val.name + "</td>" +
+                $(table2Control).append("<tr id='tr_" + idPurchase + "_" + val.idProduct + "'>   " +
+                                               "<td><img src='" + val.imgPath + "' height='30' class='thumb'></td>" +
+                                               "<td>" + val.name + "</td>" +
                                                "<td>" + val.description + "</td>" +
                                                "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "'></td>" +
                                                "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
@@ -1243,7 +1249,7 @@ function removeProduct(idProduct, lastProduct) {
     if($(table2Control).find('input').length == 0)
     	$(table2Control + ' tr:last').remove();
    
-    //Modifico la riga aggiungendo togliendo colonna del parziale
+    //Modifico la riga togliendo colonna del parziale
     $(trProduct+ " td:last").remove();
     
     //Sposto la riga alla tabella in basso
@@ -1257,19 +1263,6 @@ function removeProduct(idProduct, lastProduct) {
     $(inputAmount).data('oldamount', 0);
     $(inputAmount).val(' ');
     
-    //Aggiorno disponibilitï¿½
-    var idDisp = "#disp_" + idPurchase + "_" + idProduct;
-    var DispTmp = 0;
-    $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
-    {
-    	if(data == -1)
-			DispTmp = "Inf.";
-		else
-			DispTmp = data;
-    });
-    
-    $(idDisp).html(DispTmp);
-    
     
     //Modifico la riga cambiando i controlli delle azioni
     var actionControl = "#action_" + idPurchase + "_" + idProduct;
@@ -1277,7 +1270,7 @@ function removeProduct(idProduct, lastProduct) {
     
     //Aggiungo la riga con il nuovo totale
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
-    					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+    					      "<td colspan='8' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
     					   "<td>" + totale + " &euro;</td></tr>");
     
     //aggiorno progressbar ordine
@@ -1285,55 +1278,43 @@ function removeProduct(idProduct, lastProduct) {
     
     
     if(lastProduct == 1) {
-    	
-    	//Eliminazione Intera scheda
-    	
-    	$.postSync("ajax/delPurchase", {idPurchase: idPurchase}, function(data)
-    	{
-    		   result = data;
-    	});
-    	
-    	if(result < 1) {
-        	
-	   		 $("#dialog-internal-error").dialog({
-	   	        resizable : false,
-	   	        height : 140,
-	   	        modal : true,
-	   	        buttons : {
-	   	          "Ok" : function()
-	   	          {
-	   	            $(this).dialog('close');
-	   	          }
-	   	        }
-	   	      });
-	   		 
-	       	return -1;
-	   	} else {
 	   		
-	   		// Eliminazione ordine dalla tabella
-	   		var classTrOrder = ".orderPurchase_" + idPurchase;
-	   		var idTrDetails = "#TRdetailsPurchase_" + idPurchase;
-	   		var idTableOrder = "#activePurchaseList";
-	   		
-	   		$(classTrOrder).remove();
-	   		$(idTrDetails).remove();
-	   		
-	   		//Se era l'unico ordine cancellare tutta la tabella e mostrare messaggio
-	   		if($(idTableOrder + ' tr').length == 1) {
-	   		    
-	   		     $(idTableOrder + ' tr').remove();
-	   		 
-    	   		 $("#errorDivActivePurchase").hide();
-    	         $("#legendErrorActivePurchase").html("Comunicazione");
-    	         $("#errorsActivePurchase").html("Non ci sono Schede attive da visualizzare<br /><br />");
-    	         $("#errorDivActivePurchase").show("slow");
-    	         $("#errorDivActivePurchase").fadeIn(1000);
-	   		}
-	   	    	
-	   		
-	   		//aggiornare tabella ordini in creazione scheda
-	   		loadOrders();
-	   	}
+   		// Eliminazione ordine dalla tabella
+   		var classTrOrder = ".orderPurchase_" + idPurchase;
+   		var idTrDetails = "#TRdetailsPurchase_" + idPurchase;
+   		var idTableOrder = "#activePurchaseList";
+   		
+   		$(classTrOrder).remove();
+   		$(idTrDetails).remove();
+   		
+   		//Se era l'unico ordine cancellare tutta la tabella e mostrare messaggio
+   		if($(idTableOrder + ' tr').length == 1) {
+   		    
+   		     $(idTableOrder + ' tr').remove();
+   		 
+	   		 $("#errorDivActivePurchase").hide();
+	         $("#legendErrorActivePurchase").html("Comunicazione");
+	         $("#errorsActivePurchase").html("Non ci sono Schede attive da visualizzare<br /><br />");
+	         $("#errorDivActivePurchase").show("slow");
+	         $("#errorDivActivePurchase").fadeIn(1000);
+   		}
+   		
+   		//aggiornare tabella ordini in creazione scheda
+   		loadOrders();
+    } else {
+        
+        //Aggiorno disponibilità
+        var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+        var DispTmp = 0;
+        $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
+        {
+            if(data == -1)
+                DispTmp = "Inf.";
+            else
+                DispTmp = data;
+        });
+        
+        $(idDisp).html(DispTmp);
     }
 }
 
@@ -1446,7 +1427,7 @@ function refreshProductFromPurchase(event){
         $(trTotal).remove();
         //Aggiungo la riga con il nuovo totale
         $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
-        					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+        					      "<td colspan='8' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
         					   "<td>" + totale + " &euro;</td></tr>");
         
         //aggiorno progressbar ordine
@@ -1554,7 +1535,7 @@ function addProductFromPurchase(event){
     
     //Se non ci sono altri prodotti che si possono aggiungere scriverlo
     if($(table2Control + ' tr').length == 1) {
-    	$(table2Control).append("<tr><td colspan='7'> Non ci sono altri prodotti da aggiungere </td></tr>");
+    	$(table2Control).append("<tr><td colspan='8'> Non ci sono altri prodotti da aggiungere </td></tr>");
     }
     
     //Aggiorno il data-oldAmount
@@ -1588,7 +1569,7 @@ function addProductFromPurchase(event){
     
     //Aggiungo la riga con il nuovo totale
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
-    					      "<td colspan='7' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
+    					      "<td colspan='8' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
     					   "<td>" + totale + " &euro;</td></tr>");
     
 }
