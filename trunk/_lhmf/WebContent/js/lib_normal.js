@@ -1577,9 +1577,10 @@ function addProductFromPurchase(event){
     $(idDisp).html(DispTmp);
     $(idDisp).data('disp', DispTmp);
     
+    var idPartial = "tdPartial_" + idPurchase + "_" + idProduct;
     
     //Modifico la riga aggiungendo la colonna del parziale
-    $(trProduct).append("<td>" + parziale + " &euro;</td>");
+    $(trProduct).append("<td id='" + idPartial + "'>" + parziale + " &euro;</td>");
     //Modifico la riga cambiando i controlli delle azioni
     var actionControl = "#action_" + idPurchase + "_" + idProduct;
     $(actionControl).html("<img data-productid='" + idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
