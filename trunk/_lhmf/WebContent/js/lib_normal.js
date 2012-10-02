@@ -144,7 +144,7 @@ function writePurchasePage()
 		  "Annullando l'ordine dell'ultimo prodotto si proceder&agrave; all'eliminazione dell'intera scheda. Continuare?</p>" +
       "</div>" +
       "<div id='dialog-error' title='Errore' style='display:none;'>" +
-      	"<p>Errore nell'inserimento dei dati. Non puoi inserire una quantit&agrave; negativa o non dosponibile.</p>" +
+      	"<p>Errore nell'inserimento dei dati. Non puoi inserire una quantit&agrave; negativa o non disponibile.</p>" +
       "</div>" +
       "<div id='dialog-internal-error' title='Errore Interno' style='display:none;'>" +
       	"<p>Errore interno. Non &egrave; stato possibile eseguire l'operazione.</p>" +
