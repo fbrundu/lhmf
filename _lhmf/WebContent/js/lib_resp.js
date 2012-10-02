@@ -1735,7 +1735,7 @@ function postProductListRequestNormal(productList)
 				if($.inArray(idProduct, addedIdsNorm) === -1) {
 		            addedIdsNorm.push(idProduct);
 		            $( "#purchaseCart ul" ).append($(ui.draggable).clone());
-		            $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrder);
+		            $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrderNormal);
 					$( "#purchaseCart .deleteButton" ).show();
 					$( "#purchaseCart .amount" ).show();
 		        } else {
@@ -1754,7 +1754,7 @@ function postProductListRequestNormal(productList)
 	}
 }
 
-function deleteProductFromOrder(event) 
+function deleteProductFromOrderNormal(event) 
 {
 	event.preventDefault();
 	
