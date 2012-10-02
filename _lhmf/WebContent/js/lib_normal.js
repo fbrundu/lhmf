@@ -1,3 +1,28 @@
+window.setInterval(function(){
+
+	
+	$.post("ajax/getOrdersString", function(orderList) 
+	{
+		
+		$.each(orderList, function(index, val)
+		{
+			refreshProgressBar(val.idOrder);
+		});
+	});
+	
+	
+	
+	$.post("ajax/getActivePurchase", function(purchaseList) {
+
+		$.each(purchaseList, function(index, val) {
+			refreshProgressBarOrder(val.idPurchase);
+		});
+	});
+	
+	
+	
+}, 5000);
+
 (function(window, undefined) {
     var History = window.History;
     $ = window.jQuery;
@@ -14,7 +39,7 @@
         $("#messagesLink").click(messagesClicked);
         //registerForMessages();
         //registerForNotifies();
-        registerForNews();
+        //registerForNews();
       
         $.datepicker.setDefaults({
             dateFormat : 'dd/mm/yy'
@@ -475,6 +500,7 @@ function postProductListRequest(productList)
 			}
 			            
 			var idProgressBar = "pbProduct_" + idOrder + "_" + product.idProduct;
+			var idDispDIV = "dispOrder_" + idOrder + "_" + product.idProduct;
 			 
 			$(divToWork).append("<li class='clearfix' data-productid='" + product.idProduct + "' data-amount='1' data-price='" + product.unitCost + "'>" +
 								   "<section class='left'>" +
@@ -493,7 +519,7 @@ function postProductListRequest(productList)
 										"<span class='price' >&euro;" + product.unitCost + "</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
-											"Disponibilit&agrave: " + DispTmp +
+											"Disponibilit&agrave: <div id='" + idDispDIV + "'>" + DispTmp + "</div>" +
 										"</span>" +
 									"</section>" +
 									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='12px'></a></div>" +
@@ -648,8 +674,8 @@ function refreshProgressBar(idOrder) {
     	valProgress = data;
     });
     
+    //Aggiorno progressbar ordine generale
     var idProgressBar = "#pbOrder_" + idOrder;
-	
     $(idProgressBar).progressbar('value', valProgress);
     
     //Aggiorno le progressbar dei prodotti.
@@ -665,8 +691,21 @@ function refreshProgressBar(idOrder) {
     	var idProduct = temp[0];
     	var progress = parseFloat(temp[1]);
     	
+    	//Aggiorno disponibilità
+    	var idDispDIV = "#dispOrder_" + idOrder + "_" + idProduct;
+    	var DispTmp = 0;
+	    $.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: idProduct}, function(data)
+        {
+            if(data == -1)
+                DispTmp = "Inf.";
+            else
+                DispTmp = data;
+        });
+	    
+	    $(idDispDIV).html(DispTmp);
+	    
+    	//Aggiorno progressbar
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
-    		
     	$(idProgressBarProduct).progressbar('value', progress);
     });
     
@@ -1606,6 +1645,7 @@ function refreshProgressBarOrder(idPurchase) {
     	valProgress = data;
     });
     
+    //aggiorno progressbar generale dell'ordine    
     var idProgressBar = "#progressbarOrder_" + idPurchase;
     var idTextProgressBar = "#Text_progressbarOrder_" + idPurchase;
 	
@@ -1625,8 +1665,22 @@ function refreshProgressBarOrder(idPurchase) {
     	var idProduct = temp[0];
     	var progress = parseFloat(temp[1]);
     	
+    	 //Aggiorno disponibilitï¿½
+        var idDisp = "#disp_" + idPurchase + "_" + idProduct;
+        var DispTmp = 0;
+        $.postSync("ajax/getDispOfProduct", {idPurchase: idPurchase, idProduct: idProduct}, function(data)
+        {
+        	if(data == -1)
+    			DispTmp = "Inf.";
+    		else
+    			DispTmp = data;
+        });
+    	
+        $(idDisp).html(DispTmp);
+        $(idDisp).data('disp', DispTmp);
+        
+        //aggiorno progressbar
     	var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
-    		
     	$(idProgressBarProduct).progressbar('value', progress);
     });
     
