@@ -486,7 +486,7 @@ function postProductListRequest(productList)
 								   "<section class='right'>" +
 										"<span class='amount' >" +
 											"Qt. &nbsp;&nbsp;" +
-											 "<input type='text' id='pz' class='inputAmount' style='width: 20px' value='1' />" +
+											 "<input type='text' id='pz' class='inputAmount' style='width: 40px' value='1' />" +
 											 "<input type='hidden' id='pzMax' value='" + DispTmp + "' />&nbsp;&nbsp;" +
 											 "<strong style='color: green;'>&euro;" + product.unitCost + "</strong>" +
 										"</span>" +
@@ -527,17 +527,38 @@ function postProductListRequest(productList)
 				var idProduct = $(ui.draggable).data('productid');
 				
 				if($.inArray(idProduct, addedIds) === -1) {
-		            addedIds.push(idProduct);
-		            $( "#purchaseCart ul" ).append($(ui.draggable).clone());
-		            $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrder);
-					$( "#purchaseCart .deleteButton" ).show();
-					$( "#purchaseCart .amount" ).show();
-					$( "#purchaseCart .price" ).hide();
-					
-					//Aggiorno il totale
-					computeTotal();
-					
+				    
+				    var DispTmp = 0;
+				    $.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: idProduct}, function(data)
+		            {
+		                if(data == -1)
+		                    DispTmp = "Inf.";
+		                else
+		                    DispTmp = data;
+		            });
+                    
+                    if(DispTmp != "Inf." && DispTmp == 0) {
+                        
+                        $("#errorDivPurchase").hide();
+                        $("#legendErrorPurchase").html("Comunicazione");
+                        $("#errorsPurchase").html("Questo prodotto non &egrave; disponibile<br /><br />");
+                        $("#errorDivPurchase").show("slow");
+                        $("#errorDivPurchase").fadeIn(1000);
+                        
+                    } else {
+                        
+                        addedIds.push(idProduct);
+                        $( "#purchaseCart ul" ).append($(ui.draggable).clone());
+                        $( "#purchaseCart .delButton" ).on("click", deleteProductFromOrder);
+                        $( "#purchaseCart .deleteButton" ).show();
+                        $( "#purchaseCart .amount" ).show();
+                        $( "#purchaseCart .price" ).hide();
+                        
+                        //Aggiorno il totale
+                        computeTotal();
+                    }
 		        } else {
+		            
 					$("#errorDivPurchase").hide();
 			        $("#legendErrorPurchase").html("Comunicazione");
 			        $("#errorsPurchase").html("Questo prodotto &egrave gi&agrave presente nella scheda<br /><br />");
