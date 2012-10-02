@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Ago 03, 2012 alle 17:29
+-- Generato il: Ott 02, 2012 alle 22:30
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   UNIQUE KEY `email` (`email`),
   KEY `fk_Member_Member_Type1` (`member_type`),
   KEY `fk_Member_Member_Status1` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   KEY `fk_Message_Member2` (`id_receiver`),
   KEY `fk_Message_Product1` (`Product_idProduct`),
   KEY `fk_Message_Order1` (`Order_idOrder`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `order` (
   UNIQUE KEY `order_name` (`order_name`),
   KEY `fk_Order_Member1` (`idMember_resp`),
   KEY `fk_Order_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 -- --------------------------------------------------------
 
@@ -180,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `order` (
 CREATE TABLE IF NOT EXISTS `order_product` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL,
+  `failed` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`idOrder`,`idProduct`),
   KEY `fk_Order_has_ProductList_ProductList1` (`idProduct`),
   KEY `fk_Order_has_ProductList_Order1` (`idOrder`)
@@ -209,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`idProduct`),
   KEY `fk_Product_Product_Category1` (`idCategory`),
   KEY `fk_Product_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
 
 -- --------------------------------------------------------
 
@@ -221,7 +222,7 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   `idProduct_Category` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(45) NOT NULL,
   PRIMARY KEY (`idProduct_Category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 -- --------------------------------------------------------
 
@@ -237,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   PRIMARY KEY (`idPurchase`),
   KEY `fk_Purchase_Member1` (`idMember`),
   KEY `fk_Purchase_Order1` (`idOrder`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
 
 -- --------------------------------------------------------
 
