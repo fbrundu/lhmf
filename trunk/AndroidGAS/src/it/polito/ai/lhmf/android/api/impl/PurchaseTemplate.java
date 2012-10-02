@@ -98,21 +98,53 @@ public class PurchaseTemplate implements PuchaseOperations {
 	@Override
 	public Integer newPurchaseProduct(Integer idPurchase, Integer idProduct,
 			Integer amount) {
-		// TODO Auto-generated method stub
-		return null;
+		MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
+		value.add("idPurchase", idPurchase.toString());
+		value.add("idProduct", idProduct.toString());
+		value.add("amount", amount.toString());
+		
+		try{
+			Integer ret = template.postForObject(Gas.baseApiUrl + "newpurchaseproduct", value, Integer.class);
+			return ret;
+			
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public Integer updatePurchaseProduct(Integer idPurchase, Integer idProduct,
 			Integer amount) {
-		// TODO Auto-generated method stub
-		return null;
+		MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
+		value.add("idPurchase", idPurchase.toString());
+		value.add("idProduct", idProduct.toString());
+		value.add("amount", amount.toString());
+		
+		try{
+			Integer ret = template.postForObject(Gas.baseApiUrl + "updatepurchaseproduct", value, Integer.class);
+			return ret;
+			
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
 	public Integer removePurchaseProduct(Integer idPurchase, Integer idProduct) {
-		// TODO Auto-generated method stub
-		return null;
+		MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
+		value.add("idPurchase", idPurchase.toString());
+		value.add("idProduct", idProduct.toString());
+		
+		try{
+			Integer ret = template.postForObject(Gas.baseApiUrl + "delpurchaseproduct", value, Integer.class);
+			return ret;
+			
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }
