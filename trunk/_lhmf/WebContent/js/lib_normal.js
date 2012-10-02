@@ -39,7 +39,7 @@ window.setInterval(function(){
         $("#messagesLink").click(messagesClicked);
         //registerForMessages();
         //registerForNotifies();
-        //registerForNews();
+        registerForNews();
       
         $.datepicker.setDefaults({
             dateFormat : 'dd/mm/yy'
