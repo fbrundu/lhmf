@@ -190,7 +190,7 @@ public class MemberAjaxController
 	@RequestMapping(value = "/ajax/getmemberurlencoded", method = RequestMethod.GET)
 	public @ResponseBody
 	Member getMemberUrlEncoded(HttpServletRequest request,
-			@RequestParam Integer idMember)
+			@RequestParam(value = "idMember", required = true) Integer idMember)
 	{
 		Member member = null;
 		member = memberInterface.getMember(idMember);
