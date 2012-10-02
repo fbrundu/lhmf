@@ -31,6 +31,7 @@ public class ActivePurchasesActivity extends Activity {
 	private CustomAdapter adapter = null;
 	
 	private ListView purchaseListView = null;
+	private TextView noPurchases = null;
 	
 	private List<Integer> orderIds = null;
 	private float[] ordersProgress = null;
@@ -51,6 +52,7 @@ public class ActivePurchasesActivity extends Activity {
 			title.setText("Schede attive");
 			
 			purchaseListView = (ListView) findViewById(R.id.purchaseList);
+			noPurchases = (TextView) findViewById(R.id.no_purchases);
 		}
 	}
 	
@@ -96,8 +98,14 @@ public class ActivePurchasesActivity extends Activity {
 				
 				adapter = new CustomAdapter(ActivePurchasesActivity.this, R.layout.purchase_list_item, R.id.orderName, result);
 				purchaseListView.setAdapter(adapter);
+				
+				purchaseListView.setVisibility(View.VISIBLE);
+				noPurchases.setVisibility(View.GONE);
 			}
-			//TODO else mostrare che non ci sono schede attive
+			else{
+				purchaseListView.setVisibility(View.GONE);
+				noPurchases.setVisibility(View.VISIBLE);
+			}
 		}
 		
 	}

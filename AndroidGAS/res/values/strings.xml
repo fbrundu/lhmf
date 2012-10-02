@@ -9,8 +9,6 @@
     <string name="new_product_block_unit">Unità per blocco:</string>
     <string name="new_product_transport_cost">Costo trasporto:</string>
     <string name="new_product_unit_cost">Costo unità:</string>
-    <string name="new_product_min_units">Minimo unità acquistabili:</string>
-    <string name="new_product_max_units">Massimo unità acquistabili:</string>
     <string name="new_product_confirm">Conferma</string>
     <string name="supplier_new_product">Nuovo prodotto</string>
     <string name="supplier_listino">Gestione listino</string>
@@ -39,4 +37,10 @@
     <string name="euro_symbol">" €"</string>
     <string name="new_purchase_tot_cost">"Costo totale: "</string>
     <string name="edit_purchase_title">Modifica scheda</string>
+    <string name="create_purchase_main">Ordini disponibili</string>
+    <string name="active_purchases_main">Schede attive</string>
+    <string name="no_orders">Non ci sono ordini disponibili</string>
+    <string name="no_purchases">Non ci sono schede da visualizzare</string>
+    <string name="new_product_min_blocks">Minimo blocchi acquistabili:</string>
+    <string name="new_product_max_blocks">Massimo blocchi acquistabili:</string>
 </resources>

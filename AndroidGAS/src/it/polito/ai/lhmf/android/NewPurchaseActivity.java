@@ -524,7 +524,7 @@ public class NewPurchaseActivity extends Activity {
 			
 			availabilityTextView = (TextView) row.findViewById(R.id.purchaseItemAvailability);
 			
-			progressLayout = row.findViewById(R.id.product_progress_layout);
+			progressLayout = row.findViewById(R.id.purchaseProductProgressLayout);
 			pb = (ProgressBar) row.findViewById(R.id.purchaseItemMinProgress);
 			productProgress = (TextView) row.findViewById(R.id.product_progress_text);
 			maxProductProgress = (TextView) row.findViewById(R.id.product_max_progress);

@@ -28,4 +28,13 @@
         tools:listitem="@layout/purchase_list_item" >
 
 	</ListView>
+
+    <TextView
+        android:id="@+id/no_purchases"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_purchases"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:visibility="gone" />
+
 </LinearLayout>

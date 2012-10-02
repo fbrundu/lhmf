@@ -35,6 +35,7 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 	private float[] ordersProgress = null;
 	
 	private OrdersProgressesTask orderProgressesTask = null;
+	private TextView noOrders = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			setContentView(R.layout.normal_available_orders);
 			
 			orderListView = (ListView) findViewById(R.id.ordersList);
+			
+			noOrders = (TextView) findViewById(R.id.no_orders_available);
 		}
 	}
 	
@@ -92,8 +95,13 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 				
 				adapter = new CustomAdapter(PurchaseAvailabeOrdersActivity.this, R.layout.order_available_item, R.id.orderName, result);
 				orderListView.setAdapter(adapter);
+				orderListView.setVisibility(View.VISIBLE);
+				noOrders.setVisibility(View.GONE);
 			}
-			//TODO else mostrare che non ci sono ordini disponibili
+			else{
+				orderListView.setVisibility(View.GONE);
+				noOrders.setVisibility(View.VISIBLE);
+			}
 		}
 		
 	}
