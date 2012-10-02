@@ -295,21 +295,6 @@ public class NormalAjaxController
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
-	@RequestMapping(value = "/ajax/delPurchase", method = RequestMethod.POST)
-	public @ResponseBody
-	Integer delPurchase(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase			 ) throws InvalidParametersException, ParseException
-	{
-		
-		// 1 = scheda eliminata
-		// 0 = scheda non trovata
-		
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		
-		return purchaseInterface.deletePurchase(purchase);
-	}
-	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getAmountfromPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getAmountfromPurchase(HttpServletRequest request, HttpSession session,

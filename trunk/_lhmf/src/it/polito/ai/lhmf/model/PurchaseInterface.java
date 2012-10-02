@@ -501,8 +501,27 @@ public class PurchaseInterface
 		
 		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
 			return -1;
-
-		return deletePurchaseProduct(purchase, product);
+		
+		Order order = purchase.getOrder();
+		
+		sessionFactory.getCurrentSession().buildLockRequest(new LockOptions(LockMode.PESSIMISTIC_WRITE)).lock(order);
+		
+		int res = deletePurchaseProduct(purchase, product);
+		if(res != 1)
+			return res;
+		else{
+			if(purchase.getPurchaseProducts().size() == 0){
+				//è stato eliminato l'utlimo prodotto --> eliminare intera scheda
+				
+				res = deletePurchase(purchase);
+				if(res == 1)
+					return res;
+				else
+					throw new InvalidParametersException();
+			}
+			else
+				return res;
+		}
 	}
 
 }
