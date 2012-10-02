@@ -127,7 +127,7 @@ public class AndroidPurchaseController {
 		return purchaseInterface.insertProduct(memberNormal, idPurchase, idProduct, amountProduct);
 	}
 	
-	@RequestMapping(value = "/ajax/updatepurchaseproduct", method = RequestMethod.POST)
+	@RequestMapping(value = "/androidApi/updatepurchaseproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer updatePurchaseProduct(HttpServletRequest request, Principal principal,
 			@RequestParam(value = "idPurchase") Integer idPurchase,
@@ -145,7 +145,7 @@ public class AndroidPurchaseController {
 		return purchaseInterface.updateProduct(memberNormal, idPurchase, idProduct, amountProduct);
 	}
 	
-	@RequestMapping(value = "/ajax/delpurchaseproduct", method = RequestMethod.POST)
+	@RequestMapping(value = "/androidApi/delpurchaseproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer delPurchaseProduct(HttpServletRequest request, Principal principal,
 			@RequestParam(value = "idPurchase") Integer idPurchase,
@@ -159,22 +159,5 @@ public class AndroidPurchaseController {
 		
 		return purchaseInterface.deletePurchaseProduct(memberNormal, idPurchase, idProduct);
 	}
-	
-	/** FIXME implementare cancellazione scheda dopo eliminazione ultimo prodotto da android (l'originale è in NormalAjaxController)
-	 * @PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
-	@RequestMapping(value = "/ajax/delPurchase", method = RequestMethod.POST)
-	public @ResponseBody
-	Integer delPurchase(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase			 ) throws InvalidParametersException, ParseException
-	{
-		
-		// 1 = scheda eliminata
-		// 0 = scheda non trovata
-		
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		
-		return purchaseInterface.deletePurchase(purchase);
-	}
-	 */
 	
 }
