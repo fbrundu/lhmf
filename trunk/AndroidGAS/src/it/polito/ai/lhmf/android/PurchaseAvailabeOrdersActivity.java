@@ -47,8 +47,6 @@ public class PurchaseAvailabeOrdersActivity extends Activity {
 			setContentView(R.layout.normal_available_orders);
 			
 			orderListView = (ListView) findViewById(R.id.ordersList);
-			
-			new GetAvailableOrdersTask().execute(api);
 		}
 	}
 	
