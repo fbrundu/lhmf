@@ -52,45 +52,25 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "start") long start) throws InvalidParametersException
+	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session	) throws InvalidParametersException
 	{
 		String username = (String) session.getAttribute("username");
-		
 		Member memberResp = memberInterface.getMember(username);
-		
-		List<Order> listOrder = null;
-		listOrder = orderInterface.getActiveOrders(start, memberResp);
-		return listOrder;
+
+		return orderInterface.getActiveOrders(memberResp);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOldOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getOldOrderResp(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "start") long start,
 			@RequestParam(value = "end") long end,
 			@RequestParam(value = "dateDeliveryType") int dateDeliveryType) throws InvalidParametersException
 	{
 		String username = (String) session.getAttribute("username");
-		
 		Member memberResp = memberInterface.getMember(username);
 		
-		List<Order> listOrder = null;
-		
-		if(dateDeliveryType == 2) {
-			//Ritornare tutti gli ordini passati
-			listOrder = orderInterface.getOldOrders(memberResp, start, end);
-		} else {
-			 boolean settedDeliveryDate = false;
-			 if (dateDeliveryType == 0)
-				 settedDeliveryDate = true;
-			 
-			 listOrder = orderInterface.getOldOrders(memberResp, start, end, settedDeliveryDate);
-			 
-		}
-		
-		return listOrder;
+		return orderInterface.getOldOrders(memberResp, end, dateDeliveryType);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
