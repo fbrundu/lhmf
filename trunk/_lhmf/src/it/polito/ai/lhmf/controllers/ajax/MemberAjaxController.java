@@ -68,9 +68,7 @@ public class MemberAjaxController
 		}
 		else
 		{
-			Member memberControl = memberInterface.getMember(username);
-
-			if (memberControl != null)
+			if (memberInterface.isMemberPresentByUsername(username))
 				errors.add("Username: non disponibile");
 		}
 		if(firstname.equals("") || CheckNumber.isNumeric(firstname)) {
@@ -103,13 +101,12 @@ public class MemberAjaxController
 		if(cap.equals("") || !CheckNumber.isNumeric(cap)) {
 			errors.add("Cap: Formato non Valido");
 		}
-		
 
-		if(errors.size() > 0) {
-			
+		if (errors.size() > 0)
+		{
 			// Ci sono errori, rimandare alla pagina mostrandoli
 			return errors;
-			
+
 		}
 		else
 		{
@@ -202,20 +199,9 @@ public class MemberAjaxController
 	
 	@RequestMapping(value = "/ajax/getMembersRespString", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<String> getMembersRespString(HttpServletRequest request)
+	List<String> getMembersRespString(HttpServletRequest request)
 	{
-		ArrayList<String> respString = new ArrayList<String>();
-		
-		List<Member> listMember = new ArrayList<Member>();
-		listMember = memberInterface.getMembersResp();
-		
-		for (Member m : listMember) {
-		  
-			String temp = m.getIdMember() + "," + m.getName() + " " + m.getSurname();
-			respString.add(temp);	
-		}
-		
-		return respString;
+		return memberInterface.getMembersRespString();
 	}
 
 	@RequestMapping(value = "/ajax/getmembers", method = RequestMethod.GET)
@@ -236,28 +222,17 @@ public class MemberAjaxController
 			@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "itemsPerPage", required = true) int itemsPerPage)
 	{
-		List<Member> membersList = null;
-		
-		
-		if(memberType == 4) {
-			membersList = memberInterface.getMembersToActivate();
-		} else {
-			//Richiesta di un tipo utente specifico
-			MemberType mType = new MemberType(memberType);
-			membersList = memberInterface.getMembersToActivate(mType);
+		if (memberType < 0 || memberType > 4 || page < 0 || itemsPerPage < 1)
+			return null;
+		if (memberType == 4)
+		{
+			return memberInterface.getMembersToActivate(null, page,
+					itemsPerPage);
 		}
-		
-		List<Member> returnList = new ArrayList<Member>();
-		
-		int startIndex = page * itemsPerPage;
-		int endIndex = startIndex + itemsPerPage;
-		
-		if(endIndex > membersList.size())
-			endIndex = membersList.size();
-		
-		returnList.addAll(membersList.subList(startIndex, endIndex));
-		
-		return returnList;
+		// Richiesta di un tipo utente specifico
+		MemberType mType = new MemberType(memberType);
+		return memberInterface.getMembersToActivate(mType, page,
+				itemsPerPage);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")

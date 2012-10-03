@@ -227,6 +227,23 @@ public class MemberInterface
 		return (List<Member>) query.list();
 	}
 
+	@Transactional(readOnly = true)
+	public List<String> getMembersRespString()
+	{
+		ArrayList<String> respString = new ArrayList<String>();
+		
+		List<Member> listMember = new ArrayList<Member>();
+		listMember = this.getMembersResp();
+		
+		for (Member m : listMember) {
+		  
+			String temp = m.getIdMember() + "," + m.getName() + " " + m.getSurname();
+			respString.add(temp);	
+		}
+		
+		return respString;
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer updateMember(Member member)
 			throws InvalidParametersException
@@ -301,7 +318,6 @@ public class MemberInterface
 	@Transactional(readOnly = true)
 	public List<Member> getMembersToActivate(MemberType memberType)
 	{
-
 		// Recupero il MemberStatus
 		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
 
@@ -313,6 +329,39 @@ public class MemberInterface
 		query.setParameter("memberType", memberType);
 
 		return (List<Member>) query.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersToActivate(MemberType memberType,
+			Integer page, Integer itemsPerPage)
+	{
+		// Recupero il MemberStatus
+		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
+
+		Query query = null;
+		if (memberType != null)
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"from Member where memberStatus != :memberStatus AND "
+							+ "memberType = :memberType order by idMember");
+	
+			query.setParameter("memberType", memberType);
+		}
+		else
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"from Member where memberStatus != :memberStatus "
+							+ "order by idMember");
+		}
+		query.setParameter("memberStatus", mStatus);
+		
+		List<Member> l = (List<Member>) query.list();
+		
+		int startIndex = page * itemsPerPage;
+		int endIndex = startIndex + itemsPerPage;
+		
+		return l.subList(startIndex, endIndex);
 	}
 
 	@Transactional(readOnly = true)
