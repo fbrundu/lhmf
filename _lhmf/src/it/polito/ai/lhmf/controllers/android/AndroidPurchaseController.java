@@ -75,14 +75,7 @@ public class AndroidPurchaseController {
 	public @ResponseBody
 	List<Purchase> getActivePurchase(HttpServletRequest request, Principal principal) throws InvalidParametersException
 	{
-		String username = principal.getName();
-		
-		Member memberNormal = memberInterface.getMember(username);
-		List<Order> orderTmp = null;
-		orderTmp = orderInterface.getOrdersNow();
-		List<Purchase> listPurchase = null;
-		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
-		return listPurchase;
+		return purchaseInterface.getPurchasesOnDate(principal.getName(), 0);
 	}
 	
 	@RequestMapping(value = "/androidApi/getpurchasecost", method = RequestMethod.GET)
@@ -136,7 +129,7 @@ public class AndroidPurchaseController {
 		
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		// -1 = Quantità non disponibile
+		// -1 = Quantitï¿½ non disponibile
 		// -2 = valore non idoneo
 		
 		String username = principal.getName();

@@ -21,33 +21,36 @@ import org.hibernate.LockMode;
 import org.hibernate.LockOptions;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class PurchaseInterface 
 {
-	
 	private SessionFactory sessionFactory;
 	
-	
+	@Autowired
 	private ProductInterface productInterface;
+	@Autowired
 	private OrderInterface orderInterface;
+	@Autowired
+	private MemberInterface memberInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
 	}
 	
-	public void setProductInterface(ProductInterface pi)
-	{
-		this.productInterface = pi;
-	}
-	
-	public void setOrderInterface(OrderInterface oi)
-	{
-		this.orderInterface = oi;
-	}
+//	public void setProductInterface(ProductInterface pi)
+//	{
+//		this.productInterface = pi;
+//	}
+//	
+//	public void setOrderInterface(OrderInterface oi)
+//	{
+//		this.orderInterface = oi;
+//	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newPurchase(Purchase purchase)
@@ -81,24 +84,32 @@ public class PurchaseInterface
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Purchase> getPurchasesOnDate(Integer idMember, List<Order> orderTmp)
+	public List<Purchase> getPurchasesOnDate(String username, Integer when)
 	{
+		Member m = memberInterface.getMember(username);
+		List<Order> os = null;
 		
-		Query query = sessionFactory.getCurrentSession().createQuery("from Purchase where idMember = :idMember " + 
-																	 "AND idOrder = :idOrder");
-		query.setParameter("idMember", idMember.intValue());
-		System.out.println("Member "+idMember.intValue());
+		if (when == 0)
+			os = orderInterface.getOrdersNow();
+		else
+			os = orderInterface.getOrdersPast();
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Purchase where idMember = :idMember "
+						+ "AND idOrder = :idOrder");
+		query.setParameter("idMember", m.getIdMember());
+		System.out.println("Member " + m.getIdMember());
 		List<Purchase> activePurchases = new LinkedList<Purchase>();
 		Purchase purTmp = new Purchase();
-		for(Order or : orderTmp)
+		for (Order or : os)
 		{
 			System.out.println("Ordine " + or.getIdOrder());
 			query.setParameter("idOrder", or.getIdOrder());
-			if((purTmp = (Purchase)query.uniqueResult()) != null)
+			if ((purTmp = (Purchase) query.uniqueResult()) != null)
 			{
 				activePurchases.add(purTmp);
 			}
-		}		
+		}
 		return activePurchases;
 	}
 
@@ -141,7 +152,6 @@ public class PurchaseInterface
 		query.setParameter("idPurchase", idPurchase);
 		return query.list();
 	}
-
 	
 	@Transactional(readOnly = true)
 	public Integer getAmount(int idPurchase, int idProduct) 
@@ -320,7 +330,7 @@ public class PurchaseInterface
 		boolean available = false;
 		List<Order> availableOrders = orderInterface.getAvailableOrders(memberNormal);
 		
-		//Verifica che l'utente non abbia già compilato una scheda per quest'ordine
+		//Verifica che l'utente non abbia giï¿½ compilato una scheda per quest'ordine
 		for(Order tmp : availableOrders){
 			if(tmp.getIdOrder() == order.getIdOrder()){
 				available = true;
@@ -341,7 +351,7 @@ public class PurchaseInterface
 			
 			Integer maxBuy = product.getMaxBuy();
 			
-			//Controllo disponibilità quantità richiesta
+			//Controllo disponibilitï¿½ quantitï¿½ richiesta
 			if(maxBuy != null){
 				Integer alreadyBought = orderInterface.getTotalAmountOfProduct(order, product);//orderInterface.getBoughtAmounts(order.getIdOrder(), Collections.singletonList(product.getIdProduct())).get(0);
 				if(amount > maxBuy - alreadyBought)
@@ -366,7 +376,7 @@ public class PurchaseInterface
 			Product product = productInterface.getProduct(ids[i]);
 			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), product.getIdProduct());
 			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amounts[i], insertedTimestamp);				
-			//In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			//In questo caso, dato che l'id non ï¿½ generato ma giï¿½ passato, se ci sono errori lancia un'eccezione
 			newPurchaseProduct(purchaseproduct);
 		}		
 		return 1;
@@ -430,7 +440,7 @@ public class PurchaseInterface
 			Integer idProduct, Integer amountProduct) throws InvalidParametersException {
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		// -1 = Quantità non disponibile
+		// -1 = Quantitï¿½ non disponibile
 		// -2 = valore non idoneo
 		
 		int result = 0;
@@ -511,7 +521,7 @@ public class PurchaseInterface
 			return res;
 		else{
 			if(purchase.getPurchaseProducts().size() == 0){
-				//è stato eliminato l'utlimo prodotto --> eliminare intera scheda
+				//ï¿½ stato eliminato l'utlimo prodotto --> eliminare intera scheda
 				
 				res = deletePurchase(purchase);
 				if(res == 1)
