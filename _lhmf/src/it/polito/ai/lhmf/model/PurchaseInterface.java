@@ -32,7 +32,6 @@ public class PurchaseInterface
 	
 	private ProductInterface productInterface;
 	private OrderInterface orderInterface;
-	@Autowired
 	private MemberInterface memberInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
@@ -48,6 +47,11 @@ public class PurchaseInterface
 	public void setOrderInterface(OrderInterface oi)
 	{
 		this.orderInterface = oi;
+	}
+	
+	public void setMemberInterface(MemberInterface mi)
+	{
+		this.memberInterface = mi;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
