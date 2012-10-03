@@ -1114,12 +1114,9 @@ function clickNewMessageHandler(event)
   }
   else
   {
-    // TODO idOrder e idProduct devono essere scelti tramite il form
     var idMessage = newMessage({
       dest : username,
-      messageText : messageText,
-      idOrder : -1,
-      idProduct : -1,
+      messageText : messageText
     });
     if (idMessage > 0)
     {

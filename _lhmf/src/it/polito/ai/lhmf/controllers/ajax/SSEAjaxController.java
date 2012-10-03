@@ -45,8 +45,11 @@ public class SSEAjaxController
 			{
 				pw = response.getWriter();
 				Long mesUnreadCount, notUnreadCount;
-				mesUnreadCount = messageInterface.getUnreadCount(m.getIdMember());
-				notUnreadCount = notifyInterface.getUnreadCount(m.getIdMember());
+				mesUnreadCount = messageInterface
+						.getUnreadCount((String) request.getSession()
+								.getAttribute("username"));
+				notUnreadCount = notifyInterface
+						.getUnreadCount(m.getIdMember());
 				if (mesUnreadCount > 0 || notUnreadCount > 0)
 				{
 					pw.write("retry: 10000\n");
@@ -61,12 +64,14 @@ public class SSEAjaxController
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (InvalidParametersException e)
 		{
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 	}

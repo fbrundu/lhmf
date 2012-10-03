@@ -3,16 +3,10 @@ package it.polito.ai.lhmf.controllers.ajax;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.MessageInterface;
-import it.polito.ai.lhmf.model.OrderInterface;
-import it.polito.ai.lhmf.model.ProductInterface;
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Message;
-import it.polito.ai.lhmf.orm.Order;
-import it.polito.ai.lhmf.orm.Product;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -35,10 +29,6 @@ public class MessageAjaxController
 	private MemberInterface memberInterface;
 	@Autowired
 	private MessageInterface messageInterface;
-	@Autowired
-	private OrderInterface orderInterface;
-	@Autowired
-	private ProductInterface productInterface;
 
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/getusernames", method = RequestMethod.GET)
@@ -53,32 +43,18 @@ public class MessageAjaxController
 	public @ResponseBody
 	List<String> getUsernamesExceptMe(HttpServletRequest request)
 	{
-		List<String> usernames = memberInterface.getUsernames();
-		for (String u : usernames)
-		{
-			if (u.equals(request.getSession().getAttribute("username")))
-			{
-				usernames.remove(u);
-				break;
-			}
-		}
-		return usernames;
+		return memberInterface.getUsernamesExceptMe((String) request
+				.getSession().getAttribute("username"));
 	}
 	
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/ajax/getusersexceptme", method = RequestMethod.GET)
 	public @ResponseBody
-	Map<String,String> getUsersExceptMe(HttpServletRequest request)
+	Map<String, String> getUsersExceptMe(HttpServletRequest request)
 	{
-		Map<String,String> users = memberInterface.getUsersForMessage();
-		for (Map.Entry<String, String> u : users.entrySet())
-		{
-			if (u.getKey().equals(request.getSession().getAttribute("username")))
-			{
-				users.remove(u.getKey());
-				break;
-			}
-		}
+		Map<String, String> users = memberInterface
+				.getUsersForMessageExceptMe((String) request.getSession()
+						.getAttribute("username"));
 		return users;
 	}
 
@@ -96,31 +72,11 @@ public class MessageAjaxController
 		Integer idMessage = -1;
 		try
 		{
-			Message m = new Message();
-			m.setIsReaded(false);
-			Member sender = memberInterface.getMember((String) request
-					.getSession().getAttribute("username"));
-			Member receiver = memberInterface.getMember(dest);
-			if (sender.getIdMember() != receiver.getIdMember())
-			{
-				m.setMemberByIdReceiver(receiver);
-				m.setMemberByIdSender(sender);
-				m.setMessageTimestamp(new Date());
-				// Order o = null;
-				// if (idOrder > 0)
-				// o = orderInterface.getOrder(idOrder);
-				// m.setOrder(o);
-				// Product p = null;
-				// if (idProduct > 0)
-				// p = productInterface.getProduct(idProduct);
-				// m.setProduct(p);
-				m.setText(messageText);
-				idMessage = messageInterface.newMessage(m);
-			}
+			return messageInterface.newMessage(dest, messageText,
+					(String) request.getSession().getAttribute("username"));
 		}
 		catch (InvalidParametersException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return idMessage;
@@ -132,12 +88,8 @@ public class MessageAjaxController
 	List<Message> getMyMessages(HttpServletRequest request)
 			throws InvalidParametersException
 	{
-		Member m = memberInterface.getMember((String) request.getSession()
-				.getAttribute("username"));
-		if (m != null)
-			return messageInterface.getMessagesByIdMember(m.getIdMember());
-		else
-			return null;
+		return messageInterface.getMessagesByUsername((String) request
+				.getSession().getAttribute("username"));
 	}
 
 	@PreAuthorize("isAuthenticated()")
@@ -148,12 +100,8 @@ public class MessageAjaxController
 			@RequestParam(value = "idMessage", required = true) Integer idMessage)
 			throws InvalidParametersException
 	{
-		Member m = memberInterface.getMember((String) request.getSession()
-				.getAttribute("username"));
-		if (m != null)
-			return messageInterface.setRead(m.getIdMember(), idMessage);
-		else
-			return null;
+		return messageInterface.setRead((String) request.getSession()
+				.getAttribute("username"), idMessage);
 	}
 
 	@PreAuthorize("isAuthenticated()")
@@ -167,32 +115,29 @@ public class MessageAjaxController
 		PrintWriter pw;
 		try
 		{
-			Member m = memberInterface.getMember((String) request.getSession()
-					.getAttribute("username"));
-			if (m != null)
+			pw = response.getWriter();
+			Long unreadCount;
+			unreadCount = messageInterface.getUnreadCount((String) request
+					.getSession().getAttribute("username"));
+			if (unreadCount > 0)
 			{
-				pw = response.getWriter();
-				Long unreadCount;
-				unreadCount = messageInterface.getUnreadCount(m.getIdMember());
-				if (unreadCount > 0)
-				{
-					pw.write("retry: 10000\n");
-					pw.write("data: " + unreadCount + "\n\n");
-					pw.flush();
-				}
-				pw.close();
+				pw.write("retry: 10000\n");
+				pw.write("data: " + unreadCount + "\n\n");
+				pw.flush();
 			}
+			pw.close();
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		catch (InvalidParametersException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

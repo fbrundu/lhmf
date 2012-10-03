@@ -6,10 +6,12 @@ import it.polito.ai.lhmf.orm.Message;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,9 @@ public class MessageInterface
 {
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	private MemberInterface memberInterface;
 
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -41,15 +46,27 @@ public class MessageInterface
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer newMessage(Message message)
+	public Integer newMessage(String dest, String text, String send)
 			throws InvalidParametersException
 	{
-		if (message == null)
+		if (dest == null || text == null || send == null)
 			throw new InvalidParametersException();
 
-		return (Integer) sessionFactory.getCurrentSession().save(message);
+		Member sender = memberInterface.getMember(send);
+		Member receiver = memberInterface.getMember(dest);
+		
+		if (sender.getIdMember() != receiver.getIdMember())
+		{
+			Message message = new Message();
+			message.setIsReaded(false);
+			message.setMessageTimestamp(new Date());
+			message.setText(text);
+			return (Integer) sessionFactory.getCurrentSession().save(message);
+		}
+		
+		return -1;
 	}
-
+	
 	@Transactional(readOnly = true)
 	public Message getMessage(Integer idMessage)
 	{
@@ -60,36 +77,59 @@ public class MessageInterface
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Message> getMessagesByIdMember(Integer idMember)
 			throws InvalidParametersException
 	{
 		if (idMember == null)
 			throw new InvalidParametersException();
 
-		Query query = sessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"from Message"
-								+ " where id_receiver = :idMember order by messageTimestamp desc");
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Message" + " where id_receiver = :idMember "
+						+ "order by messageTimestamp desc");
 		query.setParameter("idMember", idMember);
 		List<Message> rMessagesList = query.list();
 		// setAllRead(idMember);
 		return rMessagesList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer setRead(Integer idMember, Integer idMessage)
+	public List<Message> getMessagesByUsername(String u)
 			throws InvalidParametersException
 	{
-		if (idMember == null || idMessage == null)
+		if (u == null)
 			throw new InvalidParametersException();
 
-		// FIXME : testare
+		Member m = memberInterface.getMember(u);
+		if (m == null)
+			return null;
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Message" + " where id_receiver = :idMember "
+						+ "order by messageTimestamp desc");
+		query.setParameter("idMember", m.getIdMember());
+		List<Message> rMessagesList = query.list();
+		// setAllRead(idMember);
+		return rMessagesList;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setRead(String username, Integer idMessage)
+			throws InvalidParametersException
+	{
+		if (username == null || idMessage == null)
+			throw new InvalidParametersException();
+
+		Member m = memberInterface.getMember(username);
+		if (m == null)
+			return null;
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Message" + " set isReaded = true"
 						+ " where isReaded = false and id_receiver = :idMember"
 						+ " and idMessage = :idMessage");
-		query.setParameter("idMember", idMember);
+		query.setParameter("idMember", m.getIdMember());
 		query.setParameter("idMessage", idMessage);
 
 		return (Integer) query.executeUpdate();
@@ -134,18 +174,21 @@ public class MessageInterface
 	 * return (Integer) query.executeUpdate(); }
 	 */
 	@Transactional(readOnly = true)
-	public Long getUnreadCount(Integer idMember)
-			throws InvalidParametersException
+	public Long getUnreadCount(String username)
+			throws Exception
 	{
-		if (idMember == null)
+		if (username == null)
 			throw new InvalidParametersException();
 
+		Member m = memberInterface.getMember(username);
+		if (m == null)
+			throw new Exception("No such member");
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
 						"select count(*) from Message"
 								+ " where isReaded = false and id_receiver = :idMember");
-		query.setParameter("idMember", idMember);
+		query.setParameter("idMember", m.getIdMember());
 
 		return (Long) query.uniqueResult();
 	}

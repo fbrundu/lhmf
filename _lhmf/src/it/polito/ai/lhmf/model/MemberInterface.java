@@ -198,11 +198,27 @@ public class MemberInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Map<String, String> getUsersForMessage()
+	public List<String> getUsernamesExceptMe(String me)
 	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where username != :me");
+		query.setParameter("me", me);
+		List<String> rUsernames = new LinkedList<String>();
+		for (Object i : query.list())
+		{
+			rUsernames.add(((Member) i).getUsername());
+		}
+		return rUsernames;
+	}
+	
+	@Transactional(readOnly = true)
+	public Map<String, String> getUsersForMessageExceptMe(String me)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where username != :me");
+		query.setParameter("me", me);
 		Map<String, String> rUsernames = new HashMap<String, String>();
-		for (Object i : sessionFactory.getCurrentSession()
-				.createQuery("from Member").list())
+		for (Object i : query.list())
 			rUsernames.put(((Member) i).getUsername(), ((Member) i).getName()
 					+ " " + ((Member) i).getSurname());
 		return rUsernames;
