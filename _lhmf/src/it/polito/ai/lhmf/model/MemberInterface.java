@@ -22,7 +22,6 @@ import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -32,14 +31,23 @@ public class MemberInterface
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
 
-	@Autowired
 	private MemberStatusInterface memberStatusInterface;
-	@Autowired
 	private MessageInterface messageInterface;	
 
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
+	}
+
+	public void setMemberStatusInterface(
+			MemberStatusInterface memberStatusInterface)
+	{
+		this.memberStatusInterface = memberStatusInterface;
+	}
+
+	public void setMessageInterface(MessageInterface messageInterface)
+	{
+		this.messageInterface = messageInterface;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)

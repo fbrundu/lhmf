@@ -161,12 +161,12 @@ public class SignupController
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		} else {
-			//Controllo email gi� in uso
+			//Controllo email gia' in uso
 			if(memberInterface.isMemberPresentByEmail(email))
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
-				error.put("error", "Email gi&agrave utilizzata da un altro account");
+				error.put("error", "Email gi&agrave; utilizzata da un altro account");
 				errors.add(error);
 			}
 		}
@@ -180,7 +180,7 @@ public class SignupController
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Citt&agrave");
+			error.put("id", "Citt&agrave;");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
@@ -384,7 +384,7 @@ public class SignupController
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
 				error.put("error",
-						"Email gi&agrave utilizzata da un altro account");
+						"Email gi&agrave; utilizzata da un altro account");
 				errors.add(error);
 			}
 		}
@@ -398,7 +398,7 @@ public class SignupController
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Citt&agrave");
+			error.put("id", "Citt&agrave;");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
@@ -555,13 +555,13 @@ public class SignupController
 		}
 		else
 		{
-			// Controllo email gi� in uso
+			// Controllo email gia' in uso
 			if (memberInterface.isMemberPresentByEmail(email))
 			{
 				Map<String, String> error = new HashMap<String, String>();
 				error.put("id", "Email");
 				error.put("error",
-						"Email gi&agrave utilizzata da un altro account");
+						"Email gi&agrave; utilizzata da un altro account");
 				errors.add(error);
 			}
 
@@ -576,7 +576,7 @@ public class SignupController
 		if(city.equals("") || CheckNumber.isNumeric(city)) {
 			
 			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Citt&agrave");
+			error.put("id", "Citt&agrave;");
 			error.put("error", "Formato non Valido");
 			errors.add(error);
 		}	
