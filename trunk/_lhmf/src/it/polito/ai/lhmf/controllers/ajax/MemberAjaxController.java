@@ -243,31 +243,17 @@ public class MemberAjaxController
 			@RequestParam(value = "page", required = true) int page,
 			@RequestParam(value = "itemsPerPage", required = true) int itemsPerPage)
 	{
-		List<Member> membersList = null;
-		
-		if(memberType == 4)
+		if (memberType < 0 || memberType > 4 || page < 0 || itemsPerPage < 1)
+			return null;
+		if (memberType == 4)
 		{
-			membersList = memberInterface.getMembers();
+			return memberInterface.getMembers(null, page,
+					itemsPerPage);
 		}
-		else
-		{
-			//Richiesta di un tipo utente specifico
-			
-			MemberType mType = new MemberType(memberType);
-			membersList = memberInterface.getMembers(mType);
-		}
-		
-		List<Member> returnList = new ArrayList<Member>();
-		
-		int startIndex = page * itemsPerPage;
-		int endIndex = startIndex + itemsPerPage;
-		
-		if(endIndex > membersList.size())
-			endIndex = membersList.size();
-		
-		returnList.addAll(membersList.subList(startIndex, endIndex));
-		
-		return returnList;
+		// Richiesta di un tipo utente specifico
+		MemberType mType = new MemberType(memberType);
+		return memberInterface.getMembers(mType, page,
+				itemsPerPage);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
@@ -307,34 +293,30 @@ public class MemberAjaxController
 	public @ResponseBody int memberActivation(HttpServletRequest request,
 			@RequestParam(value = "idMember", required = true) int idMember)
 	{
-		Member member = memberInterface.getMember(idMember);
-		
-		MemberStatus mStatus = new MemberStatus(MemberStatuses.ENABLED);
-		member.setMemberStatus(mStatus);
-		
-		int result;
-		try {
-			result = memberInterface.updateMember(member);
-		} catch (InvalidParametersException e) {
-			result = 0;
-			e.printStackTrace();
+		try
+		{
+			if (memberInterface.activateMember(idMember) == null)
+				return 0;
+			else
+				return idMember;
 		}
-		
-		if(result == 0)
-			return result;
-		else 
-			return idMember;
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/updatemember", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer updateMember(HttpServletRequest request,
-			@RequestBody Member member) throws InvalidParametersException
+	Integer updateMember(HttpServletRequest request, @RequestBody Member member)
+			throws InvalidParametersException
 	{
-		Integer rowsAffected = -1;
-		rowsAffected = memberInterface.updateMember(member);
-		return rowsAffected;
+		if (memberInterface.updateMember(member) != null)
+			return member.getIdMember();
+		else
+			return -1;
 	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
@@ -343,9 +325,9 @@ public class MemberAjaxController
 	Integer deleteMember(HttpServletRequest request,
 			@RequestBody Integer idMember) throws InvalidParametersException
 	{
-		Integer rowsAffected = -1;
-		rowsAffected = memberInterface.deleteMember(idMember);
-		return rowsAffected;
+		if (memberInterface.deleteMember(idMember) != null)
+			return idMember;
+		else
+			return -1;
 	}
-	
 }
