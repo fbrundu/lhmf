@@ -35,309 +35,316 @@ public class NormalAjaxController
 {
 	@Autowired
 	private OrderInterface orderInterface;
-	
 	@Autowired
 	private PurchaseInterface purchaseInterface;
-	
 	@Autowired
 	private MemberInterface memberInterface;
-	
 	@Autowired
 	private ProductInterface productInterface;
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-						  + ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Purchase> getActivePurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	List<Purchase> getActivePurchase(HttpServletRequest request,
+			HttpSession session) throws InvalidParametersException
 	{
-		String username = (String) session.getAttribute("username");
-		
-		Member memberNormal = memberInterface.getMember(username);
-		List<Order> orderTmp = null;
-		orderTmp = orderInterface.getOrdersNow();
-		List<Purchase> listPurchase = null;
-		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
-		return listPurchase;
+		return purchaseInterface.getPurchasesOnDate(
+				(String) session.getAttribute("username"), 0);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-			  		      + ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOldPurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Purchase> getOldPurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	List<Purchase> getOldPurchase(HttpServletRequest request,
+			HttpSession session) throws InvalidParametersException
 	{
-		String username = (String) session.getAttribute("username");
-		
-		Member memberNormal = memberInterface.getMember(username);
-		List<Order> orderTmp = null;
-		orderTmp = orderInterface.getOrdersPast();
-		List<Purchase> listPurchase = null;
-		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
-		return listPurchase;
+		return purchaseInterface.getPurchasesOnDate(
+				(String) session.getAttribute("username"), -1);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-						  + ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Product> getProductFromOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	List<Product> getProductFromOrder(HttpServletRequest request,
+			HttpSession session, @RequestParam(value = "idOrder") int idOrder)
+			throws InvalidParametersException
 	{
-		List<Product> ret = null;
-		ret = orderInterface.getProducts(idOrder);
-		return ret;
+		return orderInterface.getProducts(idOrder);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	Product getProductNormal(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idProduct") int idProduct) throws InvalidParametersException
+			@RequestParam(value = "idProduct") int idProduct)
+			throws InvalidParametersException
 	{
-		Product product = productInterface.getProduct(idProduct);
-		return product;
+		return productInterface.getProduct(idProduct);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getPurchaseDetails", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	List<Product> getPurchaseDetails(HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase)
+			throws InvalidParametersException
 	{
-		List<PurchaseProduct> productTmp = purchaseInterface.getPurchaseProduct(idPurchase);
-		List<Product> listProduct = new ArrayList<Product>();
-		for(PurchaseProduct product : productTmp)
-		{
-			listProduct.add(productInterface.getProduct(product.getId().getIdProduct()));
-		}
-		return listProduct;
+		return productInterface.getProductListPurchase(idPurchase);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOtherProductsOfPurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	Set<Product> getOtherProductsOfPurchase(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	Set<Product> getOtherProductsOfPurchase(HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase)
+			throws InvalidParametersException
 	{
 		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
 		Order order = purchase.getOrder();
-		
+
 		Set<Product> returnList = new HashSet<Product>();
 		Set<OrderProduct> sProduct = order.getOrderProducts();
-		
-		for(OrderProduct op : sProduct)
+
+		for (OrderProduct op : sProduct)
 			returnList.add(op.getProduct());
-		
+
 		Set<PurchaseProduct> ppList = purchase.getPurchaseProducts();
-		
-		for(PurchaseProduct product : ppList)
+
+		for (PurchaseProduct product : ppList)
 		{
 			returnList.remove(product.getProduct());
 		}
-		
+
 		return returnList;
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOrdersString", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getOrdersString(HttpServletRequest request, HttpSession session)
 	{
-		
+
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
-		
+
 		return orderInterface.getAvailableOrders(memberNormal);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/setNewPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder,
 			@RequestParam(value = "idProducts") String idProducts,
-			@RequestParam(value = "amountProducts") String amountProducts) throws InvalidParametersException, ParseException
+			@RequestParam(value = "amountProducts") String amountProducts)
+			throws InvalidParametersException, ParseException
 	{
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
-		
+
 		String[] idTmp = idProducts.split(",");
 		String[] amountTmp = amountProducts.split(",");
-		
-		if(idTmp.length > 0 && idTmp.length == amountTmp.length){
+
+		if (idTmp.length > 0 && idTmp.length == amountTmp.length)
+		{
 			Integer[] ids = new Integer[idTmp.length];
 			Integer[] amounts = new Integer[idTmp.length];
-			for( int i = 0; i < idTmp.length; i++) 
+			for (int i = 0; i < idTmp.length; i++)
 			{
-				try {
+				try
+				{
 					ids[i] = Integer.parseInt(idTmp[i]);
-				
+
 					amounts[i] = Integer.parseInt(amountTmp[i]);
-					if(amounts[i] <= 0)
+					if (amounts[i] <= 0)
 						return -1;
-				} catch(NumberFormatException e){
+				}
+				catch (NumberFormatException e)
+				{
 					e.printStackTrace();
 					return -1;
 				}
 			}
-			
-			return purchaseInterface.createPurchase(memberNormal, idOrder, ids, amounts);
+
+			return purchaseInterface.createPurchase(memberNormal, idOrder, ids,
+					amounts);
 		}
 		else
 			return -1;
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getDispOfProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getDispOfProduct(HttpServletRequest request,
 			@RequestParam(value = "idPurchase") int idPurchase,
-			@RequestParam(value = "idProduct") int idProduct	) throws InvalidParametersException, ParseException
+			@RequestParam(value = "idProduct") int idProduct)
+			throws InvalidParametersException, ParseException
 	{
-		
-		// -1 Disponibilità infinita
+
+		// -1 Disponibilitï¿½ infinita
 		// 0 Non Disponibile
-		// xx Quantità disponibile
-		
+		// xx Quantitï¿½ disponibile
+
 		Integer result = -1;
-	
+
 		Product product = productInterface.getProduct(idProduct);
-		
+
 		Integer maxBuy = product.getMaxBuy();
-		
-		if(maxBuy == null)
+
+		if (maxBuy == null)
 			return -1;
-		
+
 		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
 		Order order = purchase.getOrder();
-		
-		Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
-		
+
+		Integer totAmount = (int) (long) orderInterface
+				.getTotalAmountOfProduct(order, product);
+
 		result = maxBuy - totAmount;
-		
+
 		return result;
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getDispOfProductOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getDispOfProductOrder(HttpServletRequest request,
 			@RequestParam(value = "idOrder") int idOrder,
-			@RequestParam(value = "idProduct") int idProduct	) throws InvalidParametersException, ParseException
+			@RequestParam(value = "idProduct") int idProduct)
+			throws InvalidParametersException, ParseException
 	{
-		
-		// -1 Disponibilità infinita
+
+		// -1 Disponibilitï¿½ infinita
 		// 0 Non Disponibile
-		// xx Quantità disponibile
-		
+		// xx Quantitï¿½ disponibile
+
 		Integer result = -1;
-	
+
 		Product product = productInterface.getProduct(idProduct);
-		
+
 		Integer maxBuy = product.getMaxBuy();
-		
-		if(maxBuy == null)
+
+		if (maxBuy == null)
 			return -1;
 
 		Order order = orderInterface.getOrder(idOrder);
-		
-		Integer totAmount = (int) (long) orderInterface.getTotalAmountOfProduct(order, product);
-		
+
+		Integer totAmount = (int) (long) orderInterface
+				.getTotalAmountOfProduct(order, product);
+
 		result = maxBuy - totAmount;
-		
+
 		return result;
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-						+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/newPurchaseProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newPurchaseProduct(HttpServletRequest request,
 			@RequestParam(value = "idPurchase") int idPurchase,
 			@RequestParam(value = "idProduct") int idProduct,
-			@RequestParam(value = "amount") int amountProduct) throws InvalidParametersException, ParseException
+			@RequestParam(value = "amount") int amountProduct)
+			throws InvalidParametersException, ParseException
 	{
-		String username = (String) request.getSession().getAttribute("username");
+		String username = (String) request.getSession()
+				.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
-		
-		return purchaseInterface.insertProduct(memberNormal, idPurchase, idProduct, amountProduct);
+
+		return purchaseInterface.insertProduct(memberNormal, idPurchase,
+				idProduct, amountProduct);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/updatePurchaseProduct", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer updatePurchaseProduct(HttpServletRequest request, HttpSession session,
+	Integer updatePurchaseProduct(HttpServletRequest request,
+			HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase,
 			@RequestParam(value = "idProduct") int idProduct,
-			@RequestParam(value = "amount") int amountProduct) throws InvalidParametersException, ParseException
+			@RequestParam(value = "amount") int amountProduct)
+			throws InvalidParametersException, ParseException
 	{
-		
+
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		// -1 = Quantità non disponibile
+		// -1 = Quantitï¿½ non disponibile
 		// -2 = valore non idoneo
-		
+
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
-		
-		return purchaseInterface.updateProduct(memberNormal, idPurchase, idProduct, amountProduct);
+
+		return purchaseInterface.updateProduct(memberNormal, idPurchase,
+				idProduct, amountProduct);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/delPurchaseProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer delPurchaseProduct(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase,
-			@RequestParam(value = "idProduct") int idProduct ) throws InvalidParametersException, ParseException
+			@RequestParam(value = "idProduct") int idProduct)
+			throws InvalidParametersException, ParseException
 	{
-		
+
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
 		String username = (String) session.getAttribute("username");
 		Member memberNormal = memberInterface.getMember(username);
-		
-		return purchaseInterface.deletePurchaseProduct(memberNormal, idPurchase, idProduct);
+
+		return purchaseInterface.deletePurchaseProduct(memberNormal,
+				idPurchase, idProduct);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getAmountfromPurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer getAmountfromPurchase(HttpServletRequest request, HttpSession session,
+	Integer getAmountfromPurchase(HttpServletRequest request,
+			HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase,
-			@RequestParam(value = "idProduct") int idProduct) throws InvalidParametersException
+			@RequestParam(value = "idProduct") int idProduct)
+			throws InvalidParametersException
 	{
 		PurchaseProduct tmpPP = null;
-		tmpPP = purchaseInterface.getPurchaseProductFromId(idPurchase,idProduct); 
+		tmpPP = purchaseInterface.getPurchaseProductFromId(idPurchase,
+				idProduct);
 		return tmpPP.getAmount();
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProgressOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	Float getProgressOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder		) throws InvalidParametersException
+			@RequestParam(value = "idOrder") int idOrder)
+			throws InvalidParametersException
 	{
 		return orderInterface.getProgress(idOrder);
 	}
-	
-	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
-								+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
+
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProgressProductOfOrder", method = RequestMethod.POST)
 	public @ResponseBody
-	List<String> getProgressProductOfOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder		) throws InvalidParametersException
+	List<String> getProgressProductOfOrder(HttpServletRequest request,
+			HttpSession session, @RequestParam(value = "idOrder") int idOrder)
+			throws InvalidParametersException
 	{
 		return orderInterface.getProgressProduct(idOrder);
 	}
