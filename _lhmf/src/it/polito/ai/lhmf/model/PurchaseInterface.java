@@ -357,10 +357,13 @@ public class PurchaseInterface
 				
 				Integer maxBuy = product.getMaxBuy();
 				
-				//Controllo disponibilit� quantit� richiesta
-				if(maxBuy != null){
-					Integer alreadyBought = orderInterface.getTotalAmountOfProduct(order, product);//orderInterface.getBoughtAmounts(order.getIdOrder(), Collections.singletonList(product.getIdProduct())).get(0);
-					if(amount > maxBuy - alreadyBought)
+				// Controllo disponibilita' quantita' richiesta
+				if (maxBuy != null)
+				{
+					Integer alreadyBought = orderInterface
+							.getTotalAmountOfProduct(order, product);// orderInterface.getBoughtAmounts(order.getIdOrder(),
+																		// Collections.singletonList(product.getIdProduct())).get(0);
+					if (amount > maxBuy - alreadyBought)
 						return -1;
 				}
 			}

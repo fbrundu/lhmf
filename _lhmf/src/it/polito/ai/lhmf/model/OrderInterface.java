@@ -36,6 +36,8 @@ public class OrderInterface
 	private ProductInterface productInterface;
 	
 	private MemberInterface memberInterface;
+
+	private PurchaseInterface purchaseInterface;
 		
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -54,6 +56,11 @@ public class OrderInterface
 		this.memberInterface = memberInterface;
 	}
 
+	public void setPurchaseInterface(PurchaseInterface purchaseInterface)
+	{
+		this.purchaseInterface = purchaseInterface;
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newOrder(Order order)
 			throws InvalidParametersException
@@ -192,6 +199,8 @@ public class OrderInterface
 		// 2 = Entrambe
 		
 		Timestamp endDate = new Timestamp(end);
+		Date now = new Date();
+		Timestamp nowT = new Timestamp(now.getTime());
 		
 		Query query = null;
 		
@@ -201,7 +210,7 @@ public class OrderInterface
 				
 				query = sessionFactory.getCurrentSession()
 				.createQuery("from Order where idMember_resp = :id " +
-										  "AND dateClose >= :endDate " +
+										  "AND dateClose between :endDate and :now " +
 										  "AND dateDelivery is not null");
 				
 				break;
@@ -209,7 +218,7 @@ public class OrderInterface
 				
 				query = sessionFactory.getCurrentSession()
 				.createQuery("from Order where idMember_resp = :id " +
-										  "AND dateClose >= :endDate " +
+										  "AND dateClose between :endDate and :now " +
 										  "AND dateDelivery is null");
 				
 				break;
@@ -217,7 +226,7 @@ public class OrderInterface
 				
 				query = sessionFactory.getCurrentSession()
 				.createQuery("from Order where idMember_resp = :id " +
-										  "AND dateClose >= :endDate ");
+										  "AND dateClose between :endDate and :now ");
 				
 				break;
 		
@@ -225,10 +234,11 @@ public class OrderInterface
 		
 		query.setParameter("id", memberResp.getIdMember());
 		query.setTimestamp("endDate", endDate);
+		query.setTimestamp("now", nowT);
 	
 		return query.list();
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Order> getOrdersToDelivery(Member memberResp) {
@@ -413,8 +423,9 @@ public class OrderInterface
 		return null;
 	}
 
+	// Limited Visibility: can be used only by interfaces
 	@Transactional(readOnly=true)
-	public Integer getTotalAmountOfProduct(Order order, Product product) {
+	Integer getTotalAmountOfProduct(Order order, Product product) {
 		
 		Query query = sessionFactory.getCurrentSession()
 				.createQuery("select pp.product, sum(pp.amount) " +
@@ -439,6 +450,38 @@ public class OrderInterface
 			sumAmount = (int) (long) row[1];
 		
 		return sumAmount;
+	}
+
+	@Transactional(readOnly = true)
+	public Integer getDispProduct(Integer idPurchase, Integer idProduct)
+	{
+		Product p = productInterface.getProduct(idProduct);
+		Integer maxBuy = p.getMaxBuy();
+		if (maxBuy != null)
+		{
+			Integer totAmount = (int) (long) getTotalAmountOfProduct(
+					purchaseInterface.getPurchase(idPurchase).getOrder(), p);
+
+			return maxBuy - totAmount;
+		}
+		else
+			return -1;
+	}
+
+	@Transactional(readOnly = true)
+	public Integer getDispProductO(Integer idOrder, Integer idProduct)
+	{
+		Product p = productInterface.getProduct(idProduct);
+		Integer maxBuy = p.getMaxBuy();
+		if (maxBuy != null)
+		{
+			Integer totAmount = (int) (long) getTotalAmountOfProduct(
+					getOrder(idOrder), p);
+
+			return maxBuy - totAmount;
+		}
+		else
+			return -1;
 	}
 
 	//TODO usare anche per creazione scheda sul sito. Restituisce gli ordini attivi per cui l'utente normale richiedente non ha ancora compilato schede

@@ -178,29 +178,10 @@ public class NormalAjaxController
 			@RequestParam(value = "idProduct") int idProduct)
 			throws InvalidParametersException, ParseException
 	{
-
-		// -1 Disponibilit� infinita
+		// -1 Disponibilita' infinita
 		// 0 Non Disponibile
-		// xx Quantit� disponibile
-
-		Integer result = -1;
-
-		Product product = productInterface.getProduct(idProduct);
-
-		Integer maxBuy = product.getMaxBuy();
-
-		if (maxBuy == null)
-			return -1;
-
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		Order order = purchase.getOrder();
-
-		Integer totAmount = (int) (long) orderInterface
-				.getTotalAmountOfProduct(order, product);
-
-		result = maxBuy - totAmount;
-
-		return result;
+		// xx Quantita' disponibile
+		return orderInterface.getDispProduct(idPurchase, idProduct);
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -212,28 +193,10 @@ public class NormalAjaxController
 			@RequestParam(value = "idProduct") int idProduct)
 			throws InvalidParametersException, ParseException
 	{
-
-		// -1 Disponibilit� infinita
+		// -1 Disponibilita' infinita
 		// 0 Non Disponibile
-		// xx Quantit� disponibile
-
-		Integer result = -1;
-
-		Product product = productInterface.getProduct(idProduct);
-
-		Integer maxBuy = product.getMaxBuy();
-
-		if (maxBuy == null)
-			return -1;
-
-		Order order = orderInterface.getOrder(idOrder);
-
-		Integer totAmount = (int) (long) orderInterface
-				.getTotalAmountOfProduct(order, product);
-
-		result = maxBuy - totAmount;
-
-		return result;
+		// xx Quantita' disponibile
+		return orderInterface.getDispProductO(idOrder, idProduct);
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
