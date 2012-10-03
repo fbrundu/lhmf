@@ -1,8 +1,11 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Message;
 
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -20,6 +23,23 @@ public class MessageInterface
 		this.sessionFactory = sf;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer newMessageToAdmin(Member admin, Member sender, String text)
+			throws InvalidParametersException
+	{
+		if (admin == null || sender == null || text == null)
+			throw new InvalidParametersException();
+
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date now = calendar.getTime();
+		Timestamp currentTimestamp = new Timestamp(now.getTime());
+
+		Message m = new Message(admin, currentTimestamp, false, 0);
+		m.setMemberByIdSender(sender);
+		m.setText(text);
+		return (Integer) sessionFactory.getCurrentSession().save(m);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer newMessage(Message message)
 			throws InvalidParametersException
