@@ -344,7 +344,7 @@ public class NewPurchaseActivity extends Activity {
 		protected Product[] doInBackground(Object... params) {
 			Gas gas = (Gas) params[0];
 			Integer orderId = (Integer) params[1];
-			Product[] products = gas.orderOperations().getOrderProducts(orderId);
+			Product[] products = gas.orderOperations().getProducts(orderId);
 			List<Product> productList = new ArrayList<Product>();
 			
 			for(Product prod : products){

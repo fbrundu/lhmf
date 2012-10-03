@@ -5,6 +5,7 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
@@ -38,6 +39,15 @@ public class AndroidOrderController {
 	{
 		List<Product> productsList = null;
 		productsList = orderInterface.getProducts(idOrder);
+		return productsList;
+	}
+	
+	@RequestMapping(value = "/androidApi/getorderorderproducts", method = RequestMethod.GET)
+	public @ResponseBody
+	List<OrderProduct> getOrderOrderProducts(@RequestParam(value="idOrder", required=true) Integer idOrder)
+	{
+		List<OrderProduct> productsList = null;
+		productsList = orderInterface.getOrderProducts(idOrder);
 		return productsList;
 	}
 	
@@ -166,6 +176,18 @@ public class AndroidOrderController {
 		
 		List<Order> listOrder = null;
 		listOrder = orderInterface.getActiveOrders(memberResp);
+		return listOrder;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getcompletedordersresp", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getCompletedOrders(Principal principal) throws InvalidParametersException
+	{
+		String username = principal.getName();
+		
+		List<Order> listOrder = null;
+		listOrder = orderInterface.getCompletedOrders(username);
 		return listOrder;
 	}
 	

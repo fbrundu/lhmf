@@ -53,4 +53,13 @@
     <string name="active_orders">Ordini attivi</string>
     <string name="no_active_orders">Non ci sono ordini attivi</string>
     <string name="order_details_title">Dettagli ordine</string>
+    <string name="order_history">Storico ordini</string>
+    <string name="completed_orders">Ordini completati</string>
+    <string name="shipped_orders">Ordini consegnati</string>
+    <string name="status">"Stato: "</string>
+    <string name="failed">FALLITO</string>
+    <string name="ok">OK</string>
+    <string name="delivery_date">Data di consegna: </string>
+    <string name="set_delivery">Impostazione data di consegna</string>
+    <string name="completed_order">Ordine completato</string>
 </resources>

@@ -29,6 +29,7 @@ public class CustomObjectMapper extends ObjectMapper
 		serializers.addSerializer(Message.class, new MessageSerializer());
 		serializers.addSerializer(Notify.class, new NotifySerializer());
 		serializers.addSerializer(Order.class, new OrderSerializer());
+		serializers.addSerializer(OrderProduct.class, new OrderProductSerializer());
 		serializers.addSerializer(Product.class, new ProductSerializer());
 		serializers.addSerializer(ProductCategory.class,
 				new ProductCategorySerializer());
