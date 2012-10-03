@@ -6,9 +6,7 @@ import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
-import it.polito.ai.lhmf.orm.Message;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -27,12 +25,15 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 public class MemberInterface
 {
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
 
+	@Autowired
+	private MemberStatusInterface memberStatusInterface;
 	@Autowired
 	private MessageInterface messageInterface;	
 
@@ -64,32 +65,60 @@ public class MemberInterface
 			else
 			{
 				// Mandare messaggio all'admin
-
-				// Ricavo il membro Admin
-				Member memberAdmin = this.getMemberAdmin();
-
-				// Creo il Current timestamp
-				Calendar calendar = Calendar.getInstance();
-				java.util.Date now = calendar.getTime();
-				Timestamp currentTimestamp = new Timestamp(now.getTime());
-
-				String text = "Utente richiede l'attivazione dell'account\n\n"
-						+ "Id: " + member.getIdMember() + " - "
-						+ member.getName() + " " + member.getSurname() + "\n"
-						+ "Email: " + member.getEmail() + "\n";
-
-				// Costruisco l'oggetto message
-				Message message = new Message(memberAdmin, currentTimestamp,
-						false, 0);
-
-				message.setMemberByIdSender(member);
-				message.setText(text);
-				messageInterface.newMessage(message);
+				messageInterface.newMessageToAdmin(this.getMemberAdmin(),
+						member,
+						"Utente richiede l'attivazione dell'account\n\n"
+								+ "Id: " + member.getIdMember() + " - "
+								+ member.getName() + " " + member.getSurname()
+								+ "\n" + "Email: " + member.getEmail() + "\n");
 			}
 		}
 		return memberId;
 	}
 
+	@Transactional(readOnly = true)
+	public void authMail(Integer idMember, String regCode, Model model)
+			throws InvalidParametersException
+	{
+		if (idMember == null || regCode == null)
+			throw new InvalidParametersException();
+
+		Member m = this.getMember(idMember);
+
+		if (m == null || !m.getRegCode().equals(regCode))
+			throw new InvalidParametersException();
+
+		if (!m.getMemberStatus().equals(
+				memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED)))
+		{
+			if (m.isFromAdmin())
+				m.setMemberStatus(memberStatusInterface
+						.getMemberStatus(MemberStatuses.ENABLED));
+			else
+				m.setMemberStatus(memberStatusInterface
+						.getMemberStatus(MemberStatuses.VERIFIED_DISABLED));
+
+			model.addAttribute("firstname", m.getName());
+
+			sessionFactory.getCurrentSession().save(m);
+			if (!m.isFromAdmin())
+			{
+				model.addAttribute("active", false);
+				messageInterface.newMessageToAdmin(
+						this.getMemberAdmin(),
+						m,
+						"Utente richiede l'attivazione dell'account\n\n"
+								+ "Id: " + m.getIdMember() + " - "
+								+ m.getName() + " " + m.getSurname() + "\n"
+								+ "Email: " + m.getEmail() + "\n");
+			}
+			else
+				model.addAttribute("active", true);
+		}
+		else
+			model.addAttribute("active", true);
+	}
+	
 	@Transactional(readOnly = true)
 	public Member getMember(Integer idMember)
 	{

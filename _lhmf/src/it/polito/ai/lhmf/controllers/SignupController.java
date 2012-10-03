@@ -4,13 +4,11 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.MemberStatusInterface;
 import it.polito.ai.lhmf.model.MemberTypeInterface;
-import it.polito.ai.lhmf.model.MessageInterface;
 import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
-import it.polito.ai.lhmf.orm.Message;
 import it.polito.ai.lhmf.security.FacebookAuthenticationFilter;
 import it.polito.ai.lhmf.util.CheckNumber;
 import it.polito.ai.lhmf.util.CreateMD5;
@@ -18,7 +16,6 @@ import it.polito.ai.lhmf.util.SendEmail;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,8 +48,6 @@ public class SignupController
 	private MemberStatusInterface memberStatusInterface;
 	@Autowired
 	private MemberTypeInterface memberTypeInterface;	
-	@Autowired
-	private MessageInterface messageInterface;	
 		
 	@RequestMapping(value = "/openid_signup", method = RequestMethod.GET)
 	public ModelAndView openIdSignupGet(Model model, HttpSession session)
@@ -702,102 +697,19 @@ public class SignupController
 	
 	@RequestMapping(value ="/authMail", method = RequestMethod.GET)
 	public ModelAndView authMail( Model model,
-			@RequestParam(value = "id", required = true) String id,
+			@RequestParam(value = "id", required = true) Integer idMember,
 			@RequestParam(value = "regCode", required = true) String regCode)
 	{
-		ArrayList<Map<String, String>> errors = new ArrayList<Map<String, String>>();
-		boolean preEnabled = false;
-		int idMember = Integer.parseInt(id);
-		
-		boolean fromAdmin = false;
-	
-		Member member = memberInterface.getMember(idMember);
-		
-		if(member == null) {
-			
-			Map<String, String> error = new HashMap<String, String>();
-			error.put("id", "Account");
-			error.put("error", "Account non esistente");
-			errors.add(error);
-			
-		} else if(!member.getRegCode().equals(regCode)) {
-			
-				Map<String, String> error = new HashMap<String, String>();
-				error.put("id", "Code");
-				error.put("error", "Codice non corretto");
-				errors.add(error);
-			
-		} else {
-			
-			//Account esistente e codice corretto.
-			fromAdmin = member.isFromAdmin();
-			
-			
-			if(member.getMemberStatus().equals(MemberStatuses.ENABLED)) {
-				preEnabled = true;
-			} else {
-				
-				MemberStatus mStatus;
-				if(fromAdmin)
-					mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED);
-				else
-					mStatus = memberStatusInterface.getMemberStatus(MemberStatuses.VERIFIED_DISABLED);
-				
-				member.setMemberStatus(mStatus);
-				
-				model.addAttribute("firstname", member.getName());
-				
-				try {
-					memberInterface.updateMember(member);
-				} catch (InvalidParametersException e) {
-					
-					Map<String, String> error = new HashMap<String, String>();
-					error.put("id", "InternalError");
-					error.put("error", "Non � stato possibile verificare l'email.");
-					errors.add(error);
-				}
-			}	
+		try
+		{
+			memberInterface.authMail(idMember, regCode, model);
+			return new ModelAndView("/authMail_confirmed");
 		}
-		
-		// Ci sono errori, rimandare alla pagina mostrandoli
-		if(errors.size() <= 0) {
-			
-			if(!preEnabled) {
-				if(!fromAdmin) {
-					model.addAttribute("active", false);	
-					//Mandare messaggio all'admin
-					
-					//Ricavo il membro Admin
-					Member memberAdmin = memberInterface.getMemberAdmin();
-					
-					//Creo il Current timestamp
-					Calendar calendar = Calendar.getInstance();
-					java.util.Date now = calendar.getTime();
-					Timestamp currentTimestamp = new Timestamp(now.getTime());
-					
-					String text = 	"Utente richiede l'attivazione dell'account\n\n" +
-									"Id: " + member.getIdMember() + " - " + member.getName() + " " + member.getSurname() + "\n" +
-									"Email: " + member.getEmail() + "\n";  
-					
-					//Costruisco l'oggetto message	
-					Message message = new Message(memberAdmin, currentTimestamp, false, 0);
-					
-					message.setMemberByIdSender(member);
-					message.setText(text);
-					
-					try {
-						messageInterface.newMessage(message);
-					} catch (InvalidParametersException e) {
-						e.printStackTrace();
-					}
-				}
-				else
-					model.addAttribute("active", true);
-			}
-			else
-				model.addAttribute("active", true);
+		catch (InvalidParametersException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		return new ModelAndView("/authMail_confirmed");
+		return new ModelAndView("/error");
 	}
 }
