@@ -300,16 +300,11 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActivePurchaseNormal", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Purchase> getActivePurchaseNormal(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	List<Purchase> getActivePurchaseNormal(HttpServletRequest request,
+			HttpSession session) throws InvalidParametersException
 	{
-		String username = (String) session.getAttribute("username");
-		
-		Member memberNormal = memberInterface.getMember(username);
-		List<Order> orderTmp = null;
-		orderTmp = orderInterface.getOrdersNow();
-		List<Purchase> listPurchase = null;
-		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
-		return listPurchase;
+		return purchaseInterface.getPurchasesOnDate(
+				(String) session.getAttribute("username"), 0);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -378,16 +373,11 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOldPurchaseNormal", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Purchase> getOldPurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	List<Purchase> getOldPurchase(HttpServletRequest request,
+			HttpSession session) throws InvalidParametersException
 	{
-		String username = (String) session.getAttribute("username");
-		
-		Member memberNormal = memberInterface.getMember(username);
-		List<Order> orderTmp = null;
-		orderTmp = orderInterface.getOrdersPast();
-		List<Purchase> listPurchase = null;
-		listPurchase = purchaseInterface.getPurchasesOnDate(memberNormal.getIdMember(), orderTmp); 
-		return listPurchase;
+		return purchaseInterface.getPurchasesOnDate(
+				(String) session.getAttribute("username"), -1);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
