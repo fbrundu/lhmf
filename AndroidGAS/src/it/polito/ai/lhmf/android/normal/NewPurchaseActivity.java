@@ -613,11 +613,6 @@ public class NewPurchaseActivity extends Activity {
 				}
 			});
 			
-			/**
-			 * final Product product = (Product) args.getSerializable("product");
-				final int availability = args.getInt("availability", -1);
-			 */
-			
 			addButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override

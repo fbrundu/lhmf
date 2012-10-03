@@ -3,6 +3,7 @@
     <issue id="UseSparseArrays">
         <ignore path="src\it\polito\ai\lhmf\android\EditPurchaseActivity.java" />
         <ignore path="src\it\polito\ai\lhmf\android\NewPurchaseActivity.java" />
+        <ignore path="src\it\polito\ai\lhmf\android\normal\EditPurchaseActivity.java" />
         <ignore path="src\it\polito\ai\lhmf\android\normal\NewPurchaseActivity.java" />
     </issue>
 </lint>

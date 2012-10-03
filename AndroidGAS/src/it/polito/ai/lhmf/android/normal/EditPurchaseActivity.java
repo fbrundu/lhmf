@@ -2,16 +2,13 @@ package it.polito.ai.lhmf.android.normal;
 
 import it.polito.ai.lhmf.android.ProductDetailsActivity;
 import it.polito.ai.lhmf.android.R;
-import it.polito.ai.lhmf.android.R.id;
-import it.polito.ai.lhmf.android.R.layout;
-import it.polito.ai.lhmf.android.R.string;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
-import it.polito.ai.lhmf.model.PurchaseProduct;
 import it.polito.ai.lhmf.android.util.SeparatedListAdapter;
 import it.polito.ai.lhmf.model.Order;
 import it.polito.ai.lhmf.model.Product;
 import it.polito.ai.lhmf.model.Purchase;
+import it.polito.ai.lhmf.model.PurchaseProduct;
 
 import java.util.ArrayList;
 import java.util.Collections;

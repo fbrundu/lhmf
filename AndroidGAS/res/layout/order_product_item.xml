@@ -5,7 +5,7 @@
         android:gravity="center_vertical|right"
         android:orientation="horizontal"
         android:padding="5dp" >
-
+
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="58dp"
@@ -35,7 +35,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </LinearLayout>
-
+
         <CheckBox
             android:id="@+id/order_add_product_checkbox"
             android:layout_width="wrap_content"
