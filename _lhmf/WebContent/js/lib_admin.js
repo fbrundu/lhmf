@@ -1054,13 +1054,16 @@ function activeUserSearch()
                       itemsPerPage: itemsPerPage }, postMemberToActivateHandler);
 }
 
-function clickMemberActivationHandler(event){
-	event.preventDefault();
-	
-	var form = $(this).parents('form');
-	var idMember = $('input', form).val();
-	
-	$.post("ajax/activeMember", {idMember: idMember}, postMemberActivationHandler);
+function clickMemberActivationHandler(event)
+{
+  event.preventDefault();
+
+  var form = $(this).parents('form');
+  var idMember = $('input', form).val();
+
+  $.post("ajax/activeMember", {
+    idMember : idMember
+  }, postMemberActivationHandler);
 
 }
 

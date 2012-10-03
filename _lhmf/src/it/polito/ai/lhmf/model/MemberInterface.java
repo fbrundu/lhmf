@@ -245,6 +245,18 @@ public class MemberInterface
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer activateMember(Integer idMember)
+			throws InvalidParametersException
+	{
+		if (idMember == null)
+			throw new InvalidParametersException();
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Member set status = 2 " + "where idMember = :idMember");
+
+		return (Integer) query.uniqueResult();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer updateMember(Member member)
 			throws InvalidParametersException
 	{
@@ -364,6 +376,34 @@ public class MemberInterface
 		return l.subList(startIndex, endIndex);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembers(MemberType memberType, Integer page,
+			Integer itemsPerPage)
+	{
+		Query query = null;
+		if (memberType != null)
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"from Member" + "where memberType = :memberType"
+							+ " order by idMember");
+			query.setParameter("memberType", memberType);
+		}
+		else
+		{
+			query = sessionFactory.getCurrentSession().createQuery(
+					"from Member" + "order by idMember");
+		}
+
+		List<Member> l = (List<Member>) query.list();
+
+		int startIndex = page * itemsPerPage;
+		int endIndex = startIndex + itemsPerPage;
+
+		return l.subList(startIndex, endIndex);
+	}
+
+	
 	@Transactional(readOnly = true)
 	public Long getNumberItemsToActivate()
 	{
