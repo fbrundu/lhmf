@@ -95,22 +95,19 @@ public class OrderInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getActiveOrders(long start, Member memberResp) {
+	public List<Order> getActiveOrders(Member memberResp) {
 		
 		//Creo il Current timestamp
 		Calendar calendar = Calendar.getInstance();  
-		java.util.Date now = calendar.getTime();
-		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(now.getTime());
-		Timestamp startDate = new Timestamp(start);
+		Date now = calendar.getTime();
+		Timestamp currentTimestamp = new Timestamp(now.getTime());
 		
 		Query query = sessionFactory.getCurrentSession()
 				.createQuery("from Order where idMember_resp = :id " +
-										  "AND dateClose > :dateNow " +
-										  "AND dateOpen > :startDate");
+										  "AND dateClose > :dateNow");
 		
 		query.setParameter("id", memberResp.getIdMember());
 		query.setTimestamp("dateNow", currentTimestamp);
-		query.setTimestamp("startDate", startDate);
 	
 		return query.list();
 	}
