@@ -178,30 +178,46 @@ public class OrderInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOldOrders(Member memberResp, long start, long end,
-			boolean settedDeliveryDate) {
+	public List<Order> getOldOrders(Member memberResp, long end, int dateDeliveryType) {
 		
-		Timestamp startDate = new Timestamp(start);
+		//dateDeliveryType
+		// 0 = Impostata
+		// 1 = Non Impostata
+		// 2 = Entrambe
+		
 		Timestamp endDate = new Timestamp(end);
-		Query query;
-		if(settedDeliveryDate) {
-			query = sessionFactory.getCurrentSession()
-					.createQuery("from Order where idMember_resp = :id " +
-											  "AND dateClose < :endDate " +
-											  "AND dateOpen > :startDate " +
-											  "AND dateDelivery is not null");
-		} else {
-			
-			query = sessionFactory.getCurrentSession()
-					.createQuery("from Order where idMember_resp = :id " +
-											  "AND dateClose < :endDate " +
-											  "AND dateOpen > :startDate " +
-											  "AND dateDelivery is null");
+		
+		Query query = null;
+		
+		switch(dateDeliveryType) 
+		{
+			case 0:
+				
+				query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where idMember_resp = :id " +
+										  "AND dateClose >= :endDate " +
+										  "AND dateDelivery is not null");
+				
+				break;
+			case 1: 
+				
+				query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where idMember_resp = :id " +
+										  "AND dateClose >= :endDate " +
+										  "AND dateDelivery is null");
+				
+				break;
+			case 2:
+				
+				query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where idMember_resp = :id " +
+										  "AND dateClose >= :endDate ");
+				
+				break;
+		
 		}
 		
-				
 		query.setParameter("id", memberResp.getIdMember());
-		query.setTimestamp("startDate", startDate);
 		query.setTimestamp("endDate", endDate);
 	
 		return query.list();
