@@ -14,7 +14,6 @@ import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -107,23 +106,7 @@ public class NormalAjaxController
 			@RequestParam(value = "idPurchase") int idPurchase)
 			throws InvalidParametersException
 	{
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		Order order = purchase.getOrder();
-
-		Set<Product> returnList = new HashSet<Product>();
-		Set<OrderProduct> sProduct = order.getOrderProducts();
-
-		for (OrderProduct op : sProduct)
-			returnList.add(op.getProduct());
-
-		Set<PurchaseProduct> ppList = purchase.getPurchaseProducts();
-
-		for (PurchaseProduct product : ppList)
-		{
-			returnList.remove(product.getProduct());
-		}
-
-		return returnList;
+		return purchaseInterface.getOtherProductsOfOrder(idPurchase);
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -132,11 +115,8 @@ public class NormalAjaxController
 	public @ResponseBody
 	List<Order> getOrdersString(HttpServletRequest request, HttpSession session)
 	{
-
-		String username = (String) session.getAttribute("username");
-		Member memberNormal = memberInterface.getMember(username);
-
-		return orderInterface.getAvailableOrders(memberNormal);
+		return orderInterface.getAvailableOrders((String) session
+				.getAttribute("username"));
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
