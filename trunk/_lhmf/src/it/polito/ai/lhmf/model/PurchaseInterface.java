@@ -30,9 +30,7 @@ public class PurchaseInterface
 {
 	private SessionFactory sessionFactory;
 	
-	@Autowired
 	private ProductInterface productInterface;
-	@Autowired
 	private OrderInterface orderInterface;
 	@Autowired
 	private MemberInterface memberInterface;
@@ -42,15 +40,15 @@ public class PurchaseInterface
 		this.sessionFactory = sf;
 	}
 	
-//	public void setProductInterface(ProductInterface pi)
-//	{
-//		this.productInterface = pi;
-//	}
-//	
-//	public void setOrderInterface(OrderInterface oi)
-//	{
-//		this.orderInterface = oi;
-//	}
+	public void setProductInterface(ProductInterface pi)
+	{
+		this.productInterface = pi;
+	}
+	
+	public void setOrderInterface(OrderInterface oi)
+	{
+		this.orderInterface = oi;
+	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newPurchase(Purchase purchase)
