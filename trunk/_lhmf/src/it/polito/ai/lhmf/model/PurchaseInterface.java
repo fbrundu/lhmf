@@ -331,58 +331,67 @@ public class PurchaseInterface
 		sessionFactory.getCurrentSession().buildLockRequest(new LockOptions(LockMode.PESSIMISTIC_WRITE)).lock(order);
 		
 		boolean available = false;
-		List<Order> availableOrders = orderInterface.getAvailableOrders(memberNormal);
-		
-		//Verifica che l'utente non abbia gi� compilato una scheda per quest'ordine
-		for(Order tmp : availableOrders){
-			if(tmp.getIdOrder() == order.getIdOrder()){
-				available = true;
-				break;
+		List<Order> availableOrders;
+		try
+		{
+			availableOrders = orderInterface.getAvailableOrders(memberNormal.getUsername());
+			//Verifica che l'utente non abbia gi� compilato una scheda per quest'ordine
+			for(Order tmp : availableOrders){
+				if(tmp.getIdOrder() == order.getIdOrder()){
+					available = true;
+					break;
+				}
 			}
-		}
-		
-		if(!available)
-			return -1;
-		
-		for( int i = 0; i < ids.length; i++) 
-		{	
-			Product product = productInterface.getProduct(ids[i]);
-			Integer amount = amounts[i];
 			
-			if(product == null || amount == null || amount <= 0)
+			if(!available)
 				return -1;
 			
-			Integer maxBuy = product.getMaxBuy();
-			
-			//Controllo disponibilit� quantit� richiesta
-			if(maxBuy != null){
-				Integer alreadyBought = orderInterface.getTotalAmountOfProduct(order, product);//orderInterface.getBoughtAmounts(order.getIdOrder(), Collections.singletonList(product.getIdProduct())).get(0);
-				if(amount > maxBuy - alreadyBought)
+			for( int i = 0; i < ids.length; i++) 
+			{	
+				Product product = productInterface.getProduct(ids[i]);
+				Integer amount = amounts[i];
+				
+				if(product == null || amount == null || amount <= 0)
 					return -1;
+				
+				Integer maxBuy = product.getMaxBuy();
+				
+				//Controllo disponibilit� quantit� richiesta
+				if(maxBuy != null){
+					Integer alreadyBought = orderInterface.getTotalAmountOfProduct(order, product);//orderInterface.getBoughtAmounts(order.getIdOrder(), Collections.singletonList(product.getIdProduct())).get(0);
+					if(amount > maxBuy - alreadyBought)
+						return -1;
+				}
 			}
+			
+			Purchase purchase = new Purchase(order, memberNormal);
+			
+			int result;
+			if((result = newPurchase(purchase)) <= 0)
+			{
+				return result;
+			}
+			
+			// setto la data odierna
+			Calendar calendar = Calendar.getInstance();
+			Date insertedTimestamp = calendar.getTime();
+			
+			for( int i = 0; i < ids.length; i++) 
+			{
+				Product product = productInterface.getProduct(ids[i]);
+				PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), product.getIdProduct());
+				PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amounts[i], insertedTimestamp);				
+				//In questo caso, dato che l'id non � generato ma gi� passato, se ci sono errori lancia un'eccezione
+				newPurchaseProduct(purchaseproduct);
+			}		
+			return 1;
 		}
-		
-		Purchase purchase = new Purchase(order, memberNormal);
-		
-		int result;
-		if((result = newPurchase(purchase)) <= 0)
+		catch (Exception e)
 		{
-			return result;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
 		}
-		
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		Date insertedTimestamp = calendar.getTime();
-		
-		for( int i = 0; i < ids.length; i++) 
-		{
-			Product product = productInterface.getProduct(ids[i]);
-			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), product.getIdProduct());
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amounts[i], insertedTimestamp);				
-			//In questo caso, dato che l'id non � generato ma gi� passato, se ci sono errori lancia un'eccezione
-			newPurchaseProduct(purchaseproduct);
-		}		
-		return 1;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
