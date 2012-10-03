@@ -321,8 +321,9 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-	public Integer createPurchase(Member memberNormal, Integer idOrder,
+	public Integer createPurchase(String username, Integer idOrder,
 			Integer[] ids, Integer[] amounts) throws InvalidParametersException {
+		
 		Order order = orderInterface.getOrder(idOrder);
 		
 		if(order == null)
@@ -334,7 +335,7 @@ public class PurchaseInterface
 		List<Order> availableOrders;
 		try
 		{
-			availableOrders = orderInterface.getAvailableOrders(memberNormal.getUsername());
+			availableOrders = orderInterface.getAvailableOrders(username);
 			//Verifica che l'utente non abbia gi� compilato una scheda per quest'ordine
 			for(Order tmp : availableOrders){
 				if(tmp.getIdOrder() == order.getIdOrder()){
@@ -364,7 +365,7 @@ public class PurchaseInterface
 				}
 			}
 			
-			Purchase purchase = new Purchase(order, memberNormal);
+			Purchase purchase = new Purchase(order, memberInterface.getMember(username));
 			
 			int result;
 			if((result = newPurchase(purchase)) <= 0)
