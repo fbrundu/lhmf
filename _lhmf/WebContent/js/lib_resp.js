@@ -15,7 +15,7 @@
         $("#messagesLink").click(messagesClicked);
         //registerForMessages();
         //registerForNotifies();
-        registerForNews();
+        //registerForNews();
       
         $.datepicker.setDefaults({
             dateFormat : 'dd/mm/yy'
@@ -24,6 +24,8 @@
     });
 
 })(window);
+
+var startRefresh = 0;
 
 function historyStateChanged()
 {
@@ -36,21 +38,27 @@ function historyStateChanged()
   {
   case 'notifiche':
     getMyNotifies();
+    startRefresh = 0;
     break;
   case 'messaggi':
     getMyMessages();
+    startRefresh = 0;
     break;
   case 'statResp':
     writeStatPageResp();
+    startRefresh = 0;
     break;
   case 'order':
     writeOrderPage();
+    startRefresh = 0;
     break;
   case 'purchase':
     writePurchasePage();
+    startRefresh = 1;
     break;
   default:
     writeIndexPage();
+    startRefresh = 0;
   }
 }
 
