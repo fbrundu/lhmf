@@ -16,8 +16,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -36,7 +34,7 @@ public class AndroidOrderController {
 	
 	@RequestMapping(value = "/androidApi/getorderproducts", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Product> getOrderProducts(HttpServletRequest request, @RequestParam(value="idOrder", required=true) Integer idOrder)
+	List<Product> getOrderProducts(@RequestParam(value="idOrder", required=true) Integer idOrder)
 	{
 		List<Product> productsList = null;
 		productsList = orderInterface.getProducts(idOrder);
@@ -44,7 +42,7 @@ public class AndroidOrderController {
 	}
 	
 	@RequestMapping(value = "/androidApi/getboughtamounts", method = RequestMethod.GET)
-	public @ResponseBody List<Integer> getBoughtAmounts(HttpServletRequest request, @RequestParam(value="idOrder", required=true) Integer idOrder,
+	public @ResponseBody List<Integer> getBoughtAmounts(@RequestParam(value="idOrder", required=true) Integer idOrder,
 			 @RequestParam(value="productIds", required=true) String productIdsString){
 		
 		if(idOrder != null && productIdsString != null && productIdsString.length() > 0){
@@ -62,7 +60,7 @@ public class AndroidOrderController {
 	
 	@RequestMapping(value = "/androidApi/getavailableordersforpurchase", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Order> getAvailableOrdersForPurchase(HttpServletRequest request, Principal principal)
+	List<Order> getAvailableOrdersForPurchase(Principal principal)
 	{
 		String userName = principal.getName();
 		Member member = memberInterface.getMember(userName);
@@ -78,13 +76,13 @@ public class AndroidOrderController {
 	
 	@RequestMapping(value = "/androidApi/getorderprogress", method = RequestMethod.GET)
 	public @ResponseBody
-	Float getOrderProgress(HttpServletRequest request, @RequestParam(value="idOrder", required=true) Integer idOrder){
+	Float getOrderProgress(@RequestParam(value="idOrder", required=true) Integer idOrder){
 		return orderInterface.getProgress(idOrder);
 	}
 	
 	@RequestMapping(value = "/androidApi/getordersprogresses", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Float> getOrdersProgresses(HttpServletRequest request, @RequestParam(value="orderIds", required=true) String orderIdsString){
+	List<Float> getOrdersProgresses(@RequestParam(value="orderIds", required=true) String orderIdsString){
 		if(orderIdsString != null && orderIdsString.length() > 0){
 			String[] splittedIds = orderIdsString.split(",");
 			List<Integer> orderIds = new ArrayList<Integer>();
@@ -154,6 +152,20 @@ public class AndroidOrderController {
 		}
 		return -1;
 		
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getactiveorderresp", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getActiveOrder(Principal principal) throws InvalidParametersException
+	{
+		String username = principal.getName();
+		
+		Member memberResp = memberInterface.getMember(username);
+		
+		List<Order> listOrder = null;
+		listOrder = orderInterface.getActiveOrders(memberResp);
+		return listOrder;
 	}
 	
 	
