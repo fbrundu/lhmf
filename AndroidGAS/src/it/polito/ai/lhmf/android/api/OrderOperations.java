@@ -20,4 +20,6 @@ public interface OrderOperations {
 	Supplier[] getMySuppliers();
 	
 	Integer newOrder(Integer idSupplier, List<Integer> ids, String orderName, Long dateClose);
+
+	Order[] getRespActiveOrders();
 }

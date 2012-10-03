@@ -132,4 +132,15 @@ public class OrderTemplate implements OrderOperations {
 		return null;
 	}
 
+	@Override
+	public Order[] getRespActiveOrders() {
+		try {
+			Order[] res = template.getForObject(Gas.baseApiUrl + "getactiveorderresp", Order[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

@@ -49,4 +49,7 @@
     <string name="order_name">"Nome ordine: "</string>
     <string name="order_close_date">Data di chiusura: </string>
     <string name="create_new_order">Nuovo ordine</string>
+    <string name="new_purchase">Nuova scheda</string>
+    <string name="active_orders">Ordini attivi</string>
+    <string name="no_active_orders">Non ci sono ordini attivi</string>
 </resources>
