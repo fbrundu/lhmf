@@ -1,25 +1,25 @@
 window.setInterval(function(){
 
-	
-	$.post("ajax/getOrdersString", function(orderList) 
-	{
+	if (startRefresh == 1) {
 		
-		$.each(orderList, function(index, val)
+		$.post("ajax/getOrdersString", function(orderList) 
 		{
-			refreshProgressBar(val.idOrder);
+			
+			$.each(orderList, function(index, val)
+			{
+				refreshProgressBar(val.idOrder);
+			});
 		});
-	});
-	
-	
-	
-	$.post("ajax/getActivePurchase", function(purchaseList) {
+		
+		
+		
+		$.post("ajax/getActivePurchase", function(purchaseList) {
 
-		$.each(purchaseList, function(index, val) {
-			refreshProgressBarOrder(val.idPurchase);
+			$.each(purchaseList, function(index, val) {
+				refreshProgressBarOrder(val.idPurchase);
+			});
 		});
-	});
-	
-	
+	}
 	
 }, 5000);
 
@@ -319,11 +319,11 @@ function productListRequest(idO)
 	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti in Listino</h1>" +
           					"<div id='catalog'></div>");
 		
-	$.post("ajax/getProductFromOrder", {idOrder: idOrder}, postProductListRequest);
+	$.post("ajax/getProductFromOrder", {idOrder: idOrder}, postProductListOrderRequest);
 	
 }
 
-function postProductListRequest(productList) 
+function postProductListOrderRequest(productList) 
 {
 	$("#errorDivPurchase").hide();
 	if(productList.length < 1) 
