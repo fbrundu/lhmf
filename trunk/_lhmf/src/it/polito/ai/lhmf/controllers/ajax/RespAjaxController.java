@@ -8,8 +8,6 @@ import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.model.SupplierInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
-import it.polito.ai.lhmf.orm.OrderProduct;
-import it.polito.ai.lhmf.orm.OrderProductId;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
@@ -258,39 +256,34 @@ public class RespAjaxController
 			@RequestParam(value = "idString") String idString,
 			@RequestParam(value = "dataCloseTime") long dataCloseTime) throws InvalidParametersException, ParseException
 	{
-		Supplier supplier = supplierInterface.getSupplier(idSupplier);
-		Member Resp = memberInterface.getMember((String) session.getAttribute("username"));
+		List<Integer> productIds = new ArrayList<Integer>();
+		String username = (String) session.getAttribute("username");
+		Member resp = memberInterface.getMember(username);
+		
+		if(resp == null)
+			return -1;
 		
 		// setto la data odierna
 		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String sDate = dateFormat.format(calendar.getTime());
-		Date dateOpen = dateFormat.parse(sDate);
+		Date dateOpen = calendar.getTime();
+		
 		Date dateClose = new Date(dataCloseTime);
-			
-		Order order = new Order(supplier, Resp, orderName, dateOpen, dateClose);
 		
-		int result = -1;
-		if((result = orderInterface.newOrder(order)) <= 0)
-		{
-			return result;
-		}
-	
 		String[] temp = idString.split(",");
-		Set<Product> setProduct = new HashSet<Product>();
-		
-		for(String element:temp) 
-			setProduct.add(poductInterface.getProduct(Integer.parseInt(element)));
-		
-		for(Product product : setProduct){
-			OrderProductId id = new OrderProductId(order.getIdOrder(), product.getIdProduct());
-			OrderProduct orderproduct = new OrderProduct(id, order, product);
-			
-			//In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
-			orderInterface.newOrderProduct(orderproduct);
+		if(temp.length > 0){
+			for(int i = 0; i < temp.length; i++){
+				try {
+					Integer id = Integer.valueOf(temp[i]);
+					productIds.add(id);
+				} catch(NumberFormatException e){
+					e.printStackTrace();
+					throw new InvalidParametersException();
+				}
+				
+			}
+			return orderInterface.createOrder(resp, idSupplier, productIds, orderName, dateOpen, dateClose);
 		}
-		
-		return 1;
+		return -1;
 		
 	}
 	

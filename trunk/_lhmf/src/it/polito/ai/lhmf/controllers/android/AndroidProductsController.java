@@ -12,6 +12,7 @@ import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -157,10 +158,6 @@ public class AndroidProductsController {
 			p.setSupplier(s);
 			p.setProductCategory(pc);
 			
-//			String contentType = picture.getContentType();
-//			if(!contentType.matches("image/.*"))
-//				return -1;
-			
 			ServletContext context = request.getServletContext();
 			String serverPath = "img/prd/";
 			String realPath = context.getRealPath(serverPath);
@@ -181,6 +178,34 @@ public class AndroidProductsController {
 		List<Product> productsList = null;
 		productsList = productInterface.getProductsBySupplier(memberSupplier);
 		return productsList;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getsupplierproducts", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Product> getSupplierProducts(HttpServletRequest request, Principal principal,
+			@RequestParam(value="idSupplier") Integer idSupplier)
+	{
+		List<Product> ret = new ArrayList<Product>();
+		String username = principal.getName();
+		Member memberResp = memberInterface.getMember(username);
+		
+		Supplier supp = supplierInterface.getSupplier(idSupplier);
+		
+		if(memberResp == null || supp == null)
+			return ret;
+		
+		if(supp.getMemberByIdMemberResp().getIdMember() != memberResp.getIdMember())
+			return ret;
+		
+		List<Product> productsList = null;
+		productsList = productInterface.getProductsBySupplier(supp.getMemberByIdMember());
+		
+		for(Product p : productsList)
+			if(p.isAvailability() == true)
+				ret.add(p);
+		
+		return ret;
 	}
 
 	private boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy) {
