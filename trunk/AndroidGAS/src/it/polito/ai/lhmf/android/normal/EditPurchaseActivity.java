@@ -763,12 +763,7 @@ public class EditPurchaseActivity extends Activity {
 					startActivity(i);
 				}
 			});
-			
-			/**
-			 * final Product product = (Product) args.getSerializable("product");
-				final int availability = args.getInt("availability", -1);
-			 */
-			
+						
 			addButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
