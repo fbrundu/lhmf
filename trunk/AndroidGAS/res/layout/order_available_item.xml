@@ -119,9 +119,9 @@
             android:text="@string/orderCloseDate"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
-
+
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/order_progress_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"

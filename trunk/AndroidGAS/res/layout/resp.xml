@@ -12,24 +12,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_new_order" />
-
+
     <Button
         android:id="@+id/active_orders_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="3dp"
         android:text="@string/active_orders" />
+
+    <Button
+        android:id="@+id/completed_orders_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="@string/completed_orders" />
+
+    <Button
+        android:id="@+id/shipped_orders_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="@string/shipped_orders" />
+
+    <Button
+        android:id="@+id/order_history_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="3dp"
+        android:text="@string/order_history" />
 
     <Button
         android:id="@+id/newPurchaseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_purchase" />
-
+
     <Button
         android:id="@+id/activePurchasesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
         android:text="@string/active_purchases_main" />
 
 </LinearLayout>

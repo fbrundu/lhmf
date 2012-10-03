@@ -5,6 +5,7 @@ import java.util.List;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.OrderOperations;
 import it.polito.ai.lhmf.model.Order;
+import it.polito.ai.lhmf.model.OrderProduct;
 import it.polito.ai.lhmf.model.Product;
 import it.polito.ai.lhmf.model.Supplier;
 
@@ -21,7 +22,7 @@ public class OrderTemplate implements OrderOperations {
 	}
 	
 	@Override
-	public Product[] getOrderProducts(Integer idOrder) {
+	public Product[] getProducts(Integer idOrder) {
 		try {
 			Product[] res = template.getForObject(Gas.baseApiUrl + "getorderproducts?idOrder={id}", Product[].class, idOrder);
 			return res;
@@ -136,6 +137,40 @@ public class OrderTemplate implements OrderOperations {
 	public Order[] getRespActiveOrders() {
 		try {
 			Order[] res = template.getForObject(Gas.baseApiUrl + "getactiveorderresp", Order[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Order[] getRespCompletedOrders() {
+		try {
+			Order[] res = template.getForObject(Gas.baseApiUrl + "getcompletedordersresp", Order[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Order[] getRespShippedOrders() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Order[] gerRespOrderHistory(Long closedAfterDate) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OrderProduct[] getOrderProducts(Integer orderId) {
+		try {
+			OrderProduct[] res = template.getForObject(Gas.baseApiUrl + "getorderorderproducts?idOrder={id}", OrderProduct[].class, orderId);
 			return res;
 		} catch(RestClientException e){
 			e.printStackTrace();

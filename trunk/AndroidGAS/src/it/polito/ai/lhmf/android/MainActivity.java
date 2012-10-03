@@ -10,6 +10,7 @@ import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 import it.polito.ai.lhmf.android.normal.ActivePurchasesActivity;
 import it.polito.ai.lhmf.android.normal.PurchaseAvailabeOrdersActivity;
 import it.polito.ai.lhmf.android.resp.ActiveOrdersActivity;
+import it.polito.ai.lhmf.android.resp.CompletedOrdersActivity;
 import it.polito.ai.lhmf.android.resp.NewOrderActivity;
 import it.polito.ai.lhmf.android.supplier.ListinoActivity;
 import it.polito.ai.lhmf.android.supplier.NewProductActivity;
@@ -127,6 +128,38 @@ public class MainActivity extends Activity {
 				startActivity(activeOrdersIntent);
 			}
 		});
+		
+		Button completedOrders = (Button) findViewById(R.id.completed_orders_button);
+		completedOrders.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent completedOrdersIntent = new Intent(MainActivity.this, CompletedOrdersActivity.class);
+				startActivity(completedOrdersIntent);
+			}
+		});
+		
+		Button shippedOrders = (Button) findViewById(R.id.shipped_orders_button);
+		shippedOrders.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		Button orderHistory = (Button) findViewById(R.id.order_history_button);
+		orderHistory.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 		
 		Button newPurchase = (Button) findViewById(R.id.newPurchaseButton);
 		newPurchase.setOnClickListener(new View.OnClickListener() {
