@@ -8,6 +8,7 @@ import it.polito.ai.lhmf.orm.OrderProductId;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.Supplier;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -29,12 +30,24 @@ public class OrderInterface
 {
 	
 	private SessionFactory sessionFactory;
+	
+	private SupplierInterface supplierInterface;
+	
+	private ProductInterface productInterface;
 		
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
 	}
-	
+
+	public void setSupplierInterface(SupplierInterface supplierInterface) {
+		this.supplierInterface = supplierInterface;
+	}
+
+	public void setProductInterface(ProductInterface productInterface) {
+		this.productInterface = productInterface;
+	}
+
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newOrder(Order order)
 			throws InvalidParametersException
@@ -568,5 +581,41 @@ public class OrderInterface
 			throw new InvalidParametersException();
 		}
 		return (OrderProductId) sessionFactory.getCurrentSession().save(orderProduct);
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer createOrder(Member resp, int idSupplier,
+			List<Integer> productIds, String orderName, Date dateOpen,
+			Date dateClose) throws InvalidParametersException {
+		Supplier supplier = supplierInterface.getSupplier(idSupplier);
+		if(supplier == null)
+			return -1;
+		
+		if(supplier.getMemberByIdMemberResp().getIdMember() != resp.getIdMember())
+			return -1;
+		
+		Order order = new Order(supplier, resp, orderName, dateOpen, dateClose);
+		
+		int result = -1;
+		if((result = newOrder(order)) <= 0)
+		{
+			return result;
+		}
+	
+		
+		
+		for(Integer productId : productIds){
+			Product p = productInterface.getProduct(productId);
+			if(p == null || p.getSupplier().getIdMember() != supplier.getIdMember())
+				//Lancio eccezione così viene fato il rollback e viene eliminato l'ordine
+				throw new InvalidParametersException();
+			
+			OrderProductId id = new OrderProductId(order.getIdOrder(), p.getIdProduct());
+			OrderProduct orderproduct = new OrderProduct(id, order, p);
+			
+			//In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			newOrderProduct(orderproduct);
+		}
+		return 1;
 	}
 }

@@ -53,6 +53,8 @@
     
     <bean id="orderDao" class="it.polito.ai.lhmf.model.OrderInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="supplierInterface" ref="supplierDao"/>
+        <property name="productInterface" ref="productDao"/>
     </bean>
     
     <bean id="userDao" class="it.polito.ai.lhmf.model.UserInterface">
