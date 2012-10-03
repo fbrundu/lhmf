@@ -269,6 +269,16 @@ public class OrderInterface
 		}
 		return null;
 	}
+	
+	@Transactional(readOnly=true)
+	public List<OrderProduct> getOrderProducts(Integer idOrder){
+		Order order = getOrder(idOrder);
+		if(order != null){
+			List<OrderProduct> ret = new ArrayList<OrderProduct>(order.getOrderProducts());
+			return ret;
+		}
+		return null;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
