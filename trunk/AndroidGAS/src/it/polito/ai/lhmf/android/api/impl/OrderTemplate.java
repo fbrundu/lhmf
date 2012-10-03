@@ -1,10 +1,15 @@
 package it.polito.ai.lhmf.android.api.impl;
 
+import java.util.List;
+
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.OrderOperations;
 import it.polito.ai.lhmf.model.Order;
 import it.polito.ai.lhmf.model.Product;
+import it.polito.ai.lhmf.model.Supplier;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -86,6 +91,45 @@ public class OrderTemplate implements OrderOperations {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public Supplier[] getMySuppliers() {
+		try{
+			Supplier[] res = template.getForObject(Gas.baseApiUrl + "getmysuppliers", Supplier[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Integer newOrder(Integer idSupplier, List<Integer> productIds, String orderName, Long dateClose) {
+		if(idSupplier != null && productIds != null && productIds.size() > 0 && orderName != null && dateClose != null){
+			StringBuilder idsBuilder = new StringBuilder();;
+			for(int i = 0; i < productIds.size(); i++){
+				idsBuilder.append(productIds.get(i));
+				
+				if(i != productIds.size() - 1)
+					idsBuilder.append(',');
+			}
+			
+			MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
+			value.add("idSupplier", idSupplier.toString());
+			value.add("dataCloseTime", dateClose.toString());
+			value.add("idString", idsBuilder.toString());
+			value.add("orderName", orderName);
+			
+			try {
+				Integer res = template.postForObject(Gas.baseApiUrl + "setneworder", value, Integer.class);
+				return res;
+			} catch (RestClientException e){
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
 	}
 
 }
