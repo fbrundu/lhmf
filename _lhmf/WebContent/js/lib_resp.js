@@ -933,16 +933,15 @@ function postShipOrderListHandler(orderList) {
             
             var dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery));
             
-            $("#shipOrderList").append("<tr id='idOrderShip_" + order.idOrder + "'></tr>");
-            
-            $("#idOrderShip_" + order.idOrder).append(
-            										  "<td>" + order.idOrder +"</td>" +
-            										  "<td>" + order.orderName +"</td>" +
-                                              		  "<td>" + order.supplier.companyName + "</td>" +
-                                              		  "<td>" + dateDelivery + "</td>" +
-                                              		  "<td><button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Mostra Schede </button>" +
-            										  "</td>" );
-            
+            $("#shipOrderList").append("<tr id='idOrderShip_" + order.idOrder + "' data-shipcount='0'>" +
+					            		"<td>" + order.idOrder +"</td>" +
+										  "<td>" + order.orderName +"</td>" +
+					            		  "<td>" + order.supplier.companyName + "</td>" +
+					            		  "<td>" + dateDelivery + "</td>" +
+					            		  "<td><button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Mostra Schede </button>" +
+										  "</td>" +
+					            		"</tr>");
+
             $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
             $("#showDetailsShip_" + order.idOrder).on("click", clickShowDetailShipsHandler);
@@ -1009,7 +1008,12 @@ function postShowPurchaseHandler(data) {
 		
 		$.postSync("ajax/getPurchaseProducts", {idPurchase: val.idPurchase}, function(data) { products = data; });
 		
+		var countShip = 0;
+		
 		$.each(products, function(index, val2) {
+			
+			countShip++;
+			
 			var amount = 0;
 			$.postSync("ajax/getPurchaseAmount", {idPurchase: val.idPurchase, idProduct: val2.idProduct}, function(data) { amount = data; });
 			var temp = amount * val2.unitCost;
@@ -1026,7 +1030,11 @@ function postShowPurchaseHandler(data) {
 		
 		productTable += "</table>";
     
+		
+		
 		if(val.isShipped == "Spedizione Effettuata") {
+			
+			countShip--;
 			
 			$(tableControl).append("<tr style='background-color: #EDEDED; text-color: #CFCFCF;'> <td>" + val.idPurchase + "</td>" +
 					                    "<td>" + val.member.name + "</td>" +
@@ -1053,13 +1061,14 @@ function postShowPurchaseHandler(data) {
 								"<tr class='detailsPurchase' id='TRdetailsPurchase_" + val.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + val.idPurchase + "'>" +
 										"<div style='margin: 15px'>" + productTable + "</div></td></tr>");
 			
-		}    
-    });
-    
-	$.each(data, function(index, val)
-    {
+		}
+		
+		var idShipCount = "#idOrderShip_" + idOrder;
+		$(idShipCount).data('shipcount', countShip);
+		
 		$("#showDetailsPurchase_" + val.idPurchase).on("click", clickShowDetailsPurchaseHandler);
 		$("#setShip_" + val.idPurchase).on("click", clickSetShipPurchaseHandler);
+		
     });
 	
 	$(".detailsPurchase").hide();
@@ -1086,6 +1095,20 @@ function clickSetShipPurchaseHandler(event) {
 	} else {
 		$(tdControl).css('color','green');
 		$(tdControl).html("Effettuata");
+		
+		//aggiorno la quantità degli ordini ancora da consegnare
+		var idShipCount = "#idOrderShip_" + idOrder;
+		var countShip = $(idShipCount).data('shipcount');
+		countShip--;
+		
+		//Controllo se son state consegnate tutte le schede, in caso affermativo ricarico gli ordini in consegna
+		
+		if(countShip == 0) {
+			loadShipOrder();
+		} else {
+			$(idShipCount).data('shipcount', countShip);
+		}
+		
 	}
     
 }
