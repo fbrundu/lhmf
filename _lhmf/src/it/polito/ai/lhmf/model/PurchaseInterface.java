@@ -399,8 +399,10 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-	public Integer insertProduct(Member memberNormal, Integer idPurchase,
+	public Integer insertProduct(String username, Integer idPurchase,
 			Integer idProduct, Integer amountProduct) throws InvalidParametersException {
+		
+		Member member = memberInterface.getMember(username);
 		Integer disp = null;
 		
 		Product product = productInterface.getProduct(idProduct);
@@ -417,7 +419,7 @@ public class PurchaseInterface
 		if(purchase == null)
 			return -1;
 		
-		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
+		if(purchase.getMember().getIdMember() != member.getIdMember())
 			return -1;
 		
 		Order order = purchase.getOrder();

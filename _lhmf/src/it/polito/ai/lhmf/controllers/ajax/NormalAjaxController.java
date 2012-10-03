@@ -209,12 +209,10 @@ public class NormalAjaxController
 			@RequestParam(value = "amount") int amountProduct)
 			throws InvalidParametersException, ParseException
 	{
-		String username = (String) request.getSession()
-				.getAttribute("username");
-		Member memberNormal = memberInterface.getMember(username);
-
-		return purchaseInterface.insertProduct(memberNormal, idPurchase,
-				idProduct, amountProduct);
+		return purchaseInterface
+				.insertProduct(
+						(String) request.getSession().getAttribute("username"),
+						idPurchase, idProduct, amountProduct);
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
