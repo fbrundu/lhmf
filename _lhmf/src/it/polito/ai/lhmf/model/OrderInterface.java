@@ -34,6 +34,8 @@ public class OrderInterface
 	private SupplierInterface supplierInterface;
 	
 	private ProductInterface productInterface;
+	
+	private MemberInterface memberInterface;
 		
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -46,6 +48,10 @@ public class OrderInterface
 
 	public void setProductInterface(ProductInterface productInterface) {
 		this.productInterface = productInterface;
+	}
+	
+	public void setMemberInterface(MemberInterface memberInterface) {
+		this.memberInterface = memberInterface;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -630,5 +636,50 @@ public class OrderInterface
 			newOrderProduct(orderproduct);
 		}
 		return 1;
+	}
+	
+	@Transactional(readOnly=true)
+	public boolean isFailed(Integer idOrder){
+		Order order = getOrder(idOrder);
+		if(order == null)
+			return true;
+		
+		Set<OrderProduct> ops = order.getOrderProducts();
+		for(OrderProduct op : ops)
+			if(op.isFailed() == false)
+				return false;
+		
+		return true;
+	}
+	
+	@Transactional(readOnly=true)
+	public List<Order> getCompletedOrders(Integer idMemberResp) {
+		//dateDeliveryType
+		// 0 = Impostata
+		// 1 = Non Impostata
+		// 2 = Entrambe
+		
+		Member member = memberInterface.getMember(idMemberResp);
+		
+		if(member == null)
+			return null;
+		
+		List<Order> tmp = getOldOrders(member, 0, 1); //0 = "The epoch", 1 = data consegna non settata
+		
+		List<Order> ret = new ArrayList<Order>();
+		
+		for(Order o : tmp){
+			if(!isFailed(o.getIdOrder()))
+				ret.add(o);
+		}
+		
+		return ret;
+	}
+	
+	@Transactional(readOnly=true)
+	public List<Order> getCompletedOrders(String username){
+		Member member = memberInterface.getMember(username);
+		
+		return getCompletedOrders(member.getIdMember());
 	}
 }
