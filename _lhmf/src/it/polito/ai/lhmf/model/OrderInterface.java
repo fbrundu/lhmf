@@ -225,18 +225,18 @@ public class OrderInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOrdersToDelivery(Member memberResp, long start, long end) {
-		
-		Timestamp startDate = new Timestamp(start);
-		Timestamp endDate = new Timestamp(end);
-		
+	public List<Order> getOrdersToDelivery(Member memberResp) {
+				
 		Query query = sessionFactory.getCurrentSession()
-					.createQuery("from Order where idMember_resp = :id " +
-											  "AND dateDelivery between :startDate and :endDate");
+					.createQuery("from Order as o " +
+							     "where o.idOrder in ( select o2.idOrder " +
+							     					 "from Order as o2 " +
+												     "left join o2.purchases as p " +
+												     "where o2.member = :memberResp " +
+												     "AND p.isShipped = false " +
+												     "group by o2.idOrder )");
 		
-		query.setParameter("id", memberResp.getIdMember());
-		query.setTimestamp("startDate", startDate);
-		query.setTimestamp("endDate", endDate);
+		query.setParameter("memberResp", memberResp);
 
 		return query.list();
 	}
