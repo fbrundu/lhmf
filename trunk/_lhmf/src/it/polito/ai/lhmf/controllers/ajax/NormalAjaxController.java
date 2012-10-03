@@ -45,7 +45,8 @@ public class NormalAjaxController
 	@Autowired
 	private ProductInterface productInterface;
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+						  + ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Purchase> getActivePurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
@@ -60,7 +61,8 @@ public class NormalAjaxController
 		return listPurchase;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+			  		      + ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOldPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Purchase> getOldPurchase(HttpServletRequest request, HttpSession session) throws InvalidParametersException
@@ -75,7 +77,8 @@ public class NormalAjaxController
 		return listPurchase;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+						  + ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getProductFromOrder(HttpServletRequest request, HttpSession session,
@@ -86,7 +89,8 @@ public class NormalAjaxController
 		return ret;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	Product getProductNormal(HttpServletRequest request, HttpSession session,
@@ -96,7 +100,8 @@ public class NormalAjaxController
 		return product;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getPurchaseDetails", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
@@ -111,7 +116,8 @@ public class NormalAjaxController
 		return listProduct;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOtherProductsOfPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	Set<Product> getOtherProductsOfPurchase(HttpServletRequest request, HttpSession session,
@@ -136,7 +142,8 @@ public class NormalAjaxController
 		return returnList;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOrdersString", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getOrdersString(HttpServletRequest request, HttpSession session)
@@ -148,7 +155,8 @@ public class NormalAjaxController
 		return orderInterface.getAvailableOrders(memberNormal);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/setNewPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
@@ -185,7 +193,8 @@ public class NormalAjaxController
 			return -1;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getDispOfProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getDispOfProduct(HttpServletRequest request,
@@ -216,7 +225,8 @@ public class NormalAjaxController
 		return result;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getDispOfProductOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getDispOfProductOrder(HttpServletRequest request,
@@ -246,7 +256,8 @@ public class NormalAjaxController
 		return result;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+						+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/newPurchaseProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newPurchaseProduct(HttpServletRequest request,
@@ -260,7 +271,8 @@ public class NormalAjaxController
 		return purchaseInterface.insertProduct(memberNormal, idPurchase, idProduct, amountProduct);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/updatePurchaseProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer updatePurchaseProduct(HttpServletRequest request, HttpSession session,
@@ -280,7 +292,8 @@ public class NormalAjaxController
 		return purchaseInterface.updateProduct(memberNormal, idPurchase, idProduct, amountProduct);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/delPurchaseProduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer delPurchaseProduct(HttpServletRequest request, HttpSession session,
@@ -296,7 +309,8 @@ public class NormalAjaxController
 		return purchaseInterface.deletePurchaseProduct(memberNormal, idPurchase, idProduct);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getAmountfromPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getAmountfromPurchase(HttpServletRequest request, HttpSession session,
@@ -308,7 +322,8 @@ public class NormalAjaxController
 		return tmpPP.getAmount();
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+							+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProgressOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	Float getProgressOrder(HttpServletRequest request, HttpSession session,
@@ -317,7 +332,8 @@ public class NormalAjaxController
 		return orderInterface.getProgress(idOrder);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL
+								+ ", " + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProgressProductOfOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	List<String> getProgressProductOfOrder(HttpServletRequest request, HttpSession session,

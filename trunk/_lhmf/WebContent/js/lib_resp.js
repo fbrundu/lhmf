@@ -1429,11 +1429,3 @@ function dataDeliveryChange(idOrder) {
 	$("#dateDelivery_" + idOrder).css('background','#FFFFFF');
 	
 }
-
-//////////////////////////////
-//Parte utente normale
-///////////////////////////////
-function writePurchasePage()
-{
-    $(".centrale").html("Da Fare");
-}

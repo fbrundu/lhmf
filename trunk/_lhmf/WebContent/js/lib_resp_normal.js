@@ -23,90 +23,12 @@ window.setInterval(function(){
 	
 }, 5000);
 
-(function(window, undefined) {
-    var History = window.History;
-    $ = window.jQuery;
-    if (!(History.enabled))
-        console.log("HTML 5 History API is disabled!");
-    else
-        History.Adapter.bind(window, 'statechange', historyStateChanged);
-
-    $(function() 
-    {
-        $("#purchaseLink").click(purchaseClicked);
-        $("#statLink").click(statClicked);
-        $("#notifiesLink").click(notifiesClicked);
-        $("#messagesLink").click(messagesClicked);
-        //registerForMessages();
-        //registerForNotifies();
-        registerForNews();
-      
-        $.datepicker.setDefaults({
-            dateFormat : 'dd/mm/yy'
-        });
-        drawPageCallback();
-        
-    });
-    
-})(window);
-
-function historyStateChanged()
-{
-    var History = window.History;
-    var state = History.getState();
-    var stateData = state.data;
-    if (!stateData)
-        showIndex();
-    switch (stateData.action)
-    {
-    case 'notifiche':
-      getMyNotifies();
-      break;
-    case 'statNormal':
-      writeStatPageNormal();
-      break;
-    case 'messaggi':
-      getMyMessages();
-      break;
-    case 'purchase':
-        writePurchasePage();
-        break;
-    default:
-        writeIndexPage();
-    }
-}
-
-function purchaseClicked(event) 
-{
-  var History = window.History; 
-  if (History.enabled == true) {
-      event.preventDefault();
-        var state = History.getState();
-        var stateData = state.data;
-        if (!!stateData && !!stateData.action && stateData.action == 'purchase')
-            return;
-        History.pushState({action : 'purchase'}, null, 'purchase');
-    }
-}
-
-function statClicked(event) {
-	var History = window.History;	
-	  if (History.enabled == true) {
-	    event.preventDefault();
-	    var state = History.getState();
-	    var stateData = state.data;
-	    if (!!stateData && !!stateData.action
-	        && stateData.action == 'statNormal')
-	      return;
-	    History.pushState({
-	      action : 'statNormal'
-	    }, null, 'statNormal');
-	  }
-}
-
+//////////////////////////////
+//Parte utente normale
+///////////////////////////////
 function writePurchasePage()
 {
-  $("#bodyTitleHeader").html("Gestione schede");
+	$("#bodyTitleHeader").html("Gestione schede");
     $(".centrale").html("<div id='tabsPurchase'>" +
     		                    "<ul>" +
     		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
@@ -183,233 +105,6 @@ function writePurchasePage()
     preparePurchaseForm();
 }
 
-function writeStatPageNormal() {
-  $("#bodyTitleHeader").html("Statistiche utente");
-	$(".centrale").html("<div id='tabs'><ul>" +
-						"<li><a href='#tabs-1'>Movimenti</a></li>" +
-						"<li><a href='#tabs-2'>Prodotti</a></li>" +
-						"</ul>" +
-					    "<div id='tabs-1'></div>" +
-					    "<div id='tabs-2'></div>" +
-					    "</div>");
-	
-	var selectString1 = "<select name='yearS1' id='yearS1' class='field' onchange='refreshStatMese()'>";
-	for(var thisYear = new Date().getFullYear(); thisYear > 1990; thisYear--)
-		selectString1 += "<option value='" + thisYear + "'>" + thisYear + "</option>";
-	selectString1 += "</select>";
-	
-	  $('#tabs-1').html("<table id='canvNorm-1'>" +
-	  		"<tr><th> Anno " + selectString1 +"</th></tr>" +
-	  		"<tr><td id='tdNormSpesaMese'><canvas id='canvasNormSpesaMese' width='580' height='400'></canvas></td></tr><table>");
-	  $('#tabs-2').html("<table id='canvNorm-2'>" +
-		  		"<tr><th></th></tr>" +
-		  		"<tr><td id='tdProdTopSeller'><canvas id='canvasProdTopSeller' width='580' height='400'></canvas></td></tr><table>");
-	  $('#tabs').tabs();
-	  
-	  writeStatistics();
-}
-
-function writeStatistics() {
-		
-	$('#canvNorm-1').hide();
-	$('#canvNorm-2').hide();
-	
-	var year1 = $("#yearS1").val();
-	
-	$.post("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
-	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
-	
-	$('#canvNorm-1').show('slow');
-	$('#canvNorm-2').show('slow');
-}
-
-function refreshAllStat() {
-	
-	refreshStatMese();
-	refreshTopProduct();
-	
-}
-
-function refreshStatMese() {
-	
-	var year1 = $("#yearS1").val();
-	
-	$("#tdNormSpesaMese").hide("slow");
-	$("#tdNormSpesaMese").html("<canvas id='canvasNormSpesaMese' width='580' height='400'></canvas>");
-	
-	$.post("ajax/statNormMoneyMonth", {year: year1}, postStatNormMoneyMonthHandler);
-	
-	$("#tdNormSpesaMese").show("slow");
-}
-
-function refreshTopProduct() {
-	
-	
-	$("#tdProdTopSeller").hide("slow");
-	$("#tdProdTopSeller").html("<canvas id='canvasProdTopSeller' width='580' height='400'></canvas>");
-	
-	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
-	
-	$("#tdProdTopSeller").show("slow");
-}
-
-function postStatNormMoneyMonthHandler(data) {
-	
-	new CanvasXpress("canvasNormSpesaMese", {
-        "y": {
-          "vars": [
-            "Spesa Totale",
-            "Spesa Media"
-          ],
-          "smps": [
-			"Gennaio",
-			"Febbraio",
-			"Marzo",
-			"Aprile",
-			"Maggio",
-			"Giugno",
-			"Luglio",
-			"Agosto",
-			"Settembre",
-			"Ottobre",
-			"Novembre",
-			"Dicembre"
-          ],
-          "desc": [
-            "Spesa Totale Mensile",
-            "Spesa Media Mensile"
-          ],
-          "data": [
-            [
-              data[0],
-              data[2],
-              data[4],
-              data[6],
-              data[8],
-              data[10],
-              data[12],
-              data[14],
-              data[16],
-              data[18],
-              data[20],
-              data[22]
-            ],
-            [
-              data[1],
-              data[3],
-              data[5],
-              data[7],
-              data[9],
-              data[11],
-              data[13],
-              data[15],
-              data[17],
-              data[19],
-              data[21],
-              data[23]
-            ]
-          ]
-        },
-        "a": {
-          "xAxis": [
-            "Spesa Totale"
-          ],
-          "xAxis2": [
-            "Spesa Media"
-          ]
-        }
-      }, {
-        "graphType": "BarLine",
-        "title": "Distribuzione della spesa Totale/Media in un Anno",
-        "graphOrientation": "vertical",
-        //"backgroundType": "gradient",
-        "legendBox": false,
-        //"backgroundGradient2Color": "rgb(112,179,222)",
-        //"backgroundGradient1Color": "rgb(226,236,248)",
-        "colorScheme": "basic",
-        "legendBackgroundColor": false,
-        "lineType": "spline",
-        "smpHairlineColor": "rgb(100,100,100)",
-        "xAxisTickColor": "rgb(100,100,100)",
-        "smpTitle": "Mesi"
-      });
-	
-}
-
-
-function postStatProdTopProductHandler(data) {
-    
-    var json = ' { "x": { "Response": [ ' +
-                        '"Resistant",' +
-                        '"Resistant",' +
-                        '"Resistant",' +
-                        '"Sensitive",' +
-                        '"Sensitive",' +
-                        '"Sensitive",' +
-                        '"Sensitive",' +
-                        '"Sensitive" ] }, ';
-
-    json += ' "y": { "vars": [ "Prodotto" ], "smps": [ ';
-
-    var len = data.length/2;
-    var i = 0;
-    var json2 = "";
-    
-    if(data[0] != "errNoProduct") {
-    
-    for(i = 0; i < len; i++) {
-    if (i == len-1)
-    json += '"' + data[i] + '" ';
-    else
-    json += '"' + data[i] + '", ';
-    }
-    
-    
-    json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
-    
-    for(i = len; i < data.length; i++) {
-    if (i == data.length-1)
-    json += '\"' + data[i] + '\" ';
-    else
-    json += '\"' + data[i] + '\", ';
-    }
-    
-    json += '] ] } }';
-    
-    } else {
-    
-    json += '""';       
-    
-    json += '], \"desc\": [ \"Spesa Totale\" ], \"data\": [ [ ';
-    
-    json += '\"0\" ';
-    
-    json += '] ] } }';
-    
-    }
-    
-    json2 = '{ \"graphType\": \"Bar\",' + 
-    '\"colorBy\": \"Response\", ' +
-    '\"title\": \"Top 10 Prodotti Venduti\", ' +
-    '\"smpTitle\": \"Prodotti\", ' +
-    '\"colorScheme\": \"basic\", ' +
-    '\"graphOrientation\": \"vertical\", ' +
-    '\"setMin\": 0, ' +
-    '\"showLegend\": false }';
-    
-    var obj = jQuery.parseJSON(json);
-    var obj2 = jQuery.parseJSON(json2);
-    
-    new CanvasXpress("canvasProdTopSeller", obj, obj2);
-    
-}
-
-function writeIndexPage()
-{
-  $("#bodyTitleHeader").html("Interfaccia utente");
-  $('.centrale').html("<p>Interfaccia utente normale</p>");
-}
-
 function preparePurchaseForm(tab){
     
     $('#tabsPurchase').tabs();
@@ -444,6 +139,177 @@ function preparePurchaseForm(tab){
 var idOrder = 0;	
 var addedIds = [];
 var addedPz = [];
+
+function loadOrders() 
+{
+	
+	$.post("ajax/getOrdersString", function(data) 
+	{
+		
+		$('#TABLEorderPurchase').html("<tr> <th class='top' width='20%'> Nome Ordine </th>" +
+											 "<th class='top' width='15%'> Responsabile </th>" +
+											 "<th class='top' width='15%'> Fornitore </th>" +
+											 "<th class='top' width='15%'> Data Apertura </th>" +
+				 							 "<th class='top' width='15%'> Data Chiusura </th>" +
+				 							 "<th class='top' width='20%'> Progresso </th></tr>");
+
+		if(data.length == 0)
+			$('#TABLEorderPurchase').append("<tr><td colspan='6'> Non ci sono ordini da selezionare. </td></tr>");
+		
+		$.each(data, function(index, val)
+		{
+			var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(val.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(val.dateClose));
+            
+            var idProgressBar = "pbOrder_" + val.idOrder;
+            
+            var valProgress = 0;
+            $.postSync("ajax/getProgressOrder", {idOrder: val.idOrder}, function(data)
+    	    {
+            	valProgress = data;
+    	    });
+            
+			$('#TABLEorderPurchase').append("<tr id='order_" + val.idOrder + "' onclick='productListRequest(" + val.idOrder + ")'> " +
+												"<td>" + val.orderName + "</td>" +
+												"<td>" + val.memberResp.name + " " + val.memberResp.surname + "</td>" +
+												"<td>" + val.supplier.companyName + "</td>" +
+												"<td>" + dateOpen + "</td>" +
+												"<td>" + dateClose + "</td>" +
+												"<td style='padding: 5px' ><div id='" + idProgressBar + "'></div></td>" +
+											"</tr>");
+			
+			$( "#" + idProgressBar ).progressbar({	value: valProgress	});
+			$( "#" + idProgressBar ).css('height', '1.5em');
+			
+		});
+		
+		
+		
+	});
+}
+
+function loadPurchaseActive() 
+{
+    
+    $.post("ajax/getActivePurchase", postActivePurchaseListHandler);  
+}
+
+function loadPurchaseOld() 
+{  
+    $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
+    
+}
+
+function postActivePurchaseListHandler(purchaseList) 
+{
+    
+    $("#activePurchaseList").html("");
+    $("#activePurchaseList").hide();
+
+    if(purchaseList.length > 0)
+    {
+        $("#activePurchaseList").append("<tr> <th class='top' width='30%'> Nome Ordine </th>" +
+        									 "<th class='top' width='20%'> Data Apertura  </th>" +
+                                             "<th class='top' width='20%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='30%'> Dettagli ordine  </th></tr>");
+        for(var i = 0; i < purchaseList.length; i++){
+            var purchase = purchaseList[i];
+            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
+            var idProgressBar = "progressbarOrder_" + purchase.idPurchase;
+            
+            var valProgress = 0;
+            $.postSync("ajax/getProgressOrder", {idOrder: purchase.order.idOrder}, function(data)
+    	    {
+            	valProgress = data;
+    	    });
+            
+            
+            
+            $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "'> <td>" + purchase.order.orderName + "</td>" +
+					  							  "<td>" + dateOpen + "</td>" +
+					  							  "<td>" + dateClose + "</td>" +
+					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
+					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
+					  							  "</form></td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' style='padding: 5px'> <div id='" + idProgressBar + "'></div> </td></tr>" +
+				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "' data-idorder=' " + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
+            $(".detailsPurchase").hide();
+            $( "#" + idProgressBar ).progressbar({	value: valProgress	});
+            $("button").button();
+        }
+        $.each(purchaseList, function(index, val)
+        {
+        	$("#showDetails_" + val.idPurchase).on("click", clickPurchaseDetailsHandler);
+        });
+            
+        $("#activePurchaseList").show("slow");
+        $("#activePurchaseList").fadeIn(1000);
+        $("#errorDivActivePurchase").hide();
+    }
+    else 
+    {
+        
+        $("#activePurchaseList").show();
+        $("#errorDivActivePurchase").hide();
+        $("#legendErrorActivePurchase").html("Comunicazione");
+        $("#errorsActivePurchase").html("Non ci sono Schede attive da visualizzare<br /><br />");
+        $("#errorDivActivePurchase").show("slow");
+        $("#errorDivActivePurchase").fadeIn(1000);
+    
+    }
+}
+
+function postOldPurchaseListHandler(purchaseList) 
+{
+    
+    $("#oldPurchaseList").html("");
+    $("#oldPurchaseList").hide();
+
+    if(purchaseList.length > 0){
+        $("#oldPurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
+				 							"<th class='top' width='30%'> Spedizione  </th>" +
+				 							"<th class='top' width='15%'> Data Apertura  </th>" +
+				 							"<th class='top' width='15%'> Data Chiusura  </th>" +
+                 							"<th class='top' width='20%'> Dettagli ordine  </th> </tr>");
+        for(var i = 0; i < purchaseList.length; i++){
+            var purchase = purchaseList[i];
+            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
+            $("#oldPurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
+					  							  "<td>" + purchase.isShipped + "</td>" +
+					  							  "<td>" + dateOpen + "</td>" +
+					  							  "<td>" + dateClose + "</td>" +
+					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
+					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
+					  							  "</form></td></tr>" +
+					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");       
+            $(".detailsPurchase").hide();
+            $("button").button();
+    }
+    $.each(purchaseList, function(index, val)
+    {
+    	$("#showDetails_" + val.idPurchase).on("click", clickOldPurchaseDetailsHandler);
+    });
+    
+        $("#oldPurchaseList").show("slow");
+        $("#oldPurchaseList").fadeIn(1000);
+        $("#errorDivOldPurchase").hide();
+    } else {
+        
+        $("#oldPurchaseList").show();
+        $("#errorDivOldPurchase").hide();
+        $("#legendErrorOldPurchase").html("Comunicazione");
+        $("#errorsOldPurchase").html("Non ci sono Schede scadute da visualizzare<br /><br />");
+        $("#errorDivOldPurchase").show("slow");
+        $("#errorDivOldPurchase").fadeIn(1000);
+    
+    }
+}
+
+var idPurchase = 0;
+
 
 function productListRequest(idO) 
 {
@@ -658,58 +524,6 @@ function deleteProductFromOrder(event)
 	
 }
 
-jQuery.removeFromArray = function(value, arr) 
-{
-    return jQuery.grep(arr, function(elem, index) 
-    {
-        return elem !== value;
-    });
-};
-
-function refreshProgressBar(idOrder) {
-		
-	var valProgress = 0;
-    $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
-    {
-    	valProgress = data;
-    });
-    
-    //Aggiorno progressbar ordine generale
-    var idProgressBar = "#pbOrder_" + idOrder;
-    $(idProgressBar).progressbar('value', valProgress);
-    
-    //Aggiorno le progressbar dei prodotti.
-    var allProgress = "";
-    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
-    {
-    	allProgress = data;
-    });
-    
-    $.each(allProgress, function(index, val)
-    {
-    	var temp = val.split(',');
-    	var idProduct = temp[0];
-    	var progress = parseFloat(temp[1]);
-    	
-    	//Aggiorno disponibilità
-    	var idDispDIV = "#dispOrder_" + idOrder + "_" + idProduct;
-    	var DispTmp = 0;
-	    $.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: idProduct}, function(data)
-        {
-            if(data == -1)
-                DispTmp = "Inf.";
-            else
-                DispTmp = data;
-        });
-	    
-	    $(idDispDIV).html(DispTmp);
-	    
-    	//Aggiorno progressbar
-    	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
-    	$(idProgressBarProduct).progressbar('value', progress);
-    });
-    
-} 
 
 function clickPurchaseHandler(event) 
 {
@@ -849,237 +663,6 @@ function computeTotal(){
     $('#divTotal').html("Totale: <strong style='color: #3C3'>" + total  + " &euro;</strong>");
     $('#divTotal').data('total', total);
     
-}
-
-function loadPurchaseActive() 
-{
-    
-    $.post("ajax/getActivePurchase", postActivePurchaseListHandler);  
-}
-
-
-
-function loadPurchaseOld() 
-{  
-    $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
-    
-}
-
-function loadOrders() 
-{
-	
-	$.post("ajax/getOrdersString", function(data) 
-	{
-		
-		$('#TABLEorderPurchase').html("<tr> <th class='top' width='20%'> Nome Ordine </th>" +
-											 "<th class='top' width='15%'> Responsabile </th>" +
-											 "<th class='top' width='15%'> Fornitore </th>" +
-											 "<th class='top' width='15%'> Data Apertura </th>" +
-				 							 "<th class='top' width='15%'> Data Chiusura </th>" +
-				 							 "<th class='top' width='20%'> Progresso </th></tr>");
-
-		if(data.length == 0)
-			$('#TABLEorderPurchase').append("<tr><td colspan='6'> Non ci sono ordini da selezionare. </td></tr>");
-		
-		$.each(data, function(index, val)
-		{
-			var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(val.dateOpen));
-            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(val.dateClose));
-            
-            var idProgressBar = "pbOrder_" + val.idOrder;
-            
-            var valProgress = 0;
-            $.postSync("ajax/getProgressOrder", {idOrder: val.idOrder}, function(data)
-    	    {
-            	valProgress = data;
-    	    });
-            
-			$('#TABLEorderPurchase').append("<tr id='order_" + val.idOrder + "' onclick='productListRequest(" + val.idOrder + ")'> " +
-												"<td>" + val.orderName + "</td>" +
-												"<td>" + val.memberResp.name + " " + val.memberResp.surname + "</td>" +
-												"<td>" + val.supplier.companyName + "</td>" +
-												"<td>" + dateOpen + "</td>" +
-												"<td>" + dateClose + "</td>" +
-												"<td style='padding: 5px' ><div id='" + idProgressBar + "'></div></td>" +
-											"</tr>");
-			
-			$( "#" + idProgressBar ).progressbar({	value: valProgress	});
-			$( "#" + idProgressBar ).css('height', '1.5em');
-			
-		});
-		
-		
-		
-	});
-}
-
-////////Schede Attive
-
-function postActivePurchaseListHandler(purchaseList) 
-{
-    
-    $("#activePurchaseList").html("");
-    $("#activePurchaseList").hide();
-
-    if(purchaseList.length > 0)
-    {
-        $("#activePurchaseList").append("<tr> <th class='top' width='30%'> Nome Ordine </th>" +
-        									 "<th class='top' width='20%'> Data Apertura  </th>" +
-                                             "<th class='top' width='20%'> Data Chiusura  </th>" +
-                                             "<th class='top' width='30%'> Dettagli ordine  </th></tr>");
-        for(var i = 0; i < purchaseList.length; i++){
-            var purchase = purchaseList[i];
-            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
-            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
-            var idProgressBar = "progressbarOrder_" + purchase.idPurchase;
-            
-            var valProgress = 0;
-            $.postSync("ajax/getProgressOrder", {idOrder: purchase.order.idOrder}, function(data)
-    	    {
-            	valProgress = data;
-    	    });
-            
-            
-            
-            $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "'> <td>" + purchase.order.orderName + "</td>" +
-					  							  "<td>" + dateOpen + "</td>" +
-					  							  "<td>" + dateClose + "</td>" +
-					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
-					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
-					  							  "</form></td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong> </td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' style='padding: 5px'> <div id='" + idProgressBar + "'></div> </td></tr>" +
-				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "' data-idorder=' " + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
-            $(".detailsPurchase").hide();
-            $( "#" + idProgressBar ).progressbar({	value: valProgress	});
-            $("button").button();
-        }
-        $.each(purchaseList, function(index, val)
-        {
-        	$("#showDetails_" + val.idPurchase).on("click", clickPurchaseDetailsHandler);
-        });
-            
-        $("#activePurchaseList").show("slow");
-        $("#activePurchaseList").fadeIn(1000);
-        $("#errorDivActivePurchase").hide();
-    }
-    else 
-    {
-        
-        $("#activePurchaseList").show();
-        $("#errorDivActivePurchase").hide();
-        $("#legendErrorActivePurchase").html("Comunicazione");
-        $("#errorsActivePurchase").html("Non ci sono Schede attive da visualizzare<br /><br />");
-        $("#errorDivActivePurchase").show("slow");
-        $("#errorDivActivePurchase").fadeIn(1000);
-    
-    }
-}
-
-function postOldPurchaseListHandler(purchaseList) 
-{
-    
-    $("#oldPurchaseList").html("");
-    $("#oldPurchaseList").hide();
-
-    if(purchaseList.length > 0){
-        $("#oldPurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
-				 							"<th class='top' width='30%'> Spedizione  </th>" +
-				 							"<th class='top' width='15%'> Data Apertura  </th>" +
-				 							"<th class='top' width='15%'> Data Chiusura  </th>" +
-                 							"<th class='top' width='20%'> Dettagli ordine  </th> </tr>");
-        for(var i = 0; i < purchaseList.length; i++){
-            var purchase = purchaseList[i];
-            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
-            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
-            $("#oldPurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
-					  							  "<td>" + purchase.isShipped + "</td>" +
-					  							  "<td>" + dateOpen + "</td>" +
-					  							  "<td>" + dateClose + "</td>" +
-					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
-					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
-					  							  "</form></td></tr>" +
-					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");       
-            $(".detailsPurchase").hide();
-            $("button").button();
-    }
-    $.each(purchaseList, function(index, val)
-    {
-    	$("#showDetails_" + val.idPurchase).on("click", clickOldPurchaseDetailsHandler);
-    });
-    
-        $("#oldPurchaseList").show("slow");
-        $("#oldPurchaseList").fadeIn(1000);
-        $("#errorDivOldPurchase").hide();
-    } else {
-        
-        $("#oldPurchaseList").show();
-        $("#errorDivOldPurchase").hide();
-        $("#legendErrorOldPurchase").html("Comunicazione");
-        $("#errorsOldPurchase").html("Non ci sono Schede scadute da visualizzare<br /><br />");
-        $("#errorDivOldPurchase").show("slow");
-        $("#errorDivOldPurchase").fadeIn(1000);
-    
-    }
-}
-
-var idPurchase = 0;
-
-function clickOldPurchaseDetailsHandler(event) 
-{
-    event.preventDefault();
-    
-    $(".detailsPurchase").hide();
-    var form = $(this).parents('form');
-    idPurchase = $('input', form).val();
-    
-    $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postOldPurchaseDetailsListHandler);
-}
-
-function postOldPurchaseDetailsListHandler(productList) 
-{
-	
-	var AmountTmp = 0;
-    var trControl = "#TRdetailsPurchase_" + idPurchase;
-    var tdControl = "#TDdetailsPurchase_" + idPurchase;
-    
-    $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log2'></table></div>");
-    
-    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
-    
-    $(tableControl).append("<tr>  <th class='top' width='30%'> Prodotto </th>" +
-                                 "<th class='top' width='35%'> Descrizione  </th>" +
-                                 "<th class='top' width='25%'> Costo [Blocchi]</th>" +
-                                 "<th class='top' width='10%'> Qt. </th>" +
-                                 "<th class='top' width='10%'> Parziale </th></tr>");
-    
-    var tot = 0;
-    var parziale = 0;
-    
-    $.each(productList, function(index, val)
-    {
-    	$.postSync("ajax/getAmountfromPurchase", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
-        {
-    		AmountTmp = data;
-        });
-    	
-    	
-    	parziale += AmountTmp * val.unitCost;
-    	tot += parziale;
-    	
-        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
-        		                       "<td>" + val.description + "</td>" +
-        		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]</td>" +
-        		                       "<td>" + AmountTmp + "</td>" +
-        		                       "<td>" + parziale + " &euro;</td></tr>");
-    });
-    
-    $(tableControl).append("<tr><td colspan='4' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;</strong> </td>" +
-            "<td>" + tot + " &euro;</td></tr>");
-    
-    
-    $(trControl).show("slow");    
-    $(tdControl).fadeIn(1000);  
 }
 
 
@@ -1633,6 +1216,125 @@ function addProductFromPurchase(event){
     					   "<td>" + totale + " &euro;</td></tr>");
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function clickOldPurchaseDetailsHandler(event) 
+{
+    event.preventDefault();
+    
+    $(".detailsPurchase").hide();
+    var form = $(this).parents('form');
+    idPurchase = $('input', form).val();
+    
+    $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postOldPurchaseDetailsListHandler);
+}
+
+function postOldPurchaseDetailsListHandler(productList) 
+{
+	
+	var AmountTmp = 0;
+    var trControl = "#TRdetailsPurchase_" + idPurchase;
+    var tdControl = "#TDdetailsPurchase_" + idPurchase;
+    
+    $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log2'></table></div>");
+    
+    var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
+    
+    $(tableControl).append("<tr>  <th class='top' width='30%'> Prodotto </th>" +
+                                 "<th class='top' width='35%'> Descrizione  </th>" +
+                                 "<th class='top' width='25%'> Costo [Blocchi]</th>" +
+                                 "<th class='top' width='10%'> Qt. </th>" +
+                                 "<th class='top' width='10%'> Parziale </th></tr>");
+    
+    var tot = 0;
+    var parziale = 0;
+    
+    $.each(productList, function(index, val)
+    {
+    	$.postSync("ajax/getAmountfromPurchase", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
+        {
+    		AmountTmp = data;
+        });
+    	
+    	
+    	parziale += AmountTmp * val.unitCost;
+    	tot += parziale;
+    	
+        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]</td>" +
+        		                       "<td>" + AmountTmp + "</td>" +
+        		                       "<td>" + parziale + " &euro;</td></tr>");
+    });
+    
+    $(tableControl).append("<tr><td colspan='4' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;</strong> </td>" +
+            "<td>" + tot + " &euro;</td></tr>");
+    
+    
+    $(trControl).show("slow");    
+    $(tdControl).fadeIn(1000);  
+}
+
+function refreshProgressBar(idOrder) {
+	
+	var valProgress = 0;
+    $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
+    {
+    	valProgress = data;
+    });
+    
+    //Aggiorno progressbar ordine generale
+    var idProgressBar = "#pbOrder_" + idOrder;
+    $(idProgressBar).progressbar('value', valProgress);
+    
+    //Aggiorno le progressbar dei prodotti.
+    var allProgress = "";
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
+    {
+    	allProgress = data;
+    });
+    
+    $.each(allProgress, function(index, val)
+    {
+    	var temp = val.split(',');
+    	var idProduct = temp[0];
+    	var progress = parseFloat(temp[1]);
+    	
+    	//Aggiorno disponibilità
+    	var idDispDIV = "#dispOrder_" + idOrder + "_" + idProduct;
+    	var DispTmp = 0;
+	    $.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: idProduct}, function(data)
+        {
+            if(data == -1)
+                DispTmp = "Inf.";
+            else
+                DispTmp = data;
+        });
+	    
+	    $(idDispDIV).html(DispTmp);
+	    
+    	//Aggiorno progressbar
+    	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
+    	$(idProgressBarProduct).progressbar('value', progress);
+    });
+    
+} 
 
 function refreshProgressBarOrder(idPurchase) {
 	
