@@ -877,10 +877,6 @@ function printOrderPie(progress)
           100-progress
         ]
       ],
-      "fill": [
-               "rgb(0,255,0)",
-               "rgb(255,0,0)"
-               ]
     }
   }, {
     "graphType": "Pie",
@@ -889,12 +885,11 @@ function printOrderPie(progress)
     "pieSegmentLabels": "outside",
     "pieType": "solid",
     "showLegend": false,
-    "background" : "rgb(100,140,160)",
-    "colorRGB": [
-                 "rgb(0,255,0)",
-                 "rgb(255,0,0)"
+    "background" : "rgb(192,208,216)",
+    "colors": [
+               "rgb(57,133,0)",
+               "rgb(163,0,8)"
                ],
-              
   });
 }
 
