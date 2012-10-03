@@ -21,7 +21,7 @@ public interface ProductOperations {
 	
 	Product[] getMyProducts();
 	
-	//Product[] getProducts();
+	Product[] getAvailableSupplierProducts(Integer idSupplier);
 	
 	Integer setProductAvailable(Integer idProduct);
 	

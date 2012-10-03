@@ -2,8 +2,6 @@ package it.polito.ai.lhmf.android.supplier;
 
 import it.polito.ai.lhmf.android.ProductDetailsActivity;
 import it.polito.ai.lhmf.android.R;
-import it.polito.ai.lhmf.android.R.id;
-import it.polito.ai.lhmf.android.R.layout;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 import it.polito.ai.lhmf.android.util.SeparatedListAdapter;

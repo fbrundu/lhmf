@@ -177,4 +177,15 @@ public class ProductsTemplate implements ProductOperations {
 			return null;
 		}
 	}
+
+	@Override
+	public Product[] getAvailableSupplierProducts(Integer idSupplier) {
+		try {
+			Product[] ret = template.getForObject(Gas.baseApiUrl + "getsupplierproducts?idSupplier={id}", Product[].class, idSupplier);
+			return ret;
+		} catch (RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
