@@ -62,16 +62,17 @@ public class AndroidOrderController {
 	public @ResponseBody
 	List<Order> getAvailableOrdersForPurchase(Principal principal)
 	{
-		String userName = principal.getName();
-		Member member = memberInterface.getMember(userName);
-		if(member != null){
+		try
+		{
 			List<Order> listOrders = null;
-			listOrders = orderInterface.getAvailableOrders(member);
-			
+			listOrders = orderInterface.getAvailableOrders(principal.getName());
+
 			return listOrders;
 		}
-		else
+		catch (Exception e)
+		{
 			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/androidApi/getorderprogress", method = RequestMethod.GET)

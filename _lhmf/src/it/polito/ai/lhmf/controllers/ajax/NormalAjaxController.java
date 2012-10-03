@@ -7,14 +7,13 @@ import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
-import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.text.ParseException;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -115,8 +114,17 @@ public class NormalAjaxController
 	public @ResponseBody
 	List<Order> getOrdersString(HttpServletRequest request, HttpSession session)
 	{
-		return orderInterface.getAvailableOrders((String) session
-				.getAttribute("username"));
+		try
+		{
+			return orderInterface.getAvailableOrders((String) session
+					.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			// Legacy
+			return new ArrayList<Order>();
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "

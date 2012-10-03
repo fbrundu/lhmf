@@ -443,9 +443,11 @@ public class OrderInterface
 
 	//TODO usare anche per creazione scheda sul sito. Restituisce gli ordini attivi per cui l'utente normale richiedente non ha ancora compilato schede
 	@Transactional(readOnly = true)
-	public List<Order> getAvailableOrders(String username)
+	public List<Order> getAvailableOrders(String username) throws Exception
 	{
 		Member m = memberInterface.getMember(username);
+		if (m == null)
+			throw new Exception("No such member");
 		List<Order> ret = new ArrayList<Order>();
 
 		for (Order order : getOrdersNow())
