@@ -1,10 +1,17 @@
-package it.polito.ai.lhmf.android;
+package it.polito.ai.lhmf.android.normal;
 
+import it.polito.ai.lhmf.android.ProductDetailsActivity;
+import it.polito.ai.lhmf.android.R;
+import it.polito.ai.lhmf.android.R.id;
+import it.polito.ai.lhmf.android.R.layout;
+import it.polito.ai.lhmf.android.R.string;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
+import it.polito.ai.lhmf.model.PurchaseProduct;
 import it.polito.ai.lhmf.android.util.SeparatedListAdapter;
 import it.polito.ai.lhmf.model.Order;
 import it.polito.ai.lhmf.model.Product;
+import it.polito.ai.lhmf.model.Purchase;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,17 +50,18 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewPurchaseActivity extends Activity {
-	private static final int PURCHASE_ITEM_DIALOG = 0;
+public class EditPurchaseActivity extends Activity {
+	private static final int EDIT_PURCHASE_ITEM_DIALOG = 0;
+	private static final int REMOVE_PURCHASE_CONFIRM_DIALOG = EDIT_PURCHASE_ITEM_DIALOG + 1;
 	
-	private Map<Integer, Integer> boughtAmounts = new HashMap<Integer, Integer>();
+	private Map<Integer, Integer> myBoughtAmounts = new HashMap<Integer, Integer>();
 	
 	private TextView orderName = null;
 	private TextView purchaseCost = null;
 	private TextView orderProgressText = null;
 	private ProgressBar orderProgressBar = null;
 	private ListView purchaseListView = null;
-	private Button confirmButton = null;
+	private Button backButton = null;
 	
 	private List<Integer> productsWithMinBuy = new ArrayList<Integer>();
 	private List<Integer> minBoughtAmounts = new ArrayList<Integer>();
@@ -69,6 +77,7 @@ public class NewPurchaseActivity extends Activity {
 	private Gas api = null;
 	
 	private Order order;
+	private Purchase purchase;
 	
 	private OrderProgressTask orderProgressTask = null;
 	private GetBoughtAmountsTask boughtAmountsTask = null;
@@ -77,9 +86,10 @@ public class NewPurchaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		order = (Order) getIntent().getSerializableExtra("order");
-		if(order != null){
-		
+		purchase = (Purchase) getIntent().getSerializableExtra("purchase");
+		if(purchase != null){
+			order = purchase.getOrder();
+			
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
 			Connection<Gas> conn = holder.getConnection();
 			if(conn != null){
@@ -87,7 +97,6 @@ public class NewPurchaseActivity extends Activity {
 				setContentView(R.layout.new_purchase);
 				
 				purchaseListView = (ListView) findViewById(R.id.newPurchaseList);
-				adapter = new SeparatedListAdapter(this, R.layout.list_header);
 				
 				orderName = (TextView) findViewById(R.id.purchase_order_name);
 				purchaseCost = (TextView) findViewById(R.id.purchase_tot_cost);
@@ -98,43 +107,86 @@ public class NewPurchaseActivity extends Activity {
 				orderProgressText.setText("" + 0);
 				orderProgressBar.setProgress(0);
 				
-				confirmButton = (Button) findViewById(R.id.purchase_confirm);
+				backButton = (Button) findViewById(R.id.purchase_confirm);
+				backButton.setEnabled(false);
+				backButton.setVisibility(View.INVISIBLE);
 				
-				confirmButton.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						if(boughtAmounts.size() > 0){
-							List<Integer> ids = new ArrayList<Integer>();
-							List<Integer> amounts = new ArrayList<Integer>();
-							for(Entry<Integer, Integer> entry : boughtAmounts.entrySet()){
-								Integer idProduct = entry.getKey();
-								Integer amount = entry.getValue();
-								
-								if(productsWithMaxBuy.contains(idProduct)){
-									int index = productsWithMaxBuy.indexOf(idProduct);
-									Integer availability = productsAvailability.get(index);
-									
-									if(amount > availability){
-										Toast.makeText(NewPurchaseActivity.this, "Quantità selezionata maggiore della disponibilità", Toast.LENGTH_LONG).show();
-										return;
-									}
-								}
-								ids.add(idProduct);
-								amounts.add(amount);
-							}
-							new NewPurchaseAsyncTask().execute(api, order.getIdOrder(), ids, amounts);
-						}
-						else{
-							Toast.makeText(NewPurchaseActivity.this, "Acquistare almeno un prodotto", Toast.LENGTH_LONG).show();
-						}
-						
-					}
-				});
+				TextView title = (TextView) findViewById(R.id.title);
+				title.setText(R.string.edit_purchase_title);
 				
-				new GetOrderProductsTask().execute(api, order.getIdOrder());
+				new GetPurchaseAndOrderProductsTask().execute(api, purchase.getIdPurchase(), order.getIdOrder());
 			}
 		}
+	}
+	
+	private void createListAdapters(){
+		SeparatedListAdapter mainAdapter = new SeparatedListAdapter(this, R.layout.list_header_big);
+		SeparatedListAdapter boughtAdapter = null;
+		SeparatedListAdapter availableAdapter = null;
+		
+		Map<String, CustomAdapter> boughtSections = new TreeMap<String, CustomAdapter>(new Comparator<String>() {
+			@Override
+			public int compare(String lhs, String rhs) {
+				return lhs.compareToIgnoreCase(rhs);
+			}
+		});
+		
+		Map<String, CustomAdapter> availableSections = new TreeMap<String, CustomAdapter>(new Comparator<String>() {
+			@Override
+			public int compare(String lhs, String rhs) {
+				return lhs.compareToIgnoreCase(rhs);
+			}
+		});
+		
+		for(Product product : orderProducts){
+			boolean isAvailable = true;
+			for(Integer id : myBoughtAmounts.keySet()){
+				if(product.getIdProduct() == id){
+					isAvailable = false;
+					break;
+				}
+			}
+			if(isAvailable){
+				CustomAdapter notBoughtSection = availableSections.get(product.getCategory().getDescription());
+				if(notBoughtSection == null){
+					notBoughtSection = new CustomAdapter(EditPurchaseActivity.this, R.layout.purchase_item, R.id.purchaseItemName);
+					availableSections.put(product.getCategory().getDescription(), notBoughtSection);
+				}
+				notBoughtSection.add(product);
+			}
+			else{
+				CustomAdapter boughtSection = boughtSections.get(product.getCategory().getDescription());
+				if(boughtSection == null){
+					boughtSection = new CustomAdapter(EditPurchaseActivity.this, R.layout.purchase_item, R.id.purchaseItemName);
+					boughtSections.put(product.getCategory().getDescription(), boughtSection);
+				}
+				boughtSection.add(product);
+			}
+		}
+		
+		if(boughtSections.size() > 0){
+			boughtAdapter = new SeparatedListAdapter(EditPurchaseActivity.this, R.layout.list_header);
+			
+			for(String sectionName : boughtSections.keySet()){
+				boughtAdapter.addSection(sectionName, boughtSections.get(sectionName));
+			}
+			
+			mainAdapter.addSection("Prodotti acquistati", boughtAdapter);
+		}
+		
+		if(availableSections.size() > 0){
+			availableAdapter = new SeparatedListAdapter(EditPurchaseActivity.this, R.layout.list_header);
+			
+			for(String sectionName : availableSections.keySet()){
+				availableAdapter.addSection(sectionName, availableSections.get(sectionName));
+			}
+			
+			mainAdapter.addSection("Prodotti disponibili", availableAdapter);
+		}
+		
+		this.purchaseListView.setAdapter(mainAdapter);
+		
+		this.adapter = mainAdapter;
 	}
 	
 	@Override
@@ -170,7 +222,7 @@ public class NewPurchaseActivity extends Activity {
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
-		if(id == PURCHASE_ITEM_DIALOG){
+		if(id == EDIT_PURCHASE_ITEM_DIALOG){
 			LayoutInflater inflater = getLayoutInflater();
 			View content = inflater.inflate(R.layout.purchase_item_dialog, null);
 			
@@ -183,7 +235,6 @@ public class NewPurchaseActivity extends Activity {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.cancel();
-					
 				}
 			});
 			
@@ -193,6 +244,25 @@ public class NewPurchaseActivity extends Activity {
 			
 			return dialog;
 		}
+		else if(id == REMOVE_PURCHASE_CONFIRM_DIALOG){
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			
+			builder.setTitle("Conferma eliminazione scheda");
+			
+			builder.setMessage("");
+			
+			builder.setPositiveButton("Ok", null);
+			
+			builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+			
+			return builder.create();
+		}
 		else
 			return super.onCreateDialog(id);
 	}
@@ -200,7 +270,7 @@ public class NewPurchaseActivity extends Activity {
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		
-		if(id == PURCHASE_ITEM_DIALOG){
+		if(id == EDIT_PURCHASE_ITEM_DIALOG){
 			final Product product = (Product) args.getSerializable("product");
 			final int availability = args.getInt("availability", -1);
 			
@@ -222,7 +292,7 @@ public class NewPurchaseActivity extends Activity {
 				TextView name = (TextView) aDialog.findViewById(R.id.product_name);
 				final EditText amount = (EditText) aDialog.findViewById(R.id.product_amount);
 				
-				Integer alreadyBought = boughtAmounts.get(product.getIdProduct());
+				final Integer alreadyBought = myBoughtAmounts.get(product.getIdProduct());
 				if(alreadyBought != null)
 					amount.setText(alreadyBought.toString());
 				else
@@ -240,24 +310,50 @@ public class NewPurchaseActivity extends Activity {
 						if(!amountString.equals("")){
 							int amount = Integer.parseInt(amountString);
 							if(amount > 0){
-								if(availability == -1 || amount <= availability){
-									boughtAmounts.put(product.getIdProduct(), amount);
-									purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
-									adapter.notifyDataSetChanged();
+								Integer requiredChange = 0;
+								if(alreadyBought != null)
+									requiredChange = amount - alreadyBought;
+								else
+									requiredChange = amount;
+								
+								if(availability == -1 || requiredChange <= availability){
+									boolean createNew = true;
+									if(alreadyBought != null)
+										createNew = false;
+										
+									new UpdatePurchaseProductAsyncTask().execute(api, purchase.getIdPurchase(), product.getIdProduct(), amount, createNew);
 									dialog.cancel();
 								}
 								else
-									Toast.makeText(NewPurchaseActivity.this, "La quantità scelta è superiore alla disponibilità", Toast.LENGTH_LONG).show();
+									Toast.makeText(EditPurchaseActivity.this, "La quantità scelta è superiore alla disponibilità", Toast.LENGTH_LONG).show();
 							}
 							else
-								Toast.makeText(NewPurchaseActivity.this, "Impostare un valore maggiore di 0", Toast.LENGTH_LONG).show();
-							
+								Toast.makeText(EditPurchaseActivity.this, "Impostare un valore maggiore di 0", Toast.LENGTH_LONG).show();
 						}
 						else
-							Toast.makeText(NewPurchaseActivity.this, "Impostare un valore maggiore di 0", Toast.LENGTH_LONG).show();
+							Toast.makeText(EditPurchaseActivity.this, "Impostare un valore maggiore di 0", Toast.LENGTH_LONG).show();
 					}
 				});
 			}
+		}
+		else if(id == REMOVE_PURCHASE_CONFIRM_DIALOG){
+			Product product = (Product) args.getSerializable("product");
+			
+			AlertDialog aDialog = (AlertDialog) dialog;
+			aDialog.setMessage("Rimuovendo il prodotto '" + product.getName() + "' si procedera all'eliminazione dell'intera scheda." +
+					" Continuare?");
+			
+			final Integer idProduct = product.getIdProduct();
+			final Integer idPurchase = purchase.getIdPurchase();
+			
+			aDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					new RemovePurchaseProductAsyncTask().execute(api, idPurchase, idProduct, true);
+					dialog.cancel();
+				}
+			});
 		}
 		else
 			super.onPrepareDialog(id, dialog, args);
@@ -265,7 +361,7 @@ public class NewPurchaseActivity extends Activity {
 	
 	protected Float computeTotalCoast() {
 		float ret = 0.0f;
-		Iterator<Entry<Integer, Integer>> it = boughtAmounts.entrySet().iterator();
+		Iterator<Entry<Integer, Integer>> it = myBoughtAmounts.entrySet().iterator();
 		while(it.hasNext()){
 			Entry<Integer, Integer> entry = it.next();
 			Integer idProduct = entry.getKey();
@@ -281,28 +377,86 @@ public class NewPurchaseActivity extends Activity {
 		return ret;
 	}
 	
-	private class NewPurchaseAsyncTask extends AsyncTask<Object, Void, Integer>{
+	private class RemovePurchaseProductAsyncTask extends AsyncTask<Object, Void, Integer[]>{
 
-		@SuppressWarnings("unchecked")
 		@Override
-		protected Integer doInBackground(Object... params) {
+		protected Integer[] doInBackground(Object... params) {
 			Gas gas = (Gas) params[0];
-			Integer idOrder = (Integer) params[1];
-			List<Integer> ids = (List<Integer>) params[2];
-			List<Integer> amounts = (List<Integer>) params[3];
+			Integer idPurchase = (Integer) params[1];
+			Integer idProduct = (Integer) params[2];
 			
-			return gas.purchaseOperations().newPurchase(idOrder, ids, amounts);
+			Integer ret[] = new Integer[2];
+			ret[0] = idProduct;
+			ret[1] = gas.purchaseOperations().removePurchaseProduct(idPurchase, idProduct);
+			
+			return ret;
 		}
 		
 		@Override
-		protected void onPostExecute(Integer result) {
-			if(result == null || result <= 0){
-				Toast.makeText(NewPurchaseActivity.this, "Errori nella creazione della scheda", Toast.LENGTH_LONG).show();
+		protected void onPostExecute(Integer[] result) {
+			Integer idProduct = result[0];
+			Integer res = result[1];
+			
+			if(res == null || res < 1){
+				Toast.makeText(EditPurchaseActivity.this, "Errore durante la modifica della scheda", Toast.LENGTH_LONG).show();
 			}
 			else{
-				Toast.makeText(getApplicationContext(), "Scheda creata correttamente", Toast.LENGTH_LONG).show();
-				NewPurchaseActivity.this.finish();
+				myBoughtAmounts.remove(idProduct);
+				if(myBoughtAmounts.size() == 0)
+					EditPurchaseActivity.this.finish();
+				else{
+					purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
+				
+					createListAdapters();
+				}
 			}
+		}
+		
+	}
+	
+	private class UpdatePurchaseProductAsyncTask extends AsyncTask<Object, Void, Object[]>{
+
+		@Override
+		protected Object[] doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			Integer idPurchase = (Integer) params[1];
+			Integer idProduct = (Integer) params[2];
+			Integer amount = (Integer) params[3];
+			Boolean createNew = (Boolean) params[4];
+			
+			Object[] retValue = new Object[4];
+			retValue[0] = idProduct;
+			retValue[1] = amount;
+			retValue[2] = createNew;
+			
+			if(createNew)
+				retValue[3] = gas.purchaseOperations().newPurchaseProduct(idPurchase, idProduct, amount);
+			else
+				retValue[3] = gas.purchaseOperations().updatePurchaseProduct(idPurchase, idProduct, amount);
+			
+			return retValue;
+		}
+		
+		@Override
+		protected void onPostExecute(Object[] result) {
+			Integer idProduct = (Integer) result[0];
+			Integer amount = (Integer) result[1];
+			Boolean createNew = (Boolean) result[2];
+			Integer res = (Integer) result[3];
+			
+			if(res == null || res < 1){
+				Toast.makeText(EditPurchaseActivity.this, "Errore durante la modifica della scheda", Toast.LENGTH_LONG).show();
+			}
+			else{
+				myBoughtAmounts.put(idProduct, amount);
+				purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
+				if(createNew)
+					createListAdapters();
+				else
+					adapter.notifyDataSetChanged();
+			}
+			
+			super.onPostExecute(result);
 		}
 		
 	}
@@ -336,16 +490,20 @@ public class NewPurchaseActivity extends Activity {
 		}
 	}
 	
-	private class GetOrderProductsTask extends AsyncTask<Object, Void, Product[]>{
+	private class GetPurchaseAndOrderProductsTask extends AsyncTask<Object, Void, Object[]>{
 
 		@Override
-		protected Product[] doInBackground(Object... params) {
+		protected Object[] doInBackground(Object... params) {
 			Gas gas = (Gas) params[0];
-			Integer orderId = (Integer) params[1];
-			Product[] products = gas.orderOperations().getOrderProducts(orderId);
+			Integer purchaseId = (Integer) params[1];
+			Integer orderId = (Integer) params[2];
+			
+			PurchaseProduct[] purchaseProducts = gas.purchaseOperations().getPurchaseProductsForNormal(purchaseId);
+			
+			Product[] orderProducts = gas.orderOperations().getOrderProducts(orderId);
 			List<Product> productList = new ArrayList<Product>();
 			
-			for(Product prod : products){
+			for(Product prod : orderProducts){
 				productList.add(prod);
 				
 				if(!prod.getMinBuy().equals(Product.NO_MIN_MAX)){
@@ -367,45 +525,43 @@ public class NewPurchaseActivity extends Activity {
 				}
 			});
 			
-			return productList.toArray(new Product[0]);
+			
+			Object[] ret = new Object[2];
+			ret[0] = purchaseProducts;
+			ret[1] = productList.toArray(new Product[0]);
+			return ret;
 		}
 		
 		@Override
-		protected void onPostExecute(Product[] result) {
-			if(result != null && result.length > 0){
-				Map<String, CustomAdapter> sections = new TreeMap<String, CustomAdapter>(new Comparator<String>() {
-					@Override
-					public int compare(String lhs, String rhs) {
-						return lhs.compareToIgnoreCase(rhs);
-					}
-				});
-				
-				orderProducts = new Product[result.length];
+		protected void onPostExecute(Object[] result) {
+			PurchaseProduct[] bought = (PurchaseProduct[]) result[0];
+			Product[] oProducts = (Product[]) result[1];
+			
+			if(bought != null && oProducts != null &&  bought.length > 0 && oProducts.length > 0){
+				orderProducts = new Product[oProducts.length];
 				int i = 0;
-				
-				for(Product prod : result){
-					CustomAdapter section = sections.get(prod.getCategory().getDescription());
-					if(section == null){
-						section = new CustomAdapter(NewPurchaseActivity.this, R.layout.purchase_item, R.id.purchaseItemName);
-						sections.put(prod.getCategory().getDescription(), section);
-					}
-					section.add(prod);
-					
-					orderProducts[i] = prod;
+				for(Product p : oProducts){
+					orderProducts[i] = p;
 					i++;
 				}
 				
-				for(String sectionName : sections.keySet()){
-					adapter.addSection(sectionName, sections.get(sectionName));
+				for(PurchaseProduct pp : bought){
+					Product bp = pp.getProduct();
+					
+					myBoughtAmounts.put(bp.getIdProduct(), pp.getAmount());
 				}
 				
-				purchaseListView.setAdapter(adapter);
+				purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
+				
+				createListAdapters();
 				
 				if(boughtAmountsTask == null){
 					boughtAmountsTask = new GetBoughtAmountsTask();
 					boughtAmountsTask.execute(api, orderProducts, order.getIdOrder());
 				}
-			}
+				
+			}	
+				
 		}
 		
 	}
@@ -488,7 +644,7 @@ public class NewPurchaseActivity extends Activity {
 			TextView name;
 			TextView desc;
 			
-			TextView desiredAmount;
+			TextView myBoughtAmount;
 			TextView partialCost;
 			
 			View availabilityLayout;
@@ -513,10 +669,13 @@ public class NewPurchaseActivity extends Activity {
 				row = inflater.inflate(R.layout.purchase_item, parent, false);
 			}
 			
+			TextView boughtAmountLabel = (TextView) row.findViewById(R.id.purchase_item_bought_amount_label);
+			boughtAmountLabel.setText("Quantità acquistata: ");
+			
 			name = (TextView) row.findViewById(R.id.purchaseItemName);
 			desc = (TextView) row.findViewById(R.id.purchaseItemDescription);
 			image = (ImageView) row.findViewById(R.id.purchaseItemImage);
-			desiredAmount = (TextView) row.findViewById(R.id.purchaseItemDesiredAmount);
+			myBoughtAmount = (TextView) row.findViewById(R.id.purchaseItemDesiredAmount);
 			partialCost = (TextView) row.findViewById(R.id.purchase_item_bought_cost);
 			
 			availabilityLayout = row.findViewById(R.id.purchaseAvailabilityLayout);
@@ -536,7 +695,7 @@ public class NewPurchaseActivity extends Activity {
 			editButton = (ImageButton) row.findViewById(R.id.purchase_item_edit);
 			
 			if(defaultTextViewColor == null)
-				defaultTextViewColor = desiredAmount.getTextColors();
+				defaultTextViewColor = myBoughtAmount.getTextColors();
 			
 			progressLayout.setVisibility(View.GONE);
 			
@@ -544,10 +703,10 @@ public class NewPurchaseActivity extends Activity {
 			
 			desc.setText(product.getDescription());
 			
-			Integer bought = boughtAmounts.get(product.getIdProduct());
+			Integer bought = myBoughtAmounts.get(product.getIdProduct());
 			if(bought != null){
-				desiredAmount.setText(bought.toString());
-				desiredAmount.setTextColor(Color.GREEN);
+				myBoughtAmount.setText(bought.toString());
+				myBoughtAmount.setTextColor(Color.GREEN);
 				
 				float cost = product.getUnitCost() * bought;
 				
@@ -560,8 +719,8 @@ public class NewPurchaseActivity extends Activity {
 				editPurchaseContainer.setVisibility(View.GONE);
 				addButton.setVisibility(View.VISIBLE);
 				addButton.setEnabled(true);
-				desiredAmount.setText("0");
-				desiredAmount.setTextColor(defaultTextViewColor);
+				myBoughtAmount.setText("0");
+				myBoughtAmount.setTextColor(defaultTextViewColor);
 				partialCost.setText("0");
 			}
 			
@@ -570,9 +729,7 @@ public class NewPurchaseActivity extends Activity {
 				available = productsAvailability.get(productsWithMaxBuy.indexOf(product.getIdProduct()));
 				availabilityTextView.setText(available.toString());
 				
-				if(bought != null && bought > available)
-					desiredAmount.setTextColor(Color.RED);
-				else if(bought == null && available == 0)
+				if(bought == null && available == 0)
 					addButton.setEnabled(false);
 			}
 			
@@ -607,7 +764,6 @@ public class NewPurchaseActivity extends Activity {
 					i.putExtra("idProduct", product.getIdProduct());
 					
 					startActivity(i);
-					
 				}
 			});
 			
@@ -626,7 +782,7 @@ public class NewPurchaseActivity extends Activity {
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
-					showDialog(PURCHASE_ITEM_DIALOG, args);
+					showDialog(EDIT_PURCHASE_ITEM_DIALOG, args);
 					
 				}
 			});
@@ -641,7 +797,7 @@ public class NewPurchaseActivity extends Activity {
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
-					showDialog(PURCHASE_ITEM_DIALOG, args);
+					showDialog(EDIT_PURCHASE_ITEM_DIALOG, args);
 				}
 			});
 			
@@ -649,11 +805,16 @@ public class NewPurchaseActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					boughtAmounts.remove(product.getIdProduct());
+					if(myBoughtAmounts.size() == 1){
+						//This is the last product. Ask user if he wants to remove the purchase
+						Bundle args = new Bundle();
+						
+						args.putSerializable("product", product);
+						showDialog(REMOVE_PURCHASE_CONFIRM_DIALOG, args);
+					}
+					else
+						new RemovePurchaseProductAsyncTask().execute(api, purchase.getIdPurchase(), product.getIdProduct());
 					
-					purchaseCost.setText(String.format("%.2f", computeTotalCoast()));
-					
-					notifyDataSetChanged();
 				}
 			});
 			

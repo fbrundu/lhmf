@@ -1,5 +1,6 @@
-package it.polito.ai.lhmf.android;
+package it.polito.ai.lhmf.android.broadcast_receiver;
 
+import it.polito.ai.lhmf.android.service.GasNetworkService;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.content.BroadcastReceiver;

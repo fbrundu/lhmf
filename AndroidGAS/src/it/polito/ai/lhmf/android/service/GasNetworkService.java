@@ -1,5 +1,6 @@
-package it.polito.ai.lhmf.android;
+package it.polito.ai.lhmf.android.service;
 
+import it.polito.ai.lhmf.android.LoginActivity;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 

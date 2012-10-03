@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.android;
 
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
+import it.polito.ai.lhmf.android.service.GasNetworkService;
 
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;

@@ -12,7 +12,7 @@ public class Supplier implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	//private Integer idMember;
+	private Integer idMember;
 	//private Integer idMemberResp;
 	
 	private String companyName;
@@ -32,5 +32,11 @@ public class Supplier implements Serializable {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public Integer getIdMember() {
+		return idMember;
+	}
+	public void setIdMember(Integer idMember) {
+		this.idMember = idMember;
 	}
 }

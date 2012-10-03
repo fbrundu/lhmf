@@ -43,4 +43,10 @@
     <string name="no_purchases">Non ci sono schede da visualizzare</string>
     <string name="new_product_min_blocks">Minimo blocchi acquistabili:</string>
     <string name="new_product_max_blocks">Massimo blocchi acquistabili:</string>
+    <string name="new_order_title">Creazione nuovo ordine</string>
+    <string name="new_order_supplier_name">"Fornitore: "</string>
+    <string name="no_supplier_products">Il fornitore non ha prodotti disponibili in listino</string>
+    <string name="order_name">"Nome ordine: "</string>
+    <string name="order_close_date">Data di chiusura: </string>
+    <string name="create_new_order">Nuovo ordine</string>
 </resources>
