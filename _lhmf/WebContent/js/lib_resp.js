@@ -135,13 +135,15 @@ function writeOrderPage(){
                           "<ul>" +
                            "<li><a href='#tabsOrder-1'>Crea Ordine</a></li>" +
                            "<li><a href='#tabsOrder-2'>Ordini Attivi</a></li>" +
-                           "<li><a href='#tabsOrder-3'>Ordini Scaduti</a></li>" +
-                           "<li><a href='#tabsOrder-4'>Ordini In Consegna</a></li>" +
+                           "<li><a href='#tabsOrder-3'>Completati</a></li>" +
+                           "<li><a href='#tabsOrder-4'>In Consegna</a></li>" +
+                           "<li><a href='#tabsOrder-5'>Storico Ordini</a></li>" +
                           "</ul>" +
                               "<div id='tabsOrder-1'></div>" +
                               "<div id='tabsOrder-2'></div>" +
                               "<div id='tabsOrder-3'></div>" +
                               "<div id='tabsOrder-4'></div>" +
+                              "<div id='tabsOrder-5'></div>" +
                          "</div>");
   
   $('#tabsOrder-1').html("<div class='logform'>" +
@@ -194,23 +196,10 @@ function writeOrderPage(){
                         "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
   
   $('#tabsOrder-3').html("<div class='logform'>" +
-                          "<form method='post' action=''>" +
-                            "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Scaduti:&nbsp;</legend><br />" +
-                                "<label for='maxDate2' class='left'>Chiuso dopo il: </label>" +
-                                "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
-                                "<label for='toSetShipDate' class='left'>Consegna: </label>" +
-                                "<select name='toSetShipDate' id='toSetShipDate' class='field' style='width: 200px'>" +
-                                    "<option value='0'>Impostata</option>" +
-                                    "<option value='1'>Da Impostare  </option>" +
-                                    "<option value='2'>Entrambe </option>" +
-                                 "</select>" +
-                            "</fieldset>" +
-                            "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
-                          "</form>" +
-                          "<table id='oldOrderList' class='log'></table>" +
-                            "<div id='errorDivOldOrder' style='display:none;'>" +
-                              "<fieldset><legend id='legendErrorOldOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-                               "<div id='errorsOldOrder' style='padding-left: 40px'>" +
+                          "<table id='completeOrderList' class='log'></table>" +
+                            "<div id='errorDivCompleteOrder' style='display:none;'>" +
+                              "<fieldset><legend id='legendErrorCompleteOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                               "<div id='errorsCompleteOrder' style='padding-left: 40px'>" +
                                 "</div>" +
                               "</fieldset>" +
                             "</div><br />" +
@@ -225,6 +214,29 @@ function writeOrderPage(){
                       "</fieldset>" +
                     "</div><br />" +
                 "</div>");
+  
+  $('#tabsOrder-5').html("<div class='logform'>" +
+                          "<form method='post' action=''>" +
+                            "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini:&nbsp;</legend><br />" +
+                                "<label for='maxDate2' class='left'>Chiuso dopo il: </label>" +
+                                "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
+                                "<label for='toSetShipDate' class='left'>Consegna: </label>" +
+                                "<select name='toSetShipDate' id='toSetShipDate' class='field' style='width: 200px'>" +
+                                    "<option value='0'>Impostata</option>" +
+                                    "<option value='1'>Non Impostata  </option>" +
+                                    "<option value='2'>Entrambe </option>" +
+                                 "</select>" +
+                            "</fieldset>" +
+                            "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
+                          "</form>" +
+                          "<table id='oldOrderList' class='log'></table>" +
+                            "<div id='errorDivOldOrder' style='display:none;'>" +
+                              "<fieldset><legend id='legendErrorOldOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+                               "<div id='errorsOldOrder' style='padding-left: 40px'>" +
+                                "</div>" +
+                              "</fieldset>" +
+                            "</div><br />" +
+                        "</div>");
  
   prepareOrderForm();
 }
@@ -732,6 +744,7 @@ function prepareOrderForm(tab){
     //Drag and drop
     loadSupplier();
     loadActiveOrder();
+    loadCompleteOrder();
     loadShipOrder();
     
     $("#orderCompositor").hide();
@@ -897,7 +910,7 @@ function loadSupplier() {
 }
 
 function loadShipOrder() {
-        
+	
     $.post("ajax/getDeliveredOrderResp", null, postShipOrderListHandler);
 }
 
@@ -907,10 +920,7 @@ function postShipOrderListHandler(orderList) {
     
     $("#shipOrderList").html("");
     $("#shipOrderList").hide();
-    //$("#logs").fadeOut(500, function() {
     
-           
-    //});
     if(orderList.length > 0){
         $("#shipOrderList").append(" <tr>  <th class='top' width='5%'> ID </th>" +
         								  "<th class='top' width='25%'> Nome </th>" +
@@ -930,21 +940,16 @@ function postShipOrderListHandler(orderList) {
             										  "<td>" + order.orderName +"</td>" +
                                               		  "<td>" + order.supplier.companyName + "</td>" +
                                               		  "<td>" + dateDelivery + "</td>" +
-                                              		  "<td> <form>" +
-            										  		 "<input type='hidden' value='" + order.idOrder + "'/>" +
-            										  	     "<button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "'> Mostra Schede </button>" +
-            										  	   "</form> </td>" );
+                                              		  "<td><button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Mostra Schede </button>" +
+            										  "</td>" );
             
             $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
-            
-            $("button").button();
+            $("#showDetailsShip_" + order.idOrder).on("click", clickShowDetailShipsHandler);
+           
         }
         
-        $.each(orderList, function(index, val)
-        {
-            $("#showDetailsShip_" + val.idOrder).on("click", clickShowDetailShipsHandler);
-        });
+        $("button").button();
     
         $("#shipOrderList").show("slow");
         $("#shipOrderList").fadeIn(1000);
@@ -966,8 +971,7 @@ function clickShowDetailShipsHandler(event) {
 	event.preventDefault();
 	
 	$(".detailsOrder").hide();
-    var form = $(this).parents('form');
-    idOrder = $('input', form).val();
+	idOrder = $(this).data('idorder');
     
     $.post("ajax/getPurchaseFromOrder", {idOrder: idOrder}, postShowPurchaseHandler);
 	
@@ -1042,11 +1046,10 @@ function postShowPurchaseHandler(data) {
 					                    "<td>" + val.member.name + "</td>" +
 					                    "<td>" + total + "</td>" +
 					                    "<td id='TDconsegna_" + val.idPurchase + "' style='color: red;'>Non Effettuata</td>" +
-					                    "<td><form>" +
-										  		 "<input type='hidden' value='" + val.idPurchase + "'/>" +
-										  		 "<button style='margin: 0px' type='submit' id='setShip_" + val.idPurchase + "'> Set Consegna </button>" +
-										  	     "<button style='margin: 0px' type='submit' id='showDetailsPurchase_" + val.idPurchase + "'> Dettagli </button>" +
-										  	   "</form></td></tr>" +
+					                    "<td>" +
+										  		 "<button style='margin: 0px' type='submit' id='setShip_" + val.idPurchase + "' data-idpurchase='" + val.idPurchase + "'> Set Consegna </button>" +
+										  	     "<button style='margin: 0px' type='submit' id='showDetailsPurchase_" + val.idPurchase + "' data-idpurchase='" + val.idPurchase + "'> Dettagli </button>" +
+										  	   "</td></tr>" +
 								"<tr class='detailsPurchase' id='TRdetailsPurchase_" + val.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + val.idPurchase + "'>" +
 										"<div style='margin: 15px'>" + productTable + "</div></td></tr>");
 			
@@ -1056,7 +1059,7 @@ function postShowPurchaseHandler(data) {
 	$.each(data, function(index, val)
     {
 		$("#showDetailsPurchase_" + val.idPurchase).on("click", clickShowDetailsPurchaseHandler);
-		$("#setShip_" + val.idPurchase).on("click", clicksetShipPurchaseHandler);
+		$("#setShip_" + val.idPurchase).on("click", clickSetShipPurchaseHandler);
     });
 	
 	$(".detailsPurchase").hide();
@@ -1066,12 +1069,11 @@ function postShowPurchaseHandler(data) {
     $(tdControl).fadeIn(1000);
 }
 
-function clicksetShipPurchaseHandler(event) {
+function clickSetShipPurchaseHandler(event) {
 	event.preventDefault();
 	
 	$(".detailsPurchase").hide();
-    var form = $(this).parents('form');
-    var idPurchase = $('input', form).val();
+    var idPurchase = $(this).data('idpurchase');
     var result = 0;
     
     $.postSync("ajax/setShip", {idPurchase: idPurchase}, function(data) {result = data;});
@@ -1092,8 +1094,7 @@ function clickShowDetailsPurchaseHandler(event)  {
 	event.preventDefault();
 	
 	$(".detailsPurchase").hide();
-    var form = $(this).parents('form');
-    var idPurchase = $('input', form).val();
+    var idPurchase = $(this).data('idpurchase');
     
     var trControl = "#TRdetailsPurchase_" + idPurchase;
     var tdControl = "#TDdetailsPurchase_" + idPurchase;
@@ -1111,9 +1112,7 @@ function postActiveOrderListHandler(orderList) {
       
 	$("#activeOrderList").hide();
     $("#activeOrderList").html("");
-    
-    
-    
+       
     if(orderList.length > 0){
         $("#activeOrderList").append("  <tr>  <th class='top' width='15%'> Nome </th>" +
                                              "<th class='top' width='15%'> Fornitore </th>" +
@@ -1188,9 +1187,15 @@ function postShowDetailsHandler(data) {
     if(selectedTab == 1) {
         trControl = "#TRdetailsOrderActive_" + idOrder;
         tdControl = "#TDdetailsOrderActive_" + idOrder;
+        trIdControl = "trActiveProduct_" + idOrder + "_";
     } else if(selectedTab == 2) {
+        trControl = "#TRdetailsOrderComplete_" + idOrder;
+        tdControl = "#TDdetailsOrderComplete_" + idOrder;
+        trIdControl = "trCompleteProduct_" + idOrder + "_";
+    } else if(selectedTab == 4) {
         trControl = "#TRdetailsOrderOld_" + idOrder;
         tdControl = "#TDdetailsOrderOld_" + idOrder;
+        trIdControl = "trOldProduct_" + idOrder + "_";
     }
     
     $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder + "' class='log2'></table></div>");
@@ -1221,7 +1226,7 @@ function postShowDetailsHandler(data) {
     	var idProgressBar = "pbProduct_" + idOrder + "_" + val.idProduct;
     	var idDispDIV = "dispOrder_" + idOrder + "_" + val.idProduct;
     	
-        $(tableControl).append("<tr id='trOldProduct_" + idOrder + "_" + val.idProduct + "' class='noLimitProduct'>    <td>" + val.name + "</td>" +
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.category.description + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + " &euro;</td>" +
@@ -1251,16 +1256,28 @@ function postShowDetailsHandler(data) {
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
     	
-    	var selectedTab = getSelectedTabIndex();
-    	if(selectedTab == 2 && progress != 100) {
+    	if(progress == 100) {
+    		var selectedTab = getSelectedTabIndex();
     		
-    		var idTr = "#trOldProduct_" + idOrder + "_" + idProduct;
-    		$(idTr).removeClass("noLimitProduct");
-        }
+    		if(selectedTab == 1) {
+    			var idTr = "#trActiveProduct_" + idOrder + "_" + idProduct;
+    			$(idTr).removeClass("noLimitProduct");
+    		}
+    		
+			if(selectedTab == 2) {
+				var idTr = "#trCompleteProduct_" + idOrder + "_" + idProduct; 	
+				$(idTr).removeClass("noLimitProduct");
+    		}
+			
+			if(selectedTab == 4) {
+				var idTr = "#trOldProduct_" + idOrder + "_" + idProduct;
+	    		$(idTr).removeClass("noLimitProduct");
+			}
+    	}
     	
     });
     
-    refreshProgress(idOrder);
+    //refreshProgress(idOrder);
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
@@ -1392,6 +1409,11 @@ function ClearOrder() {
 	$('#orderName').val("");
 }
 
+function loadCompleteOrder() {
+    
+    $.post("ajax/getCompleteOrderResp", null, postCompleteOrderListHandler);
+}
+
 function clickOrderOldHandler(event) {
     
  event.preventDefault();
@@ -1411,6 +1433,66 @@ function clickOrderOldHandler(event) {
         
         $.post("ajax/getOldOrderResp", {end: maxDateTime, dateDeliveryType: dateDeliveryType}, postOldOrderListHandler);
     } 
+}
+
+function postCompleteOrderListHandler(orderList) {
+	
+	$("#completeOrderList").html("");
+    $("#completeOrderList").hide();
+    
+    if(orderList.length > 0){
+    	
+    	$("#completeOrderList").append(" <tr><th class='top' width='10%'> Nome </th>" +
+									        "<th class='top' width='25%'> Fornitore </th>" +
+									        "<th class='top' width='15%'> Data Inizio  </th>" +
+									        "<th class='top' width='15%'> Data Chiusura  </th>" +
+									        "<th class='top' width='15%'> Data Consegna  </th>" +
+									        "<th class='top' width='20%'> Azione  </th> </tr>");
+    	
+    	
+    	for(var i = 0; i < orderList.length; i++) {
+    		
+    		 var order = orderList[i];
+             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
+             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
+             
+             $("#completeOrderList").append("<tr id='idOrder_" + order.idOrder + "'>" +
+						            		 "<td>" + order.orderName +"</td>" +
+						             		  "<td>" + order.supplier.companyName + "</td>" +
+						             		  "<td>" + dateOpen + "</td>" +
+						             		  "<td>" + dateClose + "</td>" +
+						             		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
+											  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
+											  	   "<button style='margin: 0px' type='submit' id='showDetailsComplete_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
+											  "</td></tr>");
+    		
+             $("#completeOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderComplete_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderComplete_" + order.idOrder + "'></td></tr>");
+     		
+             $("#dateDelivery_"+ order.idOrder).datepicker();
+             
+             $("#showDetailsComplete_" + order.idOrder).on("click", clickShowDetailsHandler);
+             $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
+             $(".detailsOrder").hide();
+             
+    		
+    	}
+    	
+    	$("button").button();
+        $("#completeOrderList").show("slow");
+        $("#completeOrderList").fadeIn(1000);
+        $("#errorDivCompleteOrder").hide();
+    	
+    } else {
+    	
+    	 $("#completeOrderList").show();
+         $("#errorDivCompleteOrder").hide();
+         $("#legendErrorCompleteOrder").html("Comunicazione");
+         $("#errorsCompleteOrder").html("Non ci sono Ordini Completati da visualizzare<br /><br />");
+         $("#errorDivCompleteOrder").show("slow");
+         $("#errorDivCompleteOrder").fadeIn(1000);
+    	
+    }
+    
 }
 
 function postOldOrderListHandler(orderList) {
@@ -1434,22 +1516,20 @@ function postOldOrderListHandler(orderList) {
             var dateDelivery = 0;
             
             if(order.dateDelivery == "null") {
-                dateDelivery = "null";
+                dateDelivery = "Non Impostata";
             } else {
                 dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery)); 
             }
             
-            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'></tr>");
-            
-            $("#idOrder_" + order.idOrder).append(
-            										  "<td>" + order.orderName +"</td>" +
-                                              		  "<td>" + order.supplier.companyName + "</td>" +
-                                              		  "<td>" + dateOpen + "</td>" +
-                                              		  "<td>" + dateClose + "</td>" +
-                                              		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
-            										  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
-            										  	   "<button style='margin: 0px' type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
-            										  "</td>" );
+            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'>" +
+					            		"<td>" + order.orderName +"</td>" +
+					            		  "<td>" + order.supplier.companyName + "</td>" +
+					            		  "<td>" + dateOpen + "</td>" +
+					            		  "<td>" + dateClose + "</td>" +
+					            		  "<td>" + dateDelivery + "</td>" +   	
+										  "<td><button style='margin: 0px' type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
+										  "</td>" +
+					            		"</tr>");
             
             $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
             		
@@ -1464,9 +1544,9 @@ function postOldOrderListHandler(orderList) {
             $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
             
             $(".detailsOrder").hide();
-            $("button").button();
+            
         }
-        
+        $("button").button();
         $("#oldOrderList").show("slow");
         $("#oldOrderList").fadeIn(1000);
         $("#errorDivOldOrder").hide();
@@ -1474,10 +1554,10 @@ function postOldOrderListHandler(orderList) {
     else 
     {
         
-        $("#oldOrderList").show();
+        $("#oldOrderList").hide();
         $("#errorDivOldOrder").hide();
         $("#legendErrorOldOrder").html("Comunicazione");
-        $("#errorsOldOrder").html("Non ci sono Ordini Scaduti da visualizzare<br /><br />");
+        $("#errorsOldOrder").html("Non ci sono Ordini da visualizzare<br /><br />");
         $("#errorDivOldOrder").show("slow");
         $("#errorDivOldOrder").fadeIn(1000);
     
@@ -1491,18 +1571,19 @@ function clickSetDateDeliveryHandler(event) {
     idOrder = $(this).data('idorder');
     var dateDelivery = $('#dateDelivery_' + idOrder).datepicker("getDate").getTime();
 
-    $.post("ajax/setDeliveryDate", {idOrder: idOrder, dateDelivery: dateDelivery}, postSetDeliveryDateHandler);
-
-}
-
-function postSetDeliveryDateHandler(result) {
+    var result = 0;
+    $.postSync("ajax/setDeliveryDate", {idOrder: idOrder, dateDelivery: dateDelivery}, function(data){
+    	result = data;
+    });
     
     if(result == 0) {
         //Errore nell'attivazione
     	$("#dateDelivery_" + idOrder).css('background','#FFBFA8');
     } else {
-        //Modificare html
-    	$("#dateDelivery_" + idOrder).css('background','#C7FFA8');
+
+    	//riaggiorno completati e in consegna
+    	loadCompleteOrder();
+    	loadShipOrder();
     }
 }
 
