@@ -249,6 +249,7 @@ public class OrderInterface
 							     					 "from Order as o2 " +
 												     "left join o2.purchases as p " +
 												     "where o2.member = :memberResp " +
+												     "AND o2.dateDelivery is not NULL " +
 												     "AND p.isShipped = false " +
 												     "group by o2.idOrder )");
 		

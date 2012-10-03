@@ -124,6 +124,20 @@ public class RespAjaxController
 		return orderInterface.updateOrder(order);
 	}
 	
+	
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getCompleteOrderResp", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Order> getCompleteOrderResp(HttpServletRequest request, HttpSession session	) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		
+		List<Order> listOrder = orderInterface.getCompletedOrders(username);
+
+		return listOrder;
+	}
+	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getPurchaseFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
