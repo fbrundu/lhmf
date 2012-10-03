@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +35,6 @@ public class ProductInterface
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
 	private ModelState modelState;
-	@Autowired
 	private PurchaseInterface purchaseInterface;
 
 	public void setSessionFactory(SessionFactory sf)
@@ -48,7 +46,12 @@ public class ProductInterface
 	{
 		this.modelState = ms;
 	}
-
+	
+	public void setPurchaseInterface(PurchaseInterface purchaseInterface)
+	{
+		this.purchaseInterface = purchaseInterface;
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer newProduct(Product product)
 			throws InvalidParametersException

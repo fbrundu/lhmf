@@ -45,6 +45,7 @@
     <bean id="productDao" class="it.polito.ai.lhmf.model.ProductInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="modelState" ref="modelState"/>
+        <property name="purchaseInterface" ref="purchaseDao"/>
     </bean>
     
     <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">
@@ -71,6 +72,8 @@
     
     <bean id="memberDao" class="it.polito.ai.lhmf.model.MemberInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="memberStatusInterface" ref="memberStatusDao"/>
+        <property name="messageInterface" ref="messageDao"/>
     </bean>
     
     <bean id="memberStatusDao" class="it.polito.ai.lhmf.model.MemberStatusInterface">
@@ -83,6 +86,7 @@
     
     <bean id="messageDao" class="it.polito.ai.lhmf.model.MessageInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="memberInterface" ref="memberDao"/>
     </bean>
     
     <bean id="notifyDao" class="it.polito.ai.lhmf.model.NotifyInterface">

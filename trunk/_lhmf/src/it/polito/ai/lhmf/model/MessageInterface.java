@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,6 @@ public class MessageInterface
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
 	
-	@Autowired
 	private MemberInterface memberInterface;
 
 	public void setSessionFactory(SessionFactory sf)
@@ -28,6 +26,11 @@ public class MessageInterface
 		this.sessionFactory = sf;
 	}
 
+	public void setMemberInterface(MemberInterface memberInterface)
+	{
+		this.memberInterface = memberInterface;
+	}	
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer newMessageToAdmin(Member admin, Member sender, String text)
 			throws InvalidParametersException
@@ -61,6 +64,8 @@ public class MessageInterface
 			message.setIsReaded(false);
 			message.setMessageTimestamp(new Date());
 			message.setText(text);
+			message.setMemberByIdReceiver(receiver);
+			message.setMemberByIdSender(sender);
 			return (Integer) sessionFactory.getCurrentSession().save(message);
 		}
 		
