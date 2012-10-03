@@ -137,9 +137,6 @@ public class NormalAjaxController
 			@RequestParam(value = "amountProducts") String amountProducts)
 			throws InvalidParametersException, ParseException
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberNormal = memberInterface.getMember(username);
-
 		String[] idTmp = idProducts.split(",");
 		String[] amountTmp = amountProducts.split(",");
 
@@ -164,7 +161,8 @@ public class NormalAjaxController
 				}
 			}
 
-			return purchaseInterface.createPurchase(memberNormal, idOrder, ids,
+			return purchaseInterface.createPurchase(
+					(String) session.getAttribute("username"), idOrder, ids,
 					amounts);
 		}
 		else

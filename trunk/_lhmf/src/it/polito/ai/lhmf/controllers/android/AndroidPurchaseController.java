@@ -42,9 +42,6 @@ public class AndroidPurchaseController {
 			@RequestParam(value = "idProducts") String idProducts,
 			@RequestParam(value = "amountProducts") String amountProducts) throws InvalidParametersException, ParseException
 	{
-		String username = principal.getName();
-		Member memberNormal = memberInterface.getMember(username);
-		
 		String[] idTmp = idProducts.split(",");
 		String[] amountTmp = amountProducts.split(",");
 		
@@ -65,7 +62,8 @@ public class AndroidPurchaseController {
 				}
 			}
 			
-			return purchaseInterface.createPurchase(memberNormal, idOrder, ids, amounts);
+			return purchaseInterface.createPurchase(principal.getName(),
+					idOrder, ids, amounts);
 		}
 		else
 			return -1;
