@@ -5,11 +5,9 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
-import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.text.ParseException;
@@ -35,8 +33,6 @@ public class NormalAjaxController
 	private OrderInterface orderInterface;
 	@Autowired
 	private PurchaseInterface purchaseInterface;
-	@Autowired
-	private MemberInterface memberInterface;
 	@Autowired
 	private ProductInterface productInterface;
 
@@ -229,13 +225,10 @@ public class NormalAjaxController
 
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		// -1 = Quantit� non disponibile
+		// -1 = Quantita' non disponibile
 		// -2 = valore non idoneo
-
-		String username = (String) session.getAttribute("username");
-		Member memberNormal = memberInterface.getMember(username);
-
-		return purchaseInterface.updateProduct(memberNormal, idPurchase,
+		return purchaseInterface.updateProduct(
+				(String) session.getAttribute("username"), idPurchase,
 				idProduct, amountProduct);
 	}
 
@@ -248,14 +241,11 @@ public class NormalAjaxController
 			@RequestParam(value = "idProduct") int idProduct)
 			throws InvalidParametersException, ParseException
 	{
-
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		String username = (String) session.getAttribute("username");
-		Member memberNormal = memberInterface.getMember(username);
-
-		return purchaseInterface.deletePurchaseProduct(memberNormal,
-				idPurchase, idProduct);
+		return purchaseInterface.deletePurchaseProduct(
+				(String) session.getAttribute("username"), idPurchase,
+				idProduct);
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -268,10 +258,8 @@ public class NormalAjaxController
 			@RequestParam(value = "idProduct") int idProduct)
 			throws InvalidParametersException
 	{
-		PurchaseProduct tmpPP = null;
-		tmpPP = purchaseInterface.getPurchaseProductFromId(idPurchase,
+		return purchaseInterface.getPurchaseProductAmountFromId(idPurchase,
 				idProduct);
-		return tmpPP.getAmount();
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "

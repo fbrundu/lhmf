@@ -118,35 +118,33 @@ public class AndroidPurchaseController {
 	
 	@RequestMapping(value = "/androidApi/updatepurchaseproduct", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer updatePurchaseProduct(HttpServletRequest request, Principal principal,
+	Integer updatePurchaseProduct(HttpServletRequest request,
+			Principal principal,
 			@RequestParam(value = "idPurchase") Integer idPurchase,
 			@RequestParam(value = "idProduct") Integer idProduct,
-			@RequestParam(value = "amount") Integer amountProduct) throws InvalidParametersException {
-		
+			@RequestParam(value = "amount") Integer amountProduct)
+			throws InvalidParametersException
+	{
+
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		// -1 = Quantit� non disponibile
+		// -1 = Quantita' non disponibile
 		// -2 = valore non idoneo
-		
-		String username = principal.getName();
-		Member memberNormal = memberInterface.getMember(username);
-		
-		return purchaseInterface.updateProduct(memberNormal, idPurchase, idProduct, amountProduct);
+		return purchaseInterface.updateProduct(principal.getName(), idPurchase,
+				idProduct, amountProduct);
 	}
-	
+
 	@RequestMapping(value = "/androidApi/delpurchaseproduct", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer delPurchaseProduct(HttpServletRequest request, Principal principal,
 			@RequestParam(value = "idPurchase") Integer idPurchase,
-			@RequestParam(value = "idProduct") Integer idProduct ) throws InvalidParametersException
+			@RequestParam(value = "idProduct") Integer idProduct)
+			throws InvalidParametersException
 	{
-		
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		String username = principal.getName();
-		Member memberNormal = memberInterface.getMember(username);
-		
-		return purchaseInterface.deletePurchaseProduct(memberNormal, idPurchase, idProduct);
+
+		return purchaseInterface.deletePurchaseProduct(principal.getName(),
+				idPurchase, idProduct);
 	}
-	
 }

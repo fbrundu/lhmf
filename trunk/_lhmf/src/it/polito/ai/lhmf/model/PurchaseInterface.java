@@ -208,6 +208,13 @@ public class PurchaseInterface
 		return (PurchaseProduct)query.uniqueResult();
 	}
 
+	@Transactional(readOnly = true)
+	public Integer getPurchaseProductAmountFromId(Integer idPurchase,
+			Integer idProduct)
+	{
+		return getPurchaseProductFromId(idPurchase, idProduct).getAmount();
+	}
+
 	//@SuppressWarnings("rawtypes")
 	@SuppressWarnings("rawtypes")
 	@Transactional(readOnly=true)
@@ -454,13 +461,15 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
-	public Integer updateProduct(Member memberNormal, Integer idPurchase,
+	public Integer updateProduct(String username, Integer idPurchase,
 			Integer idProduct, Integer amountProduct) throws InvalidParametersException {
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
-		// -1 = Quantit� non disponibile
+		// -1 = Quantita' non disponibile
 		// -2 = valore non idoneo
 		
+		Member member = memberInterface.getMember(username);
+
 		int result = 0;
 		
 		Integer disp = null;
@@ -479,7 +488,7 @@ public class PurchaseInterface
 		if(purchase == null)
 			return -1;
 		
-		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
+		if(purchase.getMember().getIdMember() != member.getIdMember())
 			return -1;
 		
 		Order order = purchase.getOrder();
@@ -520,14 +529,16 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer deletePurchaseProduct(Member memberNormal,
+	public Integer deletePurchaseProduct(String username,
 			Integer idPurchase, Integer idProduct) throws InvalidParametersException {
 		// 1 = prenotazione aggiornata
 		// 0 = prodotto non trovato
+
+		Member member = memberInterface.getMember(username);
 		Product product = productInterface.getProduct(idProduct);
 		Purchase purchase = getPurchase(idPurchase);
 		
-		if(purchase.getMember().getIdMember() != memberNormal.getIdMember())
+		if(purchase.getMember().getIdMember() != member.getIdMember())
 			return -1;
 		
 		Order order = purchase.getOrder();
