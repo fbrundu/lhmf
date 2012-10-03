@@ -5,7 +5,6 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
-import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
 
@@ -110,12 +109,11 @@ public class AndroidPurchaseController {
 	Integer newPurchaseProduct(HttpServletRequest request, Principal principal,
 			@RequestParam(value = "idPurchase") Integer idPurchase,
 			@RequestParam(value = "idProduct") Integer idProduct,
-			@RequestParam(value = "amount") Integer amountProduct) throws InvalidParametersException {
-		String username = principal.getName();
-		
-		Member memberNormal = memberInterface.getMember(username);
-		
-		return purchaseInterface.insertProduct(memberNormal, idPurchase, idProduct, amountProduct);
+			@RequestParam(value = "amount") Integer amountProduct)
+			throws InvalidParametersException
+	{
+		return purchaseInterface.insertProduct(principal.getName(), idPurchase,
+				idProduct, amountProduct);
 	}
 	
 	@RequestMapping(value = "/androidApi/updatepurchaseproduct", method = RequestMethod.POST)
