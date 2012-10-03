@@ -442,21 +442,25 @@ public class OrderInterface
 	}
 
 	//TODO usare anche per creazione scheda sul sito. Restituisce gli ordini attivi per cui l'utente normale richiedente non ha ancora compilato schede
-	@Transactional(readOnly=true)
-	public List<Order> getAvailableOrders(Member normalMember) {
+	@Transactional(readOnly = true)
+	public List<Order> getAvailableOrders(String username)
+	{
+		Member m = memberInterface.getMember(username);
 		List<Order> ret = new ArrayList<Order>();
-		
-		List<Order> activeOrders = getOrdersNow();
-		for(Order order : activeOrders){
+
+		for (Order order : getOrdersNow())
+		{
 			Set<Purchase> purchases = order.getPurchases();
 			boolean alreadyPurchased = false;
-			for(Purchase purchase : purchases){
-				if(purchase.getMember().getIdMember() == normalMember.getIdMember()){
+			for (Purchase purchase : purchases)
+			{
+				if (purchase.getMember().getIdMember() == m.getIdMember())
+				{
 					alreadyPurchased = true;
 					break;
 				}
 			}
-			if(!alreadyPurchased)
+			if (!alreadyPurchased)
 				ret.add(order);
 		}
 		return ret;
@@ -626,13 +630,13 @@ public class OrderInterface
 		for(Integer productId : productIds){
 			Product p = productInterface.getProduct(productId);
 			if(p == null || p.getSupplier().getIdMember() != supplier.getIdMember())
-				//Lancio eccezione così viene fato il rollback e viene eliminato l'ordine
+				//Lancio eccezione cosï¿½ viene fato il rollback e viene eliminato l'ordine
 				throw new InvalidParametersException();
 			
 			OrderProductId id = new OrderProductId(order.getIdOrder(), p.getIdProduct());
 			OrderProduct orderproduct = new OrderProduct(id, order, p);
 			
-			//In questo caso, dato che l'id non è generato ma già passato, se ci sono errori lancia un'eccezione
+			//In questo caso, dato che l'id non ï¿½ generato ma giï¿½ passato, se ci sono errori lancia un'eccezione
 			newOrderProduct(orderproduct);
 		}
 		return 1;

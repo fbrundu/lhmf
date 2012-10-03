@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
+import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
@@ -12,6 +13,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -535,4 +537,19 @@ public class PurchaseInterface
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Set<Product> getOtherProductsOfOrder(int idPurchase)
+	{
+		Purchase pu = this.getPurchase(idPurchase);
+		Set<Product> p = new HashSet<Product>();
+
+		for(OrderProduct op : pu.getOrder()
+				.getOrderProducts())
+			p.add(op.getProduct());
+		
+		for(PurchaseProduct pp : pu.getPurchaseProducts())
+			p.remove(pp.getProduct());
+		
+		return p;
+	}
 }
