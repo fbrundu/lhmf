@@ -76,15 +76,13 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getDeliveredOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getDeliveredOrderResp(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "start") long start,
-			@RequestParam(value = "end") long end) throws InvalidParametersException
+	List<Order> getDeliveredOrderResp(HttpServletRequest request, HttpSession session) throws InvalidParametersException
 	{
 		String username = (String) session.getAttribute("username");
 		Member memberResp = memberInterface.getMember(username);
 		
 		List<Order> listOrder = null;
-		listOrder = orderInterface.getOrdersToDelivery(memberResp, start, end);
+		listOrder = orderInterface.getOrdersToDelivery(memberResp);
 		
 		return listOrder;
 	}

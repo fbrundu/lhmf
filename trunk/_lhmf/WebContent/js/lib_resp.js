@@ -217,15 +217,6 @@ function writeOrderPage(){
                         "</div>");
   
   $('#tabsOrder-4').html("<div class='logform'>" +
-                    "<form method='post' action=''>" +
-                    "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini In Consegna:&nbsp;</legend><br />" +
-                        "<label for='minDate3' class='left'>Consegna dopo il: </label>" +
-                        "<input type='text' id='minDate3' class='field' style='width: 100px'/>" +
-                        "<label for='maxDate3' class='left'>Consegna prima del: </label>" +
-                        "<input type='text' id='maxDate3' class='field' style='width: 100px'/>" +
-                    "</fieldset>" +
-                    "<button type='submit' id='orderShipRequest'> Visualizza </button>" +
-                  "</form>" +
                   "<table id='shipOrderList' class='log'></table>" +
                     "<div id='errorDivShipOrder' style='display:none;'>" +
                       "<fieldset><legend id='legendErrorShipOrder'>&nbsp;Errore&nbsp;</legend><br />" +
@@ -737,11 +728,12 @@ function prepareOrderForm(tab){
     $('#maxDate3').datepicker("setDate", Date.now());
     
     $('#orderOldRequest').on("click", clickOrderOldHandler);
-    $('#orderShipRequest').on("click", clickOrderShipHandler);
     
     //Drag and drop
     loadSupplier();
     loadActiveOrder();
+    loadShipOrder();
+    
     $("#orderCompositor").hide();
     $("#closeData").datepicker();
     
@@ -904,25 +896,9 @@ function loadSupplier() {
 	});
 }
 
-function clickOrderShipHandler(event) {
-	event.preventDefault();
-	
-	var minDateTime = $('#minDate3').datepicker("getDate").getTime();
-    var maxDate = $('#maxDate3').datepicker("getDate");
-    
-    maxDate.setHours(23);
-    maxDate.setMinutes(59);
-    maxDate.setSeconds(59);
-    maxDate.setMilliseconds(999);
-    
-    var maxDateTime = maxDate.getTime();
-    
-    if(minDateTime == null || maxDateTime == null || minDateTime >  maxDateTime){
-        $( "#dialog" ).dialog('open');
-    } else {
+function loadShipOrder() {
         
-        $.post("ajax/getDeliveredOrderResp", {start: minDateTime, end: maxDateTime}, postShipOrderListHandler);
-    } 
+    $.post("ajax/getDeliveredOrderResp", null, postShipOrderListHandler);
 }
 
 function postShipOrderListHandler(orderList) {
@@ -1471,7 +1447,7 @@ function postOldOrderListHandler(orderList) {
                                               		  "<td>" + dateOpen + "</td>" +
                                               		  "<td>" + dateClose + "</td>" +
                                               		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
-            										  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "'> Set Consegna </button>" +
+            										  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
             										  	   "<button style='margin: 0px' type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
             										  "</td>" );
             
@@ -1511,10 +1487,8 @@ function postOldOrderListHandler(orderList) {
 
 function clickSetDateDeliveryHandler(event) {
     event.preventDefault();
-    
-    var form = $(this).parents('form');
-    idOrder = $('input', form).val();
-    
+   
+    idOrder = $(this).data('idorder');
     var dateDelivery = $('#dateDelivery_' + idOrder).datepicker("getDate").getTime();
 
     $.post("ajax/setDeliveryDate", {idOrder: idOrder, dateDelivery: dateDelivery}, postSetDeliveryDateHandler);
