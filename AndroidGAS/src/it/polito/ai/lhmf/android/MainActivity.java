@@ -144,22 +144,10 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				//Intent shippedOrdersIntent = new Intent(MainActivity.this, ShippedOrdersActivity.class);
+				//startActivity(shippedOrdersIntent);
 			}
 		});
-		
-		Button orderHistory = (Button) findViewById(R.id.order_history_button);
-		orderHistory.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		
 		
 		Button newPurchase = (Button) findViewById(R.id.newPurchaseButton);
 		newPurchase.setOnClickListener(new View.OnClickListener() {

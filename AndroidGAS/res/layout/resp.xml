@@ -26,21 +26,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
         android:text="@string/completed_orders" />
-
+
     <Button
         android:id="@+id/shipped_orders_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/shipped_orders" />
-
-    <Button
-        android:id="@+id/order_history_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="3dp"
-        android:text="@string/order_history" />
+        android:text="@string/shipped_orders" />
 
     <Button
         android:id="@+id/newPurchaseButton"

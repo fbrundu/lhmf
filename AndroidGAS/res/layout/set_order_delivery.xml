@@ -50,16 +50,6 @@
                     android:text="@string/new_purchase_order_name"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/order_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/order_name_label"
-                    android:layout_toRightOf="@+id/textView2"
-                    android:text="Medium Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/textView2"
@@ -78,6 +68,46 @@
                     android:layout_alignBaseline="@id/textView2"
                     android:layout_toRightOf="@+id/textView2"
                     android:text="Medium Text"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/textView2"
+                    android:text="@string/new_purchase_tot_cost"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/order_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/textView2"
+                    android:layout_toRightOf="@+id/order_name_label"
+                    android:text="Medium Text"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/order_cost_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/textView1"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+                
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/order_cost_text"
+                    android:layout_toRightOf="@+id/order_cost_text"
+                    android:text="@string/euro_symbol"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="#FFFFFF" />
                 

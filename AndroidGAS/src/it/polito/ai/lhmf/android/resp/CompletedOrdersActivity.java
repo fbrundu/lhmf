@@ -1,13 +1,9 @@
 package it.polito.ai.lhmf.android.resp;
 
-import it.polito.ai.lhmf.android.OrderDetailsActivity;
 import it.polito.ai.lhmf.android.R;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 import it.polito.ai.lhmf.model.Order;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.social.connect.Connection;
 
@@ -23,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -32,9 +27,6 @@ public class CompletedOrdersActivity extends Activity {
 	private CustomAdapter adapter = null;
 	
 	private ListView orderListView = null;
-	
-	private List<Integer> orderIds = null;
-	private float[] ordersProgress = null;
 	
 	private TextView noOrders = null;
 	
@@ -54,6 +46,7 @@ public class CompletedOrdersActivity extends Activity {
 			orderListView = (ListView) findViewById(R.id.ordersList);
 			
 			noOrders = (TextView) findViewById(R.id.no_orders_available);
+			noOrders.setText("Non ci sono ordini da visualizzare");
 		}
 	}
 	
@@ -133,7 +126,7 @@ public class CompletedOrdersActivity extends Activity {
 			orderProgressLabel = (TextView) row.findViewById(R.id.order_progress_label);
 			orderProgressLabel.setVisibility(View.GONE);
 			
-			orderProgressLayout = findViewById(R.id.orderProgressLayout);
+			orderProgressLayout = row.findViewById(R.id.orderProgressLayout);
 			orderProgressLayout.setVisibility(View.GONE);
 			
 			orderDetails = (Button) row.findViewById(R.id.order_purchase_button);

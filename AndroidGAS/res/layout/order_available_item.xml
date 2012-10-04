@@ -127,7 +127,7 @@
         android:paddingTop="10dp"
         android:text="@string/order_progress"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
+
     <RelativeLayout
         android:id="@+id/orderProgressLayout"
         android:layout_width="match_parent"

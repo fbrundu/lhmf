@@ -30,5 +30,7 @@ public interface OrderOperations {
 	
 	Order[] getRespShippedOrders();
 	
-	Order[] gerRespOrderHistory(Long closedAfterDate);
+	Integer setDeliveryDate(Integer idOrder, Long dateDelivery);
+	
+	Integer setPurchaseShipped(Integer idPurchase);
 }
