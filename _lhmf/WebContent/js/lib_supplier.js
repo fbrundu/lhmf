@@ -14,8 +14,8 @@
 		$("#notifiesLink").click(notifiesClicked);
 		$("#messagesLink").click(messagesClicked);
 		//registerForMessages();
-    //registerForNotifies();
-    registerForNews();
+	    //registerForNotifies();
+		registerForNews();
   
 		$.datepicker.setDefaults({
 			dateFormat : 'dd/mm/yy'
@@ -845,7 +845,7 @@ function getProductsAsTableRows(productsList, productCategoriesList, page,
 
 function writeIndexPage()
 {
-  $('.centrale').html("<p>Questa è l'interfaccia fornitore</p>");
+    writeSupplierPage(0);
 }
 
 function writeSupplierPage(tab)

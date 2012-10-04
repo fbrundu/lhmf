@@ -16,9 +16,9 @@ var numberOfMember;
 		$("#statLink").click(statClicked);
 		$("#notifiesLink").click(notifiesClicked);
 		$("#messagesLink").click(messagesClicked);
-    //registerForMessages();
-    //registerForNotifies();
-    registerForNews();
+		//registerForMessages();
+		//registerForNotifies();
+		registerForNews();
   
 		$.datepicker.setDefaults({
 			dateFormat : 'dd/mm/yy'
@@ -64,35 +64,6 @@ function historyStateChanged() {
     }
     break;
   case 'userMgmt':
-    switch (stateData.tab)
-    {
-    case 1:
-      // Tab registrazione
-
-      writeUserPage(1);
-
-      /*
-       * if(!!stateData.username) {
-       * 
-       * doRegistration(stateData); }
-       */
-
-      break;
-    case 2:
-      // Tab 2
-      writeUserPage(2);
-
-      break;
-    case 3:
-      // Tab 3
-      writeUserPage(3);
-
-      break;
-    case 4:
-      writeUserPage(4);
-      break;
-
-    }
     writeUserPage();
     break;
   case 'null':
@@ -501,10 +472,9 @@ function writeUserPage(tab){
 		              "<table id='memberList' class='log'></table>" +
 		              "<div id='errorDiv2' style='display:none;'>" +
 		                  "<fieldset><legend id='legendError2'>&nbsp;Errore&nbsp;</legend><br />" +
-		                   "<div id='errors2' style='padding-left: 40px'>" +
-		                "</div>" +
+		                   "<div id='errors2' style='padding-left: 40px'></div>" +
 		                  "</fieldset>" +
-		                  "</div><br />" +
+		              "</div><br />" +
 		                "</div>");
   
   
@@ -543,7 +513,7 @@ function writeUserPage(tab){
 
 
 function writeIndexPage(){
-  $('.centrale').html("<p>Body admin history state</p>");
+    writeUserPage();
 }
 
 function getAllProductsNoLocal()
@@ -1071,11 +1041,14 @@ function postMemberActivationHandler(result) {
 	
 	if(result == 0) {
 		
-		//Errore nell'attivazione
-		//TODO fare qualcosa?
+        $("#errorDiv2").hide();
+        $("#legendError2").html("Errore");
+        $("#errors2").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errorDiv2").show("slow");
+        $("#errorDiv2").fadeIn(1000);
+        
 	} else {
 		var trControl = "#ActMember_" + result;
-		
 		$(trControl).hide("slow");
 	}
 }

@@ -406,8 +406,7 @@ function postStatProdTopProductHandler(data) {
 
 function writeIndexPage()
 {
-  $("#bodyTitleHeader").html("Interfaccia utente");
-  $('.centrale').html("<p>Interfaccia utente normale</p>");
+    writePurchasePage();
 }
 
 function preparePurchaseForm(tab){
