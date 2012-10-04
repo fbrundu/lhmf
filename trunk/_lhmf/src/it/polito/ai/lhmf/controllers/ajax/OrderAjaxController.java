@@ -1,6 +1,5 @@
 package it.polito.ai.lhmf.controllers.ajax;
 
-import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
@@ -27,28 +26,29 @@ public class OrderAjaxController
 	@RequestMapping(value = "/ajax/neworder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer newOrder(HttpServletRequest request, @RequestBody Order order)
-			throws InvalidParametersException
 	{
-		Integer idOrder = -1;
-		idOrder = orderInterface.newOrder(order);
-		return idOrder;
+		try
+		{
+			return orderInterface.newOrder(order);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@RequestMapping(value = "/ajax/getpastorders", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Order> getPastOrders(HttpServletRequest request)
 	{
-		List<Order> orderList = null;
-		orderList = orderInterface.getPastOrders();
-		return orderList;
+		return orderInterface.getPastOrders();
 	}
 
 	@RequestMapping(value = "/ajax/getactiveorders", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Order> getActiveOrders(HttpServletRequest request)
 	{
-		List<Order> orderList = null;
-		orderList = orderInterface.getActiveOrders();
-		return orderList;
+		return orderInterface.getActiveOrders();
 	}
 }
