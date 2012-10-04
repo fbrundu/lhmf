@@ -15,17 +15,17 @@
         {
           var newState = {
             data : {
-              action : 'productsMgmtAdmin'
+              action : 'statAdmin'
             },
             title : null,
-            url : './productsMgmtAdmin'
+            url : './statAdmin'
           };
           History.replaceState({
             action : 'null'
           }, null, newState.url);
           History.replaceState(newState.data, newState.title, newState.url);
         }
-        writeProductsPageAdmin();
+        writeStatPageAdmin();
       }
     </script>
 	</jsp:attribute>
