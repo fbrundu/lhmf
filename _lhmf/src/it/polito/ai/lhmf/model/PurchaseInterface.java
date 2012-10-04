@@ -156,6 +156,15 @@ public class PurchaseInterface
 		return query.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Purchase> getPurchaseFromOrder(Integer idOrder) 
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idOrder = :idOrder");
+		query.setParameter("idOrder", idOrder);
+		return query.list();
+	}
+	
 	@Transactional(readOnly = true)
 	public Integer getAmount(int idPurchase, int idProduct) 
 	{	

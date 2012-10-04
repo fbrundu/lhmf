@@ -742,4 +742,54 @@ public class OrderInterface
 		
 		return getCompletedOrders(member.getIdMember());
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly=true)
+	public List<Order> getOrdersNotFailed()
+	{
+				
+		Calendar now = Calendar.getInstance();
+		Date dateNowD = now.getTime();
+		Timestamp dateNow = new Timestamp(dateNowD.getTime());
+		
+		Calendar past = Calendar.getInstance();
+		past.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH - 1);
+		Date dateYesterdayD = past.getTime();
+		Timestamp dateYesterday = new Timestamp(dateYesterdayD.getTime());
+		
+		Query query = sessionFactory.getCurrentSession()
+				.createQuery("from Order where dateClose <= :dateNow " +
+										  "OR dateClose > :dateYesterday");
+		
+		query.setTimestamp("dateNow", dateNow);
+		query.setTimestamp("dateYesterday", dateYesterday);
+	
+		return query.list();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer updateFailedWithOrder(int idOrder, int idProduct)
+	{		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+						"update OrderProduct "
+						+ "set failed = true " +
+						"where idOrder = :idOrder AND idProduct = :idProduct");
+		query.setParameter("idOrder", idOrder);
+		query.setParameter("idProduct", idProduct);
+	
+		return (Integer) query.executeUpdate();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateFailedWithNoOrder(int idProduct)
+	{		
+		Query query = sessionFactory.getCurrentSession().createQuery(
+						"update OrderProduct "
+						+ "set failed = true " +
+						"where idProduct = :idProduct");
+		query.setParameter("idProduct", idProduct);
+	
+		query.executeUpdate();
+	}
 }

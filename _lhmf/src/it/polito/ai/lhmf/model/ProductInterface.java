@@ -2,6 +2,7 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.orm.Supplier;
@@ -366,4 +367,35 @@ public class ProductInterface
 
 		return orderedMap;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<PurchaseProduct> getPurchaseProductFromPurchase(Integer idPurchase)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery("from PurchaseProduct "
+								+ "where idPurchase = :idPurchase");
+		query.setParameter("idPurchase", idPurchase);
+		return query.list();
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer checkFailed(Integer idProduct, int amount)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"delete from Product " + "where idProduct = :idProduct");
+
+		query.setParameter("idProduct", idProduct);
+
+		Product tmp = (Product) query.uniqueResult();
+		
+		if(amount > tmp.getMinBuy())
+		{
+			return 0;
+		}
+		else
+		{
+			return 1;
+		}
+	}
+	
 }
