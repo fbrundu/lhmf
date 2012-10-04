@@ -793,8 +793,7 @@ public class OrderInterface
 	public void updateFailedWithNoOrder(int idProduct)
 	{		
 		Query query = sessionFactory.getCurrentSession().createQuery(
-						"update OrderProduct "
-						+ "set failed = true " +
+						"update OrderProduct set failed = true " +
 						"where idProduct = :idProduct");
 		query.setParameter("idProduct", idProduct);
 	
