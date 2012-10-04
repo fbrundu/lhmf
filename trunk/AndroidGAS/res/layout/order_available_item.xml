@@ -64,6 +64,27 @@
                     android:layout_below="@+id/textView1"
                     android:text="@string/orderResp"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <TextView
+                    android:id="@+id/delivery_date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/respLabel"
+                    android:text="@string/delivery"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/orderDeliveryDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/delivery_date_label"
+                    android:layout_toRightOf="@id/delivery_date_label"
+                    android:text="Small Text"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:visibility="gone" />
+
             </RelativeLayout>
         </LinearLayout>
 

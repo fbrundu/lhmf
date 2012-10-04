@@ -44,6 +44,8 @@
         <activity android:name=".OrderDetailsActivity" android:screenOrientation="portrait"></activity>
         <activity android:screenOrientation="portrait" android:name=".resp.CompletedOrdersActivity"></activity>
         <activity android:screenOrientation="portrait" android:name=".resp.SetOrderDeliveryActivity"></activity>
+        <activity android:screenOrientation="portrait" android:name=".resp.ShippedOrdersActivity"></activity>
+        <activity android:screenOrientation="portrait" android:name=".resp.ShipOrderPurchasesActivity"></activity>
     </application>
 
 </manifest>
