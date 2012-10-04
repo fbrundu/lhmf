@@ -7,16 +7,19 @@
 <t:index>
 	<jsp:attribute name="scripts">
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_resp.js"/>'></script>
+		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_resp_normal.js"/>'></script>
 		<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/dng.css"/>'/>
 		<script type="text/javascript">
 			function drawPageCallback(){
 				if(History.enabled){
-					var newState = {data: {action:'order'}, title: null, url: './order'};
+					var newState = {data: {action:'orderResp'}, title: null, url: './orderResp'};
 					History.replaceState({action: 'null'}, null, newState.url);
 					History.replaceState(newState.data, newState.title, newState.url);
 				}
 				else
-					prepareUserForm();
+				    writeOrderPage();
+			    	startRefreshOrder = 1;
+			    	startRefresh = 0;
 				//var History = window.History;
 				//var state = History.getState();
 				//var newState = {data:{action: 'log', min: ${minLog}, max: ${maxLog}}, title: null, url: "./log?min=" + ${minLog} + "&max=" + ${maxLog}};
@@ -32,9 +35,9 @@
    <div class="round-border-topright"></div>
     <h1 class="first">Menu Responsabile</h1>
     <dl class="menu-navigazione">
-      <dt><a id="orderLink" href="">Ordini</a></dt>
-      <dt><a id="purchaseLink" href="">Schede Di Acquisto</a></dt>
-      <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statSupplier"/>">Statistiche</a></dt>
+      <dt><a id="orderLink" href="<spring:url htmlEscape="true" value="/orderResp"/>">Ordini</a></dt>
+		  <dt><a id="purchaseLink" href="<spring:url htmlEscape="true" value="/purchaseResp"/>">Schede Di Acquisto</a></dt>
+		  <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statResp"/>">Statistiche</a></dt>
     </dl> 
 	</jsp:attribute>
 	
