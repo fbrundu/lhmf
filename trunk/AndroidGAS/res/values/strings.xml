@@ -33,7 +33,7 @@
     <string name="product_progress_separator">/</string>
     <string name="new_purchase_desired_amount">"Quantità desiderata: "</string>
     <string name="purchase_item_progress">"Raggiungimento quantità minima: "</string>
-    <string name="purchase_item_cost">&quot;Costo parziale: &quot;</string>
+    <string name="purchase_item_cost">"Costo parziale: "</string>
     <string name="euro_symbol">" €"</string>
     <string name="new_purchase_tot_cost">"Costo totale: "</string>
     <string name="edit_purchase_title">Modifica scheda</string>
@@ -63,4 +63,8 @@
     <string name="set_delivery">Impostazione data di consegna</string>
     <string name="completed_order">Ordine completato</string>
     <string name="delivery">"Consegna: "</string>
+    <string name="cost">"Costo: "</string>
+    <string name="failedF">FALLITA</string>
+    <string name="devlier_purchases">Consegna prodotti</string>
+    <string name="purchase_delivered">Consegnata</string>
 </resources>

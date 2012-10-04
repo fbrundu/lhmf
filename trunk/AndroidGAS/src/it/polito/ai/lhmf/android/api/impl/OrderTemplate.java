@@ -7,6 +7,7 @@ import it.polito.ai.lhmf.android.api.OrderOperations;
 import it.polito.ai.lhmf.model.Order;
 import it.polito.ai.lhmf.model.OrderProduct;
 import it.polito.ai.lhmf.model.Product;
+import it.polito.ai.lhmf.model.Purchase;
 import it.polito.ai.lhmf.model.Supplier;
 
 import org.springframework.util.LinkedMultiValueMap;
@@ -211,6 +212,39 @@ public class OrderTemplate implements OrderOperations {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Purchase[] getOrderCompletedPurchases(Integer idOrder) {
+		if(idOrder != null){
+			try {
+				Purchase[] ret = template.getForObject(Gas.baseApiUrl + "getpurchasefromorder?idOrder={id}", Purchase[].class, idOrder);
+				if(ret != null){
+					for(Purchase p : ret){
+						Boolean failed = template.getForObject(Gas.baseApiUrl + "ispurchasefailed?idPurchase={id}", Boolean.class, p.getIdPurchase());
+						if(failed != null){
+							p.setFailed(failed);
+							if(failed == false){
+								Float cost = template.getForObject(Gas.baseApiUrl + "getcomletedpurchasecost?idPurchase={id}", Float.class, p.getIdPurchase());
+								if(cost != null){
+									p.setTotCost(cost);
+								}
+								else
+									return null;
+							}
+						}
+						else
+							return null;
+					}
+				}
+				return ret;
+			} catch(RestClientException e){
+				e.printStackTrace();
+				return null;
+			}
+		}
+		else
+			return null;
 	}
 
 }

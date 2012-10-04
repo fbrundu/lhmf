@@ -785,7 +785,7 @@ public class OrderInterface
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOrdersNotFailed()
+	public List<Order> getOrdersClosedYesterday()
 	{
 		Calendar now = Calendar.getInstance();
 		Date dateNowD = now.getTime();
@@ -797,36 +797,50 @@ public class OrderInterface
 		Timestamp dateYesterday = new Timestamp(dateYesterdayD.getTime());
 		
 		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from Order where dateOpen <= :dateNow " +
-										  "or dateOpen > :dateYesterday");
+				.createQuery("from Order where dateClose <= :dateNow " +
+										  "and dateClose > :dateYesterday");
 		
 		query.setTimestamp("dateNow", dateNow);
 		query.setTimestamp("dateYesterday", dateYesterday);
 	
 		return query.list();
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void updateFailedWithOrder(int idOrder, int idProduct)
-	{		
-		Query query = sessionFactory.getCurrentSession().createQuery(
-						"update OrderProduct "
-						+ "set failed = true " +
-						"where idOrder = :idOrder AND idProduct = :idProduct");
-		query.setParameter("idOrder", idOrder);
-		query.setParameter("idProduct", idProduct);
-	
-		query.executeUpdate();
-	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public void updateFailedWithNoOrder(int idProduct)
-	{		
-		Query query = sessionFactory.getCurrentSession().createQuery(
-						"update OrderProduct set failed = true " +
-						"where idProduct = :idProduct");
-		query.setParameter("idProduct", idProduct);
-	
-		query.executeUpdate();
+	public void checkClosedOrders() {
+		List<Order> listOrders = getOrdersClosedYesterday();
+		
+		for (Order orderTmp : listOrders){
+			boolean orderFailed = true;
+			List<OrderProduct> ops = getOrderProducts(orderTmp.getIdOrder());
+			
+			List<Integer> productIds = new ArrayList<Integer>();
+			
+			for(OrderProduct op : ops)
+				productIds.add(op.getProduct().getIdProduct());
+			
+			List<Integer> amounts = getBoughtAmounts(orderTmp.getIdOrder(), productIds);
+			
+			for(int i = 0; i < ops.size(); i++){
+				Integer amount = amounts.get(i);
+				OrderProduct op = ops.get(i);
+				if(amount <= 0)
+					op.setFailed(true);
+				else{
+					Product p = op.getProduct();
+					Integer minBuy = p.getMinBuy();
+					if(minBuy != null && amount < minBuy)
+						op.setFailed(true);
+					else{
+						op.setFailed(false);
+						orderFailed = false;
+					}
+				}
+				if(!orderFailed){
+					//TODO mandare notifica al responsabile che l'ordine è stato chiuso
+				}
+			}
+		}
+		
 	}
 }

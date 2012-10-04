@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.android.api;
 import it.polito.ai.lhmf.model.Order;
 import it.polito.ai.lhmf.model.OrderProduct;
 import it.polito.ai.lhmf.model.Product;
+import it.polito.ai.lhmf.model.Purchase;
 import it.polito.ai.lhmf.model.Supplier;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface OrderOperations {
 	Integer setDeliveryDate(Integer idOrder, Long dateDelivery);
 	
 	Integer setPurchaseShipped(Integer idPurchase);
+
+	Purchase[] getOrderCompletedPurchases(Integer idOrder);
 }

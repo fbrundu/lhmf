@@ -45,7 +45,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-//FIXME testare!!! e scrivere il codice per settare la data di consegna
 public class SetOrderDeliveryActivity extends Activity implements DatePickerDialog.OnDateSetListener{
 	private static DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 	

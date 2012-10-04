@@ -8,6 +8,7 @@ import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -244,5 +248,35 @@ public class AndroidOrderController {
 			e.printStackTrace();
 			return -1;
 		}
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getpurchasefromorder", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Purchase> getPurchaseFromOrder(Principal principal,
+			@RequestParam(value = "idOrder") Integer idOrder) throws InvalidParametersException
+	{
+		Order order = orderInterface.getOrder(idOrder);
+		List<Purchase> listPurchase = new ArrayList<Purchase>(order.getPurchases());
+
+		return listPurchase;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/ispurchasefailed", method = RequestMethod.GET)
+	public @ResponseBody
+	Boolean isPurchaseFailed(Principal principal,
+			@RequestParam(value = "idPurchase") Integer idPurchase) throws InvalidParametersException
+	{
+		return purchaseInterface.isFailed(principal.getName(), idPurchase);
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getcomletedpurchasecost", method = RequestMethod.GET)
+	public @ResponseBody
+	Float getCompletedPurchaseCost(Principal principal,
+			@RequestParam(value = "idPurchase") Integer idPurchase) throws InvalidParametersException
+	{
+		return purchaseInterface.getPurchaseCost(principal.getName(), idPurchase, true);
 	}
 }

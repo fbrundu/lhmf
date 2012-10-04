@@ -13,14 +13,10 @@ public class Supplier implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer idMember;
-	//private Integer idMemberResp;
 	
 	private String companyName;
 	private String description;
-	//private String contactName;
-	//private String fax;
-	//private String website;
-	//private String paymentMethod;
+	
 	public String getCompanyName() {
 		return companyName;
 	}

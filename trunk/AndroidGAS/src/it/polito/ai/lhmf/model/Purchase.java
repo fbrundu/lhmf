@@ -12,6 +12,7 @@ public class Purchase implements Serializable {
 	private Integer idPurchase;
 	private String isShipped;
 	private Order order;
+	private Member member;
 	
 	/**
 	 * 
@@ -19,8 +20,11 @@ public class Purchase implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private float totCost;
 	
+	private boolean failed;
+	
 	public Purchase(){
 		setTotCost(0.0f);
+		setFailed(false);
 	}
 
 	public float getTotCost() {
@@ -53,5 +57,21 @@ public class Purchase implements Serializable {
 
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+	public boolean isFailed() {
+		return failed;
+	}
+
+	public void setFailed(boolean failed) {
+		this.failed = failed;
 	}
 }
