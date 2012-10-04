@@ -804,7 +804,7 @@ function viewProductDetails(idProduct)
     else
       details += "Non disponibile";
     details += "</td></tr>";
-    + "<tr><td>Costo di trasporto</td><td class='fieldTD'>" + product.transportCost + "</td></tr>"
+    details += "<tr><td>Costo di trasporto</td><td class='fieldTD'>" + product.transportCost + "</td></tr>"
     + "<tr><td>Costo per unit&agrave;</td><td class='fieldTD'>" + product.unitCost + "</td></tr>"
     + "<tr><td>Minimo unit&agrave; acquistabili</td><td class='fieldTD'>" + product.minBuy + "</td></tr>"
     + "<tr><td>Massimo unit&agrave; acquistabili</td><td class='fieldTD'>" + product.maxBuy + "</td></tr>";
