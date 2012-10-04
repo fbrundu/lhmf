@@ -17,8 +17,15 @@
     </context-param>
 
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
     </listener>
+    <listener>
+    	<listener-class>
+    	    it.polito.ai.lhmf.controllers.MyServletContextListener
+   	    </listener-class>
+	</listener>
   
   <servlet>
     <servlet-name>lhmf</servlet-name>
