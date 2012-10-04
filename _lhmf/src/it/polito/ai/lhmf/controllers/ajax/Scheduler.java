@@ -30,9 +30,6 @@ public class Scheduler implements Runnable
 	@Override
 	public void run() 
 	{
-		System.out.println("*************************************************");
-		System.out.println("Elaborazione iniziata");
-		System.out.println("*************************************************");
 		List<Order> listOrders = orderInterface.getOrdersNotFailed();
 		List<PurchaseProduct> listNotMin = new ArrayList<PurchaseProduct>();
 		for (Order orderTmp : listOrders)
@@ -57,21 +54,18 @@ public class Scheduler implements Runnable
 		}
 		for(int i = 0; i < listNotMin.size(); i++)
 		{
-			if(listNotMin.get(i) != null)
+			int amTmp = listNotMin.get(i).getAmount();
+			Product tmp = productInterface.getProduct(listNotMin.get(i).getProduct().getIdProduct());
+			for(int j = i + 1; j < listNotMin.size(); j++)
 			{
-				int amTmp = listNotMin.get(i).getAmount();
-				Product tmp = productInterface.getProduct(listNotMin.get(i).getProduct().getIdProduct());
-				for(int j = i + 1; j < listNotMin.size(); j++)
+				if(listNotMin.get(i).getProduct().getIdProduct() == listNotMin.get(j).getProduct().getIdProduct())
 				{
-					if(listNotMin.get(i).getProduct().getIdProduct() == listNotMin.get(j).getProduct().getIdProduct())
-					{
-						amTmp += listNotMin.get(j).getAmount();
-						listNotMin.remove(j);
-					}
-					if(amTmp >= tmp.getMinBuy())
-					{
-						orderInterface.updateFailedWithNoOrder(listNotMin.get(i).getProduct().getIdProduct());
-					}
+					amTmp += listNotMin.get(j).getAmount();
+					listNotMin.remove(j);
+				}
+				if(amTmp >= tmp.getMinBuy())
+				{
+					orderInterface.updateFailedWithNoOrder(listNotMin.get(i).getProduct().getIdProduct());
 				}
 			}
 		}
