@@ -10,8 +10,14 @@
 		<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/dng.css"/>'/>
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_normal.js"/>'></script> 
 		<script>
-	  	function drawPageCallback(){
-			writeIndexPage();
+		function drawPageCallback(){
+			if(History.enabled){
+				var newState = {data: {action:'purchase'}, title: null, url: './purchase'};
+				History.replaceState({action: 'null'}, null, newState.url);
+				History.replaceState(newState.data, newState.title, newState.url);
+			}
+			else
+			    writePurchasePage();
 		}
 	  	</script>
     </jsp:attribute>
