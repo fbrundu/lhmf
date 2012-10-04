@@ -69,12 +69,12 @@ function historyStateChanged()
     startRefreshOrder = 0;
     startRefresh = 0;
     break;
-  case 'order':
+  case 'orderResp':
     writeOrderPage();
     startRefreshOrder = 1;
     startRefresh = 0;
     break;
-  case 'purchase':
+  case 'purchaseResp':
     writePurchasePage();
     startRefreshOrder = 0;
     startRefresh = 1;
@@ -93,11 +93,11 @@ function orderClicked(event)
     event.preventDefault();
     var state = History.getState();
     var stateData = state.data;
-    if (!!stateData && !!stateData.action && stateData.action == 'order')
+    if (!!stateData && !!stateData.action && stateData.action == 'orderResp')
       return;
     History.pushState({
-      action : 'order'
-    }, null, 'order');
+      action : 'orderResp'
+    }, null, 'orderResp');
   }
 }
 
@@ -108,9 +108,9 @@ function purchaseClicked(event)
       event.preventDefault();
         var state = History.getState();
         var stateData = state.data;
-        if (!!stateData && !!stateData.action && stateData.action == 'purchase')
+        if (!!stateData && !!stateData.action && stateData.action == 'purchaseResp')
             return;
-        History.pushState({action : 'purchase'}, null, 'purchase');
+        History.pushState({action : 'purchaseResp'}, null, 'purchaseResp');
     }
 }
 

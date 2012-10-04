@@ -11,7 +11,7 @@
 		<h1 class="first">Menu Fornitore</h1>
 		<dl class="menu-navigazione">
 		  <dt><a id="productsLink" href="<spring:url htmlEscape="true" value="/productsMgmt"/>">Gestione Prodotti</a></dt>
-      <dt><a id="orderLink" href="<spring:url htmlEscape="true" value="/order"/>">Gestione Ordini</a></dt>
+      <dt><a id="orderLink" href="<spring:url htmlEscape="true" value="/orderSup"/>">Gestione Ordini</a></dt>
 		  <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statSupplier"/>">Statistiche</a></dt>
 		</dl> 
     </jsp:attribute>
