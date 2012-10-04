@@ -2,7 +2,6 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
-import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.orm.Supplier;
@@ -382,7 +381,7 @@ public class ProductInterface
 	public Integer checkFailed(Integer idProduct, int amount)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from Product " + "where idProduct = :idProduct");
+				"from Product " + "where idProduct = :idProduct");
 
 		query.setParameter("idProduct", idProduct);
 
@@ -397,5 +396,4 @@ public class ProductInterface
 			return 1;
 		}
 	}
-	
 }

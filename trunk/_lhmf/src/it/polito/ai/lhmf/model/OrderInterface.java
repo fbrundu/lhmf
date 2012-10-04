@@ -748,7 +748,6 @@ public class OrderInterface
 	@Transactional(readOnly=true)
 	public List<Order> getOrdersNotFailed()
 	{
-				
 		Calendar now = Calendar.getInstance();
 		Date dateNowD = now.getTime();
 		Timestamp dateNow = new Timestamp(dateNowD.getTime());
@@ -759,8 +758,8 @@ public class OrderInterface
 		Timestamp dateYesterday = new Timestamp(dateYesterdayD.getTime());
 		
 		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from Order where dateClose <= :dateNow " +
-										  "OR dateClose > :dateYesterday");
+				.createQuery("from Order where dateOpen <= :dateNow " +
+										  "or dateOpen > :dateYesterday");
 		
 		query.setTimestamp("dateNow", dateNow);
 		query.setTimestamp("dateYesterday", dateYesterday);
@@ -769,7 +768,7 @@ public class OrderInterface
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer updateFailedWithOrder(int idOrder, int idProduct)
+	public void updateFailedWithOrder(int idOrder, int idProduct)
 	{		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 						"update OrderProduct "
@@ -778,7 +777,7 @@ public class OrderInterface
 		query.setParameter("idOrder", idOrder);
 		query.setParameter("idProduct", idProduct);
 	
-		return (Integer) query.executeUpdate();
+		query.executeUpdate();
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
