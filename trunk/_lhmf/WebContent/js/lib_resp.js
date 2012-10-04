@@ -32,7 +32,7 @@ window.setInterval(function(){
         $("#messagesLink").click(messagesClicked);
         //registerForMessages();
         //registerForNotifies();
-        //registerForNews();
+        registerForNews();
       
         $.datepicker.setDefaults({
             dateFormat : 'dd/mm/yy'
@@ -81,7 +81,7 @@ function historyStateChanged()
     break;
   default:
     writeIndexPage();
-  startRefreshOrder = 0;
+    startRefreshOrder = 1;
     startRefresh = 0;
   }
 }
@@ -243,8 +243,9 @@ function writeOrderPage(){
 
 function writeIndexPage()
 {
-  $("#bodyTitleHeader").html("Interfaccia responsabile");
-  $('.centrale').html("<p>Body admin history state</p>");
+    writeOrderPage();
+    startRefreshOrder = 1;
+    startRefresh = 0;
 }
 
 function writeStatPageResp() {
