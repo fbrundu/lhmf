@@ -62,4 +62,5 @@
     <string name="delivery_date">Data di consegna: </string>
     <string name="set_delivery">Impostazione data di consegna</string>
     <string name="completed_order">Ordine completato</string>
+    <string name="delivery">"Consegna: "</string>
 </resources>

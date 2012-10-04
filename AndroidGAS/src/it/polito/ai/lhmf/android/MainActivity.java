@@ -12,6 +12,7 @@ import it.polito.ai.lhmf.android.normal.PurchaseAvailabeOrdersActivity;
 import it.polito.ai.lhmf.android.resp.ActiveOrdersActivity;
 import it.polito.ai.lhmf.android.resp.CompletedOrdersActivity;
 import it.polito.ai.lhmf.android.resp.NewOrderActivity;
+import it.polito.ai.lhmf.android.resp.ShippedOrdersActivity;
 import it.polito.ai.lhmf.android.supplier.ListinoActivity;
 import it.polito.ai.lhmf.android.supplier.NewProductActivity;
 import it.polito.ai.lhmf.model.Supplier;
@@ -144,8 +145,8 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				//Intent shippedOrdersIntent = new Intent(MainActivity.this, ShippedOrdersActivity.class);
-				//startActivity(shippedOrdersIntent);
+				Intent shippedOrdersIntent = new Intent(MainActivity.this, ShippedOrdersActivity.class);
+				startActivity(shippedOrdersIntent);
 			}
 		});
 		
