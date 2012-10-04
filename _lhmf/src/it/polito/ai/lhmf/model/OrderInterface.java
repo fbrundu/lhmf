@@ -268,6 +268,9 @@ public class OrderInterface
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Order> getOrdersToDelivery(Member memberResp) {
+		
+		Date now = new Date();
+		Timestamp nowT = new Timestamp(now.getTime());
 				
 		Query query = sessionFactory.getCurrentSession()
 					.createQuery("from Order as o " +
@@ -276,10 +279,12 @@ public class OrderInterface
 												     "left join o2.purchases as p " +
 												     "where o2.member = :memberResp " +
 												     "AND o2.dateDelivery is not NULL " +
+												     "AND o2.dateDelivery <= :now " +
 												     "AND p.isShipped = false " +
 												     "group by o2.idOrder )");
 		
 		query.setParameter("memberResp", memberResp);
+		query.setParameter("now", nowT);
 
 		return query.list();
 	}
