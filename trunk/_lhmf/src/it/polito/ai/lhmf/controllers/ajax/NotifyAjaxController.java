@@ -104,30 +104,20 @@ public class NotifyAjaxController
 		PrintWriter pw;
 		try
 		{
-			Member m = memberInterface.getMember((String) request.getSession()
-					.getAttribute("username"));
-			if (m != null)
+			pw = response.getWriter();
+			Long unreadCount;
+			unreadCount = notifyInterface.getUnreadCount((String) request
+					.getSession().getAttribute("username"));
+			if (unreadCount > 0)
 			{
-				pw = response.getWriter();
-				Long unreadCount;
-				unreadCount = notifyInterface.getUnreadCount(m.getIdMember());
-				if (unreadCount > 0)
-				{
-					pw.write("retry: 10000\n");
-					pw.write("data: " + unreadCount + "\n\n");
-					pw.flush();
-				}
-				pw.close();
+				pw.write("retry: 10000\n");
+				pw.write("data: " + unreadCount + "\n\n");
+				pw.flush();
 			}
+			pw.close();
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (InvalidParametersException e)
-		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
