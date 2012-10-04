@@ -753,7 +753,7 @@ public class OrderInterface
 		Timestamp dateNow = new Timestamp(dateNowD.getTime());
 		
 		Calendar past = Calendar.getInstance();
-		past.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH - 1);
+		past.add(Calendar.DATE, -1);
 		Date dateYesterdayD = past.getTime();
 		Timestamp dateYesterday = new Timestamp(dateYesterdayD.getTime());
 		
