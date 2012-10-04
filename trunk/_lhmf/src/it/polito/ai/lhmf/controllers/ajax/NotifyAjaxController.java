@@ -43,14 +43,17 @@ public class NotifyAjaxController
 	@RequestMapping(value = "/ajax/getmynotifies", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Notify> getMyNotifies(HttpServletRequest request)
-			throws InvalidParametersException
 	{
-		Member m = memberInterface.getMember((String) request.getSession()
-				.getAttribute("username"));
-		if (m != null)
-			return notifyInterface.getNotifiesByIdMember(m.getIdMember());
-		else
+		try
+		{
+			return notifyInterface.getNotifiesByUsername((String) request
+					.getSession().getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 			return null;
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "

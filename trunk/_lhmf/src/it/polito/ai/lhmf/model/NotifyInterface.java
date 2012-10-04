@@ -42,6 +42,23 @@ public class NotifyInterface
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Notify> getNotifiesByUsername(String username)
+			throws InvalidParametersException
+	{
+		if (username == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Notify " + "where username = :username"
+						+ " order by notifyTimestamp desc");
+		query.setParameter("username", username);
+
+		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<Notify> getNotifiesByIdMember(Integer idMember)
 			throws InvalidParametersException
 	{
@@ -61,13 +78,13 @@ public class NotifyInterface
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<Notify> getNotifiesByIdMemberAfter(Integer idMember,
 			Integer idNotify) throws InvalidParametersException
 	{
 		if (idMember == null || idNotify == null)
 			throw new InvalidParametersException();
 
-		// FIXME : testare
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
@@ -89,7 +106,6 @@ public class NotifyInterface
 		if (idMember == null || idNotify == null)
 			throw new InvalidParametersException();
 
-		// FIXME : testare
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Notify" + " set isReaded = true"
 						+ " where isReaded = false and idMember = :idMember"
@@ -107,7 +123,6 @@ public class NotifyInterface
 		if (idMember == null)
 			throw new InvalidParametersException();
 
-		// FIXME : testare
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Notify" + " set isReaded = true"
 						+ " where isReaded = false and idMember = :idMember");
@@ -123,7 +138,6 @@ public class NotifyInterface
 		if (idNotify == null || idMember == null)
 			throw new InvalidParametersException();
 
-		// FIXME : testare
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(
