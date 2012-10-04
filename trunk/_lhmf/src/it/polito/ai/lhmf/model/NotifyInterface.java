@@ -15,9 +15,16 @@ public class NotifyInterface
 	// The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
 
+	private MemberInterface memberInterface;
+	
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
+	}
+	
+	public void setMemberInterface(MemberInterface memberInterface)
+	{
+		this.memberInterface = memberInterface;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -100,12 +107,14 @@ public class NotifyInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer setRead(Integer idMember, Integer idNotify)
+	public Integer setRead(String username, Integer idNotify)
 			throws InvalidParametersException
 	{
-		if (idMember == null || idNotify == null)
+		if (username == null || idNotify == null)
 			throw new InvalidParametersException();
 
+		Integer idMember = memberInterface.getMember(username).getIdMember();
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Notify" + " set isReaded = true"
 						+ " where isReaded = false and idMember = :idMember"

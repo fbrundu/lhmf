@@ -64,11 +64,14 @@ public class NotifyAjaxController
 			@RequestParam(value = "idOrder", required = true) Integer idOrder)
 			throws InvalidParametersException
 	{
-		Member m = memberInterface.getMember((String) request.getSession()
-				.getAttribute("username"));
-		if (m != null)
+		try
+		{
 			return orderInterface.getOrder(idOrder).getOrderName();
-		return null;
+		}
+		catch (Exception e)
+		{
+			return null;
+		}
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -77,14 +80,17 @@ public class NotifyAjaxController
 	Integer setRead(
 			HttpServletRequest request,
 			@RequestParam(value = "idNotify", required = true) Integer idNotify)
-			throws InvalidParametersException
 	{
-		Member m = memberInterface.getMember((String) request.getSession()
-				.getAttribute("username"));
-		if (m != null)
-			return notifyInterface.setRead(m.getIdMember(), idNotify);
-		else
-			return null;
+		try
+		{
+			return notifyInterface.setRead((String) request.getSession()
+					.getAttribute("username"), idNotify);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@PreAuthorize("isAuthenticated()")

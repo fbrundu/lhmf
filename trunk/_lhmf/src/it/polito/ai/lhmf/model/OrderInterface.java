@@ -80,6 +80,15 @@ public class OrderInterface
 		return (Order) query.uniqueResult();
 	}
 
+	@Transactional(readOnly = true)
+	public String getOrderName(int idOrder)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order " + "where idOrder = :idOrder");
+		query.setParameter("idOrder", idOrder);
+		return ((Order) query.uniqueResult()).getOrderName();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Order> getAllOrders()
