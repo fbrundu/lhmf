@@ -157,14 +157,13 @@ public class OrderTemplate implements OrderOperations {
 
 	@Override
 	public Order[] getRespShippedOrders() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Order[] gerRespOrderHistory(Long closedAfterDate) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Order[] res = template.getForObject(Gas.baseApiUrl + "getdeliveredorderresp", Order[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -176,6 +175,42 @@ public class OrderTemplate implements OrderOperations {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public Integer setDeliveryDate(Integer idOrder, Long dateDelivery) {
+		if(dateDelivery != null && idOrder != null){
+			try {
+				MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
+				value.add("idOrder", idOrder.toString());
+				value.add("dateDelivery", dateDelivery.toString());
+				
+				Integer res = template.postForObject(Gas.baseApiUrl + "setdeliverydate", value, Integer.class);
+				return res;
+				
+			} catch(RestClientException e){
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Integer setPurchaseShipped(Integer idPurchase) {
+		if(idPurchase != null){
+			try {
+				MultiValueMap<String, String> value = new LinkedMultiValueMap<String, String>();
+				value.add("idPurchase", idPurchase.toString());
+				
+				Integer res = template.postForObject(Gas.baseApiUrl + "setship", value, Integer.class);
+				return res;
+			} catch (RestClientException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
 	}
 
 }

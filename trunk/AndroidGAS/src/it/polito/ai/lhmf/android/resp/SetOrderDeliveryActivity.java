@@ -76,7 +76,7 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		order = (Order) getIntent().getSerializableExtra("supplier");
+		order = (Order) getIntent().getSerializableExtra("order");
 		if(order != null){
 			supplier = order.getSupplier();
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
@@ -97,7 +97,9 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 				orderName = (TextView) findViewById(R.id.order_name);
 				orderName.setText(order.getOrderName());
 				
-				orderDeliveryDate = (EditText) findViewById(R.id.order_close_date);
+				orderTotalCost = (TextView) findViewById(R.id.order_cost_text);
+				
+				orderDeliveryDate = (EditText) findViewById(R.id.order_delivery_date);
 				
 				orderDeliveryDate.setOnClickListener(new View.OnClickListener() {
 					
@@ -119,10 +121,10 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 					@Override
 					public void onClick(View v) {
 						if(deliveryDate != null){
-							//TODO settare data di consegna
+							new SetDeliveryDateAsyncTask().execute(api, deliveryDate, order.getIdOrder());
 						}
 						else{
-							Toast.makeText(SetOrderDeliveryActivity.this, "Impostare la data di chiusura", Toast.LENGTH_LONG).show();
+							Toast.makeText(SetOrderDeliveryActivity.this, "Impostare la data di consegna", Toast.LENGTH_LONG).show();
 						}
 					}
 				});
@@ -132,7 +134,7 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 		}
 	}
 	
-	protected Float computeTotalCoast() {
+	private Float computeTotalCoast() {
 		float ret = 0.0f;
 		Iterator<Entry<Integer, Integer>> it = boughtAmounts.entrySet().iterator();
 		while(it.hasNext()){
@@ -148,6 +150,30 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 			}
 		}
 		return ret;
+	}
+	
+	private class SetDeliveryDateAsyncTask extends AsyncTask<Object, Void, Integer>{
+
+		@Override
+		protected Integer doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			Long deliveryDate = (Long) params[1];
+			Integer idOrder = (Integer) params[2];
+			
+			return gas.orderOperations().setDeliveryDate(idOrder, deliveryDate);
+		}
+		
+		@Override
+		protected void onPostExecute(Integer result) {
+			if(result == null || result < 1){
+				Toast.makeText(SetOrderDeliveryActivity.this, "Errori durante l'impostazione della data di consegna", Toast.LENGTH_LONG).show();
+			}
+			else{
+				Toast.makeText(getApplicationContext(), "Data di consegna impostata correttamente", Toast.LENGTH_LONG).show();
+				SetOrderDeliveryActivity.this.finish();
+			}
+		}
+		
 	}
 	
 	private class GetOrderProductsTask extends AsyncTask<Object, Void, Object[]>{
@@ -180,8 +206,8 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 		@Override
 		protected void onPostExecute(Object[] res) {
 			if(res != null){
-				OrderProduct[] result = (OrderProduct[]) res[1];
-				Integer[] amounts = (Integer[]) res[2];
+				OrderProduct[] result = (OrderProduct[]) res[0];
+				Integer[] amounts = (Integer[]) res[1];
 				
 				if(result != null && result.length > 0 && amounts != null && amounts.length == result.length){
 					Map<String, CustomAdapter> sections = new TreeMap<String, CustomAdapter>(new Comparator<String>() {
@@ -216,8 +242,7 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 					productsListView.setVisibility(View.VISIBLE);
 					noProducts.setVisibility(View.GONE);
 					
-					//FIXME
-					//computeTotalCost e mettere il risultato in una nuova textview nell'intestazione dell'actiity
+					orderTotalCost.setText(String.format("%.2f", computeTotalCoast()));
 				}
 				else{
 					productsListView.setVisibility(View.GONE);

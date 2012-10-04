@@ -33,7 +33,7 @@
     <string name="product_progress_separator">/</string>
     <string name="new_purchase_desired_amount">"Quantità desiderata: "</string>
     <string name="purchase_item_progress">"Raggiungimento quantità minima: "</string>
-    <string name="purchase_item_cost">"Costo parziale: "</string>
+    <string name="purchase_item_cost">&quot;Costo parziale: &quot;</string>
     <string name="euro_symbol">" €"</string>
     <string name="new_purchase_tot_cost">"Costo totale: "</string>
     <string name="edit_purchase_title">Modifica scheda</string>
