@@ -88,5 +88,6 @@
     
     <bean id="notifyDao" class="it.polito.ai.lhmf.model.NotifyInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="memberInterface" ref="memberDao"/>
     </bean>
 </beans>
