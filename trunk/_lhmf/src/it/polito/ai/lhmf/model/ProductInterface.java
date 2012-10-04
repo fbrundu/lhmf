@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
+import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.util.ModelState;
@@ -36,7 +37,9 @@ public class ProductInterface
 	private SessionFactory sessionFactory;
 	private ModelState modelState;
 	private PurchaseInterface purchaseInterface;
-
+	private SupplierInterface supplierInterface;
+	private ProductCategoryInterface productCategoryInterface;
+	
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
@@ -52,24 +55,85 @@ public class ProductInterface
 		this.purchaseInterface = purchaseInterface;
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer newProduct(Product product)
-			throws InvalidParametersException
+	public void setSupplierInterface(SupplierInterface supplierInterface)
 	{
-		return newProduct(product, null, null, null);
+		this.supplierInterface = supplierInterface;
+	}
+	
+	public void setProductCategoryInterface(
+			ProductCategoryInterface productCategoryInterface)
+	{
+		this.productCategoryInterface = productCategoryInterface;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer newProduct(Product product, MultipartFile picture,
-			String serverPath, String pictureDirectoryPath)
-			throws InvalidParametersException
+	public boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy)
 	{
-		Integer newProductId = -1;
-		if (product == null)
+		return (minBuy == null && (maxBuy == null || maxBuy > 0))
+				|| (minBuy > 0 && (maxBuy == null || maxBuy >= minBuy));
+	}
+	
+//	@Transactional(propagation = Propagation.REQUIRED)
+//	public Integer newProduct(Product product)
+//			throws InvalidParametersException
+//	{
+//		Supplier s = supplierInterface.getSupplier((String) request
+//				.getSession().getAttribute("username"));
+//		ProductCategory pc = productCategoryInterface
+//				.getProductCategory(idProductCategory);
+//		{
+//			Product p = new Product();
+//			p.setName(productName);
+//			p.setDescription(productDescription);
+//			p.setDimension(productDimension);
+//			p.setMeasureUnit(measureUnit);
+//			p.setUnitBlock(unitBlock);
+//			p.setTransportCost(transportCost);
+//			p.setUnitCost(unitCost);
+//			p.setMinBuy(minBuy);
+//			p.setMaxBuy(maxBuy);
+//			p.setAvailability(true);
+//			p.setSupplier(s);
+//			p.setProductCategory(pc);
+//			idProduct = productInterface.newProduct(p);
+//		}
+//		return newProduct(product, null, null, null);
+//	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer newProduct(String username, String productName,
+			String productDescription, int productDimension,
+			String measureUnit, int unitBlock, float transportCost,
+			float unitCost, Integer minBuy, Integer maxBuy,
+			int idProductCategory, MultipartFile picture, String serverPath,
+			String pictureDirectoryPath) throws InvalidParametersException,
+			IOException
+	{
+		Supplier s = supplierInterface.getSupplier(username);
+		ProductCategory pc = productCategoryInterface
+				.getProductCategory(idProductCategory);
+		if (s == null || pc == null || productName.equals("")
+				|| productDescription.equals("") || productDimension <= 0
+				|| measureUnit.equals("") || unitBlock <= 0
+				|| transportCost <= 0 || unitCost <= 0
+				|| !checkMinMaxBuy(minBuy, maxBuy))
 			throw new InvalidParametersException();
 
-		newProductId = (Integer) sessionFactory.getCurrentSession().save(
-				product);
+		Product p = new Product();
+		p.setName(productName);
+		p.setDescription(productDescription);
+		p.setDimension(productDimension);
+		p.setMeasureUnit(measureUnit);
+		p.setUnitBlock(unitBlock);
+		p.setTransportCost(transportCost);
+		p.setUnitCost(unitCost);
+		p.setMinBuy(minBuy);
+		p.setMaxBuy(maxBuy);
+		p.setAvailability(true);
+		p.setSupplier(s);
+		p.setProductCategory(pc);
+
+		Integer newProductId = (Integer) sessionFactory.getCurrentSession()
+				.save(p);
 		modelState.setToReloadProducts(true);
 
 		if (picture != null)
@@ -101,21 +165,12 @@ public class ProductInterface
 
 			File f = new File(pictureFilePath);
 			OutputStream writer = null;
-			try
-			{
-				writer = new BufferedOutputStream(new FileOutputStream(f));
-				writer.write(picture.getBytes());
-				writer.flush();
-				writer.close();
-				product.setImgPath(pictureServerPath);
-			}
-			catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			writer = new BufferedOutputStream(new FileOutputStream(f));
+			writer.write(picture.getBytes());
+			writer.flush();
+			writer.close();
+			p.setImgPath(pictureServerPath);
 		}
-
 		return newProductId;
 	}
 
