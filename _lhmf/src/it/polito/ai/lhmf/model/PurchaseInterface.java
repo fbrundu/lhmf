@@ -606,4 +606,70 @@ public class PurchaseInterface
 		
 		return p;
 	}
+
+	@Transactional(readOnly = true)
+	public Float getPurchaseCost(String userName, Integer idPurchase, boolean completed) throws InvalidParametersException {
+		Member member = memberInterface.getMember(userName);
+		
+		Purchase purchase = getPurchase(idPurchase);
+		Order order = purchase.getOrder();
+		
+		if(purchase.getMember().getIdMember() != member.getIdMember() &&
+				order.getMember().getIdMember() != member.getIdMember())
+			return null;
+		
+		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
+		
+		Float ret = 0.0f;
+		List<PurchaseProduct> bought = getPurchaseProduct(idPurchase);
+		if(bought.size() == 0)
+			return null;
+		for(PurchaseProduct pp : bought){
+			boolean add = true;
+			if(completed){
+				Integer idProduct = pp.getProduct().getIdProduct();
+				for(OrderProduct op : ops){
+					if(op.getProduct().getIdProduct() == idProduct){
+						if(op.isFailed())
+							add = false;
+						break;
+					}
+				}
+			}
+			if(add)
+				ret += pp.getAmount() * pp.getProduct().getUnitCost();
+		}
+		return ret;
+	}
+
+	public Boolean isFailed(String userName, Integer idPurchase) throws InvalidParametersException {
+		Member member = memberInterface.getMember(userName);
+		
+		Purchase purchase = getPurchase(idPurchase);
+		Order order = purchase.getOrder();
+		
+		if(purchase.getMember().getIdMember() != member.getIdMember() &&
+				order.getMember().getIdMember() != member.getIdMember())
+			return null;
+		
+		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
+		List<PurchaseProduct> bought = getPurchaseProduct(idPurchase);
+		
+		boolean failed = true;
+		for(PurchaseProduct pp : bought){
+			Integer idProduct = pp.getProduct().getIdProduct();
+			for(OrderProduct op : ops){
+				if(op.getProduct().getIdProduct() == idProduct){
+					if(!op.isFailed()){
+						failed = false;
+					}
+					break;
+				}
+			}
+			if(!failed)
+				break;
+		}
+		
+		return failed;
+	}
 }

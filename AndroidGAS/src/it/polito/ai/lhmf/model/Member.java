@@ -15,16 +15,7 @@ public class Member implements Serializable{
 	private Integer idMember;
 	private String name;
 	private String surname;
-	//private String username;
-	//private Date regDate;
-	//private String eMail;
-//	private String address;
-//	private String city;
-//	private String state;
-//	private String cap;
-//	private String tel;
-//	private String memberType;
-//	private String memberStatus;
+	
 	public String getName() {
 		return name;
 	}

@@ -23,7 +23,7 @@
     </listener>
     <listener>
     	<listener-class>
-    	    it.polito.ai.lhmf.controllers.MyServletContextListener
+    	    it.polito.ai.lhmf.listeners.MyServletContextListener
    	    </listener-class>
 	</listener>
   

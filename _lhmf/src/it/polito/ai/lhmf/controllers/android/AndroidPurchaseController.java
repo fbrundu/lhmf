@@ -80,14 +80,7 @@ public class AndroidPurchaseController {
 	Float getPurchaseCost(HttpServletRequest request, Principal principal, 
 			@RequestParam(value="idPurchase", required = true)Integer idPurchase) throws InvalidParametersException
 	{
-		Float ret = 0.0f;
-		List<PurchaseProduct> bought = purchaseInterface.getPurchaseProduct(idPurchase);
-		if(bought.size() == 0)
-			return null;
-		for(PurchaseProduct pp : bought){
-			ret += pp.getAmount() * pp.getProduct().getUnitCost();
-		}
-		return ret;
+		return purchaseInterface.getPurchaseCost(principal.getName(), idPurchase, false);
 	}
 	
 	@RequestMapping(value = "/androidApi/getpurchaseproductsnormal", method = RequestMethod.GET)
