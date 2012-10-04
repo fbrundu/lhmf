@@ -11,7 +11,6 @@ import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -128,7 +127,6 @@ public class NotifyAjaxController
 	Product viewProd(
 			HttpServletRequest request,
 			@RequestParam(value = "idProduct", required = true) Integer idProduct)
-			throws InvalidParametersException
 	{
 		return productInterface.getProduct(idProduct);
 	}
@@ -139,7 +137,6 @@ public class NotifyAjaxController
 	public @ResponseBody
 	Order viewOrder(HttpServletRequest request,
 			@RequestParam(value = "idOrder", required = true) Integer idOrder)
-			throws InvalidParametersException
 	{
 		return orderInterface.getOrder(idOrder);
 	}
@@ -150,7 +147,6 @@ public class NotifyAjaxController
 	Member viewMember(
 			HttpServletRequest request,
 			@RequestParam(value = "idMember", required = true) Integer idMember)
-			throws InvalidParametersException
 	{
 		return memberInterface.getMember(idMember);
 	}
