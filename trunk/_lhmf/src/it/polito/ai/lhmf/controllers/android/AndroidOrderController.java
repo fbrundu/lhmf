@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.controllers.android;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
+import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.OrderProduct;
@@ -32,6 +33,9 @@ public class AndroidOrderController {
 	
 	@Autowired
 	private MemberInterface memberInterface;
+	
+	@Autowired
+	private PurchaseInterface purchaseInterface;
 	
 	@RequestMapping(value = "/androidApi/getorderproducts", method = RequestMethod.GET)
 	public @ResponseBody
@@ -191,5 +195,54 @@ public class AndroidOrderController {
 		return listOrder;
 	}
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/setdeliverydate", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setDeliveryDate(Principal principal,
+			@RequestParam(value = "idOrder") Integer idOrder,
+			@RequestParam(value = "dateDelivery") Long dateDelivery) throws InvalidParametersException
+	{
+		
+		try
+		{
+			return orderInterface.setDeliveryDate(idOrder, principal.getName(), new Date(dateDelivery));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+	}
 	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getdeliveredorderresp", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getDeliveredOrderResp(Principal principal) throws InvalidParametersException
+	{
+		String username = principal.getName();
+		Member memberResp = memberInterface.getMember(username);
+		
+		List<Order> listOrder = null;
+		listOrder = orderInterface.getOrdersToDelivery(memberResp);
+		
+		return listOrder;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/setship", method = RequestMethod.POST)
+	public @ResponseBody
+	Integer setPurchaseShipped(Principal principal,
+			@RequestParam(value = "idPurchase") Integer idPurchase) throws InvalidParametersException
+	{
+		try
+		{
+			return purchaseInterface.setPurchaseShipped(
+					principal.getName(), idPurchase);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }
