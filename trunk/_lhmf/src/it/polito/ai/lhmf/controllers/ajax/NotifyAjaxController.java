@@ -128,7 +128,16 @@ public class NotifyAjaxController
 			HttpServletRequest request,
 			@RequestParam(value = "idProduct", required = true) Integer idProduct)
 	{
-		return productInterface.getProduct(idProduct);
+		try
+		{
+			return productInterface.getProduct(idProduct, (String) request
+					.getSession().getAttribute("username"));
+		}
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "

@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
@@ -39,6 +40,8 @@ public class ProductInterface
 	private PurchaseInterface purchaseInterface;
 	private SupplierInterface supplierInterface;
 	private ProductCategoryInterface productCategoryInterface;
+	private MemberInterface memberInterface;
+//	private MemberTypeInterface memberTypeInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -66,6 +69,16 @@ public class ProductInterface
 		this.productCategoryInterface = productCategoryInterface;
 	}
 
+	public void setMemberInterface(MemberInterface memberInterface)
+	{
+		this.memberInterface = memberInterface;
+	}
+	
+//	public void setMemberTypeInterface(MemberTypeInterface memberTypeInterface)
+//	{
+//		this.memberTypeInterface = memberTypeInterface;
+//	}
+	
 	public boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy)
 	{
 		return (minBuy == null && (maxBuy == null || maxBuy > 0))
@@ -175,6 +188,28 @@ public class ProductInterface
 	}
 
 	@Transactional(readOnly = true)
+	public Product getProduct(Integer idProduct, String username)
+			throws InvalidParametersException
+	{
+		if (idProduct == null || username == null)
+			throw new InvalidParametersException();
+		Member m = memberInterface.getMember(username);
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Product " + "where idProduct = :idProduct");
+		query.setParameter("idProduct", idProduct);
+		Product p = (Product) query.uniqueResult();
+		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_ADMIN
+				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER && p
+						.getSupplier().getIdMember() == m.getIdMember())
+				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_RESP && p
+						.getSupplier().getMemberByIdMemberResp().getIdMember() == m
+						.getIdMember())
+				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_NORMAL))
+			return p;
+		else
+			return null;
+	}
+
 	public Product getProduct(Integer idProduct)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
@@ -182,7 +217,7 @@ public class ProductInterface
 		query.setParameter("idProduct", idProduct);
 		return (Product) query.uniqueResult();
 	}
-
+	
 	@Transactional(readOnly = true)
 	public List<Product> getProductListPurchase(Integer idPurchase)
 			throws InvalidParametersException
@@ -257,12 +292,26 @@ public class ProductInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer setProductAvailable(Integer idProduct)
+	public Integer setProductAvailable(Integer idProduct, String username)
 			throws InvalidParametersException
 	{
-		if (idProduct == null || idProduct < 0)
+		if (idProduct == null || idProduct <= 0 || username == null)
 			throw new InvalidParametersException();
 
+		Member m = memberInterface.getMember(username);
+		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_ADMIN)
+			return privateSetProductAvailable(idProduct);
+
+		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER
+				&& getProduct(idProduct).getSupplier().getIdMember() == m
+						.getIdMember())
+			return privateSetProductAvailable(idProduct);
+		return -1;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	private Integer privateSetProductAvailable(Integer idProduct)
+	{
 		modelState.setToReloadProducts(true);
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
@@ -274,12 +323,26 @@ public class ProductInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer setProductUnavailable(Integer idProduct)
+	public Integer setProductUnavailable(Integer idProduct, String username)
 			throws InvalidParametersException
 	{
-		if (idProduct == null || idProduct < 0)
+		if (idProduct == null || idProduct <= 0 || username == null)
 			throw new InvalidParametersException();
 
+		Member m = memberInterface.getMember(username);
+		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_ADMIN)
+			return privateSetProductUnvailable(idProduct);
+
+		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER
+				&& getProduct(idProduct).getSupplier().getIdMember() == m
+						.getIdMember())
+			return privateSetProductUnvailable(idProduct);
+		return -1;
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	private Integer privateSetProductUnvailable(Integer idProduct)
+	{
 		modelState.setToReloadProducts(true);
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
@@ -289,7 +352,7 @@ public class ProductInterface
 
 		return (Integer) query.executeUpdate();
 	}
-
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer deleteProduct(Integer idProduct)
 			throws InvalidParametersException

@@ -48,6 +48,7 @@
         <property name="purchaseInterface" ref="purchaseDao"/>
         <property name="supplierInterface" ref="supplierDao"/>
         <property name="productCategoryInterface" ref="productCategoryDao"/>
+        <property name="memberInterface" ref="memberDao"/>
     </bean>
     
     <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">

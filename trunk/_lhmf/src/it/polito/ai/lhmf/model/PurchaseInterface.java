@@ -385,7 +385,7 @@ public class PurchaseInterface
 			
 			for( int i = 0; i < ids.length; i++) 
 			{	
-				Product product = productInterface.getProduct(ids[i]);
+				Product product = productInterface.getProduct(ids[i], username);
 				Integer amount = amounts[i];
 				
 				if(product == null || amount == null || amount <= 0)
@@ -418,17 +418,16 @@ public class PurchaseInterface
 			
 			for( int i = 0; i < ids.length; i++) 
 			{
-				Product product = productInterface.getProduct(ids[i]);
+				Product product = productInterface.getProduct(ids[i], username);
 				PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), product.getIdProduct());
 				PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amounts[i], insertedTimestamp);				
-				//In questo caso, dato che l'id non � generato ma gi� passato, se ci sono errori lancia un'eccezione
+				//In questo caso, dato che l'id non e' generato ma gia' passato, se ci sono errori lancia un'eccezione
 				newPurchaseProduct(purchaseproduct);
 			}		
 			return 1;
 		}
 		catch (Exception e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return -1;
 		}
@@ -441,7 +440,7 @@ public class PurchaseInterface
 		Member member = memberInterface.getMember(username);
 		Integer disp = null;
 		
-		Product product = productInterface.getProduct(idProduct);
+		Product product = productInterface.getProduct(idProduct,username);
 		
 		if(product == null)
 			return -1;
@@ -503,7 +502,7 @@ public class PurchaseInterface
 		
 		Integer disp = null;
 		
-		Product product = productInterface.getProduct(idProduct);
+		Product product = productInterface.getProduct(idProduct, username);
 		
 		if(product == null)
 			return -1;
@@ -564,7 +563,7 @@ public class PurchaseInterface
 		// 0 = prodotto non trovato
 
 		Member member = memberInterface.getMember(username);
-		Product product = productInterface.getProduct(idProduct);
+		Product product = productInterface.getProduct(idProduct, username);
 		Purchase purchase = getPurchase(idPurchase);
 		
 		if(purchase.getMember().getIdMember() != member.getIdMember())
@@ -579,7 +578,7 @@ public class PurchaseInterface
 			return res;
 		else{
 			if(purchase.getPurchaseProducts().size() == 0){
-				//� stato eliminato l'utlimo prodotto --> eliminare intera scheda
+				//e' stato eliminato l'utlimo prodotto --> eliminare intera scheda
 				
 				res = deletePurchase(purchase);
 				if(res == 1)
