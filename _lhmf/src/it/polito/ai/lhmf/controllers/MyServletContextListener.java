@@ -43,10 +43,12 @@ public class MyServletContextListener implements ServletContextListener
 	{
 		Calendar calendar = new GregorianCalendar();
 		
-		int hours = calendar.get(Calendar.HOUR);
+		int hours = calendar.get(Calendar.HOUR_OF_DAY);
 		int minutes = calendar.get(Calendar.MINUTE);
 		
-		return ((59 - minutes) + (23 - 60 * hours) + 120); 
+		int delayInMinutes = ((59 - minutes) + (23 * 60 - hours * 60) + 2);
+		
+		return (delayInMinutes * 60); 
 	}
 	
 }

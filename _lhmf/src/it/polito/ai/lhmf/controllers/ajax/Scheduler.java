@@ -30,6 +30,13 @@ public class Scheduler implements Runnable
 	@Override
 	public void run() 
 	{
+		System.out.println("****************************************************");
+		System.out.println("****************************************************");
+		System.out.println("****************************************************");
+		System.out.println("PARTITO");
+		System.out.println("****************************************************");
+		System.out.println("****************************************************");
+		System.out.println("****************************************************");
 		List<Order> listOrders = orderInterface.getOrdersNotFailed();
 		List<PurchaseProduct> listNotMin = new ArrayList<PurchaseProduct>();
 		for (Order orderTmp : listOrders)
