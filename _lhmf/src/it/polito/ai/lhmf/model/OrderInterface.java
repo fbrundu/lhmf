@@ -495,9 +495,10 @@ public class OrderInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Integer getDispProduct(Integer idPurchase, Integer idProduct)
+	public Integer getDispProduct(Integer idPurchase, Integer idProduct,
+			String username) throws InvalidParametersException
 	{
-		Product p = productInterface.getProduct(idProduct);
+		Product p = productInterface.getProduct(idProduct, username);
 		Integer maxBuy = p.getMaxBuy();
 		if (maxBuy != null)
 		{
@@ -511,9 +512,10 @@ public class OrderInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Integer getDispProductO(Integer idOrder, Integer idProduct)
+	public Integer getDispProductO(Integer idOrder, Integer idProduct,
+			String username) throws InvalidParametersException
 	{
-		Product p = productInterface.getProduct(idProduct);
+		Product p = productInterface.getProduct(idProduct, username);
 		Integer maxBuy = p.getMaxBuy();
 		if (maxBuy != null)
 		{
@@ -693,37 +695,43 @@ public class OrderInterface
 		return (OrderProductId) sessionFactory.getCurrentSession().save(orderProduct);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer createOrder(Member resp, int idSupplier,
 			List<Integer> productIds, String orderName, Date dateOpen,
-			Date dateClose) throws InvalidParametersException {
+			Date dateClose) throws InvalidParametersException
+	{
 		Supplier supplier = supplierInterface.getSupplier(idSupplier);
-		if(supplier == null)
+		if (supplier == null)
 			return -1;
-		
-		if(supplier.getMemberByIdMemberResp().getIdMember() != resp.getIdMember())
+
+		if (supplier.getMemberByIdMemberResp().getIdMember() != resp
+				.getIdMember())
 			return -1;
-		
+
 		Order order = new Order(supplier, resp, orderName, dateOpen, dateClose);
-		
+
 		int result = -1;
-		if((result = newOrder(order)) <= 0)
+		if ((result = newOrder(order)) <= 0)
 		{
 			return result;
 		}
-	
-		
-		
-		for(Integer productId : productIds){
-			Product p = productInterface.getProduct(productId);
-			if(p == null || p.getSupplier().getIdMember() != supplier.getIdMember())
-				//Lancio eccezione cos� viene fato il rollback e viene eliminato l'ordine
+
+		for (Integer productId : productIds)
+		{
+			Product p = productInterface.getProduct(productId,
+					resp.getUsername());
+			if (p == null
+					|| p.getSupplier().getIdMember() != supplier.getIdMember())
+				// Lancio eccezione cosi' viene fato il rollback e viene
+				// eliminato l'ordine
 				throw new InvalidParametersException();
-			
-			OrderProductId id = new OrderProductId(order.getIdOrder(), p.getIdProduct());
+
+			OrderProductId id = new OrderProductId(order.getIdOrder(),
+					p.getIdProduct());
 			OrderProduct orderproduct = new OrderProduct(id, order, p);
-			
-			//In questo caso, dato che l'id non � generato ma gi� passato, se ci sono errori lancia un'eccezione
+
+			// In questo caso, dato che l'id non e' generato ma gia' passato, se
+			// ci sono errori lancia un'eccezione
 			newOrderProduct(orderproduct);
 		}
 		return 1;

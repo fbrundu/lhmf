@@ -47,7 +47,7 @@ public class RespAjaxController
 	@Autowired
 	private PurchaseInterface purchaseInterface;
 	@Autowired
-	private ProductInterface poductInterface;
+	private ProductInterface productInterface;
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
@@ -237,7 +237,7 @@ public class RespAjaxController
 		
 		Member supplier = memberInterface.getMember(idSupplier);
 		
-		List<Product> listProduct = poductInterface.getProductsBySupplier(supplier);
+		List<Product> listProduct = productInterface.getProductsBySupplier(supplier);
 		
 		return listProduct;
 	}
@@ -338,8 +338,11 @@ public class RespAjaxController
 		String[] amountTmp = amountProduct.split(",");
 		for( int i = 0; i < idTmp.length; i++) 
 		{
-			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
-			if((Integer.parseInt(amountTmp[i]) > product.getMaxBuy()) || (Integer.parseInt(amountTmp[i])) <= 0)
+			Product product = productInterface.getProduct(
+					Integer.parseInt(idTmp[i]),
+					(String) session.getAttribute("username"));
+			if ((Integer.parseInt(amountTmp[i]) > product.getMaxBuy())
+					|| (Integer.parseInt(amountTmp[i])) <= 0)
 			{
 				return -2;
 			}
@@ -359,14 +362,20 @@ public class RespAjaxController
 		String sDate = dateFormat.format(calendar.getTime());
 		Date insertedTimestamp = dateFormat.parse(sDate);
 		
-		for( int i = 0; i < idTmp.length; i++) 
+		for (int i = 0; i < idTmp.length; i++)
 		{
-			Product product = poductInterface.getProduct(Integer.parseInt(idTmp[i]));
-			PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, Integer.parseInt(amountTmp[i]), insertedTimestamp);				
-			//Non faccio check sul valore di ritorno. In questo caso, dato che l'id non � generato ma gi� passato, se ci sono errori lancia un'eccezione
+			Product product = productInterface.getProduct(
+					Integer.parseInt(idTmp[i]),
+					(String) session.getAttribute("username"));
+			PurchaseProductId id = new PurchaseProductId(
+					purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase,
+					product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
+			// Non faccio check sul valore di ritorno. In questo caso, dato che
+			// l'id non e' generato ma gia' passato, se ci sono errori lancia
+			// un'eccezione
 			purchaseInterface.newPurchaseProduct(purchaseproduct);
-		}		
+		}
 		return 1;
 	}
 	
@@ -378,9 +387,12 @@ public class RespAjaxController
 	{
 		List<PurchaseProduct> productTmp = purchaseInterface.getPurchaseProduct(idPurchase);
 		List<Product> listProduct = new ArrayList<Product>();
-		for(PurchaseProduct product : productTmp)
+		for (PurchaseProduct product : productTmp)
 		{
-			listProduct.add(poductInterface.getProduct(product.getId().getIdProduct()));
+			listProduct
+					.add(productInterface.getProduct(product.getId()
+							.getIdProduct(), (String) session
+							.getAttribute("username")));
 		}
 		return listProduct;
 	}

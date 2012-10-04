@@ -74,9 +74,17 @@ public class NormalAjaxController
 	public @ResponseBody
 	Product getProductNormal(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idProduct") int idProduct)
-			throws InvalidParametersException
 	{
-		return productInterface.getProduct(idProduct);
+		try
+		{
+			return productInterface.getProduct(idProduct,
+					(String) session.getAttribute("username"));
+		}
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -176,7 +184,8 @@ public class NormalAjaxController
 		// -1 Disponibilita' infinita
 		// 0 Non Disponibile
 		// xx Quantita' disponibile
-		return orderInterface.getDispProduct(idPurchase, idProduct);
+		return orderInterface.getDispProduct(idPurchase, idProduct,
+				(String) request.getSession().getAttribute("username"));
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -191,7 +200,8 @@ public class NormalAjaxController
 		// -1 Disponibilita' infinita
 		// 0 Non Disponibile
 		// xx Quantita' disponibile
-		return orderInterface.getDispProductO(idOrder, idProduct);
+		return orderInterface.getDispProductO(idOrder, idProduct,
+				(String) request.getSession().getAttribute("username"));
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "

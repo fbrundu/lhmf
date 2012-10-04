@@ -48,14 +48,20 @@ public class AndroidProductsController {
 	
 	@RequestMapping(value = "/androidApi/getproduct", method = RequestMethod.GET)
 	public @ResponseBody
-	Product getProduct(HttpServletRequest request, @RequestParam(value = "idProduct", required = true) Integer idProduct){
-		if (idProduct != null && idProduct > 0)
+	Product getProduct(
+			HttpServletRequest request,
+			Principal principal,
+			@RequestParam(value = "idProduct", required = true) Integer idProduct)
+	{
+		try
 		{
-			Product p = productInterface.getProduct(idProduct);
-
-			return p;
+			return productInterface.getProduct(idProduct, principal.getName());
 		}
-		return null;
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
@@ -185,21 +191,17 @@ public class AndroidProductsController {
 			HttpServletRequest request,
 			Principal principal,
 			@RequestParam(value = "idProduct", required = true) Integer idProduct)
-			throws InvalidParametersException
 	{
-		Integer rowsAffected = -1;
-		if (idProduct != null && idProduct > 0)
+		try
 		{
-			Product p = productInterface.getProduct(idProduct);
-			if (p != null)
-			{
-				Supplier s = supplierInterface.getSupplier(principal.getName());
-				if (s == null || p.getSupplier().getIdMember() != s.getIdMember())
-					return rowsAffected;
-				rowsAffected = productInterface.setProductAvailable(idProduct);
-			}
+			return productInterface.setProductAvailable(idProduct,
+					principal.getName());
 		}
-		return rowsAffected;
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
@@ -209,20 +211,16 @@ public class AndroidProductsController {
 			HttpServletRequest request,
 			Principal principal,
 			@RequestParam(value = "idProduct", required = true) Integer idProduct)
-			throws InvalidParametersException
 	{
-		Integer rowsAffected = -1;
-		if (idProduct != null && idProduct > 0)
+		try
 		{
-			Product p = productInterface.getProduct(idProduct);
-			if (p != null)
-			{
-				Supplier s = supplierInterface.getSupplier(principal.getName());
-				if (s == null || p.getSupplier().getIdMember() != s.getIdMember())
-					return rowsAffected;
-				rowsAffected = productInterface.setProductUnavailable(idProduct);
-			}
+			return productInterface.setProductUnavailable(idProduct,
+					principal.getName());
 		}
-		return rowsAffected;
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
