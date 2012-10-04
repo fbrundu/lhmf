@@ -42,6 +42,7 @@
         <a id="productLink"
           href="<spring:url htmlEscape="true" value="/productsMgmtAdmin"/>">Gestione Prodotti</a>
       </dt>
+      <dt><a id="statLink" href="<spring:url htmlEscape="true" value="/statAdmin"/>">Statistiche</a></dt>
   </dl>
   </jsp:attribute>
 

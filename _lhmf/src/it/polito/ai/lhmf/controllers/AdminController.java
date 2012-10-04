@@ -96,4 +96,18 @@ public class AdminController
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping("/statAdmin")
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	public ModelAndView statPage(Model model, HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
+		model.addAttribute("user", request.getSession().getAttribute("user"));
+
+		model.addAttribute("firstPage", "user");
+
+		return new ModelAndView("statistics_admin");
+	}
+
 }
