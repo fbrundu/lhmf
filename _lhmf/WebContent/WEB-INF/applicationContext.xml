@@ -46,6 +46,8 @@
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="modelState" ref="modelState"/>
         <property name="purchaseInterface" ref="purchaseDao"/>
+        <property name="supplierInterface" ref="supplierDao"/>
+        <property name="productCategoryInterface" ref="productCategoryDao"/>
     </bean>
     
     <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">

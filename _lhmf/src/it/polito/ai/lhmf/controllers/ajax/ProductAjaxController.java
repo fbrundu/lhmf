@@ -14,7 +14,6 @@ import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -53,35 +52,20 @@ public class ProductAjaxController
 			@RequestParam(value = "unitCost", required = true) float unitCost,
 			@RequestParam(value = "minBuy", required = false) Integer minBuy,
 			@RequestParam(value = "maxBuy", required = false) Integer maxBuy,
-			@RequestParam(value = "productCategory", required = true) int idProductCategory )
-			throws InvalidParametersException
+			@RequestParam(value = "productCategory", required = true) int idProductCategory)
 	{
-		Integer idProduct = -1;
-		Supplier s = supplierInterface.getSupplier((String) request
-				.getSession().getAttribute("username"));
-		ProductCategory pc = productCategoryInterface
-				.getProductCategory(idProductCategory);
-		if (s != null && pc != null && !productName.equals("")
-				&& !productDescription.equals("") && productDimension > 0
-				&& !measureUnit.equals("") && unitBlock > 0
-				&& transportCost > 0 && unitCost > 0 && checkMinMaxBuy(minBuy, maxBuy))
+		try
 		{
-			Product p = new Product();
-			p.setName(productName);
-			p.setDescription(productDescription);
-			p.setDimension(productDimension);
-			p.setMeasureUnit(measureUnit);
-			p.setUnitBlock(unitBlock);
-			p.setTransportCost(transportCost);
-			p.setUnitCost(unitCost);
-			p.setMinBuy(minBuy);
-			p.setMaxBuy(maxBuy);
-			p.setAvailability(true);
-			p.setSupplier(s);
-			p.setProductCategory(pc);
-			idProduct = productInterface.newProduct(p);
+			return productInterface.newProduct((String) request.getSession()
+					.getAttribute("username"), productName, productDescription,
+					productDimension, measureUnit, unitBlock, transportCost,
+					unitCost, minBuy, maxBuy, idProductCategory, null, null, null);
 		}
-		return idProduct;
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
@@ -99,48 +83,24 @@ public class ProductAjaxController
 			@RequestParam(value = "minBuy", required = false) Integer minBuy,
 			@RequestParam(value = "maxBuy", required = false) Integer maxBuy,
 			@RequestParam(value = "productCategory", required = true) int idProductCategory,
-			@RequestParam(value = "picture", required=true) MultipartFile picture )
-			throws InvalidParametersException {
-		Integer idProduct = -1;
-		Supplier s = supplierInterface.getSupplier((String) request
-				.getSession().getAttribute("username"));
-		ProductCategory pc = productCategoryInterface
-				.getProductCategory(idProductCategory);
-		if (s != null && pc != null && !productName.equals("")
-				&& !productDescription.equals("") && productDimension > 0
-				&& !measureUnit.equals("") && unitBlock > 0
-				&& transportCost > 0 && unitCost > 0 && checkMinMaxBuy(minBuy, maxBuy))
+			@RequestParam(value = "picture", required = true) MultipartFile picture)
+	{
+		try
 		{
-			Product p = new Product();
-			p.setName(productName);
-			p.setDescription(productDescription);
-			p.setDimension(productDimension);
-			p.setMeasureUnit(measureUnit);
-			p.setUnitBlock(unitBlock);
-			p.setTransportCost(transportCost);
-			p.setUnitCost(unitCost);
-			p.setMinBuy(minBuy);
-			p.setMaxBuy(maxBuy);
-			p.setAvailability(true);
-			p.setSupplier(s);
-			p.setProductCategory(pc);
-			
-			String contentType = picture.getContentType();
-			if(!contentType.matches("image/.*"))
+			if (!picture.getContentType().matches("image/.*"))
 				return -1;
-			
-			ServletContext context = request.getServletContext();
-			String serverPath = "img/prd/";
-			String realPath = context.getRealPath(serverPath);
-			
-			idProduct = productInterface.newProduct(p, picture, serverPath, realPath);
+			return productInterface.newProduct((String) request.getSession()
+					.getAttribute("username"), productName, productDescription,
+					productDimension, measureUnit, unitBlock, transportCost,
+					unitCost, minBuy, maxBuy, idProductCategory, picture,
+					"img/prd/",
+					request.getServletContext().getRealPath("img/prd/"));
 		}
-		return idProduct;
-	}
-	
-	private boolean checkMinMaxBuy(Integer minBuy, Integer maxBuy) {
-		return (minBuy == null && (maxBuy == null || maxBuy > 0)) ||
-				(minBuy > 0 && (maxBuy == null || maxBuy >= minBuy));
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
