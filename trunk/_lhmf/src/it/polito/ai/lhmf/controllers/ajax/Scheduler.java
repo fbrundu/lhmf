@@ -57,18 +57,21 @@ public class Scheduler implements Runnable
 		}
 		for(int i = 0; i < listNotMin.size(); i++)
 		{
-			Product productTmp = listNotMin.get(i).getProduct();
-			int amTmp = listNotMin.get(i).getAmount();
-			for(int j = i + 1; j < listNotMin.size(); j++)
+			if(listNotMin.get(i) != null)
 			{
-				if(productTmp.getIdProduct() == listNotMin.get(j).getProduct().getIdProduct())
+				int amTmp = listNotMin.get(i).getAmount();
+				Product tmp = productInterface.getProduct(listNotMin.get(i).getProduct().getIdProduct());
+				for(int j = i + 1; j < listNotMin.size(); j++)
 				{
-					amTmp += listNotMin.get(j).getAmount();
-					listNotMin.remove(j);
-				}
-				if(amTmp > productTmp.getMinBuy())
-				{
-					orderInterface.updateFailedWithNoOrder(productTmp.getIdProduct());
+					if(listNotMin.get(i).getProduct().getIdProduct() == listNotMin.get(j).getProduct().getIdProduct())
+					{
+						amTmp += listNotMin.get(j).getAmount();
+						listNotMin.remove(j);
+					}
+					if(amTmp >= tmp.getMinBuy())
+					{
+						orderInterface.updateFailedWithNoOrder(listNotMin.get(i).getProduct().getIdProduct());
+					}
 				}
 			}
 		}

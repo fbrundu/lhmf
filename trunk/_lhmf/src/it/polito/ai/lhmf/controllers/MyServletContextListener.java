@@ -29,8 +29,8 @@ public class MyServletContextListener implements ServletContextListener
 		ProductInterface pri = webCtx.getBean("productDao", ProductInterface.class);
 		
 		Scheduler scheduler = new Scheduler(oi, pi, pri);
-		//sched.scheduleAtFixedRate(new Scheduler(), CountDelay(), (24 * 60 * 60), TimeUnit.SECONDS);
-		sched.scheduleAtFixedRate(scheduler, 10, 30*60, TimeUnit.SECONDS);
+		sched.scheduleAtFixedRate(scheduler, CountDelay(), (24 * 60 * 60), TimeUnit.SECONDS);
+		//sched.scheduleAtFixedRate(scheduler, 5*60, 30*60, TimeUnit.SECONDS);
 	}
 	
 	@Override
