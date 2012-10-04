@@ -27,7 +27,7 @@ public class SSEAjaxController
 	private MessageInterface messageInterface;
 	@Autowired
 	private NotifyInterface notifyInterface;
-	
+
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping("/ajax/getnews")
 	public void sseNews(Model model, HttpServletRequest request,
@@ -49,7 +49,8 @@ public class SSEAjaxController
 						.getUnreadCount((String) request.getSession()
 								.getAttribute("username"));
 				notUnreadCount = notifyInterface
-						.getUnreadCount(m.getIdMember());
+						.getUnreadCount((String) request.getSession()
+								.getAttribute("username"));
 				if (mesUnreadCount > 0 || notUnreadCount > 0)
 				{
 					pw.write("retry: 10000\n");
