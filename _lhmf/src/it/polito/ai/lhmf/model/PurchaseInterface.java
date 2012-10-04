@@ -178,10 +178,30 @@ public class PurchaseInterface
 		return result;	
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setPurchaseShipped(String username, Integer idPurchase)
+			throws InvalidParametersException
+	{
+		if (username == null || idPurchase == null)
+			throw new InvalidParametersException();
+
+		// il membro che fa la modifica deve essere il responsabile
+		// dell'ordine
+		if (!getPurchase(idPurchase).getOrder().getMember().getIdMember()
+				.equals(memberInterface.getMember(username).getIdMember()))
+			return -1;
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"update Purchase " + "set isShipped = true "
+						+ "where idPurchase = :idPurchase");
+		query.setParameter("idPurchase", idPurchase);
+
+		return (Integer) query.executeUpdate();
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
 	{
-		
 		if (purchase == null)
 			throw new InvalidParametersException();
 
