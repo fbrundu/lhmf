@@ -161,6 +161,23 @@ public class OrderInterface
 	
 		return query.list();
 	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setDeliveryDate(Integer idOrder, String username, Date date)
+			throws InvalidParametersException
+	{
+		if (idOrder == null || username == null || date == null)
+			throw new InvalidParametersException();
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+						"update Order "
+						+ "set dateDelivery = :dateDelivery " +
+						"where idOrder = :idOrder");
+		query.setParameter("dateDelivery", date);
+		query.setParameter("idOrder", idOrder);
+
+		return (Integer) query.executeUpdate();
+	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer updateOrder(Order order)

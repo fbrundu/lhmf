@@ -113,18 +113,18 @@ public class RespAjaxController
 	public @ResponseBody
 	Integer setDeliveryDate(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder,
-			@RequestParam(value = "dateDelivery") long dateDelivery) throws InvalidParametersException
+			@RequestParam(value = "dateDelivery") long dateDelivery)
 	{
-		
-		Order order = orderInterface.getOrder(idOrder);
-		Date shipDate = new Date(dateDelivery);
-		
-		order.setDateDelivery(shipDate);
-		
-		return orderInterface.updateOrder(order);
+		try
+		{
+			return orderInterface.setDeliveryDate(idOrder, (String) session.getAttribute("username"), new Date(dateDelivery));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
-	
-	
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getCompleteOrderResp", method = RequestMethod.POST)
@@ -171,20 +171,23 @@ public class RespAjaxController
 		return purchaseInterface.getAmount(idPurchase, idProduct);
 	}
 	
-	
-	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/setShip", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer getPurchaseAmount(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+	Integer setPurchaseShipped(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase)
 	{
-		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
-		purchase.setIsShipped(true);
-		return purchaseInterface.updatePurchase(purchase);
+		try
+		{
+			return purchaseInterface.setPurchaseShipped(
+					(String) session.getAttribute("username"), idPurchase);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
-	
-	
 	
 	@RequestMapping(value = "/ajax/getMembersSupplierString", method = RequestMethod.POST)
 	public @ResponseBody
