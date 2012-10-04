@@ -780,7 +780,7 @@ function clickPurchaseHandler(event)
     	var amountProducts = addedPz.join(",");
     	
     	$.post("ajax/setNewPurchase", {idOrder: idOrder, idProducts: idProducts, amountProducts: amountProducts}, postSetNewPurchaseRequest);
-    } 
+    }
 }
 
 function postSetNewPurchaseRequest(result) 

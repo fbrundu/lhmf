@@ -387,7 +387,7 @@ public class ProductInterface
 
 		Product tmp = (Product) query.uniqueResult();
 		
-		if(amount > tmp.getMinBuy())
+		if(amount >= tmp.getMinBuy())
 		{
 			return 0;
 		}
