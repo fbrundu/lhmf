@@ -113,13 +113,12 @@ public class NotifyInterface
 		if (username == null || idNotify == null)
 			throw new InvalidParametersException();
 
-		Integer idMember = memberInterface.getMember(username).getIdMember();
-		
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Notify" + " set isReaded = true"
 						+ " where isReaded = false and idMember = :idMember"
 						+ " and idNotify = :idNotify");
-		query.setParameter("idMember", idMember);
+		query.setParameter("idMember", memberInterface.getMember(username)
+				.getIdMember());
 		query.setParameter("idNotify", idNotify);
 
 		return (Integer) query.executeUpdate();
@@ -160,18 +159,17 @@ public class NotifyInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Long getUnreadCount(Integer idMember)
+	public Long getUnreadCount(String username)
 			throws InvalidParametersException
 	{
-		if (idMember == null)
+		if (username == null)
 			throw new InvalidParametersException();
-		
-		Query query = sessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"select count(*) from Notify"
-								+ " where isReaded = false and idMember = :idMember");
-		query.setParameter("idMember", idMember);
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"select count(*) from Notify"
+						+ " where isReaded = false and idMember = :idMember");
+		query.setParameter("idMember", memberInterface.getMember(username)
+				.getIdMember());
 
 		return (Long) query.uniqueResult();
 	}
