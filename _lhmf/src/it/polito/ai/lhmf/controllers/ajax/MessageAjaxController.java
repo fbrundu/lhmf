@@ -75,7 +75,7 @@ public class MessageAjaxController
 			return messageInterface.newMessage(dest, messageText,
 					(String) request.getSession().getAttribute("username"));
 		}
-		catch (InvalidParametersException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
