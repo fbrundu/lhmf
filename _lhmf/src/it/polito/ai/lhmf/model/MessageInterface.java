@@ -67,8 +67,6 @@ public class MessageInterface
 			message.setMemberByIdReceiver(receiver);
 			message.setMemberByIdSender(sender);
 			sessionFactory.getCurrentSession().save(message);
-			
-			return 1;
 		}
 		
 		return -1;
