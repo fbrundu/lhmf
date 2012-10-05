@@ -278,29 +278,29 @@ public class OrderInterface
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
-	public List<Order> getOrdersToDelivery(Member memberResp) {
-		
+	@Transactional(readOnly = true)
+	public List<Order> getOrdersToDelivery(String username)
+			throws InvalidParametersException
+	{
+		if (username == null)
+			throw new InvalidParametersException();
 		Date now = new Date();
 		Timestamp nowT = new Timestamp(now.getTime());
-				
-		Query query = sessionFactory.getCurrentSession()
-					.createQuery("from Order as o " +
-							     "where o.idOrder in ( select o2.idOrder " +
-							     					 "from Order as o2 " +
-												     "left join o2.purchases as p " +
-												     "where o2.member = :memberResp " +
-												     "AND o2.dateDelivery is not NULL " +
-												     "AND o2.dateDelivery <= :now " +
-												     "AND p.isShipped = false " +
-												     "group by o2.idOrder )");
-		
-		query.setParameter("memberResp", memberResp);
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order as o " + "where o.idOrder in ( select o2.idOrder "
+						+ "from Order as o2 " + "left join o2.purchases as p "
+						+ "where o2.member = :memberResp "
+						+ "AND o2.dateDelivery is not NULL "
+						+ "AND o2.dateDelivery <= :now "
+						+ "AND p.isShipped = false " + "group by o2.idOrder )");
+
+		query.setParameter("memberResp", memberInterface.getMember(username));
 		query.setParameter("now", nowT);
 
 		return query.list();
 	}
-	
+
 	@Transactional(readOnly=true)
 	public List<Product> getProducts(Integer idOrder) 
 	{

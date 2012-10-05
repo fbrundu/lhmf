@@ -89,15 +89,19 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getDeliveredOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getDeliveredOrderResp(HttpServletRequest request, HttpSession session) throws InvalidParametersException
+	List<Order> getDeliveredOrderResp(HttpServletRequest request,
+			HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberResp = memberInterface.getMember(username);
-		
-		List<Order> listOrder = null;
-		listOrder = orderInterface.getOrdersToDelivery(memberResp);
-		
-		return listOrder;
+		try
+		{
+			return orderInterface.getOrdersToDelivery((String) session
+					.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.RESP + ","
@@ -106,7 +110,6 @@ public class RespAjaxController
 	public @ResponseBody
 	List<Product> getProductListFromOrder(HttpServletRequest request,
 			HttpSession session, @RequestParam(value = "idOrder") int idOrder)
-			throws InvalidParametersException
 	{
 		String username = (String) session.getAttribute("username");
 		Member member = memberInterface.getMember(username);
@@ -117,6 +120,23 @@ public class RespAjaxController
 				|| order.getMember().getIdMember() == member.getIdMember())
 			listProduct = orderInterface.getProducts(order.getIdOrder());
 
+		return listProduct;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getProductListFromPurchase", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Product> getProductListFromPurchase(HttpServletRequest request,
+			HttpSession session, @RequestParam(value = "idPurchase") int idPurchase)
+			throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		Member member = memberInterface.getMember(username);
+		Purchase purchase = purchaseInterface.getPurchase(idPurchase);
+		List<Product> listProduct = null;
+		
+		if(purchase.getOrder().getMember().getIdMember() == member.getIdMember())
+			listProduct = purchaseInterface.getProducts(idPurchase);
 		return listProduct;
 	}
 
@@ -434,5 +454,26 @@ public class RespAjaxController
 			@RequestParam(value = "idOrder") int idOrder		) throws InvalidParametersException
 	{
 		return orderInterface.getProgress(idOrder);
+	}
+
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getTotBought", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Integer> getTotBought(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder,
+			@RequestParam(value = "idProducts") List<Integer> idProducts	) throws InvalidParametersException
+	{
+		return orderInterface.getBoughtAmounts(idOrder, idProducts);
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getTotPurchaseCost", method = RequestMethod.POST)
+	public @ResponseBody
+	Float getTotPurchaseCost(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase	) throws InvalidParametersException
+	{
+		String username = (String) session.getAttribute("username");
+		
+		return purchaseInterface.getPurchaseCost(username, idPurchase, true);
 	}
 }
