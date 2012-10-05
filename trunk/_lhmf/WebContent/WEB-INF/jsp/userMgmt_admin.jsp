@@ -6,6 +6,7 @@
 
 <t:index>
 	<jsp:attribute name="scripts">
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=it"></script>
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_admin.js"/>'></script>
 		<script type="text/javascript">
 			function drawPageCallback(){
@@ -54,6 +55,7 @@
     	    <li><a href='#tabs-1'>Aggiungi utente</a></li>
     	    <li><a href='#tabs-2'>Attiva utente</a></li>
 			<li><a href='#tabs-3'>Lista utenti</a></li>
+			<li><a href='#tabs-4'>Mappa Utenti</a></li>
 		  </ul>
 			<div id='tabs-1'>
 			
@@ -67,6 +69,11 @@
 			
 			<!-- Tab per la modifica di un utente -->
 			  Lista Utenti
+			</div>
+			<div id='tabs-4'>
+			
+			<!-- Tab per la mappa degli utenti -->
+			  Mappa Utenti
 			</div>
 		</div>
     </jsp:body>
