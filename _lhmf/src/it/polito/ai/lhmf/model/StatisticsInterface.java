@@ -5,10 +5,13 @@ import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.orm.Supplier;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.SessionFactory;
@@ -20,6 +23,8 @@ public class StatisticsInterface
 	private SessionFactory sessionFactory;
 	private MemberInterface memberInterface;
 	private OrderInterface orderInterface;
+	private SupplierInterface supplierInterface;
+	private ProductInterface productInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -36,7 +41,17 @@ public class StatisticsInterface
 		this.memberInterface = memberInterface;
 	}
 	
-	@Transactional()
+	public void setProductInterface(ProductInterface productInterface)
+	{
+		this.productInterface = productInterface;
+	}
+	
+	public void setSupplierInterface(SupplierInterface supplierInterface)
+	{
+		this.supplierInterface = supplierInterface;
+	}
+	
+	@Transactional
 	public ArrayList<Float> getSupplierMoneyMonth(String supUsername, int year)
 	{
 		ArrayList<Float> respStat = new ArrayList<Float>();
@@ -97,6 +112,131 @@ public class StatisticsInterface
 
 		} // fine Ordine di un responsabile
 
+		return respStat;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Transactional
+	public ArrayList<String> supplierMoneyProduct(String supUsername)
+	{
+		ArrayList<String> respStatName = new ArrayList<String>();
+		ArrayList<String> respStatFloat = new ArrayList<String>();
+		
+		// Mi ricavo il Supplier
+		Supplier supplier = supplierInterface.getSupplier(supUsername);
+		Product tempProduct;
+		Float tempAmount;
+		
+		// Mi ricavo la lista dei prodotti del Supplier con accanto l'amount totale ricavato dagli ordini chiusi
+		Map<Product, Float> listProduct = productInterface.getProfitOnProducts(supplier);
+		
+		if(listProduct.size() > 0) {
+			
+			Iterator it = listProduct.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry) it.next();
+		        tempProduct = (Product) pairs.getKey();
+		        tempAmount = (Float) pairs.getValue();
+		        		
+		        respStatName.add(tempProduct.getName());
+		        respStatFloat.add(tempAmount.toString());
+		    }
+		    
+		    respStatName.addAll(respStatFloat);
+			
+		} else {
+			respStatName.add("errNoProduct");
+		}
+
+		return respStatName;
+	}
+	
+	@Transactional
+	public ArrayList<Double> supplierProductList(String supUsername)
+	{
+		ArrayList<Double> respStat = new ArrayList<Double>();
+
+		// Mi ricavo il Supplier
+		Member memberSupplier = memberInterface.getMember(supUsername);
+
+		// Mi ricavo il numero dei prodotti totali
+		Double numberProductsTot = (double) (long) productInterface
+				.getNumberOfProductsBySupplier(memberSupplier);
+
+		// Mi ricavo il numero dei prodotti totali in lista
+		Double numberProductsOnList = (double) (long) productInterface
+				.getNumberOfProductsOnListBySupplier(memberSupplier);
+
+		if (numberProductsTot != 0)
+		{
+			Double temp = (numberProductsOnList / numberProductsTot) * 100;
+			respStat.add(temp);
+			respStat.add(100 - temp);
+		}
+		else
+		{
+			respStat.add((double) 0);
+			respStat.add((double) 0);
+		}
+
+		return respStat;
+	}
+	
+	@Transactional
+	public ArrayList<Integer> supplierOrderMonth(String supUsername, int year)
+	{
+		ArrayList<Integer> respStat = new ArrayList<Integer>();
+		ArrayList<Integer> respStatNotShipped = new ArrayList<Integer>();
+
+		// Mi ricavo il Supplier
+		Member memberSupplier = memberInterface.getMember(supUsername);
+
+		for (int i = 0; i < 12; i++)
+		{
+
+			// Mi ricavo il numero di ordini conclusi (con o senza data di
+			// consegna)
+			Integer numberOrdersTot = (int) (long) orderInterface
+					.getNumberOldOrdersBySupplier(memberSupplier, year, i);
+
+			// Mi ricavo il numero di ordini conclusi (con data di consegna
+			// impostata)
+			Integer numberOrderShipped = (int) (long) orderInterface
+					.getNumberOldOrdersShippedBySupplier(memberSupplier, year,
+							i);
+
+			respStat.add(numberOrderShipped);
+			respStatNotShipped.add(numberOrdersTot - numberOrderShipped);
+
+		}
+		respStat.addAll(respStatNotShipped);
+		return respStat;
+	}
+	
+	@Transactional
+	public ArrayList<Float> supplierOrderYear(String supUsername, int year)
+	{
+		ArrayList<Float> respStat = new ArrayList<Float>();
+		
+		// Mi ricavo il Supplier
+		Member memberSupplier = memberInterface.getMember(supUsername);
+		
+		// Mi ricavo il numero di ordini conclusi (con o senza data di consegna)
+		Float numberOrdersTot = (float) (long) orderInterface.getNumberOldOrdersBySupplier(memberSupplier, year);
+
+		// Mi ricavo il numero di ordini conclusi (con data di consegna impostata
+		Float numberOrderShipped = (float) (long) orderInterface.getNumberOldOrdersShippedBySupplier(memberSupplier, year);
+				
+		if(numberOrdersTot != 0) {
+		Float temp = (numberOrderShipped/numberOrdersTot)*100;
+		
+		respStat.add(temp);
+		respStat.add(100-temp);
+		} else {
+			respStat.add((float) 0);
+			respStat.add((float) 0);
+		}
+		
 		return respStat;
 	}
 }
