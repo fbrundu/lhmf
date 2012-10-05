@@ -218,13 +218,7 @@ public class AndroidOrderController {
 	public @ResponseBody
 	List<Order> getDeliveredOrderResp(Principal principal) throws InvalidParametersException
 	{
-		String username = principal.getName();
-		Member memberResp = memberInterface.getMember(username);
-		
-		List<Order> listOrder = null;
-		listOrder = orderInterface.getOrdersToDelivery(memberResp);
-		
-		return listOrder;
+		return orderInterface.getOrdersToDelivery(principal.getName());
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
