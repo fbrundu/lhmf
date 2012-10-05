@@ -156,6 +156,30 @@ public class OrderInterface
 	}
 	
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<String> getOrdersNowString()
+	{
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date now = calendar.getTime();
+		java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(
+				now.getTime());
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order where dateClose > :dateNow");
+		query.setTimestamp("dateNow", currentTimestamp);
+
+		ArrayList<String> orderString = new ArrayList<String>();
+
+		for (Order or : (List<Order>) query.list())
+		{
+			String temp = or.getIdOrder() + ", " + or.getOrderName() + " - "
+					+ or.getDateClose() + "," + or.getDateDelivery();
+			orderString.add(temp);
+		}
+		return orderString;
+	}
+	
+	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Order> getOrdersPast() 
 	{
@@ -203,40 +227,16 @@ public class OrderInterface
 		return (Integer) query.executeUpdate();
 	}
 
-	/*@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
-	public List<Order> getOldOrders(String username, long start, long end)
-			throws InvalidParametersException
-	{
-		if (username == null)
-			throw new InvalidParametersException();
-		Member memberResp = memberInterface.getMember(username);
-		if (memberResp == null)
-			throw new InvalidParametersException();
-		Timestamp startDate = new Timestamp(start);
-		Timestamp endDate = new Timestamp(end);
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Order where idMember_resp = :id "
-						+ "AND dateClose < :endDate "
-						+ "AND dateOpen > :startDate");
-
-		query.setParameter("id", memberResp.getIdMember());
-		query.setTimestamp("startDate", startDate);
-		query.setTimestamp("endDate", endDate);
-
-		return query.list();
-	}*/
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOldOrders(Member memberResp, long end, int dateDeliveryType) throws InvalidParametersException {
+	public List<Order> getOldOrders(String respUsername, long end, int dateDeliveryType) throws InvalidParametersException {
 		
 		//dateDeliveryType
 		// 0 = Impostata
 		// 1 = Non Impostata
 		// 2 = Entrambe
-		
+		Member memberResp = memberInterface.getMember(respUsername);
 		if (memberResp == null)
 			throw new InvalidParametersException();
 		
@@ -811,6 +811,50 @@ public class OrderInterface
 		}
 		return 1;
 	}
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer createOrder(String respUsername, int idSupplier,
+			List<Integer> productIds, String orderName, Date dateOpen,
+			Date dateClose) throws InvalidParametersException
+	{
+		Supplier supplier = supplierInterface.getSupplier(idSupplier);
+		if (supplier == null)
+			return -1;
+
+		Member resp = memberInterface.getMember(respUsername);
+		
+		if (supplier.getMemberByIdMemberResp().getIdMember() != memberInterface
+				.getMember(respUsername).getIdMember())
+			return -1;
+
+		Order order = new Order(supplier, resp, orderName, dateOpen, dateClose);
+
+		int result = -1;
+		if ((result = newOrder(order)) <= 0)
+		{
+			return result;
+		}
+
+		for (Integer productId : productIds)
+		{
+			Product p = productInterface.getProduct(productId,
+					resp.getUsername());
+			if (p == null
+					|| p.getSupplier().getIdMember() != supplier.getIdMember())
+				// Lancio eccezione cosi' viene fato il rollback e viene
+				// eliminato l'ordine
+				throw new InvalidParametersException();
+
+			OrderProductId id = new OrderProductId(order.getIdOrder(),
+					p.getIdProduct());
+			OrderProduct orderproduct = new OrderProduct(id, order, p);
+
+			// In questo caso, dato che l'id non e' generato ma gia' passato, se
+			// ci sono errori lancia un'eccezione
+			newOrderProduct(orderproduct);
+		}
+		return 1;
+	}
 	
 	@Transactional(readOnly=true)
 	public boolean isFailed(Integer idOrder){
@@ -838,7 +882,7 @@ public class OrderInterface
 		if(member == null)
 			return null;
 		
-		List<Order> tmp = getOldOrders(member, 0, 1); //0 = "The epoch", 1 = data consegna non settata
+		List<Order> tmp = getOldOrders(member.getUsername(), 0, 1); //0 = "The epoch", 1 = data consegna non settata
 		
 		List<Order> ret = new ArrayList<Order>();
 		

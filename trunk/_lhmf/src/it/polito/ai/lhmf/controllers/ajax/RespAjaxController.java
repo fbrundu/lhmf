@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -72,10 +73,11 @@ public class RespAjaxController
 			HttpSession session, @RequestParam(value = "end") long end,
 			@RequestParam(value = "dateDeliveryType") int dateDeliveryType)
 	{
-		Member memberResp = memberInterface.getMember((String) session.getAttribute("username"));
 		try
 		{
-			return orderInterface.getOldOrders(memberResp, end, dateDeliveryType);
+			return orderInterface.getOldOrders(
+					(String) session.getAttribute("username"), end,
+					dateDeliveryType);
 		}
 		catch (Exception e)
 		{
@@ -161,20 +163,19 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getCompleteOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getCompleteOrderResp(HttpServletRequest request, HttpSession session	) throws InvalidParametersException
+	List<Order> getCompleteOrderResp(HttpServletRequest request,
+			HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		List<Order> listOrder;
-		
-		try {
-			listOrder = orderInterface.getCompletedOrders(username);
+		try
+		{
+			return orderInterface.getCompletedOrders((String) session
+					.getAttribute("username"));
 		}
-		catch (Exception e) {
+		catch (InvalidParametersException e)
+		{
 			e.printStackTrace();
 			return null;
 		}
-		
-		return listOrder;
 	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -252,25 +253,21 @@ public class RespAjaxController
 	
 	@RequestMapping(value = "/ajax/getSupplierByResp", method = RequestMethod.POST)
 	public @ResponseBody
-	Set<Supplier> getSupplierByResp(HttpServletRequest request, HttpSession session)
+	Set<Supplier> getSupplierByResp(HttpServletRequest request,
+			HttpSession session)
 	{
 		return memberInterface.getSupplierByResp((String) session
 				.getAttribute("username"));
 	}
 	
-	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductFromSupplier", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Product> getProductFromSupplier(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idSupplier") int idSupplier) throws InvalidParametersException
+	List<Product> getProductFromSupplier(HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value = "idSupplier") int idSupplier)
 	{
-		
-		Member supplier = memberInterface.getMember(idSupplier);
-		
-		List<Product> listProduct = productInterface.getProductsBySupplier(supplier);
-		
-		return listProduct;
+		return productInterface.getProductsBySupplier(idSupplier);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -280,37 +277,36 @@ public class RespAjaxController
 			@RequestParam(value = "idSupplier") int idSupplier,
 			@RequestParam(value = "orderName") String orderName,
 			@RequestParam(value = "idString") String idString,
-			@RequestParam(value = "dataCloseTime") long dataCloseTime) throws InvalidParametersException, ParseException
+			@RequestParam(value = "dataCloseTime") long dataCloseTime)
 	{
-		List<Integer> productIds = new ArrayList<Integer>();
-		String username = (String) session.getAttribute("username");
-		Member resp = memberInterface.getMember(username);
-		
-		if(resp == null)
-			return -1;
-		
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		Date dateOpen = calendar.getTime();
-		
-		Date dateClose = new Date(dataCloseTime);
-		
-		String[] temp = idString.split(",");
-		if(temp.length > 0){
-			for(int i = 0; i < temp.length; i++){
-				try {
+		try
+		{
+			List<Integer> productIds = new ArrayList<Integer>();
+
+			// setto la data odierna
+			Calendar calendar = Calendar.getInstance();
+			Date dateOpen = calendar.getTime();
+
+			Date dateClose = new Date(dataCloseTime);
+
+			String[] temp = idString.split(",");
+			if (temp.length > 0)
+			{
+				for (int i = 0; i < temp.length; i++)
+				{
 					Integer id = Integer.valueOf(temp[i]);
 					productIds.add(id);
-				} catch(NumberFormatException e){
-					e.printStackTrace();
-					throw new InvalidParametersException();
 				}
-				
+				return orderInterface.createOrder(
+						(String) session.getAttribute("username"), idSupplier,
+						productIds, orderName, dateOpen, dateClose);
 			}
-			return orderInterface.createOrder(resp, idSupplier, productIds, orderName, dateOpen, dateClose);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 		return -1;
-		
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
