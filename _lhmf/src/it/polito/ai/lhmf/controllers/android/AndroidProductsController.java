@@ -148,12 +148,7 @@ public class AndroidProductsController {
 	public @ResponseBody
 	List<Product> getMyProducts(HttpServletRequest request, Principal principal)
 	{
-		String username = principal.getName();
-		Member memberSupplier = memberInterface.getMember(username);
-		
-		List<Product> productsList = null;
-		productsList = productInterface.getProductsBySupplier(memberSupplier);
-		return productsList;
+		return productInterface.getProductsBySupplier(principal.getName());
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -175,7 +170,7 @@ public class AndroidProductsController {
 			return ret;
 		
 		List<Product> productsList = null;
-		productsList = productInterface.getProductsBySupplier(supp.getMemberByIdMember());
+		productsList = productInterface.getProductsBySupplier(principal.getName());
 		
 		for(Product p : productsList)
 			if(p.isAvailability() == true)

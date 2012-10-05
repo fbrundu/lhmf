@@ -242,15 +242,27 @@ public class ProductInterface
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Product> getProductsBySupplier(Member memberSupplier)
+	public List<Product> getProductsBySupplier(String username)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Product " + "where idSupplier = :idMember"
 						+ " order by productCategory");
-		query.setParameter("idMember", memberSupplier.getIdMember());
+		query.setParameter("idMember", memberInterface.getMember(username)
+				.getIdMember());
 		return query.list();
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Product> getProductsBySupplier(Integer idSupplier)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Product " + "where idSupplier = :idMember"
+						+ " order by productCategory");
+		query.setParameter("idMember", idSupplier);
+		return query.list();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<ProductCategory> getProductCategoriesBySupplier(

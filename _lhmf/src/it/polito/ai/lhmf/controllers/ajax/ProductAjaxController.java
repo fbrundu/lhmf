@@ -134,12 +134,8 @@ public class ProductAjaxController
 	public @ResponseBody
 	List<Product> getMyProducts(HttpServletRequest request, HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberSupplier = memberInterface.getMember(username);
-		
-		List<Product> productsList = null;
-		productsList = productInterface.getProductsBySupplier(memberSupplier);
-		return productsList;
+		return productInterface.getProductsBySupplier((String) session
+				.getAttribute("username"));
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER
