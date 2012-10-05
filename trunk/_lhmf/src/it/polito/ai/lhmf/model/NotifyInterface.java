@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Notify;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -181,5 +182,24 @@ public class NotifyInterface
 		query.setParameter("idNotify", idNotify);
 
 		return (Integer) query.executeUpdate();
+	}
+
+	@Transactional(readOnly = true)
+	public List<Notify> getNewNotifiesByUsername(String username) throws InvalidParametersException {
+		List<Notify> notifies = getNotifiesByUsername(username);
+		
+		if(notifies == null)
+			return null;
+		
+		List<Notify> ret = new ArrayList<Notify>();
+		
+		for(Notify n : notifies){
+			if(!n.isIsReaded()){
+				ret.add(n);
+				//FIXME settare la notiica come letta?
+				//n.setIsReaded(true);
+			}
+		}
+		return ret;
 	}
 }
