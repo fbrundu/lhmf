@@ -81,7 +81,6 @@ public class OrderInterface
 		return (Order) query.uniqueResult();
 	}
 	
-
 	@Transactional(readOnly = true)
 	public String getOrderName(int idOrder)
 	{
@@ -204,7 +203,7 @@ public class OrderInterface
 		return (Integer) query.executeUpdate();
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Order> getOldOrders(String username, long start, long end)
 			throws InvalidParametersException
@@ -227,16 +226,19 @@ public class OrderInterface
 		query.setTimestamp("endDate", endDate);
 
 		return query.list();
-	}
+	}*/
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
-	public List<Order> getOldOrders(Member memberResp, long end, int dateDeliveryType) {
+	public List<Order> getOldOrders(Member memberResp, long end, int dateDeliveryType) throws InvalidParametersException {
 		
 		//dateDeliveryType
 		// 0 = Impostata
 		// 1 = Non Impostata
 		// 2 = Entrambe
+		
+		if (memberResp == null)
+			throw new InvalidParametersException();
 		
 		Timestamp endDate = new Timestamp(end);
 		Date now = new Date();
@@ -300,7 +302,21 @@ public class OrderInterface
 		query.setParameter("memberResp", memberInterface.getMember(username));
 		query.setParameter("now", nowT);
 
-		return query.list();
+		List<Order> orderList = query.list();
+		List<Order> returnList = new ArrayList<Order>();
+				
+		for(Order orderTemp : orderList) {
+			Set<Purchase> purchaseList = orderTemp.getPurchases();
+			int count = purchaseList.size();
+			
+			for(Purchase purchaseTemp : purchaseList) 
+				if( purchaseInterface.isFailed(username, purchaseTemp.getIdPurchase()) || purchaseTemp.isIsShipped() )
+					count--;
+		
+			if(count != 0)
+				returnList.add(orderTemp);
+		}
+		return returnList;
 	}
 
 	@Transactional(readOnly = true)
@@ -811,7 +827,7 @@ public class OrderInterface
 	}
 	
 	@Transactional(readOnly=true)
-	public List<Order> getCompletedOrders(Integer idMemberResp) {
+	public List<Order> getCompletedOrders(Integer idMemberResp) throws InvalidParametersException {
 		//dateDeliveryType
 		// 0 = Impostata
 		// 1 = Non Impostata
@@ -835,10 +851,11 @@ public class OrderInterface
 	}
 	
 	@Transactional(readOnly=true)
-	public List<Order> getCompletedOrders(String username){
+	public List<Order> getCompletedOrders(String username) throws InvalidParametersException {
 		Member member = memberInterface.getMember(username);
 		
 		return getCompletedOrders(member.getIdMember());
+		
 	}
 	
 	

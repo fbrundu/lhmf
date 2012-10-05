@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,11 +72,10 @@ public class RespAjaxController
 			HttpSession session, @RequestParam(value = "end") long end,
 			@RequestParam(value = "dateDeliveryType") int dateDeliveryType)
 	{
+		Member memberResp = memberInterface.getMember((String) session.getAttribute("username"));
 		try
 		{
-			return orderInterface.getOldOrders(
-					(String) session.getAttribute("username"), end,
-					dateDeliveryType);
+			return orderInterface.getOldOrders(memberResp, end, dateDeliveryType);
 		}
 		catch (Exception e)
 		{
@@ -163,11 +161,20 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getCompleteOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getCompleteOrderResp(HttpServletRequest request,
-			HttpSession session)
+	List<Order> getCompleteOrderResp(HttpServletRequest request, HttpSession session	) throws InvalidParametersException
 	{
-		return orderInterface.getCompletedOrders((String) session
-				.getAttribute("username"));
+		String username = (String) session.getAttribute("username");
+		List<Order> listOrder;
+		
+		try {
+			listOrder = orderInterface.getCompletedOrders(username);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		return listOrder;
 	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")

@@ -199,7 +199,12 @@ public class AndroidOrderController {
 		String username = principal.getName();
 		
 		List<Order> listOrder = null;
-		listOrder = orderInterface.getCompletedOrders(username);
+		try {
+			listOrder = orderInterface.getCompletedOrders(username);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 		return listOrder;
 	}
 	

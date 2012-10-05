@@ -732,6 +732,9 @@ function prepareOrderForm(tab){
     $('#tabsOrder').tabs();
     $( "#dialog" ).dialog({ autoOpen: false });
 
+    $("body").delegate(".shipButton", "click", clickSetShipPurchaseHandler);
+    $("body").delegate(".detailsButton", "click", clickShowDetailsPurchaseHandler);
+    
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
     
@@ -747,6 +750,7 @@ function prepareOrderForm(tab){
     loadActiveOrder();
     loadCompleteOrder();
     loadShipOrder();
+    
     
     $("#orderCompositor").hide();
     $("#closeData").datepicker();
@@ -982,108 +986,70 @@ function postShowPurchaseHandler(data) {
 	var trControl = "#TRdetailsOrderShip_" + idOrder;
 	var tdControl = "#TDdetailsOrderShip_" + idOrder;
     
-	$(tdControl).html("<div style='margin: 5px'><table id='TABLEdetailsOrderShip_" + idOrder + "' class='log'></table></div>");
+	$(tdControl).html("<div style='margin: 10px'><table id='TABLEdetailsOrderShip_" + idOrder + "' class='log2'></table></div>");
 
 	var tableControl = "#TABLEdetailsOrderShip_" + idOrder;
 	
 	$(tableControl).append("<tr> <th class='top' width='5%'> Scheda </th>" +
 					            "<th class='top' width='25%'> Nome </th>" +
 					            "<th class='top' width='15%'> Totale (&euro;)</th>" +
-					            "<th class='top' width='30%'> Stato Consegna  </th>" +
+					            "<th class='top' width='30%'> Stato Ritiro  </th>" +
 					            "<th class='top' width='25%'> Azione  </th> </tr>");
+	
+	var countShip = 0;
 	
 	$.each(data, function(index, val)
 	{
-		var total = 0;
-		var productTable = "<table id='TABLEdetailsPurchase_" + val.idPurchase + "' class='log'>" +
-							"<tr> <th class='top' width='15%'> Immagine </th>" +
-								 "<th class='top' width='15%'> Prodotto </th>" +
-                                 "<th class='top' width='15%'> Categoria </th>" +
-                                 "<th class='top' width='30%'> Descrizione  </th>" +
-                                 "<th class='top' width='5%'> Blocchi  </th>" +
-                                 "<th class='top' width='5%'> Costo Unitario (&euro;) </th>" +
-                                 "<th class='top' width='5%'> N. Blocchi Acquistati </th>" +
-                                 "<th class='top' width='10%'> Parziale (&euro;)</th> </tr>";
+		countShip++;
 		
-		var products=0;
+		var failed = false;
+		$.postSync("ajax/isPurchaseFailed", {idPurchase: val.idPurchase}, function(data) { failed = data; });
 		
-		$.postSync("ajax/getPurchaseProducts", {idPurchase: val.idPurchase}, function(data) { products = data; });
-		
-		var countShip = 0;
-		
-		$.each(products, function(index, val2) {
-			
-			countShip++;
-			
-			var amount = 0;
-			$.postSync("ajax/getPurchaseAmount", {idPurchase: val.idPurchase, idProduct: val2.idProduct}, function(data) { amount = data; });
-			var temp = amount * val2.unitCost;
-			total += temp;
-			productTable += "<tr>   <td> <img align='middle' height='60' src='" + val2.imgPath + "'></td> " +
-								   "<td>" + val2.name + "</td>" +
-			                       "<td>" + val2.category.description + "</td>" +
-			                       "<td>" + val2.description + "</td>" +
-			                       "<td>" + val2.unitBlock + "</td>" +
-			                       "<td>" + val2.unitCost + "</td>" +
-			                       "<td>" + amount + "</td>" +
-			                       "<td>" + temp + "</td></tr>";
-		});
-		
-		productTable += "</table>";
-    
-		
-		
-		if(val.isShipped == "Spedizione Effettuata") {
-			
+		var tdRitiro = "";
+		var imgs = "";
+		if(failed) {
 			countShip--;
-			
-			$(tableControl).append("<tr style='background-color: #EDEDED; text-color: #CFCFCF;'> <td>" + val.idPurchase + "</td>" +
-					                    "<td>" + val.member.name + "</td>" +
-					                    "<td>" + total + "</td>" +
-					                    "<td id='TDconsegna_" + val.idPurchase + "'style='color: green;'>Effettuata</td>" +
-					                    "<td><form>" +
-										  		 "<input type='hidden' value='" + val.idPurchase + "'/>" +
-										  		 "<button style='margin: 0px' type='submit' id='setShip_" + val.idPurchase + "'> Set Consegna </button>" +
-										  	     "<button style='margin: 0px' type='submit' id='showDetailsPurchase_" + val.idPurchase + "'> Dettagli </button>" +
-										  	   "</form></td></tr>" +
-								"<tr class='detailsPurchase' id='TRdetailsPurchase_" + val.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + val.idPurchase + "'>" +
-										"<div style='margin: 15px'>" + productTable + "</div></td></tr>");
-
+			tdRitiro = "<td style='color: gray;'>Scheda Fallita</td>";
+			var imgs = "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
+		} else if(val.isShipped == "Spedizione Effettuata") {
+			countShip--;
+			tdRitiro = "<td style='color: green;'>Ok</td>";
+			var imgs = "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
 		} else {
-			
-			$(tableControl).append("<tr> <td>" + val.idPurchase + "</td>" +
-					                    "<td>" + val.member.name + "</td>" +
-					                    "<td>" + total + "</td>" +
-					                    "<td id='TDconsegna_" + val.idPurchase + "' style='color: red;'>Non Effettuata</td>" +
-					                    "<td>" +
-										  		 "<button style='margin: 0px' type='submit' id='setShip_" + val.idPurchase + "' data-idpurchase='" + val.idPurchase + "'> Set Consegna </button>" +
-										  	     "<button style='margin: 0px' type='submit' id='showDetailsPurchase_" + val.idPurchase + "' data-idpurchase='" + val.idPurchase + "'> Dettagli </button>" +
-										  	   "</td></tr>" +
-								"<tr class='detailsPurchase' id='TRdetailsPurchase_" + val.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + val.idPurchase + "'>" +
-										"<div style='margin: 15px'>" + productTable + "</div></td></tr>");
-			
+			tdRitiro = "<td id='TDconsegna_" + val.idPurchase + "' style='color: red;'>Non Ritirato</td>";
+			var imgs = "<img src='img/ship.png' class='shipButton' height='13px' data-idpurchase='" + val.idPurchase + "'>" +
+            		   "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
 		}
 		
-		var idShipCount = "#idOrderShip_" + idOrder;
-		$(idShipCount).data('shipcount', countShip);
+		var totPurchase = 0;
+		$.postSync("ajax/getTotPurchaseCost", {idPurchase: val.idPurchase}, function(data) { totPurchase = data; });
 		
-		$("#showDetailsPurchase_" + val.idPurchase).on("click", clickShowDetailsPurchaseHandler);
-		$("#setShip_" + val.idPurchase).on("click", clickSetShipPurchaseHandler);
-		
-    });
+		$(tableControl).append("<tr style='background-color: #EDEDED; text-color: #CFCFCF;'> <td>" + val.idPurchase + "</td>" +
+                "<td>" + val.member.name + "</td>" +
+                "<td>" + totPurchase + "</td>" + tdRitiro +
+                "<td>" + imgs + "</td></tr>" +
+              "<tr class='detailsPurchase' id='TRdetailsPurchase_" + val.idPurchase + "'>" +
+				"<td colspan='5' id='TDdetailsPurchase_" + val.idPurchase + "'></td></tr>");
+			
+	});
 	
+	var idShipCount = "#idOrderShip_" + idOrder;
+	$(idShipCount).data('shipcount', countShip);
+
 	$(".detailsPurchase").hide();
 	$("button").button();
 	
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);
-}
-
-function clickSetShipPurchaseHandler(event) {
-	event.preventDefault();
 	
+}
+ 
+var idPurchase;
+
+function clickSetShipPurchaseHandler() {
+		
 	$(".detailsPurchase").hide();
-    var idPurchase = $(this).data('idpurchase');
+    idPurchase = $(this).data('idpurchase');
     var result = 0;
     
     $.postSync("ajax/setShip", {idPurchase: idPurchase}, function(data) {result = data;});
@@ -1113,15 +1079,85 @@ function clickSetShipPurchaseHandler(event) {
 	}
     
 }
-
-function clickShowDetailsPurchaseHandler(event)  {
-	event.preventDefault();
+ 
+function clickShowDetailsPurchaseHandler()  {
 	
 	$(".detailsPurchase").hide();
-    var idPurchase = $(this).data('idpurchase');
+    idPurchase = $(this).data('idpurchase');
     
-    var trControl = "#TRdetailsPurchase_" + idPurchase;
-    var tdControl = "#TDdetailsPurchase_" + idPurchase;
+    trControl = "#TRdetailsPurchase_" + idPurchase;
+    tdControl = "#TDdetailsPurchase_" + idPurchase;
+    trIdControl = "trShipProduct_" + idOrder + "_";
+    
+    $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsPurchaseShip_" + idPurchase + "' class='log2'></table></div>");
+    
+    var tableControl = "#TABLEdetailsPurchaseShip_" + idPurchase;
+    
+    var productsid = [];
+    
+    $(tableControl).append("<tr>  <th class='top' width='15%'> Prodotto </th>" +
+                                 "<th class='top' width='15%'> Categoria </th>" +
+                                 "<th class='top' width='15%'> Descrizione  </th>" +
+                                 "<th class='top' width='5%'> Costo </th>" +
+                                 "<th class='top' width='10%'> Min-Max Buy </th>" +
+                                 "<th class='top' width='5%'> Richiesta </th>" +
+                                 "<th class='top' width='25%'> Progresso  </th>" +
+                                 "<th class='top' width='5%'> Parziale  </th>" +
+                                 " </tr>");
+    
+    var products = 0;
+    $.postSync("ajax/getProductListFromPurchase", {idPurchase: idPurchase}, function(data){ products = data; });
+    
+    $.each(products, function(index, val)
+    {
+    	
+    	productsid.push(val.idProduct);
+    	
+    	var amount = 0;
+    	$.postSync("ajax/getAmountfromPurchaseNorm", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data){ amount = data; });
+    	
+    	var idProgressBar = "pbProduct_" + idOrder + "_" + idPurchase + "_" + val.idProduct;
+    	var parziale = amount * val.unitCost;
+    	
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'><td>" + val.name + "</td>" +
+        		                       "<td>" + val.category.description + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + " &euro;</td>" +
+        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
+    		                       	   "<td>" + amount + "</td>" +
+    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
+    		                       	   "<td> " + parziale + " &euro;</td>" +
+    		                   "</tr>");
+        
+        $( "#" + idProgressBar ).progressbar({	value: 0 });
+		$( "#" + idProgressBar ).css('height', '1em');
+		
+    });
+    
+    //Aggiorno le progressbar dei prodotti.
+    var allProgress = "";
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
+    {
+    	allProgress = data;
+    });
+    
+	//Aggiorno progressbar
+    $.each(allProgress, function(index, val)
+    {
+    	var temp = val.split(',');
+    	var idProduct = temp[0];
+    	var progress = parseFloat(temp[1]);
+	   
+    	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idPurchase + "_" + idProduct;
+    	$(idProgressBarProduct).progressbar('value', progress);
+    	
+    	if(progress == 100) {
+	    	//Rimuovo effetto grigio per ordini attivi
+			var idTr = "#trShipProduct_" + idOrder + "_" + idProduct;
+			$(idTr).removeClass("noLimitProduct");
+    	}
+    	
+    });
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);
@@ -1142,7 +1178,7 @@ function postActiveOrderListHandler(orderList) {
                                              "<th class='top' width='15%'> Fornitore </th>" +
                                              "<th class='top' width='15%'> Data Inizio  </th>" +
                                              "<th class='top' width='15%'> Data Chiusura  </th>" +
-                                             "<th class='top' width='25%'> Progresso ></div>%</th>" +
+                                             "<th class='top' width='25%'> Progresso </th>" +
                                              "<th class='top' width='15%'> Azione  </th> </tr>");
         
         
@@ -1226,6 +1262,9 @@ function postShowDetailsHandler(data) {
     
     var tableControl = "#TABLEdetailsOrder_" + idOrder;
     var DispTmp = 0;
+    var TotAmount = 0;
+    
+    var productsid = [];
     
     $(tableControl).append("<tr>  <th class='top' width='15%'> Prodotto </th>" +
                                  "<th class='top' width='15%'> Categoria </th>" +
@@ -1233,11 +1272,15 @@ function postShowDetailsHandler(data) {
                                  "<th class='top' width='5%'> Costo </th>" +
                                  "<th class='top' width='10%'> Min-Max Buy </th>" +
                                  "<th class='top' width='5%'> Disp.  </th>" +
-                                 "<th class='top' width='35%'> Progresso  </th>" +
+                                 "<th class='top' width='5%'> Tot. Richiesta </th>" +
+                                 "<th class='top' width='25%'> Progresso  </th>" +
+                                 "<th class='top' width='5%'> Parziale  </th>" +
                                  " </tr>");
     
     $.each(data, function(index, val)
     {
+    	
+    	productsid.push(val.idProduct);
     	
     	$.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: val.idProduct}, function(data)
         {
@@ -1249,6 +1292,8 @@ function postShowDetailsHandler(data) {
     	
     	var idProgressBar = "pbProduct_" + idOrder + "_" + val.idProduct;
     	var idDispDIV = "dispOrder_" + idOrder + "_" + val.idProduct;
+    	var idAmountDIV = "totAmountOrder_" + idOrder + "_" + val.idProduct;
+    	var idparzialeDIV = "parzialeOrder_" + idOrder + "_" + val.idProduct;
     	
         $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.category.description + "</td>" +
@@ -1256,11 +1301,33 @@ function postShowDetailsHandler(data) {
         		                       "<td>" + val.unitCost + " &euro;</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
     		                       	   "<td id='" + idDispDIV + "'>" + DispTmp + "</td>" +
-    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td></tr>");
+    		                       	   "<td id='" + idAmountDIV + "'>" + TotAmount + "</td>" +
+    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
+    		                       	   "<td id='" + idparzialeDIV + "'> 0 &euro;</td>" +
+    		                   "</tr>");
         
         $( "#" + idProgressBar ).progressbar({	value: 0 });
 		$( "#" + idProgressBar ).css('height', '1em');
 		
+    });
+    
+    var stringProductsId = productsid.join(',');
+    
+    //aggiorno le quantità acquistate e relativo parziale
+    $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
+    {
+    	$.each(productsid, function(index, idProduct) {
+    		var idAmountDIV = "#totAmountOrder_" + idOrder + "_" + idProduct;
+    		$(idAmountDIV).html(amountList[index]);
+    		
+    		var idparzialeDIV = "#parzialeOrder_" + idOrder + "_" + idProduct;
+    		var unitCost = 0;
+    		$.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data){ unitCost = data.unitCost; });
+        	var parziale = amountList[index] * unitCost;
+    		
+        	$(idparzialeDIV).html(parziale + '&euro;');
+        	
+    	});
     });
     
     //Aggiorno le progressbar dei prodotti.
@@ -1280,16 +1347,20 @@ function postShowDetailsHandler(data) {
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
     	
+    	//Rimuovo effetto grigio per ordini attivi
+		var idTr = "#trActiveProduct_" + idOrder + "_" + idProduct;
+		$(idTr).removeClass("noLimitProduct");
+    	
     	if(progress == 100) {
     		var selectedTab = getSelectedTabIndex();
     		
-    		if(selectedTab == 1) {
-    			var idTr = "#trActiveProduct_" + idOrder + "_" + idProduct;
-    			$(idTr).removeClass("noLimitProduct");
-    		}
-    		
 			if(selectedTab == 2) {
 				var idTr = "#trCompleteProduct_" + idOrder + "_" + idProduct; 	
+				$(idTr).removeClass("noLimitProduct");
+    		}
+			
+			if(selectedTab == 3) {
+				var idTr = "#trShipProduct_" + idOrder + "_" + idProduct; 	
 				$(idTr).removeClass("noLimitProduct");
     		}
 			
@@ -1326,10 +1397,13 @@ function refreshProgress(idOrder) {
     	allProgress = data;
     });
     
+    var productsid = [];
+    
     $.each(allProgress, function(index, val)
     {
     	var temp = val.split(',');
     	var idProduct = temp[0];
+    	productsid.push(idProduct);
     	var progress = parseFloat(temp[1]);
     	
     	//Aggiorno disponibilità
@@ -1350,6 +1424,25 @@ function refreshProgress(idOrder) {
     	$(idProgressBarProduct).progressbar('value', progress);
     	
     });	
+    
+    	var stringProductsId = productsid.join(',');
+    
+	    //aggiorno le quantità acquistate
+	    $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
+	    {
+	    	$.each(productsid, function(index, idProduct) {
+	    		var idAmountDIV = "#totAmountOrder_" + idOrder + "_" + idProduct;
+	    		$(idAmountDIV).html(amountList[index]);
+	    		
+	    		var idparzialeDIV = "#parzialeOrder_" + idOrder + "_" + idProduct;
+	    		var unitCost = 0;
+	    		$.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data){ unitCost = data.unitCost; });
+	        	var parziale = amountList[index] * unitCost;
+	    		
+	        	$(idparzialeDIV).html(parziale + '&euro;');
+	    		
+	    	});
+	    });
 	
 }
 
