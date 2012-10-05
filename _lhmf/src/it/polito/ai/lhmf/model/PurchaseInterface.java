@@ -56,14 +56,41 @@ public class PurchaseInterface
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer newPurchase(Purchase purchase)
+	public Integer newPurchase(Purchase p, Integer idMember, Integer idOrder)
 			throws InvalidParametersException
 	{
-		if (purchase == null)
-		{
+		if (p == null || idMember == null || idOrder == null)
 			throw new InvalidParametersException();
-		}
-		return (Integer) sessionFactory.getCurrentSession().save(purchase);
+
+		Order order = orderInterface.getOrder(idOrder);
+		Member member = memberInterface.getMember(idMember);
+		
+		if (order == null || member == null)
+			throw new InvalidParametersException();
+		
+		p.setOrder(order);
+		p.setMember(member);
+		
+		return (Integer) sessionFactory.getCurrentSession().save(p);
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public Integer newPurchase(Purchase p, String username, Integer idOrder)
+			throws InvalidParametersException
+	{
+		if (p == null || username == null || idOrder == null)
+			throw new InvalidParametersException();
+
+		Order order = orderInterface.getOrder(idOrder);
+		Member member = memberInterface.getMember(username);
+		
+		if (order == null || member == null)
+			throw new InvalidParametersException();
+		
+		p.setOrder(order);
+		p.setMember(member);
+		
+		return (Integer) sessionFactory.getCurrentSession().save(p);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -407,7 +434,9 @@ public class PurchaseInterface
 			Purchase purchase = new Purchase(order, memberInterface.getMember(username));
 			
 			int result;
-			if((result = newPurchase(purchase)) <= 0)
+			if ((result = newPurchase(purchase,
+					memberInterface.getMember(username).getIdMember(),
+					order.getIdOrder())) <= 0)
 			{
 				return result;
 			}

@@ -331,8 +331,6 @@ public class RespAjaxController
 			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException, ParseException
 	{
 		int result = -1;
-		String username = (String) session.getAttribute("username");
-		Member memberNormal = memberInterface.getMember(username);
 		
 		String[] idTmp = idProducts.split(",");
 		String[] amountTmp = amountProduct.split(",");
@@ -347,14 +345,11 @@ public class RespAjaxController
 				return -2;
 			}
 		}
-		Order order = orderInterface.getOrder(idOrder);
-		
-		Purchase purchase = new Purchase(order, memberNormal);
-		
-		if((result = purchaseInterface.newPurchase(purchase)) <= 0)
-		{
+		Purchase purchase = new Purchase();
+		// FIXME testare se funziona
+		if ((result = purchaseInterface.newPurchase(purchase,
+				(String) session.getAttribute("username"), idOrder)) <= 0)
 			return result;
-		}
 		
 		// setto la data odierna
 		Calendar calendar = Calendar.getInstance();
