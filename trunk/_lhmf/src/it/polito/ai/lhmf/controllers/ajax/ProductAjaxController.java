@@ -1,9 +1,7 @@
 package it.polito.ai.lhmf.controllers.ajax;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
@@ -26,8 +24,6 @@ public class ProductAjaxController
 {
 	@Autowired
 	private ProductInterface productInterface;
-	@Autowired
-	private MemberInterface memberInterface;
 //	@Autowired
 //	private ProductCategoryInterface productCategoryInterface;
 //	@Autowired

@@ -5,22 +5,15 @@ import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
-import it.polito.ai.lhmf.model.SupplierInterface;
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
-import it.polito.ai.lhmf.orm.PurchaseProduct;
-import it.polito.ai.lhmf.orm.PurchaseProductId;
 import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,8 +35,6 @@ public class RespAjaxController
 	private OrderInterface orderInterface;
 	@Autowired
 	private MemberInterface memberInterface;
-	@Autowired
-	private SupplierInterface supplierInterface;
 	@Autowired
 	private PurchaseInterface purchaseInterface;
 	@Autowired
@@ -312,19 +303,9 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOrdersStringNormal", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<String> getOrdersString(HttpServletRequest request, HttpSession session)
+	List<String> getOrdersString(HttpServletRequest request, HttpSession session)
 	{
-		ArrayList<String> orderString = new ArrayList<String>();
-		
-		List<Order> listOrders = new ArrayList<Order>();
-		listOrders = orderInterface.getOrdersNow();
-		
-		for (Order or : listOrders) 
-		{			
-			String temp = or.getIdOrder() + ", " + or.getOrderName() + " - " + or.getDateClose() + "," + or.getDateDelivery();					
-			orderString.add(temp);		
-		}		
-		return orderString;
+		return orderInterface.getOrdersNowString();
 	}
 	
 	//FIXME : serve agli utenti normal o resp??
@@ -351,7 +332,7 @@ public class RespAjaxController
 	@RequestMapping(value = "/ajax/getActivePurchaseNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Purchase> getActivePurchaseNormal(HttpServletRequest request,
-			HttpSession session) throws InvalidParametersException
+			HttpSession session)
 	{
 		return purchaseInterface.getPurchasesOnDate(
 				(String) session.getAttribute("username"), 0);
@@ -363,75 +344,43 @@ public class RespAjaxController
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrderNorm") int idOrder,
 			@RequestParam(value = "idProducts") String idProducts,
-			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException, ParseException
+			@RequestParam(value = "amountProducts") String amountProduct)
 	{
-		int result = -1;
-		
-		String[] idTmp = idProducts.split(",");
-		String[] amountTmp = amountProduct.split(",");
-		for( int i = 0; i < idTmp.length; i++) 
+		try
 		{
-			Product product = productInterface.getProduct(
-					Integer.parseInt(idTmp[i]),
-					(String) session.getAttribute("username"));
-			if ((Integer.parseInt(amountTmp[i]) > product.getMaxBuy())
-					|| (Integer.parseInt(amountTmp[i])) <= 0)
-			{
-				return -2;
-			}
+			return purchaseInterface.setNewPurchase(idOrder, idProducts,
+					amountProduct, (String) session.getAttribute("username"));
 		}
-		Purchase purchase = new Purchase();
-		// FIXME testare se funziona
-		if ((result = purchaseInterface.newPurchase(purchase,
-				(String) session.getAttribute("username"), idOrder)) <= 0)
-			return result;
-		
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String sDate = dateFormat.format(calendar.getTime());
-		Date insertedTimestamp = dateFormat.parse(sDate);
-		
-		for (int i = 0; i < idTmp.length; i++)
+		catch (Exception e)
 		{
-			Product product = productInterface.getProduct(
-					Integer.parseInt(idTmp[i]),
-					(String) session.getAttribute("username"));
-			PurchaseProductId id = new PurchaseProductId(
-					purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase,
-					product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
-			// Non faccio check sul valore di ritorno. In questo caso, dato che
-			// l'id non e' generato ma gia' passato, se ci sono errori lancia
-			// un'eccezione
-			purchaseInterface.newPurchaseProduct(purchaseproduct);
+			e.printStackTrace();
+			return -1;
 		}
-		return 1;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getPurchaseDetailsNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
+			@RequestParam(value = "idPurchase") int idPurchase)
 	{
-		List<PurchaseProduct> productTmp = purchaseInterface.getPurchaseProducts(idPurchase);
-		List<Product> listProduct = new ArrayList<Product>();
-		for (PurchaseProduct product : productTmp)
+		try
 		{
-			listProduct
-					.add(productInterface.getProduct(product.getId()
-							.getIdProduct(), (String) session
-							.getAttribute("username")));
+			return purchaseInterface.getPurchaseDetails(idPurchase,
+					(String) session.getAttribute("username"));
 		}
-		return listProduct;
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOldPurchaseNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Purchase> getOldPurchase(HttpServletRequest request,
-			HttpSession session) throws InvalidParametersException
+			HttpSession session)
 	{
 		return purchaseInterface.getPurchasesOnDate(
 				(String) session.getAttribute("username"), -1);
@@ -440,20 +389,20 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getAmountfromPurchaseNorm", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer getAmountfromPurchaseNorm(HttpServletRequest request, HttpSession session,
+	Integer getAmountfromPurchaseNorm(HttpServletRequest request,
+			HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase,
-			@RequestParam(value = "idProduct") int idProduct) throws InvalidParametersException
+			@RequestParam(value = "idProduct") int idProduct)
 	{
-		PurchaseProduct tmpPP = null;
-		tmpPP = purchaseInterface.getPurchaseProductFromId(idPurchase,idProduct);
-		return tmpPP.getAmount();
+		return purchaseInterface.getAmountPurchaseProductFromId(idPurchase,
+				idProduct);
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProgressOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
 	Float getProgressOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder		) throws InvalidParametersException
+			@RequestParam(value = "idOrder") int idOrder)
 	{
 		return orderInterface.getProgress(idOrder);
 	}
@@ -463,7 +412,7 @@ public class RespAjaxController
 	public @ResponseBody
 	List<Integer> getTotBought(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrder") int idOrder,
-			@RequestParam(value = "idProducts") List<Integer> idProducts	) throws InvalidParametersException
+			@RequestParam(value = "idProducts") List<Integer> idProducts)
 	{
 		return orderInterface.getBoughtAmounts(idOrder, idProducts);
 	}
@@ -472,10 +421,18 @@ public class RespAjaxController
 	@RequestMapping(value = "/ajax/getTotPurchaseCost", method = RequestMethod.POST)
 	public @ResponseBody
 	Float getTotPurchaseCost(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idPurchase") int idPurchase	) throws InvalidParametersException
+			@RequestParam(value = "idPurchase") int idPurchase)
 	{
-		String username = (String) session.getAttribute("username");
-		
-		return purchaseInterface.getPurchaseCost(username, idPurchase, true);
+		try
+		{
+			return purchaseInterface
+					.getPurchaseCost((String) session.getAttribute("username"),
+							idPurchase, true);
+		}
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return (float) 0;
+		}
 	}
 }
