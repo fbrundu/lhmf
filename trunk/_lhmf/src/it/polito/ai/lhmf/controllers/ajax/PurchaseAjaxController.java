@@ -3,11 +3,7 @@ package it.polito.ai.lhmf.controllers.ajax;
 import java.util.List;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.model.MemberInterface;
-import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
-import it.polito.ai.lhmf.orm.Member;
-import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
@@ -27,31 +23,26 @@ public class PurchaseAjaxController
 	@Autowired
 	private PurchaseInterface purchaseInterface;
 	
-	@Autowired
-	private OrderInterface orderInterface;
-	
-	@Autowired
-	private MemberInterface memberInterface;
-	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/newpurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	Integer newPurchase(HttpServletRequest request,
-			@RequestParam(value = "isShipped", required = true) Boolean isShipped) throws InvalidParametersException
+	Integer newPurchase(
+			HttpServletRequest request,
+			@RequestParam(value = "isShipped", required = true) Boolean isShipped)
 	{
-		Integer idPurchase = -1;
-		Order order = orderInterface.getOrder((Integer) request.getSession().getAttribute("idOrder"));
-		Member member = memberInterface.getMember((Integer) request.getSession().getAttribute("idMember"));		
-		if(order != null && member != null)
+		try
 		{
-			Purchase purchase = new Purchase();
-			purchase.setIsShipped(isShipped);
-			purchase.setOrder(order);
-			purchase.setMember(member);
-			idPurchase = purchaseInterface.newPurchase(purchase);
+			Purchase p = new Purchase();
+			p.setIsShipped(isShipped);
+			return purchaseInterface.newPurchase(p, (Integer) request
+					.getSession().getAttribute("idMember"), (Integer) request
+					.getSession().getAttribute("idOrder"));
 		}
-		
-		return idPurchase;
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
