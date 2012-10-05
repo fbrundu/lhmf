@@ -2,11 +2,11 @@ package it.polito.ai.lhmf.controllers.android;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
-import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
+import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.security.Principal;
 import java.text.ParseException;
@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,9 +30,6 @@ public class AndroidPurchaseController {
 	
 	@Autowired
 	private MemberInterface memberInterface;
-
-	@Autowired
-	private OrderInterface orderInterface;
 	
 	
 	@RequestMapping(value = "/androidApi/setnewpurchase", method = RequestMethod.POST)
@@ -83,15 +81,19 @@ public class AndroidPurchaseController {
 		return purchaseInterface.getPurchaseCost(principal.getName(), idPurchase, false);
 	}
 	
-	@RequestMapping(value = "/androidApi/getpurchaseproductsnormal", method = RequestMethod.GET)
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getpurchaseproducts", method = RequestMethod.GET)
 	public @ResponseBody
 	Set<PurchaseProduct> getPurchaseProductsForNormal(HttpServletRequest request, Principal principal, 
 			@RequestParam(value="idPurchase", required = true)Integer idPurchase) throws InvalidParametersException {
 		String username = principal.getName();
-		Member memberNormal = memberInterface.getMember(username);
+		Member member = memberInterface.getMember(username);
+		
+		purchaseInterface.getPurchaseProducts(idPurchase);
 		
 		Purchase p = purchaseInterface.getPurchase(idPurchase);
-		if(p == null || p.getMember().getIdMember() != memberNormal.getIdMember())
+		if(p == null || p.getMember().getIdMember() != member.getIdMember() && p.getOrder().getMember().getIdMember() != member.getIdMember())
 			return null;
 		
 		return p.getPurchaseProducts();

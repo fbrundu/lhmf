@@ -1,8 +1,6 @@
 package it.polito.ai.lhmf.android.api.impl;
 
 import it.polito.ai.lhmf.android.api.Gas;
-import it.polito.ai.lhmf.android.api.LogOperations;
-import it.polito.ai.lhmf.android.api.MessageOperations;
 import it.polito.ai.lhmf.android.api.NotifyOperations;
 import it.polito.ai.lhmf.android.api.OrderOperations;
 import it.polito.ai.lhmf.android.api.ProductOperations;
@@ -15,8 +13,6 @@ import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.web.client.RestClientException;
 
 public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
-	private LogOperations logOperations;
-	private MessageOperations messageOperations;
 	private NotifyOperations notifyOperations;
 	private OrderOperations orderOperations;
 	private ProductOperations productOperations;
@@ -32,11 +28,6 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 		orderOperations = new OrderTemplate(getRestTemplate());
 		purchaseOperations = new PurchaseTemplate(getRestTemplate());
 		
-	}
-
-	@Override
-	public MessageOperations messageOperations() {
-		return messageOperations;
 	}
 
 	@Override
@@ -62,11 +53,6 @@ public class GasTemplate extends AbstractOAuth2ApiBinding implements Gas{
 	@Override
 	public UserOperations userOperations() {
 		return userOperations;
-	}
-
-	@Override
-	public LogOperations logOperations() {
-		return logOperations;
 	}
 
 	@Override

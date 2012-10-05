@@ -224,7 +224,7 @@ public class ProductInterface
 	{
 		List<Product> lp = new ArrayList<Product>();
 		for (PurchaseProduct p : purchaseInterface
-				.getPurchaseProduct(idPurchase))
+				.getPurchaseProducts(idPurchase))
 		{
 			lp.add(this.getProduct(p.getId().getIdProduct()));
 		}

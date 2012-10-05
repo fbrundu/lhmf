@@ -200,6 +200,17 @@ public class MainActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(Integer result) {
+			if(result == null){
+				holder.destroy();
+				holder = null;
+				api = null;
+				
+				Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+				startActivity(loginIntent);
+				MainActivity.this.finish();
+				return;
+			}
+			
 			memberType = result;
 			//FIXME togliere il toast
 			Toast.makeText(MainActivity.this, "Member type: " + memberType, Toast.LENGTH_LONG).show();

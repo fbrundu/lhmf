@@ -38,7 +38,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class OrderDetailsActivity extends Activity {
+public class ActiveOrderDetailsActivity extends Activity {
 	private Map<Integer, Integer> totalBoughtAmounts = new HashMap<Integer, Integer>();
 	
 	private TextView orderName = null;
@@ -230,7 +230,7 @@ public class OrderDetailsActivity extends Activity {
 				for(Product prod : result){
 					CustomAdapter section = sections.get(prod.getCategory().getDescription());
 					if(section == null){
-						section = new CustomAdapter(OrderDetailsActivity.this, R.layout.purchase_item, R.id.purchaseItemName);
+						section = new CustomAdapter(ActiveOrderDetailsActivity.this, R.layout.purchase_item, R.id.purchaseItemName);
 						sections.put(prod.getCategory().getDescription(), section);
 					}
 					section.add(prod);
@@ -400,7 +400,7 @@ public class OrderDetailsActivity extends Activity {
 			desc.setText(product.getDescription());
 			
 			Integer bought = totalBoughtAmounts.get(product.getIdProduct());
-			if(bought != null){
+			if(bought != null && bought > 0){
 				totalBoughtAmount.setText(bought.toString());
 				totalBoughtAmount.setTextColor(Color.GREEN);
 				

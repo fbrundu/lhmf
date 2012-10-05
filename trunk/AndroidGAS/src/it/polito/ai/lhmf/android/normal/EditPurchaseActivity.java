@@ -495,7 +495,7 @@ public class EditPurchaseActivity extends Activity {
 			Integer purchaseId = (Integer) params[1];
 			Integer orderId = (Integer) params[2];
 			
-			PurchaseProduct[] purchaseProducts = gas.purchaseOperations().getPurchaseProductsForNormal(purchaseId);
+			PurchaseProduct[] purchaseProducts = gas.purchaseOperations().getPurchaseProducts(purchaseId);
 			
 			Product[] orderProducts = gas.orderOperations().getProducts(orderId);
 			List<Product> productList = new ArrayList<Product>();

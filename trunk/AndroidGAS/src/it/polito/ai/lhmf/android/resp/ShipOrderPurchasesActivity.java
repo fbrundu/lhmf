@@ -1,5 +1,6 @@
 package it.polito.ai.lhmf.android.resp;
 
+import it.polito.ai.lhmf.android.CompletedPurchaseDetailsActivity;
 import it.polito.ai.lhmf.android.R;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
@@ -15,7 +16,11 @@ import java.util.List;
 import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,9 +31,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ShipOrderPurchasesActivity extends Activity{
+	private static final int CONFIRM_DELIVERED_PURCHASE_DIALOG = 0;
+	
 	private Gas api;
 	
 	private Order order;
@@ -59,6 +67,7 @@ public class ShipOrderPurchasesActivity extends Activity{
 				setContentView(R.layout.purchases_delivery);
 				
 				noPurchases = (TextView) findViewById(R.id.no_supplier_products);
+				noPurchases.setText("Non ci sono schede da visualizzare");
 				
 				purchasesListView = (ListView) findViewById(R.id.orderPurchasesList);
 				adapter = new CustomAdapter(this, R.layout.completed_purchase_item, R.id.memberName);
@@ -75,6 +84,50 @@ public class ShipOrderPurchasesActivity extends Activity{
 				new GetOrderPurchasesTask().execute(api, order.getIdOrder());
 			}
 		}
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		if(id == CONFIRM_DELIVERED_PURCHASE_DIALOG){
+			AlertDialog.Builder builder = new AlertDialog.Builder(ShipOrderPurchasesActivity.this);
+			builder.setTitle("Conferma consegna prodotti");
+			builder.setMessage("");
+			
+			builder.setPositiveButton("Ok", null);
+			
+			builder.setNegativeButton("Annulla", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+				}
+			});
+			
+			return builder.create();
+		}
+		else
+			return super.onCreateDialog(id);
+	}
+	
+	@Override
+	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+		if(id == CONFIRM_DELIVERED_PURCHASE_DIALOG){
+			final Purchase p = (Purchase) args.getSerializable("purchase");
+			if(p != null){
+				AlertDialog aDialog = (AlertDialog) dialog;
+				aDialog.setMessage("Confermi di aver consegnato i prodotti della scheda di " + p.getMember().getName() + " " + p.getMember().getSurname() + "?");
+				
+				aDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						new SetPurchaseShippedTask().execute(api, p.getIdPurchase());
+					}
+				});
+			}
+		}
+		else
+			super.onPrepareDialog(id, dialog, args);
 	}
 	
 	private Float computeTotalCoast() {
@@ -138,6 +191,40 @@ public class ShipOrderPurchasesActivity extends Activity{
 		}
 	}
 	
+	private class SetPurchaseShippedTask extends AsyncTask<Object, Void, Object[]>{
+
+		@Override
+		protected Object[] doInBackground(Object... params) {
+			Gas gas = (Gas) params[0];
+			Integer idPurchase = (Integer) params[1];
+			
+			Object[] res = new Object[2];
+			res[0] = idPurchase;
+			res[1] = gas.orderOperations().setPurchaseShipped(idPurchase);
+			
+			return res;
+		}
+		
+		@Override
+		protected void onPostExecute(Object[] result) {
+			Integer idPurchase = (Integer) result[0];
+			Integer ret = (Integer) result[1];
+			if(ret == null || ret < 1){
+				Toast.makeText(ShipOrderPurchasesActivity.this, "Errori durante l'impostazione della consegna dei prodotti", Toast.LENGTH_LONG).show();
+			}
+			else{
+				for(Purchase p : orderPurchases){
+					if(p.getIdPurchase() == idPurchase){
+						p.setIsShipped(Purchase.SHIPPED);
+						
+						adapter.notifyDataSetChanged();
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	private class CustomAdapter extends ArrayAdapter<Purchase>{
 
 		public CustomAdapter(Context context, int resource,
@@ -161,7 +248,7 @@ public class ShipOrderPurchasesActivity extends Activity{
 			
 			Button setDeliveredButton;
 			
-			Purchase p = getItem(position);
+			final Purchase p = getItem(position);
 			
 			if(row == null){
 				LayoutInflater inflater = getLayoutInflater();
@@ -176,25 +263,39 @@ public class ShipOrderPurchasesActivity extends Activity{
 			
 			memberName.setText(p.getMember().getName() + " " + p.getMember().getSurname());
 			
+			setDeliveredButton.setEnabled(false);
+			setDeliveredButton.setVisibility(View.GONE);
+			
 			if(p.isFailed()){
 				costLayout.setVisibility(View.GONE);
 				status.setText(R.string.failedF);
 				status.setTextColor(Color.RED);
-				setDeliveredButton.setEnabled(false);
 			}
 			else{
 				costLayout.setVisibility(View.VISIBLE);
-				status.setText(R.string.ok);
-				status.setTextColor(Color.GREEN);
-				
 				cost.setText(String.format("%.2f", p.getTotCost()));
+				
+				if(Purchase.SHIPPED.equals(p.getIsShipped())){
+					status.setText(R.string.delivered);
+					status.setTextColor(Color.GREEN);
+				}
+				else{
+					status.setText(R.string.to_deliver);
+					status.setTextColor(Color.YELLOW);
+					
+					setDeliveredButton.setEnabled(true);
+					setDeliveredButton.setVisibility(View.VISIBLE);
+				}
+				
 			}
 			
 			setDeliveredButton.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO set purchase as delivered
+					Bundle args = new Bundle();
+					args.putSerializable("purchase", p);
+					showDialog(CONFIRM_DELIVERED_PURCHASE_DIALOG, args);
 					
 				}
 			});
@@ -203,7 +304,10 @@ public class ShipOrderPurchasesActivity extends Activity{
 				
 				@Override
 				public void onClick(View arg0) {
-					//TODO completed purchase details
+					Intent intent = new Intent(getApplicationContext(), CompletedPurchaseDetailsActivity.class);
+					intent.putExtra("purchase", p);
+					
+					startActivity(intent);
 					
 				}
 			});

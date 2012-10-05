@@ -6,9 +6,7 @@ public interface Gas extends ApiBinding{
 	public static final String baseUrl = "http://gasproject.net:8080/_lhmf/";
 	public static final String baseApiUrl = baseUrl + "androidApi/";
 	
-	//TODO insert operations divided by category (message, notifications,...)
-	MessageOperations messageOperations();
-	
+	//TODO insert operations divided by category (products, notifications,...)
 	NotifyOperations notifyOperations();
 	
 	PuchaseOperations purchaseOperations();
@@ -18,8 +16,6 @@ public interface Gas extends ApiBinding{
 	OrderOperations orderOperations();
 	
 	UserOperations userOperations();
-	
-	LogOperations logOperations();
 	
 	void logout();
 }

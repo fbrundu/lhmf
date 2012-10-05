@@ -84,9 +84,9 @@ public class PurchaseTemplate implements PuchaseOperations {
 	}
 
 	@Override
-	public PurchaseProduct[] getPurchaseProductsForNormal(Integer idPurchase) { 
+	public PurchaseProduct[] getPurchaseProducts(Integer idPurchase) { 
 		try{
-			PurchaseProduct[] ret = template.getForObject(Gas.baseApiUrl + "getpurchaseproductsnormal?idPurchase={id}", PurchaseProduct[].class, idPurchase);
+			PurchaseProduct[] ret = template.getForObject(Gas.baseApiUrl + "getpurchaseproducts?idPurchase={id}", PurchaseProduct[].class, idPurchase);
 			return ret;
 			
 		} catch(RestClientException e){
