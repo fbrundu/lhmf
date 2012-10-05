@@ -386,7 +386,7 @@ function writeLogPage(){
 function writeUserPage(tab){
   $("#bodyTitleHeader").html("Gestione utenti");
   $(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Attiva utente</a></li>" +
-      "<li><a href='#tabs-3'>Lista utenti</a></li></ul>" +
+      "<li><a href='#tabs-3'>Lista utenti</a></li><li><a href='#tabs-4'>Mappe utenti</a></li></ul>" +
       "<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div></div>");
   
   // HTML per la registrazione utenti e fornitori
@@ -508,8 +508,51 @@ function writeUserPage(tab){
                                 "</fieldset>" +
                               "</div><br />" +
                           "</div>");
+  
+  $('#tabs-4').html("<div class='logform'>" +
+          "<div id='map' style='width:300px; height:200px;'> </div>" +
+          "<p><input type='submit' id='regMap' class='button' value='Disegna'/></p>" +
+          "<br />" +
+      "</div>");
+      
+  
   prepareUserForm(tab);
 }
+
+
+function initialize()
+{
+	var latlng = new google.maps.LatLng(44.91499014735883, 7.491031587123871);
+    //opzioni disegno mappa
+	var options = {
+		zoom: 5,
+		center: latlng,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+    var map = new google.maps.Map(document.getElementById('map'), options); 
+    //opzioni marker
+	var marker = new google.maps.Marker(
+		{
+			position: latlng,
+			map: map,
+			icon: 'http://google-maps-icons.googlecode.com/files/country.png',
+			flat: true
+		}
+	);
+	var tooltip = '<div id="tooltip">'+
+		'<p><strong>Hassan Metwalley</strong><br>'+
+		'Via delle certaie 8<br>'+
+		'provincia: Torino<br>'+
+		'nazione: Italia</p>'+
+		'</div>';
+	var infowindow = new google.maps.InfoWindow({
+		content: tooltip
+	});
+	google.maps.event.addListener(marker, 'click', function() {
+		infowindow.open(map,marker);
+	});
+}
+
 
 
 function writeIndexPage(){
@@ -974,6 +1017,11 @@ function prepareUserForm(tab){
 	
 	$('#regRequest').on("click", clickRegHandler);
 	
+	
+	$('#regMap').on("click", drawMap);
+	
+	
+	
 	$('#memberTypeActive').change(clickActMemberHandler);
 	$('#pageActive').change(clickActMemberHandler);
 	$('#itemsPerPageActive').change(clickActMemberHandler);
@@ -984,6 +1032,11 @@ function prepareUserForm(tab){
   
 	activeUserSearch();
 	userSearch();
+}
+
+function drawMap()
+{
+	window.onload = initialize;
 }
 
 function clickGetMemberHandler(event)
