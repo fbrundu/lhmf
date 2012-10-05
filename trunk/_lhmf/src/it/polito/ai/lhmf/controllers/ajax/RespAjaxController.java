@@ -105,22 +105,22 @@ public class RespAjaxController
 	}
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.RESP + ","
-			+ MyUserDetailsService.UserRoles.SUPPLIER +"')")
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getProductListFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Product> getProductListFromOrder(HttpServletRequest request,
 			HttpSession session, @RequestParam(value = "idOrder") int idOrder)
 	{
-		String username = (String) session.getAttribute("username");
-		Member member = memberInterface.getMember(username);
-		Order order = orderInterface.getOrder(idOrder);
-		List<Product> listProduct = null;
-		
-		if (order.getSupplier().getIdMember() == member.getIdMember()
-				|| order.getMember().getIdMember() == member.getIdMember())
-			listProduct = orderInterface.getProducts(order.getIdOrder());
-
-		return listProduct;
+		try
+		{
+			return orderInterface.getProducts(idOrder,
+					(String) session.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -162,15 +162,13 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getCompleteOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getCompleteOrderResp(HttpServletRequest request, HttpSession session	) throws InvalidParametersException
+	List<Order> getCompleteOrderResp(HttpServletRequest request,
+			HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		
-		List<Order> listOrder = orderInterface.getCompletedOrders(username);
-
-		return listOrder;
+		return orderInterface.getCompletedOrders((String) session
+				.getAttribute("username"));
 	}
-	
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getPurchaseFromOrder", method = RequestMethod.POST)
 	public @ResponseBody
@@ -333,16 +331,24 @@ public class RespAjaxController
 		return orderString;
 	}
 	
-	
+	//FIXME : serve agli utenti normal o resp??
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getProductFromOrderNormal", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Product> getProductFromOrderNormal(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrderNorm") int idOrder) throws InvalidParametersException
+	List<Product> getProductFromOrderNormal(HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value = "idOrderNorm") int idOrder)
 	{
-		List<Product> ret = null;
-		ret = orderInterface.getProducts(idOrder);
-		return ret;
+		try
+		{
+			return orderInterface.getProducts(idOrder,
+					(String) session.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")

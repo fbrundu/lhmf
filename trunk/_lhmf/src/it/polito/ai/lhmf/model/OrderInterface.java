@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.OrderProduct;
@@ -301,17 +302,48 @@ public class OrderInterface
 		return query.list();
 	}
 
-	@Transactional(readOnly=true)
-	public List<Product> getProducts(Integer idOrder) 
+	@Transactional(readOnly = true)
+	public List<Product> getProducts(Integer idOrder, String username)
+			throws InvalidParametersException
 	{
+		if (idOrder == null || username == null)
+			throw new InvalidParametersException();
+
+		Member member = memberInterface.getMember(username);
 		Order order = getOrder(idOrder);
-		if(order != null){
+
+		if (member == null || order == null)
+			throw new InvalidParametersException();
+
+		if (member.getMemberType().getIdMemberType() == MemberTypes.USER_NORMAL
+				|| order.getSupplier().getIdMember() == member.getIdMember()
+				|| order.getMember().getIdMember() == member.getIdMember())
+		{
 			List<Product> ret = new ArrayList<Product>();
-			for(OrderProduct op : order.getOrderProducts())
+			for (OrderProduct op : order.getOrderProducts())
 				ret.add(op.getProduct());
 			return ret;
 		}
 		return null;
+	}
+
+	// FIXME messo solo per legacy con vecchio metodo
+	@Transactional(readOnly = true)
+	public List<Product> getProducts(Integer idOrder)
+			throws InvalidParametersException
+	{
+		if (idOrder == null)
+			throw new InvalidParametersException();
+
+		Order order = getOrder(idOrder);
+
+		if (order == null)
+			throw new InvalidParametersException();
+
+		List<Product> ret = new ArrayList<Product>();
+		for (OrderProduct op : order.getOrderProducts())
+			ret.add(op.getProduct());
+		return ret;
 	}
 	
 	@Transactional(readOnly=true)

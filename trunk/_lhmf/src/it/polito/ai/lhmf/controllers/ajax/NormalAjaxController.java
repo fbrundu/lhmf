@@ -40,7 +40,7 @@ public class NormalAjaxController
 	@RequestMapping(value = "/ajax/getActivePurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Purchase> getActivePurchase(HttpServletRequest request,
-			HttpSession session) throws InvalidParametersException
+			HttpSession session)
 	{
 		return purchaseInterface.getPurchasesOnDate(
 				(String) session.getAttribute("username"), 0);
@@ -51,7 +51,7 @@ public class NormalAjaxController
 	@RequestMapping(value = "/ajax/getOldPurchase", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Purchase> getOldPurchase(HttpServletRequest request,
-			HttpSession session) throws InvalidParametersException
+			HttpSession session) 
 	{
 		return purchaseInterface.getPurchasesOnDate(
 				(String) session.getAttribute("username"), -1);
@@ -63,9 +63,17 @@ public class NormalAjaxController
 	public @ResponseBody
 	List<Product> getProductFromOrder(HttpServletRequest request,
 			HttpSession session, @RequestParam(value = "idOrder") int idOrder)
-			throws InvalidParametersException
 	{
-		return orderInterface.getProducts(idOrder);
+		try
+		{
+			return orderInterface.getProducts(idOrder,
+					(String) session.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -94,9 +102,16 @@ public class NormalAjaxController
 	List<Product> getPurchaseDetails(HttpServletRequest request,
 			HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase)
-			throws InvalidParametersException
 	{
-		return productInterface.getProductListPurchase(idPurchase);
+		try
+		{
+			return productInterface.getProductListPurchase(idPurchase);
+		}
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
@@ -106,7 +121,6 @@ public class NormalAjaxController
 	Set<Product> getOtherProductsOfPurchase(HttpServletRequest request,
 			HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase)
-			throws InvalidParametersException
 	{
 		return purchaseInterface.getOtherProductsOfOrder(idPurchase);
 	}
