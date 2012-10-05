@@ -38,6 +38,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
+    <bean id="statisticsDao" class="it.polito.ai.lhmf.model.StatisticsInterface">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
     <bean id="productCategoryDao" class="it.polito.ai.lhmf.model.ProductCategoryInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
