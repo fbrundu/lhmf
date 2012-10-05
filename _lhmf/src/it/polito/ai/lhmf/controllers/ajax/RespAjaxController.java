@@ -247,14 +247,8 @@ public class RespAjaxController
 	public @ResponseBody
 	Set<Supplier> getSupplierByResp(HttpServletRequest request, HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberResp = memberInterface.getMember(username);
-		
-		Set<Supplier> respSupp = new HashSet<Supplier>();
-		
-		respSupp = memberResp.getSuppliersForIdMemberResp();
-		
-		return respSupp;
+		return memberInterface.getSupplierByResp((String) session
+				.getAttribute("username"));
 	}
 	
 	
