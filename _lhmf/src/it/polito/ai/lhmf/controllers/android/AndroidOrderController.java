@@ -40,9 +40,18 @@ public class AndroidOrderController {
 	
 	@RequestMapping(value = "/androidApi/getorderproducts", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Product> getOrderProducts(@RequestParam(value="idOrder", required=true) Integer idOrder)
+	List<Product> getOrderProducts(
+			@RequestParam(value = "idOrder", required = true) Integer idOrder)
 	{
-		return orderInterface.getProducts(idOrder);
+		try
+		{
+			return orderInterface.getProducts(idOrder);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/androidApi/getorderorderproducts", method = RequestMethod.GET)
