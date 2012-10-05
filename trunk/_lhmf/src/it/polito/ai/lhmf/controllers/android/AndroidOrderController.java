@@ -22,6 +22,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,9 +72,7 @@ public class AndroidOrderController {
 			for(int i = 0; i < splittedIds.length; i++)
 				productIds.add(Integer.valueOf(splittedIds[i]));
 			
-			List<Integer> boughtAmounts = null;
-			boughtAmounts = orderInterface.getBoughtAmounts(idOrder, productIds);
-			return boughtAmounts;
+			return orderInterface.getBoughtAmounts(idOrder, productIds);
 		}
 		return  null;
 	}
@@ -110,9 +109,7 @@ public class AndroidOrderController {
 			for(int i = 0; i < splittedIds.length; i++)
 				orderIds.add(Integer.valueOf(splittedIds[i]));
 			
-			List<Float> progresses = null;
-			progresses = orderInterface.getProgresses(orderIds);
-			return progresses;
+			return orderInterface.getProgresses(orderIds);
 		}
 		return  null;
 	}

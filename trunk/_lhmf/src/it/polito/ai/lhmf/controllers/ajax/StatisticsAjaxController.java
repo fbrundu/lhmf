@@ -51,7 +51,7 @@ public class StatisticsAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/statMemberType", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<Float> statMemberType(HttpServletRequest request) throws InvalidParametersException
+	ArrayList<Float> statMemberType(HttpServletRequest request)
 	{
 		ArrayList<Float> respStat = new ArrayList<Float>();
 		
@@ -75,7 +75,7 @@ public class StatisticsAjaxController
 	@RequestMapping(value = "/ajax/statMemberReg", method = RequestMethod.POST)
 	public @ResponseBody
 	ArrayList<Integer> statMemberReg(HttpServletRequest request,
-			@RequestParam(value = "year", required = true) int year) throws InvalidParametersException
+			@RequestParam(value = "year", required = true) int year)
 	{
 		ArrayList<Integer> respStat = new ArrayList<Integer>();
 		
