@@ -74,6 +74,7 @@
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="memberStatusInterface" ref="memberStatusDao"/>
         <property name="messageInterface" ref="messageDao"/>
+        <property name="supplierInterface" ref="supplierDao"/>
     </bean>
     
     <bean id="memberStatusDao" class="it.polito.ai.lhmf.model.MemberStatusInterface">

@@ -6,6 +6,7 @@ import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
+import it.polito.ai.lhmf.orm.Supplier;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,20 +33,29 @@ public class MemberInterface {
 
 	private MemberStatusInterface memberStatusInterface;
 	private MessageInterface messageInterface;
-
-	public void setSessionFactory(SessionFactory sf) {
+	private SupplierInterface supplierInterface;
+	
+	public void setSessionFactory(SessionFactory sf)
+	{
 		this.sessionFactory = sf;
 	}
 
 	public void setMemberStatusInterface(
-			MemberStatusInterface memberStatusInterface) {
+			MemberStatusInterface memberStatusInterface)
+	{
 		this.memberStatusInterface = memberStatusInterface;
 	}
 
-	public void setMessageInterface(MessageInterface messageInterface) {
+	public void setMessageInterface(MessageInterface messageInterface)
+	{
 		this.messageInterface = messageInterface;
 	}
 
+	public void setSupplierInterface(SupplierInterface supplierInterface)
+	{
+		this.supplierInterface = supplierInterface;
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer newMember(Member member, boolean checkMail, boolean byAdmin)
 			throws InvalidParametersException {
@@ -491,6 +501,33 @@ public class MemberInterface {
 		return (List<Member>) query.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<String> getMembersSupplierString(String username)
+	{
+		// Recupero il memberType del supplier
+		MemberType mType = new MemberType(MemberTypes.USER_SUPPLIER);
+		Member resp = getMember(username);
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where memberType = :memberType ");
+		query.setParameter("memberType", mType);
+		List<String> ss = new ArrayList<String>();
+		List<Member> ls = (List<Member>) query.list();
+		for (Member m : ls)
+		{
+			Supplier s = supplierInterface.getSupplier(m.getIdMember());
+			if (s.getMemberByIdMemberResp().getIdMember() == resp.getIdMember())
+			{
+				String temp = m.getIdMember() + "," + m.getName() + " "
+						+ m.getSurname() + "," + s.getCompanyName();
+				ss.add(temp);
+			}
+		}
+		return ss;
+	}
+
+	
 	@SuppressWarnings("rawtypes")
 	@Transactional(readOnly = true)
 	public Map<Member, Float> getTopUsers(Member memberResp) {
