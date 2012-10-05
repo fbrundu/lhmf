@@ -630,6 +630,8 @@ function getMyNotifies()
         - $(".contentDiv").scrollTop();
   $.getSync("ajax/getmynotifies", undefined, function(notifiesList)
   {
+    if (notifiesList.length < 1)
+      tabellaNotifiche += "<tr><td>Non ci sono notifiche da visualizzare</td></tr>";
     for ( var notIndex in notifiesList)
     {
       tabellaNotifiche += "<tr><td";
@@ -981,6 +983,8 @@ function getMyMessages()
         - $(".contentDiv").scrollTop();
   $.getSync("ajax/getmymessages", undefined, function(messagesList)
   {
+    if (messagesList.length < 1)
+      tabellaMessaggi += "<tr><td><p>Non ci sono messaggi da visualizzare</p></td></tr>";
     var sendersList = getUsersExceptMe();
     for ( var mesIndex in messagesList)
     {
