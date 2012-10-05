@@ -10,6 +10,8 @@ import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.orm.PurchaseProductId;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -240,6 +242,67 @@ public class PurchaseInterface
 		return (Integer) query.executeUpdate();
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Integer setNewPurchase(int idOrder, String idProducts,
+			String amountProduct, String username)
+			throws NumberFormatException, InvalidParametersException,
+			ParseException
+	{
+		int result = -1;
+
+		String[] idTmp = idProducts.split(",");
+		String[] amountTmp = amountProduct.split(",");
+		for (int i = 0; i < idTmp.length; i++)
+		{
+			Product product = productInterface.getProduct(
+					Integer.parseInt(idTmp[i]), username);
+			if ((Integer.parseInt(amountTmp[i]) > product.getMaxBuy())
+					|| (Integer.parseInt(amountTmp[i])) <= 0)
+			{
+				return -2;
+			}
+		}
+		Purchase purchase = new Purchase();
+		// FIXME testare se funziona
+		if ((result = newPurchase(purchase, username, idOrder)) <= 0)
+			return result;
+
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String sDate = dateFormat.format(calendar.getTime());
+		Date insertedTimestamp = dateFormat.parse(sDate);
+
+		for (int i = 0; i < idTmp.length; i++)
+		{
+			Product product = productInterface.getProduct(
+					Integer.parseInt(idTmp[i]), username);
+			PurchaseProductId id = new PurchaseProductId(
+					purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
+			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase,
+					product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
+			// Non faccio check sul valore di ritorno. In questo caso, dato che
+			// l'id non e' generato ma gia' passato, se ci sono errori lancia
+			// un'eccezione
+			newPurchaseProduct(purchaseproduct);
+		}
+		return 1;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public	List<Product> getPurchaseDetails(int idPurchase, String username)
+			throws InvalidParametersException
+	{
+		List<PurchaseProduct> productTmp = getPurchaseProducts(idPurchase);
+		List<Product> listProduct = new ArrayList<Product>();
+		for (PurchaseProduct product : productTmp)
+		{
+			listProduct.add(productInterface.getProduct(product.getId()
+					.getIdProduct(), username));
+		}
+		return listProduct;
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public PurchaseProductId newPurchaseProduct(PurchaseProduct purchaseProduct)
 			throws InvalidParametersException
@@ -262,6 +325,18 @@ public class PurchaseInterface
 		return (PurchaseProduct)query.uniqueResult();
 	}
 
+	@Transactional(readOnly = true)
+	public Integer getAmountPurchaseProductFromId(Integer idPurchase,
+			Integer idProduct)
+	{
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from PurchaseProduct where idPurchase = :idPurchase "
+						+ "AND idProduct = :idProduct");
+		query.setParameter("idPurchase", idPurchase);
+		query.setParameter("idProduct", idProduct);
+		return ((PurchaseProduct) query.uniqueResult()).getAmount();
+	}
+	
 	@Transactional(readOnly = true)
 	public Integer getPurchaseProductAmountFromId(Integer idPurchase,
 			Integer idProduct)
