@@ -4,7 +4,6 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
@@ -13,16 +12,13 @@ import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.security.Principal;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -117,18 +113,9 @@ public class AndroidOrderController {
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/getmysuppliers", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Supplier> getMySuppliers(Principal principal){
-		String username = principal.getName();
-		Member memberResp = memberInterface.getMember(username);
-		
-		if(memberResp != null){
-			List<Supplier> ret = null;
-			ret = new ArrayList<Supplier>(memberResp.getSuppliersForIdMemberResp());
-			
-			return ret;
-		}
-		
-		return null;
+	List<Supplier> getMySuppliers(Principal principal)
+	{
+		return memberInterface.getSuppliersForIdMemberResp(principal.getName());
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -138,38 +125,18 @@ public class AndroidOrderController {
 			@RequestParam(value = "idSupplier") int idSupplier,
 			@RequestParam(value = "orderName") String orderName,
 			@RequestParam(value = "idString") String idString,
-			@RequestParam(value = "dataCloseTime") long dataCloseTime) throws InvalidParametersException, ParseException
+			@RequestParam(value = "dataCloseTime") long dataCloseTime)
 	{
-		
-		List<Integer> productIds = new ArrayList<Integer>();
-		String username = principal.getName();
-		Member resp = memberInterface.getMember(username);
-		
-		if(resp == null)
-			return -1;
-		
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		Date dateOpen = calendar.getTime();
-		
-		Date dateClose = new Date(dataCloseTime);
-		
-		String[] temp = idString.split(",");
-		if(temp.length > 0){
-			for(int i = 0; i < temp.length; i++){
-				try {
-					Integer id = Integer.valueOf(temp[i]);
-					productIds.add(id);
-				} catch(NumberFormatException e){
-					e.printStackTrace();
-					throw new InvalidParametersException();
-				}
-				
-			}
-			return orderInterface.createOrder(resp, idSupplier, productIds, orderName, dateOpen, dateClose);
+		try
+		{
+			return orderInterface.setNewOrder(principal.getName(), idSupplier,
+					orderName, idString, dataCloseTime);
 		}
-		return -1;
-		
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -193,16 +160,15 @@ public class AndroidOrderController {
 	public @ResponseBody
 	List<Order> getCompletedOrders(Principal principal)
 	{
-		String username = principal.getName();
-		
-		List<Order> listOrder = null;
-		try {
-			listOrder = orderInterface.getCompletedOrders(username);
-		} catch (Exception e) {
+		try
+		{
+			return orderInterface.getCompletedOrders(principal.getName());
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			return null;
 		}
-		return listOrder;
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
@@ -210,12 +176,13 @@ public class AndroidOrderController {
 	public @ResponseBody
 	Integer setDeliveryDate(Principal principal,
 			@RequestParam(value = "idOrder") Integer idOrder,
-			@RequestParam(value = "dateDelivery") Long dateDelivery) throws InvalidParametersException
+			@RequestParam(value = "dateDelivery") Long dateDelivery)
 	{
-		
+
 		try
 		{
-			return orderInterface.setDeliveryDate(idOrder, principal.getName(), new Date(dateDelivery));
+			return orderInterface.setDeliveryDate(idOrder, principal.getName(),
+					new Date(dateDelivery));
 		}
 		catch (Exception e)
 		{
@@ -254,19 +221,26 @@ public class AndroidOrderController {
 	@RequestMapping(value = "/androidApi/getpurchasefromorder", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Purchase> getPurchaseFromOrder(Principal principal,
-			@RequestParam(value = "idOrder") Integer idOrder) throws InvalidParametersException
+			@RequestParam(value = "idOrder") Integer idOrder)
 	{
-		Order order = orderInterface.getOrder(idOrder);
-		List<Purchase> listPurchase = new ArrayList<Purchase>(order.getPurchases());
-
-		return listPurchase;
+		try
+		{
+			return orderInterface.getPurchasesFromOrder(idOrder,
+					principal.getName());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/ispurchasefailed", method = RequestMethod.GET)
 	public @ResponseBody
 	Boolean isPurchaseFailed(Principal principal,
-			@RequestParam(value = "idPurchase") Integer idPurchase) throws InvalidParametersException
+			@RequestParam(value = "idPurchase") Integer idPurchase)
+			throws InvalidParametersException
 	{
 		return purchaseInterface.isFailed(principal.getName(), idPurchase);
 	}

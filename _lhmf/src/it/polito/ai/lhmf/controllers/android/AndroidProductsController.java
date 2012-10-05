@@ -41,9 +41,7 @@ public class AndroidProductsController {
 	public @ResponseBody
 	List<ProductCategory> getProductCategories(HttpServletRequest request)
 	{
-		List<ProductCategory> productCategoriesList = null;
-		productCategoriesList = productCategoryInterface.getProductCategories();
-		return productCategoriesList;
+		return productCategoryInterface.getProductCategories();
 	}
 	
 	@RequestMapping(value = "/androidApi/getproduct", method = RequestMethod.GET)
@@ -57,7 +55,7 @@ public class AndroidProductsController {
 		{
 			return productInterface.getProduct(idProduct, principal.getName());
 		}
-		catch (InvalidParametersException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
 			return null;
@@ -70,12 +68,17 @@ public class AndroidProductsController {
 	public @ResponseBody
 	Integer newProductCategory(HttpServletRequest request,
 			@RequestParam(value = "description", required = true) String description)
-			throws InvalidParametersException
 	{
-		Integer idProductCategory = -1;
-		idProductCategory = productCategoryInterface
-				.newProductCategory(description);
-		return idProductCategory;
+		try
+		{
+			return productCategoryInterface
+					.newProductCategory(description);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")

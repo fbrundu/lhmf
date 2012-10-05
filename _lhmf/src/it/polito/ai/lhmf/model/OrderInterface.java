@@ -29,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class OrderInterface
 {
-	
 	private SessionFactory sessionFactory;
 	
 	private SupplierInterface supplierInterface;
@@ -980,5 +979,45 @@ public class OrderInterface
 			}
 		}
 		
+	}
+	
+	@Transactional()
+	public Integer setNewOrder(String username, int idSupplier,
+			String orderName, String idString, long dataCloseTime)
+			throws InvalidParametersException
+	{
+		List<Integer> productIds = new ArrayList<Integer>();
+		Member resp = memberInterface.getMember(username);
+
+		if (resp == null)
+			return -1;
+
+		// setto la data odierna
+		Calendar calendar = Calendar.getInstance();
+		Date dateOpen = calendar.getTime();
+
+		Date dateClose = new Date(dataCloseTime);
+
+		String[] temp = idString.split(",");
+		if (temp.length > 0)
+		{
+			for (int i = 0; i < temp.length; i++)
+			{
+				try
+				{
+					Integer id = Integer.valueOf(temp[i]);
+					productIds.add(id);
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+					throw new InvalidParametersException();
+				}
+
+			}
+			return createOrder(resp, idSupplier, productIds, orderName,
+					dateOpen, dateClose);
+		}
+		return -1;
 	}
 }
