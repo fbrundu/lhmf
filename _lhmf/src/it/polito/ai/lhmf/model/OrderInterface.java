@@ -758,6 +758,24 @@ public class OrderInterface
 				orders.add(o);
 		return orders;
 	}
+
+	@Transactional(readOnly = true)
+	public List<Order> getOrdersBySupplier(long start, String username)
+	{
+		Member supplier = memberInterface.getMember(username);
+		// Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		Date startDate = new Date(start);
+
+		List<Order> orders = new LinkedList<Order>();
+		for (Order o : getAllOrders())
+			if (o.getSupplier().getIdMember() == supplier.getIdMember()
+					&& o.getDateClose().after(now)
+					&& o.getDateOpen().after(startDate))
+				orders.add(o);
+		return orders;
+	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public OrderProductId newOrderProduct(OrderProduct orderProduct)
