@@ -48,7 +48,6 @@ public class NotifyInterface
 		return (Notify) query.uniqueResult();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Notify> getNotifiesByUsername(String username)
 			throws InvalidParametersException
@@ -56,12 +55,8 @@ public class NotifyInterface
 		if (username == null)
 			throw new InvalidParametersException();
 
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Notify " + "where username = :username"
-						+ " order by notifyTimestamp desc");
-		query.setParameter("username", username);
-
-		return query.list();
+		return getNotifiesByIdMember(memberInterface.getMember(username)
+				.getIdMember());
 	}
 	
 	@SuppressWarnings("unchecked")
