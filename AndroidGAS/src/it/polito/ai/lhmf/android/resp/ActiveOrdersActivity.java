@@ -1,6 +1,6 @@
 package it.polito.ai.lhmf.android.resp;
 
-import it.polito.ai.lhmf.android.OrderDetailsActivity;
+import it.polito.ai.lhmf.android.ActiveOrderDetailsActivity;
 import it.polito.ai.lhmf.android.R;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
@@ -205,7 +205,7 @@ public class ActiveOrdersActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(getApplicationContext(), OrderDetailsActivity.class);
+					Intent intent = new Intent(getApplicationContext(), ActiveOrderDetailsActivity.class);
 					intent.putExtra("order", order);
 					startActivity(intent);
 				}

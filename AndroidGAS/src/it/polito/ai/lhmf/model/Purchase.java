@@ -9,17 +9,16 @@ public class Purchase implements Serializable {
 	public static final String SHIPPED = "Spedizione Effettuata";
 	public static final String NOT_SHIPPED = "Spedizione Non Effettuata";
 	
-	private Integer idPurchase;
-	private String isShipped;
-	private Order order;
-	private Member member;
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private float totCost;
 	
+	private Integer idPurchase;
+	private String isShipped;
+	private Order order;
+	private Member member;
+	private float totCost;
 	private boolean failed;
 	
 	public Purchase(){

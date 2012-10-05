@@ -147,7 +147,7 @@ public class PurchaseInterface
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<PurchaseProduct> getPurchaseProduct(Integer idPurchase) throws InvalidParametersException 
+	public List<PurchaseProduct> getPurchaseProducts(Integer idPurchase) throws InvalidParametersException 
 	{
 		if (idPurchase == null || idPurchase < 0)
 			throw new InvalidParametersException();
@@ -621,7 +621,7 @@ public class PurchaseInterface
 		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
 		
 		Float ret = 0.0f;
-		List<PurchaseProduct> bought = getPurchaseProduct(idPurchase);
+		List<PurchaseProduct> bought = getPurchaseProducts(idPurchase);
 		if(bought.size() == 0)
 			return null;
 		for(PurchaseProduct pp : bought){
@@ -654,7 +654,7 @@ public class PurchaseInterface
 			return null;
 		
 		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
-		List<PurchaseProduct> bought = getPurchaseProduct(idPurchase);
+		List<PurchaseProduct> bought = getPurchaseProducts(idPurchase);
 		
 		boolean failed = true;
 		for(PurchaseProduct pp : bought){

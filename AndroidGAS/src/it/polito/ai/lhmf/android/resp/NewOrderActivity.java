@@ -298,7 +298,6 @@ public class NewOrderActivity extends Activity implements DatePickerDialog.OnDat
 				
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					// TODO Auto-generated method stub
 					if(isChecked)
 						chosenProducts.add(product.getIdProduct());
 					else

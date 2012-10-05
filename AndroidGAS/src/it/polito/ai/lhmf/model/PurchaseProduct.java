@@ -13,6 +13,11 @@ public class PurchaseProduct implements Serializable {
 	private Product product;
 	private Purchase purchase;
 	private Integer amount;
+	private boolean failed;
+	
+	public PurchaseProduct(){
+		setFailed(false);
+	}
 	
 	public Product getProduct() {
 		return product;
@@ -36,5 +41,13 @@ public class PurchaseProduct implements Serializable {
 
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+
+	public boolean isFailed() {
+		return failed;
+	}
+
+	public void setFailed(boolean failed) {
+		this.failed = failed;
 	}
 }

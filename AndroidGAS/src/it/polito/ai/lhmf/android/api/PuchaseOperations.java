@@ -14,7 +14,7 @@ public interface PuchaseOperations {
 	
 	Float getPurchaseCost(Integer idPurchase);
 	
-	PurchaseProduct[] getPurchaseProductsForNormal(Integer idPurchase);
+	PurchaseProduct[] getPurchaseProducts(Integer idPurchase);
 
 	Integer newPurchaseProduct(Integer idPurchase, Integer idProduct, Integer amount);
 

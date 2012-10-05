@@ -67,4 +67,8 @@
     <string name="failedF">FALLITA</string>
     <string name="devlier_purchases">Consegna prodotti</string>
     <string name="purchase_delivered">Consegnata</string>
+    <string name="delivered">COSEGNATA</string>
+    <string name="to_deliver">DA CONSEGNARE</string>
+    <string name="competed_purchase_details">Dettagli scheda</string>
+    <string name="user">"Utente: "</string>
 </resources>

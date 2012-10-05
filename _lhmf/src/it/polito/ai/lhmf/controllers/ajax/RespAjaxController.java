@@ -385,7 +385,7 @@ public class RespAjaxController
 	List<Product> getPurchaseDetails(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase) throws InvalidParametersException
 	{
-		List<PurchaseProduct> productTmp = purchaseInterface.getPurchaseProduct(idPurchase);
+		List<PurchaseProduct> productTmp = purchaseInterface.getPurchaseProducts(idPurchase);
 		List<Product> listProduct = new ArrayList<Product>();
 		for (PurchaseProduct product : productTmp)
 		{
