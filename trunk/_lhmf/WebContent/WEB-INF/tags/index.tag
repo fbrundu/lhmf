@@ -32,6 +32,7 @@
 <!--[if IE]><script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/canvasxpress/excanvas.js"/>'></script><![endif]-->
 <!--[if IE]><script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/canvasxpress/extext.js"/>'></script><![endif]-->
 <script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/canvasxpress/canvasXpress.min.js"/>'></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&language=it"></script>
 
 <jsp:invoke fragment="scripts" />
 
