@@ -642,6 +642,7 @@ public class PurchaseInterface
 		return ret;
 	}
 
+	@Transactional(readOnly = true)
 	public Boolean isFailed(String userName, Integer idPurchase) throws InvalidParametersException {
 		Member member = memberInterface.getMember(userName);
 		
