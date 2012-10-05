@@ -534,6 +534,16 @@ public class MemberInterface {
 		return ss;
 	}
 
+	@Transactional(readOnly = true)
+	public ArrayList<Supplier> getSuppliersForIdMemberResp(String username)
+	{
+		Member memberResp = getMember(username);
+		
+		if(memberResp != null)
+			return new ArrayList<Supplier>(memberResp.getSuppliersForIdMemberResp());
+		return null;
+	}
+	
 	
 	@SuppressWarnings("rawtypes")
 	@Transactional(readOnly = true)
