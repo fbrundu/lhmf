@@ -42,18 +42,14 @@ public class AndroidOrderController {
 	public @ResponseBody
 	List<Product> getOrderProducts(@RequestParam(value="idOrder", required=true) Integer idOrder)
 	{
-		List<Product> productsList = null;
-		productsList = orderInterface.getProducts(idOrder);
-		return productsList;
+		return orderInterface.getProducts(idOrder);
 	}
 	
 	@RequestMapping(value = "/androidApi/getorderorderproducts", method = RequestMethod.GET)
 	public @ResponseBody
 	List<OrderProduct> getOrderOrderProducts(@RequestParam(value="idOrder", required=true) Integer idOrder)
 	{
-		List<OrderProduct> productsList = null;
-		productsList = orderInterface.getOrderProducts(idOrder);
-		return productsList;
+		return orderInterface.getOrderProducts(idOrder);
 	}
 	
 	@RequestMapping(value = "/androidApi/getboughtamounts", method = RequestMethod.GET)
@@ -173,21 +169,23 @@ public class AndroidOrderController {
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/getactiveorderresp", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Order> getActiveOrder(Principal principal) throws InvalidParametersException
+	List<Order> getActiveOrder(Principal principal)
 	{
-		String username = principal.getName();
-		
-		Member memberResp = memberInterface.getMember(username);
-		
-		List<Order> listOrder = null;
-		listOrder = orderInterface.getActiveOrders(memberResp);
-		return listOrder;
+		try
+		{
+			return orderInterface.getActiveOrders(principal.getName());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/getcompletedordersresp", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Order> getCompletedOrders(Principal principal) throws InvalidParametersException
+	List<Order> getCompletedOrders(Principal principal)
 	{
 		String username = principal.getName();
 		

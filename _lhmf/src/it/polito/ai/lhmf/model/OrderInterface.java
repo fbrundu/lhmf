@@ -116,21 +116,27 @@ public class OrderInterface
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
-	public List<Order> getActiveOrders(Member memberResp) {
-		
-		//Creo il Current timestamp
-		Calendar calendar = Calendar.getInstance();  
+	@Transactional(readOnly = true)
+	public List<Order> getActiveOrders(String username)
+			throws InvalidParametersException
+	{
+		if (username == null)
+			throw new InvalidParametersException();
+		Member memberResp = memberInterface.getMember(username);
+		if (memberResp == null)
+			throw new InvalidParametersException();
+		// Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();
 		Date now = calendar.getTime();
 		Timestamp currentTimestamp = new Timestamp(now.getTime());
-		
-		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from Order where idMember_resp = :id " +
-										  "AND dateClose > :dateNow");
-		
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order where idMember_resp = :id "
+						+ "AND dateClose > :dateNow");
+
 		query.setParameter("id", memberResp.getIdMember());
 		query.setTimestamp("dateNow", currentTimestamp);
-	
+
 		return query.list();
 	}
 	
@@ -197,21 +203,27 @@ public class OrderInterface
 	}
 
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly=true)
-	public List<Order> getOldOrders(Member memberResp, long start, long end) {
-		
+	@Transactional(readOnly = true)
+	public List<Order> getOldOrders(String username, long start, long end)
+			throws InvalidParametersException
+	{
+		if (username == null)
+			throw new InvalidParametersException();
+		Member memberResp = memberInterface.getMember(username);
+		if (memberResp == null)
+			throw new InvalidParametersException();
 		Timestamp startDate = new Timestamp(start);
 		Timestamp endDate = new Timestamp(end);
-		
-		Query query = sessionFactory.getCurrentSession()
-				.createQuery("from Order where idMember_resp = :id " +
-										  "AND dateClose < :endDate " +
-										  "AND dateOpen > :startDate");
-		
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order where idMember_resp = :id "
+						+ "AND dateClose < :endDate "
+						+ "AND dateOpen > :startDate");
+
 		query.setParameter("id", memberResp.getIdMember());
 		query.setTimestamp("startDate", startDate);
 		query.setTimestamp("endDate", endDate);
-	
+
 		return query.list();
 	}
 
@@ -837,7 +849,7 @@ public class OrderInterface
 					}
 				}
 				if(!orderFailed){
-					//TODO mandare notifica al responsabile che l'ordine è stato chiuso
+					//TODO mandare notifica al responsabile che l'ordine ï¿½ stato chiuso
 				}
 			}
 		}

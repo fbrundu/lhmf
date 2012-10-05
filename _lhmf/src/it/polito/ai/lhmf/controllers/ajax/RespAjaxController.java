@@ -52,25 +52,38 @@ public class RespAjaxController
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActiveOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session	) throws InvalidParametersException
+	List<Order> getActiveOrder(HttpServletRequest request, HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberResp = memberInterface.getMember(username);
-
-		return orderInterface.getActiveOrders(memberResp);
+		try
+		{
+			return orderInterface.getActiveOrders((String) session
+					.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getOldOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Order> getOldOrderResp(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "end") long end,
-			@RequestParam(value = "dateDeliveryType") int dateDeliveryType) throws InvalidParametersException
+	List<Order> getOldOrderResp(HttpServletRequest request,
+			HttpSession session, @RequestParam(value = "end") long end,
+			@RequestParam(value = "dateDeliveryType") int dateDeliveryType)
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberResp = memberInterface.getMember(username);
-		
-		return orderInterface.getOldOrders(memberResp, end, dateDeliveryType);
+		try
+		{
+			return orderInterface.getOldOrders(
+					(String) session.getAttribute("username"), end,
+					dateDeliveryType);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
