@@ -20,11 +20,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class StatisticsInterface
 {
 	// The session factory will be automatically injected by spring
+	@SuppressWarnings("unused")
 	private SessionFactory sessionFactory;
 	private MemberInterface memberInterface;
 	private OrderInterface orderInterface;
 	private SupplierInterface supplierInterface;
 	private ProductInterface productInterface;
+	private PurchaseInterface purchaseInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -49,6 +51,11 @@ public class StatisticsInterface
 	public void setSupplierInterface(SupplierInterface supplierInterface)
 	{
 		this.supplierInterface = supplierInterface;
+	}
+	
+	public void setPurchaseInterface(PurchaseInterface purchaseInterface)
+	{
+		this.purchaseInterface = purchaseInterface;
 	}
 	
 	@Transactional
@@ -238,5 +245,162 @@ public class StatisticsInterface
 		}
 		
 		return respStat;
+	}
+	
+	@Transactional
+	public ArrayList<Integer> respOrderMonth(int idSupplier, int year)
+	{
+		ArrayList<Integer> respStat = new ArrayList<Integer>();
+		ArrayList<Integer> respStatNotShipped = new ArrayList<Integer>();
+
+		// Mi ricavo il Supplier
+		Member memberSupplier = memberInterface.getMember(idSupplier);
+
+		for (int i = 0; i < 12; i++)
+		{
+			// Mi ricavo il numero di ordini conclusi (con o senza data di
+			// consegna)
+			Integer numberOrdersTot = (int) (long) orderInterface
+					.getNumberOldOrdersBySupplier(memberSupplier, year, i);
+			// Mi ricavo il numero di ordini conclusi (con data di consegna
+			// impostata)
+			Integer numberOrderShipped = (int) (long) orderInterface
+					.getNumberOldOrdersShippedBySupplier(memberSupplier, year,
+							i);
+			respStat.add(numberOrderShipped);
+			respStatNotShipped.add(numberOrdersTot - numberOrderShipped);
+		}
+		respStat.addAll(respStatNotShipped);
+
+		return respStat;
+	}
+	
+	@Transactional
+	public ArrayList<Float> respOrderYear(int idSupplier, int year)
+	{
+		ArrayList<Float> respStat = new ArrayList<Float>();
+		// Mi ricavo il Supplier
+		Member memberSupplier = memberInterface.getMember(idSupplier);
+		// Mi ricavo il numero di ordini conclusi (con o senza data di consegna)
+		Float numberOrdersTot = (float) (long) orderInterface
+				.getNumberOldOrdersBySupplier(memberSupplier, year);
+		// Mi ricavo il numero di ordini conclusi (con data di consegna
+		// impostata
+		Float numberOrderShipped = (float) (long) orderInterface
+				.getNumberOldOrdersShippedBySupplier(memberSupplier, year);
+		if (numberOrdersTot != 0)
+		{
+			Float temp = (numberOrderShipped / numberOrdersTot) * 100;
+			respStat.add(temp);
+			respStat.add(100 - temp);
+		}
+		else
+		{
+			respStat.add((float) 0);
+			respStat.add((float) 0);
+		}
+		return respStat;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Transactional
+	public ArrayList<String> respTopUsers(String respUsername)
+	{
+		ArrayList<String> respStatName = new ArrayList<String>();
+		ArrayList<String> respStatAmount = new ArrayList<String>();
+		// Mi ricavo il Responsabile
+		Member memberResp = memberInterface.getMember(respUsername);
+		Member tempMember;
+		Float tempAmount;
+		// Mi ricavo la lista degli utenti piu' attivi
+		Map<Member, Float> topUsers = memberInterface.getTopUsers(memberResp);
+		if (topUsers != null)
+		{
+			Iterator it = topUsers.entrySet().iterator();
+			while (it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry) it.next();
+				tempMember = (Member) pairs.getKey();
+				tempAmount = (Float) pairs.getValue();
+				respStatName.add(tempMember.getName() + " "
+						+ tempMember.getSurname());
+				respStatAmount.add(tempAmount.toString());
+			}
+			respStatName.addAll(respStatAmount);
+		}
+		else
+		{
+			respStatName.add("errNoUser");
+		}
+		return respStatName;
+	}
+	
+	@Transactional
+	public ArrayList<Double> respMoneyMonth(String username, int year)
+	{
+		ArrayList<Double> respStat = new ArrayList<Double>();
+		ArrayList<Double> statPurchaseTemp = null;
+		// Mi ricavo il Membro
+		Member memberNormal = memberInterface.getMember(username);
+		
+		for(int i = 0; i < 12; i++) {
+			
+			// Mi ricavo per ogni mese e la spesa totale e la spesaMedia
+			statPurchaseTemp = purchaseInterface.getSumAndAvgOfPurchasePerMonth(memberNormal, year, i);
+			
+			//Aggiungo alla lista totale
+			respStat.addAll(statPurchaseTemp);
+			
+		}
+		
+		return respStat;
+	}
+	
+	@Transactional
+	public ArrayList<Double> normMoneyMonth(String username, int year)
+	{
+		ArrayList<Double> respStat = new ArrayList<Double>();
+		ArrayList<Double> statPurchaseTemp = null;
+		// Mi ricavo il Membro
+		Member memberNormal = memberInterface.getMember(username);
+		for (int i = 0; i < 12; i++)
+		{
+			// Mi ricavo per ogni mese e la spesa totale e la spesaMedia
+			statPurchaseTemp = purchaseInterface
+					.getSumAndAvgOfPurchasePerMonth(memberNormal, year, i);
+			// Aggiungo alla lista totale
+			respStat.addAll(statPurchaseTemp);
+		}
+		return respStat;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@Transactional
+	public ArrayList<String> prodTopProduct()
+	{
+		ArrayList<String> respStatName = new ArrayList<String>();
+		ArrayList<String> respStatAmount = new ArrayList<String>();
+		// Mi ricavo la lista dei prodotti piu' venduti
+		Map<Product, Long> topProduct = productInterface.getTopProduct();
+		Product tempProduct;
+		Long tempAmount;
+		if (topProduct.size() > 0)
+		{
+			Iterator it = topProduct.entrySet().iterator();
+			while (it.hasNext())
+			{
+				Map.Entry pairs = (Map.Entry) it.next();
+				tempProduct = (Product) pairs.getKey();
+				tempAmount = (Long) pairs.getValue();
+				respStatName.add(tempProduct.getName());
+				respStatAmount.add(tempAmount.toString());
+			}
+			respStatName.addAll(respStatAmount);
+		}
+		else
+		{
+			respStatName.add("errNoProduct");
+		}
+		return respStatName;
 	}
 }
