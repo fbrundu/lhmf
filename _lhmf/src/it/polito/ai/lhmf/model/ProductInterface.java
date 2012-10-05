@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -243,15 +244,34 @@ public class ProductInterface
 	@Transactional(readOnly = true)
 	public List<Product> getProductsBySupplier(Member memberSupplier)
 	{
-		Query query = sessionFactory
-				.getCurrentSession()
-				.createQuery(
-						"from Product "
-								+ "where idSupplier = :idMember order by productCategory");
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Product " + "where idSupplier = :idMember"
+						+ " order by productCategory");
 		query.setParameter("idMember", memberSupplier.getIdMember());
 		return query.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<ProductCategory> getProductCategoriesBySupplier(
+			String usernameSupplier) throws InvalidParametersException
+	{
+		if (usernameSupplier == null)
+			throw new InvalidParametersException();
+
+		List<ProductCategory> pcl = new LinkedList<ProductCategory>();
+
+		// TODO riscriverla in hql per una maggiore efficienza
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Product " + "where idSupplier = :idMember");
+		query.setParameter("idMember",
+				memberInterface.getMember(usernameSupplier));
+		for (Product p : (List<Product>) query.list())
+			if (!pcl.contains(p.getProductCategory()))
+				pcl.add(p.getProductCategory());
+		return pcl;
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer updateProduct(Product product)
 			throws InvalidParametersException
