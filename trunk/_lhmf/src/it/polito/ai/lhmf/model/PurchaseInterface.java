@@ -174,13 +174,39 @@ public class PurchaseInterface
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<PurchaseProduct> getPurchaseProducts(Integer idPurchase) throws InvalidParametersException 
+	public List<PurchaseProduct> getPurchaseProducts(Integer idPurchase)
+			throws InvalidParametersException
 	{
 		if (idPurchase == null || idPurchase < 0)
 			throw new InvalidParametersException();
-		Query query = sessionFactory.getCurrentSession().createQuery("from PurchaseProduct " + "where idPurchase = :idPurchase");
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from PurchaseProduct " + "where idPurchase = :idPurchase");
 		query.setParameter("idPurchase", idPurchase);
 		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public Set<PurchaseProduct> getPurchaseProductsCheckMember(String username,
+			Integer idPurchase) throws InvalidParametersException
+	{
+		if (idPurchase == null || idPurchase < 0)
+			throw new InvalidParametersException();
+		Purchase p = getPurchase(idPurchase);
+		if (p == null
+				|| p.getMember().getIdMember() != memberInterface.getMember(
+						username).getIdMember()
+				&& p.getOrder().getMember().getIdMember() != memberInterface
+						.getMember(username).getIdMember())
+			return null;
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from PurchaseProduct " + "where idPurchase = :idPurchase");
+		query.setParameter("idPurchase", idPurchase);
+		Set<PurchaseProduct> pps = new HashSet<PurchaseProduct>();
+		for (PurchaseProduct pp : (List<PurchaseProduct>) query.list())
+			pps.add(pp);
+		return pps;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -456,6 +482,43 @@ public class PurchaseInterface
 		
 	}
 
+	// FIXME ci sono due versioni della stessa funzione.. valutare se
+	// tenerne solo una
+	@Transactional()
+	public Integer setNewPurchaseAndroid(String username, Integer idOrder,
+			String idProducts, String amountProducts)
+			throws InvalidParametersException
+	{
+		String[] idTmp = idProducts.split(",");
+		String[] amountTmp = amountProducts.split(",");
+
+		if (idTmp.length > 0 && idTmp.length == amountTmp.length)
+		{
+			Integer[] ids = new Integer[idTmp.length];
+			Integer[] amounts = new Integer[idTmp.length];
+			for (int i = 0; i < idTmp.length; i++)
+			{
+				try
+				{
+					ids[i] = Integer.parseInt(idTmp[i]);
+
+					amounts[i] = Integer.parseInt(amountTmp[i]);
+					if (amounts[i] <= 0)
+						return -1;
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+					return -1;
+				}
+			}
+
+			return createPurchase(username, idOrder, ids, amounts);
+		}
+		else
+			return -1;
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
 	public Integer createPurchase(String username, Integer idOrder,
 			Integer[] ids, Integer[] amounts) throws InvalidParametersException {

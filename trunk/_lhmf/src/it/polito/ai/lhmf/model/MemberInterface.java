@@ -57,6 +57,12 @@ public class MemberInterface {
 		this.supplierInterface = supplierInterface;
 	}
 	
+	@Transactional()
+	public int getMemberTypeFromMember(String username)
+	{
+		return getMember(username).getMemberType().getIdMemberType();
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer newMember(Member member, boolean checkMail, boolean byAdmin)
 			throws InvalidParametersException {

@@ -1,7 +1,6 @@
 package it.polito.ai.lhmf.controllers.android;
 
 import it.polito.ai.lhmf.model.MemberInterface;
-import it.polito.ai.lhmf.orm.Member;
 
 import java.security.Principal;
 
@@ -21,15 +20,12 @@ public class AndroidUserController {
 	@Autowired
 	private TokenStore tokenStore;
 	
-	
+	//FIXME il vecchio metodo ritorna 0 (utente normale) se l'utente non esiste!
 	@RequestMapping("/androidApi/member/role")
-	public @ResponseBody Integer getMemberRole(Principal principal){
-		String username = principal.getName();
-		Member member = memberInterface.getMember(username);
-		if(member != null)
-			return member.getMemberType().getIdMemberType();
-		
-		return 0;
+	public @ResponseBody
+	Integer getMemberRole(Principal principal)
+	{
+		return memberInterface.getMemberTypeFromMember(principal.getName());
 	}
 	
 	@RequestMapping("/androidApi/logout")
