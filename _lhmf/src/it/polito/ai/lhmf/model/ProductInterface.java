@@ -240,15 +240,41 @@ public class ProductInterface
 				.list();
 	}
 
+	@Transactional(readOnly = true)
+	public List<Product> getProductsBySupplier(String respUsername,
+			Integer idSupplier)
+	{
+		List<Product> ret = new ArrayList<Product>();
+		Member memberResp = memberInterface.getMember(respUsername);
+
+		Supplier supp = supplierInterface.getSupplier(idSupplier);
+
+		if (memberResp == null || supp == null)
+			return ret;
+
+		if (supp.getMemberByIdMemberResp().getIdMember() != memberResp
+				.getIdMember())
+			return ret;
+
+		List<Product> productsList = null;
+		productsList = getProductsBySupplier(idSupplier);
+
+		for (Product p : productsList)
+			if (p.isAvailability() == true)
+				ret.add(p);
+
+		return ret;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<Product> getProductsBySupplier(String username)
+	public List<Product> getProductsBySupplier(String supplierUsername)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Product " + "where idSupplier = :idMember"
 						+ " order by productCategory");
-		query.setParameter("idMember", memberInterface.getMember(username)
-				.getIdMember());
+		query.setParameter("idMember",
+				memberInterface.getMember(supplierUsername).getIdMember());
 		return query.list();
 	}
 	

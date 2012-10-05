@@ -1,18 +1,12 @@
 package it.polito.ai.lhmf.controllers.android;
 
-import it.polito.ai.lhmf.exceptions.InvalidParametersException;
-import it.polito.ai.lhmf.model.MemberInterface;
 import it.polito.ai.lhmf.model.ProductCategoryInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
-import it.polito.ai.lhmf.model.SupplierInterface;
-import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
-import it.polito.ai.lhmf.orm.Supplier;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,11 +25,7 @@ public class AndroidProductsController {
 	@Autowired
 	private ProductInterface productInterface;
 	@Autowired
-	private MemberInterface memberInterface;
-	@Autowired
 	private ProductCategoryInterface productCategoryInterface;
-	@Autowired
-	private SupplierInterface supplierInterface;
 	
 	@RequestMapping(value = "/androidApi/getproductcategories", method = RequestMethod.GET)
 	public @ResponseBody
@@ -160,26 +150,7 @@ public class AndroidProductsController {
 	List<Product> getSupplierProducts(HttpServletRequest request, Principal principal,
 			@RequestParam(value="idSupplier") Integer idSupplier)
 	{
-		List<Product> ret = new ArrayList<Product>();
-		String username = principal.getName();
-		Member memberResp = memberInterface.getMember(username);
-		
-		Supplier supp = supplierInterface.getSupplier(idSupplier);
-		
-		if(memberResp == null || supp == null)
-			return ret;
-		
-		if(supp.getMemberByIdMemberResp().getIdMember() != memberResp.getIdMember())
-			return ret;
-		
-		List<Product> productsList = null;
-		productsList = productInterface.getProductsBySupplier(principal.getName());
-		
-		for(Product p : productsList)
-			if(p.isAvailability() == true)
-				ret.add(p);
-		
-		return ret;
+		return productInterface.getProductsBySupplier(principal.getName(), idSupplier);
 	}
 
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
