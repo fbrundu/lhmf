@@ -236,26 +236,11 @@ public class RespAjaxController
 	
 	@RequestMapping(value = "/ajax/getMembersSupplierString", method = RequestMethod.POST)
 	public @ResponseBody
-	ArrayList<String> getMembersSupplierString(HttpServletRequest request, HttpSession session)
+	List<String> getMembersSupplierString(HttpServletRequest request,
+			HttpSession session)
 	{
-		String username = (String) session.getAttribute("username");
-		Member memberResp = memberInterface.getMember(username);
-		
-		ArrayList<String> respString = new ArrayList<String>();
-		
-		List<Member> listSupplier = new ArrayList<Member>();
-		listSupplier = memberInterface.getMembersSupplier();
-		
-		for (Member m : listSupplier) {
-		  
-			Supplier s = supplierInterface.getSupplier(m.getIdMember());
-			if(s.getMemberByIdMemberResp().getIdMember() == memberResp.getIdMember()) {
-				String temp = m.getIdMember() + "," + m.getName() + " " + m.getSurname() + "," + s.getCompanyName();
-				respString.add(temp);	
-			}
-		}
-		
-		return respString;
+		return memberInterface.getMembersSupplierString((String) session
+				.getAttribute("username"));
 	}
 	
 	@RequestMapping(value = "/ajax/getSupplierByResp", method = RequestMethod.POST)
