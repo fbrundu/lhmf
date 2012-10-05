@@ -144,8 +144,8 @@ public class PurchaseInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Purchase getPurchase(int idPurchase) {
-		
+	public Purchase getPurchase(int idPurchase)
+	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Purchase " + "where idPurchase = :idPurchase");
 		query.setParameter("idPurchase", idPurchase);
@@ -153,22 +153,20 @@ public class PurchaseInterface
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Product> getProducts(int idPurchase) {
-		
-		Purchase purchase;
-		
-		Query query = sessionFactory.getCurrentSession().createQuery("from Purchase " + "where idPurchase = :idPurchase");
-		query.setParameter("idPurchase", idPurchase);
-		purchase = (Purchase) query.uniqueResult();
-		
-		Set<PurchaseProduct> purchaseProducts = purchase.getPurchaseProducts();
-		
+	public List<Product> getProducts(int idPurchase, String username)
+			throws Exception
+	{
+		Purchase purchase = getPurchase(idPurchase);
+
+		if (purchase.getOrder().getMember().getIdMember() != memberInterface
+				.getMember(username).getIdMember())
+			throw new Exception("Member not authorized");
+
 		List<Product> listProduct = new ArrayList<Product>();
-		
-		java.util.Iterator<PurchaseProduct> iter = purchaseProducts.iterator();
-	    while (iter.hasNext())
-	      listProduct.add(iter.next().getProduct());
-		
+		java.util.Iterator<PurchaseProduct> iter = purchase
+				.getPurchaseProducts().iterator();
+		while (iter.hasNext())
+			listProduct.add(iter.next().getProduct());
 		return listProduct;
 	}
 	
