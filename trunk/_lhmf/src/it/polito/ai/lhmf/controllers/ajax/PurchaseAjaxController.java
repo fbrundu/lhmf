@@ -22,7 +22,7 @@ public class PurchaseAjaxController
 {
 	@Autowired
 	private PurchaseInterface purchaseInterface;
-	
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/newpurchase", method = RequestMethod.POST)
 	public @ResponseBody
@@ -44,16 +44,13 @@ public class PurchaseAjaxController
 			return -1;
 		}
 	}
-	
+
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
 	@RequestMapping(value = "/ajax/getmypurchases", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Purchase> getMyProducts(HttpServletRequest request)
 	{
-		List<Purchase> purchasesList = null;
-		purchasesList = purchaseInterface.getPurchasesByMember((String) request
+		return purchaseInterface.getPurchasesByMember((String) request
 				.getSession().getAttribute("username"));
-		return purchasesList;
 	}
-	
 }
