@@ -80,6 +80,7 @@ public class OrderInterface
 		query.setParameter("idOrder", idOrder);
 		return (Order) query.uniqueResult();
 	}
+	
 
 	@Transactional(readOnly = true)
 	public String getOrderName(int idOrder)
@@ -356,6 +357,20 @@ public class OrderInterface
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Transactional(propagation = Propagation.REQUIRED)
+	public List<Purchase> getPurchasesFromOrder(Integer idOrder, String username)
+			throws InvalidParametersException
+	{
+		if (idOrder == null || idOrder <= 0 || username == null)
+			throw new InvalidParametersException();
+		if (getOrder(idOrder).getMember().getIdMember() == memberInterface
+				.getMember(username).getIdMember())
+			return (List<Purchase>) getOrder(idOrder).getPurchases();
+		else
+			return null;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public List<Order> getOldOrdersShippedBySupplier(Member memberSupplier, int year) {
