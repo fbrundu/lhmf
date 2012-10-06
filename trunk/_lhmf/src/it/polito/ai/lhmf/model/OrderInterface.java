@@ -235,8 +235,23 @@ public class OrderInterface
 						"where idOrder = :idOrder");
 		query.setParameter("dateDelivery", date);
 		query.setParameter("idOrder", idOrder);
+		
+		Integer result = (Integer) query.executeUpdate();
 
-		return (Integer) query.executeUpdate();
+		// Invio notifica ai membri partecipanti
+		for (Purchase p : getOrder(idOrder).getPurchases())
+		{
+			Notify n = new Notify();
+			n.setMember(p.getMember());
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(5);
+			n.setText(idOrder.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
+		}
+		
+		return result;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
