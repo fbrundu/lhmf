@@ -73,7 +73,10 @@ public class PurchaseInterface
 		p.setOrder(order);
 		p.setMember(member);
 		
-		return (Integer) sessionFactory.getCurrentSession().save(p);
+		Integer result = (Integer) sessionFactory.getCurrentSession().save(p);
+		
+		
+		return result;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
