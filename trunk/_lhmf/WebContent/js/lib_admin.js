@@ -1472,28 +1472,22 @@ function initialize()
 	};
 	map = new google.maps.Map(document.getElementById("map"), myOptions);
 	var markerTmp = [];
-	var i=0;
 	$.postSync("ajax/getAddressForMap", undefined, function(addressList)
 	{
 		$.each(addressList, function(index, val)
 		{
-			if(i<=5)
-			{
-				geocoder.geocode( { 'address': val}, function(results, status) {
-				      if (status == google.maps.GeocoderStatus.OK) {
-				        map.setCenter(results[0].geometry.location);
-				        var marker = new google.maps.Marker({
-				            map: map,
-				            position: results[0].geometry.location
-				        });
-				        markerTmp.push(marker);
-				      } else {
-				        alert("Geocode was not successful for the following reason: " + status);
-				      }
-				    });
-				i++;
-			}
-			
+			geocoder.geocode( { 'address': val}, function(results, status) {
+			      if (status == google.maps.GeocoderStatus.OK) {
+			        map.setCenter(results[0].geometry.location);
+			        var marker = new google.maps.Marker({
+			            map: map,
+			            position: results[0].geometry.location
+			        });
+			        markerTmp.push(marker);
+			      } else {
+			        alert("Geocode was not successful for the following reason: " + status);
+			      }
+			    });		
 		});
 	});
 	for (marker in markerTmp.markers)
