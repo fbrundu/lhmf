@@ -502,6 +502,17 @@ public class MemberInterface {
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
+	public List<Member> getMembers(int memberTypeId) {
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member where memberType = :memberType order by idMember");
+
+		query.setParameter("memberType", memberTypeId);
+		return (List<Member>) query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<Member> getMembersSupplier() {
 
 		// Recupero il memberType del supplier

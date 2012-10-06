@@ -72,6 +72,7 @@
         <property name="productInterface" ref="productDao"/>
         <property name="memberInterface" ref="memberDao"/>
         <property name="purchaseInterface" ref="purchaseDao"/>
+        <property name="notifyInterface" ref="notifyDao"/>
     </bean>
     
     <bean id="purchaseDao" class="it.polito.ai.lhmf.model.PurchaseInterface">

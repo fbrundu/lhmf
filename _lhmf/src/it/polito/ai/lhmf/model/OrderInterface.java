@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.Notify;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.OrderProductId;
@@ -30,15 +31,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderInterface
 {
 	private SessionFactory sessionFactory;
-	
 	private SupplierInterface supplierInterface;
-	
 	private ProductInterface productInterface;
-	
 	private MemberInterface memberInterface;
-
 	private PurchaseInterface purchaseInterface;
-		
+	private NotifyInterface notifyInterface;
+
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
@@ -61,15 +59,47 @@ public class OrderInterface
 		this.purchaseInterface = purchaseInterface;
 	}
 	
+	public void setNotifyInterface(NotifyInterface notifyInterface)
+	{
+		this.notifyInterface = notifyInterface;
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newOrder(Order order)
 			throws InvalidParametersException
 	{
 		if (order == null)
-		{
 			throw new InvalidParametersException();
+		Integer newOrderId = (Integer) sessionFactory.getCurrentSession().save(order);
+
+		// Invia la notifica agli utenti normali
+		for (Member m : memberInterface.getMembers(MemberTypes.USER_NORMAL))
+		{
+			Notify n = new Notify();
+			n.setMember(m);
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(2);
+			n.setText(newOrderId.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
 		}
-		return (Integer) sessionFactory.getCurrentSession().save(order);
+
+		// Invia la notifica agli utenti responsabili (che possono partecipare
+		// all'ordine)
+		for (Member m : memberInterface.getMembers(MemberTypes.USER_RESP))
+		{
+			Notify n = new Notify();
+			n.setMember(m);
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(2);
+			n.setText(newOrderId.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
+		}
+		
+		return newOrderId;
 	}
 
 	@Transactional(readOnly = true)
