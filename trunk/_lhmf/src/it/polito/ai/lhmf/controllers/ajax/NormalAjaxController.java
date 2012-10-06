@@ -4,6 +4,7 @@ import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.OrderInterface;
 import it.polito.ai.lhmf.model.ProductInterface;
 import it.polito.ai.lhmf.model.PurchaseInterface;
+import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.Purchase;
@@ -305,5 +306,30 @@ public class NormalAjaxController
 			throws InvalidParametersException
 	{
 		return orderInterface.getProgressProduct(idOrder);
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getNormalForMap", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Member> getNormalForMap(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	{
+		List<Purchase> purchaseTmp = purchaseInterface.getPurchaseFromOrder(idOrder);
+		List<Member> memberTmp = new ArrayList<Member>();
+		for(Purchase p : purchaseTmp)
+		{
+			memberTmp.add(p.getMember());
+		}
+		return memberTmp;
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@RequestMapping(value = "/ajax/getRespForMap", method = RequestMethod.POST)
+	public @ResponseBody
+	Member getRespForMap(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder) throws InvalidParametersException
+	{
+		Order order = orderInterface.getOrder(idOrder);
+		return order.getMember();
 	}
 }
