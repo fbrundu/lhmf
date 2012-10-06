@@ -219,9 +219,20 @@ public class MemberInterface {
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
 	public List<Member> getMembers() {
-		return sessionFactory.getCurrentSession().createQuery("from Member")
-				.list();
+		return sessionFactory.getCurrentSession().createQuery("from Member").list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Member> getMembersForMap() 
+	{
+		// per adesso prendo tutti gli utenti tranne l'admin, in seguito si richiederanno utenti in maniera
+		// più specifica
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Member");
+		return query.list();
+	}
+	
 
 	@Transactional(readOnly = true)
 	public List<String> getUsernames() {

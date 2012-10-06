@@ -330,4 +330,19 @@ public class MemberAjaxController
 		else
 			return -1;
 	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/getAddressForMap", method = RequestMethod.POST)
+	public @ResponseBody
+	List<String> getUsersForMap(HttpServletRequest request) throws InvalidParametersException
+	{
+		List<Member> members = memberInterface.getMembersForMap();
+		List<String> address = new ArrayList<String>();
+		for(Member m : members)
+		{
+			address.add(m.getAddress() + " - " + m.getCity());
+		}
+		return address;		
+		
+	}
 }
