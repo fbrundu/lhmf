@@ -2,6 +2,7 @@ package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.Notify;
 import it.polito.ai.lhmf.orm.Order;
 import it.polito.ai.lhmf.orm.OrderProduct;
 import it.polito.ai.lhmf.orm.Product;
@@ -36,6 +37,7 @@ public class PurchaseInterface
 	private ProductInterface productInterface;
 	private OrderInterface orderInterface;
 	private MemberInterface memberInterface;
+	private NotifyInterface notifyInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -73,9 +75,33 @@ public class PurchaseInterface
 		p.setOrder(order);
 		p.setMember(member);
 		
+		Float progressBefore = orderInterface.getProgress(idOrder);
 		Integer result = (Integer) sessionFactory.getCurrentSession().save(p);
+		Float progressAfter = orderInterface.getProgress(idOrder);
+
+		Notify nn = new Notify();
+		nn.setMember(p.getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
 		
-		
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+
 		return result;
 	}
 

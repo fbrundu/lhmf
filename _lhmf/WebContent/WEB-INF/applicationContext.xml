@@ -80,6 +80,7 @@
         <property name="productInterface" ref="productDao"/>
         <property name="orderInterface" ref="orderDao"/>
         <property name="memberInterface" ref="memberDao"/>
+        <property name="notifyInterface" ref="notifyDao"/>
     </bean>
     
     <bean id="memberDao" class="it.polito.ai.lhmf.model.MemberInterface">
