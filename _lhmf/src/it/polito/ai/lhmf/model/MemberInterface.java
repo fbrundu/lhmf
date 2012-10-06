@@ -544,9 +544,9 @@ public class MemberInterface {
 	public List<Member> getMembers(int memberTypeId) {
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Member where memberType = :memberType order by idMember");
+				"from Member where memberType.idMemberType = :memberTypeId order by idMember");
 
-		query.setParameter("memberType", memberTypeId);
+		query.setParameter("memberTypeId", memberTypeId);
 		return (List<Member>) query.list();
 	}
 	

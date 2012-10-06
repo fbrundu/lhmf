@@ -35,6 +35,22 @@ public class AndroidOrderController {
 	@Autowired
 	private PurchaseInterface purchaseInterface;
 	
+	@RequestMapping(value = "/androidApi/getorder", method = RequestMethod.GET)
+	public @ResponseBody
+	Order getOrder(
+			@RequestParam(value = "idOrder", required = true) Integer idOrder)
+	{
+		try
+		{
+			return orderInterface.getOrder(idOrder);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@RequestMapping(value = "/androidApi/getorderproducts", method = RequestMethod.GET)
 	public @ResponseBody
 	List<Product> getOrderProducts(

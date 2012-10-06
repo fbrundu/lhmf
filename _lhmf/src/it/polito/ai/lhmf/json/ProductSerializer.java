@@ -52,6 +52,7 @@ public class ProductSerializer extends JsonSerializer<Product>
 		
 		jgen.writeNumberField("idMemberSupplier", value.getSupplier()
 				.getIdMember());
+		jgen.writeObjectField("supplier", value.getSupplier());
 		jgen.writeObjectField("category", value.getProductCategory());
 		jgen.writeEndObject();
 	}
