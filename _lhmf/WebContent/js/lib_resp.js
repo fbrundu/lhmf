@@ -312,8 +312,10 @@ function writeStatistics() {
 	var year2 = $("#yearS2").val();
 	var year3 = $("#yearS3").val();
 	
-	$.post("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
-	$.post("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
+	if (idSup1 != null)
+	  $.post("ajax/statRespOrderMonth", {idSupplier: idSup1, year: year1}, postStatRespOrderMonthHandler);
+	if (idSup2 != null)
+	  $.post("ajax/statRespOrderYear", {idSupplier: idSup2, year: year2}, postStatRespOrderYearHandler);
 	$.post("ajax/statRespTopUsers", null, postStatRespTopUsersHandler);
 	$.post("ajax/statRespMoneyMonth", {year: year3}, postStatRespMoneyMonthHandler);
 	$.post("ajax/statProdTopProduct", null, postStatProdTopProductHandler);
@@ -1063,7 +1065,7 @@ function clickSetShipPurchaseHandler() {
 		$(tdControl).css('color','green');
 		$(tdControl).html("Effettuata");
 		
-		//aggiorno la quantità degli ordini ancora da consegnare
+		//aggiorno la quantitï¿½ degli ordini ancora da consegnare
 		var idShipCount = "#idOrderShip_" + idOrder;
 		var countShip = $(idShipCount).data('shipcount');
 		countShip--;
@@ -1313,7 +1315,7 @@ function postShowDetailsHandler(data) {
     
     var stringProductsId = productsid.join(',');
     
-    //aggiorno le quantità acquistate e relativo parziale
+    //aggiorno le quantitï¿½ acquistate e relativo parziale
     $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
     {
     	$.each(productsid, function(index, idProduct) {
@@ -1406,7 +1408,7 @@ function refreshProgress(idOrder) {
     	productsid.push(idProduct);
     	var progress = parseFloat(temp[1]);
     	
-    	//Aggiorno disponibilità
+    	//Aggiorno disponibilitï¿½
     	var idDispDIV = "#dispOrder_" + idOrder + "_" + idProduct;
     	var DispTmp = 0;
 	    $.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: idProduct}, function(data)
@@ -1427,7 +1429,7 @@ function refreshProgress(idOrder) {
     
     	var stringProductsId = productsid.join(',');
     
-	    //aggiorno le quantità acquistate
+	    //aggiorno le quantitï¿½ acquistate
 	    $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
 	    {
 	    	$.each(productsid, function(index, idProduct) {
