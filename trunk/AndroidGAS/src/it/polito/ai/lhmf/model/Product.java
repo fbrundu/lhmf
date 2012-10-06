@@ -2,6 +2,9 @@ package it.polito.ai.lhmf.model;
 
 import java.io.Serializable;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product implements Serializable {
 	/**
 	 * 
@@ -23,8 +26,7 @@ public class Product implements Serializable {
 	private String minBuy;
 	private String maxBuy;
 	private String imgPath;
-	
-	private Integer idMemberSupplier;
+	private Supplier supplier;
 	private ProductCategory category;
 	
 	public Integer getIdProduct() {
@@ -123,19 +125,19 @@ public class Product implements Serializable {
 		this.imgPath = imgPath;
 	}
 
-	public Integer getIdMemberSupplier() {
-		return idMemberSupplier;
-	}
-
-	public void setIdMemberSupplier(Integer idMemberSupplier) {
-		this.idMemberSupplier = idMemberSupplier;
-	}
-
 	public ProductCategory getCategory() {
 		return category;
 	}
 
 	public void setCategory(ProductCategory category) {
 		this.category = category;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
 	}
 }
