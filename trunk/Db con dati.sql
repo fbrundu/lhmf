@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Ott 02, 2012 alle 13:26
+-- Generato il: Ott 06, 2012 alle 19:03
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -19,9 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `malnati_project`
 --
-DROP DATABASE `malnati_project`;
-CREATE DATABASE `malnati_project` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `malnati_project`;
 
 -- --------------------------------------------------------
 
@@ -73,23 +70,23 @@ CREATE TABLE IF NOT EXISTS `member` (
 --
 
 INSERT INTO `member` (`idMember`, `name`, `surname`, `username`, `password`, `reg_code`, `reg_date`, `email`, `address`, `city`, `state`, `cap`, `tel`, `member_type`, `status`, `from_admin`) VALUES
-(1, 'Giuseppe', 'Rossi', 'admin', '7815696ecbf1c96e6894b779456d330e', 'bc1bfa4e7cef3a22327bcf0f3f9462f4', '2012-09-27', 'admin@hotmail.it', 'Via Roma 25', 'Torino', 'Italia', '10121', '0119909772', 2, 2, 0),
-(10, 'Andrea', 'Pistis', 'Resp1', '7815696ecbf1c96e6894b779456d330e', '3fe4e42d50a311f5', '2012-09-27', 'anpis@hotmail.it', 'Corso Giulio Cesare 22', 'Torino', 'Italia', '10121', '0119944564', 1, 2, 1),
-(11, 'Carlo', 'Pisapia', 'Resp2', '7815696ecbf1c96e6894b779456d330e', '3fcc797bd5d55bf8', '2012-09-27', 'carpis@hotmail.it', 'Via Dante 2', 'Torino', 'Italia', '10121', '0112243577', 1, 2, 1),
-(12, 'Francesco', 'Seppi', 'Supplier1', '7815696ecbf1c96e6894b779456d330e', '3fdc4fce67dcb576', '2012-09-27', 'frsep@hotmail.it', 'Via Doria 11', 'Milano', 'Italia', '10145', '02554788', 3, 2, 1),
-(13, 'Luca', 'De Matteo', 'Supplier2', '7815696ecbf1c96e6894b779456d330e', '3fc9cc59fc0b1748', '2012-09-27', 'lude@gmail.com', 'Via Scipi 3', 'Torino', 'Italia', '10060', '0118857655', 3, 2, 1),
-(14, 'Matteo', 'Di Matteo', 'Supplier3', '7815696ecbf1c96e6894b779456d330e', '3feb79855e2f75e1', '2012-09-27', 'matdi@gmail.com', 'Corso Piacenza 22', 'Torino', 'Italia', '10121', '011445433', 3, 2, 1),
-(15, 'Hassan', 'Umbroso', 'Supplier4', '7815696ecbf1c96e6894b779456d330e', '3fee4d614f0e7f32', '2012-09-27', 'hasum@gmail.com', 'Corso Umbria 21', 'Torino', 'Italia', '10121', '01199065337', 3, 2, 1),
-(16, 'Hassan', 'Metwalley', 'Norm1', '7815696ecbf1c96e6894b779456d330e', '3fe8e3c20fc81669', '2012-09-27', 'hasmet@hotmail.it', 'Via Roma 71', 'Airasca', 'Italia', '10060', '0119909554', 0, 2, 0),
-(17, 'Francesco', 'Brundu', 'Norm2', '7815696ecbf1c96e6894b779456d330e', '3fe4c8e155a6cbeb', '2012-09-27', 'frbru@hotmail.it', 'Via Sardegna 2', 'Sassari', 'Iugoslavia', '10234', '00203365466', 0, 2, 0),
-(18, 'Luca', 'Moretto', 'Norm3', '7815696ecbf1c96e6894b779456d330e', '3fd17dd428057c3c', '2012-09-27', 'lumor@hotmail.it', 'Via Roma 20', 'San Pietro Torinese', 'Italia', '10060', '0116647622', 0, 2, 0),
-(19, 'Matteo', 'Ferrari', 'Norm4', '7815696ecbf1c96e6894b779456d330e', '3fc767fffdc995c4', '2012-09-27', 'matfer@gmail.com', 'Via Candolo 2', 'Nichelino', 'Aruba', '10050', '0117764322', 0, 2, 0),
-(20, 'Luigi', 'Longo', 'Norm5', '7815696ecbf1c96e6894b779456d330e', '3fe21afce4dbb6ab', '2012-09-27', 'luilon@hotmail.it', 'Via Cercaie 1', 'San Mauro Torinese', 'Italia', '10040', '0117754433', 0, 2, 0),
-(21, 'Franco', 'Fidelio', 'Norm6', '7815696ecbf1c96e6894b779456d330e', '3fbfc5d2635d2cd8', '2012-09-27', 'frfid@gmail.com', 'Via Rinescenza 3', 'Torino', 'Italia', '10050', '0113386599', 0, 2, 0),
-(22, 'Pier Luigi', 'Carletti', 'Norm7', '7815696ecbf1c96e6894b779456d330e', '3fdc9bba519ce05e', '2012-09-27', 'prcarl@yahoo.it', 'Via Candido 5', 'Torino', 'Italia', '10040', '0114487599', 0, 2, 0),
-(23, 'Carlo', 'Stizi', 'Norm8', '7815696ecbf1c96e6894b779456d330e', '3fd06e0717529cc2', '2012-09-27', 'carstz@hotmail.com', 'Via Lombriasco 55', 'Torino', 'Italia', '10030', '0113485555', 0, 2, 0),
-(24, 'Stefania', 'De Bosco', 'Norm9', '7815696ecbf1c96e6894b779456d330e', '3fba9c6ead4d07c8', '2012-09-27', 'stbos@aruba.it', 'Largo Roma 4', 'Torino', 'Italia', '10377', '0113398577', 0, 2, 0),
-(25, 'Nicoletta', 'Luigi', 'Norm10', '7815696ecbf1c96e6894b779456d330e', '3fe5eb667764949e', '2012-09-27', 'niclu@gmail.com', 'Largo Colombo 22', 'Torino', 'Italia', '10377', '0114822789', 0, 2, 0);
+(1, 'Giuseppe', 'Rossi', 'admin', '7815696ecbf1c96e6894b779456d330e', 'bc1bfa4e7cef3a22327bcf0f3f9462f4', '2012-09-27', 'admin@hotmail.it', 'Via Roma, 25', 'Airasca', 'Italia', '10060', '0119909772', 2, 2, 0),
+(10, 'Andrea', 'Pistis', 'Resp1', '7815696ecbf1c96e6894b779456d330e', '3fe4e42d50a311f5', '2012-09-27', 'anpis@hotmail.it', 'Corso Giulio Cesare, 22', 'Torino', 'Italia', '10152', '0119944564', 1, 2, 1),
+(11, 'Carlo', 'Pisapia', 'Resp2', '7815696ecbf1c96e6894b779456d330e', '3fcc797bd5d55bf8', '2012-09-27', 'carpis@hotmail.it', 'Via Dante di Nanni, 2', 'Torino', 'Italia', '10138', '0112243577', 1, 2, 1),
+(12, 'Francesco', 'Seppi', 'Supplier1', '7815696ecbf1c96e6894b779456d330e', '3fdc4fce67dcb576', '2012-09-27', 'frsep@hotmail.it', 'Via Andrea Doria, 25', 'Rho', 'Italia', '20017', '02554788', 3, 2, 1),
+(13, 'Luca', 'De Matteo', 'Supplier2', '7815696ecbf1c96e6894b779456d330e', '3fc9cc59fc0b1748', '2012-09-27', 'lude@gmail.com', 'Via Scipio Slataper, 3', 'Brescia', 'Italia', '25128', '0118857655', 0, 0, 1),
+(14, 'Matteo', 'Di Matteo', 'Supplier3', '7815696ecbf1c96e6894b779456d330e', '3feb79855e2f75e1', '2012-09-27', 'matdi@gmail.com', 'Via Roma, 25', 'Napoli', 'Italia', '80147', '011445433', 0, 0, 1),
+(15, 'Hassan', 'Umbroso', 'Supplier4', '7815696ecbf1c96e6894b779456d330e', '3fee4d614f0e7f32', '2012-09-27', 'hasum@gmail.com', 'Corso Umbria, 21', 'Torino', 'Italia', '10144', '01199065337', 3, 2, 1),
+(16, 'Hassan', 'Metwalley', 'Norm1', '7815696ecbf1c96e6894b779456d330e', '3fe8e3c20fc81669', '2012-09-27', 'hasmet@hotmail.it', 'Largo Augusto, 3', 'Milano', 'Italia', '20122', '0119909554', 0, 2, 0),
+(17, 'Francesco', 'Brundu', 'Norm2', '7815696ecbf1c96e6894b779456d330e', '3fe4c8e155a6cbeb', '2012-09-27', 'frbru@hotmail.it', 'Via Sardegna, 2', 'Cinisello Balsamo', 'Italia', '20092', '00203365466', 0, 2, 0),
+(18, 'Luca', 'Moretto', 'Norm3', '7815696ecbf1c96e6894b779456d330e', '3fd17dd428057c3c', '2012-09-27', 'lumor@hotmail.it', 'Via Chieri, 30', 'Baldissero Torinese', 'Italia', '10020', '0116647622', 0, 2, 0),
+(19, 'Matteo', 'Ferrari', 'Norm4', '7815696ecbf1c96e6894b779456d330e', '3fc767fffdc995c4', '2012-09-27', 'matfer@gmail.com', 'Via Roma, 30', 'Racale', 'Italia', '73055', '0117764322', 0, 2, 0),
+(20, 'Luigi', 'Longo', 'Norm5', '7815696ecbf1c96e6894b779456d330e', '3fe21afce4dbb6ab', '2012-09-27', 'luilon@hotmail.it', 'Via Bergamo, 30', 'Monza', 'Italia', '20900', '0117754433', 0, 2, 0),
+(21, 'Franco', 'Fidelio', 'Norm6', '7815696ecbf1c96e6894b779456d330e', '3fbfc5d2635d2cd8', '2012-09-27', 'frfid@gmail.com', 'Via Roma, 234', 'Palermo', 'Italia', '10050', '0113386599', 0, 2, 0),
+(22, 'Pier Luigi', 'Carletti', 'Norm7', '7815696ecbf1c96e6894b779456d330e', '3fdc9bba519ce05e', '2012-09-27', 'prcarl@yahoo.it', 'Via Candido Giuseppe, 5', 'Lecce', 'Italia', '73100', '0114487599', 0, 2, 0),
+(23, 'Carlo', 'Stizi', 'Norm8', '7815696ecbf1c96e6894b779456d330e', '3fd06e0717529cc2', '2012-09-27', 'carstz@hotmail.com', 'Via Lombriasco, 55', 'Roma', 'Italia', '00166', '0113485555', 0, 2, 0),
+(24, 'Stefania', 'De Bosco', 'Norm9', '7815696ecbf1c96e6894b779456d330e', '3fba9c6ead4d07c8', '2012-09-27', 'stbos@aruba.it', 'Via Roma, 4', 'Cerveteri', 'Italia', '00052', '0113398577', 0, 2, 0),
+(25, 'Nicoletta', 'Luigi', 'Norm10', '7815696ecbf1c96e6894b779456d330e', '3fe5eb667764949e', '2012-09-27', 'niclu@gmail.com', 'Via Colombo, 22', 'Genova', 'Italia', '16121', '0114822789', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -172,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `notify` (
   `notify_category` int(11) NOT NULL,
   PRIMARY KEY (`idNotify`),
   KEY `fk_Notify_Member1` (`idMember`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -192,7 +189,16 @@ CREATE TABLE IF NOT EXISTS `order` (
   UNIQUE KEY `order_name` (`order_name`),
   KEY `fk_Order_Member1` (`idMember_resp`),
   KEY `fk_Order_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dump dei dati per la tabella `order`
+--
+
+INSERT INTO `order` (`idOrder`, `order_name`, `date_open`, `date_close`, `date_delivery`, `idMember_resp`, `idSupplier`) VALUES
+(6, 'NoProb', '2012-10-04', '2012-10-07', NULL, 10, 12),
+(7, 'Prob1', '2012-10-04', '2012-10-07', NULL, 10, 12),
+(8, 'Prob2', '2012-10-04', '2012-10-07', NULL, 10, 13);
 
 -- --------------------------------------------------------
 
@@ -208,6 +214,19 @@ CREATE TABLE IF NOT EXISTS `order_product` (
   KEY `fk_Order_has_ProductList_ProductList1` (`idProduct`),
   KEY `fk_Order_has_ProductList_Order1` (`idOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `order_product`
+--
+
+INSERT INTO `order_product` (`idOrder`, `idProduct`, `failed`) VALUES
+(6, 24, 1),
+(6, 25, 1),
+(6, 30, 0),
+(7, 22, 1),
+(7, 23, 1),
+(8, 37, 0),
+(8, 38, 1);
 
 -- --------------------------------------------------------
 
@@ -233,17 +252,17 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`idProduct`),
   KEY `fk_Product_Product_Category1` (`idCategory`),
   KEY `fk_Product_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=58 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 --
 -- Dump dei dati per la tabella `product`
 --
 
 INSERT INTO `product` (`idProduct`, `name`, `description`, `dimension`, `measure_unit`, `unit_block`, `availability`, `transport_cost`, `unit_cost`, `min_buy`, `max_buy`, `imgPath`, `idCategory`, `idSupplier`) VALUES
-(22, 'Mela', 'Cesto di mele', 12, 'Kg', 2, 1, 12, 1, 1, 10, 'img/prd/22.jpg', 12, 12),
+(22, 'Mela', 'Cesto di mele', 12, 'Kg', 2, 1, 12, 1, 10, 11, 'img/prd/22.jpg', 12, 12),
 (23, 'Pera', 'Cesto di pere', 12, 'Kg', 2, 1, 4, 10, 1, 12, 'img/prd/23.jpg', 12, 12),
 (24, 'Fragola', 'Sacchetto di fragole', 1, 'Hg', 8, 1, 12, 2, 1, 30, 'img/prd/24.jpg', 12, 12),
-(25, 'Ciliegia', 'Sacchetto di ciliegie', 2, 'Hg', 5, 1, 12, 2, 2, 50, 'img/prd/25.jpg', 12, 12),
+(25, 'Ciliegia', 'Sacchetto di ciliegie', 2, 'Hg', 5, 1, 12, 2, 1, 50, 'img/prd/25.jpg', 12, 12),
 (26, 'Insalata', 'Insalata', 1, 'Kg', 3, 1, 16, 2, 2, 50, 'img/prd/26.jpg', 13, 12),
 (27, 'Cavolfiore', 'Cassetta di cavolfiori', 1, 'Kg', 2, 1, 12, 1, 2, 8, 'img/prd/27.jpg', 13, 12),
 (29, 'Pomodoro', 'Cassetta di pomodori', 2, 'Kg', 2, 1, 12, 2, 1, 10, 'img/prd/29.jpg', 13, 12),
@@ -254,7 +273,7 @@ INSERT INTO `product` (`idProduct`, `name`, `description`, `dimension`, `measure
 (34, 'Microsoft Windows Server', 'Windows Server 2008 64 bit', 1, 'Dvd', 1, 1, 12, 150, 1, 5, 'img/prd/34.jpg', 15, 13),
 (35, 'Microsoft Windows 7', 'Windows 7 64 bit', 1, 'Dvd', 1, 1, 12, 140, 1, 6, 'img/prd/35.png', 15, 13),
 (36, 'Apple MacOs X', 'MacOs X Lion', 1, 'Dvd', 1, 1, 9, 120, 1, 4, 'img/prd/36.png', 15, 13),
-(37, 'Asus Nexus 7', 'Nexus 7 16 Gb', 1, 'Tablet', 1, 1, 12, 250, 1, 3, 'img/prd/37.jpg', 16, 13),
+(37, 'Asus Nexus 7', 'Nexus 7 16 Gb', 1, 'Tablet', 1, 1, 12, 250, 15, 34, 'img/prd/37.jpg', 16, 13),
 (38, 'Samsung Galaxy Tab 2', 'Galaxy Tab 2 10 16 Gb', 1, 'Tablet', 1, 1, 10, 500, 1, 6, 'img/prd/38.jpg', 16, 13),
 (39, 'Farfalle', 'Confezione di Farfalle', 1, 'Kg', 5, 1, 12, 5, 1, 50, 'img/prd/39.jpg', 17, 14),
 (40, 'Penne', 'Confezione di penne', 1, 'Kg', 2, 1, 12, 3, 1, 20, 'img/prd/40.jpg', 17, 14),
@@ -315,7 +334,18 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   PRIMARY KEY (`idPurchase`),
   KEY `fk_Purchase_Member1` (`idMember`),
   KEY `fk_Purchase_Order1` (`idOrder`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+
+--
+-- Dump dei dati per la tabella `purchase`
+--
+
+INSERT INTO `purchase` (`idPurchase`, `isShipped`, `idMember`, `idOrder`) VALUES
+(7, 0, 16, 7),
+(8, 0, 16, 6),
+(9, 0, 16, 8),
+(10, 0, 17, 7),
+(11, 0, 17, 8);
 
 -- --------------------------------------------------------
 
@@ -332,6 +362,21 @@ CREATE TABLE IF NOT EXISTS `purchase_product` (
   KEY `fk_Purchase_has_Product_Product1` (`idProduct`),
   KEY `fk_Purchase_has_Product_Purchase1` (`idPurchase`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `purchase_product`
+--
+
+INSERT INTO `purchase_product` (`idPurchase`, `idProduct`, `amount`, `inserted_timestamp`) VALUES
+(7, 22, 5, '2012-10-04 14:33:55'),
+(7, 23, 6, '2012-10-04 14:33:55'),
+(8, 24, 4, '2012-10-04 14:34:07'),
+(8, 25, 8, '2012-10-04 14:34:07'),
+(9, 37, 1, '2012-10-04 14:34:18'),
+(9, 38, 4, '2012-10-04 14:34:18'),
+(10, 22, 6, '2012-10-04 14:34:37'),
+(11, 37, 1, '2012-10-04 14:34:53'),
+(11, 38, 1, '2012-10-04 14:34:53');
 
 -- --------------------------------------------------------
 
