@@ -126,7 +126,34 @@ public class PurchaseInterface
 		p.setOrder(order);
 		p.setMember(member);
 		
-		return (Integer) sessionFactory.getCurrentSession().save(p);
+		Float progressBefore = orderInterface.getProgress(idOrder);
+		Integer result = (Integer) sessionFactory.getCurrentSession().save(p);
+		Float progressAfter = orderInterface.getProgress(idOrder);
+
+		Notify nn = new Notify();
+		nn.setMember(p.getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
+		
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+
+		return result;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -299,7 +326,35 @@ public class PurchaseInterface
 		query.setParameter("isShipped", purchase.isIsShipped());
 		query.setParameter("idPurchase", purchase.getIdPurchase());
 
-		return (Integer) query.executeUpdate();
+		Integer idOrder = purchase.getOrder().getIdOrder();
+		Float progressBefore = orderInterface.getProgress(idOrder);
+		Integer result = (Integer) query.executeUpdate();
+		Float progressAfter = orderInterface.getProgress(idOrder);
+
+		Notify nn = new Notify();
+		nn.setMember(purchase.getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
+		
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+		
+		return result;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -363,7 +418,7 @@ public class PurchaseInterface
 		return listProduct;
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public PurchaseProductId newPurchaseProduct(PurchaseProduct purchaseProduct)
 			throws InvalidParametersException
 	{
@@ -371,9 +426,38 @@ public class PurchaseInterface
 		{
 			throw new InvalidParametersException();
 		}
-		return (PurchaseProductId) sessionFactory.getCurrentSession().save(purchaseProduct);
+		Integer idOrder = purchaseProduct.getPurchase().getOrder().getIdOrder();
+		Float progressBefore = orderInterface.getProgress(idOrder);
+		PurchaseProductId result = (PurchaseProductId) sessionFactory
+				.getCurrentSession().save(purchaseProduct);
+		Float progressAfter = orderInterface.getProgress(idOrder);
+
+		Notify nn = new Notify();
+		nn.setMember(purchaseProduct.getPurchase().getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
+
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+
+		return result;
 	}
-	
+
 	@Transactional(readOnly = true)
 	public PurchaseProduct getPurchaseProductFromId(Integer idPurchase, Integer idProduct)
 	{
@@ -512,8 +596,35 @@ public class PurchaseInterface
 		
 		query.setParameter("idPurchase", purchase.getIdPurchase());
 
-		return (Integer) query.executeUpdate();
+		Integer idOrder = purchase.getOrder().getIdOrder();
+		Float progressBefore = orderInterface.getProgress(idOrder);
+		Integer result = (Integer) query.executeUpdate();
+		Float progressAfter = orderInterface.getProgress(idOrder);
+
+		Notify nn = new Notify();
+		nn.setMember(purchase.getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
 		
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+		
+		return result;		
 	}
 
 	// FIXME ci sono due versioni della stessa funzione.. valutare se

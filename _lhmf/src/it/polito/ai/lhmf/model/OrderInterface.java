@@ -1047,24 +1047,24 @@ public class OrderInterface
 					}
 					
 					// Manda notifica agli utenti partecipanti
-					for (Purchase p : orderTmp.getPurchases())
-					{
-						Notify nn = new Notify();
-						nn.setMember(p.getMember());
-						nn.setIsReaded(false);
-						// FIXME mettere costanti
-						nn.setNotifyCategory(4);
-						nn.setText(orderTmp.getIdOrder().toString());
-						nn.setNotifyTimestamp(new Date());
-						try
-						{
-							notifyInterface.newNotify(nn);
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-						}
-					}
+//					for (Purchase p : orderTmp.getPurchases())
+//					{
+//						Notify nn = new Notify();
+//						nn.setMember(p.getMember());
+//						nn.setIsReaded(false);
+//						// FIXME mettere costanti
+//						nn.setNotifyCategory(4);
+//						nn.setText(orderTmp.getIdOrder().toString());
+//						nn.setNotifyTimestamp(new Date());
+//						try
+//						{
+//							notifyInterface.newNotify(nn);
+//						}
+//						catch (Exception e)
+//						{
+//							e.printStackTrace();
+//						}
+//					}
 				}
 			}
 		}
