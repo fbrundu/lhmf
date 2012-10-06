@@ -112,10 +112,12 @@ function writePurchasePage()
     		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
     		                     "<li><a href='#tabsPurchase-2'>Schede Attive</a></li>" +
     		                     "<li><a href='#tabsPurchase-3'>Schede In Consegna</a></li>" +
+    		                     "<li><a href='#tabsPurchase-4'>Mappa</a></li>" +
     		                    "</ul>" +
                                 "<div id='tabsPurchase-1'></div>" +
                                 "<div id='tabsPurchase-2'></div>" +
                                 "<div id='tabsPurchase-3'></div>" +
+                                "<div id='tabsPurchase-4'></div>" +
                            "</div>");
     
     $('#tabsPurchase-1').html("<div class='logform'>" +
@@ -180,6 +182,11 @@ function writePurchasePage()
                             "</div><br />" +
                         "</div>");
    
+    $('#tabsPurchase-4').html("<div class='logform'>" +
+            "<div id='map' style='width:575px; height:500px;'> </div>" +
+            "<p><input type='submit' id='regMap' class='button' value='Disegna'/></p>" +
+        "</div>");
+    
     preparePurchaseForm();
 }
 
@@ -434,7 +441,7 @@ function preparePurchaseForm(tab){
     loadPurchaseOld();
     
     $("#purchaseCompositor").hide();
-    
+    $('#regMap').on("click", drawMap);
     $('#purchaseRequest').on("click", clickPurchaseHandler);
     
     $("button").button();
@@ -1683,4 +1690,91 @@ function refreshProgressBarOrder(idPurchase) {
     	$(idProgressBarProduct).progressbar('value', progress);
     });
     
+}
+
+function drawMap()
+{
+	window.onload = initialize();
+}
+
+function initialize(idOrder)
+{
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(41.659,-4.714);
+	var myOptions = 
+	{
+	    zoom: 5,
+	    center: latlng,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	//idOrder forzata a un valore per testare la mappa
+	//idOrder = 8;
+	map = new google.maps.Map(document.getElementById("map"), myOptions);
+	$.postSync("ajax/getNormalForMap", {idOrder: idOrder}, function(membersList)
+	{
+		$.each(membersList, function(index, val)
+		{
+			var address = "" + val.address + " - " + val.city + "";
+			var text = "" + val.name + " " + val.surname + "";
+			geocoder.geocode( { 'address': address}, function(results, status) {
+			      if (status == google.maps.GeocoderStatus.OK) {
+			        map.setCenter(results[0].geometry.location);
+			        var marker = new google.maps.Marker({
+			            map: map,
+			            title: text,
+			            position: results[0].geometry.location
+			        });
+			        var tooltip = "<div id='tooltip'>"+
+					"<p><strong>Utente normale: " + val. name + " " + val.surname + "</strong><br>"+
+					val.address + "<br>" +
+					"provincia: " + val.city + "<br>" +
+					"nazione: " + val.state + "</p>" +
+					"</div>";
+					var infowindow = new google.maps.InfoWindow({
+						content: tooltip
+					});
+					google.maps.event.addListener(marker, 'click', function() {
+						infowindow.open(map,marker);
+					});
+			      }
+			      else 
+			      {
+			        alert("Geocode was not successful for the following reason: " + status);
+			      }
+			    });		
+		});
+	});
+	
+	$.postSync("ajax/getRespForMap", {idOrder: idOrder}, function(data)
+	{
+		var address = "" + data.address + " - " + data.city + "";
+		var text = "" + data.name + " " + data.surname + "";
+		geocoder.geocode( { 'address': address}, function(results, status) {
+		      if (status == google.maps.GeocoderStatus.OK) {
+		        map.setCenter(results[0].geometry.location);
+		        var marker = new google.maps.Marker({
+		            map: map,
+		            title: text,
+		            icon: 'http://google-maps-icons.googlecode.com/files/country.png',
+		            position: results[0].geometry.location
+		        });
+		        var tooltip = "<div id='tooltip'>"+
+				"<p><strong>Utente responsabile: " + data. name + " " + data.surname + "</strong><br>"+
+				data.address + "<br>" +
+				"provincia: " + data.city + "<br>" +
+				"nazione: " + data.state + "</p>" +
+				"</div>";
+				var infowindow = new google.maps.InfoWindow({
+					content: tooltip
+				});
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(map,marker);
+				});
+		      }
+		      else 
+		      {
+		        alert("Geocode was not successful for the following reason: " + status);
+		      }
+		    });	
+	});
 }

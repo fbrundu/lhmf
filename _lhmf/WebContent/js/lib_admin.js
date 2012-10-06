@@ -387,7 +387,7 @@ function writeUserPage(tab){
   $("#bodyTitleHeader").html("Gestione utenti");
   $(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Attiva utente</a></li>" +
       "<li><a href='#tabs-3'>Lista utenti</a></li><li><a href='#tabs-4'>Mappe utenti</a></li></ul>" +
-      "<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div><div id='tabs-4'></div></div>");
+      "<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div>");
   
   // HTML per la registrazione utenti e fornitori
   $('#tabs-1').html("<div class='registrazioneform' style='margin: 2em 0 0 65px;'>" +
@@ -508,11 +508,6 @@ function writeUserPage(tab){
                                 "</fieldset>" +
                               "</div><br />" +
                           "</div>");
-  
-  $('#tabs-4').html("<div class='logform'>" +
-          "<div id='map' style='width:575px; height:500px;'> </div>" +
-          "<p><input type='submit' id='regMap' class='button' value='Disegna'/></p>" +
-      "</div>");
 
   prepareUserForm(tab);
 }
@@ -977,12 +972,7 @@ function prepareUserForm(tab){
 	$('#respFieldset').hide();
 	$('#respFieldset').children().attr("disabled", "disabled");
 	
-	$('#regRequest').on("click", clickRegHandler);
-	
-	
-	$('#regMap').on("click", drawMap);
-	
-	
+	$('#regRequest').on("click", clickRegHandler);	
 	
 	$('#memberTypeActive').change(clickActMemberHandler);
 	$('#pageActive').change(clickActMemberHandler);
@@ -994,11 +984,6 @@ function prepareUserForm(tab){
   
 	activeUserSearch();
 	userSearch();
-}
-
-function drawMap()
-{
-	window.onload = initialize();
 }
 
 function clickGetMemberHandler(event)
@@ -1458,44 +1443,4 @@ function isValidMail(email)
     return false;
   }
   return true;
-}
-
-function initialize()
-{
-	geocoder = new google.maps.Geocoder();
-	var latlng = new google.maps.LatLng(41.659,-4.714);
-	var myOptions = 
-	{
-	    zoom: 5,
-	    center: latlng,
-	    mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById("map"), myOptions);
-	var markerTmp = [];
-	$.postSync("ajax/getAddressForMap", undefined, function(addressList)
-	{
-		$.each(addressList, function(index, val)
-		{
-			geocoder.geocode( { 'address': val}, function(results, status) {
-			      if (status == google.maps.GeocoderStatus.OK) {
-			        map.setCenter(results[0].geometry.location);
-			        var marker = new google.maps.Marker({
-			            map: map,
-			            position: results[0].geometry.location
-			        });
-			        markerTmp.push(marker);
-			      } else {
-			        alert("Geocode was not successful for the following reason: " + status);
-			      }
-			    });		
-		});
-	});
-	for (marker in markerTmp.markers)
-	{
-	    var m = r.markers[marker];
-	    var d = new google.maps.Marker({ position: new google.maps.LatLng(m.lat, m.lng),
-	                                     map: map,
-	                                     title: m.text,
-	                                     icon:"http://www.google.com/mapfiles/marker" + m.l + ".png" });
-	}
 }
