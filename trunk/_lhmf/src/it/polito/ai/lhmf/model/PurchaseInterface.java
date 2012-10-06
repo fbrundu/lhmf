@@ -59,6 +59,11 @@ public class PurchaseInterface
 		this.memberInterface = mi;
 	}
 	
+	public void setNotifyInterface(NotifyInterface ni)
+	{
+		this.notifyInterface = ni;
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newPurchase(Purchase p, Integer idMember, Integer idOrder)
 			throws InvalidParametersException
