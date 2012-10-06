@@ -86,17 +86,20 @@ public class OrderInterface
 		}
 
 		// Invia la notifica agli utenti responsabili (che possono partecipare
-		// all'ordine)
+		// all'ordine) eccetto il creatore dell'ordine
 		for (Member m : memberInterface.getMembers(MemberTypes.USER_RESP))
 		{
-			Notify n = new Notify();
-			n.setMember(m);
-			n.setIsReaded(false);
-			// FIXME mettere costanti
-			n.setNotifyCategory(2);
-			n.setText(newOrderId.toString());
-			n.setNotifyTimestamp(new Date());
-			notifyInterface.newNotify(n);
+			if (order.getMember().getIdMember() != m.getIdMember())
+			{
+				Notify n = new Notify();
+				n.setMember(m);
+				n.setIsReaded(false);
+				// FIXME mettere costanti
+				n.setNotifyCategory(2);
+				n.setText(newOrderId.toString());
+				n.setNotifyTimestamp(new Date());
+				notifyInterface.newNotify(n);
+			}
 		}
 		
 		return newOrderId;
