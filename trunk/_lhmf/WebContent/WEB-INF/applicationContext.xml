@@ -87,6 +87,7 @@
         <property name="memberStatusInterface" ref="memberStatusDao"/>
         <property name="messageInterface" ref="messageDao"/>
         <property name="supplierInterface" ref="supplierDao"/>
+        <property name="notifyInterface" ref="notifyDao"/>
     </bean>
     
     <bean id="memberStatusDao" class="it.polito.ai.lhmf.model.MemberStatusInterface">

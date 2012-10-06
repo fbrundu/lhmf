@@ -6,6 +6,7 @@ import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
+import it.polito.ai.lhmf.orm.Notify;
 import it.polito.ai.lhmf.orm.Supplier;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class MemberInterface {
 	private MemberStatusInterface memberStatusInterface;
 	private MessageInterface messageInterface;
 	private SupplierInterface supplierInterface;
+	private NotifyInterface notifyInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -55,6 +57,11 @@ public class MemberInterface {
 	public void setSupplierInterface(SupplierInterface supplierInterface)
 	{
 		this.supplierInterface = supplierInterface;
+	}
+	
+	public void setNotifyInterface(NotifyInterface notifyInterface)
+	{
+		this.notifyInterface = notifyInterface;
 	}
 	
 	@Transactional()
@@ -89,6 +96,16 @@ public class MemberInterface {
 								+ "\n" + "Email: " + member.getEmail() + "\n");
 			}
 		}
+		
+		Notify n = new Notify();
+		n.setMember(getMemberAdmin());
+		n.setIsReaded(false);
+		// FIXME mettere costanti
+		n.setNotifyCategory(6);
+		n.setText(memberId.toString());
+		n.setNotifyTimestamp(new Date());
+		notifyInterface.newNotify(n);
+		
 		return memberId;
 	}
 
@@ -104,7 +121,8 @@ public class MemberInterface {
 			throw new InvalidParametersException();
 
 		if (!m.getMemberStatus().equals(
-				memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED))) {
+				memberStatusInterface.getMemberStatus(MemberStatuses.ENABLED)))
+		{
 			if (m.isFromAdmin())
 				m.setMemberStatus(memberStatusInterface
 						.getMemberStatus(MemberStatuses.ENABLED));
@@ -115,7 +133,8 @@ public class MemberInterface {
 			model.addAttribute("firstname", m.getName());
 
 			sessionFactory.getCurrentSession().save(m);
-			if (!m.isFromAdmin()) {
+			if (!m.isFromAdmin())
+			{
 				model.addAttribute("active", false);
 				messageInterface.newMessageToAdmin(
 						this.getMemberAdmin(),
@@ -124,10 +143,19 @@ public class MemberInterface {
 								+ "Id: " + m.getIdMember() + " - "
 								+ m.getName() + " " + m.getSurname() + "\n"
 								+ "Email: " + m.getEmail() + "\n");
-			} else
-				model.addAttribute("active", true);
-		} else
-			model.addAttribute("active", true);
+				return;
+			}
+		}
+		model.addAttribute("active", true);
+		
+//		Notify n = new Notify();
+//		n.setMember(getMemberAdmin());
+//		n.setIsReaded(false);
+//		// FIXME mettere costanti
+//		n.setNotifyCategory(6);
+//		n.setText(idMember.toString());
+//		n.setNotifyTimestamp(new Date());
+//		notifyInterface.newNotify(n);
 	}
 
 	@Transactional(readOnly = true)
