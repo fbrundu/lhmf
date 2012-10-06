@@ -2,16 +2,21 @@ package it.polito.ai.lhmf.android;
 
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
+import it.polito.ai.lhmf.android.resp.NewOrderActivity;
 import it.polito.ai.lhmf.model.Product;
 
 import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,8 +24,11 @@ public class ProductDetailsActivity extends Activity {
 	private Gas api = null;
 	private ImageView iv = null;
 	private ProgressDialog pDialog = null;
+	private boolean fromNotify;
 	
-	private TextView name = null, desc = null, dim = null, measureUnit = null, blockUnits = null, transportCost = null, unitCost = null,
+	private Product product;
+	
+	private TextView name = null, desc = null, supplier = null, dim = null, measureUnit = null, blockUnits = null, transportCost = null, unitCost = null,
 			minUnits = null, maxUnits = null, category = null;
 
 	@Override
@@ -31,6 +39,7 @@ public class ProductDetailsActivity extends Activity {
 		
 		name = (TextView) findViewById(R.id.productName);
 		desc = (TextView) findViewById(R.id.productDesc);
+		supplier = (TextView) findViewById(R.id.productSupplier);
 		dim = (TextView) findViewById(R.id.productDim);
 		measureUnit = (TextView) findViewById(R.id.productMeasureUnit);
 		blockUnits = (TextView) findViewById(R.id.productBlockUnits);
@@ -47,11 +56,33 @@ public class ProductDetailsActivity extends Activity {
 		
 			int idProduct = getIntent().getIntExtra("idProduct", -1);
 			if(idProduct != -1){
+				fromNotify = getIntent().getBooleanExtra("fromNotify", false);
 				pDialog = ProgressDialog.show(this, "", "Caricamento", true);
 				new GetProductTask().execute(api, idProduct);
 			}
 			
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if(!fromNotify)
+			return false;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.create_order, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if(fromNotify && item.getItemId() == R.id.create_order && product != null){
+			Intent intent = new Intent(this, NewOrderActivity.class);
+			intent.putExtra("supplier", product.getSupplier());
+			startActivity(intent);
+			return true;
+		}
+		else
+			return super.onOptionsItemSelected(item);
 	}
 	
 	private class GetProductTask extends AsyncTask<Object, Void, Product>{
@@ -65,24 +96,25 @@ public class ProductDetailsActivity extends Activity {
 		
 		@Override
 		protected void onPostExecute(Product result) {
-			name.setText(result.getName());
-			desc.setText(result.getDescription());
-			dim.setText(result.getDimension().toString());
-			measureUnit.setText(result.getMeasureUnit());
-			blockUnits.setText(result.getUnitBlock().toString());
-			transportCost.setText(result.getTransportCost().toString());
-			unitCost.setText(result.getUnitCost().toString());
-
-			//CHECK esistenza
-			minUnits.setText(result.getMinBuy().toString());
-			maxUnits.setText(result.getMaxBuy().toString());
-			
-			category.setText(result.getCategory().getDescription());
-			
-			//TODO fornitore?
-			
-			if(!result.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
-				new GetProductPictureTask().execute(api, result.getImgPath());
+			if(result != null){
+				product = result;
+				name.setText(result.getName());
+				desc.setText(result.getDescription());
+				supplier.setText(result.getSupplier().getCompanyName());
+				dim.setText(result.getDimension().toString());
+				measureUnit.setText(result.getMeasureUnit());
+				blockUnits.setText(result.getUnitBlock().toString());
+				transportCost.setText(result.getTransportCost().toString());
+				unitCost.setText(result.getUnitCost().toString());
+	
+				minUnits.setText(result.getMinBuy());
+				maxUnits.setText(result.getMaxBuy());
+				
+				category.setText(result.getCategory().getDescription());
+				
+				if(!result.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
+					new GetProductPictureTask().execute(api, result.getImgPath());
+				}
 			}
 		}
 	}

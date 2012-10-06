@@ -247,4 +247,15 @@ public class OrderTemplate implements OrderOperations {
 			return null;
 	}
 
+	@Override
+	public Order getOrder(Integer orderId) {
+		try {
+			Order order = template.getForObject(Gas.baseApiUrl + "getorder?idOrder={id}", Order.class, orderId);
+			return order;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

@@ -36,4 +36,6 @@ public interface OrderOperations {
 	Integer setPurchaseShipped(Integer idPurchase);
 
 	Purchase[] getOrderCompletedPurchases(Integer idOrder);
+
+	Order getOrder(Integer orderId);
 }

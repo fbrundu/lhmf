@@ -420,16 +420,20 @@ public class OrderInterface
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Purchase> getPurchasesFromOrder(Integer idOrder, String username)
 			throws InvalidParametersException
 	{
 		if (idOrder == null || idOrder <= 0 || username == null)
 			throw new InvalidParametersException();
-		if (getOrder(idOrder).getMember().getIdMember() == memberInterface
+		
+		Order order = getOrder(idOrder);
+		if(order == null)
+			return null;
+		
+		if (order.getMember().getIdMember() == memberInterface
 				.getMember(username).getIdMember())
-			return (List<Purchase>) getOrder(idOrder).getPurchases();
+			return new ArrayList<Purchase>(order.getPurchases());
 		else
 			return null;
 	}

@@ -71,4 +71,6 @@
     <string name="to_deliver">DA CONSEGNARE</string>
     <string name="competed_purchase_details">Dettagli scheda</string>
     <string name="user">"Utente: "</string>
+    <string name="create_order">Crea nuovo ordine</string>
+    <string name="new_product_supplier">Fornitore:</string>
 </resources>

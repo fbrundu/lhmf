@@ -4,7 +4,10 @@ import it.polito.ai.lhmf.android.LoginActivity;
 import it.polito.ai.lhmf.android.ProductDetailsActivity;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
+import it.polito.ai.lhmf.android.normal.NewPurchaseActivity;
+import it.polito.ai.lhmf.android.resp.SetOrderDeliveryActivity;
 import it.polito.ai.lhmf.model.Notify;
+import it.polito.ai.lhmf.model.Order;
 
 import java.util.Calendar;
 import java.util.List;
@@ -64,10 +67,8 @@ public class GasNetworkService extends Service {
 			Intent notificationIntent = new Intent(getApplicationContext(), LoginActivity.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
 			notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Effettuare il login", contentIntent);
-			notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
-			notification.flags |= Notification.FLAG_AUTO_CANCEL;
-			notification.defaults |= Notification.DEFAULT_SOUND;
-			notification.defaults |= Notification.DEFAULT_VIBRATE;
+			prepareNotificationFlasgs(notification);
+			
 			nm.notify(LOGIN_REQUIRED_NOTIFICATION, notification);
 		}
 		else{
@@ -88,6 +89,15 @@ public class GasNetworkService extends Service {
 	    	return false;
 	    }
 		return true;
+	}
+	
+	private static void prepareNotificationFlasgs(Notification notification){
+		if(notification != null){
+			notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
+			notification.flags |= Notification.FLAG_AUTO_CANCEL;
+			notification.defaults |= Notification.DEFAULT_SOUND;
+			notification.defaults |= Notification.DEFAULT_VIBRATE;
+		}
 	}
 	
 	private class GetNotifiesTask implements Runnable{
@@ -156,13 +166,50 @@ public class GasNetworkService extends Service {
 		}
 
 		private void orderClosedNotification(String text) {
-			// TODO Auto-generated method stub
+			Integer orderId = null;
+			try {
+				orderId = Integer.valueOf(text);
+				Order order = api.orderOperations().getOrder(orderId);
+				if(order != null){
+					Notification notification = new Notification(android.R.drawable.stat_notify_sync, "Gas: Ordine chiuso", System.currentTimeMillis());
+					Intent notificationIntent = new Intent(getApplicationContext(), SetOrderDeliveryActivity.class);
+					notificationIntent.putExtra("order", order);
+					notificationIntent.putExtra("fromNotify", true);
+					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Ordine chiuso", contentIntent);
+					prepareNotificationFlasgs(notification);
+					
+					Integer notifyId = Integer.valueOf(ORDER_CLOSED_NOTIFICATION_PREFIX + "" + orderId);
+					nm.notify(notifyId, notification);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				return;
+			}
 			
 		}
 
 		private void newOrderNotification(String text) {
-			// TODO Auto-generated method stub
-			
+			Integer orderId = null;
+			try {
+				orderId = Integer.valueOf(text);
+				Order order = api.orderOperations().getOrder(orderId);
+				if(order != null){
+					Notification notification = new Notification(android.R.drawable.stat_notify_sync, "Gas: Nuovo ordine", System.currentTimeMillis());
+					Intent notificationIntent = new Intent(getApplicationContext(), NewPurchaseActivity.class);
+					notificationIntent.putExtra("order", order);
+					notificationIntent.putExtra("fromNotify", true);
+					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Nuovo ordine", contentIntent);
+					prepareNotificationFlasgs(notification);
+					
+					Integer notifyId = Integer.valueOf(NEW_ORDER_NOTIFICATION_PREFIX + "" + orderId);
+					nm.notify(notifyId, notification);
+				}
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				return;
+			}
 		}
 
 		private void newProductNotification(String text) {
@@ -175,10 +222,7 @@ public class GasNetworkService extends Service {
 				notificationIntent.putExtra("fromNotify", true);
 				PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
 				notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Nuovo prodotto", contentIntent);
-				notification.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
-				notification.flags |= Notification.FLAG_AUTO_CANCEL;
-				notification.defaults |= Notification.DEFAULT_SOUND;
-				notification.defaults |= Notification.DEFAULT_VIBRATE;
+				prepareNotificationFlasgs(notification);
 				
 				Integer notifyId = Integer.valueOf(NEW_PRODUCT_NOTIFICATION_PREFIX + "" + productId);
 				nm.notify(notifyId, notification);
@@ -188,7 +232,6 @@ public class GasNetworkService extends Service {
 			}
 			
 		}
-		
 	}
 
 }
