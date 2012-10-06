@@ -3,6 +3,7 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
+import it.polito.ai.lhmf.orm.Notify;
 import it.polito.ai.lhmf.orm.Product;
 import it.polito.ai.lhmf.orm.ProductCategory;
 import it.polito.ai.lhmf.orm.PurchaseProduct;
@@ -43,6 +44,7 @@ public class ProductInterface
 	private ProductCategoryInterface productCategoryInterface;
 	private MemberInterface memberInterface;
 //	private MemberTypeInterface memberTypeInterface;
+	private NotifyInterface notifyInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -73,6 +75,11 @@ public class ProductInterface
 	public void setMemberInterface(MemberInterface memberInterface)
 	{
 		this.memberInterface = memberInterface;
+	}
+	
+	public void setNotifyInterface(NotifyInterface notifyInterface)
+	{
+		this.notifyInterface = notifyInterface;
 	}
 	
 //	public void setMemberTypeInterface(MemberTypeInterface memberTypeInterface)
@@ -149,7 +156,16 @@ public class ProductInterface
 		Integer newProductId = (Integer) sessionFactory.getCurrentSession()
 				.save(p);
 		modelState.setToReloadProducts(true);
-
+		//Invia la notifica al responsabile
+		Notify n = new Notify();
+		n.setMember(s.getMemberByIdMemberResp());
+		n.setIsReaded(false);
+		//FIXME mettere costanti
+		n.setNotifyCategory(1);
+		n.setText(newProductId.toString());
+		n.setNotifyTimestamp(new Date());
+		notifyInterface.newNotify(n);
+		
 		if (picture != null)
 		{
 			if (pictureDirectoryPath == null || serverPath == null)

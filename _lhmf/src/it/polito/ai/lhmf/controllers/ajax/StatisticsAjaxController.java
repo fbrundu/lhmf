@@ -32,7 +32,6 @@ public class StatisticsAjaxController
 	ArrayList<Float> statMemberType(HttpServletRequest request)
 	{
 		ArrayList<Float> respStat = new ArrayList<Float>();
-		
 		Float normalUsers = (float) (long) memberInterface.getNumberItems(MemberTypes.USER_NORMAL);
 		Float respUsers = (float) (long) memberInterface.getNumberItems(MemberTypes.USER_RESP);
 		Float supplierUsers = (float) (long) memberInterface.getNumberItems(MemberTypes.USER_SUPPLIER);
