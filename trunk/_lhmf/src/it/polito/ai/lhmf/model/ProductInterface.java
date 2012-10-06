@@ -373,14 +373,26 @@ public class ProductInterface
 			throw new InvalidParametersException();
 
 		Member m = memberInterface.getMember(username);
+		Integer result = -1;
 		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_ADMIN)
-			return privateSetProductAvailable(idProduct);
+			result = privateSetProductAvailable(idProduct);
 
 		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER
 				&& getProduct(idProduct).getSupplier().getIdMember() == m
 						.getIdMember())
-			return privateSetProductAvailable(idProduct);
-		return -1;
+			result = privateSetProductAvailable(idProduct);
+		
+		Notify n = new Notify();
+		n.setMember(getProduct(idProduct).getSupplier()
+				.getMemberByIdMemberResp());
+		n.setIsReaded(false);
+		// FIXME mettere costanti
+		n.setNotifyCategory(3);
+		n.setText(idProduct.toString());
+		n.setNotifyTimestamp(new Date());
+		notifyInterface.newNotify(n);
+
+		return result;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -404,14 +416,26 @@ public class ProductInterface
 			throw new InvalidParametersException();
 
 		Member m = memberInterface.getMember(username);
+		Integer result = -1;
 		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_ADMIN)
-			return privateSetProductUnvailable(idProduct);
+			result = privateSetProductUnvailable(idProduct);
 
 		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER
 				&& getProduct(idProduct).getSupplier().getIdMember() == m
 						.getIdMember())
-			return privateSetProductUnvailable(idProduct);
-		return -1;
+			result = privateSetProductUnvailable(idProduct);
+
+		Notify n = new Notify();
+		n.setMember(getProduct(idProduct).getSupplier()
+				.getMemberByIdMemberResp());
+		n.setIsReaded(false);
+		// FIXME mettere costanti
+		n.setNotifyCategory(3);
+		n.setText(idProduct.toString());
+		n.setNotifyTimestamp(new Date());
+		notifyInterface.newNotify(n);
+
+		return result;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
