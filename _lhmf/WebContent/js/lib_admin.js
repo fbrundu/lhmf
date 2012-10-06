@@ -1462,35 +1462,46 @@ function isValidMail(email)
 
 function initialize()
 {
-	var latlng = new google.maps.LatLng(44.91499014735883, 7.491031587123871);
-    //opzioni disegno mappa
-	var options = {
-		zoom: 7,
-		center: latlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+	geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(41.659,-4.714);
+	var myOptions = 
+	{
+	    zoom: 5,
+	    center: latlng,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-    var map = new google.maps.Map(document.getElementById('map'), options); 
-    //opzioni marker
-	var marker = new google.maps.Marker(
+	map = new google.maps.Map(document.getElementById("map"), myOptions);
+	var markerTmp = [];
+	var i=0;
+	$.postSync("ajax/getAddressForMap", undefined, function(addressList)
+	{
+		$.each(addressList, function(index, val)
 		{
-			position: latlng,
-			map: map,
-			icon: 'http://google-maps-icons.googlecode.com/files/country.png',
-			flat: true
-		}
-	);
-	var tooltip = '<div id="tooltip">'+
-		'<p><strong>Hassan Metwalley</strong><br>'+
-		'Via delle certaie 8<br>'+
-		'provincia: Torino<br>'+
-		'nazione: Italia</p>'+
-		'</div>';
-	var infowindow = new google.maps.InfoWindow({
-		content: tooltip
+			if(i<=5)
+			{
+				geocoder.geocode( { 'address': val}, function(results, status) {
+				      if (status == google.maps.GeocoderStatus.OK) {
+				        map.setCenter(results[0].geometry.location);
+				        var marker = new google.maps.Marker({
+				            map: map,
+				            position: results[0].geometry.location
+				        });
+				        markerTmp.push(marker);
+				      } else {
+				        alert("Geocode was not successful for the following reason: " + status);
+				      }
+				    });
+				i++;
+			}
+			
+		});
 	});
-	google.maps.event.addListener(marker, 'click', function() {
-		infowindow.open(map,marker);
-	});
+	for (marker in markerTmp.markers)
+	{
+	    var m = r.markers[marker];
+	    var d = new google.maps.Marker({ position: new google.maps.LatLng(m.lat, m.lng),
+	                                     map: map,
+	                                     title: m.text,
+	                                     icon:"http://www.google.com/mapfiles/marker" + m.l + ".png" });
+	}
 }
-
-
