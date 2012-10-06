@@ -989,41 +989,82 @@ public class OrderInterface
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void checkClosedOrders() {
+	public void checkClosedOrders()
+	{
 		List<Order> listOrders = getOrdersClosedYesterday();
-		
-		for (Order orderTmp : listOrders){
+
+		for (Order orderTmp : listOrders)
+		{
 			boolean orderFailed = true;
 			List<OrderProduct> ops = getOrderProducts(orderTmp.getIdOrder());
-			
+
 			List<Integer> productIds = new ArrayList<Integer>();
-			
-			for(OrderProduct op : ops)
+
+			for (OrderProduct op : ops)
 				productIds.add(op.getProduct().getIdProduct());
-			
-			List<Integer> amounts = getBoughtAmounts(orderTmp.getIdOrder(), productIds);
-			
-			for(int i = 0; i < ops.size(); i++){
+
+			List<Integer> amounts = getBoughtAmounts(orderTmp.getIdOrder(),
+					productIds);
+
+			for (int i = 0; i < ops.size(); i++)
+			{
 				Integer amount = amounts.get(i);
 				OrderProduct op = ops.get(i);
-				if(amount <= 0)
+				if (amount <= 0)
 					op.setFailed(true);
-				else{
+				else
+				{
 					Product p = op.getProduct();
 					Integer minBuy = p.getMinBuy();
-					if(minBuy != null && amount < minBuy)
+					if (minBuy != null && amount < minBuy)
 						op.setFailed(true);
-					else{
+					else
+					{
 						op.setFailed(false);
 						orderFailed = false;
 					}
 				}
-				if(!orderFailed){
-					//TODO mandare notifica al responsabile che l'ordine � stato chiuso
+				if (!orderFailed)
+				{
+					// Manda notifica al responsabile
+					Notify n = new Notify();
+					n.setMember(orderTmp.getMember());
+					n.setIsReaded(false);
+					// FIXME mettere costanti
+					n.setNotifyCategory(4);
+					n.setText(orderTmp.getIdOrder().toString());
+					n.setNotifyTimestamp(new Date());
+					try
+					{
+						notifyInterface.newNotify(n);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+					
+					// Manda notifica agli utenti partecipanti
+					for (Purchase p : orderTmp.getPurchases())
+					{
+						Notify nn = new Notify();
+						nn.setMember(p.getMember());
+						nn.setIsReaded(false);
+						// FIXME mettere costanti
+						nn.setNotifyCategory(4);
+						nn.setText(orderTmp.getIdOrder().toString());
+						nn.setNotifyTimestamp(new Date());
+						try
+						{
+							notifyInterface.newNotify(nn);
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		}
-		
 	}
 	
 	@Transactional()
