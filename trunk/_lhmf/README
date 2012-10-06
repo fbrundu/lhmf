@@ -96,9 +96,9 @@ Applicazioni Internet - Gas
 *4 Chiusura Ordine [Normale, Resp]
 *5 Data di consegna Settata [Normale, Resp]
 *6 Nuovo utente [Admin]
-7 Ordine 50 % [Normale, Resp]
-8 Ordine 75 % [Normale, Resp]
-9 Ordine 90 % [Normale, Resp]
+*7 Ordine 50 % [Normale, Resp]
+*8 Ordine 75 % [Normale, Resp]
+*9 Ordine 90 % [Normale, Resp]
 
 # STATUS UTENTE
 
