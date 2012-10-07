@@ -38,4 +38,6 @@ public interface OrderOperations {
 	Purchase[] getOrderCompletedPurchases(Integer idOrder);
 
 	Order getOrder(Integer orderId);
+
+	Order[] getSupplierActiveOrders();
 }

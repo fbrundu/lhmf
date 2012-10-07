@@ -16,6 +16,7 @@ import it.polito.ai.lhmf.android.resp.NewOrderActivity;
 import it.polito.ai.lhmf.android.resp.ShippedOrdersActivity;
 import it.polito.ai.lhmf.android.supplier.ListinoActivity;
 import it.polito.ai.lhmf.android.supplier.NewProductActivity;
+import it.polito.ai.lhmf.android.supplier.SupplierActiveOrdersActivity;
 import it.polito.ai.lhmf.model.Supplier;
 import it.polito.ai.lhmf.model.constants.MemberTypes;
 
@@ -79,6 +80,16 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent listinoIntent = new Intent(MainActivity.this, ListinoActivity.class);
 				startActivity(listinoIntent);
+			}
+		});
+		
+		Button activeOrders = (Button) findViewById(R.id.activerOrdersButton);
+		activeOrders.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent activeOrdersIntent = new Intent(MainActivity.this, SupplierActiveOrdersActivity.class);
+				startActivity(activeOrdersIntent);
 			}
 		});
 		

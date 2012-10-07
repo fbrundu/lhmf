@@ -1122,4 +1122,26 @@ public class OrderInterface
 		}
 		return -1;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Order> getActiveOrdersForSupplier(String username) throws InvalidParametersException {
+		if (username == null)
+			throw new InvalidParametersException();
+		Member memberSuppier = memberInterface.getMember(username);
+		if (memberSuppier == null)
+			throw new InvalidParametersException();
+		// Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		Timestamp currentTimestamp = new Timestamp(now.getTime());
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order where idSupplier = :id "
+						+ "AND dateClose > :dateNow");
+
+		query.setParameter("id", memberSuppier.getIdMember());
+		query.setTimestamp("dateNow", currentTimestamp);
+
+		return query.list();
+	}
 }
