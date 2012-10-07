@@ -83,7 +83,7 @@ public class EditPurchaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		purchase = (Purchase) getIntent().getSerializableExtra("purchase");
+		purchase = (Purchase) getIntent().getParcelableExtra("purchase");
 		if(purchase != null){
 			order = purchase.getOrder();
 			
@@ -770,7 +770,7 @@ public class EditPurchaseActivity extends Activity {
 				public void onClick(View v) {
 					Bundle args = new Bundle();
 					
-					args.putSerializable("product", product);
+					args.putParcelable("product", product);
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
@@ -785,7 +785,7 @@ public class EditPurchaseActivity extends Activity {
 				public void onClick(View v) {
 					Bundle args = new Bundle();
 					
-					args.putSerializable("product", product);
+					args.putParcelable("product", product);
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
@@ -801,7 +801,7 @@ public class EditPurchaseActivity extends Activity {
 						//This is the last product. Ask user if he wants to remove the purchase
 						Bundle args = new Bundle();
 						
-						args.putSerializable("product", product);
+						args.putParcelable("product", product);
 						showDialog(REMOVE_PURCHASE_CONFIRM_DIALOG, args);
 					}
 					else

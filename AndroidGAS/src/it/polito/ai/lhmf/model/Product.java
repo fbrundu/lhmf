@@ -1,16 +1,12 @@
 package it.polito.ai.lhmf.model;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Product implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Product implements Parcelable {
 	public static final String DEFAULT_PRODUCT_PICTURE = "img/prd/noproduct.jpg";
 	public static final String NO_MIN_MAX = "No";
 	
@@ -140,4 +136,57 @@ public class Product implements Serializable {
 	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(idProduct);
+		dest.writeString(name);
+		dest.writeString(description);
+		dest.writeInt(dimension);
+		dest.writeString(measureUnit);
+		dest.writeInt(unitBlock);
+		dest.writeBooleanArray(new boolean[] {availability});
+		dest.writeFloat(transportCost);
+		dest.writeFloat(unitCost);
+		dest.writeString(minBuy);
+		dest.writeString(maxBuy);
+		dest.writeString(imgPath);
+		dest.writeParcelable(supplier, flags);
+		dest.writeParcelable(category, flags);
+	}
+	
+	public static final Parcelable.Creator<Product> CREATOR = new Creator<Product>() {
+		
+		@Override
+		public Product[] newArray(int size) {
+			return new Product[size];
+		}
+		
+		@Override
+		public Product createFromParcel(Parcel source) {
+			Product p = new Product();
+			p.setIdProduct(source.readInt());
+			p.setName(source.readString());
+			p.setDescription(source.readString());
+			p.setDimension(source.readInt());
+			p.setMeasureUnit(source.readString());
+			p.setUnitBlock(source.readInt());
+			boolean[] availability = new boolean[1];
+			source.readBooleanArray(availability);
+			p.setAvailability(availability[0]);
+			p.setTransportCost(source.readFloat());
+			p.setUnitCost(source.readFloat());
+			p.setMinBuy(source.readString());
+			p.setMaxBuy(source.readString());
+			p.setImgPath(source.readString());
+			p.setSupplier((Supplier) source.readParcelable(Supplier.class.getClassLoader()));
+			p.setCategory((ProductCategory) source.readParcelable(ProductCategory.class.getClassLoader()));
+			return p;
+		}
+	};
 }

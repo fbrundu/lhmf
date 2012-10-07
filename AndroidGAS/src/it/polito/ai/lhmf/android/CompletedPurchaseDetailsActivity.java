@@ -55,7 +55,8 @@ public class CompletedPurchaseDetailsActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		purchase = (Purchase) getIntent().getSerializableExtra("purchase");
+		Intent intent = getIntent();
+		purchase = (Purchase) intent.getParcelableExtra("purchase");
 		if(purchase != null){
 			order = purchase.getOrder();
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());

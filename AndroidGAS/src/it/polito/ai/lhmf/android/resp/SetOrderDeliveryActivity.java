@@ -75,7 +75,7 @@ public class SetOrderDeliveryActivity extends Activity implements DatePickerDial
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		order = (Order) getIntent().getSerializableExtra("order");
+		order = (Order) getIntent().getParcelableExtra("order");
 		if(order != null){
 			supplier = order.getSupplier();
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());

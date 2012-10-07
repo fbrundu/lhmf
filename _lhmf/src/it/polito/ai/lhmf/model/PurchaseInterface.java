@@ -983,4 +983,26 @@ public class PurchaseInterface
 		
 		return failed;
 	}
+
+	@Transactional(readOnly = true)
+	public Purchase getMyPurchase(String username, Integer idOrder) {
+		Member memberNormal = memberInterface.getMember(username);
+		
+		if(memberNormal == null)
+			return null;
+		
+		Order order = orderInterface.getOrder(idOrder);
+		if(order == null)
+			return null;
+		
+		Purchase ret = null;
+		
+		for(Purchase p : order.getPurchases()){
+			if(p.getMember().getIdMember() == memberNormal.getIdMember()){
+				ret = p;
+				break;
+			}
+		}
+		return ret;
+	}
 }

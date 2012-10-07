@@ -147,4 +147,34 @@ public class PurchaseTemplate implements PuchaseOperations {
 		}
 	}
 
+	@Override
+	public Purchase getMyPurchase(Integer idOrder) {
+		try {
+			Purchase p = template.getForObject(Gas.baseApiUrl + "getmypurchase?idOrder={id}", Purchase.class, idOrder);
+			
+			if(p != null){
+				Boolean failed = template.getForObject(Gas.baseApiUrl + "ispurchasefailed?idPurchase={id}", Boolean.class, p.getIdPurchase());
+				if(failed != null){
+					p.setFailed(failed);
+					if(failed == false){
+						Float cost = template.getForObject(Gas.baseApiUrl + "getcomletedpurchasecost?idPurchase={id}", Float.class, p.getIdPurchase());
+						if(cost != null){
+							p.setTotCost(cost);
+						}
+						else
+							return null;
+					}
+					return p;
+				}
+				else
+					return null;
+			}
+			else
+				return null;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

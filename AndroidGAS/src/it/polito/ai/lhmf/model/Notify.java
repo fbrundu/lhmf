@@ -1,17 +1,12 @@
 package it.polito.ai.lhmf.model;
 
-import java.io.Serializable;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Notify implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+public class Notify implements Parcelable{
 	private Integer idNotify;
 	private Integer notifyCategory;
 	private String text;
@@ -39,4 +34,33 @@ public class Notify implements Serializable{
 	public void setText(String text) {
 		this.text = text;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(idNotify);
+		dest.writeInt(notifyCategory);
+		dest.writeString(text);
+	}
+	
+	public static final Parcelable.Creator<Notify> CREATOR = new Creator<Notify>() {
+		
+		@Override
+		public Notify[] newArray(int size) {
+			return new Notify[size];
+		}
+		
+		@Override
+		public Notify createFromParcel(Parcel source) {
+			Notify notify = new Notify();
+			notify.setIdNotify(source.readInt());
+			notify.setNotifyCategory(source.readInt());
+			notify.setText(source.readString());
+			return notify;
+		}
+	};
 }

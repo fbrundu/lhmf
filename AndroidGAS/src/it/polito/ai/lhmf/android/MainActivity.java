@@ -22,6 +22,7 @@ import org.springframework.social.connect.Connection;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -242,6 +243,9 @@ public class MainActivity extends Activity {
 			holder.destroy();
 			holder = null;
 			api = null;
+			NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			nm.cancelAll();
+			
 			MainActivity.this.finish();
 		}
 	}

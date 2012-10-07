@@ -10,6 +10,7 @@ import org.springframework.social.oauth2.OAuth2Parameters;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,13 +25,11 @@ import android.widget.Toast;
 public class LoginActivity extends Activity {
 	private GasConnectionHolder holder;
 	
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         requestWindowFeature(Window.FEATURE_PROGRESS);
-        //setContentView(R.layout.main);
         
         String redirectUri = "http://gasproject.net:8080/_lhmf/android/loginSuccess";
         OAuth2Parameters params = new OAuth2Parameters();
@@ -68,22 +67,23 @@ public class LoginActivity extends Activity {
 						holder.createConnection(accessToken);
 		
 						if(!isServiceRunning()){
-							//TODO Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
-							//startService(intent);
+							Intent intent = new Intent(getApplicationContext(), GasNetworkService.class);
+							startService(intent);
 						}
+						
+						NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+						nm.cancel(GasNetworkService.LOGIN_REQUIRED_NOTIFICATION);
+						
 						Intent main = new Intent(getApplicationContext(), MainActivity.class);
 						startActivity(main);
 						finish();
 	        		} catch (Exception e) {
 	        		// don't do anything if the parameters are not what is expected
 	        		}
-	        		
-	        		//Uscire dalla webview
         		}
         		else if (uri.getQueryParameter("error") != null) {
 	        		CharSequence errorReason = uri.getQueryParameter("error_description").replace("+", " ");
 	        		Toast.makeText(getApplicationContext(), errorReason, Toast.LENGTH_LONG).show();
-	        		//Uscire dalla webview
         		}
         	}
         });
