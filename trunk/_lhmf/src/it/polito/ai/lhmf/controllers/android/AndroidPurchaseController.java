@@ -34,8 +34,36 @@ public class AndroidPurchaseController {
 	{
 		try
 		{
-			return purchaseInterface.setNewPurchaseAndroid(principal.getName(),
-					idOrder, idProducts, amountProducts);
+			String[] idTmp = idProducts.split(",");
+			String[] amountTmp = amountProducts.split(",");
+
+			if (idTmp.length > 0 && idTmp.length == amountTmp.length)
+			{
+				Integer[] ids = new Integer[idTmp.length];
+				Integer[] amounts = new Integer[idTmp.length];
+				for (int i = 0; i < idTmp.length; i++)
+				{
+					try
+					{
+						ids[i] = Integer.parseInt(idTmp[i]);
+
+						amounts[i] = Integer.parseInt(amountTmp[i]);
+						if (amounts[i] <= 0)
+							return -1;
+					}
+					catch (NumberFormatException e)
+					{
+						e.printStackTrace();
+						return -1;
+					}
+				}
+
+				return purchaseInterface.createPurchase(
+						principal.getName(), idOrder, ids,
+						amounts);
+			}
+			else
+				return -1;
 		}
 		catch (InvalidParametersException e)
 		{

@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -176,17 +175,6 @@ public class MemberAjaxController
 		return errors;
 	}
 	
-	// TODO get da chi può essere fatto?
-	@RequestMapping(value = "/ajax/getmember", method = RequestMethod.GET)
-	public @ResponseBody
-	Member getMember(HttpServletRequest request,
-			@RequestBody Integer idMember)
-	{
-		Member member = null;
-		member = memberInterface.getMember(idMember);
-		return member;
-	}
-	
 	@RequestMapping(value = "/ajax/getmemberurlencoded", method = RequestMethod.GET)
 	public @ResponseBody
 	Member getMemberUrlEncoded(HttpServletRequest request,
@@ -305,29 +293,5 @@ public class MemberAjaxController
 			e.printStackTrace();
 			return 0;
 		}
-	}
-
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
-	@RequestMapping(value = "/ajax/updatemember", method = RequestMethod.POST)
-	public @ResponseBody
-	Integer updateMember(HttpServletRequest request, @RequestBody Member member)
-			throws InvalidParametersException
-	{
-		if (memberInterface.updateMember(member) != null)
-			return member.getIdMember();
-		else
-			return -1;
-	}
-
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
-	@RequestMapping(value = "/ajax/deletemember", method = RequestMethod.POST)
-	public @ResponseBody
-	Integer deleteMember(HttpServletRequest request,
-			@RequestBody Integer idMember) throws InvalidParametersException
-	{
-		if (memberInterface.deleteMember(idMember) != null)
-			return idMember;
-		else
-			return -1;
 	}
 }

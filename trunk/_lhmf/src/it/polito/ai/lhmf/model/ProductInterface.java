@@ -250,7 +250,7 @@ public class ProductInterface
 	{
 		List<Product> lp = new ArrayList<Product>();
 		for (PurchaseProduct p : purchaseInterface
-				.getPurchaseProducts(idPurchase))
+				.getPurchaseProductsInternal(idPurchase))
 		{
 			lp.add(this.getProduct(p.getId().getIdProduct()));
 		}
