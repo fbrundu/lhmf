@@ -766,7 +766,7 @@ public class OrderInterface
 		List<String> returnString = new ArrayList<String>();
 		Order order = getOrder(idOrder);
 		
-		for(Purchase pTemp : order.getPurchases()) 
+		for(Purchase pTemp : order.getPurchases()) {
 			for(PurchaseProduct ppTemp : pTemp.getPurchaseProducts()) {
 				
 				Product productTemp = ppTemp.getProduct();
@@ -778,6 +778,15 @@ public class OrderInterface
 				mapProduct.put(productTemp, amount);
 				
 			}
+		}
+			
+		
+		for(OrderProduct opTemp : order.getOrderProducts()) {
+			Product productTemp = opTemp.getProduct();
+			
+			if(!mapProduct.containsKey(productTemp))
+				mapProduct.put(productTemp, 0);
+		}
 		
 		Iterator it = mapProduct.entrySet().iterator();
 	    while (it.hasNext()) {
