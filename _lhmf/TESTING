@@ -11,6 +11,11 @@ NON FUNZIONANTE
 
 -Quando, da una scheda creata e attiva, si aggiunge un prodotto, non viene aggiornato il parziale inerente a quel prodotto
 
+-Notifica Nuovo prodotto - quando vengono visualizzati i dettagli, la finestra posteriore è più piccola del contenuto.
+Ho salvato un'immagine per far capire meglio in caso chiedetemela by has.
+-Notifica Modifica Disponibilità  Prodotto in Listino - modificando la disponibilità di diversi prodotti in listino,
+le notifiche si scazzano e arrivano a visualizzare diverse notifiche identiche.
+
 FUNZIONANTE
 
 -Testata l'attivazione e la visualizzazione di ogni tipo di utente
