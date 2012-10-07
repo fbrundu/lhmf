@@ -169,4 +169,13 @@ public class SupplierAjaxController
 			return null;
 		}
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/isorderfailed", method = RequestMethod.GET)
+	public @ResponseBody
+	Boolean isOrderFailed(HttpServletRequest request,
+			@RequestParam(value = "idOrder", required = true) Integer idOrder)
+	{
+		return orderInterface.isFailed(idOrder);
+	}
 }

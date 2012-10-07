@@ -638,7 +638,7 @@ public class OrderInterface
 		if (maxBuy != null)
 		{
 			Integer totAmount = (int) (long) getTotalAmountOfProduct(
-					purchaseInterface.getPurchase(idPurchase).getOrder(), p);
+					purchaseInterface.getPurchaseInternal(idPurchase).getOrder(), p);
 
 			return maxBuy - totAmount;
 		}
