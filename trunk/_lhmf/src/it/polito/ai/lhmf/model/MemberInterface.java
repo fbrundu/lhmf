@@ -322,9 +322,9 @@ public class MemberInterface {
 		if (idMember == null)
 			throw new InvalidParametersException();
 		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Member set status = 2 " + "where idMember = :idMember");
-
-		Integer result = (Integer) query.uniqueResult();
+				"update Member set status = 2 " + "where idMember = :idMember and status != 2");
+		query.setParameter("idMember", idMember);
+		Integer result = (Integer) query.executeUpdate();
 		if (result > 0)
 			logInterface.createLog("Ha attivato l' utente con id: " + idMember,
 					getMemberAdmin().getIdMember());
