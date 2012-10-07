@@ -15,6 +15,11 @@ NON FUNZIONANTE
 Ho salvato un'immagine per far capire meglio in caso chiedetemela by has.
 -Notifica Modifica Disponibilità  Prodotto in Listino - modificando la disponibilità di diversi prodotti in listino,
 le notifiche si scazzano e arrivano a visualizzare diverse notifiche identiche.
+-Notofiche su ordini - la notifica del nuovo ordine funziona correttamente, ma il grafico al suo interno non viene aggiornato
+(questa magari è una scelta implementativa ma te la segnalo lo stesso). In più le notifiche sull'avanzamento dell'ordine
+a me non arrivano. Mi trovo con un ordine completo al 100% ma con nessuna notifica.....in genere comunque il calcolo
+del progresso dell'ordine non è uguale tra progress bar e notifiche
+-Notifiche Nuovo utente - registrando un nuovo utente, all'admin non arriva nulla
 
 FUNZIONANTE
 

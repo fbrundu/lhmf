@@ -54,7 +54,6 @@
     	    <li><a href='#tabs-1'>Aggiungi utente</a></li>
     	    <li><a href='#tabs-2'>Attiva utente</a></li>
 			<li><a href='#tabs-3'>Lista utenti</a></li>
-			<li><a href='#tabs-4'>Mappa Utenti</a></li>
 		  </ul>
 			<div id='tabs-1'>
 			
