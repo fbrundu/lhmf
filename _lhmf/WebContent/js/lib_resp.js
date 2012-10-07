@@ -1002,7 +1002,9 @@ function postShowPurchaseHandler(data) {
 		countShip++;
 		
 		var failed = false;
-		$.postSync("ajax/isPurchaseFailed", {idPurchase: val.idPurchase}, function(data) { failed = data; });
+		$.postSync("ajax/isPurchaseFailed", {idPurchase: val.idPurchase}, function(data) { 
+			failed = data; 
+		});
 		
 		var tdRitiro = "";
 		var imgs = "";

@@ -112,12 +112,10 @@ function writePurchasePage()
     		                     "<li><a href='#tabsPurchase-1'>Crea Scheda</a></li>" +
     		                     "<li><a href='#tabsPurchase-2'>Schede Attive</a></li>" +
     		                     "<li><a href='#tabsPurchase-3'>Schede In Consegna</a></li>" +
-    		                     "<li><a href='#tabsPurchase-4'>Mappa</a></li>" +
     		                    "</ul>" +
                                 "<div id='tabsPurchase-1'></div>" +
                                 "<div id='tabsPurchase-2'></div>" +
                                 "<div id='tabsPurchase-3'></div>" +
-                                "<div id='tabsPurchase-4'></div>" +
                            "</div>");
     
     $('#tabsPurchase-1').html("<div class='logform'>" +
@@ -180,12 +178,10 @@ function writePurchasePage()
                                 "</div>" +
                               "</fieldset>" +
                             "</div><br />" +
+                          "<div id='dialog-map' title='Mappa dislocamento utenti partecipanti all'ordine' style='display:none; text-align:center' align='center'>" +
+                          	"<div id='map' style='width:575px; height:500px; text-align:center' align='center'> </div>" +
+                          "</div>" +
                         "</div>");
-   
-    $('#tabsPurchase-4').html("<div class='logform'>" +
-            "<div id='map' style='width:575px; height:500px;'> </div>" +
-            "<p><input type='submit' id='regMap' class='button' value='Disegna'/></p>" +
-        "</div>");
     
     preparePurchaseForm();
 }
@@ -426,6 +422,8 @@ function preparePurchaseForm(tab){
     $("body").delegate(".refreshProductButton", "click", refreshProductFromPurchase);
     $("body").delegate(".addProductButton", "click", addProductFromPurchase);
     $("body").delegate(".inputAmount", "change", updateAmount);
+    $("body").delegate(".mapButton", "click", drawMapOrder);
+    
     
     $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
     $('#minDate').datepicker("setDate", Date.now());
@@ -441,7 +439,6 @@ function preparePurchaseForm(tab){
     loadPurchaseOld();
     
     $("#purchaseCompositor").hide();
-    $('#regMap').on("click", drawMap);
     $('#purchaseRequest').on("click", clickPurchaseHandler);
     
     $("button").button();
@@ -951,7 +948,7 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
-					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
+					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Dettagli </button>" +
 					  							  "</form></td></tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong> </td></tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='4' style='padding: 5px'> <div id='" + idProgressBar + "'></div> </td></tr>" +
@@ -990,10 +987,11 @@ function postShipPurchaseListHandler(purchaseList)
 
     if(purchaseList.length > 0){
         $("#oldPurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
-				 							"<th class='top' width='20%'> Data Apertura  </th>" +
-				 							"<th class='top' width='20%'> Data Chiusura  </th>" +
+				 							"<th class='top' width='15%'> Data Apertura  </th>" +
+				 							"<th class='top' width='15%'> Data Chiusura  </th>" +
 				 							"<th class='top' width='20%'> Data Consegna  </th>" +
-                 							"<th class='top' width='20%'> Dettagli ordine  </th> </tr>");
+                 							"<th class='top' width='20%'> Dettagli ordine  </th>" +
+                 							"<th class='top' width='10%'> Mappa  </th> </tr>");
         for(var i = 0; i < purchaseList.length; i++){
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
@@ -1003,9 +1001,11 @@ function postShipPurchaseListHandler(purchaseList)
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td>" + dateDelivery + "</td>" +
-					  							  "<td><button type='submit' data-idpurchase='" + purchase.idPurchase + "' id='showDetails_" + purchase.idPurchase + "'>Dettagli</button>" +
-					  							  "</td></tr>" +
-					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");   
+					  							  "<td><button type='submit' data-idpurchase='" + purchase.idPurchase + "' data-idorder='" + purchase.order.idOrder + "' id='showDetails_" + purchase.idPurchase + "'>Dettagli</button>" +
+					  							  "</td>" +
+					  							  "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + purchase.order.idOrder + "'></td>" +
+					  							  "</tr>" +
+					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='6' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");   
             $("#showDetails_" + purchase.idPurchase).on("click", clickShipPurchaseDetailsHandler);
             $(".detailsPurchase").hide();
             $("button").button();
@@ -1034,32 +1034,37 @@ function clickShipPurchaseDetailsHandler(event)
     
     $(".detailsPurchase").hide();
     idPurchase = $(this).data('idpurchase');
+    idOrder = $(this).data('idorder');
 
-    $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postOldPurchaseDetailsListHandler);
+    $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postShipPurchaseDetailsListHandler);
 }
 
-function postOldPurchaseDetailsListHandler(productList) 
+function postShipPurchaseDetailsListHandler(productList) 
 {
 	
 	var AmountTmp = 0;
     var trControl = "#TRdetailsPurchase_" + idPurchase;
     var tdControl = "#TDdetailsPurchase_" + idPurchase;
+    var trIdControl = "trShipProductNormal_" + idOrder + "_";
     
     $(tdControl).html("<div style='margin: 15px' id='DIVdetailsPurchase_" + idPurchase + "'><table id='TABLEdetailsPurchase_" + idPurchase + "' class='log2'></table></div>");
     
     var tableControl = "#TABLEdetailsPurchase_" + idPurchase;
     
-    $(tableControl).append("<tr>  <th class='top' width='30%'> Prodotto </th>" +
-                                 "<th class='top' width='35%'> Descrizione  </th>" +
-                                 "<th class='top' width='25%'> Costo [Blocchi]</th>" +
-                                 "<th class='top' width='10%'> Qt. </th>" +
-                                 "<th class='top' width='10%'> Parziale </th></tr>");
+    $(tableControl).append("<tr>     <th class='top' width='15%'> Prodotto </th>" +
+						            "<th class='top' width='15%'> Categoria </th>" +
+						            "<th class='top' width='15%'> Descrizione  </th>" +
+						            "<th class='top' width='5%'> Costo </th>" +
+						            "<th class='top' width='5%'> Richiesta </th>" +
+						            "<th class='top' width='5%'> Parziale  </th>" +
+						            													" </tr>");
     
-    var tot = 0;
     var parziale = 0;
-    
+    var productsid = [];
     $.each(productList, function(index, val)
     {
+    	productsid.push(val.idProduct);
+    	
     	$.postSync("ajax/getAmountfromPurchase", {idPurchase: idPurchase, idProduct: val.idProduct}, function(data)
         {
     		AmountTmp = data;
@@ -1067,18 +1072,42 @@ function postOldPurchaseDetailsListHandler(productList)
     	
     	
     	parziale += AmountTmp * val.unitCost;
-    	tot += parziale;
     	
-        $(tableControl).append("<tr>    <td>" + val.name + "</td>" +
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'>    " +
+        							   "<td>" + val.name + "</td>" +
+        							   "<td>" + val.category.description + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]</td>" +
         		                       "<td>" + AmountTmp + "</td>" +
         		                       "<td>" + parziale + " &euro;</td></tr>");
     });
     
-    $(tableControl).append("<tr><td colspan='4' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;</strong> </td>" +
-            "<td>" + tot + " &euro;</td></tr>");
+    var totPurchase = 0;
+	$.postSync("ajax/getTotPurchaseCost", {idPurchase: idPurchase}, function(data) { totPurchase = data; });
     
+    $(tableControl).append("<tr><td colspan='5' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;</strong> </td>" +
+            "<td>" + totPurchase + " &euro;</td></tr>");
+    
+    //Disattivo graficamente i prodotti falliti
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(allProgress)
+    {
+    	//Aggiorno progressbar
+        $.each(allProgress, function(index, val)
+        {
+        	var temp = val.split(',');
+        	var idProduct = temp[0];
+        	var progress = parseFloat(temp[1]);
+        	
+        	if(progress == 100) {
+    	    	//Rimuovo effetto grigio per ordini attivi
+    			var idTr = "#trShipProductNormal_" + idOrder + "_" + idProduct;
+    			$(idTr).removeClass("noLimitProduct");
+        	}
+        	
+        });
+    });
+    
+	
     
     $(trControl).show("slow");    
     $(tdControl).fadeIn(1000);  
@@ -1688,14 +1717,29 @@ function refreshProgressBarOrder(idPurchase) {
     
 }
 
-function drawMap()
+function drawMapOrder()
 {
-	window.onload = initialize();
+	$( "#dialog-map:ui-dialog" ).dialog( "destroy" );
+	
+	$( "#dialog-map" ).dialog({
+		resizable: false,
+		height: 600,
+		width: 605, 
+		modal: true,
+		buttons : {
+         	 "Ok" : function() { $(this).dialog('close'); }
+       	       }
+	});
+	
+	idOrder = $(this).data('idorder');
+	initialize(idOrder);
+	
+	
 }
 
 function initialize(idOrder)
 {
-	geocoder = new google.maps.Geocoder();
+	var geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(45.0875198, 7.985248);
 	var myOptions = 
 	{
@@ -1703,9 +1747,8 @@ function initialize(idOrder)
 	    center: latlng,
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
-	//idOrder forzata a un valore per testare la mappa
-	idOrder = 8;
-	map = new google.maps.Map(document.getElementById("map"), myOptions);
+
+	var map = new google.maps.Map(document.getElementById("map"), myOptions);
 	$.postSync("ajax/getNormalForMap", {idOrder: idOrder}, function(membersList)
 	{
 		$.each(membersList, function(index, val)
