@@ -93,13 +93,22 @@ public class MemberInterface {
 				 * lastname, regCode, memberId, email, isSupplier);
 				 */
 			} else {
+				Notify n = new Notify();
+				n.setMember(getMemberAdmin());
+				n.setIsReaded(false);
+				// FIXME mettere costanti
+				n.setNotifyCategory(6);
+				n.setText(memberId.toString());
+				n.setNotifyTimestamp(new Date());
+				notifyInterface.newNotify(n);
+				
 				// Mandare messaggio all'admin
-				messageInterface.newMessageToAdmin(this.getMemberAdmin(),
-						member,
-						"Utente richiede l'attivazione dell'account\n\n"
-								+ "Id: " + member.getIdMember() + " - "
-								+ member.getName() + " " + member.getSurname()
-								+ "\n" + "Email: " + member.getEmail() + "\n");
+				//messageInterface.newMessageToAdmin(this.getMemberAdmin(),
+				//		member,
+				//		"Utente richiede l'attivazione dell'account\n\n"
+				//				+ "Id: " + member.getIdMember() + " - "
+				//				+ member.getName() + " " + member.getSurname()
+				//				+ "\n" + "Email: " + member.getEmail() + "\n");
 			}
 		}
 		else
@@ -107,15 +116,6 @@ public class MemberInterface {
 			logInterface.createLog("Ha creato un nuovo utente con id: "
 					+ memberId, getMemberAdmin().getIdMember());
 		}
-		
-		Notify n = new Notify();
-		n.setMember(getMemberAdmin());
-		n.setIsReaded(false);
-		// FIXME mettere costanti
-		n.setNotifyCategory(6);
-		n.setText(memberId.toString());
-		n.setNotifyTimestamp(new Date());
-		notifyInterface.newNotify(n);
 		
 		return memberId;
 	}
@@ -147,26 +147,27 @@ public class MemberInterface {
 			if (!m.isFromAdmin())
 			{
 				model.addAttribute("active", false);
-				messageInterface.newMessageToAdmin(
-						this.getMemberAdmin(),
-						m,
-						"Utente richiede l'attivazione dell'account\n\n"
-								+ "Id: " + m.getIdMember() + " - "
-								+ m.getName() + " " + m.getSurname() + "\n"
-								+ "Email: " + m.getEmail() + "\n");
+				
+				Notify n = new Notify();
+				n.setMember(getMemberAdmin());
+				n.setIsReaded(false);
+				// FIXME mettere costanti
+				n.setNotifyCategory(6);
+				n.setText(idMember.toString());
+				n.setNotifyTimestamp(new Date());
+				notifyInterface.newNotify(n);
+				
+				//messageInterface.newMessageToAdmin(
+				//		this.getMemberAdmin(),
+				//		m,
+				//		"Utente richiede l'attivazione dell'account\n\n"
+				//				+ "Id: " + m.getIdMember() + " - "
+				//				+ m.getName() + " " + m.getSurname() + "\n"
+				//				+ "Email: " + m.getEmail() + "\n");
 				return;
 			}
 		}
 		model.addAttribute("active", true);
-		
-//		Notify n = new Notify();
-//		n.setMember(getMemberAdmin());
-//		n.setIsReaded(false);
-//		// FIXME mettere costanti
-//		n.setNotifyCategory(6);
-//		n.setText(idMember.toString());
-//		n.setNotifyTimestamp(new Date());
-//		notifyInterface.newNotify(n);
 	}
 
 	@Transactional(readOnly = true)
