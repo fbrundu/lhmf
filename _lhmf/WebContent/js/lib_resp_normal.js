@@ -127,7 +127,7 @@ function preparePurchaseForm(tab){
        
     loadOrders();
     loadPurchaseActive();
-    loadPurchaseOld();
+    loadShipPurchase();
     
     $("#purchaseCompositor").hide();
     
@@ -194,9 +194,9 @@ function loadPurchaseActive()
     $.post("ajax/getActivePurchase", postActivePurchaseListHandler);  
 }
 
-function loadPurchaseOld() 
+function loadShipPurchase() 
 {  
-    $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
+    $.post("ajax/getShipPurchase", postOldPurchaseListHandler);
     
 }
 

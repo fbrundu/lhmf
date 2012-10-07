@@ -82,7 +82,8 @@ public class NormalAjaxController
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
-			+ MyUserDetailsService.UserRoles.RESP + "')")
+			+ MyUserDetailsService.UserRoles.RESP + ", " 
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getProductNormal", method = RequestMethod.POST)
 	public @ResponseBody
 	Product getProductNormal(HttpServletRequest request, HttpSession session,
@@ -208,7 +209,8 @@ public class NormalAjaxController
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
-			+ MyUserDetailsService.UserRoles.RESP + "')")
+			+ MyUserDetailsService.UserRoles.RESP + ", " 
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getDispOfProductOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	Integer getDispOfProductOrder(HttpServletRequest request,
@@ -291,7 +293,8 @@ public class NormalAjaxController
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
-			+ MyUserDetailsService.UserRoles.RESP + "')")
+			+ MyUserDetailsService.UserRoles.RESP + ", " 
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getProgressOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	Float getProgressOrder(HttpServletRequest request, HttpSession session,
@@ -302,7 +305,8 @@ public class NormalAjaxController
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
-			+ MyUserDetailsService.UserRoles.RESP + "')")
+			+ MyUserDetailsService.UserRoles.RESP + ", " 
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getProgressProductOfOrder", method = RequestMethod.POST)
 	public @ResponseBody
 	List<String> getProgressProductOfOrder(HttpServletRequest request,

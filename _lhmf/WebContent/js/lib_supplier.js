@@ -1,3 +1,20 @@
+window.setInterval(function(){
+
+	if (startRefreshOrder == 1) {
+		
+		$.post("ajax/getActiveOrderSupplier", null, function(orderList) 
+		{
+			
+			$.each(orderList, function(index, val)
+			{
+				refreshProgress(val.idOrder);
+			});
+		});
+		
+	}
+	
+}, 5000);
+
 (function(window, undefined) {
 	var History = window.History;
 	$ = window.jQuery;
@@ -36,21 +53,27 @@ function historyStateChanged()
   {
   case 'orderSup':
     writeOrderPage();
+    startRefreshOrder = 1;
     break;
   case 'productsMgmt':
 	  writeSupplierPage(0);
+	  startRefreshOrder = 0;
 	  break;
   case 'statSupplier':
     writeStatPageSupplier();
+    startRefreshOrder = 0;
     break;
   case 'notifiche':
     getMyNotifies();
+    startRefreshOrder = 0;
     break;
   case 'messaggi':
     getMyMessages();
+    startRefreshOrder = 0;
     break;
   default:
     writeIndexPage();
+    startRefreshOrder = 0;
   }
 }
 
@@ -104,172 +127,524 @@ function statClicked(event) {
 function writeOrderPage()
 {
   $("#bodyTitleHeader").html("Gestione ordini");
-  $(".centrale").html("<div class='logform'>" +
-      "<form method='post' action=''>" +
-      "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini Ricevuti:&nbsp;</legend><br />" +
-          "<label for='minDate' class='left'>Creato dopo il: </label>" +
-          "<input type='text' id='minDate' class='field'/>" +
-      "</fieldset>" +
-      "<button type='submit' id='orderRequest'> Visualizza </button>" +
-    "</form>" +
-    "<table id='orderList' class='log'></table>" +
-      "<div id='errorDivActiveOrder' style='display:none;'>" +
-        "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
-         "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
-          "</div>" +
-        "</fieldset>" +
-      "</div><br />" +
-  "</div>" +
-  "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
-
-  $("#minDate").datepicker();
-  $('#minDate').datepicker("setDate", Date.now());
-  $('#orderRequest').on("click", clickOrderHandler);
-  
-  $("#dialog").dialog({ autoOpen: false });
-  $("button").button();
+  $(".centrale").html("   <div id='tabsOrder'>" +
+				          "<ul>" +
+				           "<li><a href='#tabsOrder-1'>Ordini Attivi</a></li>" +
+				           "<li><a href='#tabsOrder-2'>Completati</a></li>" +
+				           "<li><a href='#tabsOrder-3'>Storico Ordini</a></li>" +
+				          "</ul>" +
+				              "<div id='tabsOrder-1'></div>" +
+				              "<div id='tabsOrder-2'></div>" +
+				              "<div id='tabsOrder-3'></div>" +
+				         "</div>");
+	
+	$('#tabsOrder-1').html("<div class='logform'>" +
+	          "<table id='activeOrderList' class='log'></table>" +
+	            "<div id='errorDivActiveOrder' style='display:none;'>" +
+	              "<fieldset><legend id='legendErrorActiveOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+	               "<div id='errorsActiveOrder' style='padding-left: 40px'>" +
+	                "</div>" +
+	              "</fieldset>" +
+	            "</div><br />" +
+	        "</div>" +
+	        "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
+	
+	$('#tabsOrder-2').html("<div class='logform'>" +
+	          "<table id='completeOrderList' class='log'></table>" +
+	            "<div id='errorDivCompleteOrder' style='display:none;'>" +
+	              "<fieldset><legend id='legendErrorCompleteOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+	               "<div id='errorsCompleteOrder' style='padding-left: 40px'>" +
+	                "</div>" +
+	              "</fieldset>" +
+	            "</div><br />" +
+	        "</div>");
+	
+	$('#tabsOrder-3').html("<div class='logform'>" +
+	          "<form method='post' action=''>" +
+	            "<fieldset><legend>&nbsp;Opzioni di Ricerca Ordini:&nbsp;</legend><br />" +
+	                "<label for='maxDate2' class='left'>Chiuso dopo il: </label>" +
+	                "<input type='text' id='maxDate2' class='field' style='width: 120px'/>" +
+	                "<label for='toSetShipDate' class='left'>Consegna: </label>" +
+	                "<select name='toSetShipDate' id='toSetShipDate' class='field' style='width: 200px'>" +
+	                    "<option value='0'>Impostata</option>" +
+	                    "<option value='1'>Non Impostata  </option>" +
+	                    "<option value='2'>Entrambe </option>" +
+	                 "</select>" +
+	            "</fieldset>" +
+	            "<button type='submit' id='orderOldRequest'> Visualizza </button>" +
+	          "</form>" +
+	          "<table id='oldOrderList' class='log'></table>" +
+	            "<div id='errorDivOldOrder' style='display:none;'>" +
+	              "<fieldset><legend id='legendErrorOldOrder'>&nbsp;Errore&nbsp;</legend><br />" +
+	               "<div id='errorsOldOrder' style='padding-left: 40px'>" +
+	                "</div>" +
+	              "</fieldset>" +
+	            "</div><br />" +
+	        "</div>");
+	
+	prepareOrderForm();
 }
 
-function clickOrderHandler(event)
-{
-  event.preventDefault();
+function prepareOrderForm(tab){
+    
+    $('#tabsOrder').tabs();
+    $( "#dialog" ).dialog({ autoOpen: false });
 
-  var minDateTime = $('#minDate').datepicker("getDate").getTime();
-
-  if (minDateTime == null)
-    $("#dialog").dialog('open');
-  else
-  {
-    $.post("ajax/getOrderSupplier", {
-      start : minDateTime
-    }, postOrderListHandler);
-  }
+    //$("body").delegate(".shipButton", "click", clickSetShipPurchaseHandler);
+    //$("body").delegate(".detailsButton", "click", clickShowDetailsPurchaseHandler);
+    
+    $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
+    $('#maxDate2').datepicker("setDate", Date.now());
+    
+    $('#orderOldRequest').on("click", clickOrderOldHandler);
+    
+    loadActiveOrder();
+    loadCompleteOrder();
+    
+    $("button").button();
 }
 
-function postOrderListHandler(orderList)
-{
-  console.log("Ricevuti Ordini");
+function loadActiveOrder() {
+	  
+    $.post("ajax/getActiveOrderSupplier", null, postActiveOrderSupplierListHandler); 
+}
 
-  $("#orderList").html("");
-  $("#orderList").hide();
-
-  if (orderList.length > 0)
-  {
-    $("#orderList").append(
-        "  <tr>  <th class='top' width='10%'> ID </th>"
-            + "<th class='top' width='20%'> Data Inizio  </th>"
-            + "<th class='top' width='20%'> Data Chiusura  </th>"
-            + "<th class='top' width='20%'> Data Consegna  </th>"
-            + "<th class='top' width='10%'> Stato </th>"
-            + "<th class='top' width='20%'> Azione  </th> </tr>");
-    for ( var i = 0; i < orderList.length; i++)
-    {
-      var stato = "";
-      var order = orderList[i];
-      var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(
-          order.dateOpen));
-      var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(
-          order.dateClose));
-      if (order.dateDelivery != "null")
-        var dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(
-            order.dateDelivery));
-      else
-        var dateDelivery = "Non decisa";
-      var today = new Date();
-      today.setHours(0);
-      today.setMinutes(0,0,0);
-      if (new Date(order.dateClose) > today)
-        stato = "In corso";
-      else if (new Date(order.dateClose) < today)
-      {
-        $.getSync("ajax/isorderfailed", order.idOrder, function(isFailed)
-        {
-          if (isFailed)
-            stato = "Fallito";
-          else
-            stato = "Concluso con successo";
-        });
-      }
-      $("#orderList").append(
-          "<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder
-              + "</td>" + "<td>" + dateOpen + "</td>" + "<td>" + dateClose
-              + "</td>" + "<td>" + dateDelivery + "</td>" + "<td>" + stato
-              + "</td>" + "<td> <form> <input type='hidden' value='"
-              + order.idOrder + "'/>"
-              + "<button type='submit' id='showDetails_" + order.idOrder
-              + "'> Dettagli </button>" + "</form></td></tr>"
-              + "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder
-              + "'><td colspan='6' id='TDdetailsOrder_" + order.idOrder
-              + "'></td></tr>");
-      $(".detailsOrder").hide();
+function postActiveOrderSupplierListHandler(orderList) {
+	
+	$("#activeOrderList").hide();
+    $("#activeOrderList").html("");
+       
+    if(orderList.length > 0){
+        $("#activeOrderList").append("  <tr>  <th class='top' width='15%'> Nome </th>" +
+                                             "<th class='top' width='15%'> Fornitore </th>" +
+                                             "<th class='top' width='15%'> Data Inizio  </th>" +
+                                             "<th class='top' width='15%'> Data Chiusura  </th>" +
+                                             "<th class='top' width='25%'> Progresso </th>" +
+                                             "<th class='top' width='15%'> Azione  </th> </tr>");
+        
+        
+        for(var i = 0; i < orderList.length; i++){
+        	
+            var order = orderList[i];
+            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
+            
+            var idProgressBar = "pbOrder_" + order.idOrder;
+            var valProgress = 0;
+            $.postSync("ajax/getProgressOrder", {idOrder: order.idOrder}, function(data)
+            {
+            	valProgress = data;
+            });
+                        
+            $("#activeOrderList").append("<tr id='idOrder_" + order.idOrder + "'> " +
+            								  "<td>" + order.orderName +"</td>" +
+                                              "<td>" + order.supplier.companyName + "</td>" +
+                                              "<td>" + dateOpen + "</td>" +
+                                              "<td>" + dateClose + "</td>" +
+                                              "<td><div id='" + idProgressBar + "'></div></td>" +
+                                              "<td><button type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
+                                              "</td></tr>" +
+                                         "<tr class='detailsOrder' id='TRdetailsOrderActive_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderActive_" + order.idOrder + "'></td></tr>");
+            $(".detailsOrder").hide();
+            $( "#" + idProgressBar ).progressbar({	value: valProgress	});
+            $( "#" + idProgressBar ).css('height', '1.8em');
+            $("#showDetails_" + order.idOrder).on("click", clickShowDetailsHandler);
+        }
+        
+        $("button").button();
+    
+        $("#activeOrderList").show("slow");
+        $("#activeOrderList").fadeIn(1000);
+        $("#errorDivActiveOrder").hide();
+        
+    } else {
+        
+        $("#activeOrderList").show();
+        $("#errorDivActiveOrder").hide();
+        $("#legendErrorActiveOrder").html("Comunicazione");
+        $("#errorsActiveOrder").html("Non ci sono Ordini Attivi da visualizzare<br /><br />");
+        $("#errorDivActiveOrder").show("slow");
+        $("#errorDivActiveOrder").fadeIn(1000);
+    
     }
+	
+}
 
-    $.each(orderList, function(index, val)
+function clickShowDetailsHandler(event) {
+    event.preventDefault();
+    
+    $(".detailsOrder").hide();
+    idOrder = $(this).data('idorder');
+    
+    $.post("ajax/getProductListFromOrder", {idOrder: idOrder}, postShowDetailsHandler);
+}
+
+function postShowDetailsHandler(data) {
+    
+    var selectedTab = getSelectedTabIndex();
+    var trControl = 0;
+    var tdControl = 0;
+    
+    if(selectedTab == 0) {
+        trControl = "#TRdetailsOrderActive_" + idOrder;
+        tdControl = "#TDdetailsOrderActive_" + idOrder;
+        trIdControl = "trActiveProduct_" + idOrder + "_";
+    } else if(selectedTab == 1) {
+        trControl = "#TRdetailsOrderComplete_" + idOrder;
+        tdControl = "#TDdetailsOrderComplete_" + idOrder;
+        trIdControl = "trCompleteProduct_" + idOrder + "_";
+    } else if(selectedTab == 2) {
+        trControl = "#TRdetailsOrderOld_" + idOrder;
+        tdControl = "#TDdetailsOrderOld_" + idOrder;
+        trIdControl = "trOldProduct_" + idOrder + "_";
+    }
+    
+    $(tdControl).html("<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder + "' class='log2'></table></div>");
+    
+    var tableControl = "#TABLEdetailsOrder_" + idOrder;
+    var DispTmp = 0;
+    var TotAmount = 0;
+    
+    var productsid = [];
+    
+    $(tableControl).append("<tr>  <th class='top' width='15%'> Prodotto </th>" +
+                                 "<th class='top' width='15%'> Categoria </th>" +
+                                 "<th class='top' width='15%'> Descrizione  </th>" +
+                                 "<th class='top' width='5%'> Costo </th>" +
+                                 "<th class='top' width='10%'> Min-Max Buy </th>" +
+                                 "<th class='top' width='5%'> Disp.  </th>" +
+                                 "<th class='top' width='5%'> Tot. Richiesta </th>" +
+                                 "<th class='top' width='25%'> Progresso  </th>" +
+                                 "<th class='top' width='5%'> Parziale  </th>" +
+                                 " </tr>");
+    
+    $.each(data, function(index, val)
     {
-      $("#showDetails_" + val.idOrder).on("click", clickShowDetailsHandler);
+    	
+    	productsid.push(val.idProduct);
+    	
+    	$.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: val.idProduct}, function(data)
+        {
+    		if(data == -1)
+    			DispTmp = "Inf.";
+    		else
+    			DispTmp = data;
+        });
+    	
+    	var idProgressBar = "pbProduct_" + idOrder + "_" + val.idProduct;
+    	var idDispDIV = "dispOrder_" + idOrder + "_" + val.idProduct;
+    	var idAmountDIV = "totAmountOrder_" + idOrder + "_" + val.idProduct;
+    	var idparzialeDIV = "parzialeOrder_" + idOrder + "_" + val.idProduct;
+    	
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'>    <td>" + val.name + "</td>" +
+        		                       "<td>" + val.category.description + "</td>" +
+        		                       "<td>" + val.description + "</td>" +
+        		                       "<td>" + val.unitCost + " &euro;</td>" +
+        		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
+    		                       	   "<td id='" + idDispDIV + "'>" + DispTmp + "</td>" +
+    		                       	   "<td id='" + idAmountDIV + "'>" + TotAmount + "</td>" +
+    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
+    		                       	   "<td id='" + idparzialeDIV + "'> 0 &euro;</td>" +
+    		                   "</tr>");
+        
+        $( "#" + idProgressBar ).progressbar({	value: 0 });
+		$( "#" + idProgressBar ).css('height', '1em');
+		
     });
-
-    $("#orderList").show("slow");
-    $("#orderList").fadeIn(1000);
-    $("#errorDivActiveOrder").hide();
-  }
-  else
-  {
-    $("#orderList").show();
-    $("#errorDivActiveOrder").hide();
-    $("#legendErrorActiveOrder").html("Comunicazione");
-    $("#errorsActiveOrder").html(
-        "Non ci sono Ordini da visualizzare<br /><br />");
-    $("#errorDivActiveOrder").show("slow");
-    $("#errorDivActiveOrder").fadeIn(1000);
-  }
+    
+    var stringProductsId = productsid.join(',');
+    
+    //aggiorno le quantit� acquistate e relativo parziale
+    $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
+    {
+    	$.each(productsid, function(index, idProduct) {
+    		var idAmountDIV = "#totAmountOrder_" + idOrder + "_" + idProduct;
+    		$(idAmountDIV).html(amountList[index]);
+    		
+    		var idparzialeDIV = "#parzialeOrder_" + idOrder + "_" + idProduct;
+    		var unitCost = 0;
+    		$.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data){ unitCost = data.unitCost; });
+        	var parziale = amountList[index] * unitCost;
+    		
+        	$(idparzialeDIV).html(parziale + '&euro;');
+        	
+    	});
+    });
+    
+    //Aggiorno le progressbar dei prodotti.
+    var allProgress = "";
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
+    {
+    	allProgress = data;
+    });
+    
+    $.each(allProgress, function(index, val)
+    {
+    	var temp = val.split(',');
+    	var idProduct = temp[0];
+    	var progress = parseFloat(temp[1]);
+	    
+    	//Aggiorno progressbar
+    	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
+    	$(idProgressBarProduct).progressbar('value', progress);
+    	
+    	//Rimuovo effetto grigio per ordini attivi
+		var idTr = "#trActiveProduct_" + idOrder + "_" + idProduct;
+		$(idTr).removeClass("noLimitProduct");
+    	
+    	if(progress == 100) {
+    		var selectedTab = getSelectedTabIndex();
+    		
+			if(selectedTab == 2) {
+				var idTr = "#trCompleteProduct_" + idOrder + "_" + idProduct; 	
+				$(idTr).removeClass("noLimitProduct");
+    		}
+			
+			if(selectedTab == 3) {
+				var idTr = "#trShipProduct_" + idOrder + "_" + idProduct; 	
+				$(idTr).removeClass("noLimitProduct");
+    		}
+			
+			if(selectedTab == 4) {
+				var idTr = "#trOldProduct_" + idOrder + "_" + idProduct;
+	    		$(idTr).removeClass("noLimitProduct");
+			}
+    	}
+    	
+    });
+    
+    //refreshProgress(idOrder);
+    
+    $(trControl).show("slow");    
+    $(tdControl).fadeIn(1000);  
 }
 
-function clickShowDetailsHandler(event)
-{
-  event.preventDefault();
-
-  $(".detailsOrder").hide();
-  var form = $(this).parents('form');
-  idOrder = $('input', form).val();
-
-  $.post("ajax/getProductListFromOrder", {
-    idOrder : idOrder
-  }, postShowDetailsHandler);
+function refreshProgress(idOrder) {
+	
+	var valProgress = 0;
+    $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
+    {
+    	valProgress = data;
+    });
+    
+    //Aggiorno progressbar ordine generale
+    var idProgressBar = "#pbOrder_" + idOrder;
+    $(idProgressBar).progressbar('value', valProgress);
+    
+    //Aggiorno le progressbar dei prodotti.
+    var allProgress = "";
+    $.postSync("ajax/getProgressProductOfOrder", {idOrder: idOrder}, function(data)
+    {
+    	allProgress = data;
+    });
+    
+    var productsid = [];
+    
+    $.each(allProgress, function(index, val)
+    {
+    	var temp = val.split(',');
+    	var idProduct = temp[0];
+    	productsid.push(idProduct);
+    	var progress = parseFloat(temp[1]);
+    	
+    	//Aggiorno disponibilit�
+    	var idDispDIV = "#dispOrder_" + idOrder + "_" + idProduct;
+    	var DispTmp = 0;
+	    $.postSync("ajax/getDispOfProductOrder", {idOrder: idOrder, idProduct: idProduct}, function(data)
+        {
+            if(data == -1)
+                DispTmp = "Inf.";
+            else
+                DispTmp = data;
+        });
+	    
+	    $(idDispDIV).html(DispTmp);
+	    
+    	//Aggiorno progressbar
+    	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
+    	$(idProgressBarProduct).progressbar('value', progress);
+    	
+    });	
+    
+    	var stringProductsId = productsid.join(',');
+    
+	    //aggiorno le quantit� acquistate
+	    $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
+	    {
+	    	$.each(productsid, function(index, idProduct) {
+	    		var idAmountDIV = "#totAmountOrder_" + idOrder + "_" + idProduct;
+	    		$(idAmountDIV).html(amountList[index]);
+	    		
+	    		var idparzialeDIV = "#parzialeOrder_" + idOrder + "_" + idProduct;
+	    		var unitCost = 0;
+	    		$.postSync("ajax/getProductNormal", {idProduct: idProduct}, function(data){ unitCost = data.unitCost; });
+	        	var parziale = amountList[index] * unitCost;
+	    		
+	        	$(idparzialeDIV).html(parziale + '&euro;');
+	    		
+	    	});
+	    });
+	
 }
 
-function postShowDetailsHandler(data)
-{
-  var trControl = 0;
-  var tdControl = 0;
+function loadCompleteOrder() {
+    
+    $.post("ajax/getCompleteOrderSupplier", null, postCompleteOrderSupplierListHandler);
+}
 
-  trControl = "#TRdetailsOrder_" + idOrder;
-  tdControl = "#TDdetailsOrder_" + idOrder;
+function postCompleteOrderSupplierListHandler(orderList) {
+	
+	$("#completeOrderList").html("");
+    $("#completeOrderList").hide();
+    
+    if(orderList.length > 0){
+    	
+    	$("#completeOrderList").append(" <tr><th class='top' width='10%'> Nome </th>" +
+									        "<th class='top' width='25%'> Fornitore </th>" +
+									        "<th class='top' width='15%'> Data Inizio  </th>" +
+									        "<th class='top' width='15%'> Data Chiusura  </th>" +
+									        "<th class='top' width='15%'> Data Consegna  </th>" +
+									        "<th class='top' width='20%'> Azione  </th> </tr>");
+    	
+    	
+    	for(var i = 0; i < orderList.length; i++) {
+    		
+    		 var order = orderList[i];
+             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
+             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
+             
+             $("#completeOrderList").append("<tr id='idOrder_" + order.idOrder + "'>" +
+						            		 "<td>" + order.orderName +"</td>" +
+						             		  "<td>" + order.supplier.companyName + "</td>" +
+						             		  "<td>" + dateOpen + "</td>" +
+						             		  "<td>" + dateClose + "</td>" +
+						             		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
+											  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
+											  	   "<button style='margin: 0px' type='submit' id='showDetailsComplete_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
+											  "</td></tr>");
+    		
+             $("#completeOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderComplete_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderComplete_" + order.idOrder + "'></td></tr>");
+     		
+             $("#dateDelivery_"+ order.idOrder).datepicker();
+             
+             $("#showDetailsComplete_" + order.idOrder).on("click", clickShowDetailsHandler);
+             $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
+             $(".detailsOrder").hide();
+             
+    		
+    	}
+    	
+    	$("button").button();
+        $("#completeOrderList").show("slow");
+        $("#completeOrderList").fadeIn(1000);
+        $("#errorDivCompleteOrder").hide();
+    	
+    } else {
+    	
+    	 $("#completeOrderList").show();
+         $("#errorDivCompleteOrder").hide();
+         $("#legendErrorCompleteOrder").html("Comunicazione");
+         $("#errorsCompleteOrder").html("Non ci sono Ordini Completati da visualizzare<br /><br />");
+         $("#errorDivCompleteOrder").show("slow");
+         $("#errorDivCompleteOrder").fadeIn(1000);
+    	
+    }
+	
+}
 
-  $(tdControl).html(
-      "<div style='margin: 15px'><table id='TABLEdetailsOrder_" + idOrder
-          + "' class='log'></table></div>");
+function clickOrderOldHandler(event) {
+    
+	 event.preventDefault();
+	    
+    var dateDeliveryType = $("#toSetShipDate").val();
 
-  var tableControl = "#TABLEdetailsOrder_" + idOrder;
+    var maxDate = $('#maxDate2').datepicker("getDate");
+    maxDate.setHours(23);
+    maxDate.setMinutes(59);
+    maxDate.setSeconds(59);
+    maxDate.setMilliseconds(999);
+    var maxDateTime = maxDate.getTime();
+    
+    if(maxDateTime == null){
+        $( "#dialog" ).dialog('open');
+    } else {
+        
+        $.post("ajax/getOldOrderResp", {end: maxDateTime, dateDeliveryType: dateDeliveryType}, postOldOrderListHandler);
+    } 
+}
 
-  $(tableControl).append(
-      "<tr>  <th class='top' width='15%'> Prodotto </th>"
-          + "<th class='top' width='15%'> Categoria </th>"
-          + "<th class='top' width='35%'> Descrizione  </th>"
-          + "<th class='top' width='15%'> Costo  </th>"
-          + "<th class='top' width='20%'> Min-Max Buy  </th> </tr>");
+function postOldOrderListHandler(orderList) {
+    
+    $("#oldOrderList").html("");
+    $("#oldOrderList").hide();
+           
+    if(orderList.length > 0){
+        $("#oldOrderList").append("  <tr>  <th class='top' width='10%'> Nome </th>" +
+                                          "<th class='top' width='25%'> Fornitore </th>" +
+                                          "<th class='top' width='15%'> Data Inizio  </th>" +
+                                          "<th class='top' width='15%'> Data Chiusura  </th>" +
+                                          "<th class='top' width='15%'> Data Consegna  </th>" +
+                                          "<th class='top' width='20%'> Azione  </th> </tr>");
+        
+        for(var i = 0; i < orderList.length; i++){
+        	
+            var order = orderList[i];
+            var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
+            var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
+            var dateDelivery = 0;
+            
+            if(order.dateDelivery == "null") {
+                dateDelivery = "Non Impostata";
+            } else {
+                dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery)); 
+            }
+            
+            $("#oldOrderList").append("<tr id='idOrder_" + order.idOrder + "'>" +
+					            		"<td>" + order.orderName +"</td>" +
+					            		  "<td>" + order.supplier.companyName + "</td>" +
+					            		  "<td>" + dateOpen + "</td>" +
+					            		  "<td>" + dateClose + "</td>" +
+					            		  "<td>" + dateDelivery + "</td>" +   	
+										  "<td><button style='margin: 0px' type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
+										  "</td>" +
+					            		"</tr>");
+            
+            $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
+            		
+            $("#dateDelivery_"+ order.idOrder).datepicker();
+            
+            if(dateDelivery != "null") {
+            	$("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
+            	$("#dateDelivery_" + order.idOrder).css('background','#C7FFA8');
+            }
+                
+            $("#showDetails_" + order.idOrder).on("click", clickShowDetailsHandler);
+            $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
+            
+            $(".detailsOrder").hide();
+            
+        }
+        $("button").button();
+        $("#oldOrderList").show("slow");
+        $("#oldOrderList").fadeIn(1000);
+        $("#errorDivOldOrder").hide();
+    } 
+    else 
+    {
+        
+        $("#oldOrderList").hide();
+        $("#errorDivOldOrder").hide();
+        $("#legendErrorOldOrder").html("Comunicazione");
+        $("#errorsOldOrder").html("Non ci sono Ordini da visualizzare<br /><br />");
+        $("#errorDivOldOrder").show("slow");
+        $("#errorDivOldOrder").fadeIn(1000);
+    
+    }
+    
+}
 
-  $.each(data, function(index, val)
-  {
-    $(tableControl).append(
-        "<tr>    <td>" + val.name + "</td>" + "<td>" + val.category.description
-            + "</td>" + "<td>" + val.description + "</td>" + "<td>"
-            + val.unitCost + "</td>" + "<td>" + val.minBuy + " - " + val.maxBuy
-            + "</td></tr>");
-  });
-
-  $(trControl).show("slow");
-  $(tdControl).fadeIn(1000);
+function getSelectedTabIndex() { 
+    return  $('#tabsOrder').tabs('option', 'selected');
 }
 
 function writeStatPageSupplier() {
