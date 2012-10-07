@@ -906,16 +906,18 @@ function viewMemberDetails(idMember)
     var details = "<table><tr><td class='imageTD'><img src='img/user.png' /></td>"
       +"<td class='dataTD'><table class='memberDetailsTable'>"
     + "<tr><td>Nome</td><td class='fieldTD'>" + member.name + "</td></tr>"
-    + "<tr><td>Cognome</td><td class='fieldTD'>" + member.surname + "</td></tr>"
-    + "<tr><td>Username</td><td class='fieldTD'>" + member.username + "</td></tr>"
-    + "<tr><td>Data di registrazione</td><td class='fieldTD'>" + member.regDate + "</td></tr>"
+    + "<tr><td>Cognome</td><td class='fieldTD'>" + member.surname + "</td></tr>";
+    if (member.username.match("https://.*") == null)
+      details += "<tr><td>Username</td><td class='fieldTD'>" + member.username + "</td></tr>";
+    details += "<tr><td>Data di registrazione</td><td class='fieldTD'>" + member.regDate + "</td></tr>"
     + "<tr><td>Email</td><td class='fieldTD'>" + member.email + "</td></tr>"
     + "<tr><td>Indirizzo</td><td class='fieldTD'>" + member.address + "</td></tr>"
     + "<tr><td>Citt&agrave;</td><td class='fieldTD'>" + member.city + "</td></tr>"
     + "<tr><td>Stato</td><td class='fieldTD'>" + member.state + "</td></tr>"
-    + "<tr><td>CAP</td><td class='fieldTD'>" + member.cap + "</td></tr>"
-    + "<tr><td>Telefono</td><td class='fieldTD'>" + member.tel + "</td></tr>"
-    + "<tr><td>Tipo di utente</td><td class='fieldTD'>" + member.memberType + "</td></tr>"
+    + "<tr><td>CAP</td><td class='fieldTD'>" + member.cap + "</td></tr>";
+    if (member.tel != null)
+      details += "<tr><td>Telefono</td><td class='fieldTD'>" + member.tel + "</td></tr>";
+    details += "<tr><td>Tipo di utente</td><td class='fieldTD'>" + member.memberType + "</td></tr>"
     + "<tr><td>Status utente</td><td class='fieldTD'>" + member.memberStatus + "</td></tr>";
     details += "</table></td></tr></table>";
     $.modal(details);
