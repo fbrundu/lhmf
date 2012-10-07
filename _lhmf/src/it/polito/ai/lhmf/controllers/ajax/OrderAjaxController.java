@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -50,5 +51,14 @@ public class OrderAjaxController
 	List<Order> getActiveOrders(HttpServletRequest request)
 	{
 		return orderInterface.getActiveOrders();
+	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@RequestMapping(value = "/ajax/isorderfailed", method = RequestMethod.GET)
+	public @ResponseBody
+	Boolean isOrderFailed(HttpServletRequest request,
+			@RequestParam(value = "idOrder", required = true) Integer idOrder)
+	{
+		return orderInterface.isFailed(idOrder);
 	}
 }
