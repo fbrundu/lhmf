@@ -1,6 +1,6 @@
 window.setInterval(function(){
 
-	if (startRefresh == 1) {
+	if (typeof startRefresh != undefined && startRefresh == 1) {
 		
 		$.post("ajax/getOrdersString", function(orderList) 
 		{
@@ -21,7 +21,7 @@ window.setInterval(function(){
 		});
 	}
 	
-}, 5000);
+}, 3000);
 
 //////////////////////////////
 //Parte utente normale

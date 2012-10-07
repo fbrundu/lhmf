@@ -21,7 +21,7 @@ window.setInterval(function(){
 	
 	
 	
-}, 5000);
+}, 3000);
 
 (function(window, undefined) {
     var History = window.History;

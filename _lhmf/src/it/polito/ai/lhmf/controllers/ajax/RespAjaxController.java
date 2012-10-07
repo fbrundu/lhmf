@@ -57,7 +57,8 @@ public class RespAjaxController
 		}
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.RESP + ", "
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getOldOrderResp", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Order> getOldOrderResp(HttpServletRequest request,
