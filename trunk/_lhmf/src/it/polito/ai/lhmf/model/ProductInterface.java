@@ -391,19 +391,21 @@ public class ProductInterface
 						.getIdMember())
 			result = privateSetProductAvailable(idProduct);
 		
-		Notify n = new Notify();
-		n.setMember(getProduct(idProduct).getSupplier()
-				.getMemberByIdMemberResp());
-		n.setIsReaded(false);
-		// FIXME mettere costanti
-		n.setNotifyCategory(3);
-		n.setText(idProduct.toString());
-		n.setNotifyTimestamp(new Date());
-		notifyInterface.newNotify(n);
+		if (result > 0)
+		{
+			Notify n = new Notify();
+			n.setMember(getProduct(idProduct).getSupplier()
+					.getMemberByIdMemberResp());
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(3);
+			n.setText(idProduct.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
 
-		logInterface.createLog("Ha reso disponibile il prodotto con id: "
-				+ idProduct, m.getIdMember());
-
+			logInterface.createLog("Ha reso disponibile il prodotto con id: "
+					+ idProduct, m.getIdMember());
+		}
 		return result;
 	}
 	
@@ -414,7 +416,7 @@ public class ProductInterface
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Product " + "set availability = true "
-						+ "where idProduct = :idProduct");
+						+ "where idProduct = :idProduct and availability = false");
 		query.setParameter("idProduct", idProduct);
 
 		return (Integer) query.executeUpdate();
@@ -437,19 +439,21 @@ public class ProductInterface
 						.getIdMember())
 			result = privateSetProductUnvailable(idProduct);
 
-		Notify n = new Notify();
-		n.setMember(getProduct(idProduct).getSupplier()
-				.getMemberByIdMemberResp());
-		n.setIsReaded(false);
-		// FIXME mettere costanti
-		n.setNotifyCategory(3);
-		n.setText(idProduct.toString());
-		n.setNotifyTimestamp(new Date());
-		notifyInterface.newNotify(n);
-
-		logInterface.createLog("Ha reso non disponibile il prodotto con id: "
-				+ idProduct, m.getIdMember());
-		
+		if (result > 0)
+		{
+			Notify n = new Notify();
+			n.setMember(getProduct(idProduct).getSupplier()
+					.getMemberByIdMemberResp());
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(3);
+			n.setText(idProduct.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
+	
+			logInterface.createLog("Ha reso non disponibile il prodotto con id: "
+					+ idProduct, m.getIdMember());
+		}
 		return result;
 	}
 
@@ -460,7 +464,7 @@ public class ProductInterface
 
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Product " + "set availability = false "
-						+ "where idProduct = :idProduct");
+						+ "where idProduct = :idProduct and availability = true");
 		query.setParameter("idProduct", idProduct);
 
 		return (Integer) query.executeUpdate();
