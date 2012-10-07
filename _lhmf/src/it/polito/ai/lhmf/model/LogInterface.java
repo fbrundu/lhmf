@@ -3,7 +3,9 @@ package it.polito.ai.lhmf.model;
 import it.polito.ai.lhmf.orm.Log;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 
+import java.security.InvalidParameterException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -15,9 +17,27 @@ public class LogInterface
 {
 	//The session factory will be automatically injected by spring
 	private SessionFactory sessionFactory;
+	private MemberInterface memberInterface;
 	
 	public void setSessionFactory(SessionFactory sf){
 		this.sessionFactory = sf;
+	}
+	
+	public void setMemberInterface(MemberInterface memberInterface)
+	{
+		this.memberInterface = memberInterface;
+	}
+	
+	@Transactional
+	public Integer createLog(String logtext, Integer idMember)
+	{
+		if (logtext == null || logtext == "" || idMember < 0)
+			throw new InvalidParameterException();
+		Log l = new Log();
+		l.setLogtext(logtext);
+		l.setLogTimestamp(new Date());
+		l.setMember(memberInterface.getMember(idMember));
+		return (Integer) sessionFactory.getCurrentSession().save(l);
 	}
 	
 	@SuppressWarnings("unchecked")

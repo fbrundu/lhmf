@@ -36,6 +36,7 @@
     <!-- Dichiarazione dei DAO -->
     <bean id="logDao" class="it.polito.ai.lhmf.model.LogInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="memberInterface" ref="memberDao"/>
     </bean>
     
     <bean id="statisticsDao" class="it.polito.ai.lhmf.model.StatisticsInterface">
