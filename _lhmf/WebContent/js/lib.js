@@ -952,7 +952,7 @@ function registerForNews()
       if (!window.History.enabled
           || window.History.getState().data.action != 'messaggi')
       {
-        $('#messagesCount').html(event.data);
+        $('#messagesCount').html(e.data);
         $('#messagesCount').css("color", "red");
       }
       else
@@ -968,7 +968,7 @@ function registerForNews()
       if (!window.History.enabled
           || window.History.getState().data.action != 'notifiche')
       {
-        $('#notifiesCount').html(event.data);
+        $('#notifiesCount').html(e.data);
         $('#notifiesCount').css("color", "red");
       }
       else
