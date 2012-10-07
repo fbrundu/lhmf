@@ -1700,15 +1700,15 @@ function drawMap()
 function initialize(idOrder)
 {
 	geocoder = new google.maps.Geocoder();
-	var latlng = new google.maps.LatLng(41.659,-4.714);
+	var latlng = new google.maps.LatLng(45.0875198, 7.985248);
 	var myOptions = 
 	{
-	    zoom: 5,
+	    zoom: 6,
 	    center: latlng,
 	    mapTypeId: google.maps.MapTypeId.ROADMAP
 	};
 	//idOrder forzata a un valore per testare la mappa
-	//idOrder = 8;
+	idOrder = 8;
 	map = new google.maps.Map(document.getElementById("map"), myOptions);
 	$.postSync("ajax/getNormalForMap", {idOrder: idOrder}, function(membersList)
 	{
@@ -1718,7 +1718,7 @@ function initialize(idOrder)
 			var text = "" + val.name + " " + val.surname + "";
 			geocoder.geocode( { 'address': address}, function(results, status) {
 			      if (status == google.maps.GeocoderStatus.OK) {
-			        map.setCenter(results[0].geometry.location);
+			        //map.setCenter(results[0].geometry.location);
 			        var marker = new google.maps.Marker({
 			            map: map,
 			            title: text,
