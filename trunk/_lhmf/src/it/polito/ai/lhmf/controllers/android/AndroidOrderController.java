@@ -158,7 +158,7 @@ public class AndroidOrderController {
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/getactiveorderresp", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Order> getActiveOrder(Principal principal)
+	List<Order> getActiveOrderResp(Principal principal)
 	{
 		try
 		{
@@ -174,7 +174,7 @@ public class AndroidOrderController {
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/getcompletedordersresp", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Order> getCompletedOrders(Principal principal)
+	List<Order> getCompletedOrdersResp(Principal principal)
 	{
 		try
 		{
@@ -270,5 +270,21 @@ public class AndroidOrderController {
 			@RequestParam(value = "idPurchase") Integer idPurchase) throws InvalidParametersException
 	{
 		return purchaseInterface.getPurchaseCost(principal.getName(), idPurchase, true);
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/androidApi/getactiveordersupplier", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getActiveOrderSupplier(Principal principal)
+	{
+		try
+		{
+			return orderInterface.getActiveOrdersForSupplier(principal.getName());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
