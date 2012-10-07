@@ -112,7 +112,7 @@ public class ShipOrderPurchasesActivity extends Activity{
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		if(id == CONFIRM_DELIVERED_PURCHASE_DIALOG){
-			final Purchase p = (Purchase) args.getSerializable("purchase");
+			final Purchase p = (Purchase) args.getParcelable("purchase");
 			if(p != null){
 				AlertDialog aDialog = (AlertDialog) dialog;
 				aDialog.setMessage("Confermi di aver consegnato i prodotti della scheda di " + p.getMember().getName() + " " + p.getMember().getSurname() + "?");

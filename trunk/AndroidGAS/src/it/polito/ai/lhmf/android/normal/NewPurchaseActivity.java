@@ -203,7 +203,7 @@ public class NewPurchaseActivity extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		
 		if(id == PURCHASE_ITEM_DIALOG){
-			final Product product = (Product) args.getSerializable("product");
+			final Product product = (Product) args.getParcelable("product");
 			final int availability = args.getInt("availability", -1);
 			
 			if(product != null){
