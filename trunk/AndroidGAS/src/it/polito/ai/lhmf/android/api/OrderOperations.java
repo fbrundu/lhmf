@@ -40,4 +40,6 @@ public interface OrderOperations {
 	Order getOrder(Integer orderId);
 
 	Order[] getSupplierActiveOrders();
+
+	Order[] getSupplierCompletedOrders();
 }
