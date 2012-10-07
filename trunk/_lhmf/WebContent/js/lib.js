@@ -758,6 +758,7 @@ function viewProductClick(event)
   idProduct = $(this).attr('name');
   viewProductDetails(idProduct);
   $(".simplemodal-container").css("width", "auto");
+  $(".simplemodal-container").css("height", "auto");
 }
 
 function viewOrderClick(event)
@@ -766,6 +767,7 @@ function viewOrderClick(event)
   idOrder = $(this).attr('name');
   viewOrderDetails(idOrder);
   $(".simplemodal-container").css("width", "auto");
+  $(".simplemodal-container").css("height", "auto");
 }
 
 function viewMemberClick(event)
