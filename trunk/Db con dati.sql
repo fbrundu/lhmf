@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Ott 07, 2012 alle 16:40
+-- Generato il: Ott 07, 2012 alle 21:03
 -- Versione del server: 5.5.16
 -- Versione PHP: 5.3.8
 
@@ -33,7 +33,34 @@ CREATE TABLE IF NOT EXISTS `log` (
   `idMember` int(11) NOT NULL,
   PRIMARY KEY (`idLog`),
   KEY `fk_Log_Member1` (`idMember`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=72 ;
+
+--
+-- Dump dei dati per la tabella `log`
+--
+
+INSERT INTO `log` (`idLog`, `logtext`, `log_timestamp`, `idMember`) VALUES
+(51, 'Ha creato l''ordine con id: 10', '2012-10-07 14:44:03', 10),
+(52, 'Ha creato una scheda con id: 13', '2012-10-07 14:44:19', 16),
+(53, 'Ha modificato la scheda con id: 13', '2012-10-07 14:46:59', 16),
+(54, 'Ha modificato la scheda con id: 13', '2012-10-07 14:46:59', 16),
+(55, 'Ha modificato la scheda con id: 13', '2012-10-07 14:46:59', 16),
+(56, 'Ha modificato la scheda con id: 13', '2012-10-07 14:47:04', 16),
+(57, 'Ha modificato la scheda con id: 13', '2012-10-07 14:47:04', 16),
+(58, 'Ha modificato la scheda con id: 13', '2012-10-07 14:47:04', 16),
+(59, 'Ha modificato la scheda con id: 13', '2012-10-07 14:47:10', 16),
+(60, 'Ha modificato la scheda con id: 13', '2012-10-07 14:47:10', 16),
+(61, 'Ha modificato la scheda con id: 13', '2012-10-07 14:47:10', 16),
+(62, 'Ha creato il prodotto con id: 68', '2012-10-07 18:15:58', 12),
+(63, 'Ha reso non disponibile il prodotto con id: 22', '2012-10-07 18:32:39', 12),
+(64, 'Ha reso non disponibile il prodotto con id: 23', '2012-10-07 18:32:40', 12),
+(65, 'Ha reso non disponibile il prodotto con id: 24', '2012-10-07 18:32:40', 12),
+(66, 'Ha reso disponibile il prodotto con id: 24', '2012-10-07 18:32:42', 12),
+(67, 'Ha reso disponibile il prodotto con id: 23', '2012-10-07 18:32:42', 12),
+(68, 'Ha reso disponibile il prodotto con id: 23', '2012-10-07 18:32:42', 12),
+(69, 'Ha reso disponibile il prodotto con id: 22', '2012-10-07 18:32:43', 12),
+(70, 'Ha reso disponibile il prodotto con id: 22', '2012-10-07 18:32:43', 12),
+(71, 'Ha reso disponibile il prodotto con id: 22', '2012-10-07 18:32:43', 12);
 
 -- --------------------------------------------------------
 
@@ -63,7 +90,7 @@ CREATE TABLE IF NOT EXISTS `member` (
   UNIQUE KEY `email` (`email`),
   KEY `fk_Member_Member_Type1` (`member_type`),
   KEY `fk_Member_Member_Status1` (`status`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=30 ;
 
 --
 -- Dump dei dati per la tabella `member`
@@ -77,7 +104,7 @@ INSERT INTO `member` (`idMember`, `name`, `surname`, `username`, `password`, `re
 (13, 'Luca', 'De Matteo', 'Supplier2', '7815696ecbf1c96e6894b779456d330e', '3fc9cc59fc0b1748', '2012-09-27', 'lude@gmail.com', 'Via Scipio Slataper, 3', 'Brescia', 'Italia', '25128', '0118857655', 3, 2, 1),
 (14, 'Matteo', 'Di Matteo', 'Supplier3', '7815696ecbf1c96e6894b779456d330e', '3feb79855e2f75e1', '2012-09-27', 'matdi@gmail.com', 'Via Roma, 25', 'Napoli', 'Italia', '80147', '011445433', 3, 2, 1),
 (15, 'Hassan', 'Umbroso', 'Supplier4', '7815696ecbf1c96e6894b779456d330e', '3fee4d614f0e7f32', '2012-09-27', 'hasum@gmail.com', 'Corso Umbria, 21', 'Torino', 'Italia', '10144', '01199065337', 3, 2, 1),
-(16, 'Hassan', 'Metwalley', 'Norm1', '7815696ecbf1c96e6894b779456d330e', '3fe8e3c20fc81669', '2012-09-27', 'hasmet@hotmail.it', 'Largo Augusto, 3', 'Milano', 'Italia', '20122', '0119909554', 0, 2, 0),
+(16, 'Hassan', 'Esam', 'Norm1', '7815696ecbf1c96e6894b779456d330e', '3fe8e3c20fc81669', '2012-09-27', 'hasmet@hotmail.it', 'Largo Augusto, 3', 'Milano', 'Italia', '20122', '0119909554', 0, 2, 0),
 (17, 'Francesco', 'Brundu', 'Norm2', '7815696ecbf1c96e6894b779456d330e', '3fe4c8e155a6cbeb', '2012-09-27', 'frbru@hotmail.it', 'Via Sardegna, 2', 'Cinisello Balsamo', 'Italia', '20092', '00203365466', 0, 2, 0),
 (18, 'Luca', 'Moretto', 'Norm3', '7815696ecbf1c96e6894b779456d330e', '3fd17dd428057c3c', '2012-09-27', 'lumor@hotmail.it', 'Via Chieri, 30', 'Baldissero Torinese', 'Italia', '10020', '0116647622', 0, 2, 0),
 (19, 'Matteo', 'Ferrari', 'Norm4', '7815696ecbf1c96e6894b779456d330e', '3fc767fffdc995c4', '2012-09-27', 'matfer@gmail.com', 'Via Roma, 30', 'Racale', 'Italia', '73055', '0117764322', 0, 2, 0),
@@ -86,7 +113,10 @@ INSERT INTO `member` (`idMember`, `name`, `surname`, `username`, `password`, `re
 (22, 'Pier Luigi', 'Carletti', 'Norm7', '7815696ecbf1c96e6894b779456d330e', '3fdc9bba519ce05e', '2012-09-27', 'prcarl@yahoo.it', 'Via Candido Giuseppe, 5', 'Lecce', 'Italia', '73100', '0114487599', 0, 2, 0),
 (23, 'Carlo', 'Stizi', 'Norm8', '7815696ecbf1c96e6894b779456d330e', '3fd06e0717529cc2', '2012-09-27', 'carstz@hotmail.com', 'Via Lombriasco, 55', 'Roma', 'Italia', '00166', '0113485555', 0, 2, 0),
 (24, 'Stefania', 'De Bosco', 'Norm9', '7815696ecbf1c96e6894b779456d330e', '3fba9c6ead4d07c8', '2012-09-27', 'stbos@aruba.it', 'Via Roma, 4', 'Cerveteri', 'Italia', '00052', '0113398577', 0, 2, 0),
-(25, 'Nicoletta', 'Luigi', 'Norm10', '7815696ecbf1c96e6894b779456d330e', '3fe5eb667764949e', '2012-09-27', 'niclu@gmail.com', 'Via Colombo, 22', 'Genova', 'Italia', '16121', '0114822789', 0, 2, 0);
+(25, 'Nicoletta', 'Luigi', 'Norm10', '7815696ecbf1c96e6894b779456d330e', '3fe5eb667764949e', '2012-09-27', 'niclu@gmail.com', 'Via Colombo, 22', 'Genova', 'Italia', '16121', '0114822789', 0, 2, 0),
+(27, 'ssag', 'sagedg', 'Norm100', '7815696ecbf1c96e6894b779456d330e', '3fe312c6e421b53e', '2012-10-07', 'sege@hot.it', 'sdgsadg', 'sdfg', 'India', '12234', '214142141', 0, 0, 0),
+(28, 'Hassan', 'Metwalley', 'https://www.google.com/accounts/o8/id?id=AItOawnobDMJrOxySeGlUUuk3IjOooYL50WJzzI', '7815696ecbf1c96e6894b779456d330e', '3fc33e6272f93018', '2012-10-07', 'hasmet87@gmail.com', 'Via Cagliari, 25', 'Torino', 'Italia', '10153', '0118857764', 0, 2, 0),
+(29, 'Andrea', 'Galeazzi', 'https://me.yahoo.com/a/Gutp4pNijfEwXG9dUYmihKPlCUw.UQE-#2d88f', '7815696ecbf1c96e6894b779456d330e', '3fb697a800593fc0', '2012-10-07', 'andgal@yahoo.it', 'Via Napoli, 34', 'Roma', 'Italia', '00184', '0213377645', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -169,7 +199,23 @@ CREATE TABLE IF NOT EXISTS `notify` (
   `notify_category` int(11) NOT NULL,
   PRIMARY KEY (`idNotify`),
   KEY `fk_Notify_Member1` (`idMember`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=74 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=97 ;
+
+--
+-- Dump dei dati per la tabella `notify`
+--
+
+INSERT INTO `notify` (`idNotify`, `text`, `notify_timestamp`, `isReaded`, `idMember`, `notify_category`) VALUES
+(87, '22', '2012-10-07 18:32:39', 0, 10, 3),
+(88, '23', '2012-10-07 18:32:40', 0, 10, 3),
+(89, '24', '2012-10-07 18:32:40', 0, 10, 3),
+(90, '24', '2012-10-07 18:32:42', 0, 10, 3),
+(91, '23', '2012-10-07 18:32:42', 0, 10, 3),
+(92, '23', '2012-10-07 18:32:42', 0, 10, 3),
+(93, '22', '2012-10-07 18:32:43', 0, 10, 3),
+(94, '22', '2012-10-07 18:32:43', 0, 10, 3),
+(95, '22', '2012-10-07 18:32:43', 0, 10, 3),
+(96, '28', '2012-10-07 18:46:31', 0, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -189,7 +235,14 @@ CREATE TABLE IF NOT EXISTS `order` (
   UNIQUE KEY `order_name` (`order_name`),
   KEY `fk_Order_Member1` (`idMember_resp`),
   KEY `fk_Order_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+
+--
+-- Dump dei dati per la tabella `order`
+--
+
+INSERT INTO `order` (`idOrder`, `order_name`, `date_open`, `date_close`, `date_delivery`, `idMember_resp`, `idSupplier`) VALUES
+(10, 'Boh', '2012-10-02', '2012-10-04', '2012-10-06', 10, 13);
 
 -- --------------------------------------------------------
 
@@ -205,6 +258,13 @@ CREATE TABLE IF NOT EXISTS `order_product` (
   KEY `fk_Order_has_ProductList_ProductList1` (`idProduct`),
   KEY `fk_Order_has_ProductList_Order1` (`idOrder`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `order_product`
+--
+
+INSERT INTO `order_product` (`idOrder`, `idProduct`, `failed`) VALUES
+(10, 37, 0);
 
 -- --------------------------------------------------------
 
@@ -230,7 +290,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`idProduct`),
   KEY `fk_Product_Product_Category1` (`idCategory`),
   KEY `fk_Product_Supplier1` (`idSupplier`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=68 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=69 ;
 
 --
 -- Dump dei dati per la tabella `product`
@@ -312,7 +372,14 @@ CREATE TABLE IF NOT EXISTS `purchase` (
   PRIMARY KEY (`idPurchase`),
   KEY `fk_Purchase_Member1` (`idMember`),
   KEY `fk_Purchase_Order1` (`idOrder`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+
+--
+-- Dump dei dati per la tabella `purchase`
+--
+
+INSERT INTO `purchase` (`idPurchase`, `isShipped`, `idMember`, `idOrder`) VALUES
+(13, 0, 16, 10);
 
 -- --------------------------------------------------------
 
@@ -329,6 +396,13 @@ CREATE TABLE IF NOT EXISTS `purchase_product` (
   KEY `fk_Purchase_has_Product_Product1` (`idProduct`),
   KEY `fk_Purchase_has_Product_Purchase1` (`idPurchase`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dump dei dati per la tabella `purchase_product`
+--
+
+INSERT INTO `purchase_product` (`idPurchase`, `idProduct`, `amount`, `inserted_timestamp`) VALUES
+(13, 37, 34, '2012-10-07 14:44:19');
 
 -- --------------------------------------------------------
 
