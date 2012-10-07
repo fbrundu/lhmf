@@ -115,6 +115,8 @@ public class ProductDetailsActivity extends Activity {
 				if(!result.getImgPath().equals(Product.DEFAULT_PRODUCT_PICTURE)){
 					new GetProductPictureTask().execute(api, result.getImgPath());
 				}
+				else
+					pDialog.dismiss();
 			}
 		}
 	}

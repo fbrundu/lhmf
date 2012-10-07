@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="5dp" >
+    android:padding="5dp"
+    android:background="@android:drawable/list_selector_background" >
 
     <ImageView
         android:id="@+id/productItemImage"

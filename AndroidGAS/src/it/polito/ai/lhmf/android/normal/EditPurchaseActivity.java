@@ -268,7 +268,7 @@ public class EditPurchaseActivity extends Activity {
 	protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
 		
 		if(id == EDIT_PURCHASE_ITEM_DIALOG){
-			final Product product = (Product) args.getSerializable("product");
+			final Product product = (Product) args.getParcelable("product");
 			final int availability = args.getInt("availability", -1);
 			
 			if(product != null){
@@ -334,7 +334,7 @@ public class EditPurchaseActivity extends Activity {
 			}
 		}
 		else if(id == REMOVE_PURCHASE_CONFIRM_DIALOG){
-			Product product = (Product) args.getSerializable("product");
+			Product product = (Product) args.getParcelable("product");
 			
 			AlertDialog aDialog = (AlertDialog) dialog;
 			aDialog.setMessage("Rimuovendo il prodotto '" + product.getName() + "' si procedera all'eliminazione dell'intera scheda." +
