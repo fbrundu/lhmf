@@ -74,7 +74,7 @@ public class SendEmail
 		
 		String subject = "Conferma mail per GasProject.net";
 		
-		String link = "http://localhost:8080/_lhmf/authMail?id=" + idMember + "&regCode=" + regCode;
+		String link = "http://gasproject.net:8080/_lhmf/authMail?id=" + idMember + "&regCode=" + regCode;
 		  
 		
 		String body = "Gentile " + contact + ",\n\n"
@@ -99,7 +99,7 @@ public class SendEmail
 							
 		String subject = "Conferma mail per GasProject.net";
 		
-		String link = "http://localhost:8080/_lhmf/authMail?id=" + idMember + "&regCode=" + regCode;
+		String link = "http://gasproject.net:8080/_lhmf/authMail?id=" + idMember + "&regCode=" + regCode;
 		
 		
 		String body = "Gentile " + contact + ",\n\n" +
