@@ -160,9 +160,11 @@ function postOrderListHandler(orderList)
             + "<th class='top' width='20%'> Data Inizio  </th>"
             + "<th class='top' width='20%'> Data Chiusura  </th>"
             + "<th class='top' width='20%'> Data Consegna  </th>"
-            + "<th class='top' width='30%'> Azione  </th> </tr>");
+            + "<th class='top' width='10%'> Stato </th>"
+            + "<th class='top' width='20%'> Azione  </th> </tr>");
     for ( var i = 0; i < orderList.length; i++)
     {
+      var stato = "";
       var order = orderList[i];
       var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(
           order.dateOpen));
@@ -173,15 +175,31 @@ function postOrderListHandler(orderList)
             order.dateDelivery));
       else
         var dateDelivery = "Non decisa";
+      var today = new Date();
+      today.setHours(0);
+      today.setMinutes(0,0,0);
+      if (new Date(order.dateClose) > today)
+        stato = "In corso";
+      else if (new Date(order.dateClose) < today)
+      {
+        $.getSync("ajax/isorderfailed", order.idOrder, function(isFailed)
+        {
+          if (isFailed)
+            stato = "Fallito";
+          else
+            stato = "Concluso con successo";
+        });
+      }
       $("#orderList").append(
           "<tr id='idOrder_" + order.idOrder + "'> <td>" + order.idOrder
               + "</td>" + "<td>" + dateOpen + "</td>" + "<td>" + dateClose
-              + "</td>" + "<td>" + dateDelivery + "</td>"
-              + "<td> <form> <input type='hidden' value='" + order.idOrder
-              + "'/>" + "<button type='submit' id='showDetails_"
-              + order.idOrder + "'> Dettagli </button>" + "</form></td></tr>"
+              + "</td>" + "<td>" + dateDelivery + "</td>" + "<td>" + stato
+              + "</td>" + "<td> <form> <input type='hidden' value='"
+              + order.idOrder + "'/>"
+              + "<button type='submit' id='showDetails_" + order.idOrder
+              + "'> Dettagli </button>" + "</form></td></tr>"
               + "<tr class='detailsOrder' id='TRdetailsOrder_" + order.idOrder
-              + "'><td colspan='5' id='TDdetailsOrder_" + order.idOrder
+              + "'><td colspan='6' id='TDdetailsOrder_" + order.idOrder
               + "'></td></tr>");
       $(".detailsOrder").hide();
     }
