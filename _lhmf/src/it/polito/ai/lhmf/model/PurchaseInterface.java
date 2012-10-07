@@ -38,6 +38,7 @@ public class PurchaseInterface
 	private OrderInterface orderInterface;
 	private MemberInterface memberInterface;
 	private NotifyInterface notifyInterface;
+	private LogInterface logInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -64,6 +65,11 @@ public class PurchaseInterface
 		this.notifyInterface = ni;
 	}
 	
+	public void setLogInterface(LogInterface logInterface)
+	{
+		this.logInterface = logInterface;
+	}
+	
 	@Transactional(propagation=Propagation.REQUIRED)
 	public Integer newPurchase(Purchase p, Integer idMember, Integer idOrder)
 			throws InvalidParametersException
@@ -81,7 +87,7 @@ public class PurchaseInterface
 		p.setMember(member);
 		
 		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer result = (Integer) sessionFactory.getCurrentSession().save(p);
+		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(p);
 		Float progressAfter = orderInterface.getProgress(idOrder);
 
 		Notify nn = new Notify();
@@ -107,7 +113,9 @@ public class PurchaseInterface
 			notifyInterface.newNotify(nn);
 		}
 
-		return result;
+		logInterface.createLog("Ha creato una scheda con id: " + idPurchase,
+				idMember);
+		return idPurchase;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -127,7 +135,7 @@ public class PurchaseInterface
 		p.setMember(member);
 		
 		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer result = (Integer) sessionFactory.getCurrentSession().save(p);
+		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(p);
 		Float progressAfter = orderInterface.getProgress(idOrder);
 
 		Notify nn = new Notify();
@@ -153,7 +161,10 @@ public class PurchaseInterface
 			notifyInterface.newNotify(nn);
 		}
 
-		return result;
+		logInterface.createLog("Ha creato una scheda con id: " + idPurchase,
+				member.getIdMember());
+
+		return idPurchase;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -310,6 +321,9 @@ public class PurchaseInterface
 						+ "where idPurchase = :idPurchase");
 		query.setParameter("idPurchase", idPurchase);
 
+		logInterface.createLog("Ha modificato la scheda con id: " + idPurchase,
+				memberInterface.getMember(username).getIdMember());
+		
 		return (Integer) query.executeUpdate();
 	}
 	
@@ -353,6 +367,10 @@ public class PurchaseInterface
 			nn.setNotifyCategory(9);
 			notifyInterface.newNotify(nn);
 		}
+
+		logInterface.createLog(
+				"Ha modificato la scheda con id: " + purchase.getIdPurchase(),
+				purchase.getMember().getIdMember());
 		
 		return result;
 	}
@@ -562,8 +580,39 @@ public class PurchaseInterface
 		query.setParameter("purchase", purchaseProduct.getPurchase());
 		query.setParameter("product", purchaseProduct.getProduct());
 
+		Integer idOrder = purchaseProduct.getPurchase().getOrder().getIdOrder();
+		Float progressBefore = orderInterface.getProgress(idOrder);
+		Integer result = (Integer) query.executeUpdate();
+		Float progressAfter = orderInterface.getProgress(idOrder);
 
-		return (Integer) query.executeUpdate();
+		Notify nn = new Notify();
+		nn.setMember(purchaseProduct.getPurchase().getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
+
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+
+		logInterface.createLog("Ha modificato la scheda con id: "
+				+ purchaseProduct.getPurchase().getIdPurchase(),
+				purchaseProduct.getPurchase().getMember().getIdMember());
+
+		return result;
 		
 	}
 
@@ -581,7 +630,39 @@ public class PurchaseInterface
 		query.setParameter("purchase", purchase);
 		query.setParameter("product", product);
 
-		return (Integer) query.executeUpdate();
+		Integer idOrder = purchase.getOrder().getIdOrder();
+		Float progressBefore = orderInterface.getProgress(idOrder);
+		Integer result = (Integer) query.executeUpdate();
+		Float progressAfter = orderInterface.getProgress(idOrder);
+
+		Notify nn = new Notify();
+		nn.setMember(purchase.getMember());
+		nn.setIsReaded(false);
+		// FIXME mettere costanti
+		nn.setText(idOrder.toString());
+		nn.setNotifyTimestamp(new Date());
+
+		if (progressBefore < 50 && progressAfter >= 50)
+		{
+			nn.setNotifyCategory(7);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			nn.setNotifyCategory(8);
+			notifyInterface.newNotify(nn);
+		}
+		else if (progressBefore < 90 && progressAfter >= 90)
+		{
+			nn.setNotifyCategory(9);
+			notifyInterface.newNotify(nn);
+		}
+
+		logInterface.createLog(
+				"Ha modificato la scheda con id: " + purchase.getIdPurchase(),
+				purchase.getMember().getIdMember());
+
+		return (Integer) result;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -623,7 +704,11 @@ public class PurchaseInterface
 			nn.setNotifyCategory(9);
 			notifyInterface.newNotify(nn);
 		}
-		
+
+		logInterface.createLog(
+				"Ha cancellato la scheda con id: " + purchase.getIdPurchase(),
+				purchase.getMember().getIdMember());
+
 		return result;		
 	}
 

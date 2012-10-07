@@ -74,6 +74,7 @@
         <property name="memberInterface" ref="memberDao"/>
         <property name="purchaseInterface" ref="purchaseDao"/>
         <property name="notifyInterface" ref="notifyDao"/>
+        <property name="logInterface" ref="logDao"/>
     </bean>
     
     <bean id="purchaseDao" class="it.polito.ai.lhmf.model.PurchaseInterface">
@@ -82,6 +83,7 @@
         <property name="orderInterface" ref="orderDao"/>
         <property name="memberInterface" ref="memberDao"/>
         <property name="notifyInterface" ref="notifyDao"/>
+        <property name="logInterface" ref="logDao"/>
     </bean>
     
     <bean id="memberDao" class="it.polito.ai.lhmf.model.MemberInterface">
