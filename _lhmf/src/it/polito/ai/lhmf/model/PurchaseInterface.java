@@ -11,8 +11,6 @@ import it.polito.ai.lhmf.orm.PurchaseProduct;
 import it.polito.ai.lhmf.orm.PurchaseProductId;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,7 +69,7 @@ public class PurchaseInterface
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer newPurchase(Purchase p, Integer idMember, Integer idOrder)
+	public Integer newPurchaseInternal(Purchase p, Integer idMember, Integer idOrder)
 			throws InvalidParametersException
 	{
 		if (p == null || idMember == null || idOrder == null)
@@ -118,54 +116,54 @@ public class PurchaseInterface
 		return idPurchase;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer newPurchase(Purchase p, String username, Integer idOrder)
-			throws InvalidParametersException
-	{
-		if (p == null || username == null || idOrder == null)
-			throw new InvalidParametersException();
-
-		Order order = orderInterface.getOrder(idOrder);
-		Member member = memberInterface.getMember(username);
-		
-		if (order == null || member == null)
-			throw new InvalidParametersException();
-		
-		p.setOrder(order);
-		p.setMember(member);
-		
-		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(p);
-		Float progressAfter = orderInterface.getProgress(idOrder);
-
-		Notify nn = new Notify();
-		nn.setMember(p.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-		
-		if (progressBefore < 50 && progressAfter >= 50)
-		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
-
-		logInterface.createLog("Ha creato una scheda con id: " + idPurchase,
-				member.getIdMember());
-
-		return idPurchase;
-	}
+//	@Transactional(propagation=Propagation.REQUIRED)
+//	public Integer newPurchase(Purchase p, String username, Integer idOrder)
+//			throws InvalidParametersException
+//	{
+//		if (p == null || username == null || idOrder == null)
+//			throw new InvalidParametersException();
+//
+//		Order order = orderInterface.getOrder(idOrder);
+//		Member member = memberInterface.getMember(username);
+//		
+//		if (order == null || member == null)
+//			throw new InvalidParametersException();
+//		
+//		p.setOrder(order);
+//		p.setMember(member);
+//		
+//		Float progressBefore = orderInterface.getProgress(idOrder);
+//		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(p);
+//		Float progressAfter = orderInterface.getProgress(idOrder);
+//
+//		Notify nn = new Notify();
+//		nn.setMember(p.getMember());
+//		nn.setIsReaded(false);
+//		// FIXME mettere costanti
+//		nn.setText(idOrder.toString());
+//		nn.setNotifyTimestamp(new Date());
+//		
+//		if (progressBefore < 50 && progressAfter >= 50)
+//		{
+//			nn.setNotifyCategory(7);
+//			notifyInterface.newNotify(nn);
+//		}
+//		else if (progressBefore < 75 && progressAfter >= 75)
+//		{
+//			nn.setNotifyCategory(8);
+//			notifyInterface.newNotify(nn);
+//		}
+//		else if (progressBefore < 90 && progressAfter >= 90)
+//		{
+//			nn.setNotifyCategory(9);
+//			notifyInterface.newNotify(nn);
+//		}
+//
+//		logInterface.createLog("Ha creato una scheda con id: " + idPurchase,
+//				member.getIdMember());
+//
+//		return idPurchase;
+//	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -218,7 +216,7 @@ public class PurchaseInterface
 	}
 
 	@Transactional(readOnly = true)
-	public Purchase getPurchase(int idPurchase)
+	public Purchase getPurchaseInternal(int idPurchase)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Purchase " + "where idPurchase = :idPurchase");
@@ -230,7 +228,7 @@ public class PurchaseInterface
 	public List<Product> getProducts(int idPurchase, String username)
 			throws Exception
 	{
-		Purchase purchase = getPurchase(idPurchase);
+		Purchase purchase = getPurchaseInternal(idPurchase);
 
 		if (purchase.getOrder().getMember().getIdMember() != memberInterface
 				.getMember(username).getIdMember())
@@ -246,7 +244,7 @@ public class PurchaseInterface
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
-	public List<PurchaseProduct> getPurchaseProducts(Integer idPurchase)
+	public List<PurchaseProduct> getPurchaseProductsInternal(Integer idPurchase)
 			throws InvalidParametersException
 	{
 		if (idPurchase == null || idPurchase < 0)
@@ -264,7 +262,7 @@ public class PurchaseInterface
 	{
 		if (idPurchase == null || idPurchase < 0)
 			throw new InvalidParametersException();
-		Purchase p = getPurchase(idPurchase);
+		Purchase p = getPurchaseInternal(idPurchase);
 		if (p == null
 				|| p.getMember().getIdMember() != memberInterface.getMember(
 						username).getIdMember()
@@ -312,7 +310,7 @@ public class PurchaseInterface
 
 		// il membro che fa la modifica deve essere il responsabile
 		// dell'ordine
-		if (!getPurchase(idPurchase).getOrder().getMember().getIdMember()
+		if (!getPurchaseInternal(idPurchase).getOrder().getMember().getIdMember()
 				.equals(memberInterface.getMember(username).getIdMember()))
 			return -1;
 
@@ -327,106 +325,59 @@ public class PurchaseInterface
 		return (Integer) query.executeUpdate();
 	}
 	
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
-	{
-		if (purchase == null)
-			throw new InvalidParametersException();
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Purchase "
-						+ "set isShipped = :isShipped "
-						+ "where idPurchase = :idPurchase");
-		query.setParameter("isShipped", purchase.isIsShipped());
-		query.setParameter("idPurchase", purchase.getIdPurchase());
-
-		Integer idOrder = purchase.getOrder().getIdOrder();
-		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer result = (Integer) query.executeUpdate();
-		Float progressAfter = orderInterface.getProgress(idOrder);
-
-		Notify nn = new Notify();
-		nn.setMember(purchase.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-		
-		if (progressBefore < 50 && progressAfter >= 50)
-		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
-
-		logInterface.createLog(
-				"Ha modificato la scheda con id: " + purchase.getIdPurchase(),
-				purchase.getMember().getIdMember());
-		
-		return result;
-	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer setNewPurchase(int idOrder, String idProducts,
-			String amountProduct, String username)
-			throws NumberFormatException, InvalidParametersException,
-			ParseException
-	{
-		int result = -1;
-
-		String[] idTmp = idProducts.split(",");
-		String[] amountTmp = amountProduct.split(",");
-		for (int i = 0; i < idTmp.length; i++)
-		{
-			Product product = productInterface.getProduct(
-					Integer.parseInt(idTmp[i]), username);
-			if ((Integer.parseInt(amountTmp[i]) > product.getMaxBuy())
-					|| (Integer.parseInt(amountTmp[i])) <= 0)
-			{
-				return -2;
-			}
-		}
-		Purchase purchase = new Purchase();
-		// FIXME testare se funziona
-		if ((result = newPurchase(purchase, username, idOrder)) <= 0)
-			return result;
-
-		// setto la data odierna
-		Calendar calendar = Calendar.getInstance();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		String sDate = dateFormat.format(calendar.getTime());
-		Date insertedTimestamp = dateFormat.parse(sDate);
-
-		for (int i = 0; i < idTmp.length; i++)
-		{
-			Product product = productInterface.getProduct(
-					Integer.parseInt(idTmp[i]), username);
-			PurchaseProductId id = new PurchaseProductId(
-					purchase.getIdPurchase(), Integer.parseInt(idTmp[i]));
-			PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase,
-					product, Integer.parseInt(amountTmp[i]), insertedTimestamp);
-			// Non faccio check sul valore di ritorno. In questo caso, dato che
-			// l'id non e' generato ma gia' passato, se ci sono errori lancia
-			// un'eccezione
-			newPurchaseProduct(purchaseproduct);
-		}
-		return 1;
-	}
+//	@Transactional(propagation=Propagation.REQUIRED)
+//	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
+//	{
+//		if (purchase == null)
+//			throw new InvalidParametersException();
+//
+//		Query query = sessionFactory.getCurrentSession().createQuery(
+//				"update Purchase "
+//						+ "set isShipped = :isShipped "
+//						+ "where idPurchase = :idPurchase");
+//		query.setParameter("isShipped", purchase.isIsShipped());
+//		query.setParameter("idPurchase", purchase.getIdPurchase());
+//
+//		Integer idOrder = purchase.getOrder().getIdOrder();
+//		Float progressBefore = orderInterface.getProgress(idOrder);
+//		Integer result = (Integer) query.executeUpdate();
+//		Float progressAfter = orderInterface.getProgress(idOrder);
+//
+//		Notify nn = new Notify();
+//		nn.setMember(purchase.getMember());
+//		nn.setIsReaded(false);
+//		// FIXME mettere costanti
+//		nn.setText(idOrder.toString());
+//		nn.setNotifyTimestamp(new Date());
+//		
+//		if (progressBefore < 50 && progressAfter >= 50)
+//		{
+//			nn.setNotifyCategory(7);
+//			notifyInterface.newNotify(nn);
+//		}
+//		else if (progressBefore < 75 && progressAfter >= 75)
+//		{
+//			nn.setNotifyCategory(8);
+//			notifyInterface.newNotify(nn);
+//		}
+//		else if (progressBefore < 90 && progressAfter >= 90)
+//		{
+//			nn.setNotifyCategory(9);
+//			notifyInterface.newNotify(nn);
+//		}
+//
+//		logInterface.createLog(
+//				"Ha modificato la scheda con id: " + purchase.getIdPurchase(),
+//				purchase.getMember().getIdMember());
+//		
+//		return result;
+//	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public	List<Product> getPurchaseDetails(int idPurchase, String username)
 			throws InvalidParametersException
 	{
-		List<PurchaseProduct> productTmp = getPurchaseProducts(idPurchase);
+		List<PurchaseProduct> productTmp = getPurchaseProductsInternal(idPurchase);
 		List<Product> listProduct = new ArrayList<Product>();
 		for (PurchaseProduct product : productTmp)
 		{
@@ -437,7 +388,7 @@ public class PurchaseInterface
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public PurchaseProductId newPurchaseProduct(PurchaseProduct purchaseProduct)
+	public PurchaseProductId newPurchaseProductInternal(PurchaseProduct purchaseProduct)
 			throws InvalidParametersException
 	{
 		if (purchaseProduct == null)
@@ -448,6 +399,17 @@ public class PurchaseInterface
 		Float progressBefore = orderInterface.getProgress(idOrder);
 		PurchaseProductId result = (PurchaseProductId) sessionFactory
 				.getCurrentSession().save(purchaseProduct);
+		
+		sessionFactory.getCurrentSession().refresh(purchaseProduct.getPurchase());
+		Query query = sessionFactory.getCurrentSession().createQuery("from Order " + "where idOrder = :idOrder");
+		query.setParameter("idOrder", idOrder);
+		Order tmp = (Order) query.uniqueResult();
+		
+		int amuntBeforeRefresh = tmp.getPurchases().size();
+		
+		sessionFactory.getCurrentSession().refresh(tmp);
+		int amountAterRefresh = tmp.getPurchases().size();
+		
 		Float progressAfter = orderInterface.getProgress(idOrder);
 
 		Notify nn = new Notify();
@@ -477,7 +439,7 @@ public class PurchaseInterface
 	}
 
 	@Transactional(readOnly = true)
-	public PurchaseProduct getPurchaseProductFromId(Integer idPurchase, Integer idProduct)
+	public PurchaseProduct getPurchaseProductFromIdInternal(Integer idPurchase, Integer idProduct)
 	{
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from PurchaseProduct where idPurchase = :idPurchase " + 
@@ -503,7 +465,7 @@ public class PurchaseInterface
 	public Integer getPurchaseProductAmountFromId(Integer idPurchase,
 			Integer idProduct)
 	{
-		return getPurchaseProductFromId(idPurchase, idProduct).getAmount();
+		return getPurchaseProductFromIdInternal(idPurchase, idProduct).getAmount();
 	}
 
 	//@SuppressWarnings("rawtypes")
@@ -563,7 +525,7 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer updatePurchaseProduct(PurchaseProduct purchaseProduct) throws InvalidParametersException {
+	public Integer updatePurchaseProductInternal(PurchaseProduct purchaseProduct) throws InvalidParametersException {
 	
 		if (purchaseProduct == null)
 			throw new InvalidParametersException();
@@ -617,7 +579,7 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer deletePurchaseProduct(Purchase purchase, Product product) throws InvalidParametersException {
+	public Integer deletePurchaseProductInternal(Purchase purchase, Product product) throws InvalidParametersException {
 		
 		if (purchase == null || product == null )
 			throw new InvalidParametersException();
@@ -666,7 +628,7 @@ public class PurchaseInterface
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer deletePurchase(Purchase purchase) throws InvalidParametersException {
+	public Integer deletePurchaseInternal(Purchase purchase) throws InvalidParametersException {
 		
 		if (purchase == null)
 			throw new InvalidParametersException();
@@ -710,43 +672,6 @@ public class PurchaseInterface
 				purchase.getMember().getIdMember());
 
 		return result;		
-	}
-
-	// FIXME ci sono due versioni della stessa funzione.. valutare se
-	// tenerne solo una
-	@Transactional()
-	public Integer setNewPurchaseAndroid(String username, Integer idOrder,
-			String idProducts, String amountProducts)
-			throws InvalidParametersException
-	{
-		String[] idTmp = idProducts.split(",");
-		String[] amountTmp = amountProducts.split(",");
-
-		if (idTmp.length > 0 && idTmp.length == amountTmp.length)
-		{
-			Integer[] ids = new Integer[idTmp.length];
-			Integer[] amounts = new Integer[idTmp.length];
-			for (int i = 0; i < idTmp.length; i++)
-			{
-				try
-				{
-					ids[i] = Integer.parseInt(idTmp[i]);
-
-					amounts[i] = Integer.parseInt(amountTmp[i]);
-					if (amounts[i] <= 0)
-						return -1;
-				}
-				catch (NumberFormatException e)
-				{
-					e.printStackTrace();
-					return -1;
-				}
-			}
-
-			return createPurchase(username, idOrder, ids, amounts);
-		}
-		else
-			return -1;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
@@ -800,7 +725,7 @@ public class PurchaseInterface
 			Purchase purchase = new Purchase(order, memberInterface.getMember(username));
 			
 			int result;
-			if ((result = newPurchase(purchase,
+			if ((result = newPurchaseInternal(purchase,
 					memberInterface.getMember(username).getIdMember(),
 					order.getIdOrder())) <= 0)
 			{
@@ -817,7 +742,7 @@ public class PurchaseInterface
 				PurchaseProductId id = new PurchaseProductId(purchase.getIdPurchase(), product.getIdProduct());
 				PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amounts[i], insertedTimestamp);				
 				//In questo caso, dato che l'id non e' generato ma gia' passato, se ci sono errori lancia un'eccezione
-				newPurchaseProduct(purchaseproduct);
+				newPurchaseProductInternal(purchaseproduct);
 			}		
 			return 1;
 		}
@@ -845,7 +770,7 @@ public class PurchaseInterface
 		if(maxBuy == null)
 			disp = -1;
 		
-		Purchase purchase = getPurchase(idPurchase);
+		Purchase purchase = getPurchaseInternal(idPurchase);
 		if(purchase == null)
 			return -1;
 		
@@ -878,7 +803,7 @@ public class PurchaseInterface
 		
 		PurchaseProductId id = new PurchaseProductId(idPurchase, idProduct);
 		PurchaseProduct purchaseproduct = new PurchaseProduct(id, purchase, product, amountProduct, insertedTimestamp);	
-		newPurchaseProduct(purchaseproduct);
+		newPurchaseProductInternal(purchaseproduct);
 		
 		return 1;
 	}
@@ -907,7 +832,7 @@ public class PurchaseInterface
 		if(maxBuy == null)
 			disp = -1;
 		
-		Purchase purchase = getPurchase(idPurchase);
+		Purchase purchase = getPurchaseInternal(idPurchase);
 		if(purchase == null)
 			return -1;
 		
@@ -942,7 +867,7 @@ public class PurchaseInterface
 						return -1;
 
 				ppTemp.setAmount(amountProduct);
-				result = updatePurchaseProduct(ppTemp);
+				result = updatePurchaseProductInternal(ppTemp);
 				break;
 			}
 			
@@ -959,7 +884,7 @@ public class PurchaseInterface
 
 		Member member = memberInterface.getMember(username);
 		Product product = productInterface.getProduct(idProduct, username);
-		Purchase purchase = getPurchase(idPurchase);
+		Purchase purchase = getPurchaseInternal(idPurchase);
 		
 		if(purchase.getMember().getIdMember() != member.getIdMember())
 			return -1;
@@ -968,14 +893,16 @@ public class PurchaseInterface
 		
 		sessionFactory.getCurrentSession().buildLockRequest(new LockOptions(LockMode.PESSIMISTIC_WRITE)).lock(order);
 		
-		int res = deletePurchaseProduct(purchase, product);
+		int res = deletePurchaseProductInternal(purchase, product);
 		if(res != 1)
 			return res;
 		else{
+			sessionFactory.getCurrentSession().refresh(purchase);
+			
 			if(purchase.getPurchaseProducts().size() == 0){
 				//e' stato eliminato l'utlimo prodotto --> eliminare intera scheda
 				
-				res = deletePurchase(purchase);
+				res = deletePurchaseInternal(purchase);
 				if(res == 1)
 					return res;
 				else
@@ -989,7 +916,7 @@ public class PurchaseInterface
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Set<Product> getOtherProductsOfOrder(int idPurchase)
 	{
-		Purchase pu = this.getPurchase(idPurchase);
+		Purchase pu = this.getPurchaseInternal(idPurchase);
 		Set<Product> p = new HashSet<Product>();
 
 		for(OrderProduct op : pu.getOrder()
@@ -1006,7 +933,7 @@ public class PurchaseInterface
 	public Float getPurchaseCost(String userName, Integer idPurchase, boolean completed) throws InvalidParametersException {
 		Member member = memberInterface.getMember(userName);
 		
-		Purchase purchase = getPurchase(idPurchase);
+		Purchase purchase = getPurchaseInternal(idPurchase);
 		Order order = purchase.getOrder();
 		
 		if(purchase.getMember().getIdMember() != member.getIdMember() &&
@@ -1016,7 +943,7 @@ public class PurchaseInterface
 		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
 		
 		Float ret = 0.0f;
-		List<PurchaseProduct> bought = getPurchaseProducts(idPurchase);
+		List<PurchaseProduct> bought = getPurchaseProductsInternal(idPurchase);
 		if(bought.size() == 0)
 			return null;
 		for(PurchaseProduct pp : bought){
@@ -1041,7 +968,7 @@ public class PurchaseInterface
 	public Boolean isFailed(String userName, Integer idPurchase) throws InvalidParametersException {
 		Member member = memberInterface.getMember(userName);
 		
-		Purchase purchase = getPurchase(idPurchase);
+		Purchase purchase = getPurchaseInternal(idPurchase);
 		Order order = purchase.getOrder();
 		
 		if(purchase.getMember().getIdMember() != member.getIdMember() &&
@@ -1049,7 +976,7 @@ public class PurchaseInterface
 			return null;
 		
 		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
-		List<PurchaseProduct> bought = getPurchaseProducts(idPurchase);
+		List<PurchaseProduct> bought = getPurchaseProductsInternal(idPurchase);
 		
 		boolean failed = true;
 		for(PurchaseProduct pp : bought){

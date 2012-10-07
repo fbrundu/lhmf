@@ -287,4 +287,20 @@ public class AndroidOrderController {
 			return null;
 		}
 	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/androidApi/getcompletedordersupplier", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Order> getCompletedOrderSupplier(Principal principal)
+	{
+		try
+		{
+			return orderInterface.getCompletedOrdersForSupplier(principal.getName());
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

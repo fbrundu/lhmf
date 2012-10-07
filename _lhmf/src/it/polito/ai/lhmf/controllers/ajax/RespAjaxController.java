@@ -344,18 +344,38 @@ public class RespAjaxController
 	Integer setNewPurchase(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idOrderNorm") int idOrder,
 			@RequestParam(value = "idProducts") String idProducts,
-			@RequestParam(value = "amountProducts") String amountProduct)
+			@RequestParam(value = "amountProducts") String amountProduct) throws InvalidParametersException
 	{
-		try
+		String[] idTmp = idProducts.split(",");
+		String[] amountTmp = amountProduct.split(",");
+
+		if (idTmp.length > 0 && idTmp.length == amountTmp.length)
 		{
-			return purchaseInterface.setNewPurchase(idOrder, idProducts,
-					amountProduct, (String) session.getAttribute("username"));
+			Integer[] ids = new Integer[idTmp.length];
+			Integer[] amounts = new Integer[idTmp.length];
+			for (int i = 0; i < idTmp.length; i++)
+			{
+				try
+				{
+					ids[i] = Integer.parseInt(idTmp[i]);
+
+					amounts[i] = Integer.parseInt(amountTmp[i]);
+					if (amounts[i] <= 0)
+						return -1;
+				}
+				catch (NumberFormatException e)
+				{
+					e.printStackTrace();
+					return -1;
+				}
+			}
+
+			return purchaseInterface.createPurchase(
+					(String) session.getAttribute("username"), idOrder, ids,
+					amounts);
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
+		else
 			return -1;
-		}
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
