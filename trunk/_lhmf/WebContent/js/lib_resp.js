@@ -1534,7 +1534,7 @@ function loadCompleteOrder() {
 
 function clickOrderOldHandler(event) {
     
- event.preventDefault();
+	event.preventDefault();
     
     var dateDeliveryType = $("#toSetShipDate").val();
 

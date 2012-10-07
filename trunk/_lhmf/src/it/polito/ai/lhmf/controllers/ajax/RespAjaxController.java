@@ -397,17 +397,9 @@ public class RespAjaxController
 		return purchaseInterface.getAmountPurchaseProductFromId(idPurchase,
 				idProduct);
 	}
-	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/ajax/getProgressOrderResp", method = RequestMethod.POST)
-	public @ResponseBody
-	Float getProgressOrder(HttpServletRequest request, HttpSession session,
-			@RequestParam(value = "idOrder") int idOrder)
-	{
-		return orderInterface.getProgress(idOrder);
-	}
 
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.RESP + ", " 
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getTotBought", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Integer> getTotBought(HttpServletRequest request, HttpSession session,

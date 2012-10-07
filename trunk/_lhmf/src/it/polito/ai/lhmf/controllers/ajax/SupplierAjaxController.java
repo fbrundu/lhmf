@@ -137,4 +137,36 @@ public class SupplierAjaxController
 			return -1;
 		}
 	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getActiveOrderSupplier", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Order> getActiveOrderSupplier(HttpServletRequest request, HttpSession session)
+	{
+		try
+		{
+			return orderInterface.getActiveOrdersForSupplier((String) session.getAttribute("username"));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.SUPPLIER + "')")
+	@RequestMapping(value = "/ajax/getCompleteOrderSupplier", method = RequestMethod.POST)
+	public @ResponseBody
+	List<Order> getCompleteOrderSupplier(HttpServletRequest request, HttpSession session)
+	{
+		try
+		{
+			return orderInterface.getCompletedOrdersForSupplier((String) session.getAttribute("username"));
+		}
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
