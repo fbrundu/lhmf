@@ -57,7 +57,7 @@ public class ShipOrderPurchasesActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		order = (Order) getIntent().getSerializableExtra("order");
+		order = (Order) getIntent().getParcelableExtra("order");
 		if(order != null){
 			supplier = order.getSupplier();
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
@@ -294,7 +294,7 @@ public class ShipOrderPurchasesActivity extends Activity{
 				@Override
 				public void onClick(View v) {
 					Bundle args = new Bundle();
-					args.putSerializable("purchase", p);
+					args.putParcelable("purchase", p);
 					showDialog(CONFIRM_DELIVERED_PURCHASE_DIALOG, args);
 					
 				}

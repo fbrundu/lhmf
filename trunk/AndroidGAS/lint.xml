@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="SetJavaScriptEnabled">
+        <ignore path="src\it\polito\ai\lhmf\android\LoginActivity.java" />
+    </issue>
     <issue id="UseSparseArrays">
         <ignore path="src\it\polito\ai\lhmf\android\ActiveOrderDetailsActivity.java" />
         <ignore path="src\it\polito\ai\lhmf\android\EditPurchaseActivity.java" />

@@ -51,6 +51,14 @@ public class AndroidPurchaseController {
 		return purchaseInterface.getPurchasesOnDate(principal.getName(), 0);
 	}
 	
+	@RequestMapping(value = "/androidApi/getmypurchase", method = RequestMethod.GET)
+	public @ResponseBody
+	Purchase getMyPurchase(HttpServletRequest request, Principal principal,
+			@RequestParam(value = "idOrder") Integer idOrder) throws InvalidParametersException
+	{
+		return purchaseInterface.getMyPurchase(principal.getName(), idOrder);
+	}
+	
 	@RequestMapping(value = "/androidApi/getpurchasecost", method = RequestMethod.GET)
 	public @ResponseBody
 	Float getPurchaseCost(HttpServletRequest request, Principal principal, 

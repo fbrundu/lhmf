@@ -251,7 +251,8 @@ public class AndroidOrderController {
 		}
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/ispurchasefailed", method = RequestMethod.GET)
 	public @ResponseBody
 	Boolean isPurchaseFailed(Principal principal,
@@ -261,7 +262,8 @@ public class AndroidOrderController {
 		return purchaseInterface.isFailed(principal.getName(), idPurchase);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/androidApi/getcomletedpurchasecost", method = RequestMethod.GET)
 	public @ResponseBody
 	Float getCompletedPurchaseCost(Principal principal,

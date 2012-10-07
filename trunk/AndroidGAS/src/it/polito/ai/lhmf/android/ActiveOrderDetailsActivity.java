@@ -70,7 +70,7 @@ public class ActiveOrderDetailsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		order = (Order) getIntent().getSerializableExtra("order");
+		order = (Order) getIntent().getParcelableExtra("order");
 		if(order != null){
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
 			Connection<Gas> conn = holder.getConnection();

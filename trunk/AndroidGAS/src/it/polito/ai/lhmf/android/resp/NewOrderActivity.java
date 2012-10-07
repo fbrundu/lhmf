@@ -69,7 +69,7 @@ public class NewOrderActivity extends Activity implements DatePickerDialog.OnDat
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		supplier = (Supplier) getIntent().getSerializableExtra("supplier");
+		supplier = (Supplier) getIntent().getParcelableExtra("supplier");
 		if(supplier != null){
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
 			Connection<Gas> conn = holder.getConnection();

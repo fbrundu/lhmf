@@ -12,6 +12,8 @@ public interface PuchaseOperations {
 
 	Purchase[] getActivePurchases();
 	
+	Purchase getMyPurchase(Integer idOrder);
+	
 	Float getPurchaseCost(Integer idPurchase);
 	
 	PurchaseProduct[] getPurchaseProducts(Integer idPurchase);

@@ -1,17 +1,12 @@
 package it.polito.ai.lhmf.model;
 
-import java.io.Serializable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class OrderProduct implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
+public class OrderProduct implements Parcelable{
 	private Order order;
 	private Product product;
-	private boolean failed;
+	private Boolean failed;
 	
 	public Order getOrder() {
 		return order;
@@ -29,12 +24,43 @@ public class OrderProduct implements Serializable{
 		this.product = product;
 	}
 
-	public boolean isFailed() {
+	public Boolean isFailed() {
 		return failed;
 	}
 
-	public void setFailed(boolean failed) {
+	public void setFailed(Boolean failed) {
 		this.failed = failed;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(order, flags);
+		dest.writeParcelable(product, flags);
+		dest.writeBooleanArray(new boolean[]{failed});
+	}
+	
+	public static final Parcelable.Creator<OrderProduct> CREATOR = new Creator<OrderProduct>() {
+		
+		@Override
+		public OrderProduct[] newArray(int size) {
+			return new OrderProduct[size];
+		}
+		
+		@Override
+		public OrderProduct createFromParcel(Parcel source) {
+			OrderProduct op = new OrderProduct();
+			op.setOrder((Order) source.readParcelable(Order.class.getClassLoader()));
+			op.setProduct((Product) source.readParcelable(Product.class.getClassLoader()));
+			boolean[] failed = new boolean[1];
+			source.readBooleanArray(failed);
+			op.setFailed(failed[0]);
+			return op;
+		}
+	};
 
 }

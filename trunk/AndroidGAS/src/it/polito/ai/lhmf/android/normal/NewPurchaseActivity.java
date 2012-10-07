@@ -79,7 +79,7 @@ public class NewPurchaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		order = (Order) getIntent().getSerializableExtra("order");
+		order = (Order) getIntent().getParcelableExtra("order");
 		if(order != null){
 		
 			GasConnectionHolder holder = new GasConnectionHolder(getApplicationContext());
@@ -619,7 +619,7 @@ public class NewPurchaseActivity extends Activity {
 				public void onClick(View v) {
 					Bundle args = new Bundle();
 					
-					args.putSerializable("product", product);
+					args.putParcelable("product", product);
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
@@ -634,7 +634,7 @@ public class NewPurchaseActivity extends Activity {
 				public void onClick(View v) {
 					Bundle args = new Bundle();
 					
-					args.putSerializable("product", product);
+					args.putParcelable("product", product);
 					if(finalAvailable != null)
 						args.putInt("availability", finalAvailable);
 					
