@@ -740,11 +740,6 @@ function prepareOrderForm(tab){
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
     
-    $("#minDate3").datepicker();
-    $('#minDate3').datepicker("setDate", Date.now());
-    $('#maxDate3').datepicker();
-    $('#maxDate3').datepicker("setDate", Date.now());
-    
     $('#orderOldRequest').on("click", clickOrderOldHandler);
     
     //Drag and drop
@@ -755,7 +750,9 @@ function prepareOrderForm(tab){
     
     
     $("#orderCompositor").hide();
-    $("#closeData").datepicker();
+    var tomorrow = new Date(); 
+    tomorrow.setFullYear(tomorrow.getFullYear(),tomorrow.getMonth(),tomorrow.getDate()+1);
+    $("#closeData").datepicker({ minDate: tomorrow });
     
     $('#productListRequest').on("click", clickProductListRequest);
     $('#orderRequest').on("click", clickOrderHandler);
