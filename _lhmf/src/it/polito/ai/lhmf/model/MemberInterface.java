@@ -37,6 +37,7 @@ public class MemberInterface {
 	private MessageInterface messageInterface;
 	private SupplierInterface supplierInterface;
 	private NotifyInterface notifyInterface;
+	private LogInterface logInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -62,6 +63,11 @@ public class MemberInterface {
 	public void setNotifyInterface(NotifyInterface notifyInterface)
 	{
 		this.notifyInterface = notifyInterface;
+	}
+	
+	public void setLogInterface(LogInterface logInterface)
+	{
+		this.logInterface = logInterface;
 	}
 	
 	@Transactional()
@@ -95,6 +101,11 @@ public class MemberInterface {
 								+ member.getName() + " " + member.getSurname()
 								+ "\n" + "Email: " + member.getEmail() + "\n");
 			}
+		}
+		else
+		{
+			logInterface.createLog("Ha creato un nuovo utente con id: "
+					+ memberId, getMemberAdmin().getIdMember());
 		}
 		
 		Notify n = new Notify();
@@ -227,7 +238,7 @@ public class MemberInterface {
 	public List<Member> getMembersForMap() 
 	{
 		// per adesso prendo tutti gli utenti tranne l'admin, in seguito si richiederanno utenti in maniera
-		// più specifica
+		// piï¿½ specifica
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Member");
 		return query.list();
@@ -305,13 +316,18 @@ public class MemberInterface {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer activateMember(Integer idMember)
-			throws InvalidParametersException {
+			throws InvalidParametersException
+	{
 		if (idMember == null)
 			throw new InvalidParametersException();
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"update Member set status = 2 " + "where idMember = :idMember");
 
-		return (Integer) query.uniqueResult();
+		Integer result = (Integer) query.uniqueResult();
+		if (result > 0)
+			logInterface.createLog("Ha attivato l' utente con id: " + idMember,
+					getMemberAdmin().getIdMember());
+		return result;
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
