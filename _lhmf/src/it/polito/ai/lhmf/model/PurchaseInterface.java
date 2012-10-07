@@ -77,42 +77,51 @@ public class PurchaseInterface
 
 		Order order = orderInterface.getOrder(idOrder);
 		Member member = memberInterface.getMember(idMember);
-		
+
 		if (order == null || member == null)
 			throw new InvalidParametersException();
-		
+
 		p.setOrder(order);
 		p.setMember(member);
-		
+
 		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(p);
-		Float progressAfter = orderInterface.getProgress(idOrder);
+		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(
+				p);
 
-		Notify nn = new Notify();
-		nn.setMember(p.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-		
-		if (progressBefore < 50 && progressAfter >= 50)
+		if (idPurchase > 0)
 		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
+			Float progressAfter = orderInterface.getProgress(idOrder);
 
-		logInterface.createLog("Ha creato una scheda con id: " + idPurchase,
-				idMember);
+			Notify nn = new Notify();
+			nn.setMember(p.getMember());
+			nn.setIsReaded(false);
+			// FIXME mettere costanti
+			nn.setText(idOrder.toString());
+			nn.setNotifyTimestamp(new Date());
+
+			if (progressBefore < 50 && progressAfter >= 50)
+			{
+				nn.setNotifyCategory(7);
+				notifyInterface.newNotify(nn);
+			}
+			else if (progressBefore < 75 && progressAfter >= 75)
+			{
+				nn.setNotifyCategory(8);
+				notifyInterface.newNotify(nn);
+			}
+			else if (progressBefore < 90 && progressAfter >= 90)
+			{
+				nn.setNotifyCategory(9);
+				notifyInterface.newNotify(nn);
+			}
+
+			logInterface.createLog(
+					"Ha creato una scheda con id: " + idPurchase, idMember);
+		}
+		else
+			logInterface.createLog(
+					"Ha provato a creare una scheda senza successo", idMember);
+	
 		return idPurchase;
 	}
 
@@ -319,10 +328,14 @@ public class PurchaseInterface
 						+ "where idPurchase = :idPurchase");
 		query.setParameter("idPurchase", idPurchase);
 
-		logInterface.createLog("Ha modificato la scheda con id: " + idPurchase,
+		Integer result = (Integer) query.executeUpdate();
+		if(result > 0)
+			logInterface.createLog("Ha modificato la scheda con id: " + idPurchase,
 				memberInterface.getMember(username).getIdMember());
-		
-		return (Integer) query.executeUpdate();
+		else
+			logInterface.createLog("Ha provato senza successo a modificare la scheda con id: " + idPurchase,
+					memberInterface.getMember(username).getIdMember());
+		return result;
 	}
 	
 //	@Transactional(propagation=Propagation.REQUIRED)
@@ -387,6 +400,7 @@ public class PurchaseInterface
 		return listProduct;
 	}
 	
+	// FIXME - notifiche / log
 	@Transactional(propagation = Propagation.REQUIRED)
 	public PurchaseProductId newPurchaseProductInternal(PurchaseProduct purchaseProduct)
 			throws InvalidParametersException
@@ -434,7 +448,6 @@ public class PurchaseInterface
 			nn.setNotifyCategory(9);
 			notifyInterface.newNotify(nn);
 		}
-
 		return result;
 	}
 
@@ -545,35 +558,43 @@ public class PurchaseInterface
 		Integer idOrder = purchaseProduct.getPurchase().getOrder().getIdOrder();
 		Float progressBefore = orderInterface.getProgress(idOrder);
 		Integer result = (Integer) query.executeUpdate();
-		Float progressAfter = orderInterface.getProgress(idOrder);
-
-		Notify nn = new Notify();
-		nn.setMember(purchaseProduct.getPurchase().getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-
-		if (progressBefore < 50 && progressAfter >= 50)
+		
+		if (result > 0)
 		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
+			Float progressAfter = orderInterface.getProgress(idOrder);
 
-		logInterface.createLog("Ha modificato la scheda con id: "
-				+ purchaseProduct.getPurchase().getIdPurchase(),
-				purchaseProduct.getPurchase().getMember().getIdMember());
+			Notify nn = new Notify();
+			nn.setMember(purchaseProduct.getPurchase().getMember());
+			nn.setIsReaded(false);
+			// FIXME mettere costanti
+			nn.setText(idOrder.toString());
+			nn.setNotifyTimestamp(new Date());
 
+			if (progressBefore < 50 && progressAfter >= 50)
+			{
+				nn.setNotifyCategory(7);
+				notifyInterface.newNotify(nn);
+			}
+			else if (progressBefore < 75 && progressAfter >= 75)
+			{
+				nn.setNotifyCategory(8);
+				notifyInterface.newNotify(nn);
+			}
+			else if (progressBefore < 90 && progressAfter >= 90)
+			{
+				nn.setNotifyCategory(9);
+				notifyInterface.newNotify(nn);
+			}
+
+			logInterface.createLog("Ha modificato la scheda con id: "
+					+ purchaseProduct.getPurchase().getIdPurchase(),
+					purchaseProduct.getPurchase().getMember().getIdMember());
+		}
+		else 
+			logInterface.createLog("Ha provato senza successo a modificare la scheda con id: "
+					+ purchaseProduct.getPurchase().getIdPurchase(),
+					purchaseProduct.getPurchase().getMember().getIdMember());
+				
 		return result;
 		
 	}
@@ -595,6 +616,8 @@ public class PurchaseInterface
 		Integer idOrder = purchase.getOrder().getIdOrder();
 		Float progressBefore = orderInterface.getProgress(idOrder);
 		Integer result = (Integer) query.executeUpdate();
+		if (result > 0)
+		{
 		Float progressAfter = orderInterface.getProgress(idOrder);
 
 		Notify nn = new Notify();
@@ -621,9 +644,13 @@ public class PurchaseInterface
 		}
 
 		logInterface.createLog(
-				"Ha modificato la scheda con id: " + purchase.getIdPurchase(),
+				"Ha cancellato un prodotto dalla scheda con id: " + purchase.getIdPurchase(),
 				purchase.getMember().getIdMember());
-
+		}
+		else
+			logInterface.createLog(
+					"Ha provato senza successo a cancellare un prodotto dalla scheda con id: " + purchase.getIdPurchase(),
+					purchase.getMember().getIdMember());
 		return (Integer) result;
 	}
 
@@ -642,35 +669,42 @@ public class PurchaseInterface
 		Integer idOrder = purchase.getOrder().getIdOrder();
 		Float progressBefore = orderInterface.getProgress(idOrder);
 		Integer result = (Integer) query.executeUpdate();
-		Float progressAfter = orderInterface.getProgress(idOrder);
-
-		Notify nn = new Notify();
-		nn.setMember(purchase.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-		
-		if (progressBefore < 50 && progressAfter >= 50)
+		if (result > 0)
 		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
+			Float progressAfter = orderInterface.getProgress(idOrder);
 
-		logInterface.createLog(
-				"Ha cancellato la scheda con id: " + purchase.getIdPurchase(),
-				purchase.getMember().getIdMember());
+			Notify nn = new Notify();
+			nn.setMember(purchase.getMember());
+			nn.setIsReaded(false);
+			// FIXME mettere costanti
+			nn.setText(idOrder.toString());
+			nn.setNotifyTimestamp(new Date());
 
+			if (progressBefore < 50 && progressAfter >= 50)
+			{
+				nn.setNotifyCategory(7);
+				notifyInterface.newNotify(nn);
+			}
+			else if (progressBefore < 75 && progressAfter >= 75)
+			{
+				nn.setNotifyCategory(8);
+				notifyInterface.newNotify(nn);
+			}
+			else if (progressBefore < 90 && progressAfter >= 90)
+			{
+				nn.setNotifyCategory(9);
+				notifyInterface.newNotify(nn);
+			}
+
+			logInterface.createLog("Ha cancellato la scheda con id: "
+					+ purchase.getIdPurchase(), purchase.getMember()
+					.getIdMember());
+		}
+		else
+			logInterface.createLog(
+					"Ha provato senza successo a cancellare la scheda con id: " + purchase.getIdPurchase(),
+					purchase.getMember().getIdMember());
+			
 		return result;		
 	}
 	
