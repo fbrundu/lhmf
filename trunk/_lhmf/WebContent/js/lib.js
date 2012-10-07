@@ -825,7 +825,7 @@ function viewOrderDetails(idOrder)
   }, function(order)
   {
     var progress = 0.0;
-    $.postSync("ajax/getProgressOrderResp", {
+    $.postSync("ajax/getProgressOrder", {
       'idOrder' : idOrder
     }, function(p)
     {
