@@ -84,39 +84,50 @@ public class MemberInterface {
 
 		Integer memberId = (Integer) sessionFactory.getCurrentSession().save(
 				member);
-		if (!byAdmin) {
-			if (checkMail) {
-				// TODO Inviare qui la mail con il codice di registrazione.
-				/*
-				 * SendEmail emailer = new SendEmail(); boolean isSupplier =
-				 * false; emailer.sendNormalRegistration(firstname + " " +
-				 * lastname, regCode, memberId, email, isSupplier);
-				 */
-			} else {
-				Notify n = new Notify();
-				n.setMember(getMemberAdmin());
-				n.setIsReaded(false);
-				// FIXME mettere costanti
-				n.setNotifyCategory(6);
-				n.setText(memberId.toString());
-				n.setNotifyTimestamp(new Date());
-				notifyInterface.newNotify(n);
-				
-				// Mandare messaggio all'admin
-				//messageInterface.newMessageToAdmin(this.getMemberAdmin(),
-				//		member,
-				//		"Utente richiede l'attivazione dell'account\n\n"
-				//				+ "Id: " + member.getIdMember() + " - "
-				//				+ member.getName() + " " + member.getSurname()
-				//				+ "\n" + "Email: " + member.getEmail() + "\n");
+		if (memberId > 0)
+		{	
+			if (!byAdmin)
+			{
+				if (checkMail)
+				{
+					// TODO Inviare qui la mail con il codice di registrazione.
+					/*
+					 * SendEmail emailer = new SendEmail(); boolean isSupplier =
+					 * false; emailer.sendNormalRegistration(firstname + " " +
+					 * lastname, regCode, memberId, email, isSupplier);
+					 */
+				}
+				else
+				{
+					Notify n = new Notify();
+					n.setMember(getMemberAdmin());
+					n.setIsReaded(false);
+					// FIXME mettere costanti
+					n.setNotifyCategory(6);
+					n.setText(memberId.toString());
+					n.setNotifyTimestamp(new Date());
+					notifyInterface.newNotify(n);
+
+					// Mandare messaggio all'admin
+					// messageInterface.newMessageToAdmin(this.getMemberAdmin(),
+					// member,
+					// "Utente richiede l'attivazione dell'account\n\n"
+					// + "Id: " + member.getIdMember() + " - "
+					// + member.getName() + " " + member.getSurname()
+					// + "\n" + "Email: " + member.getEmail() + "\n");
+				}
+			}
+			else
+			{
+				logInterface.createLog("Ha creato un nuovo utente con id: "
+						+ memberId, getMemberAdmin().getIdMember());
 			}
 		}
 		else
-		{
-			logInterface.createLog("Ha creato un nuovo utente con id: "
-					+ memberId, getMemberAdmin().getIdMember());
-		}
-		
+			if (byAdmin)
+				logInterface.createLog(
+						"Ha provato a creare un nuovo utente senza successo",
+						getMemberAdmin().getIdMember());
 		return memberId;
 	}
 
@@ -327,6 +338,9 @@ public class MemberInterface {
 		Integer result = (Integer) query.executeUpdate();
 		if (result > 0)
 			logInterface.createLog("Ha attivato l' utente con id: " + idMember,
+					getMemberAdmin().getIdMember());
+		else
+			logInterface.createLog("Ha tentato di attivare l' utente con id: " + idMember + " senza successo",
 					getMemberAdmin().getIdMember());
 		return result;
 	}

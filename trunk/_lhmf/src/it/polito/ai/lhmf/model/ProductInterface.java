@@ -161,55 +161,62 @@ public class ProductInterface
 
 		Integer newProductId = (Integer) sessionFactory.getCurrentSession()
 				.save(p);
-		modelState.setToReloadProducts(true);
-		//Invia la notifica al responsabile
-		Notify n = new Notify();
-		n.setMember(s.getMemberByIdMemberResp());
-		n.setIsReaded(false);
-		//FIXME mettere costanti
-		n.setNotifyCategory(1);
-		n.setText(newProductId.toString());
-		n.setNotifyTimestamp(new Date());
-		notifyInterface.newNotify(n);
-		// Crea log
-		logInterface.createLog("Ha creato il prodotto con id: " + newProductId,
-				s.getIdMember());
-
-		if (picture != null)
+		if (newProductId > 0)
 		{
-			if (pictureDirectoryPath == null || serverPath == null)
-				throw new InvalidParametersException();
-			String fileName = picture.getOriginalFilename();
-			String extension = null;
-			int i = fileName.lastIndexOf('.');
+			modelState.setToReloadProducts(true);
+			// Invia la notifica al responsabile
+			Notify n = new Notify();
+			n.setMember(s.getMemberByIdMemberResp());
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(1);
+			n.setText(newProductId.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
+			// Crea log
+			logInterface.createLog("Ha creato il prodotto con id: "
+					+ newProductId, s.getIdMember());
 
-			if (i > 0 && i < fileName.length() - 1)
-				extension = fileName.substring(i + 1);
-
-			String pictureFilePath = null;
-			String pictureServerPath = null;
-			if (extension == null)
+			if (picture != null)
 			{
-				pictureFilePath = pictureDirectoryPath + File.separator
-						+ newProductId;
-				pictureServerPath = serverPath + newProductId;
-			}
+				if (pictureDirectoryPath == null || serverPath == null)
+					throw new InvalidParametersException();
+				String fileName = picture.getOriginalFilename();
+				String extension = null;
+				int i = fileName.lastIndexOf('.');
 
-			else
-			{
-				pictureFilePath = pictureDirectoryPath + File.separator
-						+ newProductId + "." + extension;
-				pictureServerPath = serverPath + newProductId + "." + extension;
-			}
+				if (i > 0 && i < fileName.length() - 1)
+					extension = fileName.substring(i + 1);
 
-			File f = new File(pictureFilePath);
-			OutputStream writer = null;
-			writer = new BufferedOutputStream(new FileOutputStream(f));
-			writer.write(picture.getBytes());
-			writer.flush();
-			writer.close();
-			p.setImgPath(pictureServerPath);
+				String pictureFilePath = null;
+				String pictureServerPath = null;
+				if (extension == null)
+				{
+					pictureFilePath = pictureDirectoryPath + File.separator
+							+ newProductId;
+					pictureServerPath = serverPath + newProductId;
+				}
+
+				else
+				{
+					pictureFilePath = pictureDirectoryPath + File.separator
+							+ newProductId + "." + extension;
+					pictureServerPath = serverPath + newProductId + "."
+							+ extension;
+				}
+
+				File f = new File(pictureFilePath);
+				OutputStream writer = null;
+				writer = new BufferedOutputStream(new FileOutputStream(f));
+				writer.write(picture.getBytes());
+				writer.flush();
+				writer.close();
+				p.setImgPath(pictureServerPath);
+			}
 		}
+		else
+			logInterface.createLog("Ha provato a creare un nuovo prodotto senza successo",
+					s.getIdMember());
 		return newProductId;
 	}
 
@@ -406,6 +413,10 @@ public class ProductInterface
 			logInterface.createLog("Ha reso disponibile il prodotto con id: "
 					+ idProduct, m.getIdMember());
 		}
+		else
+			logInterface.createLog("Ha provato a rendere disponibile il prodotto con id: "
+					+ idProduct + " senza successo", m.getIdMember());
+		
 		return result;
 	}
 	
