@@ -49,13 +49,17 @@ public class NormalAjaxController
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
 			+ MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/ajax/getOldPurchase", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/getShipPurchase", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Purchase> getOldPurchase(HttpServletRequest request,
+	List<Purchase> getShipPurchase(HttpServletRequest request,
 			HttpSession session) 
 	{
-		return purchaseInterface.getPurchasesOnDate(
-				(String) session.getAttribute("username"), -1);
+		try {
+			return purchaseInterface.getShipPurchases((String) session.getAttribute("username"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "

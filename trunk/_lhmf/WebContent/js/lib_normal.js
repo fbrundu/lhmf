@@ -867,7 +867,7 @@ function loadPurchaseActive()
 
 function loadPurchaseOld() 
 {  
-    $.post("ajax/getOldPurchase", postOldPurchaseListHandler);
+    $.post("ajax/getShipPurchase", postShipPurchaseListHandler);
     
 }
 
@@ -982,7 +982,7 @@ function postActivePurchaseListHandler(purchaseList)
     }
 }
 
-function postOldPurchaseListHandler(purchaseList) 
+function postShipPurchaseListHandler(purchaseList) 
 {
     
     $("#oldPurchaseList").html("");
@@ -990,29 +990,26 @@ function postOldPurchaseListHandler(purchaseList)
 
     if(purchaseList.length > 0){
         $("#oldPurchaseList").append("<tr>  <th class='top' width='20%'> Nome Ordine </th>" +
-				 							"<th class='top' width='30%'> Spedizione  </th>" +
-				 							"<th class='top' width='15%'> Data Apertura  </th>" +
-				 							"<th class='top' width='15%'> Data Chiusura  </th>" +
+				 							"<th class='top' width='20%'> Data Apertura  </th>" +
+				 							"<th class='top' width='20%'> Data Chiusura  </th>" +
+				 							"<th class='top' width='20%'> Data Consegna  </th>" +
                  							"<th class='top' width='20%'> Dettagli ordine  </th> </tr>");
         for(var i = 0; i < purchaseList.length; i++){
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
+            var dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateDelivery));
             $("#oldPurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
-					  							  "<td>" + purchase.isShipped + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
-					  							  "<td> <form> <input type='hidden' value='" + purchase.idPurchase + "'/>" +
-					  							  "<button type='submit' id='showDetails_" + purchase.idPurchase + "'> Mostra Dettagli </button>" +
-					  							  "</form></td></tr>" +
-					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");       
+					  							  "<td>" + dateDelivery + "</td>" +
+					  							  "<td><button type='submit' data-idpurchase='" + purchase.idPurchase + "' id='showDetails_" + purchase.idPurchase + "'>Dettagli</button>" +
+					  							  "</td></tr>" +
+					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");   
+            $("#showDetails_" + purchase.idPurchase).on("click", clickShipPurchaseDetailsHandler);
             $(".detailsPurchase").hide();
             $("button").button();
     }
-    $.each(purchaseList, function(index, val)
-    {
-    	$("#showDetails_" + val.idPurchase).on("click", clickOldPurchaseDetailsHandler);
-    });
     
         $("#oldPurchaseList").show("slow");
         $("#oldPurchaseList").fadeIn(1000);
@@ -1031,14 +1028,13 @@ function postOldPurchaseListHandler(purchaseList)
 
 var idPurchase = 0;
 
-function clickOldPurchaseDetailsHandler(event) 
+function clickShipPurchaseDetailsHandler(event) 
 {
     event.preventDefault();
     
     $(".detailsPurchase").hide();
-    var form = $(this).parents('form');
-    idPurchase = $('input', form).val();
-    
+    idPurchase = $(this).data('idpurchase');
+
     $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postOldPurchaseDetailsListHandler);
 }
 
