@@ -225,7 +225,7 @@ public class OrderTemplate implements OrderOperations {
 						if(failed != null){
 							p.setFailed(failed);
 							if(failed == false){
-								Float cost = template.getForObject(Gas.baseApiUrl + "getcomletedpurchasecost?idPurchase={id}", Float.class, p.getIdPurchase());
+								Float cost = template.getForObject(Gas.baseApiUrl + "getcompletedpurchasecost?idPurchase={id}", Float.class, p.getIdPurchase());
 								if(cost != null){
 									p.setTotCost(cost);
 								}

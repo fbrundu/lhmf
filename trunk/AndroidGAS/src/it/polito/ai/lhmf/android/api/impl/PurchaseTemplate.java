@@ -157,7 +157,7 @@ public class PurchaseTemplate implements PuchaseOperations {
 				if(failed != null){
 					p.setFailed(failed);
 					if(failed == false){
-						Float cost = template.getForObject(Gas.baseApiUrl + "getcomletedpurchasecost?idPurchase={id}", Float.class, p.getIdPurchase());
+						Float cost = template.getForObject(Gas.baseApiUrl + "getcompletedpurchasecost?idPurchase={id}", Float.class, p.getIdPurchase());
 						if(cost != null){
 							p.setTotCost(cost);
 						}
@@ -171,6 +171,26 @@ public class PurchaseTemplate implements PuchaseOperations {
 			}
 			else
 				return null;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@Override
+	public Purchase[] getPurchasesWithDeliveryDate() {
+		try{
+			Purchase[] ret = template.getForObject(Gas.baseApiUrl + "getpurchaseswithdelivery", Purchase[].class);
+			
+			for(int i = 0; i < ret.length; i++){
+				Float cost = template.getForObject(Gas.baseApiUrl + "getcompletedpurchasecost?idPurchase={id}", Float.class, ret[i].getIdPurchase());
+				if(cost == null)
+					return null;
+				ret[i].setTotCost(cost);
+			}
+			
+			return ret;
+			
 		} catch(RestClientException e){
 			e.printStackTrace();
 			return null;

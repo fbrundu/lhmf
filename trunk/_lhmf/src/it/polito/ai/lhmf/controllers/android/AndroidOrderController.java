@@ -264,7 +264,7 @@ public class AndroidOrderController {
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
 			+ MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/androidApi/getcomletedpurchasecost", method = RequestMethod.GET)
+	@RequestMapping(value = "/androidApi/getcompletedpurchasecost", method = RequestMethod.GET)
 	public @ResponseBody
 	Float getCompletedPurchaseCost(Principal principal,
 			@RequestParam(value = "idPurchase") Integer idPurchase) throws InvalidParametersException

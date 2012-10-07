@@ -152,4 +152,12 @@ public class AndroidPurchaseController {
 			return -1;
 		}
 	}
+	
+	
+	@RequestMapping(value = "/androidApi/getpurchaseswithdelivery", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Purchase> getPurchaseWithDeliveryDate(HttpServletRequest request, Principal principal) throws InvalidParametersException
+	{
+		return purchaseInterface.getShipPurchases(principal.getName());
+	}
 }

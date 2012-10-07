@@ -24,4 +24,6 @@ public interface PuchaseOperations {
 	
 	Integer removePurchaseProduct(Integer idPurchase, Integer idProduct);
 
+	Purchase[] getPurchasesWithDeliveryDate();
+
 }
