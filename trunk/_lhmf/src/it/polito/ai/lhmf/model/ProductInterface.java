@@ -341,45 +341,46 @@ public class ProductInterface
 				pcl.add(p.getProductCategory());
 		return pcl;
 	}
-	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer updateProduct(Product product)
-			throws InvalidParametersException
-	{
-		if (product == null)
-			throw new InvalidParametersException();
 
-		modelState.setToReloadProducts(true);
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Product " + "set name = :name,"
-						+ "description = :description,"
-						+ "dimension = :dimension,"
-						+ "measureUnit = :measureUnit,"
-						+ "unitBlock = :unitBlock,"
-						+ "availability = :availability,"
-						+ "transportCost = :transportCost,"
-						+ "unitCost = :unitCost," + "minBuy = :minBuy,"
-						+ "maxBuy = :maxBuy," + "idSupplier = :idSupplier,"
-						+ "idCategory = :idCategory "
-						+ "where idProduct = :idProduct");
-		query.setParameter("name", product.getName());
-		query.setParameter("description", product.getDescription());
-		query.setParameter("dimension", product.getDimension());
-		query.setParameter("measureUnit", product.getMeasureUnit());
-		query.setParameter("unitBlock", product.getUnitBlock());
-		query.setParameter("availability", product.isAvailability());
-		query.setParameter("transportCost", product.getTransportCost());
-		query.setParameter("unitCost", product.getUnitCost());
-		query.setParameter("minBuy", product.getMinBuy());
-		query.setParameter("maxBuy", product.getMaxBuy());
-		query.setParameter("idSupplier", product.getSupplier().getIdMember());
-		query.setParameter("idCategory", product.getProductCategory()
-				.getIdProductCategory());
-		query.setParameter("idProduct", product.getIdProduct());
-
-		return (Integer) query.executeUpdate();
-	}
+	// NOT USED
+//	@Transactional(propagation = Propagation.REQUIRED)
+//	public Integer updateProduct(Product product)
+//			throws InvalidParametersException
+//	{
+//		if (product == null)
+//			throw new InvalidParametersException();
+//
+//		modelState.setToReloadProducts(true);
+//
+//		Query query = sessionFactory.getCurrentSession().createQuery(
+//				"update Product " + "set name = :name,"
+//						+ "description = :description,"
+//						+ "dimension = :dimension,"
+//						+ "measureUnit = :measureUnit,"
+//						+ "unitBlock = :unitBlock,"
+//						+ "availability = :availability,"
+//						+ "transportCost = :transportCost,"
+//						+ "unitCost = :unitCost," + "minBuy = :minBuy,"
+//						+ "maxBuy = :maxBuy," + "idSupplier = :idSupplier,"
+//						+ "idCategory = :idCategory "
+//						+ "where idProduct = :idProduct");
+//		query.setParameter("name", product.getName());
+//		query.setParameter("description", product.getDescription());
+//		query.setParameter("dimension", product.getDimension());
+//		query.setParameter("measureUnit", product.getMeasureUnit());
+//		query.setParameter("unitBlock", product.getUnitBlock());
+//		query.setParameter("availability", product.isAvailability());
+//		query.setParameter("transportCost", product.getTransportCost());
+//		query.setParameter("unitCost", product.getUnitCost());
+//		query.setParameter("minBuy", product.getMinBuy());
+//		query.setParameter("maxBuy", product.getMaxBuy());
+//		query.setParameter("idSupplier", product.getSupplier().getIdMember());
+//		query.setParameter("idCategory", product.getProductCategory()
+//				.getIdProductCategory());
+//		query.setParameter("idProduct", product.getIdProduct());
+//
+//		return (Integer) query.executeUpdate();
+//	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer setProductAvailable(Integer idProduct, String username)
@@ -465,6 +466,10 @@ public class ProductInterface
 			logInterface.createLog("Ha reso non disponibile il prodotto con id: "
 					+ idProduct, m.getIdMember());
 		}
+		else
+			logInterface.createLog("Ha provato senza successo a rendere non disponibile il prodotto con id: "
+					+ idProduct, m.getIdMember());
+		
 		return result;
 	}
 
@@ -481,22 +486,33 @@ public class ProductInterface
 		return (Integer) query.executeUpdate();
 	}
 	
-	@Transactional(propagation = Propagation.REQUIRED)
-	public Integer deleteProduct(Integer idProduct)
-			throws InvalidParametersException
-	{
-		if (idProduct == null)
-			throw new InvalidParametersException();
-
-		modelState.setToReloadProducts(true);
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"delete from Product " + "where idProduct = :idProduct");
-
-		query.setParameter("idProduct", idProduct);
-
-		return (Integer) query.executeUpdate();
-	}
+	// NOT USED
+//	@Transactional(propagation = Propagation.REQUIRED)
+//	public Integer deleteProduct(Integer idProduct, String username)
+//			throws InvalidParametersException
+//	{
+//		if (idProduct == null)
+//			throw new InvalidParametersException();
+//
+//		modelState.setToReloadProducts(true);
+//
+//		Member m = memberInterface.getMember(username);
+//		
+//		Query query = sessionFactory.getCurrentSession().createQuery(
+//				"delete from Product " + "where idProduct = :idProduct");
+//
+//		query.setParameter("idProduct", idProduct);
+//		Integer result = (Integer) query.executeUpdate();
+//		
+//		if(result > 0)
+//			logInterface.createLog("Ha cancellato il prodotto con id: "
+//					+ idProduct, m.getIdMember());
+//		else
+//			logInterface.createLog("Ha provato senza successo a cancellare il prodotto con id: "
+//					+ idProduct, m.getIdMember());
+//		
+//		return result;
+//	}
 
 	@SuppressWarnings("rawtypes")
 	@Transactional(readOnly = true)
