@@ -1,6 +1,6 @@
 window.setInterval(function(){
 
-	if (startRefreshOrder == 1) {
+	if (typeof startRefreshOrder != undefined && startRefreshOrder == 1) {
 		
 		$.post("ajax/getActiveOrderResp", null, function(orderList) 
 		{
@@ -13,7 +13,7 @@ window.setInterval(function(){
 		
 	}
 	
-}, 5000);
+}, 3000);
 
 (function(window, undefined) {
     var History = window.History;
@@ -1296,13 +1296,13 @@ function postShowDetailsHandler(data) {
     	var idAmountDIV = "totAmountOrder_" + idOrder + "_" + val.idProduct;
     	var idparzialeDIV = "parzialeOrder_" + idOrder + "_" + val.idProduct;
     	
-        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'>    <td>" + val.name + "</td>" +
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.category.description + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + " &euro;</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
-    		                       	   "<td id='" + idDispDIV + "'>" + DispTmp + "</td>" +
-    		                       	   "<td id='" + idAmountDIV + "'>" + TotAmount + "</td>" +
+    		                       	   "<td id='" + idDispDIV + "' class='dispClass'>" + DispTmp + "</td>" +
+    		                       	   "<td id='" + idAmountDIV + "' class='totamountClass'>" + TotAmount + "</td>" +
     		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
     		                       	   "<td id='" + idparzialeDIV + "'> 0 &euro;</td>" +
     		                   "</tr>");
@@ -1348,26 +1348,22 @@ function postShowDetailsHandler(data) {
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
     	
-    	//Rimuovo effetto grigio per ordini attivi
-		var idTr = "#trActiveProduct_" + idOrder + "_" + idProduct;
-		$(idTr).removeClass("noLimitProduct");
-    	
-    	if(progress == 100) {
+    	if(progress < 100) {
     		var selectedTab = getSelectedTabIndex();
     		
 			if(selectedTab == 2) {
 				var idTr = "#trCompleteProduct_" + idOrder + "_" + idProduct; 	
-				$(idTr).removeClass("noLimitProduct");
+				$(idTr).addClass("noLimitProduct");
     		}
 			
 			if(selectedTab == 3) {
 				var idTr = "#trShipProduct_" + idOrder + "_" + idProduct; 	
-				$(idTr).removeClass("noLimitProduct");
+				$(idTr).addClass("noLimitProduct");
     		}
 			
 			if(selectedTab == 4) {
 				var idTr = "#trOldProduct_" + idOrder + "_" + idProduct;
-	    		$(idTr).removeClass("noLimitProduct");
+	    		$(idTr).addClass("noLimitProduct");
 			}
     	}
     	
@@ -1380,7 +1376,7 @@ function postShowDetailsHandler(data) {
 }
 
 function refreshProgress(idOrder) {
-	
+    
 	var valProgress = 0;
     $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
     {
@@ -1650,16 +1646,8 @@ function postOldOrderListHandler(orderList) {
 					            		"</tr>");
             
             $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
-            		
-            $("#dateDelivery_"+ order.idOrder).datepicker();
             
-            if(dateDelivery != "null") {
-            	$("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
-            	$("#dateDelivery_" + order.idOrder).css('background','#C7FFA8');
-            }
-                
             $("#showDetails_" + order.idOrder).on("click", clickShowDetailsHandler);
-            $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
             
             $(".detailsOrder").hide();
             

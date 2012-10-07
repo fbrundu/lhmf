@@ -292,10 +292,16 @@ public class OrderInterface
 		// 0 = Impostata
 		// 1 = Non Impostata
 		// 2 = Entrambe
-		Member memberResp = memberInterface.getMember(respUsername);
-		if (memberResp == null)
+		Member member = memberInterface.getMember(respUsername);
+		if (member == null)
 			throw new InvalidParametersException();
 		
+		Member memberResp = member;
+		if(member.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER) {
+			memberResp = member.getSupplierByIdMember().getMemberByIdMemberResp();
+		}
+			
+			
 		Timestamp endDate = new Timestamp(end);
 		Date now = new Date();
 		Timestamp nowT = new Timestamp(now.getTime());

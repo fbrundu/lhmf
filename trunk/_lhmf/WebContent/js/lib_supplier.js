@@ -1,6 +1,6 @@
 window.setInterval(function(){
 
-	if (startRefreshOrder == 1) {
+	if (typeof startRefreshOrder != undefined && startRefreshOrder == 1) {
 		
 		$.post("ajax/getActiveOrderSupplier", null, function(orderList) 
 		{
@@ -13,7 +13,7 @@ window.setInterval(function(){
 		
 	}
 	
-}, 5000);
+}, 3000);
 
 (function(window, undefined) {
 	var History = window.History;
@@ -41,6 +41,8 @@ window.setInterval(function(){
 	});
 
 })(window);
+
+var startRefreshOrder = 0;
 
 function historyStateChanged()
 {
@@ -336,13 +338,13 @@ function postShowDetailsHandler(data) {
     	var idAmountDIV = "totAmountOrder_" + idOrder + "_" + val.idProduct;
     	var idparzialeDIV = "parzialeOrder_" + idOrder + "_" + val.idProduct;
     	
-        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'>    <td>" + val.name + "</td>" +
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "'>    <td>" + val.name + "</td>" +
         		                       "<td>" + val.category.description + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + " &euro;</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
-    		                       	   "<td id='" + idDispDIV + "'>" + DispTmp + "</td>" +
-    		                       	   "<td id='" + idAmountDIV + "'>" + TotAmount + "</td>" +
+    		                       	   "<td id='" + idDispDIV + "' class='dispClass'>" + DispTmp + "</td>" +
+    		                       	   "<td id='" + idAmountDIV + "' class='totamountClass'>" + TotAmount + "</td>" +
     		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
     		                       	   "<td id='" + idparzialeDIV + "'> 0 &euro;</td>" +
     		                   "</tr>");
@@ -355,7 +357,7 @@ function postShowDetailsHandler(data) {
     var stringProductsId = productsid.join(',');
     
     //aggiorno le quantit� acquistate e relativo parziale
-    $.post("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
+    $.postSync("ajax/getTotBought", {idOrder: idOrder, idProducts: stringProductsId}, function(amountList)
     {
     	$.each(productsid, function(index, idProduct) {
     		var idAmountDIV = "#totAmountOrder_" + idOrder + "_" + idProduct;
@@ -387,27 +389,18 @@ function postShowDetailsHandler(data) {
     	//Aggiorno progressbar
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
-    	
-    	//Rimuovo effetto grigio per ordini attivi
-		var idTr = "#trActiveProduct_" + idOrder + "_" + idProduct;
-		$(idTr).removeClass("noLimitProduct");
-    	
-    	if(progress == 100) {
+    	    	
+    	if(progress < 100) {
     		var selectedTab = getSelectedTabIndex();
     		
-			if(selectedTab == 2) {
+			if(selectedTab == 1) {
 				var idTr = "#trCompleteProduct_" + idOrder + "_" + idProduct; 	
-				$(idTr).removeClass("noLimitProduct");
+				$(idTr).addClass("noLimitProduct");
     		}
 			
-			if(selectedTab == 3) {
-				var idTr = "#trShipProduct_" + idOrder + "_" + idProduct; 	
-				$(idTr).removeClass("noLimitProduct");
-    		}
-			
-			if(selectedTab == 4) {
+			if(selectedTab == 2) {
 				var idTr = "#trOldProduct_" + idOrder + "_" + idProduct;
-	    		$(idTr).removeClass("noLimitProduct");
+	    		$(idTr).addClass("noLimitProduct");
 			}
     	}
     	
@@ -420,6 +413,7 @@ function postShowDetailsHandler(data) {
 }
 
 function refreshProgress(idOrder) {
+	
 	
 	var valProgress = 0;
     $.postSync("ajax/getProgressOrder", {idOrder: idOrder}, function(data)
@@ -512,23 +506,23 @@ function postCompleteOrderSupplierListHandler(orderList) {
     		 var order = orderList[i];
              var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
              var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
+             var dateDelivery = "Non Definita";
+             if(order.dateDelivery === 'true')
+            	 dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery));
+
              
              $("#completeOrderList").append("<tr id='idOrder_" + order.idOrder + "'>" +
 						            		 "<td>" + order.orderName +"</td>" +
 						             		  "<td>" + order.supplier.companyName + "</td>" +
 						             		  "<td>" + dateOpen + "</td>" +
 						             		  "<td>" + dateClose + "</td>" +
-						             		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
-											  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
-											  	   "<button style='margin: 0px' type='submit' id='showDetailsComplete_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
+						             		  "<td> " + dateDelivery + "</td>" +   	
+											  "<td><button style='margin: 0px' type='submit' id='showDetailsComplete_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
 											  "</td></tr>");
     		
              $("#completeOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderComplete_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderComplete_" + order.idOrder + "'></td></tr>");
-     		
-             $("#dateDelivery_"+ order.idOrder).datepicker();
              
              $("#showDetailsComplete_" + order.idOrder).on("click", clickShowDetailsHandler);
-             $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
              $(".detailsOrder").hide();
              
     		
@@ -610,16 +604,8 @@ function postOldOrderListHandler(orderList) {
 					            		"</tr>");
             
             $("#oldOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderOld_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderOld_" + order.idOrder + "'></td></tr>");
-            		
-            $("#dateDelivery_"+ order.idOrder).datepicker();
-            
-            if(dateDelivery != "null") {
-            	$("#dateDelivery_"+ order.idOrder).datepicker("setDate", new Date(dateDelivery));
-            	$("#dateDelivery_" + order.idOrder).css('background','#C7FFA8');
-            }
                 
             $("#showDetails_" + order.idOrder).on("click", clickShowDetailsHandler);
-            $("#setDateDelivery_" + order.idOrder).on("click", clickSetDateDeliveryHandler);
             
             $(".detailsOrder").hide();
             
