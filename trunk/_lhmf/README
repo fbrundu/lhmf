@@ -102,7 +102,14 @@ Applicazioni Internet - Gas
 
 # AZIONI DA LOGGARE
 
-
+- admin crea utente
+- admin attiva utente
+- fornitore crea prodotto
+- fornitore cambia disponibilità prodotto
+- resp crea ordine
+- utente/resp crea scheda
+- utente/resp modifica scheda
+- utente/resp elimina scheda
 
 # STATUS UTENTE
 
