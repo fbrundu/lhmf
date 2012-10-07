@@ -1291,7 +1291,7 @@ function newProductSearch(tab)
         productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
             + "' class='no'>Non in listino</td>";
         productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
-            + "'><form id='prodAval' name='" + myProducts[prodIndex].idProduct
+            + "'><form id='prodAval"+myProducts[prodIndex].idProduct+"' name='" + myProducts[prodIndex].idProduct
             + "' action=''>";
         productsString += "<input type='submit' class='button' value='Inserisci in listino' />";
         productsString += "</form></td>";
@@ -1312,7 +1312,7 @@ function newProductSearch(tab)
         productsString += "<td id='listHead" + myProducts[prodIndex].idProduct
             + "' class='yes'>In listino</td>";
         productsString += "<td id='listCont" + myProducts[prodIndex].idProduct
-            + "'><form id='prodNotAval' name='"
+            + "'><form id='prodNotAval"+myProducts[prodIndex].idProduct+"' name='"
             + myProducts[prodIndex].idProduct + "' action=''>";
         productsString += "<input type='submit' class='button' value='Rimuovi da listino' />";
         productsString += "</form></td>";
