@@ -7,8 +7,8 @@ import android.os.Parcelable;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class Purchase implements Parcelable {
-	public static final String SHIPPED = "Spedizione Effettuata";
-	public static final String NOT_SHIPPED = "Spedizione Non Effettuata";
+	public static final String SHIPPED = "Ritiro effettuato";
+	public static final String NOT_SHIPPED = "Ritiro non effettuato";
 	
 	private Integer idPurchase;
 	private String isShipped;

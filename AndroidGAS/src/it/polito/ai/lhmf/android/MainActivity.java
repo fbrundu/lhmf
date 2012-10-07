@@ -9,6 +9,7 @@ import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 import it.polito.ai.lhmf.android.normal.ActivePurchasesActivity;
 import it.polito.ai.lhmf.android.normal.PurchaseAvailabeOrdersActivity;
+import it.polito.ai.lhmf.android.normal.PurchasesToShipActivity;
 import it.polito.ai.lhmf.android.resp.ActiveOrdersActivity;
 import it.polito.ai.lhmf.android.resp.CompletedOrdersActivity;
 import it.polito.ai.lhmf.android.resp.NewOrderActivity;
@@ -53,8 +54,6 @@ public class MainActivity extends Activity {
 			this.finish();
 		}
 		else{
-			//Intent dummyIntent = new Intent(getApplicationContext(), ActivePurchasesActivity.class);
-			//startActivity(dummyIntent);
 			api = conn.getApi();
 			
 			new MemberTypeAsyncTask().execute(api);
@@ -105,6 +104,16 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Intent activePurchasesIntent = new Intent(MainActivity.this, ActivePurchasesActivity.class);
 				startActivity(activePurchasesIntent);
+			}
+		});
+		
+		Button shippedPurchases = (Button) findViewById(R.id.shippedPurchasesButton);
+		shippedPurchases.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent shippedPurchasesIntent = new Intent(MainActivity.this, PurchasesToShipActivity.class);
+				startActivity(shippedPurchasesIntent);
 			}
 		});
 	}
@@ -170,6 +179,16 @@ public class MainActivity extends Activity {
 				startActivity(activePurchasesIntent);
 			}
 		});
+		
+		Button shippedPurchases = (Button) findViewById(R.id.shippedPurchasesButton);
+		shippedPurchases.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent shippedPurchasesIntent = new Intent(MainActivity.this, PurchasesToShipActivity.class);
+				startActivity(shippedPurchasesIntent);
+			}
+		});
 	}
 	
 	@Override
@@ -213,8 +232,7 @@ public class MainActivity extends Activity {
 			}
 			
 			memberType = result;
-			//FIXME togliere il toast
-			Toast.makeText(MainActivity.this, "Member type: " + memberType, Toast.LENGTH_LONG).show();
+
 			switch(memberType){
 				case MemberTypes.USER_NORMAL:
 					prepareNormalActivity();
