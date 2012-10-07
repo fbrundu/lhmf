@@ -60,6 +60,7 @@
         <property name="productCategoryInterface" ref="productCategoryDao"/>
         <property name="memberInterface" ref="memberDao"/>
         <property name="notifyInterface" ref="notifyDao"/>
+        <property name="logInterface" ref="logDao"/>
     </bean>
     
     <bean id="supplierDao" class="it.polito.ai.lhmf.model.SupplierInterface">
