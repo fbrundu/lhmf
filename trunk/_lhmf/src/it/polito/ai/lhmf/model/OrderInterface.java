@@ -1083,7 +1083,7 @@ public class OrderInterface
 		}
 	}
 	
-	@Transactional()
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Integer setNewOrder(String username, int idSupplier,
 			String orderName, String idString, long dataCloseTime)
 			throws InvalidParametersException
@@ -1124,6 +1124,7 @@ public class OrderInterface
 	}
 
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public List<Order> getActiveOrdersForSupplier(String username) throws InvalidParametersException {
 		if (username == null)
 			throw new InvalidParametersException();
@@ -1143,5 +1144,37 @@ public class OrderInterface
 		query.setTimestamp("dateNow", currentTimestamp);
 
 		return query.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
+	public List<Order> getCompletedOrdersForSupplier(String username) throws InvalidParametersException {
+		if (username == null)
+			throw new InvalidParametersException();
+		Member memberSuppier = memberInterface.getMember(username);
+		if (memberSuppier == null)
+			throw new InvalidParametersException();
+		// Creo il Current timestamp
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
+		Timestamp currentTimestamp = new Timestamp(now.getTime());
+
+		Query query = sessionFactory.getCurrentSession().createQuery(
+				"from Order where idSupplier = :id "
+						+ "AND dateClose < :dateNow and (dateDelivery is NULL or dateDelivery > :dateNow)");
+
+		query.setParameter("id", memberSuppier.getIdMember());
+		query.setTimestamp("dateNow", currentTimestamp);
+		
+		List<Order> tmp = query.list();
+		
+		List<Order> ret = new ArrayList<Order>();
+		
+		for(Order o : tmp){
+			if(!isFailed(o.getIdOrder()))
+				ret.add(o);
+		}
+
+		return ret;
 	}
 }
