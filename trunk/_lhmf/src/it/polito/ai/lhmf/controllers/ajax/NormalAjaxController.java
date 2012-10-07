@@ -336,4 +336,24 @@ public class NormalAjaxController
 		Order order = orderInterface.getOrder(idOrder);
 		return order.getMember();
 	}
+	
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getTotPurchaseCost", method = RequestMethod.POST)
+	public @ResponseBody
+	Float getTotPurchaseCost(HttpServletRequest request, HttpSession session,
+			@RequestParam(value = "idPurchase") int idPurchase)
+	{
+		try
+		{
+			return purchaseInterface
+					.getPurchaseCost((String) session.getAttribute("username"),
+							idPurchase, true);
+		}
+		catch (InvalidParametersException e)
+		{
+			e.printStackTrace();
+			return (float) 0;
+		}
+	}
 }

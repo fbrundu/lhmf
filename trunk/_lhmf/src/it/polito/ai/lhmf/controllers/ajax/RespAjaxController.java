@@ -418,21 +418,19 @@ public class RespAjaxController
 	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/ajax/getTotPurchaseCost", method = RequestMethod.POST)
+	@RequestMapping(value = "/ajax/isPurchaseFailed", method = RequestMethod.POST)
 	public @ResponseBody
-	Float getTotPurchaseCost(HttpServletRequest request, HttpSession session,
+	Boolean isPurchaseFailed(HttpServletRequest request, HttpSession session,
 			@RequestParam(value = "idPurchase") int idPurchase)
 	{
 		try
 		{
-			return purchaseInterface
-					.getPurchaseCost((String) session.getAttribute("username"),
-							idPurchase, true);
+			return purchaseInterface.isFailed((String) session.getAttribute("username"), idPurchase);
 		}
 		catch (InvalidParametersException e)
 		{
 			e.printStackTrace();
-			return (float) 0;
+			return null;
 		}
 	}
 }
