@@ -269,4 +269,15 @@ public class OrderTemplate implements OrderOperations {
 		}
 	}
 
+	@Override
+	public Order[] getSupplierCompletedOrders() {
+		try {
+			Order[] res = template.getForObject(Gas.baseApiUrl + "getcompletedordersupplier", Order[].class);
+			return res;
+		} catch(RestClientException e){
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }

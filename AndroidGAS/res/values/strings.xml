@@ -74,4 +74,5 @@
     <string name="create_order">Crea nuovo ordine</string>
     <string name="new_product_supplier">Fornitore:</string>
     <string name="shipped_purchases_main">Schede in consegna</string>
+    <string name="date_not_set">Non impostata</string>
 </resources>
