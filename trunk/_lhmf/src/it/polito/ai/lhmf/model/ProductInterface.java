@@ -45,6 +45,7 @@ public class ProductInterface
 	private MemberInterface memberInterface;
 //	private MemberTypeInterface memberTypeInterface;
 	private NotifyInterface notifyInterface;
+	private LogInterface logInterface;
 	
 	public void setSessionFactory(SessionFactory sf)
 	{
@@ -80,6 +81,11 @@ public class ProductInterface
 	public void setNotifyInterface(NotifyInterface notifyInterface)
 	{
 		this.notifyInterface = notifyInterface;
+	}
+	
+	public void setLogInterface(LogInterface logInterface)
+	{
+		this.logInterface = logInterface;
 	}
 	
 //	public void setMemberTypeInterface(MemberTypeInterface memberTypeInterface)
@@ -165,7 +171,10 @@ public class ProductInterface
 		n.setText(newProductId.toString());
 		n.setNotifyTimestamp(new Date());
 		notifyInterface.newNotify(n);
-		
+		// Crea log
+		logInterface.createLog("Ha creato il prodotto con id: " + newProductId,
+				s.getIdMember());
+
 		if (picture != null)
 		{
 			if (pictureDirectoryPath == null || serverPath == null)
@@ -392,6 +401,9 @@ public class ProductInterface
 		n.setNotifyTimestamp(new Date());
 		notifyInterface.newNotify(n);
 
+		logInterface.createLog("Ha reso disponibile il prodotto con id: "
+				+ idProduct, m.getIdMember());
+
 		return result;
 	}
 	
@@ -435,6 +447,9 @@ public class ProductInterface
 		n.setNotifyTimestamp(new Date());
 		notifyInterface.newNotify(n);
 
+		logInterface.createLog("Ha reso non disponibile il prodotto con id: "
+				+ idProduct, m.getIdMember());
+		
 		return result;
 	}
 

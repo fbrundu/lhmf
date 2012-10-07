@@ -36,7 +36,8 @@ public class OrderInterface
 	private MemberInterface memberInterface;
 	private PurchaseInterface purchaseInterface;
 	private NotifyInterface notifyInterface;
-
+	private LogInterface logInterface;
+	
 	public void setSessionFactory(SessionFactory sf)
 	{
 		this.sessionFactory = sf;
@@ -62,6 +63,11 @@ public class OrderInterface
 	public void setNotifyInterface(NotifyInterface notifyInterface)
 	{
 		this.notifyInterface = notifyInterface;
+	}
+	
+	public void setLogInterface(LogInterface logInterface)
+	{
+		this.logInterface = logInterface;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -102,6 +108,9 @@ public class OrderInterface
 			}
 		}
 		
+		logInterface.createLog("Ha creato l'ordine con id: " + newOrderId,
+				order.getMember().getIdMember());
+
 		return newOrderId;
 	}
 
