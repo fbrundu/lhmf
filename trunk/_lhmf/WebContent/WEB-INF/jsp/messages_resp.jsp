@@ -33,8 +33,6 @@
     </jsp:attribute>
     
   <jsp:attribute name="userMenu">
- 	 <div class="round-border-topright"></div>
-		<h1 class="first">Menu Utente</h1>
       <div class="round-border-topright"></div>
 		<h1 class="first">Menu Responsabile</h1>
 		<dl class="menu-navigazione">

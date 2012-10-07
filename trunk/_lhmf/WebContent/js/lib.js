@@ -631,7 +631,7 @@ function getMyNotifies()
   $.getSync("ajax/getmynotifies", undefined, function(notifiesList)
   {
     if (notifiesList.length < 1)
-      tabellaNotifiche += "<tr><td>Non ci sono notifiche da visualizzare</td></tr>";
+      tabellaNotifiche += "<tr><td><p>Non ci sono notifiche da visualizzare</p></td></tr>";
     for ( var notIndex in notifiesList)
     {
       tabellaNotifiche += "<tr><td";
