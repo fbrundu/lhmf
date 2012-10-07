@@ -1090,4 +1090,24 @@ public class PurchaseInterface
 		}
 		return ret;
 	}
+
+	@Transactional(readOnly = true)
+	public List<Purchase> getShipPurchases(String username) throws InvalidParametersException {
+		
+		Member member = memberInterface.getMember(username);
+		
+		List<Purchase> returnList = new ArrayList<Purchase>();
+		
+		Set<Purchase> purchaseList = member.getPurchases();
+		
+		for(Purchase pTemp : purchaseList) {
+			
+			Order oTemp = pTemp.getOrder();
+			if(!pTemp.isIsShipped() && oTemp.getDateDelivery() != null && !isFailed(username, pTemp.getIdPurchase())) 
+				returnList.add(pTemp);
+			
+		}
+		
+		return returnList;
+	}
 }
