@@ -64,7 +64,9 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  			Statistiche -> Ok ma, cliccando sulle varie parti della torta, la finestra taglia la tipologia degli utenti
   			Concultazione Log -> non ancora testati
   - Supplier -> Gestion Prodotti (OK) -> Creazione prodotto e controllo sui campi OK, Gestione listino OK
-  				Gestione Ordini -> Ordini Attivi OK
+  				Gestione Ordini -> Ordini Attivi -> OK
+  									Completati -> OK
+  									Storico Ordini -> visualizza gli ordini ma in caso di 2 o più ordini, premendo su dettagli, visualizza la tabella senza i prodotti, nonostante ci siano in realtà
   				Statistiche -> 	Incasso -> OK
   								Prodotti -> OK, ma sistemare problema elencato sopra del grafico a torta
   								Ordini -> OK
@@ -91,3 +93,15 @@ Notifiche ->Nuovo prodotto -> OK
 			Ordine 50 % -> OK
 			Ordine 75 % -> OK
 			Ordine 90 % -> OK
+			
+LOG ->	nella visualizzazione log, aprendo la pagina con la data odierna, la prima volta non visualizza log
+		anche se sono presenti 
+		admin crea utente -> OK
+		admin attiva utente -> OK
+		fornitore crea prodotto -> OK
+		fornitore cambia disp prodotto -> OK
+		resp crea ordine -> OK
+		utente/resp crea scheda -> OK sia norm che resp
+		utente/resp modifica scheda -> OK sia norm che resp (probabilmente è una scelta implementativa, ma se viene cancellato un prodotto e poi modificata una scheda, il log segnala solo la cancellazione e non la modifica della scheda)
+		utente/resp elimina scheda -> OK
+		
