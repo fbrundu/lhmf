@@ -63,10 +63,23 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  			Gestione Prodotti (OK) -> Ok sia visualizzazione che Rimozione/Aggiunta al listino
  			Statistiche -> Ok ma, cliccando sulle varie parti della torta, la finestra taglia la tipologia degli utenti
   			Concultazione Log -> non ancora testati
-  			Notifiche (Nuovo utente)-> OK
   - Supplier -> Gestion Prodotti (OK) -> Creazione prodotto e controllo sui campi OK, Gestione listino OK
-  				Gestione Ordini
-  				Statistiche -> 	Incasso ->
-  								Prodotti -> OK
-  								Ordini 
- 
+  				Gestione Ordini -> Ordini Attivi OK
+  				Statistiche -> 	Incasso -> OK
+  								Prodotti -> OK, ma sistemare problema elencato sopra del grafico a torta
+  								Ordini -> OK
+  - Resp -> Ordini -> 	Crea Ordine -> OK
+  						Ordini Attivi -> OK
+  			Schede di acquisto -> 	Crea Scheda -> Creazione scheda OK ma ogni tanto sfasa le categorie dei prodotti (Vedi immagine)
+  									Schede Attive -> OK
+  									Schede in consegna -> OK
+  			Statistiche -> OK
+  									
+  									
+  									
+Notifiche ->Nuovo prodotto -> OK
+			Nuovo ordine -> OK
+			Nuovo utente -> OK
+			Ordine 50 % -> OK
+			Ordine 75 % -> OK
+			Ordine 90 % -> OK
