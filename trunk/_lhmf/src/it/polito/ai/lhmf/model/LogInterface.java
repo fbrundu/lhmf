@@ -52,4 +52,17 @@ public class LogInterface
 		query.setTimestamp("endDate", endDate);
 		return query.list();
 	}
+
+	public Long getLogsAmount(long start, long end)
+	{
+		Query query = sessionFactory
+				.getCurrentSession()
+				.createQuery(
+						"select count(*) from Log where logTimestamp between :startDate and :endDate");
+		Timestamp startDate = new Timestamp(start);
+		Timestamp endDate = new Timestamp(end);
+		query.setTimestamp("startDate", startDate);
+		query.setTimestamp("endDate", endDate);
+		return (Long) query.uniqueResult();
+	}
 }

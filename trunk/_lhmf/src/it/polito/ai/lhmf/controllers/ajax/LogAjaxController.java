@@ -33,4 +33,14 @@ public class LogAjaxController
 		logs = logInterface.getLogs(start, end);
 		return logs;
 	}
+	
+	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
+	@RequestMapping(value = "/ajax/getlogsamount", method = RequestMethod.GET)
+	public @ResponseBody
+	Long getLogsAmount(HttpServletRequest request,
+			@RequestParam(value = "start") long start,
+			@RequestParam(value = "end") long end)
+	{
+		return logInterface.getLogsAmount(start, end);
+	}
 }

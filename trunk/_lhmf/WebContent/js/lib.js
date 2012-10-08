@@ -829,6 +829,7 @@ function viewMemberClick(event)
   idMember = $(this).attr('name');
   viewMemberDetails(idMember);
   $(".simplemodal-container").css("width", "auto");
+  $(".simplemodal-container").css("height", "auto");
 }
 
 function filterProducts(myProducts, productCategory)
