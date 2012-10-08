@@ -20,6 +20,11 @@ public class Order implements Parcelable {
 	private Date dateDelivery;
 	private Member memberResp;
 	private Supplier supplier;
+	private float cost;
+	
+	public Order(){
+		setCost(0.0f);
+	}
 	
 	public Integer getIdOrder() {
 		return idOrder;
@@ -92,6 +97,14 @@ public class Order implements Parcelable {
 		this.supplier = supplier;
 	}
 	
+	public float getCost() {
+		return cost;
+	}
+
+	public void setCost(float cost) {
+		this.cost = cost;
+	}
+	
 	@Override
 	public int describeContents() {
 		return 0;
@@ -109,7 +122,7 @@ public class Order implements Parcelable {
 			dest.writeString(df.format(dateDelivery));
 		dest.writeParcelable(memberResp, flags);
 		dest.writeParcelable(supplier, flags);
-		
+		dest.writeFloat(cost);
 	}
 	
 	public static final Parcelable.Creator<Order> CREATOR = new Creator<Order>() {
@@ -129,8 +142,8 @@ public class Order implements Parcelable {
 			order.setDateDelivery(source.readString());
 			order.setMemberResp((Member) source.readParcelable(Member.class.getClassLoader()));
 			order.setSupplier((Supplier)source.readParcelable(Supplier.class.getClassLoader()));
+			order.setCost(source.readFloat());
 			return order;
 		}
 	};
-
 }

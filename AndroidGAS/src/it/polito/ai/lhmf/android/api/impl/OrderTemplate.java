@@ -273,7 +273,20 @@ public class OrderTemplate implements OrderOperations {
 	public Order[] getSupplierCompletedOrders() {
 		try {
 			Order[] res = template.getForObject(Gas.baseApiUrl + "getcompletedordersupplier", Order[].class);
-			return res;
+			if(res != null){
+				for(Order o : res){
+					Float orderCost = template.getForObject(Gas.baseApiUrl + "getcompletedordercost?idOrder={id}", Float.class, o.getIdOrder());
+					if(orderCost != null){
+						o.setCost(orderCost);
+					}
+					else
+						return null;
+				}
+				return res;
+			}
+			else
+				return null;
+			
 		} catch(RestClientException e){
 			e.printStackTrace();
 			return null;

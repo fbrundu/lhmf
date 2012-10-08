@@ -963,7 +963,8 @@ public class PurchaseInterface
 		Order order = purchase.getOrder();
 		
 		if(purchase.getMember().getIdMember() != member.getIdMember() &&
-				order.getMember().getIdMember() != member.getIdMember())
+				order.getMember().getIdMember() != member.getIdMember() &&
+				order.getSupplier().getIdMember() != member.getIdMember())
 			return null;
 		
 		List<OrderProduct> ops = orderInterface.getOrderProducts(order.getIdOrder());
