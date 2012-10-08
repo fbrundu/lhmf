@@ -386,7 +386,7 @@ function writeLogPage(){
 function writeUserPage(tab){
   $("#bodyTitleHeader").html("Gestione utenti");
   $(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Aggiungi utente</a></li><li><a href='#tabs-2'>Attiva utente</a></li>" +
-      "<li><a href='#tabs-3'>Lista utenti</a></li><li><a href='#tabs-4'>Mappe utenti</a></li></ul>" +
+      "<li><a href='#tabs-3'>Lista utenti</a></li></li></ul>" +
       "<div id='tabs-1'></div><div id='tabs-2'></div><div id='tabs-3'></div>");
   
   // HTML per la registrazione utenti e fornitori
