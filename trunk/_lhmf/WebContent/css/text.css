@@ -94,6 +94,16 @@
 
 .noLimitProduct { color: #aaa }
 
+.textProgressBar2 { color: black; position: absolute; line-height: 25px; display: block;  width: 91%; font-weight: bold; font-size: small; }
+.textProgressBar2product { color: black; position: absolute; line-height: 20px; display: block;  width: 15%; font-weight: bold; font-size: x-small; }
+.textProgressBar2productDisp { color: black; position: absolute; line-height: 20px; display: block;  width: 19%; font-weight: bold; font-size: x-small; }
+.textProgressBar1h { color: black; position: absolute; line-height: 18px; display: block; width: 16%; font-weight: bold; font-size: x-small; }
+.textProgressBar1 { color: black; position: absolute; line-height: 12px; display: block; width: 82%; font-weight: bold; font-size: x-small; }
+
+.textProgressBar2order { color: black; position: absolute; line-height: 25px; display: block;  width: 22%; font-weight: bold; font-size: small; }
+.textProgressBar1order { color: black; position: absolute; line-height: 11px; display: block; width: 19%; font-weight: bold; font-size: x-small; }
+
+
 .actionError { color: red; }
 
 .creazioneProdottoForm {text-align:left; width:450px; margin:2.0em 0 0 100px; padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
