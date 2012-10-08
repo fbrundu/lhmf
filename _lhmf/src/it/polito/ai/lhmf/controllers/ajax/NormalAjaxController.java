@@ -316,7 +316,8 @@ public class NormalAjaxController
 		return orderInterface.getProgressProduct(idOrder);
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getNormalForMap", method = RequestMethod.POST)
 	public @ResponseBody
 	List<Member> getNormalForMap(HttpServletRequest request, HttpSession session,
@@ -331,7 +332,8 @@ public class NormalAjaxController
 		return memberTmp;
 	}
 	
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.NORMAL + "')")
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getRespForMap", method = RequestMethod.POST)
 	public @ResponseBody
 	Member getRespForMap(HttpServletRequest request, HttpSession session,
