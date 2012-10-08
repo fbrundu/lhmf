@@ -58,4 +58,15 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  -TESTING FINALE
  - Registrazione utenti -> OK ma servirebbe un controllo per inserire nel database un diririzzo di tipo Via Tot, numero
  - Admin -> Registrazione Nuovi utenti -> OK e controllo come sopra
- 			
+ 			Attivazioni utenti -> OK attivazione ma nella visualizzazione, in caso di più utenti, passando alla pagina 2 non si riesce più a tornare alla pagina 1
+ 			Lista Utenti -> Viene mostrato anche l'admin e problema di sopra della visualizzazione utenti
+ 			Gestione Prodotti (OK) -> Ok sia visualizzazione che Rimozione/Aggiunta al listino
+ 			Statistiche -> Ok ma, cliccando sulle varie parti della torta, la finestra taglia la tipologia degli utenti
+  			Concultazione Log -> non ancora testati
+  			Notifiche (Nuovo utente)-> OK
+  - Supplier -> Gestion Prodotti (OK) -> Creazione prodotto e controllo sui campi OK, Gestione listino OK
+  				Gestione Ordini
+  				Statistiche -> 	Incasso ->
+  								Prodotti -> OK
+  								Ordini 
+ 
