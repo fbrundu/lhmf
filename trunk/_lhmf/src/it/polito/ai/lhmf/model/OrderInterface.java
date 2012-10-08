@@ -771,8 +771,9 @@ public class OrderInterface
 		Map<Product, Integer> mapProduct = new HashMap<Product, Integer>();
 		List<String> returnString = new ArrayList<String>();
 		Order order = getOrder(idOrder);
+		Set<Purchase> setPurchases = order.getPurchases();
 		
-		for(Purchase pTemp : order.getPurchases()) {
+		for(Purchase pTemp : setPurchases) {
 			for(PurchaseProduct ppTemp : pTemp.getPurchaseProducts()) {
 				
 				Product productTemp = ppTemp.getProduct();

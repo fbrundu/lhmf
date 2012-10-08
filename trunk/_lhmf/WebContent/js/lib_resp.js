@@ -193,7 +193,10 @@ function writeOrderPage(){
                               "</fieldset>" +
                             "</div><br />" +
                         "</div>" +
-                        "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
+                        "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>" +
+                        "<div id='dialog-map' title='Mappa dislocamento utenti partecipanti all'ordine' style='display:none; text-align:center' align='center'>" +
+                      	  "<div id='map' style='width:575px; height:500px; text-align:center' align='center'> </div>" +
+                        "</div>");
   
   $('#tabsOrder-3').html("<div class='logform'>" +
                           "<table id='completeOrderList' class='log'></table>" +
@@ -736,6 +739,7 @@ function prepareOrderForm(tab){
 
     $("body").delegate(".shipButton", "click", clickSetShipPurchaseHandler);
     $("body").delegate(".detailsButton", "click", clickShowDetailsPurchaseHandler);
+    $("body").delegate(".mapButton", "click", drawMapOrder);
     
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
@@ -929,8 +933,9 @@ function postShipOrderListHandler(orderList) {
         $("#shipOrderList").append(" <tr>  <th class='top' width='5%'> ID </th>" +
         								  "<th class='top' width='25%'> Nome </th>" +
                                           "<th class='top' width='20%'> Fornitore </th>" +
-                                          "<th class='top' width='25%'> Data Consegna  </th>" +
-                                          "<th class='top' width='25%'> Azione  </th> </tr>");
+                                          "<th class='top' width='20%'> Data Consegna  </th>" +
+                                          "<th class='top' width='20%'> Azione  </th> " +
+                                          "<th class='top' width='10%'> Azione  </th></tr>");
         
         for(var i = 0; i < orderList.length; i++){
             var order = orderList[i];
@@ -944,9 +949,10 @@ function postShipOrderListHandler(orderList) {
 					            		  "<td>" + dateDelivery + "</td>" +
 					            		  "<td><button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Mostra Schede </button>" +
 										  "</td>" +
+										  "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
 					            		"</tr>");
 
-            $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='5' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
+            $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
             $("#showDetailsShip_" + order.idOrder).on("click", clickShowDetailShipsHandler);
            
@@ -1175,12 +1181,13 @@ function postActiveOrderListHandler(orderList) {
     $("#activeOrderList").html("");
        
     if(orderList.length > 0){
-        $("#activeOrderList").append("  <tr>  <th class='top' width='15%'> Nome </th>" +
+        $("#activeOrderList").append("  <tr>  <th class='top' width='10%'> Nome </th>" +
                                              "<th class='top' width='15%'> Fornitore </th>" +
                                              "<th class='top' width='15%'> Data Inizio  </th>" +
                                              "<th class='top' width='15%'> Data Chiusura  </th>" +
                                              "<th class='top' width='25%'> Progresso </th>" +
-                                             "<th class='top' width='15%'> Azione  </th> </tr>");
+                                             "<th class='top' width='10%'> Azione  </th>" +
+                                             "<th class='top' width='10%'> Mappa  </th></tr>");
         
         
         for(var i = 0; i < orderList.length; i++){
@@ -1203,8 +1210,10 @@ function postActiveOrderListHandler(orderList) {
                                               "<td>" + dateClose + "</td>" +
                                               "<td><div id='" + idProgressBar + "'></div></td>" +
                                               "<td><button type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
-                                              "</td></tr>" +
-                                         "<tr class='detailsOrder' id='TRdetailsOrderActive_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderActive_" + order.idOrder + "'></td></tr>");
+                                              "</td>" +
+                                              "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
+                                              "</tr>" +
+                                         "<tr class='detailsOrder' id='TRdetailsOrderActive_" + order.idOrder + "'><td colspan='7' id='TDdetailsOrderActive_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
             $( "#" + idProgressBar ).progressbar({	value: valProgress	});
             $( "#" + idProgressBar ).css('height', '1.8em');
@@ -1557,11 +1566,12 @@ function postCompleteOrderListHandler(orderList) {
     if(orderList.length > 0){
     	
     	$("#completeOrderList").append(" <tr><th class='top' width='10%'> Nome </th>" +
-									        "<th class='top' width='25%'> Fornitore </th>" +
+									        "<th class='top' width='20%'> Fornitore </th>" +
 									        "<th class='top' width='15%'> Data Inizio  </th>" +
 									        "<th class='top' width='15%'> Data Chiusura  </th>" +
 									        "<th class='top' width='15%'> Data Consegna  </th>" +
-									        "<th class='top' width='20%'> Azione  </th> </tr>");
+									        "<th class='top' width='20%'> Azione  </th> " +
+									        "<th class='top' width='5%'> Mappa  </th></tr>");
     	
     	
     	for(var i = 0; i < orderList.length; i++) {
@@ -1578,9 +1588,11 @@ function postCompleteOrderListHandler(orderList) {
 						             		  "<td> <input type='text' id='dateDelivery_" + order.idOrder + "' style='width: 80px' onchange='dataDeliveryChange(" + order.idOrder + ")'/> </td>" +   	
 											  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
 											  	   "<button style='margin: 0px' type='submit' id='showDetailsComplete_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
-											  "</td></tr>");
+											  "</td>" +
+											  "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
+											  "</tr>");
     		
-             $("#completeOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderComplete_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderComplete_" + order.idOrder + "'></td></tr>");
+             $("#completeOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderComplete_" + order.idOrder + "'><td colspan='7' id='TDdetailsOrderComplete_" + order.idOrder + "'></td></tr>");
      		
              $("#dateDelivery_"+ order.idOrder).datepicker();
              
@@ -1701,4 +1713,105 @@ function dataDeliveryChange(idOrder) {
 	
 	$("#dateDelivery_" + idOrder).css('background','#FFFFFF');
 	
+}
+
+function drawMapOrder()
+{
+	$( "#dialog-map:ui-dialog" ).dialog( "destroy" );
+	
+	$( "#dialog-map" ).dialog({
+		resizable: false,
+		height: 600,
+		width: 605, 
+		modal: true,
+		buttons : {
+         	 "Ok" : function() { $(this).dialog('close'); }
+       	       }
+	});
+	
+	idOrder = $(this).data('idorder');
+	initialize(idOrder);
+	
+	
+}
+
+function initialize(idOrder)
+{
+	var geocoder = new google.maps.Geocoder();
+	var latlng = new google.maps.LatLng(45.0875198, 7.985248);
+	var myOptions = 
+	{
+	    zoom: 6,
+	    center: latlng,
+	    mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+
+	var map = new google.maps.Map(document.getElementById("map"), myOptions);
+	$.postSync("ajax/getNormalForMap", {idOrder: idOrder}, function(membersList)
+	{
+		$.each(membersList, function(index, val)
+		{
+			var address = "" + val.address + " - " + val.city + "";
+			var text = "" + val.name + " " + val.surname + "";
+			geocoder.geocode( { 'address': address}, function(results, status) {
+			      if (status == google.maps.GeocoderStatus.OK) {
+			        //map.setCenter(results[0].geometry.location);
+			        var marker = new google.maps.Marker({
+			            map: map,
+			            title: text,
+			            position: results[0].geometry.location
+			        });
+			        var tooltip = "<div id='tooltip'>"+
+					"<p><strong>Utente normale: " + val. name + " " + val.surname + "</strong><br>"+
+					val.address + "<br>" +
+					"provincia: " + val.city + "<br>" +
+					"nazione: " + val.state + "</p>" +
+					"</div>";
+					var infowindow = new google.maps.InfoWindow({
+						content: tooltip
+					});
+					google.maps.event.addListener(marker, 'click', function() {
+						infowindow.open(map,marker);
+					});
+			      }
+			      else 
+			      {
+			        alert("Geocode was not successful for the following reason: " + status);
+			      }
+			    });		
+		});
+	});
+	
+	$.postSync("ajax/getRespForMap", {idOrder: idOrder}, function(data)
+	{
+		var address = "" + data.address + " - " + data.city + "";
+		var text = "" + data.name + " " + data.surname + "";
+		geocoder.geocode( { 'address': address}, function(results, status) {
+		      if (status == google.maps.GeocoderStatus.OK) {
+		        map.setCenter(results[0].geometry.location);
+		        var marker = new google.maps.Marker({
+		            map: map,
+		            title: text,
+		            icon: 'http://google-maps-icons.googlecode.com/files/country.png',
+		            position: results[0].geometry.location
+		        });
+		        var tooltip = "<div id='tooltip'>"+
+				"<p><strong>Utente responsabile: " + data. name + " " + data.surname + "</strong><br>"+
+				data.address + "<br>" +
+				"provincia: " + data.city + "<br>" +
+				"nazione: " + data.state + "</p>" +
+				"</div>";
+				var infowindow = new google.maps.InfoWindow({
+					content: tooltip
+				});
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(map,marker);
+				});
+		      }
+		      else 
+		      {
+		        alert("Geocode was not successful for the following reason: " + status);
+		      }
+		    });	
+	});
 }
