@@ -52,3 +52,10 @@ fornitore.
 la tabella si sfasa e non funziona pi� (problema simile a quello di ieri con la lista utenti). Il problema �
 solo a livello grafico, il tasto "Attiva" funziona correttamente
  - PROBLEMA "ERROR: Unknown column 'active' in 'where clause'" 
+ 
+ 
+ 
+ -TESTING FINALE
+ - Registrazione utenti -> OK ma servirebbe un controllo per inserire nel database un diririzzo di tipo Via Tot, numero
+ - Admin -> Registrazione Nuovi utenti -> OK e controllo come sopra
+ 			

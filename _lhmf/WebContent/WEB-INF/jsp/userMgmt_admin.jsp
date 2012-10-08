@@ -68,11 +68,6 @@
 			<!-- Tab per la modifica di un utente -->
 			  Lista Utenti
 			</div>
-			<div id='tabs-4'>
-			
-			<!-- Tab per la mappa degli utenti -->
-			  Mappa Utenti
-			</div>
 		</div>
     </jsp:body>
 </t:index>
