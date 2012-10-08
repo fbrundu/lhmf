@@ -94,7 +94,7 @@ Applicazioni Internet - Gas
 *2 Nuovo ordine [Normale, Resp]
 *3 Modifica Disponibilità Prodotto in Listino [Resp]
 *4 Chiusura Ordine con successo [Resp ordine]
-5 Data di consegna Settata [Normale, Resp] - solo a quelli le cui schede non sono fallite
+*5 Data di consegna Settata [Normale, Resp] - solo a quelli le cui schede non sono fallite
 *6 Nuovo utente [Admin]
 *7 Ordine 50 % [Normale, Resp]
 *8 Ordine 75 % [Normale, Resp]
