@@ -656,7 +656,7 @@ function getMyNotifies()
         tabellaNotifiche += "&Eacute; cambiata la disponibilit&agrave; di un prodotto: <a href='' class='chAvailNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         break;
-      // Ordine chiuso
+      // Ordine chiuso (responsabile ordine)
       case 4:
         $.getSync("ajax/getordername", {
           'idOrder' : notifiesList[notIndex].text
@@ -718,6 +718,18 @@ function getMyNotifies()
           tabellaNotifiche += "L'ordine '"
             + orderName
             + "' &eacute; al 90%: <a href='' class='ongoingOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
+        break;
+      // Ordine chiuso (utenti partecipanti)
+      case 10:
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine '"
+            + orderName
+            + "' &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
