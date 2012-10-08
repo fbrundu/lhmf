@@ -270,14 +270,18 @@ public class OrderInterface
 		// TODO Invio notifica ai membri partecipanti con schede non fallite
 		for (Purchase p : getOrder(idOrder).getPurchases())
 		{
-			Notify n = new Notify();
-			n.setMember(p.getMember());
-			n.setIsReaded(false);
-			// FIXME mettere costanti
-			n.setNotifyCategory(5);
-			n.setText(idOrder.toString());
-			n.setNotifyTimestamp(new Date());
-			notifyInterface.newNotify(n);
+			if (!purchaseInterface.isFailed(p.getMember().getUsername(),
+					p.getIdPurchase()))
+			{
+				Notify n = new Notify();
+				n.setMember(p.getMember());
+				n.setIsReaded(false);
+				// FIXME mettere costanti
+				n.setNotifyCategory(5);
+				n.setText(idOrder.toString());
+				n.setNotifyTimestamp(new Date());
+				notifyInterface.newNotify(n);
+			}
 		}
 		
 		// Invio notifica al fornitore
