@@ -180,11 +180,12 @@ function loadOrders()
 												"<td>" + val.supplier.companyName + "</td>" +
 												"<td>" + dateOpen + "</td>" +
 												"<td>" + dateClose + "</td>" +
-												"<td style='padding: 5px' ><div id='" + idProgressBar + "'></div></td>" +
+												"<td style='padding: 5px' ><div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar1h'></span></div></td>" +
 											"</tr>");
 			
 			$( "#" + idProgressBar ).progressbar({	value: valProgress	});
 			$( "#" + idProgressBar ).css('height', '1.5em');
+			$( "#" + idProgressBar + " span").text(valProgress.toFixed(2) + " %");
 			
 		});
 		
@@ -239,13 +240,14 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "</td>" +
 					  							 "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + purchase.order.idOrder + "'></td>" +
 					  							  "</tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='5' id='Text_" + idProgressBar + "' > <strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong> </td></tr>" +
-				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='5' style='padding: 5px'> <div id='" + idProgressBar + "'></div> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='5> <strong>Progresso dell'ordine.</strong> </td></tr>" +
+				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='5' style='padding: 5px'> <div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar2'></span></div> </td></tr>" +
 				  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "' data-idorder=' " + purchase.order.idOrder + "'><td colspan='5' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");
             
             $("#showDetails_" + purchase.idPurchase).on("click", clickPurchaseDetailsHandler);
             $(".detailsPurchase").hide();
             $( "#" + idProgressBar ).progressbar({	value: valProgress	});
+            $( "#" + idProgressBar + " span").text(valProgress.toFixed(2) + "%");
             $("button").button();
         }
             
@@ -379,7 +381,7 @@ function postProductListOrderRequest(productList)
 								       "<div ><img src='" + product.imgPath + "' height='60' class='thumb'></div>" +
 								       "<h3>" + product.name + "</h3>" +
 								       "<span class='meta'>" + product.description + "</span>" +
-								       "<div id='" + idProgressBar + "'></div>" +
+								       "<div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar1'></span></div>" +
 								   "</section>" +
 								   "<section class='right'>" +
 										"<span class='amount' >" +
@@ -399,6 +401,7 @@ function postProductListOrderRequest(productList)
 			
 			$( "#" + idProgressBar ).progressbar({	value: 0 });
 			$( "#" + idProgressBar ).css('height', '1em');
+			$( "#" + idProgressBar + " span").text("00.00%");
 			
 			ClearPurchase();
 								
@@ -735,7 +738,7 @@ function postPurchaseDetailsListHandler(productList)
         		                       "<td><img src='" + val.imgPath + "' height='30' class='thumb'></td>" +
         		                       "<td>" + val.name + "</td>" +
         		                       "<td>" + val.description + "</td>" +
-        		                       "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "'></div></td>" +
+        		                       "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "' style='text-align: center;'><span class='textProgressBar2product'></span></div></td>" +
         		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
         		                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
         		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' data-oldamount='" + AmountTmp + "' value='" + AmountTmp + "'/></td>" +
@@ -744,6 +747,7 @@ function postPurchaseDetailsListHandler(productList)
         		                       "<td id='tdPartial_" + idPurchase +"_" + val.idProduct + "'>" + parziale + " &euro;</td></tr>");
         
         $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
+        $( "#" + idProgressBarProduct + " span").text("00.00%");
     });
     
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + tot + "'><td colspan='8' style='text-align: right;'> <strong> Totale: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></td>" +
@@ -794,13 +798,14 @@ function postPurchaseDetailsListHandler(productList)
                                                "<td><img src='" + val.imgPath + "' height='30' class='thumb'></td>" +
                                                "<td>" + val.name + "</td>" +
                                                "<td>" + val.description + "</td>" +
-                                               "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "'></td>" +
+                                               "<td style='padding: 3px;'><div id='" + idProgressBarProduct + "' style='text-align: center;'><span class='textProgressBar2productDisp'></span></div></td>" +
                                                "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
                                                "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
                                                "<td> <input type='text' style='width: 35px; text-align: center;' data-oldamount='0' id='" + idAmount + "'/></td>" +
                                                "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
                 
                 $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
+                $( "#" + idProgressBarProduct + " span").text("00.00%");
              });
         }
     });
@@ -904,6 +909,8 @@ function removeProduct(idProduct, lastProduct) {
     //Ricreo la progressbar
     var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
 	$(idProgressBarProduct).progressbar( { value: 0 });
+	//Cambio la classe dello span della progressbar
+	$(idProgressBarProduct + " span").removeClass().addClass('textProgressBar2productDisp');
     
     //Aggiorno il data-oldAmount e pulisco l'input
     $(inputAmount).data('oldamount', 0);
@@ -1178,6 +1185,8 @@ function addProductFromPurchase(event){
     //Ricreo la progressbar
     var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
 	$(idProgressBarProduct).progressbar( { value: 0 });
+	//Cambio la classe dello span della progressbar
+	$(idProgressBarProduct + " span").removeClass().addClass('textProgressBar2product');
     
     //Se non ci sono altri prodotti che si possono aggiungere scriverlo
     if($(table2Control + ' tr').length == 1) {
@@ -1316,6 +1325,7 @@ function refreshProgressBar(idOrder) {
     //Aggiorno progressbar ordine generale
     var idProgressBar = "#pbOrder_" + idOrder;
     $(idProgressBar).progressbar('value', valProgress);
+    $(idProgressBar + " span").text(valProgress.toFixed(2) + "%");
     
     //Aggiorno le progressbar dei prodotti.
     var allProgress = "";
@@ -1346,6 +1356,7 @@ function refreshProgressBar(idOrder) {
     	//Aggiorno progressbar
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
+    	$(idProgressBarProduct + " span").text(progress.toFixed(2) + "%");
     });
     
 } 
@@ -1363,10 +1374,9 @@ function refreshProgressBarOrder(idPurchase) {
     
     //aggiorno progressbar generale dell'ordine    
     var idProgressBar = "#progressbarOrder_" + idPurchase;
-    var idTextProgressBar = "#Text_progressbarOrder_" + idPurchase;
 	
     $(idProgressBar).progressbar('value', valProgress);
-    $(idTextProgressBar).html("<strong>Progresso dell'ordine: " + valProgress.toFixed(2) + "%</strong>");
+    $(idProgressBar + " span").text(valProgress.toFixed(2) + "%");
     
     //Aggiorno le progressbar dei prodotti.
     var allProgress = "";
@@ -1398,6 +1408,7 @@ function refreshProgressBarOrder(idPurchase) {
         //aggiorno progressbar
     	var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
+    	$(idProgressBarProduct + " span").text(progress.toFixed(2) + "%");
     });
     
 }

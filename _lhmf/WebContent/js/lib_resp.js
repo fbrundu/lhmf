@@ -935,7 +935,7 @@ function postShipOrderListHandler(orderList) {
                                           "<th class='top' width='20%'> Fornitore </th>" +
                                           "<th class='top' width='20%'> Data Consegna  </th>" +
                                           "<th class='top' width='20%'> Azione  </th> " +
-                                          "<th class='top' width='10%'> Azione  </th></tr>");
+                                          "<th class='top' width='10%'> Mappa  </th></tr>");
         
         for(var i = 0; i < orderList.length; i++){
             var order = orderList[i];
@@ -1126,17 +1126,18 @@ function clickShowDetailsPurchaseHandler()  {
     	var idProgressBar = "pbProduct_" + idOrder + "_" + idPurchase + "_" + val.idProduct;
     	var parziale = amount * val.unitCost;
     	
-        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "' class='noLimitProduct'><td>" + val.name + "</td>" +
+        $(tableControl).append("<tr id='" + trIdControl + val.idProduct + "'><td>" + val.name + "</td>" +
         		                       "<td>" + val.category.description + "</td>" +
         		                       "<td>" + val.description + "</td>" +
         		                       "<td>" + val.unitCost + " &euro;</td>" +
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
     		                       	   "<td>" + amount + "</td>" +
-    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
+    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar1order'></span></div></td>" +
     		                       	   "<td> " + parziale + " &euro;</td>" +
     		                   "</tr>");
         
         $( "#" + idProgressBar ).progressbar({	value: 0 });
+        $( "#" + idProgressBar + " span" ).progressbar("00.00%");
 		$( "#" + idProgressBar ).css('height', '1em');
 		
     });
@@ -1157,11 +1158,12 @@ function clickShowDetailsPurchaseHandler()  {
 	   
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idPurchase + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
+    	$(idProgressBarProduct + " span").text(progress.toFixed(2) + "%");
     	
-    	if(progress == 100) {
-	    	//Rimuovo effetto grigio per ordini attivi
+    	if(progress < 100) {
+	    	//Aggiungo effetto grigio per prodotti non attivi
 			var idTr = "#trShipProduct_" + idOrder + "_" + idProduct;
-			$(idTr).removeClass("noLimitProduct");
+			$(idTr).addClass("noLimitProduct");
     	}
     	
     });
@@ -1208,7 +1210,7 @@ function postActiveOrderListHandler(orderList) {
                                               "<td>" + order.supplier.companyName + "</td>" +
                                               "<td>" + dateOpen + "</td>" +
                                               "<td>" + dateClose + "</td>" +
-                                              "<td><div id='" + idProgressBar + "'></div></td>" +
+                                              "<td><div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar2order'></span></div></td>" +
                                               "<td><button type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
                                               "</td>" +
                                               "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
@@ -1217,6 +1219,7 @@ function postActiveOrderListHandler(orderList) {
             $(".detailsOrder").hide();
             $( "#" + idProgressBar ).progressbar({	value: valProgress	});
             $( "#" + idProgressBar ).css('height', '1.8em');
+            $( "#" + idProgressBar + " span" ).text(valProgress.toFixed(2) + "%");
             $("#showDetails_" + order.idOrder).on("click", clickShowDetailsHandler);
         }
         
@@ -1312,11 +1315,12 @@ function postShowDetailsHandler(data) {
         		                       "<td>" + val.minBuy + " - " + val.maxBuy + "</td>" +
     		                       	   "<td id='" + idDispDIV + "' class='dispClass'>" + DispTmp + "</td>" +
     		                       	   "<td id='" + idAmountDIV + "' class='totamountClass'>" + TotAmount + "</td>" +
-    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "'></div></td>" +
+    		                       	   "<td style='padding: 2px;'><div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar1order'></span></div></td>" +
     		                       	   "<td id='" + idparzialeDIV + "'> 0 &euro;</td>" +
     		                   "</tr>");
         
         $( "#" + idProgressBar ).progressbar({	value: 0 });
+        $( "#" + idProgressBar + " span").text("00.00%");
 		$( "#" + idProgressBar ).css('height', '1em');
 		
     });
@@ -1356,6 +1360,7 @@ function postShowDetailsHandler(data) {
     	//Aggiorno progressbar
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
+    	$(idProgressBarProduct + " span").text(progress.toFixed(2) + "%");
     	
     	if(progress < 100) {
     		var selectedTab = getSelectedTabIndex();
@@ -1395,6 +1400,7 @@ function refreshProgress(idOrder) {
     //Aggiorno progressbar ordine generale
     var idProgressBar = "#pbOrder_" + idOrder;
     $(idProgressBar).progressbar('value', valProgress);
+    $(idProgressBar + " span" ).text(valProgress.toFixed(2)	+ "%");
     
     //Aggiorno le progressbar dei prodotti.
     var allProgress = "";
@@ -1428,6 +1434,7 @@ function refreshProgress(idOrder) {
     	//Aggiorno progressbar
     	var idProgressBarProduct =  "#pbProduct_" + idOrder + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
+    	$(idProgressBarProduct + " span" ).text(progress.toFixed(2)	+ "%");
     	
     });	
     
