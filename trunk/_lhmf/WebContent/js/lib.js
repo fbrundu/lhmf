@@ -777,7 +777,7 @@ function getMyNotifies()
         {
           tabellaNotifiche += "L'ordine '"
             + orderName
-            + "' &eacute; stato chiuso con fallimento: <a href='' class='closedOrderNot' name='"
+            + "' &eacute; fallito: <a href='' class='closedOrderNot' name='"
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
