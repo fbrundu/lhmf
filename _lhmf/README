@@ -93,16 +93,17 @@ Applicazioni Internet - Gas
 *1 Nuovo prodotto [Responsabile]
 *2 Nuovo ordine [Normale, Resp]
 *3 Modifica Disponibilità Prodotto in Listino [Resp]
-*4 Chiusura Ordine [Resp ordine]
+*4 Chiusura Ordine con successo [Resp ordine]
 5 Data di consegna Settata [Normale, Resp] - solo a quelli le cui schede non sono fallite
 *6 Nuovo utente [Admin]
 *7 Ordine 50 % [Normale, Resp]
 *8 Ordine 75 % [Normale, Resp]
 *9 Ordine 90 % [Normale, Resp]
-10 Chiusura Ordine [Normale o Resp partecipante come normale]
-11 Nuovo ordine [Supplier]
-12 Chiusura Ordine [Supplier]
-13 Data di consegna settata [Supplier]
+*10 Chiusura Ordine con successo [Normale o Resp partecipante come normale]
+*11 Nuovo ordine [Supplier]
+*12 Chiusura Ordine con successo [Supplier]
+*13 Data di consegna settata [Supplier]
+*14 Chiusura ordine con fallimento [Utenti partecipanti all'ordine]
 
 # AZIONI DA LOGGARE
 
