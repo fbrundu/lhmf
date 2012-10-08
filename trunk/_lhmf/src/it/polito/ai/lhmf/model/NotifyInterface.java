@@ -184,7 +184,7 @@ public class NotifyInterface
 		return (Integer) query.executeUpdate();
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Notify> getNewNotifiesByUsername(String username) throws InvalidParametersException {
 		List<Notify> notifies = getNotifiesByUsername(username);
 		
@@ -196,8 +196,8 @@ public class NotifyInterface
 		for(Notify n : notifies){
 			if(!n.isIsReaded()){
 				ret.add(n);
-				//FIXME settare la notiica come letta?
-				//n.setIsReaded(true);
+				//Importante settarle come lette per evitare che android riceva continuamente le stesse notifiche!
+				n.setIsReaded(true);
 			}
 		}
 		return ret;

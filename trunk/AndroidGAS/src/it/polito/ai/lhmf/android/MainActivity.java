@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import it.polito.ai.lhmf.android.admin.ActivateMembersActivity;
 import it.polito.ai.lhmf.android.api.Gas;
 import it.polito.ai.lhmf.android.api.util.GasConnectionHolder;
 import it.polito.ai.lhmf.android.normal.ActivePurchasesActivity;
@@ -263,6 +264,9 @@ public class MainActivity extends Activity {
 					prepareRespActivity();
 					break;
 				case MemberTypes.USER_ADMIN:
+					Intent intent = new Intent(getApplicationContext(), ActivateMembersActivity.class);
+					startActivity(intent);
+					MainActivity.this.finish();
 					break;
 				case MemberTypes.USER_SUPPLIER:
 					prepareSupplierActivity();

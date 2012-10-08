@@ -40,6 +40,8 @@ public class MemberSerializer extends JsonSerializer<Member>
 				.getDescription());
 		jgen.writeStringField("memberStatus", value.getMemberStatus()
 				.getDescription());
+		jgen.writeNumberField("memberTypeId", value.getMemberType().getIdMemberType());
+		jgen.writeNumberField("memberStatusId", value.getMemberStatus().getIdMemberStatus());
 		jgen.writeEndObject();
 	}
 

@@ -52,6 +52,8 @@
         <activity android:name=".supplier.SupplierActiveOrdersActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".supplier.SupplierCompletedOrdersActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".supplier.SupplierCompletedOrderDetails" android:screenOrientation="portrait"></activity>
+        <activity android:name=".admin.ActivateMembersActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".admin.MemberDetailsActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
