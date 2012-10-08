@@ -76,4 +76,22 @@
     <string name="date_not_set">Non impostata</string>
     <string name="delivery_date">"Data di consegna: "</string>
     <string name="product_bought_amount">"Quantità acquistata: "</string>
+    <string name="members_activation">Attivazione utenti</string>
+    <string name="no_members">Non ci sono utenti da attivare</string>
+    <string name="member_type">"Tipologia utente: "</string>
+    <string name="mail_verification">"Stato verifica e-mail: "</string>
+    <string name="mail_not_verified">NON VERIFICATA</string>
+    <string name="mail_verified">VERIFICATA</string>
+    <string name="member_normal">Utente normale</string>
+    <string name="member_resp">Responsabile</string>
+    <string name="member_supplier">Fornitore</string>
+    <string name="activate_member">Attiva</string>
+    <string name="member_details">Dettagli utente</string>
+    <string name="email">E-mail:</string>
+    <string name="address">Indirizzo:</string>
+    <string name="city">Città:</string>
+    <string name="state">Stato:</string>
+    <string name="cap">CAP:</string>
+    <string name="telephone">Telefono:</string>
+    <string name="no_tel">Non fornito</string>
 </resources>
