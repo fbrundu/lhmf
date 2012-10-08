@@ -1,58 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainContainer3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    android:gravity="center"
     android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/new_order_button"
+
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_new_order" />
-
-    <Button
-        android:id="@+id/active_orders_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/active_orders" />
-
-    <Button
-        android:id="@+id/completed_orders_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/completed_orders" />
-
-    <Button
-        android:id="@+id/shipped_orders_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="3dp"
-        android:text="@string/shipped_orders" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_head_polito" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp" >
+
+        <RelativeLayout
+            android:id="@+id/internalContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
 
-    <Button
-        android:id="@+id/newPurchaseButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/new_purchase" />
+            <Button
+                android:id="@+id/new_order_button"
+                android:layout_width="125dp"
+                android:layout_height="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/create_new_order" />
 
-    <Button
-        android:id="@+id/activePurchasesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/active_purchases_main" />
-    
-    <Button
-        android:id="@+id/shippedPurchasesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:text="@string/shipped_purchases_main" />
+            <Button
+                android:id="@+id/active_orders_button"
+                android:layout_width="125dp"
+                android:layout_height="75dp"
+                android:layout_alignBaseline="@+id/new_order_button"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/active_orders" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/internalContainer2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp" >
+
+            <Button
+                android:id="@+id/completed_orders_button"
+                android:layout_width="125dp"
+                android:layout_height="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/completed_orders" />
+
+            <Button
+                android:id="@+id/shipped_orders_button"
+                android:layout_width="125dp"
+                android:layout_height="75dp"
+                android:layout_alignBaseline="@+id/completed_orders_button"
+                android:layout_alignBottom="@+id/completed_orders_button"
+                android:layout_alignParentRight="true"
+                android:text="@string/shipped_orders" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/internalContainer3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp" >
+
+            <Button
+                android:id="@+id/newPurchaseButton"
+                android:layout_width="125dp"
+                android:layout_height="75dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/new_purchase" />
+
+            <Button
+                android:id="@+id/activePurchasesButton"
+                android:layout_width="125dp"
+                android:layout_height="75dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/active_purchases_main" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/shippedPurchasesButton"
+            android:layout_width="125dp"
+            android:layout_height="75dp"
+            android:text="@string/shipped_purchases_main" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,34 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainContainer2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
     android:layout_centerVertical="true"
-    android:gravity="center"
     android:orientation="vertical" >
-
-    <Button
-        android:id="@+id/newProductButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/supplier_new_product" />
-
-    <Button
-        android:id="@+id/listinoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/supplier_listino" />
     
-    <Button
-        android:id="@+id/activerOrdersButton"
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/active_orders" />
-    
-    <Button
-        android:id="@+id/completedOrdersButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/completed_orders" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/bg_head_polito" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="30dp" >
+
+        <Button
+            android:id="@+id/newProductButton"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/supplier_new_product" />
+
+        <Button
+            android:id="@+id/listinoButton"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/supplier_listino" />
+
+        <Button
+            android:id="@+id/activerOrdersButton"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginBottom="15dp"
+            android:text="@string/active_orders" />
+
+        <Button
+            android:id="@+id/completedOrdersButton"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:text="@string/completed_orders" />
+
+    </LinearLayout>
 
 </LinearLayout>

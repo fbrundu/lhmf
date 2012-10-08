@@ -214,6 +214,20 @@ public class MainActivity extends Activity {
 		});
 	}
 	
+	private void prepareAdminActivity(){
+		setContentView(R.layout.admin);
+		
+		Button membersActivationButton = (Button) findViewById(R.id.membersActivationButton);
+		membersActivationButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getApplicationContext(), ActivateMembersActivity.class);
+				startActivity(intent);
+			}
+		});
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -264,9 +278,7 @@ public class MainActivity extends Activity {
 					prepareRespActivity();
 					break;
 				case MemberTypes.USER_ADMIN:
-					Intent intent = new Intent(getApplicationContext(), ActivateMembersActivity.class);
-					startActivity(intent);
-					MainActivity.this.finish();
+					prepareAdminActivity();
 					break;
 				case MemberTypes.USER_SUPPLIER:
 					prepareSupplierActivity();
