@@ -78,24 +78,10 @@ public class OrderInterface
 			throw new InvalidParametersException();
 		Integer newOrderId = (Integer) sessionFactory.getCurrentSession().save(order);
 
-		// Invia la notifica agli utenti normali
-		for (Member m : memberInterface.getMembers(MemberTypes.USER_NORMAL))
+		if (newOrderId > 0)
 		{
-			Notify n = new Notify();
-			n.setMember(m);
-			n.setIsReaded(false);
-			// FIXME mettere costanti
-			n.setNotifyCategory(2);
-			n.setText(newOrderId.toString());
-			n.setNotifyTimestamp(new Date());
-			notifyInterface.newNotify(n);
-		}
-
-		// Invia la notifica agli utenti responsabili (che possono partecipare
-		// all'ordine) eccetto il creatore dell'ordine
-		for (Member m : memberInterface.getMembers(MemberTypes.USER_RESP))
-		{
-			if (order.getMember().getIdMember() != m.getIdMember())
+			// Invia la notifica agli utenti normali
+			for (Member m : memberInterface.getMembers(MemberTypes.USER_NORMAL))
 			{
 				Notify n = new Notify();
 				n.setMember(m);
@@ -106,11 +92,42 @@ public class OrderInterface
 				n.setNotifyTimestamp(new Date());
 				notifyInterface.newNotify(n);
 			}
-		}
-		
-		logInterface.createLog("Ha creato l'ordine con id: " + newOrderId,
-				order.getMember().getIdMember());
 
+			// Invia la notifica agli utenti responsabili (che possono
+			// partecipare
+			// all'ordine) eccetto il creatore dell'ordine
+			for (Member m : memberInterface.getMembers(MemberTypes.USER_RESP))
+			{
+				if (order.getMember().getIdMember() != m.getIdMember())
+				{
+					Notify n = new Notify();
+					n.setMember(m);
+					n.setIsReaded(false);
+					// FIXME mettere costanti
+					n.setNotifyCategory(2);
+					n.setText(newOrderId.toString());
+					n.setNotifyTimestamp(new Date());
+					notifyInterface.newNotify(n);
+				}
+			}
+			
+			// Invia la notifica al fornitore
+			Notify n = new Notify();
+			n.setMember(order.getSupplier().getMemberByIdMember());
+			n.setIsReaded(false);
+			// FIXME mettere costanti
+			n.setNotifyCategory(11);
+			n.setText(newOrderId.toString());
+			n.setNotifyTimestamp(new Date());
+			notifyInterface.newNotify(n);
+			
+			logInterface.createLog("Ha creato l'ordine con id: " + newOrderId,
+					order.getMember().getIdMember());
+		}
+		else
+			logInterface.createLog("Ha provato senza successo a creare un ordine",
+					order.getMember().getIdMember());
+			
 		return newOrderId;
 	}
 
@@ -250,7 +267,7 @@ public class OrderInterface
 		
 		Integer result = (Integer) query.executeUpdate();
 
-		// Invio notifica ai membri partecipanti
+		// TODO Invio notifica ai membri partecipanti con schede non fallite
 		for (Purchase p : getOrder(idOrder).getPurchases())
 		{
 			Notify n = new Notify();
@@ -262,6 +279,16 @@ public class OrderInterface
 			n.setNotifyTimestamp(new Date());
 			notifyInterface.newNotify(n);
 		}
+		
+		// Invio notifica al fornitore
+		Notify n = new Notify();
+		n.setMember(getOrder(idOrder).getSupplier().getMemberByIdMember());
+		n.setIsReaded(false);
+		// FIXME mettere costanti
+		n.setNotifyCategory(13);
+		n.setText(idOrder.toString());
+		n.setNotifyTimestamp(new Date());
+		notifyInterface.newNotify(n);
 		
 		return result;
 	}
@@ -1083,6 +1110,44 @@ public class OrderInterface
 						nn.setIsReaded(false);
 						// FIXME mettere costanti
 						nn.setNotifyCategory(10);
+						nn.setText(orderTmp.getIdOrder().toString());
+						nn.setNotifyTimestamp(new Date());
+						try
+						{
+							notifyInterface.newNotify(nn);
+						}
+						catch (Exception e)
+						{
+							e.printStackTrace();
+						}
+					}
+					// Manda notifica al fornitore
+					Notify nn = new Notify();
+					nn.setMember(orderTmp.getSupplier().getMemberByIdMember());
+					nn.setIsReaded(false);
+					// FIXME mettere costanti
+					nn.setNotifyCategory(12);
+					nn.setText(orderTmp.getIdOrder().toString());
+					nn.setNotifyTimestamp(new Date());
+					try
+					{
+						notifyInterface.newNotify(nn);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+				else
+				{ 
+					// Manda notifica di fallimento agli utenti partecipanti
+					for (Purchase p : orderTmp.getPurchases())
+					{
+						Notify nn = new Notify();
+						nn.setMember(p.getMember());
+						nn.setIsReaded(false);
+						// FIXME mettere costanti
+						nn.setNotifyCategory(14);
 						nn.setText(orderTmp.getIdOrder().toString());
 						nn.setNotifyTimestamp(new Date());
 						try

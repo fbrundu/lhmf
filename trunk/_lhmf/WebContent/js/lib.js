@@ -733,6 +733,54 @@ function getMyNotifies()
             + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
         });
         break;
+      // Nuovo ordine (fornitore)
+      case 11:
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "Nuovo ordine: '" + orderName
+              + "' <a href='' class='newOrderNot' name='"
+              + notifiesList[notIndex].text
+              + "'>Visualizza dettagli</a>";
+        });
+        break;
+      // Ordine chiuso (fornitore)
+      case 12:
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine '"
+            + orderName
+            + "' &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
+        break;
+      // Data di consegna settata (fornitore)
+      case 13:
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine '"
+            + orderName
+            + "' &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
+        break;
+      // Ordine chiuso con fallimento (utenti partecipanti all'ordine)
+      case 14:
+        $.getSync("ajax/getordername", {
+          'idOrder' : notifiesList[notIndex].text
+        }, function(orderName)
+        {
+          tabellaNotifiche += "L'ordine '"
+            + orderName
+            + "' &eacute; stato chiuso con fallimento: <a href='' class='closedOrderNot' name='"
+            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        });
+        break;
       default:
         tabellaNotifiche += notifiesList[notIndex].text;
         break;
