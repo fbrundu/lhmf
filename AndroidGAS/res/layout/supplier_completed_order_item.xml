@@ -95,7 +95,7 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textView59"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/textView3"
+            android:layout_toRightOf="@+id/textView59"
             android:text="@string/date_not_set"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 

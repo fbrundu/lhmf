@@ -32,7 +32,6 @@ import android.os.IBinder;
 -NEW ORDER per supplier		(visualizzare progresso ordine come in active orders)
 -ORDINE CHIUSO per supplier (visualizzare data di consegna non impostata/impostata)
 -DATA CONSEGNA IMPOSTATA PER SUPPLIER
--SCHEDA FALLITA per normal/resp
 
 MODIFICARE:
 -consegna impostata per utenti solo per quelli le cui schede non sono fallite 

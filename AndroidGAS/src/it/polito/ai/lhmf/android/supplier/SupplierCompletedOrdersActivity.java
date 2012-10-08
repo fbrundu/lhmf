@@ -130,9 +130,9 @@ public class SupplierCompletedOrdersActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					//Intent intent = new Intent(getApplicationContext(), SupplierCompletedOrderDetails.class);
-					//intent.putExtra("order", order);
-					//startActivity(intent);
+					Intent intent = new Intent(getApplicationContext(), SupplierCompletedOrderDetails.class);
+					intent.putExtra("order", order);
+					startActivity(intent);
 				}
 			});
 			
