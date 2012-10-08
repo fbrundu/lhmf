@@ -70,16 +70,24 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
   								Ordini -> OK
   - Resp -> Ordini -> 	Crea Ordine -> OK
   						Ordini Attivi -> OK
+  						Ordini Completati -> OK
+  						Ordini In consegna -> OK
+  						Storico Ordini -> OK
   			Schede di acquisto -> 	Crea Scheda -> Creazione scheda OK ma ogni tanto sfasa le categorie dei prodotti (Vedi immagine)
   									Schede Attive -> OK
   									Schede in consegna -> OK
   			Statistiche -> OK
-  									
+  -Normale -> 	Schede di acquisto ->	Crea scheda -> OK
+  										Schede attive -> OK
+  										Schede in consegna -> OK
+  				Statistiche -> OK
   									
   									
 Notifiche ->Nuovo prodotto -> OK
 			Nuovo ordine -> OK
 			Nuovo utente -> OK
+			Modifica Disp  Prodotto in Listino -> OK
+			Data di consegna Settata -> OK
 			Ordine 50 % -> OK
 			Ordine 75 % -> OK
 			Ordine 90 % -> OK
