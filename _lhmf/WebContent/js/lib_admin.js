@@ -50,17 +50,17 @@ function historyStateChanged() {
     break;
   case 'log':
     writeLogPage();
-    if (!!stateData.min && !!stateData.max)
+    if (!!stateData.min && !!stateData.max && !!stateData.p && !!stateData.i)
     {
       $('#logMin').datepicker("setDate", new Date(stateData.min));
       $('#logMax').datepicker("setDate", new Date(stateData.max));
-      showLogs(stateData.min, stateData.max);
+      showLogs(stateData.min, stateData.max, stateData.p, stateData.i);
     }
     else
     {
       $('#logMin').datepicker("setDate", Date.now());
       $('#logMax').datepicker("setDate", Date.now());
-      showLogs(Date.now(), Date.now());
+      showLogs(Date.now(), Date.now(), 1, 10);
     }
     break;
   case 'userMgmt':
@@ -132,7 +132,7 @@ function productClicked(event) {
   }
 }
 
-function showLogs(startTime, endTime){
+function showLogs(startTime, endTime, page, itemsPerPage){
   $.getJSON("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
     console.log("Ricevuti log");
     $("#logs").html("");
@@ -140,32 +140,54 @@ function showLogs(startTime, endTime){
     //$("#logs").fadeOut(500, function() {
       
     //});
-    if(logList.length > 0){
-      $("#logs").append("<tr>  <th class='top' width='10%'> ID </th>" +
-                  "<th class='top' width='20%'> Membro </th>" +
-                  "<th class='top' width='20%'> Timestamp  </th>" +
-                  "<th class='top' width='50%'> Testo  </th> </tr>");
-      for(var i = 0; i < logList.length; i++){
-        var log = logList[i];
-        var dateTemp = $.datepicker.formatDate('dd-mm-yy', new Date(log.logTimestamp));
-        $("#logs").append("<tr> <td>" + log.idLog +"</td>" +
-                           "<td>" + log.member.name + " " + log.member.surname + "</td>" +
-                           "<td>" + dateTemp + "</td>" +
-                           "<td>" + log.logtext + "</td></tr>");
-      }
+    var startIndex = (page - 1) * itemsPerPage;
     
-      $("#logs").fadeIn(1000);
-    } else {
-        
-        $("#logs").show();
-        $("#errorDivLog").hide();
-        $("#legendErrorLog").html("Comunicazione");
-        $("#errorsLog").append("Non ci sono Log  da visualizzare<br /><br />");
-        $("#errorDivLog").show("slow");
-        $("#errorDivLog").fadeIn(1000);
+    var numberOfPages = Math.ceil(logList.length/itemsPerPage);
     
+    if(startIndex > logList.length)
+    {
+      page = numberOfPages;
+      startIndex = (page - 1) * itemsPerPage;
     }
-    
+
+    var endBound = page * itemsPerPage;
+
+    if (logList.length > 0)
+    {
+      $("#logs").append(
+          "<tr>  <th class='top' width='10%'> ID </th>"
+              + "<th class='top' width='20%'> Membro </th>"
+              + "<th class='top' width='20%'> Timestamp  </th>"
+              + "<th class='top' width='50%'> Testo  </th> </tr>");
+      if (endBound > logList.length)
+        endBound = logList.length;
+      for ( var i = startIndex; i < endBound; i++)
+      {
+        var log = logList[i];
+        var dateTemp = $.datepicker.formatDate('dd-mm-yy', new Date(
+            log.logTimestamp));
+        $("#logs").append(
+            "<tr> <td>" + log.idLog + "</td>" + "<td>" + log.member.name + " "
+                + log.member.surname + "</td>" + "<td>" + dateTemp + "</td>"
+                + "<td>" + log.logtext + "</td></tr>");
+      }
+      var pages = "<option value='1' selected='selected'>1</option>";
+      for (i = 2; i <= numberOfPages; i++)
+        pages += "<option value='"+i+"'>"+i+"</option>";
+      $("#logPage").html(pages);
+      $("#logPage").val(page);
+      $("#logItemsPerPage").val(itemsPerPage);
+      $("#logs").fadeIn(1000);
+    }
+    else
+    {
+      $("#logs").show();
+      $("#errorDivLog").hide();
+      $("#legendErrorLog").html("Comunicazione");
+      $("#errorsLog").append("Non ci sono Log  da visualizzare<br /><br />");
+      $("#errorDivLog").show("slow");
+      $("#errorDivLog").fadeIn(1000);
+    }
   });
 }
 
@@ -360,24 +382,34 @@ function writeLogPage(){
   $("#bodyTitleHeader").html("Consultazione log");
   $(".centrale").html("<div id='tabs'><ul><li><a href='#tabs-1'>Consulta Log</a></li></ul>" +
   "<div id='tabs-1'></div></div>");
-  $('#tabs-1').html("<div class='logform'>" +
-              "<form method='get' action='log'>" +
-                "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />" +
-                  "<label for='logMin' class='left'>Data iniziale: </label>" +
-                  "<input type='text' id='logMin' class='field'/>" +
-                  "<label for='logMax' class='left'>Data finale: </label>" +
-                  "<input type='text' id='logMax' class='field'/>" +
-                "</fieldset>" +
-                          "</form>" +
-              "<table id='logs' class='log'></table>" +
-              "<div id='errorDivLog' style='display:none;'>" +
-                              "<fieldset><legend id='legendErrorLog'>&nbsp;Errore&nbsp;</legend><br />" +
-                               "<div id='errorsLog' style='padding-left: 40px'>" +
-                                "</div>" +
-                              "</fieldset>" +
-                          "</div>" +
-            "</div>" +
-            "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+  $('#tabs-1')
+      .html(
+          "<div class='logform'>"
+              + "<form method='get' action='log'>"
+              + "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />"
+              + "<label for='logMin' class='left'>Data iniziale: </label>"
+              + "<input type='text' id='logMin' class='field'/>"
+              + "<label for='logMax' class='left'>Data finale: </label>"
+              + "<input type='text' id='logMax' class='field'/>"
+              + "<label for='logPage' class='left'>Pagina: </label>"
+              + "<select id='logPage' class='field'></select>"
+              + "<label for='logItemsPerPage' class='left'>Elementi per pagina: </label>"
+              + "<select id='logItemsPerPage' class='field'>"
+              + "<option value='10' selected='selected'> 10 </option>"
+              + "<option value='25'> 25 </option>"
+              + "<option value='50'> 50 </option>"
+              + "</select>"
+              + "</fieldset>"
+              + "</form>"
+              + "<table id='logs' class='log'></table>"
+              + "<div id='errorDivLog' style='display:none;'>"
+              + "<fieldset><legend id='legendErrorLog'>&nbsp;Errore&nbsp;</legend><br />"
+              + "<div id='errorsLog' style='padding-left: 40px'>"
+              + "</div>"
+              + "</fieldset>"
+              + "</div>"
+              + "</div>"
+              + "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
   $('#tabs').tabs();
   $( "#dialog" ).dialog({ autoOpen: false });
   prepareLogForm();
@@ -932,28 +964,62 @@ function prepareLogForm(){
 	
 	$("#logMin").change(logRequestHandler);
   $("#logMax").change(logRequestHandler);
+  $("#logPage").change(logRequestHandler);
+  $("#logItemsPerPage").change(logRequestHandler);
+ 
+  var startDate = new Date();
+  var endDate = new Date();
+  endDate.setHours(23);
+  endDate.setMinutes(59);
+  endDate.setSeconds(59);
+  endDate.setMilliseconds(999);
+  var logsAmount = 0;
+  $.getSync("ajax/getlogsamount", {
+    start : (startDate.getTime()),
+    end : (endDate.getTime())
+  }, function(amount)
+  {
+    logsAmount = amount;
+  });
+  var initialNumberOfPages = Math.ceil(logsAmount/10);
+  var pages = "<option value='1' selected='selected'>1</option>";
+  for (i = 2; i <= initialNumberOfPages; i++)
+    pages += "<option value='"+i+"'>"+i+"</option>";
+  $("#logPage").html(pages);
 }
 
 function logRequestHandler()
 {
   var startDate = $('#logMin').datepicker("getDate");
   var endDate = $('#logMax').datepicker("getDate");
+  var page = $("#logPage").val();
+  var itemsPerPage = $("#logItemsPerPage").val();
   if(startDate == null || endDate == null || startDate > endDate){
     // $('body').append('<div id="dialog" title="Errore nell\'input delle date">
     // <p>Selezionale entrambe le date (o nel corretto ordine cronologico).
     // </p></div>');
     $( "#dialog" ).dialog('open');
   }
-  else{
+  else
+  {
     endDate.setHours(23);
     endDate.setMinutes(59);
     endDate.setSeconds(59);
     endDate.setMilliseconds(999);
-  
+
     var History = window.History;
-    if(History.enabled)
-      History.pushState({action: 'log', min: startDate.getTime(), max: endDate.getTime()}, null, "./log?min=" + startDate.getTime() + "&max=" + endDate.getTime());
-    else{
+    if (History.enabled)
+      History
+          .pushState({
+            action : 'log',
+            min : startDate.getTime(),
+            max : endDate.getTime(),
+            p : page,
+            i : itemsPerPage
+          }, null, "./log?min=" + startDate.getTime() + "&max="
+              + endDate.getTime());
+    else
+    {
       $("form #logMin").val(startDate.getTime());
       $("form #logMax").val(endDate.getTime());
       $("form").submit();
