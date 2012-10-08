@@ -1,5 +1,6 @@
 package it.polito.ai.lhmf.android.api.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.polito.ai.lhmf.android.api.Gas;
@@ -291,6 +292,21 @@ public class OrderTemplate implements OrderOperations {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	@Override
+	public OrderProduct[] getOrderProductsSupplier(Integer idOrder) {
+		OrderProduct[] tmp = getOrderProducts(idOrder);
+		if(tmp != null && tmp.length > 0){
+			List<OrderProduct> ret = new ArrayList<OrderProduct>();
+			for(OrderProduct op : tmp)
+				if(op.isFailed() == false)
+					ret.add(op);
+			
+			return ret.toArray(new OrderProduct[0]);
+		}
+		else
+			return null;
 	}
 
 }

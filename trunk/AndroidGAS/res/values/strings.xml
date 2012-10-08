@@ -75,4 +75,5 @@
     <string name="shipped_purchases_main">Schede in consegna</string>
     <string name="date_not_set">Non impostata</string>
     <string name="delivery_date">"Data di consegna: "</string>
+    <string name="product_bought_amount">"Quantità acquistata: "</string>
 </resources>

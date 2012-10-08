@@ -11,5 +11,6 @@
         <ignore path="src\it\polito\ai\lhmf\android\normal\EditPurchaseActivity.java" />
         <ignore path="src\it\polito\ai\lhmf\android\normal\NewPurchaseActivity.java" />
         <ignore path="src\it\polito\ai\lhmf\android\resp\SetOrderDeliveryActivity.java" />
+        <ignore path="src\it\polito\ai\lhmf\android\supplier\SupplierCompletedOrderDetails.java" />
     </issue>
 </lint>

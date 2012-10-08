@@ -42,4 +42,6 @@ public interface OrderOperations {
 	Order[] getSupplierActiveOrders();
 
 	Order[] getSupplierCompletedOrders();
+
+	OrderProduct[] getOrderProductsSupplier(Integer idOrder);
 }
