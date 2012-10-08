@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -302,5 +304,15 @@ public class AndroidOrderController {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.SUPPLIER + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/androidApi/getcompletedordercost", method = RequestMethod.GET)
+	public @ResponseBody
+	Float getPurchaseCost(HttpServletRequest request, Principal principal, 
+			@RequestParam(value="idOrder", required = true)Integer idOrder) throws InvalidParametersException
+	{
+		return orderInterface.getCompletedOrderCost(principal.getName(), idOrder);
 	}
 }

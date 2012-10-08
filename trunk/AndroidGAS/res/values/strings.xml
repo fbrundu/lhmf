@@ -59,7 +59,6 @@
     <string name="status">"Stato: "</string>
     <string name="failed">FALLITO</string>
     <string name="ok">OK</string>
-    <string name="delivery_date">Data di consegna: </string>
     <string name="set_delivery">Impostazione data di consegna</string>
     <string name="completed_order">Ordine completato</string>
     <string name="delivery">"Consegna: "</string>
@@ -75,4 +74,5 @@
     <string name="new_product_supplier">Fornitore:</string>
     <string name="shipped_purchases_main">Schede in consegna</string>
     <string name="date_not_set">Non impostata</string>
+    <string name="delivery_date">"Data di consegna: "</string>
 </resources>

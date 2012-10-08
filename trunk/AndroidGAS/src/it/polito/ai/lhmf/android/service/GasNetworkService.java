@@ -27,6 +27,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
 
+/* TODO NUOVE NOTIFICHE:
+-ORDINE CHIUSO per utenti normali
+-NEW ORDER per supplier		(visualizzare progresso ordine come in active orders)
+-ORDINE CHIUSO per supplier (visualizzare data di consegna non impostata/impostata)
+-DATA CONSEGNA IMPOSTATA PER SUPPLIER
+-SCHEDA FALLITA per normal/resp
+
+MODIFICARE:
+-consegna impostata per utenti solo per quelli le cui schede non sono fallite 
+*/
 public class GasNetworkService extends Service {
 	public static final int LOGIN_REQUIRED_NOTIFICATION = -1;  //Tutti
 	public static final int BASIC_NOTIFICATION = 0; //Tutti

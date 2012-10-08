@@ -50,6 +50,7 @@
         <activity android:name=".CompletedPurchaseDetailsActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".normal.PurchasesToShipActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".supplier.SupplierActiveOrdersActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".supplier.SupplierCompletedOrdersActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -1192,4 +1192,28 @@ public class OrderInterface
 
 		return ret;
 	}
+
+	@Transactional(readOnly = true)
+	public Float getCompletedOrderCost(String username, Integer idOrder) throws InvalidParametersException {
+		if (username == null || idOrder == null)
+			throw new InvalidParametersException();
+		Member member = memberInterface.getMember(username);
+		Order order = getOrder(idOrder);
+		
+		if(member == null || order == null)
+			return null;
+		
+		if(member.getIdMember() != order.getSupplier().getIdMember() &&member.getIdMember() != order.getMember().getIdMember())
+			return null;
+		
+		float ret = 0.0f;
+		for(Purchase p : order.getPurchases()){
+			Float costTmp = purchaseInterface.getPurchaseCost(username, p.getIdPurchase(), true);
+			if(costTmp == null)
+				return null;
+			else if(costTmp > 0)
+				ret += costTmp;
+		}
+		return ret;
+	}
 }

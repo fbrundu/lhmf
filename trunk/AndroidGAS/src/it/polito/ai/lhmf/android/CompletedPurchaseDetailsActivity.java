@@ -23,6 +23,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class CompletedPurchaseDetailsActivity extends Activity{
 	private ListView productsListView = null;
 	private TextView userName = null;
 	private TextView orderName = null;
+	private TextView deliveryLabel = null;
+	private TextView orderDelivery = null; 
 	private TextView status = null;
 	private TextView noProducts = null;
 	
@@ -78,6 +81,9 @@ public class CompletedPurchaseDetailsActivity extends Activity{
 				orderName = (TextView) findViewById(R.id.purchase_order_name);
 				orderName.setText(order.getOrderName());
 				
+				deliveryLabel = (TextView) findViewById(R.id.deliveryLabel);
+				orderDelivery = (TextView) findViewById(R.id.orderDeliveryDate);
+				
 				status = (TextView) findViewById(R.id.status_text);
 				
 				purchaseCostLayout = findViewById(R.id.purchaseCostLayout);
@@ -87,11 +93,17 @@ public class CompletedPurchaseDetailsActivity extends Activity{
 					status.setText(R.string.failedF);
 					status.setTextColor(Color.RED);
 					purchaseCostLayout.setVisibility(View.GONE);
+					deliveryLabel.setVisibility(View.GONE);
+					orderDelivery.setVisibility(View.GONE);
 				}
 				else{
 					status.setText(R.string.ok);
 					status.setTextColor(Color.GREEN);
 					purchaseTotalCost.setText(String.format("%.2f", purchase.getTotCost()));
+					if(order.getDateDelivery() != null)
+						orderDelivery.setText(DateFormat.format("dd/MM/yyyy", order.getDateDelivery()));
+					deliveryLabel.setVisibility(View.VISIBLE);
+					orderDelivery.setVisibility(View.VISIBLE);
 				}
 					
 				new GetCompletedPurchaseProductsTask().execute(api, purchase.getIdPurchase(), order.getIdOrder());
