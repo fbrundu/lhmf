@@ -739,6 +739,7 @@ function prepareOrderForm(tab){
 
     $("body").delegate(".shipButton", "click", clickSetShipPurchaseHandler);
     $("body").delegate(".detailsButton", "click", clickShowDetailsPurchaseHandler);
+    $("body").delegate(".detailsButton2", "click", clickShowDetailsHandler);
     $("body").delegate(".mapButton", "click", drawMapOrder);
     
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
@@ -1211,8 +1212,7 @@ function postActiveOrderListHandler(orderList) {
                                               "<td>" + dateOpen + "</td>" +
                                               "<td>" + dateClose + "</td>" +
                                               "<td><div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar2order'></span></div></td>" +
-                                              "<td><button type='submit' id='showDetails_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
-                                              "</td>" +
+                                              "<td><img src='img/details.png' class='detailsButton2' height='12px' data-idorder='" + order.idOrder + "'></td>" +
                                               "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
                                               "</tr>" +
                                          "<tr class='detailsOrder' id='TRdetailsOrderActive_" + order.idOrder + "'><td colspan='7' id='TDdetailsOrderActive_" + order.idOrder + "'></td></tr>");
@@ -1220,11 +1220,8 @@ function postActiveOrderListHandler(orderList) {
             $( "#" + idProgressBar ).progressbar({	value: valProgress	});
             $( "#" + idProgressBar ).css('height', '1.8em');
             $( "#" + idProgressBar + " span" ).text(valProgress.toFixed(2) + "%");
-            $("#showDetails_" + order.idOrder).on("click", clickShowDetailsHandler);
         }
-        
-        $("button").button();
-    
+            
         $("#activeOrderList").show("slow");
         $("#activeOrderList").fadeIn(1000);
         $("#errorDivActiveOrder").hide();
@@ -1679,7 +1676,7 @@ function postOldOrderListHandler(orderList) {
     else 
     {
         
-        $("#oldOrderList").hide();
+        $("#oldOrderList").show();
         $("#errorDivOldOrder").hide();
         $("#legendErrorOldOrder").html("Comunicazione");
         $("#errorsOldOrder").html("Non ci sono Ordini da visualizzare<br /><br />");
