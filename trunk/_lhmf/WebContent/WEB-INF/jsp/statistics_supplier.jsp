@@ -25,7 +25,8 @@
           }, null, newState.url);
           History.replaceState(newState.data, newState.title, newState.url);
         }
-        writeStatPageSupplier();
+        else
+        	writeStatPageSupplier();
       }
     </script>
 	</jsp:attribute>

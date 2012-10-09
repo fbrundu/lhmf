@@ -24,13 +24,17 @@ public class IndexController
 		switch ((Integer) session.getAttribute("member_type"))
 		{
 		case MemberTypes.USER_NORMAL:
-			return new ModelAndView("index_normal");
+			//return new ModelAndView("index_normal");
+			return new ModelAndView("purchase_normal");
 		case MemberTypes.USER_RESP:
-			return new ModelAndView("index_resp");
+			//return new ModelAndView("index_resp");
+			return new ModelAndView("order_resp");
 		case MemberTypes.USER_SUPPLIER:
-			return new ModelAndView("index_supplier");
+			//return new ModelAndView("index_supplier");
+			return new ModelAndView("productsMgmt_supplier");
 		case MemberTypes.USER_ADMIN:
-			return new ModelAndView("index_admin");
+			//return new ModelAndView("index_admin");
+			return new ModelAndView("userMgmt_admin");
 		default:
 			return new ModelAndView("error");
 		}
