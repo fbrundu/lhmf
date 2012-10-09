@@ -75,7 +75,7 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
   						Ordini Completati -> OK
   						Ordini In consegna -> OK
   						Storico Ordini -> OK
-  			Schede di acquisto -> 	Crea Scheda -> OK
+  			Schede di acquisto -> 	Crea Scheda -> se un resp prova a visualizzare i prodotti relativi a un ordine di un altro responsabile non riesce a visualizzarne i prodotti nonostante siano desponibili
   									Schede Attive -> OK
   									Schede in consegna -> OK
   			Statistiche -> OK
@@ -106,3 +106,4 @@ LOG ->	nella visualizzazione log, aprendo la pagina con la data odierna, la prim
 		utente/resp modifica scheda -> OK sia norm che resp (probabilmente è una scelta implementativa, ma se viene cancellato un prodotto e poi modificata una scheda, il log segnala solo la cancellazione e non la modifica della scheda)
 		utente/resp elimina scheda -> OK
 		
+Messaggi -> inviati tra tutti i tipi di utenti e sono OK
