@@ -121,8 +121,6 @@ public class AndroidProductsController {
 	{
 		try
 		{
-			if (!picture.getContentType().matches("image/.*"))
-				return -1;
 			return productInterface.newProduct(principal.getName(), productName, productDescription,
 					productDimension, measureUnit, unitBlock, transportCost,
 					unitCost, minBuy, maxBuy, idProductCategory, picture,
