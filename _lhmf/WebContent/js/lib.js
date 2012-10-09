@@ -661,7 +661,7 @@ function getMyNotifies()
       case 7:
         $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; al 50%: " +
+          tabellaNotifiche += "L'ordine '" + orderName + "' ha superato la soglia del 50%: " +
           	"<a href='' class='orderNotify' " +
           	"data-idorder='" + notifiesList[notIndex].text +"' " +
           	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
@@ -671,7 +671,7 @@ function getMyNotifies()
       case 8:
         $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; al 75%: " +
+          tabellaNotifiche += "L'ordine '" + orderName + "' ha superato la soglia del 75%: " +
           	"<a href='' class='orderNotify' " +
         	"data-idorder='" + notifiesList[notIndex].text +"' " +
         	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
@@ -681,7 +681,7 @@ function getMyNotifies()
       case 9:
         $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; al 90%: " +
+          tabellaNotifiche += "L'ordine '" + orderName + "' ha superato la soglia del 90%: " +
           	"<a href='' class='orderNotify' " +
         	"data-idorder='" + notifiesList[notIndex].text +"' " +
         	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
