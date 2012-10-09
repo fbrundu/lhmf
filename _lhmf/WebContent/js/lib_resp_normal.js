@@ -131,6 +131,11 @@ function preparePurchaseForm(idOrd){
     
     loadPurchaseActive();
     
+    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 1) {
+    	idPurchase = idOrd;
+    	clickPurchaseDetailsHandler();
+    }
+    
     if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 2) 
     	idToHighLight = idO;
     
@@ -234,9 +239,13 @@ function postActivePurchaseListHandler(purchaseList)
             	valProgress = data;
     	    });
             
+            var style = "";
+            if(idToHighLight != 0 && purchase.order.idOrder == idToHighLight) {
+           	 style = "style='background-color: #BABAC2'";
+           	 idToHighLight = 0;
+            }
             
-            
-            $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "'> <td>" + purchase.order.orderName + "</td>" +
+            $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "' " + style + "> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td><button type='submit' id='showDetails_" + purchase.idPurchase + "' data-idpurchase='" + purchase.idPurchase + "'> Dettagli </button>" +
@@ -689,10 +698,13 @@ function computeTotal(){
 
 function clickPurchaseDetailsHandler(event) 
 {
-    event.preventDefault();
+	if(typeof event != 'undefined')
+		event.preventDefault();
     
     $(".detailsPurchase").hide();
-    idPurchase = $(this).data('idpurchase');
+    
+    if(typeof event != 'undefined')
+    	idPurchase = $(this).data('idpurchase');
     
     $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
 }

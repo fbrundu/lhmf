@@ -947,7 +947,7 @@ function viewOrderDetails(idOrder, notifyCategory)
   					$( this ).dialog( "close" );
   					  var History = window.History;	
   					  if (History.enabled == true) 
-  					    History.pushState({ action : varAction, id: idOrder, tab: 2 }, null, varAction);
+  					    History.pushState({ action : varAction, idOrd: idOrder, tab: 2 }, null, varAction);
   				},
       			"Chiudi": function() {
       				$( this ).dialog( "close" );
@@ -960,8 +960,66 @@ function viewOrderDetails(idOrder, notifyCategory)
     case 8:
     case 9:
     	
+    	//7 Ordine 50 % [Normale, Resp]
+    	//8 Ordine 75 % [Normale, Resp]
+    	//9 Ordine 90 % [Normale, Resp]
     	// Se l'utente ha una scheda per quell'ordine, rimandare alla modifica scheda
     	// Se l'utente non ha una scheda per quell'ordine, rimanadare a creazione scheda.
+    	
+    	if (memberType == 0) 
+    		varAction = "purchase";
+    	else if (memberType == 1)
+    		varAction = "purchaseResp";
+    	
+    	var hasPurchase = "";
+        $.postSync("ajax/getHasPurchaseForOrder", { idOrder: idOrder }, function(result)
+        {
+        	hasPurchase = result;
+        });
+        
+        if(hasPurchase != null) {
+        	
+        	//L'utente ha la scheda d'acquisto. Spedirlo nella modifica scheda
+        	
+        	$("#dialog-notify").attr('title', "Notifica Progresso Ordine");
+       	 
+	       	 $( "#dialog-notify" ).dialog({
+	         		resizable: false, height:600, width:800, modal: true,
+	         		buttons: {
+	         			"Visualizza la tua scheda": function() {
+	     					$( this ).dialog( "close" );
+	     					  var History = window.History;	
+	     					  if (History.enabled == true) 
+	     					    History.pushState({ action : varAction, idOrd: hasPurchase, tab: 1 }, null, varAction);
+	     				},
+	         			"Chiudi": function() {
+	         				$( this ).dialog( "close" );
+	         			}
+	         		}
+	         	});
+        	
+        	
+        } else {
+        	
+        	//L'utente non ha la scheda. Spedirlo in creazione scheda
+        	
+        	$("#dialog-notify").attr('title', "Notifica Progresso Ordine");
+       	 
+	       	 $( "#dialog-notify" ).dialog({
+	         		resizable: false, height:600, width:800, modal: true,
+	         		buttons: {
+	         			"Crea una scheda per questo Ordine": function() {
+	     					$( this ).dialog( "close" );
+	     					  var History = window.History;	
+	     					  if (History.enabled == true) 
+	     					    History.pushState({ action : varAction, idOrd: idOrder, tab: 0 }, null, varAction);
+	     				},
+	         			"Chiudi": function() {
+	         				$( this ).dialog( "close" );
+	         			}
+	         		}
+	         	});
+        }
     	
     	break;
     case 10:
