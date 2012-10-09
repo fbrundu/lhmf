@@ -58,9 +58,19 @@ function historyStateChanged() {
     }
     else
     {
-      $('#logMin').datepicker("setDate", Date.now());
-      $('#logMax').datepicker("setDate", Date.now());
-      showLogs(Date.now(), Date.now(), 1, 10);
+      var startDate = new Date();
+      startDate.setHours(0);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+      startDate.setMilliseconds(0);
+      var endDate = new Date();
+      endDate.setHours(23);
+      endDate.setMinutes(59);
+      endDate.setSeconds(59);
+      endDate.setMilliseconds(999);
+      $('#logMin').datepicker("setDate", startDate);
+      $('#logMax').datepicker("setDate", endDate);
+      showLogs(startDate.getTime(), endDate.getTime(), 1, 10);
     }
     break;
   case 'userMgmt':
@@ -132,7 +142,7 @@ function productClicked(event) {
   }
 }
 
-function showLogs(startTime, endTime, page, itemsPerPage, scroll){
+function showLogs(startTime, endTime, page, itemsPerPage){
   $.getSync("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
     console.log("Ricevuti log");
     $("#logs").html("");
@@ -748,12 +758,12 @@ function prepareLogForm(){
 		defaultDate: 0,
 		maxDate: 0
 		});
-	//$('#logMin').datepicker("setDate", Date.now());
+	$('#logMin').datepicker("setDate", Date.now());
 	$('#logMax').datepicker({
 		defaultDate: 0,
 		maxDate: 0
 		});
-	//$('#logMax').datepicker("setDate", Date.now());
+	$('#logMax').datepicker("setDate", Date.now());
 	
 	$("#logMin").change(logRequestHandler);
   $("#logMax").change(logRequestHandler);
@@ -784,20 +794,15 @@ function prepareLogForm(){
     pages += "<option value='"+i+"'>"+i+"</option>";
   $("#logPage").html(pages);
   $("#logsAmountDisplay").html("&nbsp;"+logsAmount+" log trovati");
-  //logRequestHandler();
 }
 
 function logRequestHandler()
 {
-  var scroll = $("body").scrollTop();
   var startDate = $('#logMin').datepicker("getDate");
   var endDate = $('#logMax').datepicker("getDate");
   var page = $("#logPage").val();
   var itemsPerPage = $("#logItemsPerPage").val();
   if(startDate == null || endDate == null || startDate > endDate){
-    // $('body').append('<div id="dialog" title="Errore nell\'input delle date">
-    // <p>Selezionale entrambe le date (o nel corretto ordine cronologico).
-    // </p></div>');
     $( "#dialog" ).dialog('open');
   }
   else
