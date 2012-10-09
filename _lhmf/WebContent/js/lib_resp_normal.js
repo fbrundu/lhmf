@@ -663,8 +663,10 @@ function computeTotal(){
     {
         var amount = $(this).find('input:text').val();
         var price = $(this).data('price');
-        
-        total += amount*price;
+        if (isNumber(amount))
+    	{
+        	total += amount*price;
+    	}
     });
     
     $('#divTotal').html("Totale: <strong style='color: #3C3'>" + total  + " &euro;</strong>");
@@ -1407,6 +1409,10 @@ function refreshProgressBarOrder(idPurchase) {
     	var idProgressBarProduct =  "#progressbarProduct_" + idPurchase + "_" + idProduct;
     	$(idProgressBarProduct).progressbar('value', progress);
     	$(idProgressBarProduct + " span").text(progress.toFixed(2) + "%");
-    });
-    
+    });    
+}
+
+function isNumber(o)
+{
+	return ! isNaN(o-0) && o != null;
 }
