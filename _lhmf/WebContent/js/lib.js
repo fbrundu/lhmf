@@ -1,6 +1,10 @@
 $(function()
 {
+	//$( "#dialog-notify" ).dialog({ autoOpen: false });
+	//$( "#dialog-notify:ui-dialog" ).dialog( "destroy" );
+	
 });
+
 
 (function($)
 {
@@ -149,21 +153,6 @@ function displayFunctionName()
   return functionName;
 }
 
-function getAllSuppliers()
-{
-  $.getJSONsync("ajax/getsuppliers",
-      function(suppliersList)
-      {
-        window.localStorage.setItem('suppliersList', JSON
-            .stringify(suppliersList));
-        console.debug("suppliersList saved in localstorage");
-      });
-}
-
-function loadAllSuppliersFromLocalStorage()
-{
-  return JSON.parse(window.localStorage.getItem('suppliersList'));
-}
 
 function getSupplierAsTableRow(suppliersList, idSupplier)
 {
@@ -177,36 +166,6 @@ function getSupplierAsTableRow(suppliersList, idSupplier)
     if (suppliersList[supplierIndex].idMember == idSupplier)
       return "<td>" + suppliersList[supplierIndex].name
           + suppliersList[supplierIndex].surname + "</td>";
-  }
-  return "";
-}
-
-function getAllResps()
-{
-  $.getJSONsync("ajax/getmembers", function(respsList)
-  {
-    window.sessionStorage.setItem('respsList', JSON.stringify(respsList));
-    console.debug("respsList saved in localstorage");
-  });
-}
-
-function loadAllRespsFromLocalStorage()
-{
-  return JSON.parse(window.sessionStorage.getItem('respsList'));
-}
-
-function getRespAsTableRow(respsList, idResp)
-{
-  if (respsList == undefined || idResp == undefined)
-  {
-    console.debug("Invalid parameters in " + displayFunctionName());
-    return "";
-  }
-  for ( var respIndex in respsList)
-  {
-    if (respsList[respIndex].idMember == idResp)
-      return "<td>" + respsList[respIndex].name + respsList[respIndex].surname
-          + /* respsList[respIndex].idMember + */"</td>";
   }
   return "";
 }
@@ -636,149 +595,133 @@ function getMyNotifies()
       {
       // Nuovo prodotto
       case 1:
-        tabellaNotifiche += "Nuovo prodotto: <a href='' class='newProdNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        tabellaNotifiche += "Nuovo prodotto: "
+        	+ "<a href='' class='productNotify' " +
+        	"data-idproduct='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         break;
       // Nuovo ordine
       case 2:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
           tabellaNotifiche += "Nuovo ordine: '" + orderName
-              + "' <a href='' class='newOrderNot' name='"
-              + notifiesList[notIndex].text
-              + "'>Visualizza dettagli</a>";
+              + "' <a href='' class='orderNotify' " +
+              "data-idorder='" + notifiesList[notIndex].text + "' " +
+              "data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Modifica disponibilita' di un prodotto in listino
       case 3:
-        tabellaNotifiche += "&Eacute; cambiata la disponibilit&agrave; di un prodotto: <a href='' class='chAvailNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        tabellaNotifiche += "&Egrave; cambiata la disponibilit&agrave; di un prodotto: " +
+        	"<a href='' class='productNotify' " +
+        	"data-idproduct='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         break;
       // Ordine chiuso (responsabile ordine)
       case 4:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text}, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '"+ orderName + "' &egrave; stato chiuso: " +
+          	"<a href='' class='orderNotify' " +
+          	"data-idorder='" + notifiesList[notIndex].text +"' " +
+          	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Data di consegna settata
       case 5:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "Impostata la data di consegna per l'ordine '" + orderName + "': " +
+          	"<a href='' class='orderNotify' " +
+          	"data-idorder='" + notifiesList[notIndex].text +"' " +
+          	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Nuovo utente
       case 6:
-        tabellaNotifiche += "Nuovo utente: <a href='' class='newMemberNot' name='"
-          + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+        tabellaNotifiche += "Nuovo utente: " +
+        	"<a href='' class='memberNotify' " +
+        	"data-idmember='" + notifiesList[notIndex].text +"' " +
+          	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         break;
       // Ordine 50%
       case 7:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; al 50%: <a href='' class='ongoingOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; al 50%: " +
+          	"<a href='' class='orderNotify' " +
+          	"data-idorder='" + notifiesList[notIndex].text +"' " +
+          	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Ordine 75%
       case 8:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; al 75%: <a href='' class='ongoingOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; al 75%: " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Ordine 90%
       case 9:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; al 90%: <a href='' class='ongoingOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; al 90%: " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Ordine chiuso (utenti partecipanti)
       case 10:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; stato chiuso: " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Nuovo ordine (fornitore)
       case 11:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "Nuovo ordine: '" + orderName
-              + "' <a href='' class='newOrderNot' name='"
-              + notifiesList[notIndex].text
-              + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "Nuovo ordine: '" + orderName + "' " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Ordine chiuso (fornitore)
       case 12:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; stato chiuso: <a href='' class='closedOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; stato chiuso: " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Data di consegna settata (fornitore)
       case 13:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; stato assegnato per la consegna: <a href='' class='closedOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; stato assegnato per la consegna: " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       // Ordine chiuso con fallimento (utenti partecipanti all'ordine)
       case 14:
-        $.getSync("ajax/getordername", {
-          'idOrder' : notifiesList[notIndex].text
-        }, function(orderName)
+        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
         {
-          tabellaNotifiche += "L'ordine '"
-            + orderName
-            + "' &eacute; fallito: <a href='' class='closedOrderNot' name='"
-            + notifiesList[notIndex].text + "'>Visualizza dettagli</a>";
+          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; fallito: " +
+          	"<a href='' class='orderNotify' " +
+        	"data-idorder='" + notifiesList[notIndex].text +"' " +
+        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
       default:
@@ -794,12 +737,9 @@ function getMyNotifies()
     $(".contentDiv").scrollTop(
         $(".contentDiv").height() - distanceFromBottom + 1);
   $(".not_read_n").click(setReadNotify);
-  $(".newProdNot").click(viewProductClick);
-  $(".newOrderNot").click(viewOrderClick);
-  $(".chAvailNot").click(viewProductClick);
-  $(".newMemberNot").click(viewMemberClick);
-  $(".closedOrderNot").click(viewOrderClick);
-  $(".ongoingOrderNot").click(viewOrderClick);
+  $(".productNotify").click(viewProductClick);
+  $(".orderNotify").click(viewOrderClick);
+  $(".memberNotify").click(viewMemberClick);
   $("#bodyTitleHeader").html("Notifiche");
   $('#notifiesCount').html("0");
   $('#notifiesCount').css("color", "");
@@ -808,27 +748,26 @@ function getMyNotifies()
 function viewProductClick(event)
 {
   event.preventDefault();
-  idProduct = $(this).attr('name');
-  viewProductDetails(idProduct);
-  $(".simplemodal-container").css("width", "auto");
-  $(".simplemodal-container").css("height", "auto");
+  $( "#dialog-notify:ui-dialog" ).dialog( "destroy" );
+  idProduct = $(this).data('idproduct');
+  var notifyCategory = $(this).data('notifycategory');
+  viewProductDetails(idProduct, notifyCategory);
 }
 
 function viewOrderClick(event)
 {
   event.preventDefault();
-  idOrder = $(this).attr('name');
-  viewOrderDetails(idOrder);
-  $(".simplemodal-container").css("width", "auto");
-  $(".simplemodal-container").css("height", "auto");
+  idOrder = $(this).data('idorder');
+  var notifyCategory = $(this).data('notifycategory');
+  viewOrderDetails(idOrder, notifyCategory);
 }
 
 function viewMemberClick(event)
 {
   event.preventDefault();
-  idMember = $(this).attr('name');
-  viewMemberDetails(idMember);
-  $(".simplemodal-container").css("width", "auto");
+  idMember = $(this).data('idmember');
+  var notifyCategory = $(this).data('notifycategory');
+  viewMemberDetails(idMember, notifyCategory);
   $(".simplemodal-container").css("height", "auto");
 }
 
@@ -843,13 +782,11 @@ function filterProducts(myProducts, productCategory)
   return productsFiltered;
 }
 
-function viewProductDetails(idProduct)
+function viewProductDetails(idProduct, notifyCategory)
 {
-  $.postSync("ajax/viewP", {
-    'idProduct' : idProduct
-  }, function(product)
+  $.postSync("ajax/viewP", { idProduct: idProduct }, function(product)
   {
-    var details = "<table><tr><td class='imageTD'><img src='" + product.imgPath + "'/></td>"
+    var details = "<table><tr><td class='imageTD'><img src='" + product.imgPath + "' width='250',/></td>"
      +"<td class='dataTD'><table class='productDetailsTable'>"
     + "<tr><td>Nome</td><td class='fieldTD'>" + product.name + "</td></tr>"
     + "<tr><td>Descrizione</td><td class='fieldTD'>" + product.description + "</td></tr>"
@@ -862,57 +799,249 @@ function viewProductDetails(idProduct)
     else
       details += "Non disponibile";
     details += "</td></tr>";
-    details += "<tr><td>Costo di trasporto</td><td class='fieldTD'>" + product.transportCost + "</td></tr>"
-    + "<tr><td>Costo per unit&agrave;</td><td class='fieldTD'>" + product.unitCost + "</td></tr>"
-    + "<tr><td>Minimo unit&agrave; acquistabili</td><td class='fieldTD'>" + product.minBuy + "</td></tr>"
-    + "<tr><td>Massimo unit&agrave; acquistabili</td><td class='fieldTD'>" + product.maxBuy + "</td></tr>";
-    $.getSync("ajax/getmemberurlencoded", {
-      'idMember' : product.idMemberSupplier
-    }, function(member)
+    details += "<tr><td>Costo trasporto</td><td class='fieldTD'>" + product.transportCost + "</td></tr>"
+    + "<tr><td>Costo per blocco</td><td class='fieldTD'>" + product.unitCost + "</td></tr>"
+    + "<tr><td>Minimo blocchi acquistabili</td><td class='fieldTD'>" + product.minBuy + "</td></tr>"
+    + "<tr><td>Massimo blocchi acquistabili</td><td class='fieldTD'>" + product.maxBuy + "</td></tr>";
+    $.getSync("ajax/getmemberurlencoded", { 'idMember' : product.idMemberSupplier }, function(member)
     {
-      details += "<tr><td>Fornitore</td><td class='fieldTD'>" + member.name + " "
-          + member.surname + "</td></tr>";
-    });
-    details += "<tr><td>Categoria</td><td class='fieldTD'>" + product.category.description + "</td></tr>";
-    details += "</table></td></table>";
-    $.modal(details);
+	      details += "<tr><td>Fornitore</td><td class='fieldTD'>" + member.name + " " + member.surname + "</td></tr>";
+	      details += "<tr><td>Categoria</td><td class='fieldTD'>" + product.category.description + "</td></tr>";
+	      details += "</table></td></table>";
+    
+	      if(notifyCategory == 1) {
+	    	  $("#dialog-notify").attr('title', "Nuovo Prodotto");
+	      } else {
+	    	  $("#dialog-notify").attr('title', "Cambio Disponibilit&agrave; Prodotto");
+	      }
+	        
+	   		$("#dialog-notify-container").html(details);
+	    
+	   		$( "#dialog-notify" ).dialog({
+				resizable: false,
+				height:600,
+				width:800,
+				modal: true,
+				buttons: {
+					"Crea un ordine per questo fornitore": function() {
+						
+						$( this ).dialog( "close" );
+						
+						  var History = window.History;	
+						  if (History.enabled == true) {
+						    History.pushState({
+						      action : 'orderResp',
+						      id: member.idMember,
+						      idType: 0,
+						      tab: 0
+						    }, null, 'orderResp');
+						  }
+						
+					},
+					"Chiudi": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+		    
+	});
   });
 }
 
-function viewOrderDetails(idOrder)
+function viewOrderDetails(idOrder, notifyCategory)
 {
   $.postSync("ajax/viewO", {
     'idOrder' : idOrder
   }, function(order)
   {
-    var progress = 0.0;
-    $.postSync("ajax/getProgressOrder", {
-      'idOrder' : idOrder
-    }, function(p)
+    
+    var details = "<table align='center' style='text-align:center'><tr><td><canvas id='orderProgressCanvas' width='680' height='380'></canvas></td></tr>"
+    +"<tr><td><strong>Ordine</strong> \"" + order.orderName + "\" <strong> Creato da</strong> \"" + order.memberResp.name + "\" ";
+    $.getSync("ajax/getmemberurlencoded", { 'idMember' : order.supplier.idMember }, function(member)
     {
-      progress = p;
+      details += "per il <strong>Fornitore</strong> \"" +  member.name + " " + member.surname + "\"<br />";
     });
-    var details = "<table><tr><td class='imageTD'><canvas id='orderProgressCanvas'/></td>"
-    +"<td class='dataTD'><table class='orderDetailsTable'>"
-    + "<tr><td>Nome ordine</th><td class='fieldTD'>" + order.orderName + "</td></tr>"
-    + "<tr><td>Nome responsabile</td><td class='fieldTD'>" + order.memberResp.name + "</td></tr>";
-    $.getSync("ajax/getmemberurlencoded", {
-      'idMember' : order.supplier.idMember
-    }, function(member)
-    {
-      details += "<tr><td>Nome fornitore</td><td class='fieldTD'>" +  member.name + " "
-      + member.surname + "</td></tr>";
-    });
-    details += "<tr><td>Data apertura</td><td class='fieldTD'>" + (new Date(order.dateOpen)).toLocaleDateString() + "</td></tr>"
-    + "<tr><td>Data chiusura</td><td class='fieldTD'>" + (new Date(order.dateClose)).toLocaleDateString() + "</td></tr>"
-    + "<tr><td>Data consegna</td><td class='fieldTD'>";
+    details += "<strong>Data apertura</strong> " + $.datepicker.formatDate('dd-mm-yy',new Date(order.dateOpen)) 
+    + " <br /> <strong>Data chiusura</strong> "
+    + $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose))
+    + "<br /> <strong>Data consegna</strong> ";
     if (order.dateDelivery != "null")
-      details += (new Date(order.dateDelivery)).toLocaleDateString();
+      details += $.datepicker.formatDate('dd-mm-yy', new Date(order.dateDelivery));
     else
-      details += "Non decisa";
-    details += "</td></tr></table></td></tr></table>";
-    $.modal(details);
-    printOrderPie(progress);
+      details += "Non ancora decisa";
+    details += "</td></tr></table>";
+
+	$("#dialog-notify-container").html(details);
+    
+    $.postSync("ajax/getProgressOrder", { 'idOrder' : idOrder }, function(progress)
+    {
+    	printOrderPie(progress);
+    });
+	
+    var memberType = 0;
+    $.postSync("ajax/getMemberType", null, function(result)
+    {
+    	memberType = result;
+    });
+    
+    var varAction = "";
+    
+    switch(notifyCategory) {
+    
+    case 2:
+    		// 2 Nuovo ordine [Normale, Resp]
+    	if (memberType == 0) 
+    		varAction = "purchase";
+    	else if (memberType == 1)
+    		varAction = "purchaseResp";
+    	
+    	 $("#dialog-notify").attr('title', "Notifica Nuovo Ordine");
+    	
+    	$( "#dialog-notify" ).dialog({
+    		resizable: false, height:600, width:800, modal: true,
+    		buttons: {
+    			"Crea un scheda per questo ordine": function() {
+					$( this ).dialog( "close" );
+					  var History = window.History;	
+					  if (History.enabled == true) 
+					    History.pushState({ action : varAction, idOrd: idOrder, tab: 0 }, null, varAction);
+				},
+    			"Chiudi": function() {
+    				$( this ).dialog( "close" );
+    			}
+    		}
+    	});
+    	
+    	break;
+    case 4:
+    		//4 Chiusura Ordine con successo [Resp ordine]
+    	 varAction = "orderResp";
+    	 $("#dialog-notify").attr('title', "Notifica Ordine Chiuso Con Successo");
+    	 
+    	 $( "#dialog-notify" ).dialog({
+     		resizable: false, height:600, width:800, modal: true,
+     		buttons: {
+     			"Apri la schermata per impostare la data di Consegna": function() {
+ 					$( this ).dialog( "close" );
+ 					  var History = window.History;	
+ 					  if (History.enabled == true) 
+ 					    History.pushState({ action : varAction, id: idOrder, idType: 1, tab: 2 }, null, varAction);
+ 				},
+     			"Chiudi": function() {
+     				$( this ).dialog( "close" );
+     			}
+     		}
+     	});
+    	break;
+    case 5:
+    		// 5 Data di consegna Settata [Normale, Resp] - solo a quelli le cui schede non sono fallite
+    	break;
+    case 7:
+    	break;
+    case 8:
+    	break;
+    case 9:
+    	break;
+    case 10:
+    	break;
+    case 11:
+    		// 11 Nuovo ordine [Supplier]
+    	varAction = "orderSup";
+    	
+    	 $("#dialog-notify").attr('title', "Notifica Nuovo Ordine");
+    	 
+    	$( "#dialog-notify" ).dialog({
+    		resizable: false, height:600, width:800, modal: true,
+    		buttons: {
+    			"Visualizza l'avanzamento dell'ordine in tempo reale": function() {
+					$( this ).dialog( "close" );
+					  var History = window.History;	
+					  if (History.enabled == true) 
+					    History.pushState({ action : varAction, idOrd: idOrder, tab: 0 }, null, varAction);
+				},
+    			"Chiudi": function() {
+    				$( this ).dialog( "close" );
+    			}
+    		}
+    	});
+    	
+    	break;
+    case 12:
+    	break;
+    case 13:
+    	break;
+    case 14:
+    	break;
+    
+    }
+    
+  });
+}
+
+
+function viewMemberDetails(idMember, notifyCategory)
+{
+  $.postSync("ajax/viewM", {
+    'idMember' : idMember
+  }, function(member)
+  {
+    var details = "<table><tr><td class='imageTD'><img src='img/user.png' width='250'/></td>"
+      +"<td class='dataTD'><table class='memberDetailsTable'>"
+    + "<tr><td>Nome</td><td class='fieldTD'>" + member.name + "</td></tr>"
+    + "<tr><td>Cognome</td><td class='fieldTD'>" + member.surname + "</td></tr>";
+    if (member.username.match("https://.*") == null)
+      details += "<tr><td>Username</td><td class='fieldTD'>" + member.username + "</td></tr>";
+    details += "<tr><td>Data di registrazione</td><td class='fieldTD'>" + $.datepicker.formatDate('dd-mm-yy', new Date(member.regDate)) + "</td></tr>"
+    + "<tr><td>Email</td><td class='fieldTD'>" + member.email + "</td></tr>"
+    + "<tr><td>Indirizzo</td><td class='fieldTD'>" + member.address + "</td></tr>"
+    + "<tr><td>Citt&agrave;</td><td class='fieldTD'>" + member.city + "</td></tr>"
+    + "<tr><td>Stato</td><td class='fieldTD'>" + member.state + "</td></tr>"
+    + "<tr><td>CAP</td><td class='fieldTD'>" + member.cap + "</td></tr>";
+    if (member.tel != null)
+      details += "<tr><td>Telefono</td><td class='fieldTD'>" + member.tel + "</td></tr>";
+    details += "<tr><td>Tipo di utente</td><td class='fieldTD'>" + member.memberType + "</td></tr>"
+    + "<tr><td>Status utente</td><td class='fieldTD'>" + member.memberStatus + "</td></tr>";
+    details += "</table></td></tr></table>";
+  
+    $("#dialog-notify").attr('title', "Nuovo Utente");
+	$("#dialog-notify-container").html(details);
+    
+    $( "#dialog-notify" ).dialog({
+		resizable: false,
+		height:450,
+		width:800,
+		modal: true,
+		buttons: {
+			"Abilita Ora": function() {
+				
+				$( this ).dialog( "close" );
+				
+				$.post("ajax/activeMember", {
+				    idMember : idMember
+				  }, function(result) {
+					  
+					  if(result == 0) 
+						  $("#dialog-notify-action-container").html('Abilitazione fallita');
+					  else
+						  $("#dialog-notify-action-container").html('Abilitazione avvenuta con successo');
+					  
+					  $( "#dialog-notify-action" ).dialog({
+				    		resizable: false,
+				    		height: 150,
+				    		width: 200, 
+				    		modal: true,
+				    		buttons : {
+				             	 "Ok" : function() { $(this).dialog('close'); }
+				           	       }
+				    	});
+				  });
+			},
+			"Abilita in un secondo momento": function() {
+				$( this ).dialog( "close" );
+			}
+		}
+	});
+  
   });
 }
 
@@ -943,38 +1072,10 @@ function printOrderPie(progress)
     "pieSegmentLabels": "outside",
     "pieType": "solid",
     "showLegend": false,
-    "background" : "rgb(192,208,216)",
     "colors": [
                "rgb(57,133,0)",
                "rgb(163,0,8)"
                ],
-  });
-}
-
-function viewMemberDetails(idMember)
-{
-  $.postSync("ajax/viewM", {
-    'idMember' : idMember
-  }, function(member)
-  {
-    var details = "<table><tr><td class='imageTD'><img src='img/user.png' /></td>"
-      +"<td class='dataTD'><table class='memberDetailsTable'>"
-    + "<tr><td>Nome</td><td class='fieldTD'>" + member.name + "</td></tr>"
-    + "<tr><td>Cognome</td><td class='fieldTD'>" + member.surname + "</td></tr>";
-    if (member.username.match("https://.*") == null)
-      details += "<tr><td>Username</td><td class='fieldTD'>" + member.username + "</td></tr>";
-    details += "<tr><td>Data di registrazione</td><td class='fieldTD'>" + member.regDate + "</td></tr>"
-    + "<tr><td>Email</td><td class='fieldTD'>" + member.email + "</td></tr>"
-    + "<tr><td>Indirizzo</td><td class='fieldTD'>" + member.address + "</td></tr>"
-    + "<tr><td>Citt&agrave;</td><td class='fieldTD'>" + member.city + "</td></tr>"
-    + "<tr><td>Stato</td><td class='fieldTD'>" + member.state + "</td></tr>"
-    + "<tr><td>CAP</td><td class='fieldTD'>" + member.cap + "</td></tr>";
-    if (member.tel != null)
-      details += "<tr><td>Telefono</td><td class='fieldTD'>" + member.tel + "</td></tr>";
-    details += "<tr><td>Tipo di utente</td><td class='fieldTD'>" + member.memberType + "</td></tr>"
-    + "<tr><td>Status utente</td><td class='fieldTD'>" + member.memberStatus + "</td></tr>";
-    details += "</table></td></tr></table>";
-    $.modal(details);
   });
 }
 

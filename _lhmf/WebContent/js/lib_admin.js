@@ -1109,7 +1109,7 @@ function postMemberActivationHandler(result) {
 		
         $("#errorDiv2").hide();
         $("#legendError2").html("Errore");
-        $("#errors2").html("Non ci sono Ordini Attivi  da visualizzare<br /><br />");
+        $("#errors2").html("Attivazione utente fallita<br /><br />");
         $("#errorDiv2").show("slow");
         $("#errorDiv2").fadeIn(1000);
         

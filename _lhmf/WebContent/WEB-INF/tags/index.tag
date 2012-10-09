@@ -93,6 +93,12 @@
 				<h1 id='bodyTitleHeader' class="block"><jsp:invoke fragment="bodyTitle" /></h1>
 				<div class="centrale"><jsp:doBody /></div>
 			</div>
+			<div id='dialog-notify' title='Visualizzazione Notifica' style='display:none; text-align:center' align='center'>
+            	<div id='dialog-notify-container' align='center'></div>
+			</div>
+			<div id='dialog-notify-action' title='Risultato Azione' style='display:none; text-align:center' align='center'> 
+			 	<div id='dialog-notify-action-container' align='center'></div>
+			</div>
 		</div>
 		<footer class="footer">
 			<p>Politecnico di Torino &copy; 2012</p>

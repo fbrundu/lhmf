@@ -2,19 +2,6 @@ Applicazioni Internet - Gas
 
 # TODO
 
-[23:24] <@JyX``> in Crea Ordine tolgo il select e faccio con la tabella come ho fatto per l'utente normale
-[23:24] <@JyX``> in Ordini Attivi tolgo data + visualizza e li mostro direttamente (quanti potranno essere mai?)
-[23:25] <lm_> ok
-[23:26] <@JyX``> Ordini scaduti tolgo "creato dopo il" e modifico "chiuso prima del" con "chiuso dopo il"
-[23:26] <@JyX``> la select sulla data di consegna la lascio
-[23:27] <lm_> ok
-[23:27] <@JyX``> in ordini in consegna 
-[23:28] <@JyX``> mostro direttaemente tutti gli ordini con data di consegna settata per cui c'� ancora almeno una scheda che non � stata spuntata come "consegnata"
-[23:28] <lm_> ok, ma la data di consegna deve essere passata, no?
-[23:29] <@JyX``> si
-
-- Statistica statRespTopUsers dopo la modifica su OrderProduct da' errore 500. Da risolvere
-
 ## DA IMPLEMENTARE ##
 
 -[RISOLTO] booleano 'failed' in order_product: default a false. alla data di chiusura dell'ordine, si 

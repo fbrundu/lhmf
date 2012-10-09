@@ -70,12 +70,12 @@ function historyStateChanged()
     startRefresh = 0;
     break;
   case 'orderResp':
-    writeOrderPage();
+    writeOrderPage(stateData.id, stateData.idType, stateData.tab);
     startRefreshOrder = 1;
     startRefresh = 0;
     break;
   case 'purchaseResp':
-    writePurchasePage();
+	writePurchasePage(stateData.idOrd, stateData.tab);
     startRefreshOrder = 0;
     startRefresh = 1;
     break;
@@ -96,7 +96,9 @@ function orderClicked(event)
     if (!!stateData && !!stateData.action && stateData.action == 'orderResp')
       return;
     History.pushState({
-      action : 'orderResp'
+      action : 'orderResp',
+      idSup: 0,
+      tab: 0
     }, null, 'orderResp');
   }
 }
@@ -129,7 +131,7 @@ function statClicked(event) {
 	  }
 }
 
-function writeOrderPage(){
+function writeOrderPage(id, type, tab){
   $("#bodyTitleHeader").html("Gestione ordini");
   $(".centrale").html("   <div id='tabsOrder'>" +
                           "<ul>" +
@@ -241,12 +243,15 @@ function writeOrderPage(){
                             "</div><br />" +
                         "</div>");
  
-  prepareOrderForm();
+  $('#tabsOrder').tabs();
+  $('#tabsOrder').tabs('select', tab);
+  
+  prepareOrderForm(id, type);
 }
 
 function writeIndexPage()
 {
-    writeOrderPage();
+    writeOrderPage(0, 0);
     startRefreshOrder = 1;
     startRefresh = 0;
 }
@@ -732,9 +737,9 @@ function postStatProdTopProductHandler(data) {
 
 var idOrder = 0;
 
-function prepareOrderForm(tab){
+function prepareOrderForm(id, type){
     
-    $('#tabsOrder').tabs();
+    
     $( "#dialog" ).dialog({ autoOpen: false });
 
     $("body").delegate(".shipButton", "click", clickSetShipPurchaseHandler);
@@ -749,9 +754,22 @@ function prepareOrderForm(tab){
     
     //Drag and drop
     loadSupplier();
+    
+    if(id != 0 && type == 0) {
+    	idSupplier = id;
+    	clickProductListRequest();
+    }
+    
+    if(id != 0 && type == 1) {
+    	idToHighLight = id;
+    }
+    
     loadActiveOrder();
+    
     loadCompleteOrder();
+    
     loadShipOrder();
+    
     
     
     $("#orderCompositor").hide();
@@ -767,15 +785,18 @@ function prepareOrderForm(tab){
 
 var addedIds = [];
 var idSupplier = 0;
-
+var idToHighLight = 0;
 function clickProductListRequest(event) {
-	event.preventDefault();
+	
+	if(typeof event != 'undefined')
+		event.preventDefault();
 	
 	$("#orderCompositor").hide();
 	$("#productsList").html("<h1 class='ui-widget-header'>Prodotti</h1>" +
           					"<div id='catalog'></div>");
 	
-	idSupplier = $('#memberSupplier').val();
+	if(typeof event != 'undefined')
+		idSupplier = $('#memberSupplier').val();
 	
 	if(idSupplier == -1) {
 		$("#errorDivOrder").hide();
@@ -1584,7 +1605,13 @@ function postCompleteOrderListHandler(orderList) {
              var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateOpen));
              var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(order.dateClose));
              
-             $("#completeOrderList").append("<tr id='idOrder_" + order.idOrder + "'>" +
+             var style = "";
+             if(idToHighLight != 0 && order.idOrder == idToHighLight) {
+            	 style = "style='background-color: #E1FFFF'";
+            	 idToHighLight = 0;
+             }
+             
+             $("#completeOrderList").append("<tr id='idOrder_" + order.idOrder + "' " + style + ">" +
 						            		 "<td>" + order.orderName +"</td>" +
 						             		  "<td>" + order.supplier.companyName + "</td>" +
 						             		  "<td>" + dateOpen + "</td>" +
