@@ -8,6 +8,7 @@ import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
 import it.polito.ai.lhmf.orm.Notify;
 import it.polito.ai.lhmf.orm.Supplier;
+import it.polito.ai.lhmf.util.SendEmail;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +35,6 @@ public class MemberInterface {
 	private SessionFactory sessionFactory;
 
 	private MemberStatusInterface memberStatusInterface;
-	private MessageInterface messageInterface;
 	private SupplierInterface supplierInterface;
 	private NotifyInterface notifyInterface;
 	private LogInterface logInterface;
@@ -48,11 +48,6 @@ public class MemberInterface {
 			MemberStatusInterface memberStatusInterface)
 	{
 		this.memberStatusInterface = memberStatusInterface;
-	}
-
-	public void setMessageInterface(MessageInterface messageInterface)
-	{
-		this.messageInterface = messageInterface;
 	}
 
 	public void setSupplierInterface(SupplierInterface supplierInterface)
@@ -90,12 +85,12 @@ public class MemberInterface {
 			{
 				if (checkMail)
 				{
-					// TODO Inviare qui la mail con il codice di registrazione.
-					/*
-					 * SendEmail emailer = new SendEmail(); boolean isSupplier =
-					 * false; emailer.sendNormalRegistration(firstname + " " +
-					 * lastname, regCode, memberId, email, isSupplier);
-					 */
+
+					  SendEmail emailer = new SendEmail(); 
+					  boolean isSupplier = false; 
+					  emailer.sendNormalRegistration(member.getName() + " " + member.getSurname(), 
+							  member.getRegCode(), member.getIdMember(), member.getEmail(), isSupplier);
+
 				}
 				else
 				{
@@ -108,13 +103,6 @@ public class MemberInterface {
 					n.setNotifyTimestamp(new Date());
 					notifyInterface.newNotify(n);
 
-					// Mandare messaggio all'admin
-					// messageInterface.newMessageToAdmin(this.getMemberAdmin(),
-					// member,
-					// "Utente richiede l'attivazione dell'account\n\n"
-					// + "Id: " + member.getIdMember() + " - "
-					// + member.getName() + " " + member.getSurname()
-					// + "\n" + "Email: " + member.getEmail() + "\n");
 				}
 			}
 			else
@@ -168,13 +156,6 @@ public class MemberInterface {
 				n.setNotifyTimestamp(new Date());
 				notifyInterface.newNotify(n);
 				
-				//messageInterface.newMessageToAdmin(
-				//		this.getMemberAdmin(),
-				//		m,
-				//		"Utente richiede l'attivazione dell'account\n\n"
-				//				+ "Id: " + m.getIdMember() + " - "
-				//				+ m.getName() + " " + m.getSurname() + "\n"
-				//				+ "Email: " + m.getEmail() + "\n");
 				return;
 			}
 		}
@@ -366,9 +347,6 @@ public class MemberInterface {
 		query.setParameter("name", member.getName());
 		query.setParameter("surname", member.getSurname());
 		query.setParameter("username", member.getUsername());
-		// query.setParameter("password", member.getPassword());
-		// query.setParameter("regCode", member.getRegCode());
-		// query.setParameter("regDate", member.getRegDate());
 		query.setParameter("email", member.getEmail());
 		query.setParameter("address", member.getAddress());
 		query.setParameter("city", member.getCity());
