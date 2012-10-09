@@ -62,7 +62,6 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  			Lista Utenti -> Visualizzazione OK ma problema di sopra nella selezione della pagina
  			Gestione Prodotti (OK) -> Ok
  			Statistiche -> Ok ma, cliccando sulle varie parti della torta, la finestra taglia la tipologia degli utenti
-  			Concultazione Log -> testati sotto
   - Supplier -> Gestione Prodotti (OK) -> Creazione prodotto e controllo sui campi OK, Gestione listino OK
   				Gestione Ordini -> Ordini Attivi -> OK
   									Completati -> OK
@@ -94,6 +93,7 @@ Notifiche ->Nuovo prodotto -> OK
 			Ordine 50 % (testato dopo modifiche 22:30)-> OK
 			Ordine 75 % (testato dopo modifiche 22:30)-> OK
 			Ordine 90 % (testato dopo modifiche 22:30)-> OK
+			Chiusura Ordine [Normale o Resp partecipante come normale] (sia fallito che non) -> OK
 			
 LOG ->	impossibile visualizzare i log allo stato attuale
 		admin crea utente -> OK
