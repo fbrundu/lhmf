@@ -131,7 +131,7 @@ public class MemberInterface {
 		return memberId;
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public void authMail(Integer idMember, String regCode, Model model)
 			throws InvalidParametersException {
 		if (idMember == null || regCode == null)
