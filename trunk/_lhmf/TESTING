@@ -56,7 +56,7 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  
  
  -TESTING FINALE
- - Registrazione utenti -> OK  manca la mail di conferma (non ancora implementata)
+ - Registrazione utenti -> OK
  - Admin -> Registrazione Nuovi utenti -> OK
  			Attivazioni utenti -> OK attivazione ma nella visualizzazione, in caso di più utenti, passando alla pagina 2 non si riesce più a tornare alla pagina 1
  			Lista Utenti -> Visualizzazione OK ma problema di sopra nella selezione della pagina
@@ -95,8 +95,7 @@ Notifiche ->Nuovo prodotto -> OK
 			Ordine 90 % (testato dopo modifiche 22:30)-> OK
 			Chiusura Ordine [Normale o Resp partecipante come normale] (sia fallito che non) -> OK
 			
-LOG ->	impossibile visualizzare i log allo stato attuale
-		admin crea utente -> OK
+LOG ->	admin crea utente -> OK
 		admin attiva utente -> OK
 		fornitore crea prodotto -> OK
 		fornitore cambia disp prodotto -> OK
