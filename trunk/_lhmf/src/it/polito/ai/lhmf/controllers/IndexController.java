@@ -41,7 +41,6 @@ public class IndexController
 	public ModelAndView notifiesPage(Model model, HttpSession session, 
 			HttpServletRequest request)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		switch ((Integer) session.getAttribute("member_type"))
@@ -57,8 +56,6 @@ public class IndexController
 		default:
 			return new ModelAndView("error");
 		}
-		
-		//return new ModelAndView("notifies");
 	}
 	
 	@RequestMapping("/messaggi")
@@ -66,7 +63,6 @@ public class IndexController
 	public ModelAndView messagesPage(Model model, HttpSession session, 
 			HttpServletRequest request)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 		
 		switch ((Integer) session.getAttribute("member_type"))
@@ -82,7 +78,5 @@ public class IndexController
 		default:
 			return new ModelAndView("error");
 		}
-
-		//return new ModelAndView("messages");
 	}
 }
