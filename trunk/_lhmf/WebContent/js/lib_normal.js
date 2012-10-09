@@ -417,7 +417,7 @@ function writeIndexPage()
 
 var writePurchaseDetails = false;
 
-function preparePurchaseForm(idOrd){
+function preparePurchaseForm(idOrd, tab){
     
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     

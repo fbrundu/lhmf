@@ -86,7 +86,7 @@ Applicazioni Internet - Gas
 *7 Ordine 50 % [Normale, Resp]
 *8 Ordine 75 % [Normale, Resp]
 *9 Ordine 90 % [Normale, Resp]
-*10 Chiusura Ordine [Normale o Resp partecipante come normale] (sia fallico che non)
+*10 Chiusura Ordine [Normale o Resp partecipante come normale] (sia fallito che non)
 -*11 Nuovo ordine [Supplier]
 *12 Chiusura Ordine con successo [Supplier]
 *13 Data di consegna settata [Supplier]

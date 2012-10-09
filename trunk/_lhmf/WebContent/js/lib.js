@@ -1024,7 +1024,7 @@ function viewOrderDetails(idOrder, notifyCategory)
     	break;
     case 10:
     	
-    		//10 Chiusura Ordine con successo [Normale o Resp partecipante come normale]
+    		//10 Chiusura Ordine [Normale o Resp partecipante come normale] (sia fallito che non)
     	
     	
     	break;
