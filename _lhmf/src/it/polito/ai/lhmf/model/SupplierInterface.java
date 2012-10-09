@@ -212,13 +212,9 @@ public class SupplierInterface
 						// Inviare qui la mail con il codice di registrazione e
 						// la
 						// password generata
-						/*
-						 * SendEmail emailer = new SendEmail(); boolean
-						 * isSupplier = true;
-						 * emailer.sendAdminRegistration(firstname + " " +
-						 * lastname, username, password, regCode, idMember,
-						 * email, isSupplier);
-						 */
+						 SendEmail emailer = new SendEmail(); 
+						 emailer.sendAdminRegistration(firstname + " " + lastname, username, password, regCode, idMember, email);
+
 					}
 				}
 			}

@@ -176,6 +176,7 @@
 .messaggi td.not_read_m {background-color:rgb(253,252,254);}
 .messaggi h3 {padding-left: 5px; color: #079;}
 .messaggi p {padding-left: 20px;}
+.messaggi a {padding-left: 20px;}
 
 .messageform {padding:10px 10px 0 10px; border:solid 1px rgb(200,200,200); background-color:rgb(240,240,240);}
 .messageform div.divresp {float:left; text-align:center; width:90%; margin:0 10px 0 10px; padding:10px; font-size:100%;}

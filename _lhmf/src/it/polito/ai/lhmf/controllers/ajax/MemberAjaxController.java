@@ -156,12 +156,10 @@ public class MemberAjaxController
 					// TODO cambiare link di conferma mail. Togliere la parte
 					// relativa a admin, gestito lato server con
 					// Member.fromAdmin
-					/*
-					 * SendEmail emailer = new SendEmail(); boolean isSupplier =
-					 * false; emailer.sendAdminRegistration(firstname + " " +
-					 * lastname, username, password, regCode, idMember, email,
-					 * isSupplier);
-					 */
+					
+					SendEmail emailer = new SendEmail(); 
+					emailer.sendAdminRegistration(firstname + " " + lastname, username, password, regCode, idMember, email);
+					
 				}
 			}
 			catch (NoSuchAlgorithmException e)

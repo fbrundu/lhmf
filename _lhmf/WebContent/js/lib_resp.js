@@ -1054,7 +1054,7 @@ function postShowPurchaseHandler(data) {
 		$.postSync("ajax/getTotPurchaseCost", {idPurchase: val.idPurchase}, function(data) { totPurchase = data; });
 		
 		$(tableControl).append("<tr style='background-color: #EDEDED; text-color: #CFCFCF;'> <td>" + val.idPurchase + "</td>" +
-                "<td>" + val.member.name + "</td>" +
+                "<td>" + val.member.name + " " + val.member.surname + "</td>" +
                 "<td>" + totPurchase + "</td>" + tdRitiro +
                 "<td>" + imgs + "</td></tr>" +
               "<tr class='detailsPurchase' id='TRdetailsPurchase_" + val.idPurchase + "'>" +
@@ -1607,7 +1607,7 @@ function postCompleteOrderListHandler(orderList) {
              
              var style = "";
              if(idToHighLight != 0 && order.idOrder == idToHighLight) {
-            	 style = "style='background-color: #E1FFFF'";
+            	 style = "style='background-color: #BABAC2'";
             	 idToHighLight = 0;
              }
              

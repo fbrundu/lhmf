@@ -894,7 +894,7 @@ function viewOrderDetails(idOrder, notifyCategory)
     	else if (memberType == 1)
     		varAction = "purchaseResp";
     	
-    	 $("#dialog-notify").attr('title', "Notifica Nuovo Ordine");
+    	$("#dialog-notify").attr('title', "Notifica Nuovo Ordine");
     	
     	$( "#dialog-notify" ).dialog({
     		resizable: false, height:600, width:800, modal: true,
@@ -914,7 +914,6 @@ function viewOrderDetails(idOrder, notifyCategory)
     	break;
     case 4:
     		//4 Chiusura Ordine con successo [Resp ordine]
-    	 varAction = "orderResp";
     	 $("#dialog-notify").attr('title', "Notifica Ordine Chiuso Con Successo");
     	 
     	 $( "#dialog-notify" ).dialog({
@@ -924,7 +923,7 @@ function viewOrderDetails(idOrder, notifyCategory)
  					$( this ).dialog( "close" );
  					  var History = window.History;	
  					  if (History.enabled == true) 
- 					    History.pushState({ action : varAction, id: idOrder, idType: 1, tab: 2 }, null, varAction);
+ 					    History.pushState({ action : "orderResp", id: idOrder, idType: 1, tab: 2 }, null, "orderResp");
  				},
      			"Chiudi": function() {
      				$( this ).dialog( "close" );
@@ -934,12 +933,36 @@ function viewOrderDetails(idOrder, notifyCategory)
     	break;
     case 5:
     		// 5 Data di consegna Settata [Normale, Resp] - solo a quelli le cui schede non sono fallite
+    	if (memberType == 0) 
+    		varAction = "purchase";
+    	else if (memberType == 1)
+    		varAction = "purchaseResp";
+    	
+    	 $("#dialog-notify").attr('title', "Notifica Data di Consegna Impostata");
+    	 
+    	 $( "#dialog-notify" ).dialog({
+      		resizable: false, height:600, width:800, modal: true,
+      		buttons: {
+      			"Apri schermata Schede in consegna": function() {
+  					$( this ).dialog( "close" );
+  					  var History = window.History;	
+  					  if (History.enabled == true) 
+  					    History.pushState({ action : varAction, id: idOrder, tab: 2 }, null, varAction);
+  				},
+      			"Chiudi": function() {
+      				$( this ).dialog( "close" );
+      			}
+      		}
+      	});
+    	
     	break;
     case 7:
-    	break;
     case 8:
-    	break;
     case 9:
+    	
+    	// Se l'utente ha una scheda per quell'ordine, rimandare alla modifica scheda
+    	// Se l'utente non ha una scheda per quell'ordine, rimanadare a creazione scheda.
+    	
     	break;
     case 10:
     	break;
@@ -1146,14 +1169,21 @@ function getMyMessages()
     var sendersList = getUsersExceptMe();
     for ( var mesIndex in messagesList)
     {
-      tabellaMessaggi += "<tr><td";
-      if (!messagesList[mesIndex].isReaded)
-        tabellaMessaggi += " class='not_read_m' ";
-      tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
-          + "'><h3>" + sendersList[messagesList[mesIndex].sender] + " ("
-          + messagesList[mesIndex].sender + ")</h3><p>"
-          + messagesList[mesIndex].text + "</p></td></tr>";
-    }
+		tabellaMessaggi += "<tr><td";
+		if (!messagesList[mesIndex].isReaded)
+			tabellaMessaggi += " class='not_read_m' ";
+		tabellaMessaggi += " name='"
+				+ messagesList[mesIndex].idMessage
+				+ "'><h3>"
+				+ sendersList[messagesList[mesIndex].sender]
+				+ " ("
+				+ messagesList[mesIndex].sender
+				+ ")</h3><p>"
+				+ messagesList[mesIndex].text
+				+ "</p><a href='' class='replyTo' data-replyusername='"
+				+ messagesList[mesIndex].sender
+				+ "' >Rispondi</p></td></tr>";
+	}
   });
   tabellaMessaggi += "</table></div>";
   var users = "<option value='notSelected' selected='selected'>Seleziona...</option>";
@@ -1161,7 +1191,7 @@ function getMyMessages()
   for ( var userIndex in usersList)
   {
     users += "<option value='" + userIndex + "'>"
-        + usersList[userIndex]+ "</option>";
+        + usersList[userIndex]+ "("+userIndex+")</option>";
   }
   // var orders = "<option value='-1'
   // selected='selected'>Seleziona...</option>";
@@ -1196,7 +1226,7 @@ function getMyMessages()
       // + "</select><br><br>"
       + "<label for='messageText' class='left'>Testo: </label>"
       + "<textarea name='messageText' id='messageText' class='field' "
-      + "required='required' /><br>"
+      + "required='required' placeholder='Inserisci qua il tuo messaggio...'/><br>"
       + "<button type='submit' id='newMessageSubmit'> Invia messaggio </button>"
       + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
@@ -1209,6 +1239,14 @@ function getMyMessages()
   $('#newMessageSubmit').on("click", clickNewMessageHandler);
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
+  $('.replyTo').click(replyTo);
+}
+
+function replyTo(event)
+{
+	event.preventDefault();
+	var replyUsername = $(this).data('replyusername');
+	$('#usersSelect').val(replyUsername);
 }
 
 function getUsernames()

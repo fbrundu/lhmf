@@ -90,7 +90,6 @@
     <bean id="memberDao" class="it.polito.ai.lhmf.model.MemberInterface">
         <property name="sessionFactory" ref="sessionFactory"/>
         <property name="memberStatusInterface" ref="memberStatusDao"/>
-        <property name="messageInterface" ref="messageDao"/>
         <property name="supplierInterface" ref="supplierDao"/>
         <property name="notifyInterface" ref="notifyDao"/>
         <property name="logInterface" ref="logDao"/>

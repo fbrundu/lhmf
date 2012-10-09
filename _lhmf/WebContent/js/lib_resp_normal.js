@@ -126,10 +126,14 @@ function preparePurchaseForm(idOrd){
        
     loadOrders();
     
-    if(idOrd != 0)
+    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 0)
     	productListRequest(idOrd);
     
     loadPurchaseActive();
+    
+    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 2) 
+    	idToHighLight = idO;
+    
     loadShipPurchase();
     
     $("#purchaseCompositor").hide();
@@ -142,6 +146,7 @@ function preparePurchaseForm(idOrd){
 var idOrder = 0;	
 var addedIds = [];
 var addedPz = [];
+var idToHighLight = 0;
 
 function loadOrders() 
 {
@@ -280,12 +285,19 @@ function postShipPurchaseListHandler(purchaseList)
                  							"<th class='top' width='20%'> Dettagli ordine  </th> " +
                  							"<th class='top' width='10%'> Mappa  </th></tr>");
         for(var i = 0; i < purchaseList.length; i++){
+        	
             var purchase = purchaseList[i];
             var dateOpen = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateOpen));
             var dateClose = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateClose));
             var dateDelivery = $.datepicker.formatDate('dd-mm-yy', new Date(purchase.order.dateDelivery));
             
-            $("#shipPurchaseList").append("<tr> <td>" + purchase.order.orderName + "</td>" +
+            var style = "";
+            if(idToHighLight != 0 && purchase.order.idOrder == idToHighLight) {
+           	 style = "style='background-color: #BABAC2'";
+           	 idToHighLight = 0;
+            }            
+            
+            $("#shipPurchaseList").append("<tr " + style + "> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
 					  							"<td>" + dateDelivery + "</td>" +
