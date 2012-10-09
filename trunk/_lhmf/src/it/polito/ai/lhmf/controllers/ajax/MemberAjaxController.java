@@ -8,7 +8,6 @@ import it.polito.ai.lhmf.model.constants.MemberStatuses;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.MemberStatus;
 import it.polito.ai.lhmf.orm.MemberType;
-import it.polito.ai.lhmf.orm.Purchase;
 import it.polito.ai.lhmf.security.MyUserDetailsService;
 import it.polito.ai.lhmf.util.CheckNumber;
 import it.polito.ai.lhmf.util.CreateMD5;

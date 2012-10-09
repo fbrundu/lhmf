@@ -469,8 +469,12 @@ public class MemberInterface {
 							+ " order by idMember");
 			query.setParameter("memberType", memberType);
 		} else {
+			//controllo per non inserire l'admin nella visualizzazione di tutti gli utenti
+			MemberType mType = new MemberType(2);
 			query = sessionFactory.getCurrentSession().createQuery(
-					"from Member " + "order by idMember");
+					"from Member " + "where memberType != :memberType"
+							+ " order by idMember");
+			query.setParameter("memberType", mType);
 		}
 
 		List<Member> l = (List<Member>) query.list();

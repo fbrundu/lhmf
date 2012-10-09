@@ -59,11 +59,11 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  - Registrazione utenti -> OK ma servirebbe un controllo per inserire nel database un diririzzo di tipo Via Tot, numero, manca la mail di conferma (non ancora implementata)
  - Admin -> Registrazione Nuovi utenti -> OK e controllo come sopra
  			Attivazioni utenti -> OK attivazione ma nella visualizzazione, in caso di più utenti, passando alla pagina 2 non si riesce più a tornare alla pagina 1
- 			Lista Utenti -> Viene mostrato anche l'admin e problema di sopra della visualizzazione utenti
+ 			Lista Utenti -> Visualizzazione OK ma problema di sopra nella selezione della pagina
  			Gestione Prodotti (OK) -> Ok sia visualizzazione che Rimozione/Aggiunta al listino
  			Statistiche -> Ok ma, cliccando sulle varie parti della torta, la finestra taglia la tipologia degli utenti
   			Concultazione Log -> testati sotto
-  - Supplier -> Gestion Prodotti (OK) -> Creazione prodotto e controllo sui campi OK, Gestione listino OK
+  - Supplier -> Gestione Prodotti (OK) -> Creazione prodotto e controllo sui campi OK, Gestione listino OK
   				Gestione Ordini -> Ordini Attivi -> OK
   									Completati -> OK
   									Storico Ordini -> visualizza gli ordini ma, in caso di 2 o più ordini, premendo su dettagli, visualizza la tabella senza i prodotti, nonostante ci siano in realtà
@@ -75,11 +75,11 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
   						Ordini Completati -> OK
   						Ordini In consegna -> OK
   						Storico Ordini -> OK
-  			Schede di acquisto -> 	Crea Scheda -> Creazione scheda OK ma ogni tanto sfasa le categorie dei prodotti (Vedi immagine) e inserendo nella quantità un numero e poi un carattere non numerico nel totale esce scritto NaN €
+  			Schede di acquisto -> 	Crea Scheda -> OK
   									Schede Attive -> OK
   									Schede in consegna -> OK
   			Statistiche -> OK
-  -Normale -> 	Schede di acquisto ->	Crea scheda -> OK, ma inserendo nella quantità un numero e poi un carattere non numerico nel totale esce scritto NaN €
+  -Normale -> 	Schede di acquisto ->	Crea scheda -> OK
   										Schede attive -> OK
   										Schede in consegna -> OK
   				Statistiche -> OK
