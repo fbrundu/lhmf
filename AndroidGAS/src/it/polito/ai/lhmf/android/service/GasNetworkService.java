@@ -234,7 +234,7 @@ public class GasNetworkService extends Service {
 					notificationIntent.setAction("it.polito.ai.lhmf.supplier.delivery." + orderId);
 					notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Data di consegna ordine impostata", contentIntent);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Data di consegna impostata per l'ordine " + order.getOrderName(), contentIntent);
 					prepareNotificationFlasgs(notification);
 					
 					Integer notifyId = Integer.valueOf(SUPPLIER_ORDER_DELIVERY_SET_NOTIFICATION_PREFIX + "" + orderId);
@@ -260,7 +260,7 @@ public class GasNetworkService extends Service {
 					notificationIntent.setAction("it.polito.ai.lhmf.supplier.closed." + orderId);
 					notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Ordine completato", contentIntent);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "L'ordine " + order.getOrderName() + " è completato", contentIntent);
 					prepareNotificationFlasgs(notification);
 					
 					Integer notifyId = Integer.valueOf(SUPPLIER_ORDER_CLOSED_NOTIFICATION_PREFIX + "" + orderId);
@@ -312,7 +312,7 @@ public class GasNetworkService extends Service {
 					notificationIntent.setAction("it.polito.ai.lhmf.participant.closed." + orderId);
 					notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Ordine chiuso", contentIntent);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "L'ordine " + purchase.getOrder().getOrderName() + " è stato chiuso", contentIntent);
 					prepareNotificationFlasgs(notification);
 					
 					Integer notifyId = Integer.valueOf(ORDER_CLOSED_PARTICIPANT_NOTIFICATION_PREFIX + "" + orderId);
@@ -338,7 +338,8 @@ public class GasNetworkService extends Service {
 					notificationIntent.setAction("it.polito.ai.lhmf.progress." + orderId);
 					notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Progresso ordine al " + String.format("%.2f", progress * 100) + "%", contentIntent);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Il progresso dell'ordine " + purchase.getOrder().getOrderName() +
+							" ha superato il " + String.format("%.2f", progress * 100) + "%", contentIntent);
 					prepareNotificationFlasgs(notification);
 					
 					Integer notifyId = Integer.valueOf(ORDER_PROGRESS_UPDATE_NOTIFICATION_PREFIX + "" + orderId);
@@ -354,7 +355,8 @@ public class GasNetworkService extends Service {
 						notificationIntent.setAction("it.polito.ai.lhmf.progress." + orderId);
 						notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-						notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Progresso ordine al " + String.format("%.2f", progress * 100) + "%", contentIntent);
+						notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Il progresso dell'ordine " + order.getOrderName() +
+								" ha superato il " + String.format("%.2f", progress * 100) + "%", contentIntent);
 						prepareNotificationFlasgs(notification);
 						
 						Integer notifyId = Integer.valueOf(ORDER_PROGRESS_UPDATE_NOTIFICATION_PREFIX + "" + orderId);
@@ -405,7 +407,8 @@ public class GasNetworkService extends Service {
 					notificationIntent.setAction("it.polito.ai.lhmf.delivery." + orderId);
 					notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Data di consegna ordine impostata", contentIntent);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Data di consegna impostata per l'ordine " 
+									+ purchase.getOrder().getOrderName(), contentIntent);
 					prepareNotificationFlasgs(notification);
 					
 					Integer notifyId = Integer.valueOf(ORDER_DELIVERY_SET_NOTIFICATION_PREFIX + "" + orderId);
@@ -431,7 +434,7 @@ public class GasNetworkService extends Service {
 					notificationIntent.setAction("it.polito.ai.lhmf.closed." + orderId);
 					notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "Ordine chiuso", contentIntent);
+					notification.setLatestEventInfo(getApplicationContext(), "Notifica GAS", "L'ordine " + order.getOrderName() + " è stato chiuso", contentIntent);
 					prepareNotificationFlasgs(notification);
 					
 					Integer notifyId = Integer.valueOf(ORDER_CLOSED_NOTIFICATION_PREFIX + "" + orderId);

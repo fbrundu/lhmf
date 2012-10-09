@@ -101,57 +101,6 @@ public class PurchaseInterface
 	
 		return idPurchase;
 	}
-
-	/*
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer newPurchase(Purchase p, String username, Integer idOrder)
-			throws InvalidParametersException
-	{
-		if (p == null || username == null || idOrder == null)
-			throw new InvalidParametersException();
-
-		Order order = orderInterface.getOrder(idOrder);
-		Member member = memberInterface.getMember(username);
-		
-		if (order == null || member == null)
-			throw new InvalidParametersException();
-		
-		p.setOrder(order);
-		p.setMember(member);
-		
-		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer idPurchase = (Integer) sessionFactory.getCurrentSession().save(p);
-		Float progressAfter = orderInterface.getProgress(idOrder);
-
-		Notify nn = new Notify();
-		nn.setMember(p.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-		
-		if (progressBefore < 50 && progressAfter >= 50)
-		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
-
-		logInterface.createLog("Ha creato una scheda con id: " + idPurchase,
-				member.getIdMember());
-
-		return idPurchase;
-	}
-	*/
 	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
@@ -316,56 +265,6 @@ public class PurchaseInterface
 					memberInterface.getMember(username).getIdMember());
 		return result;
 	}
-	
-	/*
-	@Transactional(propagation=Propagation.REQUIRED)
-	public Integer updatePurchase(Purchase purchase) throws InvalidParametersException 
-	{
-		if (purchase == null)
-			throw new InvalidParametersException();
-
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"update Purchase "
-						+ "set isShipped = :isShipped "
-						+ "where idPurchase = :idPurchase");
-		query.setParameter("isShipped", purchase.isIsShipped());
-		query.setParameter("idPurchase", purchase.getIdPurchase());
-
-		Integer idOrder = purchase.getOrder().getIdOrder();
-		Float progressBefore = orderInterface.getProgress(idOrder);
-		Integer result = (Integer) query.executeUpdate();
-		Float progressAfter = orderInterface.getProgress(idOrder);
-
-		Notify nn = new Notify();
-		nn.setMember(purchase.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(idOrder.toString());
-		nn.setNotifyTimestamp(new Date());
-		
-		if (progressBefore < 50 && progressAfter >= 50)
-		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
-
-		logInterface.createLog(
-				"Ha modificato la scheda con id: " + purchase.getIdPurchase(),
-				purchase.getMember().getIdMember());
-		
-		return result;
-	}
-	*/
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public	List<Product> getPurchaseDetails(int idPurchase, String username)
@@ -673,6 +572,16 @@ public class PurchaseInterface
 				nn.setNotifyCategory(7);
 				notifyInterface.newNotify(nn);
 			}
+			else if (progressAfter < progressBefore){
+				if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
+					nn.setNotifyCategory(7);
+					notifyInterface.newNotify(nn);
+				}
+				else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
+					nn.setNotifyCategory(8);
+					notifyInterface.newNotify(nn);
+				}
+			}
 			
 			return 1;
 		}
@@ -765,6 +674,16 @@ public class PurchaseInterface
 		{
 			nn.setNotifyCategory(7);
 			notifyInterface.newNotify(nn);
+		}
+		else if (progressAfter < progressBefore){
+			if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
+				nn.setNotifyCategory(7);
+				notifyInterface.newNotify(nn);
+			}
+			else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
+				nn.setNotifyCategory(8);
+				notifyInterface.newNotify(nn);
+			}
 		}
 		
 		return 1;
@@ -865,6 +784,16 @@ public class PurchaseInterface
 				nn.setNotifyCategory(7);
 				notifyInterface.newNotify(nn);
 			}
+			else if (progressAfter < progressBefore){
+				if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
+					nn.setNotifyCategory(7);
+					notifyInterface.newNotify(nn);
+				}
+				else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
+					nn.setNotifyCategory(8);
+					notifyInterface.newNotify(nn);
+				}
+			}
 		}
 		
 		return result;
@@ -935,6 +864,16 @@ public class PurchaseInterface
 		{
 			nn.setNotifyCategory(7);
 			notifyInterface.newNotify(nn);
+		}
+		else if (progressAfter < progressBefore){
+			if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
+				nn.setNotifyCategory(7);
+				notifyInterface.newNotify(nn);
+			}
+			else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
+				nn.setNotifyCategory(8);
+				notifyInterface.newNotify(nn);
+			}
 		}
 		return res;
 	}
