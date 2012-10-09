@@ -854,7 +854,7 @@ function viewOrderDetails(idOrder, notifyCategory)
   }, function(order)
   {
     
-    var details = "<table align='center' style='text-align:center'><tr><td><canvas id='orderProgressCanvas' width='680' height='380'></canvas></td></tr>"
+    var details = "<table align='center' style='text-align:center'><tr><td><canvas id='orderProgressCanvas' width='680' height='330'></canvas></td></tr>"
     +"<tr><td><strong>Ordine</strong> \"" + order.orderName + "\" <strong> Creato da</strong> \"" + order.memberResp.name + "\" ";
     $.getSync("ajax/getmemberurlencoded", { 'idMember' : order.supplier.idMember }, function(member)
     {
@@ -1026,7 +1026,38 @@ function viewOrderDetails(idOrder, notifyCategory)
     	
     		//10 Chiusura Ordine [Normale o Resp partecipante come normale] (sia fallito che non)
     	
+    	$("#dialog-notify").attr('title', "Notifica Ordine Concluso");
     	
+    		//ORdine concluso. Se non è fallito, ricavare la scheda e visualizzare se è fallita o meno.
+    	
+    	var hasPurchase = "";
+        $.postSync("ajax/getHasPurchaseForOrder", { idOrder: idOrder }, function(result)
+        {
+        	hasPurchase = result;
+        });
+        
+    	var failed = false;
+		$.postSync("ajax/isPurchaseFailed", {idPurchase: hasPurchase.idPurchase}, function(data) { 
+			failed = data; 
+		});
+    	
+		if(failed) {
+			$("#dialog-notify-container").append("<h3><strong>La tua scheda &egrave; <span style='color: red'> FALLITA </span></strong></h3>");
+		} else {
+			$("#dialog-notify-container").append("<h3><strong>La tuo acquisto ha avuto <span style='color: green'> successo </span></strong>. " +
+					"</br> Riceverai una notifica quando verr&agrave; impostata la data di consegna.</h3>");
+		}
+		
+		$( "#dialog-notify" ).dialog({
+    		resizable: false, height:600, width:800, modal: true,
+    		buttons: {
+    			"Chiudi": function() {
+    				$( this ).dialog( "close" );
+    			}
+    		}
+    	});
+		
+		
     	break;
     case 11:
     		// 11 Nuovo ordine [Supplier]

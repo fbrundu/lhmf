@@ -142,11 +142,9 @@ function preparePurchaseForm(idOrd, tab){
 	}
     
     loadPurchaseActive();
-    
-    
-    
+        
     if(idOrd != 0 && tab == 2) 
-    	idToHighLight = idO;
+    	idToHighLight = idOrd;
     
     loadShipPurchase();
     
