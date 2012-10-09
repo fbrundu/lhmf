@@ -480,7 +480,11 @@ function postStatRespOrderMonthHandler(data) {
         "legendBackgroundColor": false,
         "fontSize": 10,
         "maxTextSize": 12,
-        "blockSeparationFactor": 2
+        "blockSeparationFactor": 2,
+        "colors": [
+                   "rgb(57,133,0)",
+                   "rgb(163,0,8)"
+                   ],
       });
 	
 }
@@ -513,6 +517,10 @@ function postStatRespOrderYearHandler(data) {
         "pieSegmentSeparation": 2,
         "pieSegmentLabels": "outside",
         "pieType": "solid",
+        "colors": [
+                    "rgb(57,133,0)",
+                    "rgb(163,0,8)"
+                  ],
       });
 	
 }
