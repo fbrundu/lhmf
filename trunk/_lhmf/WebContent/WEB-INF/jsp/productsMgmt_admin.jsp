@@ -25,7 +25,8 @@
           }, null, newState.url);
           History.replaceState(newState.data, newState.title, newState.url);
         }
-        writeProductsPageAdmin();
+        else
+        	writeProductsPageAdmin();
       }
     </script>
 	</jsp:attribute>

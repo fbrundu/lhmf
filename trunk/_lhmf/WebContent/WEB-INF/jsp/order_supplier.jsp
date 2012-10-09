@@ -26,7 +26,8 @@
 				var newState = {data: {action:'orderSup', idOrd: 0, tab: 0}, title: null, url: './orderSup'};
 				History.replaceState({action: 'null'}, null, newState.url);
 				History.replaceState(newState.data, newState.title, newState.url);
-			} else
+			}
+			else
         		writeOrderPage(0, 0);
       }
       </script>
