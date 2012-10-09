@@ -1,6 +1,7 @@
 package it.polito.ai.lhmf.model;
 
 import it.polito.ai.lhmf.exceptions.InvalidParametersException;
+import it.polito.ai.lhmf.model.constants.MemberTypes;
 import it.polito.ai.lhmf.orm.Member;
 import it.polito.ai.lhmf.orm.Notify;
 import it.polito.ai.lhmf.orm.Order;
@@ -550,38 +551,7 @@ public class PurchaseInterface
 			
 			float progressAfter = computeOrderProgressInternal(order);
 			
-			Notify nn = new Notify();
-			nn.setMember(purchase.getMember());
-			nn.setIsReaded(false);
-			// FIXME mettere costanti
-			nn.setText(idOrder.toString());
-			nn.setNotifyTimestamp(new Date());
-
-			if (progressBefore < 90 && progressAfter >= 90)
-			{
-				nn.setNotifyCategory(9);
-				notifyInterface.newNotify(nn);
-			}
-			else if (progressBefore < 75 && progressAfter >= 75)
-			{
-				nn.setNotifyCategory(8);
-				notifyInterface.newNotify(nn);
-			}
-			else if (progressBefore < 50 && progressAfter >= 50)
-			{
-				nn.setNotifyCategory(7);
-				notifyInterface.newNotify(nn);
-			}
-			else if (progressAfter < progressBefore){
-				if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
-					nn.setNotifyCategory(7);
-					notifyInterface.newNotify(nn);
-				}
-				else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
-					nn.setNotifyCategory(8);
-					notifyInterface.newNotify(nn);
-				}
-			}
+			sendOrderProgressNotifies(progressBefore, progressAfter, purchase);
 			
 			return 1;
 		}
@@ -653,38 +623,7 @@ public class PurchaseInterface
 		
 		float progressAfter = computeOrderProgressInternal(order);
 		
-		Notify nn = new Notify();
-		nn.setMember(purchase.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(order.getIdOrder().toString());
-		nn.setNotifyTimestamp(new Date());
-
-		if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 50 && progressAfter >= 50)
-		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressAfter < progressBefore){
-			if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
-				nn.setNotifyCategory(7);
-				notifyInterface.newNotify(nn);
-			}
-			else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
-				nn.setNotifyCategory(8);
-				notifyInterface.newNotify(nn);
-			}
-		}
+		sendOrderProgressNotifies(progressBefore, progressAfter, purchase);
 		
 		return 1;
 	}
@@ -762,38 +701,7 @@ public class PurchaseInterface
 			
 			float progressAfter = computeOrderProgressInternal(order);
 			
-			Notify nn = new Notify();
-			nn.setMember(purchase.getMember());
-			nn.setIsReaded(false);
-			// FIXME mettere costanti
-			nn.setText(order.getIdOrder().toString());
-			nn.setNotifyTimestamp(new Date());
-	
-			if (progressBefore < 90 && progressAfter >= 90)
-			{
-				nn.setNotifyCategory(9);
-				notifyInterface.newNotify(nn);
-			}
-			else if (progressBefore < 75 && progressAfter >= 75)
-			{
-				nn.setNotifyCategory(8);
-				notifyInterface.newNotify(nn);
-			}
-			else if (progressBefore < 50 && progressAfter >= 50)
-			{
-				nn.setNotifyCategory(7);
-				notifyInterface.newNotify(nn);
-			}
-			else if (progressAfter < progressBefore){
-				if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
-					nn.setNotifyCategory(7);
-					notifyInterface.newNotify(nn);
-				}
-				else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
-					nn.setNotifyCategory(8);
-					notifyInterface.newNotify(nn);
-				}
-			}
+			sendOrderProgressNotifies(progressBefore, progressAfter, purchase);
 		}
 		
 		return result;
@@ -843,38 +751,8 @@ public class PurchaseInterface
 			}
 		}
 		
-		Notify nn = new Notify();
-		nn.setMember(purchase.getMember());
-		nn.setIsReaded(false);
-		// FIXME mettere costanti
-		nn.setText(order.getIdOrder().toString());
-		nn.setNotifyTimestamp(new Date());
-
-		if (progressBefore < 90 && progressAfter >= 90)
-		{
-			nn.setNotifyCategory(9);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 75 && progressAfter >= 75)
-		{
-			nn.setNotifyCategory(8);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressBefore < 50 && progressAfter >= 50)
-		{
-			nn.setNotifyCategory(7);
-			notifyInterface.newNotify(nn);
-		}
-		else if (progressAfter < progressBefore){
-			if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
-				nn.setNotifyCategory(7);
-				notifyInterface.newNotify(nn);
-			}
-			else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
-				nn.setNotifyCategory(8);
-				notifyInterface.newNotify(nn);
-			}
-		}
+		sendOrderProgressNotifies(progressBefore, progressAfter, purchase);
+		
 		return res;
 	}
 
@@ -1051,5 +929,67 @@ public class PurchaseInterface
 	    }
 		
 		return ((float) totBought) / totMinBuy * 100;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	private void sendOrderProgressNotifies(float progressBefore,
+			float progressAfter, Purchase purchase) throws InvalidParametersException {
+		Integer notifyCat = null;
+		
+		if (progressBefore < 90 && progressAfter >= 90)
+		{
+			notifyCat = 9;
+		}
+		else if (progressBefore < 75 && progressAfter >= 75)
+		{
+			notifyCat = 8;
+		}
+		else if (progressBefore < 50 && progressAfter >= 50)
+		{
+			notifyCat = 7;
+		}
+		else if (progressAfter < progressBefore){
+			if(progressAfter >= 50 && progressAfter < 75 && progressBefore >= 75 ){
+				notifyCat = 7;
+			}
+			else if(progressAfter >= 75 && progressAfter < 90 && progressBefore >= 90){
+				notifyCat = 8;
+			}
+		}
+		
+		if(notifyCat != null){
+			Member purchaseMember = purchase.getMember();
+			Integer idOrder = purchase.getOrder().getIdOrder();
+			Date ts = new Date();
+			
+			List<Member> membersNormal = memberInterface.getMembers(MemberTypes.USER_NORMAL);
+			List<Member> membersResp = memberInterface.getMembers(MemberTypes.USER_RESP);
+			
+			for(Member m : membersNormal){
+				if(m.getIdMember() != purchaseMember.getIdMember()){
+					Notify nn = new Notify();
+					nn.setMember(m);
+					nn.setIsReaded(false);
+					// FIXME mettere costanti
+					nn.setText(idOrder.toString());
+					nn.setNotifyTimestamp(ts);
+					nn.setNotifyCategory(notifyCat);
+					notifyInterface.newNotify(nn);
+				}
+			}
+			
+			for(Member r : membersResp){
+				if(r.getIdMember() != purchaseMember.getIdMember()){
+					Notify nn = new Notify();
+					nn.setMember(r);
+					nn.setIsReaded(false);
+					// FIXME mettere costanti
+					nn.setText(idOrder.toString());
+					nn.setNotifyTimestamp(ts);
+					nn.setNotifyCategory(notifyCat);
+					notifyInterface.newNotify(nn);
+				}
+			}
+		}
 	}
 }
