@@ -144,6 +144,19 @@ $.getJSONsync = function(url, callback)
   });
 };
 
+$.getJSONsyncTest = function(url, data, callback)
+{
+  return jQuery.ajax({
+    'async' : false,
+    'type' : 'GET',
+    'url' : url,
+    'contentType' : 'application/json',
+    'data' : JSON.stringify(data),
+    'dataType' : 'json',
+    'success' : callback
+  });
+};
+
 function displayFunctionName()
 {
   var functionName = arguments.callee.toString();
