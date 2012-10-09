@@ -1169,21 +1169,16 @@ function getMyMessages()
     var sendersList = getUsersExceptMe();
     for ( var mesIndex in messagesList)
     {
-		tabellaMessaggi += "<tr><td";
-		if (!messagesList[mesIndex].isReaded)
-			tabellaMessaggi += " class='not_read_m' ";
-		tabellaMessaggi += " name='"
-				+ messagesList[mesIndex].idMessage
-				+ "'><h3>"
-				+ sendersList[messagesList[mesIndex].sender]
-				+ " ("
-				+ messagesList[mesIndex].sender
-				+ ")</h3><p>"
-				+ messagesList[mesIndex].text
-				+ "</p><a href='' class='replyTo' data-replyusername='"
-				+ messagesList[mesIndex].sender
-				+ "' >Rispondi</p></td></tr>";
-	}
+      tabellaMessaggi += "<tr><td";
+      if (!messagesList[mesIndex].isReaded)
+        tabellaMessaggi += " class='not_read_m' ";
+      var username = formatUsername(messagesList[mesIndex].sender);
+      tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
+          + "'><h3>" + sendersList[messagesList[mesIndex].sender]
+          + " (" + username + ")</h3><p>" + messagesList[mesIndex].text
+          + "</p><a href='' class='replyTo' data-replyusername='"
+          + messagesList[mesIndex].sender + "' >Rispondi</p></td></tr>";
+    }
   });
   tabellaMessaggi += "</table></div>";
   var users = "<option value='notSelected' selected='selected'>Seleziona...</option>";
@@ -1191,7 +1186,7 @@ function getMyMessages()
   for ( var userIndex in usersList)
   {
     users += "<option value='" + userIndex + "'>"
-        + usersList[userIndex]+ "("+userIndex+")</option>";
+        + usersList[userIndex]+ " ("+formatUsername(userIndex)+")</option>";
   }
   // var orders = "<option value='-1'
   // selected='selected'>Seleziona...</option>";
@@ -1240,6 +1235,18 @@ function getMyMessages()
   $('#messagesCount').html("0");
   $('#messagesCount').css("color", "");
   $('.replyTo').click(replyTo);
+}
+
+function formatUsername(username)
+{
+  if(username.match("https://www.google.com/accounts/.*"))
+    return "Google Account";
+  else if(username.match("https://me.yahoo.com/.*"))
+    return "Yahoo Account";
+  else if(username.match("oauth2:facebook:.*"))
+    return "Facebook Account";
+  else
+    return username;
 }
 
 function replyTo(event)
