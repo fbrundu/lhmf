@@ -56,8 +56,8 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
  
  
  -TESTING FINALE
- - Registrazione utenti -> OK ma servirebbe un controllo per inserire nel database un diririzzo di tipo Via Tot, numero, manca la mail di conferma (non ancora implementata)
- - Admin -> Registrazione Nuovi utenti -> OK e controllo come sopra
+ - Registrazione utenti -> OK  manca la mail di conferma (non ancora implementata)
+ - Admin -> Registrazione Nuovi utenti -> OK
  			Attivazioni utenti -> OK attivazione ma nella visualizzazione, in caso di più utenti, passando alla pagina 2 non si riesce più a tornare alla pagina 1
  			Lista Utenti -> Visualizzazione OK ma problema di sopra nella selezione della pagina
  			Gestione Prodotti (OK) -> Ok sia visualizzazione che Rimozione/Aggiunta al listino
