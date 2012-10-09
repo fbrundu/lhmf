@@ -426,6 +426,7 @@ public class OrderInterface
 			throw new InvalidParametersException();
 
 		if (member.getMemberType().getIdMemberType() == MemberTypes.USER_NORMAL
+				|| member.getMemberType().getIdMemberType() == MemberTypes.USER_RESP
 				|| order.getSupplier().getIdMember() == member.getIdMember()
 				|| order.getMember().getIdMember() == member.getIdMember())
 		{
