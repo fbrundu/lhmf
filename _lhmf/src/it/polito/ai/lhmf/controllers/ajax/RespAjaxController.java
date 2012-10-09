@@ -309,25 +309,24 @@ public class RespAjaxController
 		return orderInterface.getOrdersNowString();
 	}
 	
-	//FIXME : serve agli utenti normal o resp??
-	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
-	@RequestMapping(value = "/ajax/getProductFromOrderNormal", method = RequestMethod.POST)
-	public @ResponseBody
-	List<Product> getProductFromOrderNormal(HttpServletRequest request,
-			HttpSession session,
-			@RequestParam(value = "idOrderNorm") int idOrder)
-	{
-		try
-		{
-			return orderInterface.getProducts(idOrder,
-					(String) session.getAttribute("username"));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
+//	@RequestMapping(value = "/ajax/getProductFromOrderNormal", method = RequestMethod.POST)
+//	public @ResponseBody
+//	List<Product> getProductFromOrderNormal(HttpServletRequest request,
+//			HttpSession session,
+//			@RequestParam(value = "idOrderNorm") int idOrder)
+//	{
+//		try
+//		{
+//			return orderInterface.getProducts(idOrder,
+//					(String) session.getAttribute("username"));
+//		}
+//		catch (Exception e)
+//		{
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 	
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.RESP + "')")
 	@RequestMapping(value = "/ajax/getActivePurchaseNormal", method = RequestMethod.POST)

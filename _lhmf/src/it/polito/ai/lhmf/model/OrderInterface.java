@@ -15,6 +15,9 @@ import it.polito.ai.lhmf.orm.Supplier;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -433,6 +436,14 @@ public class OrderInterface
 			List<Product> ret = new ArrayList<Product>();
 			for (OrderProduct op : order.getOrderProducts())
 				ret.add(op.getProduct());
+			Collections.sort(ret, new Comparator<Product>() {
+				@Override
+				public int compare(Product arg0, Product arg1)
+				{
+					return arg0.getProductCategory().getIdProductCategory()
+							- arg1.getProductCategory().getIdProductCategory();
+				}
+			});
 			return ret;
 		}
 		return null;
