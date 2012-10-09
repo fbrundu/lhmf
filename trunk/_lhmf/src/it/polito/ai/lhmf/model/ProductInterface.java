@@ -266,7 +266,8 @@ public class ProductInterface
 	@Transactional(readOnly = true)
 	public List<Product> getProducts()
 	{
-		return sessionFactory.getCurrentSession().createQuery("from Product")
+		return sessionFactory.getCurrentSession()
+				.createQuery("from Product " + "order by productCategory")
 				.list();
 	}
 
