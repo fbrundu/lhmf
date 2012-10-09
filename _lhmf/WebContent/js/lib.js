@@ -193,13 +193,13 @@ function getMyCategoriesNoLocal()
 function setProductAvailableHandler(event)
 {
   event.preventDefault();
-  var idProduct = $(this).attr('name');
+  var idProduct = $(this).data('idproduct');
   if (setProductAvailable(idProduct) > 0)
   {
     $('#listHead' + idProduct).html('In listino');
     $('#listHead' + idProduct).attr('class', 'yes');
     $('#listCont' + idProduct).html(
-        "<form id='prodNotAval"+idProduct+"' name='" + idProduct + "' action=''>"
+        "<form id='prodNotAval"+idProduct+"' data-idproduct='" + idProduct + "' action=''>"
             + "<input id='prodNotAval" + idProduct
             + "' type='submit' class='button'"
             + " value='Rimuovi da listino' />" + "</form>");
@@ -244,13 +244,13 @@ function getProduct(idProduct)
 function setProductUnavailableHandler(event)
 {
   event.preventDefault();
-  var idProduct = $(this).attr('name');
+  var idProduct = $(this).data('idproduct');
   if (setProductUnavailable(idProduct) > 0)
   {
     $('#listHead' + idProduct).html('Non in listino');
     $('#listHead' + idProduct).attr('class', 'no');
     $('#listCont' + idProduct).html(
-        "<form id='prodAval"+ idProduct +"' name='" + idProduct + "' action=''>"
+        "<form id='prodAval"+ idProduct +"' data-idproduct='" + idProduct + "' action=''>"
             + "<input type='submit' class='button'"
             + " value='Inserisci in listino' />" + "</form>");
     $('input:submit').button();
