@@ -768,7 +768,6 @@ function viewMemberClick(event)
   idMember = $(this).data('idmember');
   var notifyCategory = $(this).data('notifycategory');
   viewMemberDetails(idMember, notifyCategory);
-  $(".simplemodal-container").css("height", "auto");
 }
 
 function filterProducts(myProducts, productCategory)

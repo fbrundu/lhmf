@@ -50,17 +50,17 @@ function historyStateChanged() {
     break;
   case 'log':
     writeLogPage();
-    if (!!stateData.min && !!stateData.max && !!stateData.p && !!stateData.i)
+    if (!!stateData.min && !!stateData.max && !!stateData.p && !!stateData.i && !! stateData.s)
     {
       $('#logMin').datepicker("setDate", new Date(stateData.min));
       $('#logMax').datepicker("setDate", new Date(stateData.max));
-      showLogs(stateData.min, stateData.max, stateData.p, stateData.i);
+      showLogs(stateData.min, stateData.max, stateData.p, stateData.i, stateData.s);
     }
     else
     {
       $('#logMin').datepicker("setDate", Date.now());
       $('#logMax').datepicker("setDate", Date.now());
-      showLogs(Date.now(), Date.now(), 1, 10);
+      showLogs(Date.now(), Date.now(), 1, 10, 0);
     }
     break;
   case 'userMgmt':
@@ -132,7 +132,7 @@ function productClicked(event) {
   }
 }
 
-function showLogs(startTime, endTime, page, itemsPerPage){
+function showLogs(startTime, endTime, page, itemsPerPage, scroll){
   $.getJSON("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
     console.log("Ricevuti log");
     $("#logs").html("");
@@ -177,7 +177,10 @@ function showLogs(startTime, endTime, page, itemsPerPage){
       $("#logPage").html(pages);
       $("#logPage").val(page);
       $("#logItemsPerPage").val(itemsPerPage);
-      $("#logs").fadeIn(1000);
+      $("#logs").fadeIn(1000, function()
+      {
+        $("body").scrollTop(scroll);
+      });
     }
     else
     {
@@ -990,6 +993,7 @@ function prepareLogForm(){
 
 function logRequestHandler()
 {
+  var scroll = $("body").scrollTop();
   var startDate = $('#logMin').datepicker("getDate");
   var endDate = $('#logMax').datepicker("getDate");
   var page = $("#logPage").val();
@@ -1015,7 +1019,8 @@ function logRequestHandler()
             min : startDate.getTime(),
             max : endDate.getTime(),
             p : page,
-            i : itemsPerPage
+            i : itemsPerPage,
+            s : scroll
           }, null, "./log?min=" + startDate.getTime() + "&max="
               + endDate.getTime());
     else
