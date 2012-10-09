@@ -2,6 +2,10 @@ Applicazioni Internet - Gas
 
 # TODO
 
+PROBLEMI STATISTICHE:
+-normale e resp: movimenti: rivedere minimi e masssimo in normale
+-colori in varie stats
+
 ## DA IMPLEMENTARE ##
 
 -[RISOLTO] booleano 'failed' in order_product: default a false. alla data di chiusura dell'ordine, si 
