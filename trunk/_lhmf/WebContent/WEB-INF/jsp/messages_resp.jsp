@@ -9,6 +9,7 @@
 	<jsp:attribute name="scripts">
 		<link rel="stylesheet" href='<spring:url htmlEscape="true" value="/css/dng.css"/>'/>
 		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_resp.js"/>'></script> 
+		<script type="text/javascript" src='<spring:url htmlEscape="true" value="/js/lib_resp_normal.js"/>'></script>
 		<script type="text/javascript">
 			function drawPageCallback(){
 				var History = window.History;

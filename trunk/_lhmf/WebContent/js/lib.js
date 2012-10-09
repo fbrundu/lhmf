@@ -990,7 +990,7 @@ function viewOrderDetails(idOrder, notifyCategory)
 	     					$( this ).dialog( "close" );
 	     					  var History = window.History;	
 	     					  if (History.enabled == true) 
-	     					    History.pushState({ action : varAction, idOrd: hasPurchase, tab: 1 }, null, varAction);
+	     					    History.pushState({ action : varAction, idOrd: hasPurchase.idPurchase, idOrd2: idOrder, tab: 1 }, null, varAction);
 	     				},
 	         			"Chiudi": function() {
 	         				$( this ).dialog( "close" );
@@ -1023,6 +1023,10 @@ function viewOrderDetails(idOrder, notifyCategory)
     	
     	break;
     case 10:
+    	
+    		//10 Chiusura Ordine con successo [Normale o Resp partecipante come normale]
+    	
+    	
     	break;
     case 11:
     		// 11 Nuovo ordine [Supplier]
@@ -1386,7 +1390,8 @@ function clickNewMessageHandler(event)
     });
     if (idMessage > 0)
     {
-      $("#productFieldset").children("input").val("");
+      $("#usersSelect").val("notSelected");
+      $("#messageText").val("");
       $("#dialog-ok").dialog({
         resizable : false,
         height : 140,
