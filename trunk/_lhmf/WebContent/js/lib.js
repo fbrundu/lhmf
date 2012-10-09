@@ -1173,11 +1173,12 @@ function getMyMessages()
       if (!messagesList[mesIndex].isReaded)
         tabellaMessaggi += " class='not_read_m' ";
       var username = formatUsername(messagesList[mesIndex].sender);
-      tabellaMessaggi += " name='" + messagesList[mesIndex].idMessage
+      tabellaMessaggi += " data-idmessage='" + messagesList[mesIndex].idMessage
           + "'><h3>" + sendersList[messagesList[mesIndex].sender]
-          + " (" + username + ")</h3><p>" + messagesList[mesIndex].text
-          + "</p><a href='' class='replyTo' data-replyusername='"
-          + messagesList[mesIndex].sender + "' >Rispondi</p></td></tr>";
+          + " (" + username + ")<img src='' class='replyTo' data-replyusername='"
+          + messagesList[mesIndex].sender + "' title='Rispondi' />"
+          + "</h3><p>" + messagesList[mesIndex].text
+          + "</p></td></tr>";
     }
   });
   tabellaMessaggi += "</table></div>";
@@ -1403,7 +1404,7 @@ function setReadNotify()
 
 function setReadMessage()
 {
-  var idMessage = $(this).attr("name");
+  var idMessage = $(this).data("idmessage");
   $.postSync("ajax/setreadmessage", {
     'idMessage' : idMessage
   }, function()
