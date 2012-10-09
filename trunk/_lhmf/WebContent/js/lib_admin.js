@@ -177,6 +177,7 @@ function showLogs(startTime, endTime, page, itemsPerPage, scroll){
       $("#logPage").html(pages);
       $("#logPage").val(page);
       $("#logItemsPerPage").val(itemsPerPage);
+      $("#logsAmountDisplay").html("&nbsp;"+logList.length+" log trovati");
       $("#logs").fadeIn(1000, function()
       {
         $("body").scrollTop(scroll);
@@ -389,7 +390,7 @@ function writeLogPage(){
       .html(
           "<div class='logform'>"
               + "<form method='get' action='log'>"
-              + "<fieldset><legend>&nbsp;Seleziona range di date:&nbsp;</legend><br />"
+              + "<fieldset><legend>&nbsp;Seleziona intervallo di date:&nbsp;</legend><br />"
               + "<label for='logMin' class='left'>Data iniziale: </label>"
               + "<input type='text' id='logMin' class='field'/>"
               + "<label for='logMax' class='left'>Data finale: </label>"
@@ -404,6 +405,7 @@ function writeLogPage(){
               + "</select>"
               + "</fieldset>"
               + "</form>"
+              + "<br/><p id='logsAmountDisplay'></p>"
               + "<table id='logs' class='log'></table>"
               + "<div id='errorDivLog' style='display:none;'>"
               + "<fieldset><legend id='legendErrorLog'>&nbsp;Errore&nbsp;</legend><br />"
@@ -412,7 +414,7 @@ function writeLogPage(){
               + "</fieldset>"
               + "</div>"
               + "</div>"
-              + "<div id='dialog' title='Errore: Formato date non corretto'> <p>Selezionale entrambe le date (o nel corretto ordine cronologico). </p></div>");
+              + "<div id='dialog' title='Errore: Formato date non corretto'> <p>Seleziona entrambe le date (o nel corretto ordine cronologico). </p></div>");
   $('#tabs').tabs();
   $( "#dialog" ).dialog({ autoOpen: false });
   prepareLogForm();
@@ -784,6 +786,8 @@ function prepareLogForm(){
   for (i = 2; i <= initialNumberOfPages; i++)
     pages += "<option value='"+i+"'>"+i+"</option>";
   $("#logPage").html(pages);
+  $("#logsAmountDisplay").html("&nbsp;"+logsAmount+" log trovati");
+  //logRequestHandler();
 }
 
 function logRequestHandler()
