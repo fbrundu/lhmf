@@ -1040,7 +1040,7 @@ function postShowPurchaseHandler(data) {
 			countShip--;
 			tdRitiro = "<td style='color: gray;'>Scheda Fallita</td>";
 			var imgs = "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
-		} else if(val.isShipped == "Spedizione Effettuata") {
+		} else if(val.isShipped == "Ritiro effettuato") {
 			countShip--;
 			tdRitiro = "<td style='color: green;'>Ok</td>";
 			var imgs = "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
