@@ -1076,14 +1076,14 @@ function newProduct(productParameters)
   return returnedIdProduct;
 }
 
-function getAllProducts()
-{
-  $.getJSONsync("ajax/getproducts", function(productsList)
-  {
-    window.localStorage.setItem('productsList', JSON.stringify(productsList));
-    console.debug("productsList saved in localstorage");
-  });
-}
+//function getAllProducts()
+//{
+//  $.getJSONsync("ajax/getproducts", function(productsList)
+//  {
+//    window.localStorage.setItem('productsList', JSON.stringify(productsList));
+//    console.debug("productsList saved in localstorage");
+//  });
+//}
 
 function getMyProductsNoLocal()
 {

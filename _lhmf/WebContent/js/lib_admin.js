@@ -133,7 +133,7 @@ function productClicked(event) {
 }
 
 function showLogs(startTime, endTime, page, itemsPerPage, scroll){
-  $.getJSONsync("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
+  $.getJSONsyncTest("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
     console.log("Ricevuti log");
     $("#logs").html("");
     $("#logs").hide();
