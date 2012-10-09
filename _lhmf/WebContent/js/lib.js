@@ -1233,10 +1233,10 @@ function getMyMessages()
       var username = formatUsername(messagesList[mesIndex].sender);
       tabellaMessaggi += " data-idmessage='" + messagesList[mesIndex].idMessage
           + "'><h3>" + sendersList[messagesList[mesIndex].sender]
-          + " (" + username + ")<img src='' class='replyTo' data-replyusername='"
-          + messagesList[mesIndex].sender + "' title='Rispondi' />"
+          + " (" + username + ")"
           + "</h3><p>" + messagesList[mesIndex].text
-          + "</p></td></tr>";
+          + "</p><img src='img/reply.png' class='replyTo' data-replyusername='"
+          + messagesList[mesIndex].sender + "' title='Rispondi' /></td></tr>";
     }
   });
   tabellaMessaggi += "</table></div>";
@@ -1280,7 +1280,7 @@ function getMyMessages()
       // + "</select><br><br>"
       + "<label for='messageText' class='left'>Testo: </label>"
       + "<textarea name='messageText' id='messageText' class='field' "
-      + "required='required' placeholder='Inserisci qua il tuo messaggio...'/><br>"
+      + "required='required' placeholder='Inserisci qua il tuo messaggio...' maxlength='300' /><br>"
       + "<button type='submit' id='newMessageSubmit'> Invia messaggio </button>"
       + "</fieldset></form></div>";
   $(".centrale").html(tabellaMessaggi + formInvioMessaggio);
