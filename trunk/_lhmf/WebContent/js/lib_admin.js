@@ -50,17 +50,17 @@ function historyStateChanged() {
     break;
   case 'log':
     writeLogPage();
-    if (!!stateData.min && !!stateData.max && !!stateData.p && !!stateData.i && !! stateData.s)
+    if (!!stateData.min && !!stateData.max && !!stateData.p && !!stateData.i)
     {
       $('#logMin').datepicker("setDate", new Date(stateData.min));
       $('#logMax').datepicker("setDate", new Date(stateData.max));
-      showLogs(stateData.min, stateData.max, stateData.p, stateData.i, stateData.s);
+      showLogs(stateData.min, stateData.max, stateData.p, stateData.i);
     }
     else
     {
       $('#logMin').datepicker("setDate", Date.now());
       $('#logMax').datepicker("setDate", Date.now());
-      showLogs(Date.now(), Date.now(), 1, 10, 0);
+      showLogs(Date.now(), Date.now(), 1, 10);
     }
     break;
   case 'userMgmt':
@@ -133,7 +133,7 @@ function productClicked(event) {
 }
 
 function showLogs(startTime, endTime, page, itemsPerPage, scroll){
-  $.getJSONsyncTest("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
+  $.getSync("ajax/getlogs", {start: startTime, end: endTime}, function(logList){
     console.log("Ricevuti log");
     $("#logs").html("");
     $("#logs").hide();
@@ -178,10 +178,7 @@ function showLogs(startTime, endTime, page, itemsPerPage, scroll){
       $("#logPage").val(page);
       $("#logItemsPerPage").val(itemsPerPage);
       $("#logsAmountDisplay").html("&nbsp;"+logList.length+" log trovati");
-      $("#logs").fadeIn(1000, function()
-      {
-        $("body").scrollTop(scroll);
-      });
+      $("#logs").fadeIn(1000);
     }
     else
     {
@@ -822,8 +819,7 @@ function logRequestHandler()
             min : startDate.getTime(),
             max : endDate.getTime(),
             p : page,
-            i : itemsPerPage,
-            s : scroll
+            i : itemsPerPage
           }, null, "./log?min=" + startDate.getTime() + "&max="
               + endDate.getTime());
     else
