@@ -78,7 +78,7 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
   			Schede di acquisto -> 	Crea Scheda -> se un resp prova a visualizzare i prodotti relativi a un ordine di un altro responsabile non riesce a visualizzarne i prodotti nonostante siano desponibili
   									Schede Attive -> OK
   									Schede in consegna -> OK
-  			Statistiche -> OK
+  			Statistiche -> OK, ma quella riguardo agli ordini conclusi/falliti per mese mostra costantemente un ordine in meno
   -Normale -> 	Schede di acquisto ->	Crea scheda -> OK
   										Schede attive -> OK
   										Schede in consegna -> OK
