@@ -18,8 +18,8 @@
 				}
 				else
 				    writeStatPageResp();
-					startRefreshOrder = 0;
-		    		startRefresh = 0;
+				startRefreshOrder = 0;
+	    		startRefresh = 0;
 				//var History = window.History;
 				//var state = History.getState();
 				//var newState = {data:{action: 'log', min: ${minLog}, max: ${maxLog}}, title: null, url: "./log?min=" + ${minLog} + "&max=" + ${maxLog}};
