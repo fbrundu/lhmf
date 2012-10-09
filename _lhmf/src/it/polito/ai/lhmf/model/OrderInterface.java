@@ -1107,25 +1107,6 @@ public class OrderInterface
 						e.printStackTrace();
 					}
 					
-					// Manda notifica agli utenti partecipanti
-					for (Purchase p : orderTmp.getPurchases())
-					{
-						Notify nn = new Notify();
-						nn.setMember(p.getMember());
-						nn.setIsReaded(false);
-						// FIXME mettere costanti
-						nn.setNotifyCategory(10);
-						nn.setText(orderTmp.getIdOrder().toString());
-						nn.setNotifyTimestamp(new Date());
-						try
-						{
-							notifyInterface.newNotify(nn);
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-						}
-					}
 					// Manda notifica al fornitore
 					Notify nn = new Notify();
 					nn.setMember(orderTmp.getSupplier().getMemberByIdMember());
@@ -1143,26 +1124,23 @@ public class OrderInterface
 						e.printStackTrace();
 					}
 				}
-				else
-				{ 
-					// Manda notifica di fallimento agli utenti partecipanti
-					for (Purchase p : orderTmp.getPurchases())
+				// Manda notifica agli utenti partecipanti
+				for (Purchase p : orderTmp.getPurchases())
+				{
+					Notify nn = new Notify();
+					nn.setMember(p.getMember());
+					nn.setIsReaded(false);
+					// FIXME mettere costanti
+					nn.setNotifyCategory(10);
+					nn.setText(orderTmp.getIdOrder().toString());
+					nn.setNotifyTimestamp(new Date());
+					try
 					{
-						Notify nn = new Notify();
-						nn.setMember(p.getMember());
-						nn.setIsReaded(false);
-						// FIXME mettere costanti
-						nn.setNotifyCategory(14);
-						nn.setText(orderTmp.getIdOrder().toString());
-						nn.setNotifyTimestamp(new Date());
-						try
-						{
-							notifyInterface.newNotify(nn);
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-						}
+						notifyInterface.newNotify(nn);
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
 					}
 				}
 			}
