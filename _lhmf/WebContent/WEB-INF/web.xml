@@ -12,7 +12,6 @@
         <param-value>
             /WEB-INF/applicationContext.xml
             /WEB-INF/applicationContext-security.xml
-            /WEB-INF/applicationContext-service.xml
         </param-value>
     </context-param>
 

@@ -21,12 +21,6 @@
 				}
 				else
 					getMyNotifies();
-				//var History = window.History;
-				//var state = History.getState();
-				//var newState = {data:{action: 'log', min: ${minLog}, max: ${maxLog}}, title: null, url: "./log?min=" + ${minLog} + "&max=" + ${maxLog}};
-				//if(newState.data != state.data || newState.title != state.title || newState.url != state.url)
-					//History.replaceState({action: 'null'}, null, newState.url);
-					//History.replaceState(newState.data, newState.title, newState.url);
 				
 			}
 		</script>
