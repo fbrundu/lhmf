@@ -119,6 +119,26 @@ public class NormalAjaxController
 			return null;
 		}
 	}
+	
+	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
+			+ MyUserDetailsService.UserRoles.RESP + "')")
+	@RequestMapping(value = "/ajax/getHasPurchaseForOrder", method = RequestMethod.POST)
+	public @ResponseBody
+	Purchase getHasPurchaseForOrder(HttpServletRequest request,
+			HttpSession session,
+			@RequestParam(value = "idOrder") int idOrder)
+	{
+		try
+		{
+			return purchaseInterface.getMyPurchase((String) session.getAttribute("username"), idOrder);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
 			+ MyUserDetailsService.UserRoles.RESP + "')")

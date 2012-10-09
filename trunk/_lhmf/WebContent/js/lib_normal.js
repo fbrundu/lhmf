@@ -433,12 +433,15 @@ function preparePurchaseForm(idOrd){
     
     loadPurchaseActive();
     
+    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 1) {
+    	idPurchase = idOrd;
+    	clickPurchaseDetailsHandler();
+    }
+    
     if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 2) 
     	idToHighLight = idOrd;
     
     loadPurchaseOld();
-    
-    
     
     $("#purchaseCompositor").hide();
     $('#purchaseRequest').on("click", clickPurchaseHandler);
@@ -951,8 +954,6 @@ function postActivePurchaseListHandler(purchaseList)
             	valProgress = data;
     	    });
             
-            
-            
             $("#activePurchaseList").append("<tr class='orderPurchase_" + purchase.idPurchase + "'> <td>" + purchase.order.orderName + "</td>" +
 					  							  "<td>" + dateOpen + "</td>" +
 					  							  "<td>" + dateClose + "</td>" +
@@ -1132,10 +1133,13 @@ function postShipPurchaseDetailsListHandler(productList)
 
 function clickPurchaseDetailsHandler(event) 
 {
-    event.preventDefault();
+	if(typeof event != 'undefined')
+		event.preventDefault();
     
     $(".detailsPurchase").hide();
-    idPurchase = $(this).data('idpurchase');
+    
+    if(typeof event != 'undefined')
+    	idPurchase = $(this).data('idpurchase');
     
     $.postSync("ajax/getPurchaseDetails", {idPurchase: idPurchase}, postPurchaseDetailsListHandler);
 }
