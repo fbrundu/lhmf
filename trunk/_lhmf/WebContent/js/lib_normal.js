@@ -536,10 +536,10 @@ function postProductListRequest(productList)
 										"<span class='price' >&euro;" + product.unitCost + "</span>" +
 										"<span class='darkview'>" +
 											"Blocchi: " + product.unitBlock + " | (" + product.measureUnit + ")<br />" +
-											"Disponibilit&agrave: <div id='" + idDispDIV + "'>" + DispTmp + "</div>" +
+											"MinBuy: " + product.minBuy + " | Disp.: <div id='" + idDispDIV + "'>" + DispTmp + "</div>" +
 										"</span>" +
 									"</section>" +
-									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='12px'></a></div>" +
+									"<div class='deleteButton'><a href='#'><img alt='Rimuovi' src='img/delete.png' class='delButton' height='12px'></a></div>" +
 								  "</li>");
 			
 			$( "#" + idProgressBar ).progressbar({	value: 0 });
@@ -967,7 +967,7 @@ function postActivePurchaseListHandler(purchaseList)
 					  							  "<td>" + dateClose + "</td>" +
 					  							  "<td><button type='submit' id='showDetails_" + purchase.idPurchase + "' data-idpurchase='" + purchase.idPurchase + "'> Dettagli </button>" +
 					  							  "</td>" +
-					  							 "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + purchase.order.idOrder + "'></td>" +
+					  							 "<td><img alt='Mappa dislocazione utenti' src='img/map.png' class='mapButton' height='12px' data-idorder='" + purchase.order.idOrder + "'></td>" +
 					  							  "</tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='5'> <strong>Progresso dell'ordine.</td></tr>" +
 				  							  "<tr class='orderPurchase_" + purchase.idPurchase + "'><td colspan='5' style='padding: 5px'> <div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar2'></span></div> </td></tr>" +
@@ -1035,7 +1035,7 @@ function postShipPurchaseListHandler(purchaseList)
 					  							  "<td>" + dateDelivery + "</td>" +
 					  							  "<td><button type='submit' data-idpurchase='" + purchase.idPurchase + "' data-idorder='" + purchase.order.idOrder + "' id='showDetails_" + purchase.idPurchase + "'>Dettagli</button>" +
 					  							  "</td>" +
-					  							  "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + purchase.order.idOrder + "'></td>" +
+					  							  "<td><img alt='Mappa dislocazione utenti' src='img/map.png' class='mapButton' height='12px' data-idorder='" + purchase.order.idOrder + "'></td>" +
 					  							  "</tr>" +
 					  							  "<tr class='detailsPurchase' id='TRdetailsPurchase_" + purchase.idPurchase + "'><td colspan='6' id='TDdetailsPurchase_" + purchase.idPurchase + "'></td></tr>");   
             $("#showDetails_" + purchase.idPurchase).on("click", clickShipPurchaseDetailsHandler);
@@ -1215,8 +1215,8 @@ function postPurchaseDetailsListHandler(productList)
         		                       "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
         		                       "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
         		                       "<td> <input type='text' style='width: 35px; text-align: center;' id='" + idAmount + "' data-oldamount='" + AmountTmp + "' value='" + AmountTmp + "'/></td>" +
-        		                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
-        		                       "<img data-productid='" + val.idProduct + "' src='img/delete.png' class='delProductButton' height='12px'> </td>" +
+        		                       "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img alt='Aggiorna' data-productid='" + val.idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
+        		                       "<img alt='Rimuovi' data-productid='" + val.idProduct + "' src='img/delete.png' class='delProductButton' height='12px'> </td>" +
         		                       "<td id='tdPartial_" + idPurchase +"_" + val.idProduct + "'>" + parziale + " &euro;</td></tr>");
         
         $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
@@ -1275,7 +1275,7 @@ function postPurchaseDetailsListHandler(productList)
                                                "<td>" + val.unitCost + "&euro; [" + val.unitBlock + "]<br />(" + val.minBuy + "-" + val.maxBuy +")</td>" +
                                                "<td id='" + idDisp + "' data-disp='" + DispTmp + "'>" + DispTmp + "</td>" +
                                                "<td> <input type='text' style='width: 35px; text-align: center;' data-oldamount='0' id='" + idAmount + "'/></td>" +
-                                               "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
+                                               "<td id='action_" + idPurchase + "_" + val.idProduct + "'> <img alt='Aggiungi' data-productid='" + val.idProduct + "' src='img/add.png' class='addProductButton' height='12px'> </td></tr>");
                 
                 $( "#" + idProgressBarProduct ).progressbar({	value: 0	});
                 $( "#" + idProgressBarProduct + " span").text("00.00%");
@@ -1395,7 +1395,7 @@ function removeProduct(idProduct, lastProduct) {
     
     //Modifico la riga cambiando i controlli delle azioni
     var actionControl = "#action_" + idPurchase + "_" + idProduct;
-    $(actionControl).html("<img data-productid='" + idProduct + "' src='img/add.png' class='addProductButton' height='12px'> ");
+    $(actionControl).html("<img alt='Aggiungi' data-productid='" + idProduct + "' src='img/add.png' class='addProductButton' height='12px'> ");
     
     //Aggiungo la riga con il nuovo totale
     $(tableControl).append("<tr id='trTotalRow_" + idPurchase +"' data-total='" + totale + "'>" +
@@ -1692,8 +1692,8 @@ function addProductFromPurchase(event){
     $(trProduct).append("<td id='" + idPartial + "'>" + parziale + " &euro;</td>");
     //Modifico la riga cambiando i controlli delle azioni
     var actionControl = "#action_" + idPurchase + "_" + idProduct;
-    $(actionControl).html("<img data-productid='" + idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
-        		          "<img data-productid='" + idProduct + "' src='img/delete.png' class='delProductButton' height='12px'>");
+    $(actionControl).html("<img alt='Aggiorna' data-productid='" + idProduct + "' src='img/refresh.png' class='refreshProductButton' height='12px'> " +
+        		          "<img alt='Rimuovi' data-productid='" + idProduct + "' src='img/delete.png' class='delProductButton' height='12px'>");
     
     //aggiorno progressbar
     refreshProgressBarOrder(idPurchase);
