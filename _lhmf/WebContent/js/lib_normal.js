@@ -186,7 +186,7 @@ function writePurchasePage(idOrd, tab)
     $('#tabsPurchase').tabs();
     $('#tabsPurchase').tabs('select', tab);
     
-    preparePurchaseForm(idOrd);
+    preparePurchaseForm(idOrd, tab);
 }
 
 function writeStatPageNormal() {
@@ -415,6 +415,8 @@ function writeIndexPage()
     writePurchasePage(0, 0);
 }
 
+var writePurchaseDetails = false;
+
 function preparePurchaseForm(idOrd){
     
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
@@ -428,17 +430,23 @@ function preparePurchaseForm(idOrd){
        
     loadOrders();
     
-    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 0)
+    if(idOrd != 0 && tab == 0)
     	productListRequest(idOrd);
+    
+    if(idOrd != 0 && tab == 1) {
+    	idPurchase = idOrd;
+	
+		var History = window.History;
+	    var state = History.getState();
+	    var stateData = state.data;
+	    idOrder = stateData.idOrd2;
+	    
+	    writePurchaseDetails = true;
+	}
     
     loadPurchaseActive();
     
-    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 1) {
-    	idPurchase = idOrd;
-    	clickPurchaseDetailsHandler();
-    }
-    
-    if(idOrd != 0 && $('#tabsPurchase').tabs('select') == 2) 
+    if(idOrd != 0 && tab == 2) 
     	idToHighLight = idOrd;
     
     loadPurchaseOld();
@@ -974,6 +982,12 @@ function postActivePurchaseListHandler(purchaseList)
             
         $("#activePurchaseList").show("slow");
         $("#activePurchaseList").fadeIn(1000);
+        
+        if(writePurchaseDetails) {
+        	writePurchaseDetails = false;
+        	clickPurchaseDetailsHandler();
+        }
+        
         $("#errorDivActivePurchase").hide();
     }
     else 

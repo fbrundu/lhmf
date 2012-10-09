@@ -106,7 +106,9 @@ function orderClicked(event)
     if (!!stateData && !!stateData.action && stateData.action == 'orderSup')
       return;
     History.pushState({
-      action : 'orderSup'
+      action : 'orderSup',
+      idOrd: 0, 
+      tab:0
     }, null, 'orderSup');
   }
 }
