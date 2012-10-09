@@ -75,9 +75,9 @@ solo a livello grafico, il tasto "Attiva" funziona correttamente
   						Ordini Completati -> OK
   						Ordini In consegna -> OK
   						Storico Ordini -> OK
-  			Schede di acquisto -> 	Crea Scheda -> se un resp prova a visualizzare i prodotti relativi a un ordine di un altro responsabile non riesce a visualizzarne i prodotti nonostante siano desponibili
+  			Schede di acquisto -> 	Crea Scheda -> OK
   									Schede Attive -> OK
-  									Schede in consegna -> OK
+  									Schede in consegna -> modificando uno o più stati di ritiro (non tutti però) il db viene aggiornato correttamente, ma ricaricando la pagina lo stato ritiro ritorna in "Non ritirato"
   			Statistiche -> OK, ma quella riguardo agli ordini conclusi/falliti per mese mostra costantemente un ordine in meno
   -Normale -> 	Schede di acquisto ->	Crea scheda -> OK
   										Schede attive -> OK
