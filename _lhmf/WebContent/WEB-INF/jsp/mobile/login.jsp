@@ -45,7 +45,7 @@ function facebook_click() {
             <c:if test="${param.form_error != null}">
                 <fieldset><legend>&nbsp;Errore&nbsp;</legend><br />
                    <span class="actionError">
-                       <strong>Il tentativo di accesso al sito non è andato a buon fine.</strong><br/><br/>
+                       <strong>Il tentativo di accesso al sito non &egrave; andato a buon fine.</strong><br/><br/>
                        Causa: <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>.<br/>
                   </span>
                 </fieldset>

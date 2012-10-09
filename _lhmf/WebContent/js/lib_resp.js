@@ -858,7 +858,7 @@ function postProductListRequest(productList) {
 											"Pezzatura: " + product.minBuy + " - " + product.maxBuy +
 										"</span>" +
 									"</section>" +
-									"<div class='deleteButton'><a href='#'><img src='img/delete.png' class='delButton' height='15px'></a></div>" +
+									"<div class='deleteButton'><a href='#'><img alt='Rimuovi' src='img/delete.png' class='delButton' height='12px'></a></div>" +
 								  "</li>");
 								
         }
@@ -971,7 +971,7 @@ function postShipOrderListHandler(orderList) {
 					            		  "<td>" + dateDelivery + "</td>" +
 					            		  "<td><button style='margin: 0px' type='submit' id='showDetailsShip_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Mostra Schede </button>" +
 										  "</td>" +
-										  "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
+										  "<td><img alt='Mappa dislocazione utenti' src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
 					            		"</tr>");
 
             $("#shipOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderShip_" + order.idOrder + "'><td colspan='6' id='TDdetailsOrderShip_" + order.idOrder + "'></td></tr>");
@@ -1039,15 +1039,15 @@ function postShowPurchaseHandler(data) {
 		if(failed) {
 			countShip--;
 			tdRitiro = "<td style='color: gray;'>Scheda Fallita</td>";
-			var imgs = "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
+			var imgs = "<img alt='Dettagli' src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
 		} else if(val.isShipped == "Ritiro effettuato") {
 			countShip--;
 			tdRitiro = "<td style='color: green;'>Ok</td>";
-			var imgs = "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
+			var imgs = "<img Dettagli src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
 		} else {
 			tdRitiro = "<td id='TDconsegna_" + val.idPurchase + "' style='color: red;'>Non Ritirato</td>";
-			var imgs = "<img src='img/ship.png' class='shipButton' height='13px' data-idpurchase='" + val.idPurchase + "'>" +
-            		   "<img src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
+			var imgs = "<img alt='Segna come consegnato' src='img/ship.png' class='shipButton' height='13px' data-idpurchase='" + val.idPurchase + "'>" +
+            		   "<img alt='Dettagli' src='img/details.png' class='detailsButton' height='12px' data-idpurchase='" + val.idPurchase + "'>";
 		}
 		
 		var totPurchase = 0;
@@ -1233,8 +1233,8 @@ function postActiveOrderListHandler(orderList) {
                                               "<td>" + dateOpen + "</td>" +
                                               "<td>" + dateClose + "</td>" +
                                               "<td><div id='" + idProgressBar + "' style='text-align: center;'><span class='textProgressBar2order'></span></div></td>" +
-                                              "<td><img src='img/details.png' class='detailsButton2' height='12px' data-idorder='" + order.idOrder + "'></td>" +
-                                              "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
+                                              "<td><img alt='Dettagli' src='img/details.png' class='detailsButton2' height='12px' data-idorder='" + order.idOrder + "'></td>" +
+                                              "<td><img alt='Mappa dislocazione utenti' src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
                                               "</tr>" +
                                          "<tr class='detailsOrder' id='TRdetailsOrderActive_" + order.idOrder + "'><td colspan='7' id='TDdetailsOrderActive_" + order.idOrder + "'></td></tr>");
             $(".detailsOrder").hide();
@@ -1620,7 +1620,7 @@ function postCompleteOrderListHandler(orderList) {
 											  "<td> <button style='margin: 0px' type='submit' id='setDateDelivery_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Set Consegna </button>" +
 											  	   "<button style='margin: 0px' type='submit' id='showDetailsComplete_" + order.idOrder + "' data-idorder='" + order.idOrder + "'> Dettagli </button>" +
 											  "</td>" +
-											  "<td><img src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
+											  "<td><img alt='Mappa dislocazione utenti' src='img/map.png' class='mapButton' height='12px' data-idorder='" + order.idOrder + "'></td>" +
 											  "</tr>");
     		
              $("#completeOrderList").append("<tr class='detailsOrder' id='TRdetailsOrderComplete_" + order.idOrder + "'><td colspan='7' id='TDdetailsOrderComplete_" + order.idOrder + "'></td></tr>");

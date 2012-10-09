@@ -189,10 +189,10 @@ function writeOrderPage(idOrd, tab)
 	$('#tabsOrder').tabs();
 	$('#tabsOrder').tabs('select', tab);
 	
-	prepareOrderForm(idOrd);
+	prepareOrderForm(idOrd, tab);
 }
 
-function prepareOrderForm(idOrd){
+function prepareOrderForm(idOrd, tab){
     
     $('#tabsOrder').tabs();
     $( "#dialog" ).dialog({ autoOpen: false });
@@ -204,12 +204,17 @@ function prepareOrderForm(idOrd){
     
     loadActiveOrder();
     
-    if(idOrd != 0) {
+    if(idOrd != 0 && tab == 0) {
     	idOrder = idOrd;
     	clickShowDetailsHandler();
     }
     	
     loadCompleteOrder();
+    
+    if(idOrd != 0 && tab == 1) {
+    	idOrder = idOrd;
+    	clickShowDetailsHandler();
+    }
     
     $("button").button();
 }

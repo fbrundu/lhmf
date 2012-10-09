@@ -78,8 +78,6 @@ public class ProductAjaxController
 	{
 		try
 		{
-			if (!picture.getContentType().matches("image/.*"))
-				return -1;
 			return productInterface.newProduct((String) request.getSession()
 					.getAttribute("username"), productName, productDescription,
 					productDimension, measureUnit, unitBlock, transportCost,

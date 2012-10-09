@@ -727,16 +727,6 @@ function getMyNotifies()
         	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
         });
         break;
-      // Ordine chiuso con fallimento (utenti partecipanti all'ordine)
-      case 14:
-        $.getSync("ajax/getordername", { 'idOrder' : notifiesList[notIndex].text }, function(orderName)
-        {
-          tabellaNotifiche += "L'ordine '" + orderName + "' &egrave; fallito: " +
-          	"<a href='' class='orderNotify' " +
-        	"data-idorder='" + notifiesList[notIndex].text +"' " +
-        	"data-notifycategory='" + notifiesList[notIndex].notifyCategory + "'>Visualizza dettagli</a>";
-        });
-        break;
       default:
         tabellaNotifiche += notifiesList[notIndex].text;
         break;
@@ -1074,7 +1064,6 @@ function viewOrderDetails(idOrder, notifyCategory)
     	break;
     case 11:
     		// 11 Nuovo ordine [Supplier]
-    	varAction = "orderSup";
     	
     	 $("#dialog-notify").attr('title', "Notifica Nuovo Ordine");
     	 
@@ -1085,7 +1074,7 @@ function viewOrderDetails(idOrder, notifyCategory)
 					$( this ).dialog( "close" );
 					  var History = window.History;	
 					  if (History.enabled == true) 
-					    History.pushState({ action : varAction, idOrd: idOrder, tab: 0 }, null, varAction);
+					    History.pushState({ action : "orderSup", idOrd: idOrder, tab: 0 }, null, "orderSup");
 				},
     			"Chiudi": function() {
     				$( this ).dialog( "close" );
@@ -1095,10 +1084,48 @@ function viewOrderDetails(idOrder, notifyCategory)
     	
     	break;
     case 12:
+    	
+    	 //12 Chiusura Ordine con successo [Supplier]
+    	
+    	$("#dialog-notify").attr('title', "Notifica Ordine Concluso con Successo");
+    	
+    	$( "#dialog-notify" ).dialog({
+    		resizable: false, height:600, width:800, modal: true,
+    		buttons: {
+    			"Visualizza il dettaglio dell'ordine": function() {
+					$( this ).dialog( "close" );
+					  var History = window.History;	
+					  if (History.enabled == true) 
+					    History.pushState({ action : "orderSup", idOrd: idOrder, tab: 1 }, null, "orderSup");
+				},
+    			"Chiudi": function() {
+    				$( this ).dialog( "close" );
+    			}
+    		}
+    	});
+    	
     	break;
     case 13:
-    	break;
-    case 14:
+    	
+    		//Data di consegna settata [Supplier]
+    	
+    	$("#dialog-notify").attr('title', "Notifica Ordine: data di consegna impostata.");
+    	
+    	$( "#dialog-notify" ).dialog({
+    		resizable: false, height:600, width:800, modal: true,
+    		buttons: {
+    			"Visualizza lo storico degli ordini": function() {
+					$( this ).dialog( "close" );
+					  var History = window.History;	
+					  if (History.enabled == true) 
+					    History.pushState({ action : "orderSup", idOrd: 0, tab: 2 }, null, "orderSup");
+				},
+    			"Chiudi": function() {
+    				$( this ).dialog( "close" );
+    			}
+    		}
+    	});
+    	
     	break;
     
     }
