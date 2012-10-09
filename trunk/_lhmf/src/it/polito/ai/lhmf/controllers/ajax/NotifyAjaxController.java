@@ -56,7 +56,8 @@ public class NotifyAjaxController
 	}
 
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
-			+ MyUserDetailsService.UserRoles.RESP + "')")
+			+ MyUserDetailsService.UserRoles.RESP + ", "
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/getordername", method = RequestMethod.GET)
 	public @ResponseBody
 	String getOrderName(HttpServletRequest request,
@@ -141,7 +142,8 @@ public class NotifyAjaxController
 	}
 	
 	@PreAuthorize("hasAnyRole('" + MyUserDetailsService.UserRoles.NORMAL + ", "
-			+ MyUserDetailsService.UserRoles.RESP + "')")
+			+ MyUserDetailsService.UserRoles.RESP + ", "
+			+ MyUserDetailsService.UserRoles.SUPPLIER + "')")
 	@RequestMapping(value = "/ajax/viewO", method = RequestMethod.POST)
 	public @ResponseBody
 	Order viewOrder(HttpServletRequest request,

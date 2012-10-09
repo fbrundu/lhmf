@@ -69,7 +69,7 @@ function historyStateChanged()
       getMyMessages();
       break;
     case 'purchase':
-        writePurchasePage();
+        writePurchasePage(stateData.idOrd, stateData.tab);
         break;
     default:
         writeIndexPage();
@@ -104,7 +104,7 @@ function statClicked(event) {
 	  }
 }
 
-function writePurchasePage()
+function writePurchasePage(idOrd, tab)
 {
   $("#bodyTitleHeader").html("Gestione schede");
     $(".centrale").html("<div id='tabsPurchase'>" +
@@ -183,7 +183,10 @@ function writePurchasePage()
                           "</div>" +
                         "</div>");
     
-    preparePurchaseForm();
+    $('#tabsPurchase').tabs();
+    $('#tabsPurchase').tabs('select', tab);
+    
+    preparePurchaseForm(idOrd);
 }
 
 function writeStatPageNormal() {
@@ -409,12 +412,10 @@ function postStatProdTopProductHandler(data) {
 
 function writeIndexPage()
 {
-    writePurchasePage();
+    writePurchasePage(0, 0);
 }
 
-function preparePurchaseForm(tab){
-    
-    $('#tabsPurchase').tabs();
+function preparePurchaseForm(idOrd){
     
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     
@@ -424,17 +425,13 @@ function preparePurchaseForm(tab){
     $("body").delegate(".inputAmount", "change", updateAmount);
     $("body").delegate(".mapButton", "click", drawMapOrder);
     
-    
-    $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#minDate').datepicker("setDate", Date.now());
-    $('#maxDate').datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#maxDate').datepicker("setDate", Date.now());
-    $("#minDate2").datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#minDate2').datepicker("setDate", Date.now());
-    $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#maxDate2').datepicker("setDate", Date.now());
        
     loadOrders();
+    
+    if(idOrd != 0) {
+    	productListRequest(idOrd);
+    }
+    
     loadPurchaseActive();
     loadPurchaseOld();
     

@@ -26,7 +26,7 @@ window.setInterval(function(){
 //////////////////////////////
 //Parte utente normale
 ///////////////////////////////
-function writePurchasePage()
+function writePurchasePage(idOrd, tab)
 {
 	$("#bodyTitleHeader").html("Gestione schede");
     $(".centrale").html("<div id='tabsPurchase'>" +
@@ -106,12 +106,14 @@ function writePurchasePage()
 
                         "</div>");
    
-    preparePurchaseForm();
+    $('#tabsPurchase').tabs();
+    $('#tabsPurchase').tabs('select', tab);
+    preparePurchaseForm(idOrd);
 }
 
-function preparePurchaseForm(tab){
+function preparePurchaseForm(idOrd){
     
-    $('#tabsPurchase').tabs();
+    
     
     $( "#dialog:ui-dialog" ).dialog( "destroy" );
     
@@ -121,16 +123,12 @@ function preparePurchaseForm(tab){
     $("body").delegate(".inputAmount", "change", updateAmount);
     $("body").delegate(".mapButton", "click", drawMapOrder);
     
-    $("#minDate").datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#minDate').datepicker("setDate", Date.now());
-    $('#maxDate').datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#maxDate').datepicker("setDate", Date.now());
-    $("#minDate2").datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#minDate2').datepicker("setDate", Date.now());
-    $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
-    $('#maxDate2').datepicker("setDate", Date.now());
        
     loadOrders();
+    
+    if(idOrd != 0)
+    	productListRequest(idOrd);
+    
     loadPurchaseActive();
     loadShipPurchase();
     

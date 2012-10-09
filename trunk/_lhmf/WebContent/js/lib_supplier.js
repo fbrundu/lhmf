@@ -54,7 +54,7 @@ function historyStateChanged()
   switch (stateData.action)
   {
   case 'orderSup':
-    writeOrderPage();
+    writeOrderPage(stateData.idOrd, stateData.tab);
     startRefreshOrder = 1;
     break;
   case 'productsMgmt':
@@ -126,7 +126,7 @@ function statClicked(event) {
 	  }
 }
 
-function writeOrderPage()
+function writeOrderPage(idOrd, tab)
 {
   $("#bodyTitleHeader").html("Gestione ordini");
   $(".centrale").html("   <div id='tabsOrder'>" +
@@ -184,23 +184,29 @@ function writeOrderPage()
 	            "</div><br />" +
 	        "</div>");
 	
-	prepareOrderForm();
+	$('#tabsOrder').tabs();
+	$('#tabsOrder').tabs('select', tab);
+	
+	prepareOrderForm(idOrd);
 }
 
-function prepareOrderForm(tab){
+function prepareOrderForm(idOrd){
     
     $('#tabsOrder').tabs();
     $( "#dialog" ).dialog({ autoOpen: false });
 
-    //$("body").delegate(".shipButton", "click", clickSetShipPurchaseHandler);
-    //$("body").delegate(".detailsButton", "click", clickShowDetailsPurchaseHandler);
-    
     $('#maxDate2').datepicker({ defaultDate: 0, maxDate: 0 });
     $('#maxDate2').datepicker("setDate", Date.now());
     
     $('#orderOldRequest').on("click", clickOrderOldHandler);
     
     loadActiveOrder();
+    
+    if(idOrd != 0) {
+    	idOrder = idOrd;
+    	clickShowDetailsHandler();
+    }
+    	
     loadCompleteOrder();
     
     $("button").button();
@@ -273,10 +279,14 @@ function postActiveOrderSupplierListHandler(orderList) {
 }
 
 function clickShowDetailsHandler(event) {
-    event.preventDefault();
+	
+	if(typeof event != 'undefined')
+		event.preventDefault();
     
     $(".detailsOrder").hide();
-    idOrder = $(this).data('idorder');
+    
+    if(typeof event != 'undefined')
+    	idOrder = $(this).data('idorder');
     
     $.post("ajax/getProductListFromOrder", {idOrder: idOrder}, postShowDetailsHandler);
 }

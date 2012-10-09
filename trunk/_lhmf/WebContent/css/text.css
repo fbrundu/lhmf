@@ -198,10 +198,21 @@
 #simplemodal-container a.modalCloseImg {background:url(images/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
 #simplemodal-container #basic-modal-content {padding:8px;}
 #simplemodal-container table {width: 100%; height:100%; padding-bottom: 20px; white-space: nowrap;}
-#simplemodal-container td.imageTD {width: 50%; height: 100%;}
-#simplemodal-container td.imageTD img {width: 200px;}
-#simplemodal-container td.dataTD {width: 50%; font-size: 130%;}
+#simplemodal-container td.imageTD {width: 40%; height: 100%; text-align: center;}
+#simplemodal-container td.imageTD img {width: 200px; text-align: center;}
+#simplemodal-container td.dataTD {width: 60%; font-size: 130%;}
 #simplemodal-container td.dataTD td.fieldTD {color: #079; padding-left: 10px;}
+
+
+#dialog-notify-container code {background:#141414; border-left:3px solid #65B43D; color:#bbb; display:block; margin-bottom:12px; padding:4px 6px 6px;}
+#dialog-notify-container a {color:#ddd;}
+#dialog-notify-container a.modalCloseImg {background:url(images/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
+#dialog-notify-container table {width: 100%; height:70%; padding: 30px; white-space: nowrap;}
+#dialog-notify-container td.imageTD {width: 40%; height: 100%; text-align: center;}
+#dialog-notify-container td.imageTD img {width: 250px; text-align: center;}
+#dialog-notify-container td.dataTD {width: 60%; font-size: 100%; padding-left: 50px;}
+#dialog-notify-container td.dataTD td.fieldTD {color: #079; padding-left: 10px;}
+
 
 .ui-progressbar .ui-progressbar-value { background-image: url(images/pbar-ani.gif); }
 
