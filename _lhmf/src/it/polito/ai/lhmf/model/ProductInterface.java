@@ -234,9 +234,7 @@ public class ProductInterface
 		if (m.getMemberType().getIdMemberType() == MemberTypes.USER_ADMIN
 				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_SUPPLIER && p
 						.getSupplier().getIdMember() == m.getIdMember())
-				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_RESP && p
-						.getSupplier().getMemberByIdMemberResp().getIdMember() == m
-						.getIdMember())
+				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_RESP)
 				|| (m.getMemberType().getIdMemberType() == MemberTypes.USER_NORMAL))
 			return p;
 		else
