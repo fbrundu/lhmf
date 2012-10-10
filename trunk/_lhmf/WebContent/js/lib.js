@@ -1031,7 +1031,7 @@ function viewOrderDetails(idOrder, notifyCategory)
     	
     	$("#dialog-notify").attr('title', "Notifica Ordine Concluso");
     	
-    		//ORdine concluso. Se non è fallito, ricavare la scheda e visualizzare se è fallita o meno.
+    		//ORdine concluso. Se non ï¿½ fallito, ricavare la scheda e visualizzare se ï¿½ fallita o meno.
     	
     	var hasPurchase = "";
         $.postSync("ajax/getHasPurchaseForOrder", { idOrder: idOrder }, function(result)
