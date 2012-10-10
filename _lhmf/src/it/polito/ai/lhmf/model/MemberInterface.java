@@ -97,7 +97,6 @@ public class MemberInterface {
 					Notify n = new Notify();
 					n.setMember(getMemberAdmin());
 					n.setIsReaded(false);
-					// FIXME mettere costanti
 					n.setNotifyCategory(6);
 					n.setText(memberId.toString());
 					n.setNotifyTimestamp(new Date());
@@ -150,7 +149,6 @@ public class MemberInterface {
 				Notify n = new Notify();
 				n.setMember(getMemberAdmin());
 				n.setIsReaded(false);
-				// FIXME mettere costanti
 				n.setNotifyCategory(6);
 				n.setText(idMember.toString());
 				n.setNotifyTimestamp(new Date());

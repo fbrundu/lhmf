@@ -707,7 +707,6 @@ public class SignupController
 		}
 		catch (InvalidParametersException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new ModelAndView("/error");

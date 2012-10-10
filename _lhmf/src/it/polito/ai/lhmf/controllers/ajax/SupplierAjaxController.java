@@ -85,7 +85,6 @@ public class SupplierAjaxController
 				.getAttribute("user"));
 	}
 	
-	// TODO get da chi può essere fatto?
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getsupplier", method = RequestMethod.GET)
 	public @ResponseBody
@@ -95,7 +94,6 @@ public class SupplierAjaxController
 		return supplierInterface.getSupplier(idSupplier);
 	}
 
-	// TODO get da chi può essere fatto?
 	@PreAuthorize("hasRole('" + MyUserDetailsService.UserRoles.ADMIN + "')")
 	@RequestMapping(value = "/ajax/getsuppliers", method = RequestMethod.GET)
 	public @ResponseBody

@@ -147,7 +147,7 @@ public class MessageInterface
 		if (idMember == null)
 			throw new InvalidParametersException();
 
-		// FIXME : testare
+		
 		Query query = sessionFactory
 				.getCurrentSession()
 				.createQuery(

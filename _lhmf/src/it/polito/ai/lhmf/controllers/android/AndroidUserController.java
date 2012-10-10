@@ -28,7 +28,7 @@ public class AndroidUserController {
 	@Autowired
 	private TokenStore tokenStore;
 	
-	//FIXME il vecchio metodo ritorna 0 (utente normale) se l'utente non esiste!
+	
 	@RequestMapping(value = "/androidApi/member/role", method = RequestMethod.GET)
 	public @ResponseBody
 	Integer getMemberRole(Principal principal)

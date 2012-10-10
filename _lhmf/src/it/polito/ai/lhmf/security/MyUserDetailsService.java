@@ -71,8 +71,7 @@ public class MyUserDetailsService implements UserDetailsService,
 			else if (type.getIdMemberType() == MemberTypes.USER_SUPPLIER)
 				roles = Collections.singletonList(new SimpleGrantedAuthority(
 						UserRoles.SUPPLIER));
-			// TODO? else
-			// errore
+
 			MemberStatus status = m.getMemberStatus();
 			if (status.getIdMemberStatus() == MemberStatuses.NOT_VERIFIED)
 				throw new MailNotVerifiedException("Il tuo indirizzo e-mail non è ancora stato verificato. Verifica la tua casella di posta e attiva la tua mail seguendo le istruzioni nel messaggio che ti abbiamo mandato");
@@ -113,8 +112,7 @@ public class MyUserDetailsService implements UserDetailsService,
 			else if (type.getIdMemberType() == MemberTypes.USER_SUPPLIER)
 				roles = Collections.singletonList(new SimpleGrantedAuthority(
 						UserRoles.SUPPLIER));
-			// TODO? else
-			// errore
+			
 			MemberStatus status = m.getMemberStatus();
 			if (status.getIdMemberStatus() == MemberStatuses.NOT_VERIFIED)
 				throw new MailNotVerifiedException("Il tuo indirizzo e-mail non è ancora stato verificato. Verifica la tua casella di posta e attiva la tua mail seguendo le istruzioni nel messaggio che ti abbiamo mandato");
