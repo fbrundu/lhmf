@@ -1,5 +1,4 @@
-window.setInterval(function(){
-
+var mySetInterval = window.setInterval(function(){
 	
 	$.post("ajax/getOrdersString", function(orderList) 
 	{
@@ -8,7 +7,7 @@ window.setInterval(function(){
 		{
 			refreshProgressBar(val.idOrder);
 		});
-	});
+	}).error(clearInterval(mySetInterval));
 	
 	
 	
@@ -17,9 +16,7 @@ window.setInterval(function(){
 		$.each(purchaseList, function(index, val) {
 			refreshProgressBarOrder(val.idPurchase);
 		});
-	});
-	
-	
+	}).error(clearInterval(mySetInterval));
 	
 }, 3000);
 

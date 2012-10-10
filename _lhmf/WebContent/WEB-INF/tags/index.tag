@@ -58,17 +58,16 @@
 		</header>
 		<nav class="header-percorso">
 		<c:if test="${user != null}">
-			<ul>
-		    	<li>Ciao ${user} | <a href='<spring:url htmlEscape="true" value="/logout"/>'>Logout</a>
-		    </ul>
-		    <ul>
-		      <li><a id='notifiesLink' href='<spring:url htmlEscape="true" value="/notifiche"/>'>Notifiche</a></li>
-		      <li id='notifiesCount'>0</li>
-		    </ul>
-		    <ul>
-		      <li><a id='messagesLink' href='<spring:url htmlEscape="true" value="/messaggi"/>'>Messaggi</a></li>
-		      <li id='messagesCount'>0</li>
-		    </ul>
+			
+			<div id="menu_wrapper" class="grey">
+				<ul id="menu">
+					<li><a href="<spring:url htmlEscape="true" value="/logout"/>">Logout</a></li>
+					<li><a id='notifiesLink' href="<spring:url htmlEscape="true" value="/notifiche"/>">Notifiche <span id='notifiesCount'> 0</span></a></li>
+					<li><a href="<spring:url htmlEscape="true" value="/messaggi"/>" id='messagesLink' >Messaggi <span id='messagesCount'> 0</span></a></li>
+					<li><a>Ciao ${user}</a></li>
+				</ul>
+			</div>
+
 	    </c:if>
 		</nav>
 		<div class="main">
@@ -77,12 +76,8 @@
 				<h1 class="first">Menu</h1>
 				<dl class="menu-navigazione">
 					<dt><a href='<spring:url htmlEscape="true" value="/"/>'>Home</a></dt>
-					<!-- <dt><a href="">Relazione</a></dt>
-					<dd><a href="">Struttura Web</a></dd>
-					<dd><a href="">Il DataBase</a></dd>
-					<dd><a href="">L'autenticazione</a></dd>
-					<dd><a href="">La Registrazione</a></dd> -->
-					<dt><a href='https://www.facebook.com/groups/277966958981569/'>Gruppo Facebook</a></dt>
+					<dt><a href='https://www.facebook.com/groups/277966958981569/' target="_blank">Gruppo Facebook
+					<img style="vertical-align:middle" src='<spring:url htmlEscape="true" value="/img/facebooklogo.png"/>' width='20px' /></a></dt>
 				</dl>
 				<jsp:invoke fragment="userMenu" />
 			</div>

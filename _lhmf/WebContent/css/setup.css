@@ -16,7 +16,7 @@
 /************/
 
 *{padding:0; margin:0;}
- body {font-size:70%; background-color:rgb(255,255,255); font-family:verdana,arial,sans-serif;} /*Font-size: 1.0em = 10px when browser default size is 16px*/
+ body {font-size:70%; background-color:rgb(255,255,255); font-family: Arial, sans-serif;} /*Font-size: 1.0em = 10px when browser default size is 16px*/
 .contenitore-pagina {width:900px; margin:0px auto; margin-top:10px; margin-bottom:10px; border:solid 1px rgb(150,150,150); font-size:1.0em;}
 .main {clear:both; width:900px; padding-bottom:30px; background:transparent url(../img/bg_main_withnav.jpg) top left repeat-y;}
 .navigazione {display:inline /*inline con contenuto*/; float:left; width:200px; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
@@ -24,14 +24,10 @@
 .footer {clear:both; width:900px; height:3.7em; padding:1.1em 0 0; background:rgb(225,225,225) url(../img/bg_foot.jpg) no-repeat; font-size:1.0em; overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
 
 /* HEADER */
-.header {width:900px; font-family:"trebuchet ms",arial,sans-serif;}
+.header {width:900px; font-family: Arial, sans-serif;}
 .header-middle {width:900px; height:150px; background:rgb(230,230,230) url(../img/bg_head_polito.jpg); overflow:visible !important /*Firefox*/; overflow:hidden /*IE6*/;}
 .header-percorso {clear:both; width:900px; ; background:rgb(100,100,100) url(../img/bg_head_breadcrumbs.jpg) repeat-y;}
 
-.header-percorso ul {float:right; width:160px; list-style:none; padding:0 0 0 15px; font-family:verdana,arial,sans-serif;}
-.header-percorso ul li {display:inline; padding:0 0 0 10px; background:transparent url(../img/bg_bullet_arrow.png) no-repeat 0 50%; font-weight:bold; color:rgb(125,125,125); font-size:100%;}
-.header-percorso ul a {color:rgb(70,122,167); text-decoration:none;}
-.header-percorso ul a:hover {color:rgb(42,90,138); text-decoration:underline;}
 
 /******************/
 /*  MAIN SECTION  */

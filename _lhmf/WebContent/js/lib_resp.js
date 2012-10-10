@@ -1,4 +1,4 @@
-window.setInterval(function(){
+var mySetInterval = window.setInterval(function(){
 
 	if (typeof startRefreshOrder != undefined && startRefreshOrder == 1) {
 		
@@ -9,10 +9,8 @@ window.setInterval(function(){
 			{
 				refreshProgress(val.idOrder);
 			});
-		});
-		
+		}).error(clearInterval(mySetInterval));
 	}
-	
 }, 3000);
 
 (function(window, undefined) {
