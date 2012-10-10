@@ -115,7 +115,7 @@ public class Order implements java.io.Serializable {
 		this.orderName = orderName;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_open", nullable = false, length = 10)
 	public Date getDateOpen() {
 		return this.dateOpen;
@@ -125,7 +125,7 @@ public class Order implements java.io.Serializable {
 		this.dateOpen = dateOpen;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_close", nullable = false, length = 10)
 	public Date getDateClose() {
 		return this.dateClose;
@@ -135,7 +135,7 @@ public class Order implements java.io.Serializable {
 		this.dateClose = dateClose;
 	}
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date_delivery", length = 10)
 	public Date getDateDelivery() {
 		return this.dateDelivery;

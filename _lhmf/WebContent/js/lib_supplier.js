@@ -73,9 +73,6 @@ function historyStateChanged()
     getMyMessages();
     startRefreshOrder = 0;
     break;
-  default:
-    writeIndexPage();
-    startRefreshOrder = 0;
   }
 }
 

@@ -857,7 +857,7 @@ function viewOrderDetails(idOrder, notifyCategory)
   }, function(order)
   {
     
-    var details = "<table align='center' style='text-align:center'><tr><td><canvas id='orderProgressCanvas' width='680' height='330'></canvas></td></tr>"
+    var details = "<table align='center' style='text-align:center'><tr><td><canvas id='orderProgressCanvas' width='680' height='310'></canvas></td></tr>"
     +"<tr><td><strong>Ordine</strong> \"" + order.orderName + "\" <strong> Creato da</strong> \"" + order.memberResp.name + "\" ";
     $.getSync("ajax/getmemberurlencoded", { 'idMember' : order.supplier.idMember }, function(member)
     {
@@ -1047,7 +1047,7 @@ function viewOrderDetails(idOrder, notifyCategory)
 		if(failed) {
 			$("#dialog-notify-container").append("<h3><strong>La tua scheda &egrave; <span style='color: red'> FALLITA </span></strong></h3>");
 		} else {
-			$("#dialog-notify-container").append("<h3><strong>La tuo acquisto ha avuto <span style='color: green'> successo </span></strong>. " +
+			$("#dialog-notify-container").append("<h3><strong>Il tuo acquisto ha avuto <span style='color: green'> successo </span></strong>. " +
 					"</br> Riceverai una notifica quando verr&agrave; impostata la data di consegna.</h3>");
 		}
 		

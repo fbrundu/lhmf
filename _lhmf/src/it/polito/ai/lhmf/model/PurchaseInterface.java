@@ -138,12 +138,11 @@ public class PurchaseInterface
 				"from Purchase where idMember = :idMember "
 						+ "AND idOrder = :idOrder");
 		query.setParameter("idMember", m.getIdMember());
-		System.out.println("Member " + m.getIdMember());
+	
 		List<Purchase> activePurchases = new LinkedList<Purchase>();
 		Purchase purTmp = new Purchase();
 		for (Order or : os)
 		{
-			System.out.println("Ordine " + or.getIdOrder());
 			query.setParameter("idOrder", or.getIdOrder());
 			if ((purTmp = (Purchase) query.uniqueResult()) != null)
 			{
