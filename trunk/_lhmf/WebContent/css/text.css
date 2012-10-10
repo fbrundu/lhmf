@@ -16,7 +16,7 @@
 /******************/
 
 /* MAIN NAVIGATION */
-.menu-navigazione {width:199px; border-bottom:solid 1px rgb(200,200,200);}
+.menu-navigazione {width:199px; border-bottom:solid 1px rgb(200,200,200); font-family: Arial, sans-serif;}
 .menu-navigazione dt a, .menu-navigazione dt a:visited {display:block; min-height:2.0em /*Non-IE6*/; height:auto; line-height:2.0em; padding:0px 10px 0px 20px;  border-top: solid 1px rgb(200,200,200); text-decoration:none; color:rgb(70,122,167); font-weight:bold; font-size:120%;}
 .menu-navigazione dd a, .menu-navigazione dd a:visited {display:block; min-height:1.7em /*Non-IE6*/; height:auto; line-height:1.7em; padding:0px 10px 0px 40px; border:none; font-weight:normal; text-decoration:none; color:rgb(70,122,167); font-size:120%;}
 .menu-navigazione dt a:hover, .menu-navigazione dd a:hover {background-color:rgb(225,225,225); color:rgb(42,90,138); text-decoration:none;}
@@ -36,6 +36,40 @@
 .navigazione p {clear:both; margin:0 10px 10px 20px; color:rgb(80,80,80); line-height:1.3em; font-size:110%;}
 .navigazione p.center {text-align:center;}
 .navigazione p.right {text-align:right;}
+
+/* Nuova barra di navigazione*/
+#menu {
+	font-family: Arial, sans-serif;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	background-color: #eee;
+	font-size: 13px;
+	height: 40px;
+	border-top: 2px solid #eee;
+	border-bottom: 2px solid #ccc;
+}
+#menu li {
+	float: right;
+	margin: 0;				
+}
+#menu li a {
+	text-decoration: none;
+	display: block;
+	padding: 0 20px;
+	line-height: 40px;
+	color: #666;
+}
+#menu li a:hover, #menu li.active a {
+	background-color: #f5f5f5;
+	border-bottom: 2px solid #DDD;
+	color: #999;
+}
+#menu_wrapper ul {margin-left: 0;}
+#menu_wrapper {padding: 0; background: url(images/grey.png) no-repeat right;}
+
 
 /* MAIN CONTENT */
 .contenuto h1.titolo {margin:0 0 0.4em 0; padding:0 0 2px 0; border-bottom:solid 7px rgb(225,225,225); font-family:"trebuchet ms",arial,sans-serif; color:rgb(100,100,100); font-weight:bold; font-size:220%;}
