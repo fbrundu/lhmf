@@ -865,10 +865,12 @@ function clickGetMemberHandler(event)
   userSearch();
 }
 
+var pageUserSearchG;
 function userSearch()
 {
   var memberType = $('#memberType2').val();
   var page = $('#page2').val();
+  pageUserSearchG = page;
   var itemsPerPage = $('#itemsPerPage2').val();
 
   // normale o responsabile
@@ -969,6 +971,7 @@ function postMemberListHandler(result) {
             out.push('<option value="'+ i +'"> ' + (++i) + '</option>');
         
         $('#page2').html(out.join(''));
+        $('#page2').val(pageUserSearchG);
         
         //Costruzione tabella con utenti
         var output = [];
