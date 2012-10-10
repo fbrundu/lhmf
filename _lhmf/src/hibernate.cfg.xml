@@ -8,7 +8,7 @@
   <property name="hibernate.connection.username">root</property>
   <property name="hibernate.default_schema">malnati_project</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
-  <property name="hibernate.show_sql">true</property>
+  <!-- <property name="hibernate.show_sql">true</property>-->
   <property name="hibernate.current_session_context_class">thread</property>
   <mapping class="it.polito.ai.lhmf.orm.MemberStatus"/>
   <mapping class="it.polito.ai.lhmf.orm.Member"/>
