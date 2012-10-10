@@ -34,15 +34,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.IBinder;
 
-/* TODO NUOVE NOTIFICHE:
--ORDINE CHIUSO per utenti normali
--NEW ORDER per supplier		(visualizzare progresso ordine come in active orders)
--ORDINE CHIUSO per supplier (visualizzare data di consegna non impostata/impostata) (solo se non fallito)
--DATA CONSEGNA IMPOSTATA PER SUPPLIER (solo se non fallito, dovrebbe essere già in automatico così perchè il resp setta la data solo per ordini non falliti
-
-MODIFICARE:
--consegna impostata per utenti solo per quelli le cui schede non sono fallite 
-*/
 public class GasNetworkService extends Service {
 	public static final int LOGIN_REQUIRED_NOTIFICATION = -1;  //Tutti
 	public static final int BASIC_NOTIFICATION = 0; //Tutti
@@ -220,7 +211,6 @@ public class GasNetworkService extends Service {
 			}
 		}
 
-		//TODO test!
 		private void supplierOrderDeliverySetNotification(String text) {
 			Integer orderId = null;
 			try {
@@ -246,7 +236,6 @@ public class GasNetworkService extends Service {
 			}
 		}
 
-		//TODO test!
 		private void supplierOrderClosedNotification(String text) {
 			Integer orderId = null;
 			try {
@@ -272,7 +261,6 @@ public class GasNetworkService extends Service {
 			}
 		}
 
-		//TODO test!
 		private void supplierNewOrderNotification(String text) {
 			Integer orderId = null;
 			try {
@@ -298,7 +286,6 @@ public class GasNetworkService extends Service {
 			}
 		}
 
-		//TODO test!
 		private void orderClosedParticipantNotification(String text) {
 			Integer orderId = null;
 			try {
@@ -324,7 +311,6 @@ public class GasNetworkService extends Service {
 			}
 		}
 
-		//TODO test!
 		private void orderProgressNotification(String text, double progress) {
 			Integer orderId = null;
 			try {
