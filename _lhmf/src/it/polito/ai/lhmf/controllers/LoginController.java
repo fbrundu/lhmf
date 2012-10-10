@@ -14,7 +14,10 @@ public class LoginController
 	@RequestMapping("/login")
 	public ModelAndView login(Model model, HttpSession session)
 	{
-		return new ModelAndView("login");
+		if(session.getAttribute("username") == null)
+			return new ModelAndView("login");
+		else
+			return new ModelAndView("redirect:/");
 	}
 	
 	@RequestMapping("/mobile/login")
