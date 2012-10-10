@@ -78,8 +78,6 @@ function historyStateChanged() {
     break;
   case 'null':
     break;
-  default:
-    writeIndexPage();
   }
 }
 

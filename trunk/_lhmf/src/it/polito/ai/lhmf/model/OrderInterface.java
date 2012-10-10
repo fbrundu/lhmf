@@ -1098,60 +1098,61 @@ public class OrderInterface
 						orderFailed = false;
 					}
 				}
-				if (!orderFailed)
+			}
+			
+			if (!orderFailed)
+			{
+				// Manda notifica al responsabile
+				Notify n = new Notify();
+				n.setMember(orderTmp.getMember());
+				n.setIsReaded(false);
+				// FIXME mettere costanti
+				n.setNotifyCategory(4);
+				n.setText(orderTmp.getIdOrder().toString());
+				n.setNotifyTimestamp(new Date());
+				try
 				{
-					// Manda notifica al responsabile
-					Notify n = new Notify();
-					n.setMember(orderTmp.getMember());
-					n.setIsReaded(false);
-					// FIXME mettere costanti
-					n.setNotifyCategory(4);
-					n.setText(orderTmp.getIdOrder().toString());
-					n.setNotifyTimestamp(new Date());
-					try
-					{
-						notifyInterface.newNotify(n);
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
-					
-					// Manda notifica al fornitore
-					Notify nn = new Notify();
-					nn.setMember(orderTmp.getSupplier().getMemberByIdMember());
-					nn.setIsReaded(false);
-					// FIXME mettere costanti
-					nn.setNotifyCategory(12);
-					nn.setText(orderTmp.getIdOrder().toString());
-					nn.setNotifyTimestamp(new Date());
-					try
-					{
-						notifyInterface.newNotify(nn);
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					notifyInterface.newNotify(n);
 				}
-				// Manda notifica agli utenti partecipanti
-				for (Purchase p : orderTmp.getPurchases())
+				catch (Exception e)
 				{
-					Notify nn = new Notify();
-					nn.setMember(p.getMember());
-					nn.setIsReaded(false);
-					// FIXME mettere costanti
-					nn.setNotifyCategory(10);
-					nn.setText(orderTmp.getIdOrder().toString());
-					nn.setNotifyTimestamp(new Date());
-					try
-					{
-						notifyInterface.newNotify(nn);
-					}
-					catch (Exception e)
-					{
-						e.printStackTrace();
-					}
+					e.printStackTrace();
+				}
+				
+				// Manda notifica al fornitore
+				Notify nn = new Notify();
+				nn.setMember(orderTmp.getSupplier().getMemberByIdMember());
+				nn.setIsReaded(false);
+				// FIXME mettere costanti
+				nn.setNotifyCategory(12);
+				nn.setText(orderTmp.getIdOrder().toString());
+				nn.setNotifyTimestamp(new Date());
+				try
+				{
+					notifyInterface.newNotify(nn);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+			// Manda notifica agli utenti partecipanti
+			for (Purchase p : orderTmp.getPurchases())
+			{
+				Notify nn = new Notify();
+				nn.setMember(p.getMember());
+				nn.setIsReaded(false);
+				// FIXME mettere costanti
+				nn.setNotifyCategory(10);
+				nn.setText(orderTmp.getIdOrder().toString());
+				nn.setNotifyTimestamp(new Date());
+				try
+				{
+					notifyInterface.newNotify(nn);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
 				}
 			}
 		}

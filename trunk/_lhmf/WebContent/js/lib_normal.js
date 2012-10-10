@@ -1,4 +1,4 @@
-var mySetInterval = window.setInterval(function(){
+window.setInterval(function(){
 	
 	$.post("ajax/getOrdersString", function(orderList) 
 	{
@@ -7,7 +7,7 @@ var mySetInterval = window.setInterval(function(){
 		{
 			refreshProgressBar(val.idOrder);
 		});
-	}).error(clearInterval(mySetInterval));
+	});
 	
 	
 	
@@ -16,7 +16,7 @@ var mySetInterval = window.setInterval(function(){
 		$.each(purchaseList, function(index, val) {
 			refreshProgressBarOrder(val.idPurchase);
 		});
-	}).error(clearInterval(mySetInterval));
+	});
 	
 }, 3000);
 
@@ -68,8 +68,6 @@ function historyStateChanged()
     case 'purchase':
         writePurchasePage(stateData.idOrd, stateData.tab);
         break;
-    default:
-        writeIndexPage();
     }
 }
 
@@ -82,7 +80,7 @@ function purchaseClicked(event)
         var stateData = state.data;
         if (!!stateData && !!stateData.action && stateData.action == 'purchase')
             return;
-        History.pushState({action : 'purchase'}, null, 'purchase');
+        History.pushState({action : 'purchase', idOrd:0, tab: 0}, null, 'purchase');
     }
 }
 

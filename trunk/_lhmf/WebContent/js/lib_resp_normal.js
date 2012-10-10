@@ -1,4 +1,4 @@
-var mySetInterval2 = window.setInterval(function(){
+window.setInterval(function(){
 
 	if (typeof startRefresh != undefined && startRefresh == 1) {
 		
@@ -18,7 +18,7 @@ var mySetInterval2 = window.setInterval(function(){
 			$.each(purchaseList, function(index, val) {
 				refreshProgressBarOrder(val.idPurchase);
 			});
-		}).error(clearInterval(mySetInterval2));
+		});
 	}
 	
 }, 3000);
