@@ -46,7 +46,6 @@ public class AdminController
 	public ModelAndView userPage(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		model.addAttribute("firstPage", "user");
@@ -59,7 +58,6 @@ public class AdminController
 	public ModelAndView productPage(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		model.addAttribute("firstPage", "user");
@@ -92,7 +90,6 @@ public class AdminController
 		}
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -102,7 +99,6 @@ public class AdminController
 	public ModelAndView statPage(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		model.addAttribute("firstPage", "user");

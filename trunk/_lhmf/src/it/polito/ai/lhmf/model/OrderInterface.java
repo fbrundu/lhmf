@@ -88,7 +88,6 @@ public class OrderInterface
 				Notify n = new Notify();
 				n.setMember(m);
 				n.setIsReaded(false);
-				// FIXME mettere costanti
 				n.setNotifyCategory(2);
 				n.setText(newOrderId.toString());
 				n.setNotifyTimestamp(new Date());
@@ -105,7 +104,6 @@ public class OrderInterface
 					Notify n = new Notify();
 					n.setMember(m);
 					n.setIsReaded(false);
-					// FIXME mettere costanti
 					n.setNotifyCategory(2);
 					n.setText(newOrderId.toString());
 					n.setNotifyTimestamp(new Date());
@@ -117,7 +115,6 @@ public class OrderInterface
 			Notify n = new Notify();
 			n.setMember(order.getSupplier().getMemberByIdMember());
 			n.setIsReaded(false);
-			// FIXME mettere costanti
 			n.setNotifyCategory(11);
 			n.setText(newOrderId.toString());
 			n.setNotifyTimestamp(new Date());
@@ -269,7 +266,6 @@ public class OrderInterface
 		
 		Integer result = (Integer) query.executeUpdate();
 
-		// TODO Invio notifica ai membri partecipanti con schede non fallite
 		for (Purchase p : getOrder(idOrder).getPurchases())
 		{
 			if (!purchaseInterface.isFailed(p.getMember().getUsername(),
@@ -278,7 +274,6 @@ public class OrderInterface
 				Notify n = new Notify();
 				n.setMember(p.getMember());
 				n.setIsReaded(false);
-				// FIXME mettere costanti
 				n.setNotifyCategory(5);
 				n.setText(idOrder.toString());
 				n.setNotifyTimestamp(new Date());
@@ -290,7 +285,6 @@ public class OrderInterface
 		Notify n = new Notify();
 		n.setMember(getOrder(idOrder).getSupplier().getMemberByIdMember());
 		n.setIsReaded(false);
-		// FIXME mettere costanti
 		n.setNotifyCategory(13);
 		n.setText(idOrder.toString());
 		n.setNotifyTimestamp(new Date());
@@ -448,7 +442,6 @@ public class OrderInterface
 		return null;
 	}
 
-	// FIXME messo solo per legacy con vecchio metodo
 	@Transactional(readOnly = true)
 	public List<Product> getProducts(Integer idOrder)
 			throws InvalidParametersException
@@ -711,7 +704,6 @@ public class OrderInterface
 			return -1;
 	}
 
-	//TODO usare anche per creazione scheda sul sito. Restituisce gli ordini attivi per cui l'utente normale richiedente non ha ancora compilato schede
 	@Transactional(readOnly = true)
 	public List<Order> getAvailableOrders(String username) throws Exception
 	{
@@ -1106,7 +1098,6 @@ public class OrderInterface
 				Notify n = new Notify();
 				n.setMember(orderTmp.getMember());
 				n.setIsReaded(false);
-				// FIXME mettere costanti
 				n.setNotifyCategory(4);
 				n.setText(orderTmp.getIdOrder().toString());
 				n.setNotifyTimestamp(new Date());
@@ -1123,7 +1114,6 @@ public class OrderInterface
 				Notify nn = new Notify();
 				nn.setMember(orderTmp.getSupplier().getMemberByIdMember());
 				nn.setIsReaded(false);
-				// FIXME mettere costanti
 				nn.setNotifyCategory(12);
 				nn.setText(orderTmp.getIdOrder().toString());
 				nn.setNotifyTimestamp(new Date());
@@ -1142,7 +1132,6 @@ public class OrderInterface
 				Notify nn = new Notify();
 				nn.setMember(p.getMember());
 				nn.setIsReaded(false);
-				// FIXME mettere costanti
 				nn.setNotifyCategory(10);
 				nn.setText(orderTmp.getIdOrder().toString());
 				nn.setNotifyTimestamp(new Date());

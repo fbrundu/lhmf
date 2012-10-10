@@ -68,7 +68,6 @@ public class MemberDeserializer extends JsonDeserializer<Member>
 		}
 		catch (Exception e)
 		{
-			//TODO cosa fa mappingException??? perch� nella console non si vede nulla e lato client nemmeno..
 			throw context.mappingException(e.getMessage());
 		}
 		return newMember;

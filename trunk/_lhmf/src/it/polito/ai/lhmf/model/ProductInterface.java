@@ -168,7 +168,6 @@ public class ProductInterface
 			Notify n = new Notify();
 			n.setMember(s.getMemberByIdMemberResp());
 			n.setIsReaded(false);
-			// FIXME mettere costanti
 			n.setNotifyCategory(1);
 			n.setText(newProductId.toString());
 			n.setNotifyTimestamp(new Date());
@@ -330,7 +329,6 @@ public class ProductInterface
 
 		List<ProductCategory> pcl = new LinkedList<ProductCategory>();
 
-		// TODO riscriverla in hql per una maggiore efficienza
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Product " + "where idSupplier = :idMember");
 		query.setParameter("idMember",
@@ -404,7 +402,6 @@ public class ProductInterface
 			n.setMember(getProduct(idProduct).getSupplier()
 					.getMemberByIdMemberResp());
 			n.setIsReaded(false);
-			// FIXME mettere costanti
 			n.setNotifyCategory(3);
 			n.setText(idProduct.toString());
 			n.setNotifyTimestamp(new Date());
@@ -456,7 +453,6 @@ public class ProductInterface
 			n.setMember(getProduct(idProduct).getSupplier()
 					.getMemberByIdMemberResp());
 			n.setIsReaded(false);
-			// FIXME mettere costanti
 			n.setNotifyCategory(3);
 			n.setText(idProduct.toString());
 			n.setNotifyTimestamp(new Date());

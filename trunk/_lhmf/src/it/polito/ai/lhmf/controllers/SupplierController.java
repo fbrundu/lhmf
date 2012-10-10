@@ -19,7 +19,6 @@ public class SupplierController
 	public ModelAndView productsPage(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		//model.addAttribute("firstPage", "products");
@@ -32,7 +31,6 @@ public class SupplierController
 	public ModelAndView orderPage(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		//model.addAttribute("firstPage", "products");
@@ -45,7 +43,7 @@ public class SupplierController
 	public ModelAndView statsPageSupplier(Model model, HttpServletRequest request,
 			HttpServletResponse response)
 	{
-		// TODO: bisogna aggiungere i parametri e reinserirli nel model.
+		
 		model.addAttribute("user", request.getSession().getAttribute("user"));
 
 		//model.addAttribute("firstPage", "products");

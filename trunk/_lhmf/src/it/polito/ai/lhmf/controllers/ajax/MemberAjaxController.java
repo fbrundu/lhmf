@@ -153,7 +153,6 @@ public class MemberAjaxController
 
 					// Inviare qui la mail con il codice di registrazione e la
 					// password generata
-					// TODO cambiare link di conferma mail. Togliere la parte
 					// relativa a admin, gestito lato server con
 					// Member.fromAdmin
 					

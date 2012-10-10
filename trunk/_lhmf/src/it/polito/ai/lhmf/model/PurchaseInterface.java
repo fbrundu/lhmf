@@ -133,7 +133,7 @@ public class PurchaseInterface
 			os = orderInterface.getOrdersNow();
 		else
 			os = orderInterface.getOrdersPast();
-		
+
 		Query query = sessionFactory.getCurrentSession().createQuery(
 				"from Purchase where idMember = :idMember "
 						+ "AND idOrder = :idOrder");
@@ -280,7 +280,7 @@ public class PurchaseInterface
 		return listProduct;
 	}
 	
-	// FIXME - notifiche / log
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public PurchaseProductId newPurchaseProductInternal(PurchaseProduct purchaseProduct)
 			throws InvalidParametersException
@@ -969,7 +969,6 @@ public class PurchaseInterface
 					Notify nn = new Notify();
 					nn.setMember(m);
 					nn.setIsReaded(false);
-					// FIXME mettere costanti
 					nn.setText(idOrder.toString());
 					nn.setNotifyTimestamp(ts);
 					nn.setNotifyCategory(notifyCat);
@@ -982,7 +981,6 @@ public class PurchaseInterface
 					Notify nn = new Notify();
 					nn.setMember(r);
 					nn.setIsReaded(false);
-					// FIXME mettere costanti
 					nn.setText(idOrder.toString());
 					nn.setNotifyTimestamp(ts);
 					nn.setNotifyCategory(notifyCat);
